@@ -1,0 +1,316 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="2_sky"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="4_glow"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/stargaze_meadow.tscn" id="5_meadow"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="audio_bed_stream"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("2_sky")
+shader_parameter/zenith_color = Color(0.008, 0.014, 0.045, 1)
+shader_parameter/mid_color = Color(0.035, 0.05, 0.13, 1)
+shader_parameter/horizon_color = Color(0.2, 0.15, 0.3, 1)
+shader_parameter/ground_color = Color(0.01, 0.015, 0.03, 1)
+shader_parameter/horizon_height = 0.16
+shader_parameter/sun_dir = Vector3(-0.9, -0.05, -0.42)
+shader_parameter/glow_color = Color(1, 0.45, 0.22, 1)
+shader_parameter/glow_strength = 0.55
+shader_parameter/glow_width = 0.14
+shader_parameter/star_brightness = 1.6
+shader_parameter/star_horizon = 0.06
+shader_parameter/comet_enabled = true
+shader_parameter/comet_dir = Vector3(0.06, 0.27, -0.96)
+shader_parameter/comet_tail_dir = Vector3(0.9, 0.4, 0.2)
+shader_parameter/comet_length = 0.34
+shader_parameter/comet_width = 0.009
+shader_parameter/comet_curve = 0.8
+shader_parameter/comet_brightness = 1.8
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.36, 0.62, 1)
+ambient_light_energy = 0.42
+tonemap_mode = 4
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.6
+ssao_intensity = 1.4
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.13, 0.15, 0.3, 1)
+fog_density = 0.012
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="cam_attr"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 14.0
+dof_blur_far_transition = 20.0
+dof_blur_amount = 0.06
+
+[sub_resource type="ShaderMaterial" id="hill_far"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.05, 0.08, 0.15, 1)
+shader_parameter/roughness = 1.0
+
+[sub_resource type="ShaderMaterial" id="wood_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.36, 0.25, 0.18, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="metal_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.75, 0.78, 0.84, 1)
+shader_parameter/roughness = 0.35
+shader_parameter/metallic = 0.6
+shader_parameter/toon_specular = 1.0
+
+[sub_resource type="ShaderMaterial" id="lamp_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.75, 0.42, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1, 0.62, 0.3, 1)
+shader_parameter/emission_energy = 1.6
+
+[sub_resource type="ShaderMaterial" id="dome_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.55, 0.6, 0.7, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.3
+shader_parameter/toon_specular = 1.0
+
+[sub_resource type="ShaderMaterial" id="window_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.7, 0.4, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1, 0.65, 0.35, 1)
+shader_parameter/emission_energy = 6.0
+
+[sub_resource type="SphereMesh" id="far_hill"]
+radius = 20.0
+height = 10.0
+radial_segments = 48
+rings = 16
+
+[sub_resource type="CylinderMesh" id="tube"]
+top_radius = 0.07
+bottom_radius = 0.09
+height = 0.7
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CylinderMesh" id="leg"]
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.62
+radial_segments = 6
+rings = 1
+
+[sub_resource type="BoxMesh" id="lantern_box"]
+size = Vector3(0.16, 0.2, 0.16)
+
+[sub_resource type="BoxMesh" id="lantern_cap"]
+size = Vector3(0.2, 0.04, 0.2)
+
+[sub_resource type="SphereMesh" id="dome"]
+radius = 2.2
+height = 2.2
+is_hemisphere = true
+radial_segments = 24
+rings = 8
+
+[sub_resource type="BoxMesh" id="dome_base"]
+size = Vector3(4.6, 2, 4.6)
+
+[sub_resource type="BoxMesh" id="window"]
+size = Vector3(0.7, 0.5, 0.1)
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="lantern_glow"]
+render_priority = 1
+shader = ExtResource("4_glow")
+shader_parameter/glow_color = Color(1, 0.62, 0.3, 1)
+shader_parameter/intensity = 0.55
+shader_parameter/core = 0.02
+shader_parameter/falloff = 5.0
+
+[sub_resource type="Gradient" id="fly_ramp"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(1, 0.85, 0.4, 0, 1, 0.85, 0.4, 1, 0.6, 1, 0.85, 1, 0.6, 1, 0.85, 0)
+
+[sub_resource type="GradientTexture1D" id="fly_ramp_tex"]
+gradient = SubResource("fly_ramp")
+
+[sub_resource type="ParticleProcessMaterial" id="fly_process"]
+emission_shape = 3
+emission_box_extents = Vector3(6, 0.7, 2.5)
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.03
+initial_velocity_max = 0.12
+gravity = Vector3(0, 0.02, 0)
+turbulence_enabled = true
+turbulence_noise_strength = 0.4
+turbulence_noise_scale = 3.0
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.12
+color_ramp = SubResource("fly_ramp_tex")
+
+[sub_resource type="StandardMaterial3D" id="fly_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(2.5, 2.2, 1.2, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id="fly_mesh"]
+material = SubResource("fly_mat")
+radius = 0.011
+height = 0.022
+radial_segments = 6
+rings = 3
+
+[node name="MeadowNight" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+camera_attributes = SubResource("cam_attr")
+
+[node name="Moonlight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819, -0.329, 0.47, 0, 0.819, 0.574, -0.574, -0.47, 0.671, 0, 8, 0)
+light_color = Color(0.62, 0.68, 1, 1)
+light_energy = 0.38
+shadow_enabled = true
+directional_shadow_max_distance = 30.0
+
+[node name="Rim" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.423, 0.276, -0.863, 0, 0.952, 0.305, 0.906, 0.129, -0.403, 0, 6, 0)
+light_color = Color(1, 0.55, 0.45, 1)
+light_energy = 0.8
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="FarHill" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -3.5, -70)
+mesh = SubResource("far_hill")
+surface_material_override/0 = SubResource("hill_far")
+
+[node name="FarHill2" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.4, 0, 0, 0, 0.8, 0, 0, 0, 1, 26, -4, -95)
+mesh = SubResource("far_hill")
+surface_material_override/0 = SubResource("hill_far")
+
+[node name="FarHill3" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.8, 0, 0, 0, 1.3, 0, 0, 0, 1, 8, -4.5, -120)
+mesh = SubResource("far_hill")
+surface_material_override/0 = SubResource("hill_far")
+
+[node name="Meadow" parent="Terrain" instance=ExtResource("5_meadow")]
+
+[node name="Observatory" type="Node3D" parent="."]
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, 15, 1.2, -66)
+
+[node name="Base" type="MeshInstance3D" parent="Observatory"]
+mesh = SubResource("dome_base")
+surface_material_override/0 = SubResource("dome_mat")
+
+[node name="Dome" type="MeshInstance3D" parent="Observatory"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("dome")
+surface_material_override/0 = SubResource("dome_mat")
+
+[node name="Window" type="MeshInstance3D" parent="Observatory"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.1, 2.31)
+mesh = SubResource("window")
+surface_material_override/0 = SubResource("window_mat")
+
+[node name="Window2" type="MeshInstance3D" parent="Observatory"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.1, 2.31)
+mesh = SubResource("window")
+surface_material_override/0 = SubResource("window_mat")
+
+[node name="Telescope" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.35)
+
+[node name="LegA" type="MeshInstance3D" parent="Telescope"]
+transform = Transform3D(0.97, -0.24, 0, 0.24, 0.97, 0, 0, 0, 1, -0.08, 0.3, 0)
+mesh = SubResource("leg")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="LegB" type="MeshInstance3D" parent="Telescope"]
+transform = Transform3D(0.97, 0.24, 0, -0.24, 0.97, 0, 0, 0, 1, 0.08, 0.3, 0)
+mesh = SubResource("leg")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="LegC" type="MeshInstance3D" parent="Telescope"]
+transform = Transform3D(1, 0, 0, 0, 0.97, -0.24, 0, 0.24, 0.97, 0, 0.3, 0.08)
+mesh = SubResource("leg")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="Tube" type="MeshInstance3D" parent="Telescope"]
+transform = Transform3D(0.9683, 0.0798, 0.2368, -0.2499, 0.3092, 0.9176, 0, -0.9476, 0.3194, 0, 0.7, 0)
+mesh = SubResource("tube")
+surface_material_override/0 = SubResource("metal_mat")
+
+[node name="Lantern" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 0, 1.0)
+
+[node name="Box" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+cast_shadow = 0
+mesh = SubResource("lantern_box")
+surface_material_override/0 = SubResource("lamp_mat")
+
+[node name="Cap" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+cast_shadow = 0
+mesh = SubResource("lantern_cap")
+surface_material_override/0 = SubResource("wood_mat")
+
+[node name="Glow" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.12, 0)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("lantern_glow")
+
+[node name="Light" type="OmniLight3D" parent="Lantern"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.15)
+light_color = Color(1, 0.66, 0.36, 1)
+light_energy = 1.8
+shadow_enabled = true
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Fireflies" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.8, -1.5)
+amount = 22
+lifetime = 7.0
+preprocess = 6.0
+visibility_aabb = AABB(-8, -2, -4, 16, 4, 8)
+process_material = SubResource("fly_process")
+draw_pass_1 = SubResource("fly_mesh")
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -9.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")

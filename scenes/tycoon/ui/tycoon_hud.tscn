@@ -15,6 +15,26 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="13_seg"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_aurora_line.gd" id="14_aurora"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_panel_motion.gd" id="15_motion"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/pause.svg" id="16_pause"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/play.svg" id="17_play"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/play2.svg" id="18_play2"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/play3.svg" id="19_play3"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="20_rocket"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/calendar.svg" id="21_cal"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="22_planet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/coin.svg" id="23_coin"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/heart.svg" id="24_heart"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/flame.svg" id="25_flame"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/comet.svg" id="26_comet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/theme/close.svg" id="27_close"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_bar_grow.gd" id="cwm_grow"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_shimmer.gd" id="cwm_shimmer"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="cwm_ticker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_tooltip_fade.gd" id="cwm_tipfade"]
 
 [sub_resource type="ButtonGroup" id="speed_group"]
 
@@ -34,139 +54,225 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 16.0
-offset_top = 14.0
+offset_top = 12.0
 offset_right = -16.0
-offset_bottom = 74.0
+offset_bottom = 84.0
 grow_horizontal = 2
-theme_type_variation = &"CwPanelTop"
+mouse_filter = 2
+theme_type_variation = &"CwBare"
 
 [node name="HBox" type="HBoxContainer" parent="TopStrip"]
 layout_mode = 2
-theme_override_constants/separation = 26
+mouse_filter = 2
+theme_override_constants/separation = 12
 
-[node name="Logo" type="HBoxContainer" parent="TopStrip/HBox"]
+[node name="LogoCard" type="PanelContainer" parent="TopStrip/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_type_variation = &"CwPanelTop"
 
-[node name="Mark" type="TextureRect" parent="TopStrip/HBox/Logo"]
-self_modulate = Color(1, 0.5412, 0.2392, 1)
-custom_minimum_size = Vector2(22, 22)
+[node name="Logo" type="HBoxContainer" parent="TopStrip/HBox/LogoCard"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Mark" type="TextureRect" parent="TopStrip/HBox/LogoCard/Logo"]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("3_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="TopStrip/HBox/Logo"]
+[node name="Name" type="Label" parent="TopStrip/HBox/LogoCard/Logo"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 22
-text = "COMETWORKS"
+theme_override_font_sizes/font_size = 23
+text = "Cometworks"
+vertical_alignment = 1
 
-[node name="Sep" type="VSeparator" parent="TopStrip/HBox"]
+[node name="TimeCard" type="PanelContainer" parent="TopStrip/HBox"]
 layout_mode = 2
+theme_type_variation = &"CwPanelTop"
 
-[node name="Date" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="Row" type="HBoxContainer" parent="TopStrip/HBox/TimeCard"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 22
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Date"]
+[node name="Date" type="HBoxContainer" parent="TopStrip/HBox/TimeCard/Row"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/TimeCard/Row/Date"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("21_cal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/TimeCard/Row/Date"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/TimeCard/Row/Date/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_DATE"
-uppercase = true
 
-[node name="DateValue" type="Label" parent="TopStrip/HBox/Date"]
+[node name="DateValue" type="Label" parent="TopStrip/HBox/TimeCard/Row/Date/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
+theme_type_variation = &"CwStat"
 text = "01 · 01"
 
-[node name="Era" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="Era" type="HBoxContainer" parent="TopStrip/HBox/TimeCard/Row"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 9
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Era"]
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/TimeCard/Row/Era"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("22_planet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/TimeCard/Row/Era"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/TimeCard/Row/Era/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_ERA"
-uppercase = true
 
-[node name="EraValue" type="Label" parent="TopStrip/HBox/Era"]
-unique_name_in_owner = true
+[node name="EraValue" type="Label" parent="TopStrip/HBox/TimeCard/Row/Era/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9137, 0.9333, 0.9686, 1)
-theme_override_font_sizes/font_size = 16
+theme_type_variation = &"CwStat"
 text = "Galpão"
 
-[node name="Cash" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="StatsCard" type="PanelContainer" parent="TopStrip/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_type_variation = &"CwPanelTop"
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Cash"]
+[node name="Row" type="HBoxContainer" parent="TopStrip/HBox/StatsCard"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Cash" type="HBoxContainer" parent="TopStrip/HBox/StatsCard/Row"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/StatsCard/Row/Cash"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("23_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/StatsCard/Row/Cash"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/StatsCard/Row/Cash/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CASH"
-uppercase = true
 
-[node name="CashValue" type="Label" parent="TopStrip/HBox/Cash"]
-unique_name_in_owner = true
+[node name="CashValue" type="Label" parent="TopStrip/HBox/StatsCard/Row/Cash/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
+theme_type_variation = &"CwStat"
 text = "300 000 cr"
 
-[node name="Rep" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="Rep" type="HBoxContainer" parent="TopStrip/HBox/StatsCard/Row"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 9
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Rep"]
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/StatsCard/Row/Rep"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("24_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/StatsCard/Row/Rep"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/StatsCard/Row/Rep/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_REPUTATION"
-uppercase = true
 
-[node name="RepValue" type="Label" parent="TopStrip/HBox/Rep"]
-unique_name_in_owner = true
+[node name="RepValue" type="Label" parent="TopStrip/HBox/StatsCard/Row/Rep/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
+theme_type_variation = &"CwStat"
 text = "20"
 
-[node name="Hype" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="Hype" type="HBoxContainer" parent="TopStrip/HBox/StatsCard/Row"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 9
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Hype"]
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/StatsCard/Row/Hype"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("25_flame")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/StatsCard/Row/Hype"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/StatsCard/Row/Hype/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_HYPE"
-uppercase = true
 
-[node name="HypeValue" type="Label" parent="TopStrip/HBox/Hype"]
-unique_name_in_owner = true
+[node name="HypeValue" type="Label" parent="TopStrip/HBox/StatsCard/Row/Hype/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
+theme_type_variation = &"CwStat"
 text = "5"
 
-[node name="Comet" type="VBoxContainer" parent="TopStrip/HBox"]
+[node name="CometCard" type="PanelContainer" parent="TopStrip/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_type_variation = &"CwPanelLilac"
 
-[node name="Caption" type="Label" parent="TopStrip/HBox/Comet"]
+[node name="Comet" type="HBoxContainer" parent="TopStrip/HBox/CometCard"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="Icon" type="TextureRect" parent="TopStrip/HBox/CometCard/Comet"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("26_comet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="TopStrip/HBox/CometCard/Comet"]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/CometCard/Comet/Text"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_COMET"
-uppercase = true
 
-[node name="CometValue" type="Label" parent="TopStrip/HBox/Comet"]
-unique_name_in_owner = true
+[node name="CometValue" type="Label" parent="TopStrip/HBox/CometCard/Comet/Text"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
-theme_override_colors/font_color = Color(1, 0.5412, 0.2392, 1)
+theme_type_variation = &"CwStat"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
 text = "T− 25a 00s"
 
 [node name="Spacer" type="Control" parent="TopStrip/HBox"]
@@ -174,65 +280,86 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Speed" type="HBoxContainer" parent="TopStrip/HBox"]
+[node name="SpeedCard" type="PanelContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Speed" type="VBoxContainer" parent="TopStrip/HBox/SpeedCard"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="Keys" type="PanelContainer" parent="TopStrip/HBox/SpeedCard/Speed"]
+layout_mode = 2
+theme_type_variation = &"CwSegmented"
+
+[node name="HBox" type="HBoxContainer" parent="TopStrip/HBox/SpeedCard/Speed/Keys"]
+layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Pause" type="Button" parent="TopStrip/HBox/Speed"]
+[node name="Pause" type="Button" parent="TopStrip/HBox/SpeedCard/Speed/Keys/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(38, 30)
+custom_minimum_size = Vector2(42, 30)
 layout_mode = 2
 tooltip_text = "TY_PAUSE_TIP"
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwSegment"
 toggle_mode = true
 button_group = SubResource("speed_group")
-text = "II"
+icon = ExtResource("16_pause")
+icon_alignment = 1
+expand_icon = true
 
-[node name="S1" type="Button" parent="TopStrip/HBox/Speed"]
+[node name="S1" type="Button" parent="TopStrip/HBox/SpeedCard/Speed/Keys/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(38, 30)
+custom_minimum_size = Vector2(42, 30)
 layout_mode = 2
 tooltip_text = "TY_SPEED_TIP"
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwSegment"
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("speed_group")
-text = "1"
+icon = ExtResource("17_play")
+icon_alignment = 1
+expand_icon = true
 
-[node name="S2" type="Button" parent="TopStrip/HBox/Speed"]
+[node name="S2" type="Button" parent="TopStrip/HBox/SpeedCard/Speed/Keys/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(38, 30)
+custom_minimum_size = Vector2(42, 30)
 layout_mode = 2
 tooltip_text = "TY_SPEED_TIP"
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwSegment"
 toggle_mode = true
 button_group = SubResource("speed_group")
-text = "2"
+icon = ExtResource("18_play2")
+icon_alignment = 1
+expand_icon = true
 
-[node name="S3" type="Button" parent="TopStrip/HBox/Speed"]
+[node name="S3" type="Button" parent="TopStrip/HBox/SpeedCard/Speed/Keys/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(38, 30)
+custom_minimum_size = Vector2(42, 30)
 layout_mode = 2
 tooltip_text = "TY_SPEED_TIP"
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwSegment"
 toggle_mode = true
 button_group = SubResource("speed_group")
-text = "3"
+icon = ExtResource("19_play3")
+icon_alignment = 1
+expand_icon = true
 
-[node name="WeekBar" type="Control" parent="TopStrip/HBox/Speed"]
+[node name="WeekBar" type="Control" parent="TopStrip/HBox/SpeedCard/Speed"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(46, 4)
+custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
-size_flags_vertical = 4
 mouse_filter = 2
 script = ExtResource("13_seg")
 value = 0.0
-color = Color(0.2471, 0.8784, 0.7725, 1)
+color = Color(0.1843, 0.7686, 0.6275, 1)
+track_color = Color(0.902, 0.8275, 0.702, 1)
+pill = true
 segments = 7
 gap = 1.0
 
@@ -240,13 +367,14 @@ gap = 1.0
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 17.0
+offset_left = 28.0
 offset_top = 14.0
-offset_right = -27.0
+offset_right = -30.0
 offset_bottom = 16.0
 grow_horizontal = 2
 mouse_filter = 2
 script = ExtResource("14_aurora")
+visible = false
 glint_period = 9.0
 glint_seconds = 2.8
 glint_strength = 0.5
@@ -257,9 +385,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 16.0
-offset_top = -232.0
-offset_right = 70.0
-offset_bottom = 232.0
+offset_top = -300.0
+offset_right = 88.0
+offset_bottom = 300.0
 grow_vertical = 2
 theme_type_variation = &"CwRail"
 
@@ -269,38 +397,41 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="Crew" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_CREW"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("4_crew")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Research" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_RESEARCH"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("5_research")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Contracts" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_CONTRACTS"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("6_contracts")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Build" type="Button" parent="Rail/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_BUILD"
 focus_mode = 0
@@ -314,41 +445,45 @@ expand_icon = true
 layout_mode = 2
 
 [node name="Map" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_MAP"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("8_map")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Race" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_RACE"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("9_race")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Book" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_BOOK"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("10_book")
 icon_alignment = 1
 expand_icon = true
 
 [node name="Finance" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_FINANCE"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("11_finance")
 icon_alignment = 1
 expand_icon = true
@@ -357,11 +492,12 @@ expand_icon = true
 layout_mode = 2
 
 [node name="Settings" type="Button" parent="Rail/VBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
 tooltip_text = "TY_MENU_SETTINGS"
 focus_mode = 0
 theme_type_variation = &"CwRailButton"
+toggle_mode = true
 icon = ExtResource("12_settings")
 icon_alignment = 1
 expand_icon = true
@@ -371,10 +507,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -318.0
-offset_top = 90.0
+offset_left = -340.0
+offset_top = 104.0
 offset_right = -16.0
-offset_bottom = 380.0
+offset_bottom = 400.0
 grow_horizontal = 0
 theme_type_variation = &"CwPanel"
 
@@ -384,9 +520,9 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="Race/VBox"]
 layout_mode = 2
-theme_type_variation = &"CwCaps"
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
 text = "TY_RACE_TITLE"
-uppercase = true
 
 [node name="Rows" type="VBoxContainer" parent="Race/VBox"]
 unique_name_in_owner = true
@@ -397,29 +533,58 @@ theme_override_constants/separation = 7
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 5
 
-[node name="Name" type="Label" parent="Race/VBox/Rows/RaceRowTemplate"]
+[node name="Head" type="HBoxContainer" parent="Race/VBox/Rows/RaceRowTemplate"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_constants/separation = 8
+
+[node name="Dot" type="Panel" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="Emblem" type="TextureRect" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
 text = "Cometworks"
+text_overrun_behavior = 3
+
+[node name="Count" type="Label" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "0/15"
 
 [node name="Bar" type="Control" parent="Race/VBox/Rows/RaceRowTemplate"]
-custom_minimum_size = Vector2(0, 5)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("13_seg")
 value = 0.2
-gap = 3.0
+track_tint = 0.12
+pill = true
 
 [node name="Sep" type="HSeparator" parent="Race/VBox"]
 layout_mode = 2
 
 [node name="RadioTitle" type="Label" parent="Race/VBox"]
 layout_mode = 2
-theme_type_variation = &"CwCaps"
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 19
 text = "TY_RADIO_TITLE"
-uppercase = true
 
 [node name="News" type="VBoxContainer" parent="Race/VBox"]
 unique_name_in_owner = true
@@ -429,9 +594,9 @@ theme_override_constants/separation = 4
 [node name="NewsTemplate" type="Label" parent="Race/VBox/News"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(282, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "Bem-vindos à Cometworks!"
 autowrap_mode = 3
 
@@ -441,10 +606,10 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 86.0
-offset_top = -78.0
+offset_left = 100.0
+offset_top = -86.0
 offset_right = -16.0
-offset_bottom = -16.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
@@ -460,7 +625,7 @@ theme_override_constants/separation = 8
 [node name="StripTemplate" type="PanelContainer" parent="Bottom/Strips"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwStrip"
 
@@ -470,20 +635,24 @@ theme_override_constants/separation = 4
 
 [node name="Title" type="Label" parent="Bottom/Strips/StripTemplate/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 17
 text = "SAT-07 · Observação"
+text_overrun_behavior = 3
 
 [node name="Sub" type="Label" parent="Bottom/Strips/StripTemplate/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
 text = "fase 2/3"
+text_overrun_behavior = 3
 
 [node name="Bar" type="Control" parent="Bottom/Strips/StripTemplate/VBox"]
-custom_minimum_size = Vector2(0, 4)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("13_seg")
+track_tint = 0.1
+pill = true
 segments = 20
 
 [node name="NewProject" type="Button" parent="Bottom"]
@@ -494,6 +663,8 @@ tooltip_text = "TY_NEW_PROJECT_TIP"
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
 text = "TY_NEW_PROJECT"
+icon = ExtResource("20_rocket")
+expand_icon = true
 
 [node name="LotPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -504,10 +675,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -318.0
-offset_top = -330.0
+offset_left = -340.0
+offset_top = -362.0
 offset_right = -16.0
-offset_bottom = -92.0
+offset_bottom = -104.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_type_variation = &"CwPanel"
@@ -526,8 +697,7 @@ theme_override_constants/separation = 10
 
 [node name="Icon" type="TextureRect" parent="LotPanel/VBox/Head"]
 unique_name_in_owner = true
-self_modulate = Color(0.749, 0.9098, 1, 1)
-custom_minimum_size = Vector2(30, 30)
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
@@ -547,33 +717,35 @@ text = "Laboratório"
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "LOTE VAZIO"
-uppercase = true
+text = "Lote vazio"
 
 [node name="Close" type="Button" parent="LotPanel/VBox/Head"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_vertical = 0
 focus_mode = 0
 theme_type_variation = &"CwKey"
-text = "×"
+icon = ExtResource("27_close")
+icon_alignment = 1
 
 [node name="LevelBar" type="Control" parent="LotPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 6)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("13_seg")
+color = Color(0.6078, 0.4863, 1, 1)
 value = 0.333
 segments = 3
-gap = 4.0
+gap = 5.0
 
 [node name="Desc" type="Label" parent="LotPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(290, 0)
 layout_mode = 2
-theme_type_variation = &"CwDim"
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
 text = "Pesquisa: pontos de P&D."
 autowrap_mode = 3
 
@@ -585,12 +757,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
 text = "TY_NEXT_LEVEL"
-uppercase = true
 
 [node name="CostValue" type="Label" parent="LotPanel/VBox/Cost"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
+theme_type_variation = &"CwMono"
 text = "120 000 cr · 6 sem"
 
 [node name="BuildButton" type="Button" parent="LotPanel/VBox"]
@@ -600,26 +771,32 @@ focus_mode = 0
 theme_type_variation = &"CwPrimary"
 text = "TY_BUILD"
 
-[node name="Hint" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="HintBox" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -108.0
-offset_right = 300.0
-offset_bottom = -88.0
+offset_left = -80.0
+offset_top = -136.0
+offset_right = -80.0
+offset_bottom = -104.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="Hint" type="Label" parent="HintBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_colors/font_outline_color = Color(0.0275, 0.0431, 0.0784, 0.85)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "TY_CAMPUS_HINT"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="FollowTag" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -628,10 +805,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -170.0
-offset_top = 90.0
-offset_right = 170.0
-offset_bottom = 152.0
+offset_left = -180.0
+offset_top = 104.0
+offset_right = 180.0
+offset_bottom = 178.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_type_variation = &"CwPanel"
@@ -651,12 +828,11 @@ layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CAM_FOLLOWING"
 horizontal_alignment = 1
-uppercase = true
 
 [node name="TagTitle" type="Label" parent="FollowTag/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
+theme_type_variation = &"CwTitle"
 text = "Vega · Pilot"
 horizontal_alignment = 1
 
@@ -664,7 +840,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 text = "TY_CAM_FOLLOW_HINT"
 horizontal_alignment = 1
 
@@ -677,3 +853,146 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="CwAppear" type="Node" parent="TopStrip"]
+script = ExtResource("cwm_appear")
+offset = Vector2(0, -18)
+seconds = 0.4
+delay = 0.05
+curve = 1
+
+[node name="CwButtons" type="Node" parent="TopStrip"]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, 0)
+hover_scale = Vector2(1.08, 1.08)
+glow = 1.18
+press_scale = Vector2(0.92, 0.9)
+
+[node name="CwAppear" type="Node" parent="Rail"]
+script = ExtResource("cwm_appear")
+offset = Vector2(-24, 0)
+seconds = 0.4
+delay = 0.12
+curve = 1
+
+[node name="CwCascade" type="Node" parent="Rail"]
+script = ExtResource("cwm_stagger")
+target = NodePath("../VBox")
+offset = Vector2(-14, 0)
+delay = 0.2
+step = 0.035
+seconds = 0.3
+animate_added = false
+
+[node name="CwButtons" type="Node" parent="Rail"]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, 0)
+hover_scale = Vector2(1.1, 1.1)
+glow = 1.22
+hover_on_focus = false
+press_scale = Vector2(0.88, 0.86)
+wiggle_degrees = 9.0
+wiggle_seconds = 0.5
+wiggle_count = 2.5
+
+[node name="CwAppear" type="Node" parent="Race"]
+script = ExtResource("cwm_appear")
+offset = Vector2(24, 0)
+seconds = 0.4
+delay = 0.18
+curve = 1
+
+[node name="CwGrow" type="Node" parent="Race/VBox/Rows/RaceRowTemplate/Bar"]
+script = ExtResource("cwm_grow")
+delay = 0.45
+index_delay = 0.08
+
+[node name="CwAppear" type="Node" parent="Race/VBox/News/NewsTemplate"]
+script = ExtResource("cwm_appear")
+on_poke = true
+offset = Vector2(26, 0)
+seconds = 0.36
+delay = 0.3
+index_delay = 0.07
+curve = 1
+
+[node name="CwAppear" type="Node" parent="Bottom"]
+script = ExtResource("cwm_appear")
+offset = Vector2(0, 22)
+seconds = 0.4
+delay = 0.24
+curve = 1
+
+[node name="CwAppear" type="Node" parent="Bottom/Strips/StripTemplate"]
+script = ExtResource("cwm_appear")
+offset = Vector2(0, 12)
+seconds = 0.3
+delay = 0.3
+index_delay = 0.06
+
+[node name="CwButton" type="Node" parent="Bottom/NewProject"]
+script = ExtResource("cwm_btn")
+lift = Vector2(0, -3)
+hover_scale = Vector2(1.03, 1.03)
+glow = 1.12
+press_scale = Vector2(1.04, 0.9)
+sweep_on_hover = true
+sweep_seconds = 0.6
+
+[node name="Shimmer" type="ColorRect" parent="Bottom/NewProject"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cwm_shimmer")
+period = 5.5
+strength = 0.26
+
+[node name="CwTicker" type="Node" parent="TopStrip/HBox/StatsCard/Row/Cash/Text/CashValue"]
+script = ExtResource("cwm_ticker")
+flash_min_delta = 20000.0
+
+[node name="CwTicker" type="Node" parent="TopStrip/HBox/StatsCard/Row/Rep/Text/RepValue"]
+script = ExtResource("cwm_ticker")
+seconds = 0.45
+flash_min_delta = 1.0
+pop_scale = Vector2(1.12, 1.12)
+
+[node name="CwTicker" type="Node" parent="TopStrip/HBox/StatsCard/Row/Hype/Text/HypeValue"]
+script = ExtResource("cwm_ticker")
+seconds = 0.45
+flash_min_delta = 1.0
+pop_scale = Vector2(1.12, 1.12)
+
+[node name="CwPulse" type="Node" parent="TopStrip/HBox/CometCard/Comet/Text/CometValue"]
+script = ExtResource("cwm_pulse")
+peak_scale = Vector2(1.06, 1.06)
+glow = 1.3
+tint = Color(0.85, 0.8, 1, 1)
+beat_seconds = 0.5
+pivot = Vector2(0, 0.5)
+
+[node name="CwButtons" type="Node" parent="LotPanel"]
+script = ExtResource("cwm_btn")
+scope = 1
+press_scale = Vector2(1.03, 0.92)
+
+[node name="CwAppear" type="Node" parent="HintBox/Hint"]
+script = ExtResource("cwm_appear")
+on_ready = false
+on_poke = true
+offset = Vector2(0, 8)
+seconds = 0.28
+curve = 1
+
+[node name="CwTooltips" type="Node" parent="."]
+script = ExtResource("cwm_tipfade")

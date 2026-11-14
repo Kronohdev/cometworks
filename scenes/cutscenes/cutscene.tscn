@@ -1,0 +1,328 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene.gd" id="1_cs"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+
+[sub_resource type="Gradient" id="vignette_ramp"]
+offsets = PackedFloat32Array(0.55, 1)
+colors = PackedColorArray(0.035, 0.043, 0.13, 0, 0.035, 0.043, 0.13, 0.55)
+
+[sub_resource type="GradientTexture2D" id="vignette_tex"]
+gradient = SubResource("vignette_ramp")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.05, 1.05)
+
+[sub_resource type="Gradient" id="thread_ramp"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(0.2471, 0.8784, 0.7725, 0, 0.2471, 0.8784, 0.7725, 0.55, 0.69, 0.62, 1, 0.7, 1, 0.65, 0.4, 0.55, 1, 0.65, 0.4, 0)
+
+[sub_resource type="GradientTexture2D" id="thread_tex"]
+gradient = SubResource("thread_ramp")
+width = 512
+height = 2
+
+[sub_resource type="Animation" id="anim_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:bars")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Frame/Fade:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="anim_intro"]
+resource_name = "intro"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:bars")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Frame/Fade:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(0.6, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="anim_outro"]
+resource_name = "outro"
+length = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:bars")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Frame/Fade:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1.6, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"intro": SubResource("anim_intro"),
+&"outro": SubResource("anim_outro")
+}
+
+[node name="Cutscene" type="CanvasLayer"]
+process_mode = 3
+layer = 60
+script = ExtResource("1_cs")
+
+[node name="Frame" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="View" type="SubViewportContainer" parent="Frame"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Frame/View"]
+own_world_3d = true
+handle_input_locally = false
+screen_space_aa = 1
+positional_shadow_atlas_size = 2048
+size = Vector2i(1600, 900)
+render_target_update_mode = 4
+
+[node name="Stage" type="Node3D" parent="Frame/View/Viewport"]
+unique_name_in_owner = true
+
+[node name="Vignette" type="TextureRect" parent="Frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("vignette_tex")
+expand_mode = 1
+
+[node name="Card" type="VBoxContainer" parent="Frame"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -250.0
+offset_right = 640.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CardKicker" type="Label" parent="Frame/Card"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_colors/font_color = Color(0.5608, 0.9412, 0.8118, 1)
+theme_override_colors/font_outline_color = Color(0.035, 0.043, 0.13, 0.75)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 22
+text = "Uma história dos Cometinhos"
+horizontal_alignment = 1
+
+[node name="CardTitle" type="Label" parent="Frame/Card"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_colors/font_outline_color = Color(0.035, 0.043, 0.13, 0.8)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 72
+text = "A Mãe-Gelo"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Fade" type="ColorRect" parent="Frame"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.13, 1)
+
+[node name="BarTop" type="ColorRect" parent="Frame"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -104.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.13, 1)
+
+[node name="SkipRow" type="HBoxContainer" parent="Frame/BarTop"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -560.0
+offset_right = -40.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="Hint" type="Label" parent="Frame/BarTop/SkipRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "CS_HINT"
+horizontal_alignment = 2
+
+[node name="SkipBox" type="VBoxContainer" parent="Frame/BarTop/SkipRow"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Skip" type="Button" parent="Frame/BarTop/SkipRow/SkipBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(108, 36)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"CwKey"
+text = "CS_SKIP"
+
+[node name="HoldTrack" type="ColorRect" parent="Frame/BarTop/SkipRow/SkipBox"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.9569, 0.8863, 0.12)
+
+[node name="HoldFill" type="ColorRect" parent="Frame/BarTop/SkipRow/SkipBox/HoldTrack"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0, 1)
+mouse_filter = 2
+color = Color(0.5608, 0.9412, 0.8118, 1)
+
+[node name="BarBottom" type="ColorRect" parent="Frame"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.13, 1)
+
+[node name="Thread" type="TextureRect" parent="Frame/BarBottom"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_right = 0.8
+offset_bottom = 2.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = SubResource("thread_tex")
+expand_mode = 1
+
+[node name="Line" type="Label" parent="Frame/BarBottom"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.12
+anchor_right = 0.88
+anchor_bottom = 1.0
+offset_top = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwBody"
+theme_override_constants/line_spacing = 2
+theme_override_font_sizes/font_size = 25
+text = "De cada floquinho da cauda dela nasce um Cometinho."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}

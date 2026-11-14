@@ -9,10 +9,23 @@
 [ext_resource type="PackedScene" path="res://scenes/menu/options_panel.tscn" id="7_options"]
 [ext_resource type="PackedScene" path="res://scenes/menu/peek_cometling.tscn" id="8_peek"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="9_bar"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="10_rocket"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/play.svg" id="11_play"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/tent.svg" id="12_tent"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/build.svg" id="13_build"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="14_settings"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/door.svg" id="15_door"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_selection_marker.gd" id="cwm_marker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_shimmer.gd" id="cwm_shimmer"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_tooltip_fade.gd" id="cwm_tipfade"]
+[ext_resource type="Script" path="res://src/audio/cw_music_cue.gd" id="audio_cue"]
 
 [sub_resource type="Gradient" id="shade_left_grad"]
 offsets = PackedFloat32Array(0, 0.42, 1)
-colors = PackedColorArray(0.0275, 0.0431, 0.0784, 0.88, 0.0275, 0.0431, 0.0784, 0.6, 0.0275, 0.0431, 0.0784, 0)
+colors = PackedColorArray(0.1059, 0.0941, 0.2706, 0.55, 0.1059, 0.0941, 0.2706, 0.3, 0.1059, 0.0941, 0.2706, 0)
 
 [sub_resource type="GradientTexture2D" id="shade_left"]
 gradient = SubResource("shade_left_grad")
@@ -21,7 +34,7 @@ height = 4
 
 [sub_resource type="Gradient" id="shade_bottom_grad"]
 offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(0.0275, 0.0431, 0.0784, 0, 0.0275, 0.0431, 0.0784, 0.75)
+colors = PackedColorArray(0.1059, 0.0941, 0.2706, 0, 0.1059, 0.0941, 0.2706, 0.55)
 
 [sub_resource type="GradientTexture2D" id="shade_bottom"]
 gradient = SubResource("shade_bottom_grad")
@@ -35,11 +48,12 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.749, 0.9098, 1, 0.95)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_color = Color(0.4627, 0.3216, 0.9098, 0.9)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+anti_aliasing = true
 expand_margin_left = 4.0
 expand_margin_top = 4.0
 expand_margin_right = 4.0
@@ -115,30 +129,35 @@ offset_bottom = 482.0
 
 [node name="MenuPanel" type="PanelContainer" parent="UI/Root"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(460, 0)
+custom_minimum_size = Vector2(440, 0)
 layout_mode = 0
 offset_left = 88.0
-offset_top = 300.0
-offset_right = 548.0
-offset_bottom = 640.0
+offset_top = 290.0
+offset_right = 528.0
+offset_bottom = 600.0
 theme = ExtResource("4_menu_theme")
-theme_type_variation = &"CwPanel"
+theme_type_variation = &"CwMenuCard"
 
 [node name="VBox" type="VBoxContainer" parent="UI/Root/MenuPanel"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 5
 
 [node name="NewCampaign" type="Button" parent="UI/Root/MenuPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 theme_type_variation = &"CwPrimary"
-theme_override_font_sizes/font_size = 17
+theme_override_constants/icon_max_width = 30
+theme_override_constants/h_separation = 14
+theme_override_font_sizes/font_size = 26
 theme_override_styles/focus = SubResource("primary_focus")
 text = "MENU_NEW_CAMPAIGN"
+icon = ExtResource("10_rocket")
 alignment = 0
+expand_icon = true
 
 [node name="Hint" type="Label" parent="UI/Root/MenuPanel/VBox/NewCampaign"]
+visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -152,15 +171,15 @@ offset_bottom = 9.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.0275, 0.0431, 0.0784, 0.72)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 0.8)
+theme_override_font_sizes/font_size = 14
 text = "MENU_NEW_CAMPAIGN_HINT"
 horizontal_alignment = 2
 vertical_alignment = 1
 text_overrun_behavior = 3
 
 [node name="Gap" type="Control" parent="UI/Root/MenuPanel/VBox"]
-custom_minimum_size = Vector2(0, 10)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 2
 
@@ -173,6 +192,7 @@ focus_mode = 0
 text = "MENU_CONTINUE"
 index_text = "02"
 hint_key = "MENU_CONTINUE_HINT"
+icon = ExtResource("11_play")
 
 [node name="Fair" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
@@ -180,37 +200,57 @@ layout_mode = 2
 tooltip_text = "MENU_FAIR_TIP"
 text = "MENU_FAIR"
 index_text = "03"
-hint_key = "MENU_FAIR_HINT"
+hint_key = ""
+icon = ExtResource("12_tent")
 
 [node name="Workshop" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_WORKSHOP"
 index_text = "04"
-hint_key = "MENU_WORKSHOP_HINT"
+hint_key = ""
+icon = ExtResource("13_build")
 
 [node name="Options" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_OPTIONS"
 index_text = "05"
-hint_key = "MENU_OPTIONS_HINT"
+hint_key = ""
+icon = ExtResource("14_settings")
 
 [node name="Quit" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_QUIT"
 index_text = "06"
-hint_key = "MENU_QUIT_HINT"
+hint_key = ""
+icon = ExtResource("15_door")
 
 [node name="Keys" type="Label" parent="UI/Root/MenuPanel/VBox"]
+visible = false
 custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 theme_type_variation = &"CwMenuMono"
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 12
 text = "MENU_KEYS"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="SelectionMarker" type="Control" parent="UI/Root"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 310.0
+offset_right = 83.0
+offset_bottom = 340.0
+mouse_filter = 2
+script = ExtResource("cwm_marker")
+items = NodePath("../MenuPanel/VBox")
+color = Color(1, 0.6039, 0.3608, 1)
+color_end = Color(0.702, 0.6118, 1, 1)
+bar_width = 6.0
+gap = -9.0
+glow = 0.0
 
 [node name="OptionsPanel" parent="UI/Root" instance=ExtResource("7_options")]
 unique_name_in_owner = true
@@ -229,15 +269,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -420.0
-offset_top = -112.0
+offset_left = -380.0
+offset_top = -100.0
 offset_right = -48.0
 offset_bottom = -44.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 theme = ExtResource("4_menu_theme")
-theme_type_variation = &"CwStrip"
+theme_type_variation = &"CwMenuCardSmall"
 
 [node name="VBox" type="VBoxContainer" parent="UI/Root/Readout"]
 layout_mode = 2
@@ -245,6 +285,7 @@ mouse_filter = 2
 theme_override_constants/separation = 5
 
 [node name="Top" type="HBoxContainer" parent="UI/Root/Readout/VBox"]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
@@ -254,7 +295,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.2471, 0.8784, 0.7725, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 text = "CAM 01"
 auto_translate_mode = 2
 
@@ -267,19 +308,22 @@ text = "MENU_FEED"
 [node name="Caption" type="Label" parent="UI/Root/Readout/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
 text = "Mãe-Gelo"
 auto_translate_mode = 2
 text_overrun_behavior = 3
 
 [node name="ShotBar" type="Control" parent="UI/Root/Readout/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 3)
+custom_minimum_size = Vector2(0, 7)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("9_bar")
 value = 0.3
-color = Color(0.2471, 0.8784, 0.7725, 1)
+color = Color(0.6078, 0.4863, 1, 1)
+track_color = Color(0.902, 0.8275, 0.702, 1)
+pill = true
 segments = 30
 gap = 2.0
 
@@ -299,21 +343,29 @@ theme_override_constants/separation = 14
 [node name="Event" type="Label" parent="UI/Root/Footer"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.8)
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 14
 text = "MENU_EVENT"
 vertical_alignment = 1
 
 [node name="Dot" type="Label" parent="UI/Root/Footer"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
 text = "·"
 vertical_alignment = 1
 
 [node name="Version" type="Label" parent="UI/Root/Footer"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.549, 0.6039, 0.7098, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.8118, 0.7647, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 14
 text = "v0.1 · build 2026.11"
 vertical_alignment = 1
 auto_translate_mode = 2
@@ -327,7 +379,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0275, 0.0431, 0.0784, 1)
+color = Color(0.1059, 0.0941, 0.2706, 1)
 
 [node name="Loading" type="Label" parent="UI/Root/Transition"]
 unique_name_in_owner = true
@@ -338,14 +390,68 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -12.0
+offset_top = -18.0
 offset_right = 300.0
-offset_bottom = 12.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.9)
-theme_override_font_sizes/font_size = 13
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_font_sizes/font_size = 22
 text = "MENU_LOADING_CAMPUS"
 horizontal_alignment = 1
 auto_translate_mode = 2
+
+[node name="CwCascade" type="Node" parent="UI/Root/MenuPanel"]
+script = ExtResource("cwm_stagger")
+target = NodePath("../VBox")
+offset = Vector2(-22, 0)
+delay = 0.42
+step = 0.055
+seconds = 0.36
+max_delay = 0.6
+curve = 1
+animate_added = false
+
+[node name="CwButton" type="Node" parent="UI/Root/MenuPanel/VBox/NewCampaign"]
+script = ExtResource("cwm_btn")
+lift = Vector2(6, 0)
+hover_scale = Vector2(1, 1)
+glow = 1.1
+press_scale = Vector2(0.98, 0.92)
+sweep_on_focus = true
+hover_sound = &"menu_hover"
+press_sound = &"menu_select"
+
+[node name="Shimmer" type="ColorRect" parent="UI/Root/MenuPanel/VBox/NewCampaign"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cwm_shimmer")
+period = 6.0
+strength = 0.22
+phase = 2.0
+
+[node name="CwBreath" type="Node" parent="UI/Root/Logo"]
+script = ExtResource("cwm_pulse")
+target = NodePath("../Word")
+on_poke = false
+loop = true
+peak_scale = Vector2(1.012, 1.012)
+glow = 1.06
+period = 5.5
+pivot = Vector2(0.3, 0.5)
+
+[node name="CwTooltips" type="Node" parent="UI/Root"]
+script = ExtResource("cwm_tipfade")
+
+[node name="MusicCue" type="Node" parent="."]
+script = ExtResource("audio_cue")

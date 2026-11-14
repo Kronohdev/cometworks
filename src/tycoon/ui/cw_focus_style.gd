@@ -5,7 +5,7 @@ extends StyleBox
 ## outside the control and, for text fields, the aurora thread along the bottom edge (GDD 22.3:
 ## the aurora appears "no foco de um campo"). Drawn on top of the normal style.
 
-@export var ring_color := Color("#3fe0c5"):
+@export var ring_color := Color("#7652e8"):
 	set(v):
 		ring_color = v
 		emit_changed()

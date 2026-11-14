@@ -1,0 +1,126 @@
+keys,en,pt
+TY_CREW_TITLE,Crew,Equipe
+TY_CREW_SUBTITLE,The Cometlings who build the agency,Os Cometinhos que fazem a agência
+TY_CREW_COMPOSITION,Team by profession,Equipe por profissão
+TY_CREW_COMPOSITION_HINT,Each profession favours one project bar,Cada profissão favorece uma barra do projeto
+TY_CREW_BAR_ENG,Eng,Eng
+TY_CREW_BAR_SCI,Sci,Ciê
+TY_CREW_BAR_OPS,Ops,Ope
+TY_CREW_BAR_REL,Rel,Conf
+TY_CREW_TAB_ROSTER,Staff,Funcionários
+TY_CREW_TAB_HIRE,Hiring,Contratação
+TY_CREW_CLOSE_TIP,Back to the campus (Esc),Voltar ao campus (Esc)
+TY_CREW_STAFF,Staff,Equipe
+TY_CREW_PAYROLL,Payroll · month,Folha · mês
+TY_CREW_MORALE_AVG,Average morale,Moral média
+TY_CREW_MARKET,Candidates,Candidatos
+TY_CREW_MARKET_VALUE,%d · new in %d wk,%d · novos em %d sem
+TY_CREW_COL_NAME,Cometling,Cometinho
+TY_CREW_COL_LEVEL,Lv,Nív
+TY_CREW_COL_XP,Experience,Experiência
+TY_CREW_COL_SKILL,Skl,Hab
+TY_CREW_COL_CURIOSITY,Cur,Cur
+TY_CREW_COL_COURAGE,Cou,Cor
+TY_CREW_COL_MORALE,Morale,Moral
+TY_CREW_COL_SALARY,Salary,Salário
+TY_CREW_COL_ASSIGNED,Doing now,Fazendo agora
+TY_CREW_SKILL,Skill,Habilidade
+TY_CREW_CURIOSITY,Curiosity,Curiosidade
+TY_CREW_COURAGE,Courage,Coragem
+TY_CREW_MORALE,Morale,Moral
+TY_CREW_SKILL_TIP,Multiplies the points they put into projects.,Multiplica os pontos que coloca nos projetos.
+TY_CREW_CURIOSITY_TIP,"Chance of discoveries: science bonus, new mission ideas.","Chance de descobertas: bônus de ciência, ideias de missão."
+TY_CREW_COURAGE_TIP,Risk tolerance on crewed flights; morale after failures.,Tolerância a risco em voos tripulados; moral depois de falhas.
+TY_CREW_MORALE_TIP,"Drops with overwork, failures and late salaries. Below 30 they take a nap.","Cai com excesso de trabalho, falhas e salário atrasado. Abaixo de 30 tiram um cochilo."
+TY_CREW_ST_NAP,Napping,Cochilando
+TY_CREW_ST_ADAPTING,Settling in · %d wk,Adaptação · %d sem
+TY_CREW_ST_TRAINING,Training · %d wk,Treinando · %d sem
+TY_CREW_ST_BUSY,On a project,Em projeto
+TY_CREW_ST_IDLE,Available,Disponível
+TY_CREW_ST_SPEC,Specialisation ready,Especialização pronta
+TY_CREW_MOOD_GREAT,Inspired,Inspirado(a)
+TY_CREW_MOOD_GOOD,Content,Contente
+TY_CREW_MOOD_TIRED,Tired,Cansado(a)
+TY_CREW_MOOD_LOW,Exhausted,Exausto(a)
+TY_CREW_LINE_NAP,Asleep on the campus: no work this week.,Dormindo no campus: não trabalha esta semana.
+TY_CREW_LINE_ADAPTING,Still learning where the coffee is. Starts work in %d wk.,Ainda descobrindo onde fica o café. Começa a trabalhar em %d sem.
+TY_CREW_LINE_TRAINING,At the training centre: back in %d wk.,No centro de treinamento: volta em %d sem.
+TY_CREW_LINE_OVERWORK,%d weeks in a row on projects: needs a break.,%d semanas seguidas em projetos: precisa de uma pausa.
+TY_CREW_LINE_BUSY,Working on %s.,Trabalhando em %s.
+TY_CREW_LINE_IDLE,Free to join a project.,Livre para entrar num projeto.
+TY_CREW_SALARY_MONTH,%s / month,%s / mês
+TY_CREW_ASSIGNED,Doing now,Fazendo agora
+TY_CREW_HIRED,Joined,Entrou
+TY_CREW_HIRED_VALUE,Year %d · week %d,Ano %d · semana %d
+TY_CREW_FOUNDER,Founding crew,Equipe fundadora
+TY_CREW_LOOK,Colours,Cores
+TY_CREW_LEVEL,Level,Nível
+TY_CREW_XP_NEXT,%d / %d XP to level %d,%d / %d XP para o nível %d
+TY_CREW_XP_MAX,Top level reached,Nível máximo
+TY_CREW_SPECS,Specialisations,Especializações
+TY_CREW_SPEC_TIER,Tier %s · level %d,Grau %s · nível %d
+TY_CREW_SPEC_EMPTY,Not chosen yet,Ainda não escolhida
+TY_CREW_SPEC_LOCKED,Unlocks at level %d.,Libera no nível %d.
+TY_CREW_SPEC_ORDER,Choose the first one before.,Escolha a primeira antes.
+TY_CREW_SPEC_NEED_TRAINING,Needs a training centre at level %d.,Precisa de um centro de treinamento nível %d.
+TY_CREW_SPEC_IN_TRAINING,Already at the training centre.,Já está no centro de treinamento.
+TY_CREW_SPEC_CHOOSE,Pick one: %s and %d weeks at the training centre.,Escolha uma: %s e %d semanas no centro de treinamento.
+TY_CREW_HIRE,Hire · %s,Contratar · %s
+TY_CREW_FIRE,Let go,Dispensar
+TY_CREW_FIRE_CONFIRM,Click again to let %s go,Clique de novo para dispensar %s
+TY_CREW_MARKET_TITLE,Candidates this month,Candidatos do mês
+TY_CREW_MARKET_NEXT,New list in %d wk,Nova lista em %d sem
+TY_CREW_MARKET_LIMIT,Staff %d / %d · headquarters level %d,Equipe %d / %d · sede nível %d
+TY_CREW_MARKET_RULES,"Hiring costs two months of salary. New Cometlings take 2 weeks to settle in, and traits marked ? are revealed one per week.","Contratar custa dois meses de salário. Cometinhos novos levam 2 semanas para se adaptar, e os traços marcados com ? são revelados um por semana."
+TY_CREW_HIDDEN_LEFT,%d hidden · next reveal in 1 wk,%d ocultos · próxima revelação em 1 sem
+TY_CREW_ALL_KNOWN,All traits known,Todos os traços conhecidos
+TY_CREW_FEE,Hiring fee,Taxa de contratação
+TY_CREW_ASK,Asks,Pede
+TY_CREW_EMPTY_MARKET,Everyone was hired. New candidates next month.,Todos foram contratados. Novos candidatos no próximo mês.
+TY_CREW_ERR_LIMIT,Headquarters full: upgrade the HQ to hire more.,Sede lotada: melhore a sede para contratar mais.
+TY_CREW_ERR_CASH,Not enough cash.,Caixa insuficiente.
+TY_CREW_ERR_ASSIGNED,On a project: wait until it ends.,Está num projeto: espere terminar.
+TY_CREW_ERR_NONE,Not available.,Indisponível.
+TY_CREW_NEWS_HIRED,%s joins the agency: %s.,%s entra na agência: %s.
+TY_CREW_NEWS_FIRED,%s left the agency.,%s deixou a agência.
+TY_CREW_NEWS_LEVEL,%s reached level %d!,%s chegou ao nível %d!
+TY_CREW_NEWS_SPEC_READY,%s can choose a specialisation.,%s pode escolher uma especialização.
+TY_CREW_NEWS_SPEC,%s is training: %s.,%s está em treinamento: %s.
+TY_CREW_NEWS_SETTLED,%s has settled in.,%s já se adaptou.
+TY_CREW_NEWS_LATE,Salaries are late: morale drops.,Salários atrasados: a moral cai.
+TY_CREW_SPEC_MASS_TRIMMER,Mass trimmer,Enxugador(a) de massa
+TY_CREW_SPEC_MASS_TRIMMER_DESC,+15% Engineering points.,+15% de pontos de Engenharia.
+TY_CREW_SPEC_INTEGRATION_LEAD,Integration lead,Líder de integração
+TY_CREW_SPEC_INTEGRATION_LEAD_DESC,15% fewer defects in their work.,15% menos defeitos no seu trabalho.
+TY_CREW_SPEC_ENGINE_WHISPERER,Engine whisperer,Encantador(a) de motores
+TY_CREW_SPEC_ENGINE_WHISPERER_DESC,+20% Engineering points.,+20% de pontos de Engenharia.
+TY_CREW_SPEC_CRYO_SPECIALIST,Cryogenics specialist,Especialista em criogenia
+TY_CREW_SPEC_CRYO_SPECIALIST_DESC,+2% reliability on the rocket families they work on.,+2% de confiabilidade nas famílias de foguete em que trabalha.
+TY_CREW_SPEC_LUNAR_SPECIALIST,Lunar specialist,Especialista lunar
+TY_CREW_SPEC_LUNAR_SPECIALIST_DESC,+20% Science points on Moon targets.,+20% de pontos de Ciência em alvos lunares.
+TY_CREW_SPEC_DATA_MINER,Data miner,Garimpeiro(a) de dados
+TY_CREW_SPEC_DATA_MINER_DESC,+15% science from every byte sent down.,+15% de ciência por dado baixado.
+TY_CREW_SPEC_THEORIST,Theorist,Teórico(a)
+TY_CREW_SPEC_THEORIST_DESC,+25% research points in the lab.,+25% de pontos de pesquisa no laboratório.
+TY_CREW_SPEC_LAB_MENTOR,Lab mentor,Mentor(a) de laboratório
+TY_CREW_SPEC_LAB_MENTOR_DESC,"+10% XP for project mates, +5% Science points.","+10% de XP para colegas de projeto, +5% de pontos de Ciência."
+TY_CREW_SPEC_ANTENNA_MASTER,Antenna master,Mestre de antenas
+TY_CREW_SPEC_ANTENNA_MASTER_DESC,+20% downlink on the missions they fly.,+20% de downlink nas missões que opera.
+TY_CREW_SPEC_FLIGHT_DIRECTOR,Flight director,Diretor(a) de voo
+TY_CREW_SPEC_FLIGHT_DIRECTOR_DESC,+15% Operations points.,+15% de pontos de Operações.
+TY_CREW_SPEC_BUG_HUNTER,Bug hunter,Caçador(a) de defeitos
+TY_CREW_SPEC_BUG_HUNTER_DESC,Removes 25% more defects.,Remove 25% mais defeitos.
+TY_CREW_SPEC_SHAKE_TABLE,Shake-table chief,Chefe da mesa de vibração
+TY_CREW_SPEC_SHAKE_TABLE_DESC,+15% Reliability points.,+15% de pontos de Confiabilidade.
+TY_CREW_SPEC_TEST_PILOT,Test pilot,Piloto de testes
+TY_CREW_SPEC_TEST_PILOT_DESC,+15% Operations points.,+15% de pontos de Operações.
+TY_CREW_SPEC_STEADY_HANDS,Steady hands,Mãos firmes
+TY_CREW_SPEC_STEADY_HANDS_DESC,20% less risk on crewed flights.,20% menos risco em voos tripulados.
+TY_CREW_SPEC_MENTOR,Mentor,Mentor(a)
+TY_CREW_SPEC_MENTOR_DESC,+25% XP for everyone on the same project.,+25% de XP para todos no mesmo projeto.
+TY_CREW_SPEC_WORKHORSE,Workhorse,Incansável
+TY_CREW_SPEC_WORKHORSE_DESC,Overwork starts 4 weeks later.,O excesso de trabalho começa 4 semanas depois.
+TY_CREW_SPEC_OPTIMIST,Eternal optimist,Otimista incorrigível
+TY_CREW_SPEC_OPTIMIST_DESC,Failures hurt their morale half as much.,Falhas abalam a moral pela metade.
+TY_CREW_SPEC_POLYMATH,Polymath,Polímata
+TY_CREW_SPEC_POLYMATH_DESC,Better at their secondary bar (affinity 0.4 → 0.7).,"Melhor na barra secundária (afinidade 0,4 → 0,7)."

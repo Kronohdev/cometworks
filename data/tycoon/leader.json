@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "id": "leader",
+  "level": 2,
+  "morale": 90,
+  "traits": {"strong": 0.85, "other": 0.6},
+  "strengths": ["skill", "curiosity", "courage"],
+  "quirks": [
+    {"id": "cheerful", "emote": "heart", "shot": "cheer"},
+    {"id": "dreamer", "emote": "star", "shot": "spin"},
+    {"id": "tinkerer", "emote": "idea", "shot": "jump"},
+    {"id": "calm", "emote": "note", "shot": "nod"}
+  ],
+  "hats": ["role", "none", "crown", "propeller", "beanie", "flower", "bow"],
+  "body_colors": ["#bfe9ff", "#aeeeb6", "#ffe08f", "#ffa3a3", "#c9b8ff", "#ffcaa8", "#eef1f4", "#a6eadb",
+    "#ffbd7a", "#d6f5a0", "#f5b8e8", "#b8c4ff"],
+  "spot_colors": ["#f59a36", "#5fb0d8", "#ff6b6b", "#ffcc55", "#ff8fb8", "#8e7cff", "#3fe0c5", "#7ee08a",
+    "#ffffff", "#4a5a80"],
+  "agency_colors": ["#ff8a3d", "#3fe0c5", "#ffc547", "#5bd68e", "#ff7eb6", "#5aa8ff"],
+  "emblems": ["comet", "rocket", "moon", "saturn", "atom", "sparkle"],
+  "professions": {
+    "systems_engineer":    {"spec": "integration_lead", "start": {"reputation": 3}},
+    "propulsion_engineer": {"spec": "engine_whisperer", "start": {"cash": 25000}},
+    "scientist":           {"spec": "data_miner",       "start": {"hype": 5}},
+    "researcher":          {"spec": "theorist",         "start": {"research_points": 15}},
+    "flight_controller":   {"spec": "flight_director",  "start": {"reputation": 3}},
+    "test_technician":     {"spec": "bug_hunter",       "start": {"cash": 15000}},
+    "pilot":               {"spec": "steady_hands",     "start": {"hype": 10}}
+  },
+  "names": {
+    "pt": ["Pipoca", "Faísca", "Bolinha", "Jujuba", "Pitoco", "Estrelinha", "Tapioca", "Paçoca", "Brisa",
+      "Cocada", "Biscoito", "Luzinha", "Nuvem", "Quindim", "Pingo", "Cometa"],
+    "en": ["Sprinkle", "Pip", "Nova", "Biscuit", "Pebble", "Twinkle", "Mochi", "Sparky", "Bean", "Puddle",
+      "Dot", "Waffle", "Ziggy", "Breeze", "Muffin", "Comet"]
+  },
+  "surnames": {
+    "pt": ["da Cauda", "Estelar", "Orbital", "do Cometa", "Lunar", "Poeira-de-Estrela", "Brilhante", "Aurora"],
+    "en": ["Starling", "Moonbeam", "Tailwind", "Orbitson", "Glimmer", "Stardust", "Brightail", "Aurora"]
+  },
+  "agency_names": {
+    "pt": ["Cometworks", "Cauda Brilhante", "Pipoca Orbital", "Poeira de Estrela", "Rabisco Lunar", "Oficina da Aurora"],
+    "en": ["Cometworks", "Bright Tail Agency", "Stardust Works", "Moonpie Aerospace", "Tailwind Labs", "Aurora Workshop"]
+  }
+}

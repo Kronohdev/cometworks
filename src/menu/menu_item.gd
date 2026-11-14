@@ -17,8 +17,8 @@ extends Button
 		hint_key = v
 		_refresh()
 
-const INDEX_ON := Color("#3fe0c5")
-const INDEX_OFF := Color("#3a4d72")
+const INDEX_ON := Color("#7652e8")
+const INDEX_OFF := Color("#5d5b8c")
 
 
 func _ready() -> void:
@@ -42,4 +42,4 @@ func _refresh() -> void:
 
 func _light(on: bool) -> void:
 	($Index as Label).add_theme_color_override("font_color", INDEX_ON if on and not disabled else INDEX_OFF)
-	($Hint as Label).modulate.a = 1.0 if on else (0.55 if disabled else 0.8)
+	($Hint as Label).modulate.a = 1.0 if on else (0.5 if disabled else 1.0)

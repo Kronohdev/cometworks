@@ -5,7 +5,10 @@
 [ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="3_creature"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="4_glow"]
 [ext_resource type="PackedScene" path="res://scenes/menu/props/stargaze_meadow.tscn" id="5_meadow"]
-[ext_resource type="Shader" path="res://shaders/campus_terrain.gdshader" id="6_terrain"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="audio_bed_stream"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("2_sky")
@@ -60,80 +63,49 @@ dof_blur_far_distance = 14.0
 dof_blur_far_transition = 20.0
 dof_blur_amount = 0.06
 
-[sub_resource type="ShaderMaterial" id="grass_top"]
-shader = ExtResource("6_terrain")
-shader_parameter/grass_a = Color(0.1, 0.26, 0.2, 1)
-shader_parameter/grass_b = Color(0.12, 0.3, 0.22, 1)
-shader_parameter/grass_dry = Color(0.2, 0.3, 0.2, 1)
-shader_parameter/clover = Color(0.08, 0.21, 0.18, 1)
-shader_parameter/earth = Color(0.2, 0.17, 0.14, 1)
-shader_parameter/cell_size = 0.07
-shader_parameter/earth_amount = 0.05
-shader_parameter/soil = Color(0.14, 0.12, 0.11, 1)
-shader_parameter/rock_a = Color(0.08, 0.09, 0.11, 1)
-shader_parameter/rock_b = Color(0.11, 0.11, 0.13, 1)
-shader_parameter/lip_height = 0.0
-shader_parameter/lip_depth = 2.0
+[sub_resource type="ShaderMaterial" id="hill_far"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.05, 0.08, 0.15, 1)
+shader_parameter/roughness = 1.0
 
-[sub_resource type="ShaderMaterial" id="grass_dark"]
-shader = ExtResource("6_terrain")
-shader_parameter/grass_a = Color(0.08, 0.16, 0.19, 1)
-shader_parameter/grass_b = Color(0.09, 0.19, 0.2, 1)
-shader_parameter/grass_dry = Color(0.14, 0.2, 0.19, 1)
-shader_parameter/clover = Color(0.07, 0.14, 0.17, 1)
-shader_parameter/earth = Color(0.16, 0.14, 0.13, 1)
-shader_parameter/cell_size = 0.07
-shader_parameter/earth_amount = 0.05
-shader_parameter/soil = Color(0.12, 0.1, 0.1, 1)
-shader_parameter/rock_a = Color(0.07, 0.08, 0.1, 1)
-shader_parameter/rock_b = Color(0.1, 0.1, 0.12, 1)
-shader_parameter/lip_height = -0.4
-shader_parameter/lip_depth = 2.0
+[sub_resource type="ShaderMaterial" id="wood_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.36, 0.25, 0.18, 1)
+shader_parameter/roughness = 0.85
 
-[sub_resource type="StandardMaterial3D" id="hill_far"]
-albedo_color = Color(0.05, 0.08, 0.15, 1)
-roughness = 1.0
+[sub_resource type="ShaderMaterial" id="metal_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.75, 0.78, 0.84, 1)
+shader_parameter/roughness = 0.35
+shader_parameter/metallic = 0.6
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="wood_mat"]
-albedo_color = Color(0.36, 0.25, 0.18, 1)
-roughness = 0.85
+[sub_resource type="ShaderMaterial" id="lamp_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.75, 0.42, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1, 0.62, 0.3, 1)
+shader_parameter/emission_energy = 1.6
 
-[sub_resource type="StandardMaterial3D" id="metal_mat"]
-albedo_color = Color(0.75, 0.78, 0.84, 1)
-metallic = 0.6
-roughness = 0.35
+[sub_resource type="ShaderMaterial" id="dome_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.55, 0.6, 0.7, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.3
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="lamp_mat"]
-albedo_color = Color(1, 0.75, 0.42, 1)
-emission_enabled = true
-emission = Color(1, 0.62, 0.3, 1)
-emission_energy_multiplier = 1.6
+[sub_resource type="ShaderMaterial" id="window_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.7, 0.4, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1, 0.65, 0.35, 1)
+shader_parameter/emission_energy = 6.0
 
-[sub_resource type="StandardMaterial3D" id="dome_mat"]
-albedo_color = Color(0.55, 0.6, 0.7, 1)
-metallic = 0.3
-roughness = 0.5
-
-[sub_resource type="StandardMaterial3D" id="window_mat"]
-albedo_color = Color(1, 0.7, 0.4, 1)
-emission_enabled = true
-emission = Color(1, 0.65, 0.35, 1)
-emission_energy_multiplier = 6.0
-
-[sub_resource type="BoxMesh" id="crest"]
-size = Vector3(26, 2, 5)
-
-[sub_resource type="BoxMesh" id="step1"]
-size = Vector3(26, 2, 1.4)
-
-[sub_resource type="BoxMesh" id="step2"]
-size = Vector3(26, 2, 2.2)
-
-[sub_resource type="BoxMesh" id="step3"]
-size = Vector3(26, 2, 6)
-
-[sub_resource type="BoxMesh" id="far_hill"]
-size = Vector3(40, 10, 12)
+[sub_resource type="SphereMesh" id="far_hill"]
+radius = 20.0
+height = 10.0
+radial_segments = 48
+rings = 16
 
 [sub_resource type="CylinderMesh" id="tube"]
 top_radius = 0.07
@@ -353,26 +325,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 26, -96)
 
 [node name="Terrain" type="Node3D" parent="."]
 
-[node name="Crest" type="MeshInstance3D" parent="Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1.5)
-mesh = SubResource("crest")
-surface_material_override/0 = SubResource("grass_top")
-
-[node name="Step1" type="MeshInstance3D" parent="Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.22, 1.7)
-mesh = SubResource("step1")
-surface_material_override/0 = SubResource("grass_top")
-
-[node name="Step2" type="MeshInstance3D" parent="Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.48, 3.5)
-mesh = SubResource("step2")
-surface_material_override/0 = SubResource("grass_dark")
-
-[node name="Step3" type="MeshInstance3D" parent="Terrain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.85, 7.6)
-mesh = SubResource("step3")
-surface_material_override/0 = SubResource("grass_dark")
-
 [node name="FarHill" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -3.5, -70)
 mesh = SubResource("far_hill")
@@ -484,7 +436,7 @@ start_action = "sit"
 listen_to_events = false
 
 [node name="Butter" parent="Cometlings" instance=ExtResource("3_creature")]
-transform = Transform3D(0.848, 0, -0.5299, 0, 1, 0, 0.5299, 0, 0.848, 1.05, 0, 0.4)
+transform = Transform3D(0.848, 0, -0.5299, 0, 1, 0, 0.5299, 0, 0.848, 1.25, 0, 0.45)
 role = "engineer"
 body_color = Color(1, 0.878, 0.561, 1)
 spot_color = Color(1, 0.42, 0.42, 1)
@@ -530,3 +482,11 @@ far = 400.0
 libraries = {
 &"": SubResource("anim_lib")
 }
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -9.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

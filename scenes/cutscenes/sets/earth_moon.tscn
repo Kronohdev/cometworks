@@ -1,0 +1,107 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="2_sky"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="4_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="5_atmo"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="6_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="8_moon"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="9_comet"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_space.wav" id="audio_bed_stream"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("2_sky")
+shader_parameter/star_brightness = 2.2
+shader_parameter/milky_way = 0.8
+shader_parameter/galactic_pole = Vector3(0.6, 0.55, 0.58)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.65
+glow_bloom = 0.03
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("4_planet")
+shader_parameter/ocean_glint = 0.35
+
+[sub_resource type="ShaderMaterial" id="mat_moon"]
+shader = ExtResource("4_planet")
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radial_segments = 96
+rings = 48
+
+[sub_resource type="ShaderMaterial" id="mat_atmo"]
+shader = ExtResource("5_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/power = 2.0
+shader_parameter/sun_position = Vector3(72028.8173, 38015.2091, 58023.2139)
+
+[node name="EarthMoon" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.6273, -0.296, 0.7203, 0, 0.9249, 0.3802, -0.7788, -0.2385, 0.5802, 0, 0, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 1.5
+
+[node name="Key" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.4, 0.5)
+light_color = Color(1, 0.9, 0.8, 1)
+light_energy = 1.4
+omni_range = 7.0
+
+[node name="Earthshine" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0, -3, -2)
+light_color = Color(0.45, 0.65, 1, 1)
+light_energy = 0.8
+omni_range = 9.0
+
+[node name="Earth" type="Node3D" parent="."]
+transform = Transform3D(0.9903, -0.1392, 0, 0.1097, 0.7803, 0.6157, -0.0857, -0.6097, 0.788, 380, -1157, -1585)
+
+[node name="LOD0" parent="Earth" instance=ExtResource("6_earth")]
+transform = Transform3D(904, 0, 0, 0, 904, 0, 0, 0, 904, 0, 0, 0)
+
+[node name="earth_lod0" parent="Earth/LOD0" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Earth"]
+transform = Transform3D(1040, 0, 0, 0, 1040, 0, 0, 0, 1040, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo")
+
+[node name="Moon" parent="." instance=ExtResource("8_moon")]
+transform = Transform3D(250, 0, 0, 0, 250, 0, 0, 0, 250, 1076.7745, 1794.6242, -5623.1558)
+
+[node name="moon_lod1" parent="Moon" index="0"]
+material_override = SubResource("mat_moon")
+cast_shadow = 0
+
+[node name="Comet" parent="." instance=ExtResource("9_comet")]
+transform = Transform3D(-43.0282, 32.0713, 26.8328, 35.8569, 48.107, 0, -21.5141, 16.0357, -53.6656, -2600, 3000, -9000)
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -9.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")

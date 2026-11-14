@@ -1,0 +1,352 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/meadow_night.tscn" id="set"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 11
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Lilac")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 6, 6.45, 6.9, 9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["jump", -1],
+"method": &"play"
+}, {
+"args": ["heart", 2.2],
+"method": &"show_emote"
+}, {
+"args": ["jump", -1],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Sky")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.25, 3.6, 6.2, 6.75, 7.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["joy", 3],
+"method": &"set_expression"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}, {
+"args": ["fire", 2],
+"method": &"show_emote"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/Butter")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.5, 5.8, 6.3, 6.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}, {
+"args": ["rocket", 2.2],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cast/Mint")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 1.1, 1.2, 6.4, 6.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 1],
+"method": &"look_at_point"
+}, {
+"args": ["point", -1],
+"method": &"play"
+}, {
+"args": ["star", 2],
+"method": &"show_emote"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["celebrate", -1],
+"method": &"play"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5, 5.6),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["CS_OPEN_6"],
+"method": &"say"
+}, {
+"args": ["CS_OPEN_7"],
+"method": &"say"
+}]
+}
+
+[sub_resource type="Animation" id="anim_short"]
+resource_name = "short"
+length = 5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Lilac")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 2.7, 2.9025, 3.105),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["jump", -1],
+"method": &"play"
+}, {
+"args": ["heart", 2.2],
+"method": &"show_emote"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Sky")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.0125, 1.62, 2.79, 3.0375, 3.285),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["joy", 3],
+"method": &"set_expression"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}, {
+"args": ["fire", 2],
+"method": &"show_emote"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/Butter")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.125, 2.61, 2.835, 2.925),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 0.9],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}, {
+"args": ["rocket", 2.2],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cast/Mint")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.495, 0.54, 2.88, 2.97),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.5, 0.8, -0.6), 0.6],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(6, 26, -96), 1],
+"method": &"look_at_point"
+}, {
+"args": ["point", -1],
+"method": &"play"
+}, {
+"args": ["star", 2],
+"method": &"show_emote"
+}, {
+"args": [Vector3(0.8, 0.7, 4.5), 0.5],
+"method": &"look_at_point"
+}, {
+"args": ["celebrate", -1],
+"method": &"play"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["CS_SHORT_2"],
+"method": &"say"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot"),
+&"short": SubResource("anim_short")
+}
+
+[node name="Opening04Promise" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("shot")
+duration = 11
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+dip_in = 0.5
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Cast" type="Node3D" parent="."]
+
+[node name="Lilac" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.8981, 0, 0.4397, 0, 1, 0, -0.4397, 0, 0.8981, -1.55, 0, -0.3)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 61
+start_action = "idle"
+listen_to_events = false
+mood = 0.5
+
+[node name="Sky" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9738, 0, 0.2275, 0, 1, 0, -0.2275, 0, 0.9738, -0.45, 0, -0.85)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 62
+start_action = "idle"
+listen_to_events = false
+mood = 0.5
+
+[node name="Butter" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9996, 0, 0.0283, 0, 1, 0, -0.0283, 0, 0.9996, 0.65, 0, -0.8)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 63
+start_action = "idle"
+listen_to_events = false
+mood = 0.5
+
+[node name="Mint" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9878, 0, -0.156, 0, 1, 0, 0.156, 0, 0.9878, 1.55, 0, -0.25)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 64
+start_action = "idle"
+listen_to_events = false
+mood = 0.5
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.72, 5)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.74, 4.25)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.85, -0.6)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.72, 5)
+fov = 40
+near = 0.05
+far = 400
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

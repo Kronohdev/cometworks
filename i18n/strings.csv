@@ -90,6 +90,8 @@ WARN_UNSTABLE,CoL above CoM and no engine gimbal: add fins or gimballed engines.
 OK_READY,All checks passed.,Todas as checagens passaram.
 UI_LAUNCH,Launch,Lançar
 UI_LAUNCH_TIP,Launch this vessel,Lançar este veículo
+UI_BACK_MENU,Menu,Menu
+UI_BACK_MENU_TIP,Back to the main menu (Esc),Voltar ao menu principal (Esc)
 UI_CREW,Crew,Tripulação
 UI_CREW_EMPTY,Crew assignment will appear here.,A escalação da tripulação aparecerá aqui.
 UI_DETAIL_TIP,Detailed / compact stage cards (or click a card),Cartões de estágio detalhados / compactos (ou clique num cartão)

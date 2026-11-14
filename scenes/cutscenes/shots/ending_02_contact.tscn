@@ -1,0 +1,218 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/space_comet.tscn" id="set"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/props/probe.tscn" id="probe"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="glow"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Gradient" id="burst_ramp"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.75, 1, 0.95, 1, 0.62, 0.6, 1, 0.9, 1, 0.7, 0.4, 0)
+
+[sub_resource type="GradientTexture1D" id="burst_ramp_tex"]
+gradient = SubResource("burst_ramp")
+
+[sub_resource type="ParticleProcessMaterial" id="burst_process"]
+emission_shape = 1
+emission_sphere_radius = 0.6
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 1.5
+initial_velocity_max = 4.0
+gravity = Vector3(0, 0, 0)
+damping_min = 0.8
+damping_max = 1.6
+scale_min = 0.6
+scale_max = 1.8
+color_ramp = SubResource("burst_ramp_tex")
+
+[sub_resource type="StandardMaterial3D" id="burst_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(2.6, 2.6, 2.8, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id="burst_mesh"]
+material = SubResource("burst_mat")
+radius = 0.022
+height = 0.044
+radial_segments = 6
+rings = 3
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="flash_glow"]
+render_priority = 2
+shader = ExtResource("glow")
+shader_parameter/glow_color = Color(0.75, 1, 0.97, 1)
+shader_parameter/intensity = 2.4
+shader_parameter/core = 0.08
+shader_parameter/falloff = 3.0
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 11
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 4.4, 6.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["CS_END_2"],
+"method": &"say"
+}, {
+"args": ["stinger_finale"],
+"method": &"stinger"
+}, {
+"args": ["CS_END_3"],
+"method": &"say"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Probe:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.4),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector3(-4.2, 0.9, -3.6), Vector3(-1.6, 0.35, -7)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 4.4, 4.7, 6.2, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(0.01, 0.01, 0.01), Vector3(4.5, 4.5, 4.5), Vector3(1.2, 1.2, 1.2), Vector3(0.01, 0.01, 0.01)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Glow:light_energy")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 4.4, 4.7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0, 0, 6, 1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Burst:emitting")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Set/Comet:rotation")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.9, 7.5, 8.2, 9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.349, -0.105), Vector3(0, 0.349, -0.105), Vector3(0.05, 0.42, -0.02), Vector3(-0.04, 0.3, -0.19), Vector3(0.02, 0.37, -0.08), Vector3(0, 0.349, -0.105)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="Ending02Contact" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("shot")
+duration = 11
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+dip_in = 0.8
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="DustTail" parent="Set/Comet"]
+visible = false
+
+[node name="Jupiter" parent="Set"]
+visible = false
+
+[node name="Comet" parent="Set"]
+transform = Transform3D(1.3084, 0.1375, 0.4788, -0.1463, 1.3923, 0, -0.4762, -0.0501, 1.3156, 0, 0, -9)
+
+[node name="Probe" parent="." instance=ExtResource("probe")]
+transform = Transform3D(0.766, 0, -0.6428, 0, 1, 0, 0.6428, 0, 0.766, -4.2, 0.9, -3.6)
+
+[node name="Flash" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -1.1, 0.25, -8.2)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("flash_glow")
+
+[node name="Burst" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.25, -8.2)
+emitting = false
+amount = 50
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.9
+visibility_aabb = AABB(-8, -8, -8, 16, 16, 16)
+process_material = SubResource("burst_process")
+draw_pass_1 = SubResource("burst_mesh")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.6, -7)
+light_color = Color(0.6, 1, 0.95, 1)
+light_energy = 0.0
+omni_range = 6
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 1.25, 3.4)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.9, 1.7)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.35, -8.5)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 1.25, 3.4)
+fov = 44
+near = 0.05
+far = 20000
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

@@ -4,23 +4,43 @@ extends Node3D
 ## authored in the scene; this script places the buildings on the lots from TycoonState,
 ## switches the look of buildings and roads with the era, keeps a crowd of Cometlings
 ## walking between the buildings' spots, and answers which lot is under the mouse.
+##
+## Walking: the campus keeps a walk grid (src/tycoon/campus_nav.gd) built from what stands on
+## it (building walk masks, props, dressing, scattered trees and rocks; nodes with metadata
+## walk_through = true are ignored) and rebuilt when a building or the era changes. Each spot
+## is claimed by one Cometling at a time, so nobody walks onto someone else.
 
 signal lot_clicked(lot_id: String)
 signal era_changed(era: int)
 
 const BUILDINGS_DIR := "res://scenes/tycoon/buildings/%s.tscn"
-const MAX_WALKERS := 12
 ## how mowed the lawns are per era (shaders/campus_terrain.gdshader `tidy`)
 const TIDY := [0.0, 0.25, 0.55, 0.8, 1.0]
 
+@export_group("Walkers")
+## cost of walking a metre on the roads and the plaza (the cheapest ground)
+@export var road_cost := 1.0
+## cost of walking a metre on the lawns: Cometlings keep to the roads unless a lawn saves
+## them a long way round
+@export var grass_cost := 1.6
+## cost of a metre close to a wall, a desk or a tree: paths keep away from things
+@export var near_cost := 4.0
+## how close counts as close (m)
+@export var near_radius := 0.75
+
 var state: TycoonState
 var era := 1
+## the walk grid of the Cometlings (rebuilt by sync when buildings or the era change)
+var nav: CampusNav
 ## the road and plaza materials authored in the scene (shaders/campus_road.gdshader, by `era`)
 var _road_mat: ShaderMaterial
 var _plaza_mat: ShaderMaterial
 var _ground_mat: ShaderMaterial
 var _buildings := {}      # lot id -> CampusBuilding
 var _rng := RandomNumberGenerator.new()
+var _crowd_synced := false
+var _nav_key := ""
+var _claims := {}         # spot key -> the Cometling walking to or standing at it
 
 @onready var lots: Node3D = $Lots
 @onready var roads: Node3D = $Roads
@@ -78,6 +98,10 @@ func sync() -> void:
 			lot.add_child(node)
 			_buildings[id] = node
 		node.set_look(era, level, constructing)
+		if node.kind == "pad":
+			node.set_rocket_design(LaunchPads.pad_rocket(state, id))  # the designed rocket (E2)
+			node.set_rocket_progress(LaunchPads.rocket_progress(state, id))  # the next rocket rolls out
+	_sync_nav()
 	_sync_crowd()
 
 
@@ -134,37 +158,222 @@ func lot_at(camera: Camera3D, screen: Vector2) -> String:
 	return ""
 
 
+## The building standing on a lot (null while the lot is empty).
+func building_node(lot_id: String) -> CampusBuilding:
+	return _buildings.get(lot_id) as CampusBuilding
+
+
 func lot_position(lot_id: String) -> Vector3:
 	var n := lots.get_node_or_null(lot_id) as Node3D
 	return n.global_position if n else Vector3.ZERO
 
 
-# ------------------------------------------------------------ crowd
-func all_spots() -> Array[Dictionary]:
-	var out: Array[Dictionary] = []
-	for m in $Spots.get_children():
-		if m is Marker3D:
-			out.append({"pos": (m as Marker3D).global_position, "door": m.get_meta("door", Vector3.ZERO),
-				"action": String(m.get_meta("action", "idle")), "yaw": (m as Marker3D).global_rotation.y})
-	for b: CampusBuilding in _buildings.values():
-		if not b.building:
-			out += b.spots()
+# ------------------------------------------------------------ walking
+## Rebuilds the walk grid when the buildings or the era changed.
+func _sync_nav() -> void:
+	var key := str(era)
+	for id: String in _buildings:
+		var b: CampusBuilding = _buildings[id]
+		key += "|%s:%d:%d" % [id, b.level, int(b.building)]
+	if nav != null and key == _nav_key:
+		return
+	_nav_key = key
+	nav = build_nav()
+	for w in cometlings():
+		if not nav.is_free(Vector2(w.position.x, w.position.z)):
+			w.call("place_free")
+		w.call("replan")
+
+
+## A walk grid of the campus as it stands now (campus-local x, z).
+func build_nav() -> CampusNav:
+	var n := CampusNav.new()
+	n.road_cost = road_cost
+	n.grass_cost = grass_cost
+	n.near_cost = near_cost
+	n.near_radius = near_radius
+	var inv := global_transform.affine_inverse()
+	var rect := Rect2(-70, -50, 152, 106)
+	var plateau := get_node_or_null("Terrain/Plateau") as MeshInstance3D
+	if plateau:
+		var xf := inv * plateau.global_transform
+		var a := plateau.get_aabb()
+		var lo := Vector2(INF, INF)
+		var hi := Vector2(-INF, -INF)
+		for i in 8:
+			var p := xf * a.get_endpoint(i)
+			lo = lo.min(Vector2(p.x, p.z))
+			hi = hi.max(Vector2(p.x, p.z))
+		rect = Rect2(lo, hi - lo)
+	n.setup(rect)
+	for c in roads.get_children():
+		if c is MeshInstance3D:
+			n.add_road(inv * (c as Node3D).global_transform, (c as MeshInstance3D).get_aabb())
+	for group in ["Props", "Dressing", "Nature"]:
+		var g := get_node_or_null(group) as Node3D
+		if g and g.visible:
+			_add_footprints(n, g, inv)
+	for lot in lots.get_children():
+		var frame := lot.get_node_or_null("Frame") as Node3D
+		if frame and frame.visible:
+			_add_footprints(n, frame, inv)
+	for id: String in _buildings:
+		var b: CampusBuilding = _buildings[id]
+		var kind := b.kind if b.kind != "" else String(lots.get_node(id).get_meta("kind", "hq"))
+		n.add_mask(kind, inv * b.global_transform, b.era, b.level, b.building)
+	n.finish()
+	return n
+
+
+## Footprints of what stands under `node`: scattered instances (CampusScatter with
+## blocks_walkers), each instanced scene as one box, other meshes one box each.
+func _add_footprints(n: CampusNav, node: Node, inv: Transform3D) -> void:
+	for c in node.get_children():
+		if not c is Node3D or not (c as Node3D).visible or c.get_meta("walk_through", false):
+			continue
+		if c is CampusScatter:
+			var sc := c as CampusScatter
+			var mm := sc.multimesh
+			if sc.blocks_walkers and mm and mm.mesh:
+				var a := mm.mesh.get_aabb()
+				var f := sc.walk_footprint
+				var foot := AABB(Vector3(a.position.x * f, a.position.y, a.position.z * f),
+					Vector3(a.size.x * f, a.size.y, a.size.z * f))
+				var base := inv * sc.global_transform
+				for t in sc.placed():
+					n.add_box(base * t, foot, String(sc.name))
+			continue
+		if c.scene_file_path != "":
+			var a2 := _merged_aabb(c, Transform3D.IDENTITY)
+			if a2.size != Vector3.ZERO:
+				n.add_box(inv * (c as Node3D).global_transform, a2, String(c.name))
+			continue
+		if c is MeshInstance3D:
+			n.add_box(inv * (c as Node3D).global_transform, (c as MeshInstance3D).get_aabb(), String(c.name))
+		_add_footprints(n, c, inv)
+
+
+func _merged_aabb(n: Node, xf: Transform3D) -> AABB:
+	var out := AABB()
+	if n is MeshInstance3D or n is MultiMeshInstance3D:
+		out = xf * (n as VisualInstance3D).get_aabb()
+	for c in n.get_children():
+		if c is Node3D and (c as Node3D).visible:
+			var a := _merged_aabb(c, xf * (c as Node3D).transform)
+			if a.size == Vector3.ZERO:
+				continue
+			out = a if out.size == Vector3.ZERO else out.merge(a)
 	return out
 
 
-## Shows one Cometling of the Crowd (editable instances in the scene) per staff member.
-func _sync_crowd() -> void:
-	var want := clampi(state.staff.size(), 3, MAX_WALKERS)
-	var i := 0
+## Where a Cometling may appear near `p`: free ground, two body radii from the others.
+func free_point(p: Vector2, who: Node = null) -> Vector2:
+	if nav == null:
+		return p
+	var r := float(who.get("body_radius")) if who else 0.8
+	return nav.free_point_near(p, walker_positions(who), r * 2.0 + 0.05)
+
+
+## Positions (x, z) of the walking Cometlings other than `except`.
+func walker_positions(except: Node = null) -> Array[Vector2]:
+	var out: Array[Vector2] = []
 	for w in $Crowd.get_children():
-		var on := i < want
-		if on and not w.visible or (on and not w.get("campus")):
-			var member: Dictionary = state.staff[i] if i < state.staff.size() else {}
-			w.call("setup", self, _rng.randi(), int(member.get("variant", w.get("variant"))),
-				String(member.get("role", w.get("role"))))
-		w.visible = on
-		w.set_process(on)
-		i += 1
+		if w != except and w is Node3D and (w as Node3D).visible:
+			out.append(Vector2((w as Node3D).position.x, (w as Node3D).position.z))
+	return out
+
+
+## Claims a random spot nobody else has claimed for `who` (its previous claim is released);
+## {} when every spot is taken.
+func claim_spot(who: Node, rng: RandomNumberGenerator) -> Dictionary:
+	release_spot(who)
+	var open: Array[Dictionary] = []
+	for s in all_spots():
+		if not _claims.has(s["key"]):
+			open.append(s)
+	if open.is_empty():
+		return {}
+	var t: Dictionary = open[rng.randi() % open.size()]
+	_claims[t["key"]] = who
+	return t
+
+
+func release_spot(who: Node) -> void:
+	for k in _claims.keys():
+		if _claims[k] == who:
+			_claims.erase(k)
+
+
+# ------------------------------------------------------------ crowd
+## Every spot a Cometling can walk to: {"key", "pos" (campus space), "action", "yaw", "door"}.
+func all_spots() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var inv := global_transform.affine_inverse()
+	for m in $Spots.get_children():
+		if m is Marker3D:
+			out.append({"key": "campus/" + String(m.name), "pos": inv * (m as Marker3D).global_position,
+				"door": m.get_meta("door", Vector3.ZERO), "action": String(m.get_meta("action", "idle")),
+				"yaw": (m as Marker3D).global_rotation.y})
+	for id: String in _buildings:
+		var b: CampusBuilding = _buildings[id]
+		if b.building:
+			continue
+		for s in b.spots():
+			s["key"] = id + "/" + String(s.get("name", ""))
+			s["pos"] = inv * (s["pos"] as Vector3)
+			out.append(s)
+	return out
+
+
+## Shows one Cometling of the Crowd (editable instances in the scene) per staff member, in
+## their colours with the antenna lit in their profession's colour (TycoonCrew); napping
+## members nap, new hires walk in from the Gate marker. More staff than authored Cometlings:
+## the last one is duplicated.
+func _sync_crowd() -> void:
+	var walkers: Array[Node] = $Crowd.get_children()
+	while walkers.size() < state.staff.size():
+		var copy := walkers[walkers.size() - 1].duplicate()
+		$Crowd.add_child(copy)
+		walkers.append(copy)
+	var by_id := {}
+	for m in state.staff:
+		by_id[String(m.get("id", ""))] = m
+	var shown := {}
+	var free: Array[Node] = []
+	for w in walkers:
+		var id := String(w.get("member_id"))
+		if by_id.has(id) and not shown.has(id):
+			shown[id] = w
+		else:
+			free.append(w)
+	for m in state.staff:
+		var id := String(m.get("id", ""))
+		if shown.has(id) or free.is_empty():
+			continue
+		var w: Node = free.pop_front()
+		shown[id] = w
+		var prof := String(m.get("profession", ""))
+		w.call("setup", self, _rng.randi(), int(m.get("variant", 0)), TycoonCrew.look_role(prof))
+		w.call("set_member", id, TycoonCrew.profession_color(state, prof))
+		(w as Node3D).visible = true
+		if _crowd_synced and int(m.get("adapt_weeks", 0)) > 0:
+			var gate := get_node_or_null("Gate") as Node3D
+			w.call("walk_in", gate.position if gate else Vector3(0, 0, 30))
+		else:
+			w.call("place_free")
+	for w in free:
+		release_spot(w)
+		w.set("member_id", "")
+		w.call("set_napping", false)
+		(w as Node3D).visible = false
+		w.set_process(false)
+	for id: String in shown:
+		var w: Node3D = shown[id]
+		w.visible = true
+		w.set_process(true)
+		w.call("set_napping", bool(by_id[id].get("napping", false)))
+		w.call("set_leader", by_id[id] if TycoonLeader.is_leader(by_id[id]) else {})   # look + star
+	_crowd_synced = true
 
 
 ## The Cometlings walking on the campus right now (the visible members of the Crowd).
@@ -176,9 +385,8 @@ func cometlings() -> Array[Node3D]:
 	return out
 
 
-## The staff member a Crowd Cometling stands for ({"name", "role", ...}), {} for an extra.
+## The staff member a Crowd Cometling stands for ({"name", "profession", ...}), {} if none.
 func cometling_member(w: Node) -> Dictionary:
 	if state == null or w == null or w.get_parent() != $Crowd:
 		return {}
-	var i := w.get_index()
-	return state.staff[i] if i < state.staff.size() else {}
+	return TycoonCrew.find(state, String(w.get("member_id")))

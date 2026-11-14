@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://8hvp5ss4gjhb"
+path="res://.godot/imported/hq_walk.png-98731581ab7d91198118c4cdc6441532.image"
+
+[deps]
+
+source_file="res://assets/campus/hq/hq_walk.png"
+dest_files=["res://.godot/imported/hq_walk.png-98731581ab7d91198118c4cdc6441532.image"]
+
+[params]
+

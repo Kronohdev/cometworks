@@ -1,0 +1,117 @@
+keys,en,pt
+TY_PJ_STRIP_PHASE,%s · phase %d/3,%s · fase %d/3
+TY_PJ_PHASE_CONCEPT,Concept,Concepção
+TY_PJ_PHASE_BUILD,Build and integration,Construção e integração
+TY_PJ_PHASE_FLIGHT_PREP,Flight preparation,Preparação do voo
+TY_PJ_SL_ARCHITECTURE,Mission architecture,Arquitetura da missão
+TY_PJ_SL_PAYLOAD,Science payload,Carga científica
+TY_PJ_SL_CONOPS,Concept of operations,Conceito de operações
+TY_PJ_SL_STRUCTURE,Structure and propulsion,Estrutura e propulsão
+TY_PJ_SL_INSTRUMENTS,Instruments,Instrumentos
+TY_PJ_SL_ENV_TESTS,Environmental tests,Testes ambientais
+TY_PJ_SL_SOFTWARE,Software and autonomy,Software e autonomia
+TY_PJ_SL_TRAINING,Ground crew training,Treino da equipe de solo
+TY_PJ_SL_READINESS,Readiness review,Revisão de prontidão
+TY_PJ_REMOVES_DEFECTS,removes defects,remove defeitos
+TY_PJ_EXTRA_XP,extra XP,XP extra
+TY_PJ_NEWS_STARTED,New project %s: %s,Novo projeto %s: %s
+TY_PJ_NEWS_SUCCESS,%s flew! Press average %s,%s voou! Média da imprensa %s
+TY_PJ_NEWS_FAIL,%s was lost at launch. Press average %s,%s se perdeu no lançamento. Média da imprensa %s
+TY_PJ_ERR_PICK,Pick a target and a mission type,Escolha um alvo e um tipo de missão
+TY_PJ_ERR_TARGET,That target is not unlocked yet,Esse alvo ainda não foi desbloqueado
+TY_PJ_ERR_TYPE,That mission type is not unlocked yet,Esse tipo de missão ainda não foi desbloqueado
+TY_PJ_ERR_IMPOSSIBLE,This mission type cannot fly to that target,Esse tipo de missão não pode ir a esse alvo
+TY_PJ_ERR_TEAM,Pick at least one Cometling for the team,Escolha pelo menos um Cometinho para a equipe
+TY_PJ_ERR_BUSY,Someone in the team is already on another project,Alguém da equipe já está em outro projeto
+TY_PJ_ERR_PILOT,Crewed missions need a pilot in the team,Missões tripuladas precisam de um piloto na equipe
+TY_PJ_ERR_CASH,Not enough cash for the development and the launch,Caixa insuficiente para o desenvolvimento e o lançamento
+TY_PJ_PAPER_ECHO,The Tail Echo,O Eco da Cauda
+TY_PJ_PAPER_ECHO_KIND,popular,popular
+TY_PJ_PAPER_ORBITA,Orbit Magazine,Revista Órbita
+TY_PJ_PAPER_ORBITA_KIND,technical,técnica
+TY_PJ_PAPER_COMA,Coma Bulletin,Boletim da Coma
+TY_PJ_PAPER_COMA_KIND,scientific,científico
+TY_PJ_PAPER_FOLHA,The Taxpayer's Sheet,Folha do Contribuinte
+TY_PJ_PAPER_FOLHA_KIND,public money,dinheiro público
+TY_PJ_Q_ECHO_HIGH,"Whole burrows stayed up to watch it. Cometworks is the talk of the tail!","Tocas inteiras ficaram acordadas para ver. A Cometworks é o assunto da cauda!"
+TY_PJ_Q_ECHO_MID,"A nice launch. Our readers waved, then went back to dinner.","Um lançamento simpático. Nossos leitores acenaram e voltaram para o jantar."
+TY_PJ_Q_ECHO_LOW,"Was that it? We expected fireworks and got a sparkler.","Só isso? Esperávamos fogos e ganhamos uma estrelinha."
+TY_PJ_Q_ECHO_FAIL,"Big smoke, small heart: the crowd went home in silence.","Muita fumaça, pouco coração: a plateia voltou para casa em silêncio."
+TY_PJ_Q_ORBITA_HIGH,"Clean margins, tidy integration, tests done right. Textbook work.","Margens limpas, integração caprichada, testes bem feitos. Trabalho de manual."
+TY_PJ_Q_ORBITA_MID,"Solid engineering with a few loose bolts we would have tightened.","Engenharia sólida, com alguns parafusos soltos que nós teríamos apertado."
+TY_PJ_Q_ORBITA_LOW,"Rushed integration and thin testing. The numbers do not add up.","Integração apressada e poucos testes. As contas não fecham."
+TY_PJ_Q_ORBITA_FAIL,"The telemetry tells the story: defects that a test campaign would have caught.","A telemetria conta a história: defeitos que uma campanha de testes teria pego."
+TY_PJ_Q_COMA_HIGH,"A gift for science: the instruments earned every gram they weighed.","Um presente para a ciência: os instrumentos valeram cada grama que pesaram."
+TY_PJ_Q_COMA_MID,"Useful data, if modest. We will cite it in a footnote.","Dados úteis, ainda que modestos. Vamos citá-los numa nota de rodapé."
+TY_PJ_Q_COMA_LOW,"Plenty of rocket, very little science on board.","Muito foguete e pouquíssima ciência a bordo."
+TY_PJ_Q_COMA_FAIL,"No data came down, so for science this flight never happened.","Nenhum dado chegou ao solo; para a ciência, este voo não existiu."
+TY_PJ_Q_FOLHA_HIGH,"Every credit shows. A rare case of public money well spent.","Cada crédito aparece. Um caso raro de dinheiro público bem gasto."
+TY_PJ_Q_FOLHA_MID,"Not cheap, not wasteful. The accounts will survive.","Nem barato, nem desperdício. As contas vão sobreviver."
+TY_PJ_Q_FOLHA_LOW,"Taxpayers ask what exactly they bought with this one.","Os contribuintes perguntam o que exatamente compraram com este."
+TY_PJ_Q_FOLHA_FAIL,"Thousands of credits turned into a very expensive cloud.","Milhares de créditos viraram uma nuvem muito cara."
+TY_PJ_OUT_FAIL,Failure,Falha
+TY_PJ_OUT_PARTIAL,Partial success,Sucesso parcial
+TY_PJ_OUT_FULL,Full success,Sucesso pleno
+TY_PJ_OUT_EXCEPTIONAL,Exceptional,Excepcional
+TY_PJ_COMPAT_GREAT,Great fit,Ótima
+TY_PJ_COMPAT_GOOD,Good fit,Boa
+TY_PJ_COMPAT_POOR,Poor fit,Ruim
+TY_PJ_COMPAT_IMPOSSIBLE,Impossible,Impossível
+TY_PJ_COMPAT_UNKNOWN,Unknown until you fly it,Desconhecida até voar
+TY_PJ_NEW_TITLE,New mission project,Novo projeto de missão
+TY_PJ_NEW_SUB,"Objective first, then the team that builds it.","Primeiro o objetivo, depois a equipe que vai construí-lo."
+TY_PJ_STEP_TARGET,Where to?,Para onde?
+TY_PJ_STEP_TYPE,What mission?,Que missão?
+TY_PJ_STEP_TEAM,Who's going?,Quem vai?
+TY_PJ_CONTRACTS,Accepted contracts,Contratos aceitos
+TY_PJ_NO_CONTRACTS,"No accepted contracts: this is a free project, paid from your own cash.","Nenhum contrato aceito: este é um projeto livre, pago do seu próprio caixa."
+TY_PJ_FREE_PROJECT,Free project,Projeto livre
+TY_PJ_FOR_CONTRACT,For contract %s,Para o contrato %s
+TY_PJ_IDEAL,Ideal balance,Proporção ideal
+TY_PJ_COMPAT,Compatibility,Compatibilidade
+TY_PJ_ESTIMATE,Estimate,Estimativa
+TY_PJ_EST_WEEKS,Weeks,Semanas
+TY_PJ_EST_DEV,Development,Desenvolvimento
+TY_PJ_EST_LAUNCH,Launch,Lançamento
+TY_PJ_EST_TOTAL,Total,Total
+TY_PJ_START,Start project,Iniciar projeto
+TY_PJ_CANCEL,Cancel,Cancelar
+TY_PJ_LOCKED_MORE,+%d more in later eras,+%d nas próximas eras
+TY_PJ_BUSY_ON,on %s,em %s
+TY_PJ_FREE,free,livre
+TY_PJ_TEAM_HINT,Each Cometling works best on the bar of their profession.,Cada Cometinho rende mais na barra da sua profissão.
+TY_PJ_LEVEL_SHORT,Lv %d,Nv %d
+TY_PJ_PICK_TARGET,Pick a target to see the mission types,Escolha um alvo para ver os tipos de missão
+TY_PJ_PHASE_OF,Phase %d/3,Fase %d/3
+TY_PJ_PHASE_HINT,Share the team's time between three fronts. The total is always 100%.,Divida o tempo da equipe entre três frentes. O total é sempre 100%.
+TY_PJ_FEEDS,Feeds,Alimenta
+TY_PJ_PREVIEW,Bars at the end of this phase,Barras ao fim desta fase
+TY_PJ_IDEAL_MARK,White tick = ideal share for this mission,Marca branca = proporção ideal desta missão
+TY_PJ_MATCH,Balance match,Acerto da proporção
+TY_PJ_DEFECTS,Defects,Defeitos
+TY_PJ_TOTAL,Total,Total
+TY_PJ_CONFIRM,Start phase,Começar fase
+TY_PJ_PHASE_WEEKS,%d Cometlings · phase of %d wk,%d Cometinhos · fase de %d sem
+TY_PJ_REVIEW_TITLE,Mission review,Avaliação da missão
+TY_PJ_GRADE,Project grade,Nota do projeto
+TY_PJ_PRESS,What the papers say,O que dizem os jornais
+TY_PJ_P_SUCCESS,Chance of success,Chance de sucesso
+TY_PJ_REWARDS,Results,Resultados
+TY_PJ_RW_CASH,Contract,Contrato
+TY_PJ_RW_REP,Reputation,Reputação
+TY_PJ_RW_HYPE,Hype,Hype
+TY_PJ_RW_RESEARCH,Research points,Pontos de pesquisa
+TY_PJ_RW_XP,XP per Cometling,XP por Cometinho
+TY_PJ_RW_COST,Spent,Gasto
+TY_PJ_IN_ORBIT,in orbit: science arrives as data comes down,em órbita: a ciência chega conforme os dados descem
+TY_PJ_BACK,Back to campus,Voltar ao campus
+TY_PJ_AVG,Press average,Média da imprensa
+TY_PJ_BARS,Quality bars,Barras de qualidade
+TY_PJ_NOVELTY,First of its kind: novelty bonus,Primeira do tipo: bônus de novidade
+TY_PJ_N_TYPES,types: %d,tipos: %d
+TY_PJ_KIND,Project,Projeto
+TY_PJ_IDEAL_SHORT,Ideal,Ideal
+TY_PJ_POINTS,Points,Pontos
+TY_PJ_EXPECTED,Expected,Esperado
+TY_PJ_PHASE_TIP,"Points against what the press expects make most of the grade; the balance of the bars does the rest. Defects lower the grade and the chance of success: the test levers remove them.","Pontos contra o que a imprensa espera fazem a maior parte da nota; a proporção das barras faz o resto. Defeitos baixam a nota e a chance de sucesso: as alavancas de teste os removem."
+TY_PJ_TEAM_IDEAL,ideal team: %d,equipe ideal: %d

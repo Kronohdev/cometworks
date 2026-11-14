@@ -1,0 +1,4410 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/launch/launch_sequence.gd" id="1_4hsj6"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e1.glb" id="2_7djwy"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e2.glb" id="3_tgqty"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e3.glb" id="4_wjey4"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e4.glb" id="5_gjrsy"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e5.glb" id="6_c2yjq"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/buildings/pad.tscn" id="7_e6bu8"]
+[ext_resource type="Script" path="res://src/tycoon/campus_building.gd" id="8_ik1s4"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="9_67cof"]
+[ext_resource type="Script" path="res://src/npc/creature.gd" id="10_w01pm"]
+[ext_resource type="Material" path="res://scenes/npc/creature_material.tres" id="11_foe4y"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="12_lg3np"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="13_q7s1h"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="14_ruj1b"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="15_7813y"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="16_6spfu"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/launch/launch_audio.tscn" id="audio_launch"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/launch/designed_rocket.tscn" id="designed_rocket"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Gradient" id="Gradient_cjlyj"]
+offsets = PackedFloat32Array(0, 0.2, 0.55, 1)
+colors = PackedColorArray(5, 4.6, 3.4, 1, 4, 2.4, 0.9, 1, 2.4, 0.8, 0.25, 0.8, 0.6, 0.12, 0.08, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wa3jj"]
+gradient = SubResource("Gradient_cjlyj")
+
+[sub_resource type="Curve" id="Curve_nxgh0"]
+_data = [Vector2(0, 0.6), 0.0, 0.0, 0, 0, Vector2(0.2, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.15), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_br34q"]
+curve = SubResource("Curve_nxgh0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b8nox"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.25
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, -1, 0)
+spread = 9.0
+initial_velocity_min = 14.0
+initial_velocity_max = 21.0
+gravity = Vector3(0, 0, 0)
+damping_min = 6.0
+damping_max = 10.0
+scale_min = 0.55
+scale_max = 0.95
+scale_curve = SubResource("CurveTexture_br34q")
+color_ramp = SubResource("GradientTexture1D_wa3jj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7kq3"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_rr6gd"]
+material = SubResource("StandardMaterial3D_m7kq3")
+size = Vector3(0.55, 0.55, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wnng"]
+shading_mode = 0
+albedo_color = Color(1, 0.86, 0.55, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_cbkup"]
+material = SubResource("StandardMaterial3D_1wnng")
+size = Vector3(0.9, 3.2, 0.9)
+
+[sub_resource type="Gradient" id="Gradient_f1dtl"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(4.5, 3.4, 1.8, 1, 3.2, 1.2, 0.35, 0.9, 1.2, 0.25, 0.4, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s4hm3"]
+gradient = SubResource("Gradient_f1dtl")
+
+[sub_resource type="Curve" id="Curve_4owrn"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_et00n"]
+curve = SubResource("Curve_4owrn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vxf36"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.3
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 0, 0)
+damping_min = 2.0
+damping_max = 3.0
+scale_min = 0.8
+scale_max = 1.3
+scale_curve = SubResource("CurveTexture_et00n")
+color_ramp = SubResource("GradientTexture1D_s4hm3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_267ub"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_cvmt5"]
+material = SubResource("StandardMaterial3D_267ub")
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="Gradient" id="Gradient_p738e"]
+offsets = PackedFloat32Array(0, 0.05, 0.4, 1)
+colors = PackedColorArray(1, 0.8, 0.6, 0, 1, 0.92, 0.85, 0.9, 0.92, 0.93, 0.98, 0.6, 0.85, 0.88, 0.96, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_08xis"]
+gradient = SubResource("Gradient_p738e")
+
+[sub_resource type="Curve" id="Curve_3mpnf"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.15, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hgptl"]
+curve = SubResource("Curve_3mpnf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r55ns"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.6
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, -1, 0)
+spread = 40.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+gravity = Vector3(0.25, 0.2, 0.1)
+damping_min = 1.0
+damping_max = 2.0
+scale_max = 1.6
+scale_curve = SubResource("CurveTexture_hgptl")
+color_ramp = SubResource("GradientTexture1D_08xis")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2k024"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.35
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_drah2"]
+material = SubResource("StandardMaterial3D_2k024")
+
+[sub_resource type="Gradient" id="Gradient_mgtvs"]
+offsets = PackedFloat32Array(0, 0.18, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.85, 0.55, 0.85, 1, 0.55, 0.25, 0.25, 1, 0.4, 0.2, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aqt5m"]
+gradient = SubResource("Gradient_mgtvs")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhrs5"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(3, 2.4, 1.6, 1)
+albedo_texture = SubResource("GradientTexture2D_aqt5m")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_fij0p"]
+material = SubResource("StandardMaterial3D_xhrs5")
+size = Vector2(6, 6)
+
+[sub_resource type="Gradient" id="Gradient_bj1w7"]
+offsets = PackedFloat32Array(0, 0.06, 0.25, 1)
+colors = PackedColorArray(3, 1.6, 0.6, 1, 1, 0.6, 0.35, 1, 0.42, 0.42, 0.48, 0.95, 0.3, 0.3, 0.36, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1o77o"]
+gradient = SubResource("Gradient_bj1w7")
+
+[sub_resource type="Curve" id="Curve_3cn6r"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.15, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gfkx0"]
+curve = SubResource("Curve_3cn6r")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ab2eh"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 1.2
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 0.3, 0)
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 8.0
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+gravity = Vector3(0, 0.6, 0)
+damping_min = 3.0
+damping_max = 5.0
+scale_min = 1.4
+scale_max = 2.6
+scale_curve = SubResource("CurveTexture_gfkx0")
+color_ramp = SubResource("GradientTexture1D_1o77o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7w41"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.15
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_13tjc"]
+material = SubResource("StandardMaterial3D_r7w41")
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="Gradient" id="Gradient_4emrr"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(4, 2.6, 1.2, 1, 2.6, 0.9, 0.3, 1, 0.4, 0.2, 0.2, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_24fjl"]
+gradient = SubResource("Gradient_4emrr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k4hie"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.6
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 6.0
+initial_velocity_max = 13.0
+angular_velocity_min = -300.0
+angular_velocity_max = 300.0
+scale_min = 0.6
+scale_max = 1.4
+color_ramp = SubResource("GradientTexture1D_24fjl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gil85"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_cuod8"]
+material = SubResource("StandardMaterial3D_gil85")
+size = Vector3(0.28, 0.28, 0.28)
+
+[sub_resource type="Gradient" id="Gradient_ioxmw"]
+offsets = PackedFloat32Array(0, 0.12, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.96, 0.98, 1, 0.9, 0.9, 0.94, 1, 0.55, 0.9, 0.94, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1qsgh"]
+gradient = SubResource("Gradient_ioxmw")
+
+[sub_resource type="Curve" id="Curve_idh3f"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_y3tng"]
+curve = SubResource("Curve_idh3f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_01or1"]
+particle_flag_rotate_y = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.3
+emission_ring_radius = 2.2
+emission_ring_inner_radius = 1.2
+emission_ring_cone_angle = 90.0
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 75.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.4
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+gravity = Vector3(0.1, 0.35, 0.05)
+damping_min = 0.4
+damping_max = 0.9
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_y3tng")
+color_ramp = SubResource("GradientTexture1D_1qsgh")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyg8a"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.3
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_8udvd"]
+material = SubResource("StandardMaterial3D_nyg8a")
+size = Vector3(0.55, 0.55, 0.55)
+
+[sub_resource type="Gradient" id="Gradient_wgwiu"]
+offsets = PackedFloat32Array(0, 0.06, 0.3, 0.75, 1)
+colors = PackedColorArray(1, 0.86, 0.66, 0, 1, 0.9, 0.75, 0.95, 0.95, 0.94, 0.95, 0.9, 0.85, 0.87, 0.92, 0.55, 0.82, 0.85, 0.9, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kfae8"]
+gradient = SubResource("Gradient_wgwiu")
+
+[sub_resource type="Curve" id="Curve_6ly47"]
+_data = [Vector2(0, 0.35), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lurct"]
+curve = SubResource("Curve_6ly47")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q2b8l"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 1.2
+angle_min = -180.0
+angle_max = 180.0
+spread = 180.0
+flatness = 0.9
+initial_velocity_min = 4.0
+initial_velocity_max = 10.0
+angular_velocity_min = -25.0
+angular_velocity_max = 25.0
+gravity = Vector3(0, 0.45, 0)
+damping_min = 4.5
+damping_max = 7.0
+scale_min = 0.8
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_lurct")
+color_ramp = SubResource("GradientTexture1D_kfae8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g5s2"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.18
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_al2ut"]
+material = SubResource("StandardMaterial3D_0g5s2")
+
+[sub_resource type="Gradient" id="Gradient_jlofi"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(4, 3.2, 1.8, 1, 3, 1.4, 0.4, 1, 1.5, 0.3, 0.1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8he05"]
+gradient = SubResource("Gradient_jlofi")
+
+[sub_resource type="Curve" id="Curve_5o2q0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gufvs"]
+curve = SubResource("Curve_5o2q0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fejda"]
+emission_shape = 1
+emission_sphere_radius = 0.8
+direction = Vector3(0, 0.6, 0)
+spread = 180.0
+flatness = 0.4
+initial_velocity_min = 7.0
+initial_velocity_max = 15.0
+damping_min = 0.5
+damping_max = 1.0
+scale_min = 0.6
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_gufvs")
+color_ramp = SubResource("GradientTexture1D_8he05")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8waau"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_2n7f2"]
+material = SubResource("StandardMaterial3D_8waau")
+size = Vector3(0.16, 0.16, 0.16)
+
+[sub_resource type="Curve" id="Curve_v12jy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gx4ge"]
+curve = SubResource("Curve_v12jy")
+
+[sub_resource type="Gradient" id="Gradient_dvwu1"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(0.39529413, 1.4054903, 1.2360785, 1.6, 0.8909804, 0.7780392, 1.6, 1.6, 1.6, 0.8658824, 0.38274512, 1.6, 1.6, 1.2360785, 0.4454902, 1.6, 1.1984314, 1.4556863, 1.6, 1.6)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_nmm8h"]
+gradient = SubResource("Gradient_dvwu1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lkh2g"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 2.5
+direction = Vector3(0, 1, 0)
+spread = 40.0
+initial_velocity_min = 7.0
+initial_velocity_max = 11.0
+angular_velocity_min = -400.0
+angular_velocity_max = 400.0
+gravity = Vector3(0, -6, 0)
+damping_min = 1.5
+damping_max = 2.5
+scale_min = 0.7
+scale_max = 1.2
+color_initial_ramp = SubResource("GradientTexture1D_nmm8h")
+alpha_curve = SubResource("CurveTexture_gx4ge")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0jlsc"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_y7ctm"]
+material = SubResource("StandardMaterial3D_0jlsc")
+size = Vector3(0.12, 0.03, 0.18)
+
+[sub_resource type="Gradient" id="Gradient_7ee7x"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.03, 0.04, 0.12, 0, 0.03, 0.04, 0.12, 0.08, 0.03, 0.04, 0.12, 0.62)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wqq0g"]
+gradient = SubResource("Gradient_7ee7x")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1.08, 1.08)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_72njy"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_nucdv"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.24705882, 0.8784314, 0.77254903, 1, 0.5568628, 0.4862745, 1, 1, 1, 0.5411765, 0.23921569, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u2kg0"]
+gradient = SubResource("Gradient_nucdv")
+width = 256
+height = 2
+
+[sub_resource type="Gradient" id="Ramp_orbit_g"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(4.5, 3.4, 1.8, 1, 0.7, 2.6, 2.3, 0.9, 0.15, 0.8, 0.9, 0)
+
+[sub_resource type="GradientTexture1D" id="Ramp_orbit"]
+gradient = SubResource("Ramp_orbit_g")
+
+[sub_resource type="Gradient" id="Ramp_geo_g"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(4.5, 3.4, 1.8, 1, 1.9, 1.1, 3.4, 0.9, 0.6, 0.3, 1.3, 0)
+
+[sub_resource type="GradientTexture1D" id="Ramp_geo"]
+gradient = SubResource("Ramp_geo_g")
+
+[sub_resource type="Gradient" id="Ramp_moon_g"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(4.5, 3.4, 1.8, 1, 2.3, 2.8, 3.6, 0.9, 0.6, 0.8, 1.3, 0)
+
+[sub_resource type="GradientTexture1D" id="Ramp_moon"]
+gradient = SubResource("Ramp_moon_g")
+
+[sub_resource type="Gradient" id="Ramp_comet_g"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(4.5, 3.4, 1.8, 1, 3.6, 2.7, 0.6, 0.9, 1.3, 0.6, 0.1, 0)
+
+[sub_resource type="GradientTexture1D" id="Ramp_comet"]
+gradient = SubResource("Ramp_comet_g")
+
+[sub_resource type="Gradient" id="Sep_g"]
+offsets = PackedFloat32Array(0, 0.12, 0.6, 1)
+colors = PackedColorArray(3, 3, 3, 1, 1.2, 1.2, 1.25, 0.95, 0.92, 0.94, 1, 0.5, 0.9, 0.92, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="Sep_ramp"]
+gradient = SubResource("Sep_g")
+
+[sub_resource type="Curve" id="Sep_curve"]
+_data = [Vector2(0, 0.6), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.2), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="Sep_curve_tex"]
+curve = SubResource("Sep_curve")
+
+[sub_resource type="ParticleProcessMaterial" id="Sep_ppm"]
+particle_flag_rotate_y = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.2
+emission_ring_radius = 0.9
+emission_ring_inner_radius = 0.6
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(1, 0, 0)
+spread = 180.0
+flatness = 0.85
+initial_velocity_min = 6.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -1.2, 0)
+damping_min = 3.0
+damping_max = 5.0
+scale_min = 0.9
+scale_max = 1.6
+scale_curve = SubResource("Sep_curve_tex")
+color_ramp = SubResource("Sep_ramp")
+
+[sub_resource type="StandardMaterial3D" id="Sep_mat"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="Sep_box"]
+material = SubResource("Sep_mat")
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="Animation" id="Animation_ayni4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay/Frame/BarTop:offset_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-92.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay/Frame/BarTop:offset_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay/Frame/BarBottom:offset_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Overlay/Frame/BarBottom:offset_bottom")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [92.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Overlay/Frame/BarTop/Info:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Overlay/Frame/Vignette:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Overlay/Frame/BarBottom/Thread:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": ["TY_LAUNCH_STATUS_COUNT"]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Overlay/Frame/BarBottom/Status/Dot:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Overlay/Frame/BarBottom/Countdown/Prefix:text")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": ["T−"]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Overlay/Frame/BarBottom/Countdown/Caption:text")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": ["TY_LAUNCH_TMINUS"]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:text")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": ["10"]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Stage/PadFX/Steam:emitting")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Stage/PadFX/Steam:amount_ratio")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Stage/Rocket:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.15, 0)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Stage/Rocket:quaternion")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Quaternion(0, 0, 0, 1)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Stage/Rocket:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Stage/Rocket/Engine/Flame:amount_ratio")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Stage/Rocket/Engine/FlameCore:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Stage/Rocket/Engine/FlameCore:scale")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 0.001, 1)]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Stage/PadFX/FlashLight:light_energy")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Overlay/Frame/Flash:modulate")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Stage/PadFX/Smoke:emitting")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Stage/Rocket/Engine/TrailSmoke:emitting")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Stage/Rocket/Engine/Glint:transparency")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath(".:shake")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath(".:watch")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/32/type = "value"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("Overlay/Frame/Caption:text")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": ["TY_LAUNCH_IGNITION"]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Overlay/Frame/Cards:modulate")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("Stage/CamRig/ShotCam:position")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(30, 14, 30)]
+}
+tracks/36/type = "value"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath("Stage/CamRig/ShotCam:quaternion")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Quaternion(-0.0963851, 0.3805952, 0.039924014, 0.918838)]
+}
+tracks/37/type = "value"
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/path = NodePath("Stage/CamRig/ShotCam:fov")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [42.0]
+}
+tracks/38/type = "value"
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/path = NodePath("Stage/Rocket/Engine/TrailGlow:amount_ratio")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/39/type = "value"
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/path = NodePath("Stage/Rocket/Engine/TrailSmoke:amount_ratio")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/40/type = "value"
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/path = NodePath("Stage/FailFX/PopLight:light_energy")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/41/type = "value"
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/path = NodePath("Overlay/Frame/Caption:self_modulate")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/42/type = "value"
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/path = NodePath("Stage/Spectators/CrewCam:position")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(15.8, 2.3, 17.8)]
+}
+tracks/43/type = "value"
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/path = NodePath("Stage/Spectators/CrewCam:quaternion")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Quaternion(-0.036005095, 0.4814945, 0.019801877, 0.87548536)]
+}
+tracks/44/type = "value"
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/path = NodePath("Stage/Spectators/CrewCam:fov")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [42.0]
+}
+tracks/45/type = "value"
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/path = NodePath("Stage/Spectators/CrewLight:light_energy")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/46/type = "value"
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/path = NodePath("Stage/PadFX/Smoke:visible")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/47/type = "value"
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/path = NodePath("Stage/PadFX/Steam:visible")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/48/type = "value"
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/path = NodePath(".:rig_zoom")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/keys = {
+"times": PackedFloat32Array(0.0),
+"transitions": PackedFloat32Array(1.0),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_52w67"]
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay/Frame/BarTop:offset_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.3),
+"update": 0,
+"values": [-92.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay/Frame/BarTop:offset_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.3),
+"update": 0,
+"values": [0.0, 92.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay/Frame/BarBottom:offset_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.3),
+"update": 0,
+"values": [0.0, -92.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Overlay/Frame/BarBottom:offset_bottom")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.3),
+"update": 0,
+"values": [92.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Overlay/Frame/BarTop/Info:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Overlay/Frame/Vignette:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Overlay/Frame/BarBottom/Thread:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.6, 6.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 1), Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 6.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_STATUS_COUNT", "TY_LAUNCH_STATUS_IGNITION"]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Overlay/Frame/BarBottom/Status/Dot:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Overlay/Frame/BarBottom/Countdown/Prefix:text")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["T−"]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Overlay/Frame/BarBottom/Countdown/Caption:text")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["TY_LAUNCH_TMINUS"]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:text")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0.6, 1.18, 1.76, 2.34, 2.92, 3.5, 4.08, 4.66, 5.24, 5.82, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["10", "9", "8", "7", "6", "5", "4", "3", "2", "1", "0"]
+}
+tracks/13/type = "method"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits/Pulse")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.6, 1.18, 1.76, 2.34, 2.92, 3.5, 4.08, 4.66, 5.24, 5.82, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:modulate")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0.6, 1.18, 1.76, 2.34, 2.92, 3.5, 4.08, 4.66, 5.24, 5.82, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(0.7490196, 0.9098039, 1, 1), Color(1, 0.654902, 0.4, 1), Color(1, 0.654902, 0.4, 1), Color(1, 0.654902, 0.4, 1)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Stage/PadFX/Steam:emitting")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Stage/PadFX/Steam:amount_ratio")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 4.5, 6, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.35, 0.7, 1.0, 0.6]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Stage/Rocket:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.45, 6.5, 6.55, 6.6, 6.65, 6.7, 6.75, 6.8, 6.85, 6.9, 6.95, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.15, 0), Vector3(-0.006849304, 1.15, 0.020707), Vector3(0.040040288, 1.15, 0.01705743), Vector3(0.030031953, 1.15, 0.02556834), Vector3(-0.04519661, 1.15, -0.030353079), Vector3(0.03629056, 1.15, -0.011797093), Vector3(-0.045923565, 1.15, -0.01316705), Vector3(-0.0062090084, 1.15, 0.007921111), Vector3(0.0026999786, 1.15, 0.033152733), Vector3(0.00041799992, 1.15, 0.0457885), Vector3(0.011739023, 1.15, 0.0042243116), Vector3(-0.00998982, 1.15, -0.011731777), Vector3(0.01764572, 1.15, -0.017558489), Vector3(0.04467554, 1.15, 0.031228859)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Stage/Rocket:quaternion")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Quaternion(0, 0, 0, 1)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Stage/Rocket:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 6.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Stage/Rocket/Engine/Flame:amount_ratio")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Stage/Rocket/Engine/FlameCore:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 6.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Stage/Rocket/Engine/FlameCore:scale")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(6.4, 6.65, 6.8, 7),
+"transitions": PackedFloat32Array(1, 0.3, 1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0.001, 0.6), Vector3(1.1, 1.2, 1.1), Vector3(1, 0.9, 1), Vector3(1, 1.05, 1)]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.45, 6.51, 6.57, 6.63, 6.69, 6.75, 6.81, 6.87, 6.93, 6.99),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 8.997710064053535, 9.967162996530533, 8.266874223947525, 7.828311592340469, 10.564274489879608, 8.721047446131706, 11.149153500795364, 8.89838719367981, 9.854646474123001, 11.009067088365555]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Stage/PadFX/FlashLight:light_energy")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.48, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 0.3),
+"update": 0,
+"values": [0.0, 0.0, 12.0, 5.0]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Overlay/Frame/Flash:modulate")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.46, 6.9),
+"transitions": PackedFloat32Array(1, 1, 1, 0.3),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Stage/PadFX/Smoke:emitting")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0, 6.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/28/type = "method"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Stage/PadFX/Sparks")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(6.44),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("Stage/Rocket/Engine/TrailSmoke:emitting")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("Stage/Rocket/Engine/Glint:transparency")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/32/type = "value"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath(".:shake")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.52, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.85, 0.55]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath(".:watch")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Overlay/Frame/Caption:text")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["TY_LAUNCH_IGNITION"]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0, 6.4, 6.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/36/type = "method"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath("Overlay/Frame/Caption/Appear")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = {
+"times": PackedFloat32Array(6.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/37/type = "value"
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/path = NodePath("Overlay/Frame/Cards:modulate")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/38/type = "method"
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/path = NodePath(".")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/keys = {
+"times": PackedFloat32Array(3, 6.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["hello"],
+"method": &"_crowd"
+}, {
+"args": ["exclaim"],
+"method": &"_emote"
+}]
+}
+tracks/39/type = "value"
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/path = NodePath("Stage/CamRig/ShotCam:position")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/keys = {
+"times": PackedFloat32Array(0, 2.6, 2.62, 4.6, 4.62, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(34, 15, 26), Vector3(27, 10, 24), Vector3(14.6, 1.5, 18.4), Vector3(13.8, 1.3, 17), Vector3(5.5, 1, 13.5), Vector3(5.8, 0.9, 14.2)]
+}
+tracks/40/type = "value"
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/path = NodePath("Stage/CamRig/ShotCam:quaternion")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/keys = {
+"times": PackedFloat32Array(0, 2.6, 2.62, 4.6, 4.62, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(-0.10117535, 0.440199, 0.049998093, 0.8907798), Quaternion(-0.04840547, 0.40907896, 0.021737253, 0.9109549), Quaternion(0.053311784, 0.3101732, -0.017424097, 0.94902414), Quaternion(0.078462064, 0.3228245, -0.026865706, 0.9428183), Quaternion(0.10413478, 0.20641188, -0.022098906, 0.972657), Quaternion(0.120751634, 0.19994506, -0.024838664, 0.9720206)]
+}
+tracks/41/type = "value"
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/path = NodePath("Stage/CamRig/ShotCam:fov")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/keys = {
+"times": PackedFloat32Array(0, 2.6, 2.62, 4.6, 4.62, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [40.0, 38.0, 44.0, 42.0, 52.0, 52.0]
+}
+tracks/42/type = "value"
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/path = NodePath(".:rig_zoom")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/keys = {
+"times": PackedFloat32Array(0.0, 2.6, 2.62, 4.6, 4.62),
+"transitions": PackedFloat32Array(1.0, 1.0, 1.0, 1.0, 1.0),
+"update": 0,
+"values": [1.0, 1.0, 0.0, 0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_nh0ab"]
+length = 6.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Stage/Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95, 2.05, 2.15, 2.25, 2.35, 2.45, 2.55, 2.65, 2.75, 2.85, 2.95, 3.05, 3.15, 3.25, 3.35, 3.45, 3.55, 3.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.008219164, 1.15, 0.024848398), Vector3(0.048048344, 1.15, 0.020468917), Vector3(0.036038343, 1.15, 0.030682001), Vector3(-0.054235928, 1.15, -0.03642369), Vector3(0.04354867, 1.15, -0.014156509), Vector3(-0.05510828, 1.15, -0.015800461), Vector3(-0.007450808, 1.15, 0.009505335), Vector3(0.0032399707, 1.15, 0.039783273), Vector3(0.0005016029, 1.15, 0.054946203), Vector3(0, 1.15, 0), Vector3(0, 1.18, 0), Vector3(0, 1.27, 0), Vector3(0, 1.42, 0), Vector3(0, 1.63, 0), Vector3(0, 1.9, 0), Vector3(0, 2.23, 0), Vector3(0, 2.62, 0), Vector3(0, 3.07, 0), Vector3(0, 3.58, 0), Vector3(0, 4.15, 0), Vector3(0, 4.78, 0), Vector3(0, 5.4700003, 0), Vector3(0, 6.2200003, 0), Vector3(0, 7.03, 0), Vector3(0, 7.9, 0), Vector3(0, 8.83, 0), Vector3(0, 9.82, 0), Vector3(0, 10.87, 0), Vector3(0, 11.98, 0), Vector3(0, 13.15, 0), Vector3(0, 14.379999, 0), Vector3(-0.0033142823, 15.30525, -0.0050015533), Vector3(-0.029828541, 15.80725, -0.04501398), Vector3(-0.08285706, 16.21125, -0.12503883), Vector3(-0.16239983, 16.51725, -0.2450761), Vector3(-0.26845688, 16.72525, -0.4051258), Vector3(-0.40102816, 16.83525, -0.60518795), Vector3(-0.5601137, 16.84725, -0.8452625), Vector3(-0.74571353, 16.76125, -1.1253494), Vector3(-0.95782757, 16.57725, -1.4454488), Vector3(-1.1964558, 16.29525, -1.8055606), Vector3(-1.4615984, 15.91525, -2.205685)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Stage/Rocket:quaternion")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95, 2.05, 2.15, 2.25, 2.35, 2.45, 2.55, 2.65, 2.75, 2.85, 2.95, 3.05, 3.15, 3.25, 3.35, 3.45, 3.55, 3.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0, 0, 0, 1), Quaternion(0, 0, 0, 1), Quaternion(-0.015583891, -2.794456e-09, 0.010326675, 0.99982524), Quaternion(-0.026169492, 1.0336955e-09, 0.01734123, 0.99950707), Quaternion(-0.024967775, -6.6240933e-09, 0.016544912, 0.99955136), Quaternion(-0.010483886, -6.3815198e-09, 0.006947154, 0.9999209), Quaternion(0.011808914, 2.26305e-09, -0.007825184, 0.9998997), Quaternion(0.03139891, -1.4853494e-09, -0.020806506, 0.99929035), Quaternion(0.037715666, 2.4180942e-09, -0.024992306, 0.99897593), Quaternion(0.025733178, -5.3722173e-09, -0.017052107, 0.9995234), Quaternion(-0.00072533917, -5.562315e-09, 0.00048064647, 0.99999964), Quaternion(-0.029891536, 1.922089e-09, 0.019807644, 0.99935687), Quaternion(-0.047284275, -3.9062025e-09, 0.031332955, 0.99838996), Quaternion(-0.042919952, -1.4571242e-09, 0.028440934, 0.9986736), Quaternion(-0.016787581, 3.143851e-09, 0.011124301, 0.9997972), Quaternion(0.020147579, -6.2737078e-09, -0.013350804, 0.9997079), Quaternion(0.05041962, 3.6154946e-09, -0.033410605, 0.9981691), Quaternion(0.058426853, 8.169163e-10, -0.038716596, 0.99754065), Quaternion(0.038364537, 4.6324176e-09, -0.025422286, 0.9989404), Quaternion(-0.002167176, 2.831949e-09, 0.0014360807, 0.9999966), Quaternion(-0.04472155, 5.5377027e-09, 0.029634766, 0.99855983), Quaternion(-0.0684649, 8.176698e-10, 0.045368303, 0.99662143), Quaternion(-0.06046885, 6.069587e-09, 0.040069718, 0.99736553), Quaternion(-0.07591854, -1.9873194e-09, 0.05030747, 0.9958441), Quaternion(-0.10017063, -1.4071807e-09, 0.06637812, 0.9927537), Quaternion(-0.14375593, -2.3637206e-09, 0.09525995, 0.98501766), Quaternion(-0.20129032, -4.7986166e-09, 0.13338515, 0.9704074), Quaternion(-0.26716003, 0, 0.17703377, 0.9472511), Quaternion(-0.33572647, 0, 0.22246936, 0.9153115), Quaternion(-0.40167904, 0, 0.26617286, 0.8762454), Quaternion(-0.4604116, 0, 0.30509204, 0.8336306), Quaternion(-0.50826055, 0, 0.33679917, 0.7926144), Quaternion(-0.5424608, 9.812545e-09, 0.359462, 0.75929135), Quaternion(-0.56074464, 1.0069314e-08, 0.37157783, 0.7399293)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Stage/Rocket:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Stage/Rocket/Engine/Flame:amount_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 2.28, 2.34, 2.4, 2.46, 2.52, 2.58, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.15, 0.15, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.15, 0.15, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.15, 0.15, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.15, 0.15, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.15, 0.15, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Stage/Rocket/Engine/FlameCore:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Stage/Rocket/Engine/FlameCore:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 2.3, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1.05, 1), Vector3(0.8, 0.7, 0.8), Vector3(0.3, 0.1, 0.3)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 2.28, 2.34, 2.4, 2.46, 2.52, 2.58, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [9.500479, 7.9547753, 8.424587, 8.866257, 9.272391, 8.250227, 9.285387, 6.508107, 8.785604, 1.738168, 1.2304423, 8.5970955, 8.496837, 9.005715, 6.7810073, 9.283678, 8.387693, 1.2178028225898743, 1.339904, 8.693731, 7.716387, 9.586623, 6.907464, 7.5020695, 6.6946096, 1.5414276, 1.4019202, 7.6641216, 8.655025, 6.983748, 8.202191, 9.132249, 9.33101, 8.010852, 1.6177005171775818, 1.3778137564659119, 7.951296, 8.825032, 6.8991838, 7.2192354, 9.444387, 7.321916, 1.622356116771698, 1.498080164194107, 0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.45, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Stage/Rocket/Engine/TrailSmoke:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.65, 3.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Stage/Rocket/Engine/TrailGlow:amount_ratio")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.6]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Stage/Rocket/Engine/TrailSmoke:amount_ratio")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.7]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Stage/Rocket/Engine/Glint:transparency")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Stage/PadFX/Smoke:emitting")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Stage/PadFX/Steam:emitting")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Stage/PadFX/FlashLight:light_energy")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.4, 2, 3.7, 3.76, 4.5),
+"transitions": PackedFloat32Array(1, 1, 0.3, 1, 1, 0.3),
+"update": 0,
+"values": [7.0, 8.0, 0.0, 0.0, 14.0, 0.0]
+}
+tracks/16/type = "method"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Stage/FailFX/Poof")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(3.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/17/type = "method"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Stage/FailFX/Debris")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(3.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Stage/FailFX/PopLight:light_energy")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 3.7, 3.75, 4.6),
+"transitions": PackedFloat32Array(1, 1, 1, 0.3),
+"update": 0,
+"values": [0.0, 0.0, 10.0, 0.0]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath(".:shake")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 0.45, 2.6, 2.9, 3.7, 3.75, 4.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.55, 0.8, 0.3, 0.0, 0.0, 0.7, 0.0]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Overlay/Frame/BarBottom/Countdown/Prefix:text")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["T−", "T+"]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Overlay/Frame/BarBottom/Countdown/Caption:text")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_TMINUS", "TY_LAUNCH_TPLUS"]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:text")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 1.45, 2.45, 3.45, 4.45, 5.45, 6.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["0", "1", "2", "3", "4", "5", "6"]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:modulate")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0, 0.45, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Color(1, 0.654902, 0.4, 1), Color(0.7490196, 0.9098039, 1, 1), Color(1, 0.36078432, 0.42352942, 1)]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0, 5.8, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Overlay/Frame/Caption:text")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0, 0.45, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_IGNITION", "TY_LAUNCH_LIFTOFF", "TY_LAUNCH_ANOMALY"]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Overlay/Frame/Caption:self_modulate")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 0.45, 0.5, 1)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0, 1.8, 2.2, 2.6, 2.7, 5.6, 6.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/28/type = "method"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Overlay/Frame/Caption/Appear")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0.45, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play"
+}, {
+"args": [],
+"method": &"play"
+}]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0, 0.45, 2.6, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_STATUS_IGNITION", "TY_LAUNCH_STATUS_LIFTOFF", "TY_LAUNCH_STATUS_ANOMALY", "TY_LAUNCH_STATUS_LOST"]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("Overlay/Frame/BarBottom/Status/Dot:modulate")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25)]
+}
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("Overlay/Frame/BarBottom/Thread:scale")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/32/type = "method"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath(".")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0.65, 2.8, 4, 5.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": ["launch"],
+"method": &"_crowd"
+}, {
+"args": ["exclaim"],
+"method": &"_emote"
+}, {
+"args": ["failure"],
+"method": &"_crowd"
+}, {
+"args": ["sweat"],
+"method": &"_emote"
+}]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("Stage/CamRig/ShotCam:position")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0, 1.05, 1.07, 1.37, 1.67, 1.97, 2.27, 2.57, 2.87, 3.17, 3.47, 3.77, 4.07, 4.37, 4.67, 4.97, 5.27, 5.57, 5.87, 6.17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(5.8, 0.9, 14.2), Vector3(5.8, 0.9, 14.2), Vector3(11.954534, 3.1939378, 24.909067), Vector3(11.903504, 3.187134, 24.807009), Vector3(11.836671, 3.178223, 24.673342), Vector3(11.756341, 3.1675122, 24.512682), Vector3(11.664821, 3.1553094, 24.329641), Vector3(11.564418, 3.1419225, 24.128836), Vector3(11.457439, 3.1276586, 23.914879), Vector3(11.346192, 3.1128256, 23.692385), Vector3(11.232985, 3.0977314, 23.46597), Vector3(11.120123, 3.082683, 23.240246), Vector3(11.009914, 3.0679886, 23.019829), Vector3(10.904666, 3.0539556, 22.809332), Vector3(10.806685, 3.0408914, 22.61337), Vector3(10.71828, 3.029104, 22.43656), Vector3(10.641757, 3.0189009, 22.283514), Vector3(10.579422, 3.0105896, 22.158844), Vector3(10.533585, 3.004478, 22.06717), Vector3(10.506551, 3.0008736, 22.013102)]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Stage/CamRig/ShotCam:quaternion")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0, 1.05, 1.07, 1.37, 1.67, 1.97, 2.27, 2.57, 2.87, 3.17, 3.47, 3.77, 4.07, 4.37, 4.67, 4.97, 5.27, 5.57, 5.87, 6.17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0.120751634, 0.19994506, -0.024838664, 0.9720206), Quaternion(0.16939558, 0.19844607, -0.03484475, 0.9647332), Quaternion(0.0092039, 0.2218586, -0.002094251, 0.97503316), Quaternion(0.026525479, 0.2217537, -0.006034659, 0.97472316), Quaternion(0.050672196, 0.22149283, -0.011525775, 0.97377634), Quaternion(0.08149931, 0.220964, -0.018533008, 0.97169405), Quaternion(0.11853076, 0.2200352, -0.026946215, 0.9678889), Quaternion(0.1599814, 0.21861054, -0.03635807, 0.96192175), Quaternion(0.17982663, 0.21804833, -0.04091481, 0.9583545), Quaternion(0.18509904, 0.21878392, -0.042310923, 0.9571216), Quaternion(0.17904392, 0.22070597, -0.041253753, 0.957878), Quaternion(0.17088953, 0.22232446, -0.039614685, 0.9590617), Quaternion(0.17251596, 0.22222216, -0.039985105, 0.9587788), Quaternion(0.1740924, 0.2221223, -0.04034401, 0.95850194), Quaternion(0.17558075, 0.22202742, -0.04068274, 0.95823807), Quaternion(0.17694128, 0.22194014, -0.04099226, 0.9579948), Quaternion(0.17813255, 0.22186327, -0.041263204, 0.9577802), Quaternion(0.1791125, 0.22179976, -0.041486014, 0.9576025), Quaternion(0.17983857, 0.22175254, -0.041651074, 0.9574702), Quaternion(0.18026903, 0.22172448, -0.04174892, 0.95739144)]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("Stage/CamRig/ShotCam:fov")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0, 1.05, 1.07, 1.37, 1.67, 1.97, 2.27, 2.57, 2.87, 3.17, 3.47, 3.77, 4.07, 4.37, 4.67, 4.97, 5.27, 5.57, 5.87, 6.17),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [52.0, 52.0, 56.0, 56.0, 56.0, 56.0, 56.0, 56.0, 56.0, 56.0, 56.0, 55.9900919575268, 55.74404714728446, 55.22914088299548, 54.52767769140883, 53.72196209927349, 52.894298633338416, 52.12699182035259, 51.50234618706499, 51.10266626022456]
+}
+
+[sub_resource type="Animation" id="Animation_2osai"]
+length = 7.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Stage/Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.1, 7.2, 7.3, 7.4, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.006849304, 1.15, 0.020707), Vector3(0.040040288, 1.15, 0.01705743), Vector3(0.030031953, 1.15, 0.02556834), Vector3(-0.04519661, 1.15, -0.030353079), Vector3(0.03629056, 1.15, -0.011797093), Vector3(-0.045923565, 1.15, -0.01316705), Vector3(0, 1.15, 0), Vector3(-4.3568542e-07, 1.1640717, -6.614497e-07), Vector3(-7.0878204e-06, 1.2067565, -1.07606e-05), Vector3(-3.6616664e-05, 1.2790024, -5.559075e-05), Vector3(-0.0001184138, 1.381985, -0.00017977368), Vector3(-0.00029644024, 1.5170518, -0.00045005017), Vector3(-0.00063141825, 1.6856947, -0.0009586077), Vector3(-0.0012033591, 1.889531, -0.001826918), Vector3(-0.0021144236, 2.1302905, -0.0032100794), Vector3(-0.0034921179, 2.4098048, -0.0053016697), Vector3(-0.0054928353, 2.73, -0.008339123), Vector3(-0.008305751, 3.09289, -0.012609639), Vector3(-0.012157081, 3.5005713, -0.018456658), Vector3(-0.017314723, 3.9552178, -0.026286898), Vector3(-0.024093296, 4.4590774, -0.036578003), Vector3(-0.032859568, 5.014468, -0.049886797), Vector3(-0.044038326, 5.6237755, -0.06685819), Vector3(-0.058118667, 6.2894497, -0.08823471), Vector3(-0.07566077, 7.014003, -0.11486681), Vector3(-0.09730308, 7.800007, -0.14772376), Vector3(-0.123770036, 8.650091, -0.18790542), Vector3(-0.15588026, 9.566942, -0.23665456), Vector3(-0.19455525, 10.553299, -0.29537025), Vector3(-0.2408287, 11.611956, -0.36562172), Vector3(-0.29585615, 12.745756, -0.4491634), Vector3(-0.36092544, 13.957593, -0.54795045), Vector3(-0.43746763, 15.25041, -0.66415536), Vector3(-0.5270685, 16.627197, -0.8001858), Vector3(-0.6314807, 18.09099, -0.9587025), Vector3(-0.75263625, 19.644873, -1.1426386), Vector3(-0.8926604, 21.29197, -1.3552208), Vector3(-1.0538853, 23.03545, -1.5999895), Vector3(-1.238865, 24.878527, -1.8808223), Vector3(-1.4503901, 26.824453, -2.2019558), Vector3(-1.6915051, 28.876524, -2.5680122), Vector3(-1.965524, 31.038076, -2.9840229), Vector3(-2.2760487, 33.312485, -3.4554555), Vector3(-2.6269867, 35.70316, -3.9882433), Vector3(-3.0225704, 38.21355, -4.5888114), Vector3(-3.467377, 40.847153, -5.2641087), Vector3(-3.9663491, 43.607487, -6.0216393), Vector3(-4.5248156, 46.49812, -6.869493), Vector3(-5.148515, 49.522644, -7.8163824), Vector3(-5.843618, 52.684696, -8.871675), Vector3(-6.61675, 55.987946, -10.045429), Vector3(-7.4750175, 59.43609, -11.348435), Vector3(-8.426036, 63.03287, -12.7922535), Vector3(-9.477949, 66.78205, -14.38925), Vector3(-10.639466, 70.68745, -16.152643), Vector3(-11.919883, 74.75288, -18.096548), Vector3(-13.3114605, 78.982216, -20.209217), Vector3(-14.762719, 83.379364, -22.41249), Vector3(-16.270657, 87.94824, -24.701817), Vector3(-17.836584, 92.692825, -27.079178), Vector3(-19.461817, 97.617096, -29.546577), Vector3(-21.147686, 102.72508, -32.10603), Vector3(-22.895521, 108.02083, -34.759563), Vector3(-24.706676, 113.508415, -37.509224), Vector3(-26.582502, 119.19196, -40.35707), Vector3(-28.524372, 125.07561, -43.305183), Vector3(-30.533657, 131.1635, -46.355644), Vector3(-32.611744, 137.45987, -49.510555), Vector3(-34.760025, 143.96892, -52.772038), Vector3(-36.979904, 150.6949, -56.14222), Vector3(-39.272797, 157.6421, -59.623245), Vector3(-41.64012, 164.81482, -63.217274), Vector3(-44.08331, 172.2174, -66.926476), Vector3(-46.603798, 179.8542, -70.75304), Vector3(-49.203045, 187.72961, -74.699165), Vector3(-51.882492, 195.84805, -78.76706), Vector3(-54.643616, 204.21394, -82.95894), Vector3(-57.48789, 212.83176, -87.27706), Vector3(-60.416786, 221.70598, -91.72366)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Stage/Rocket:quaternion")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.1, 7.2, 7.3, 7.4, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0, 0, 0, 1), Quaternion(0, 0, 0, 1), Quaternion(-7.6590484e-05, -3.8639e-09, 5.0448823e-05, 1), Quaternion(-0.00024363963, 1.9718736e-09, 0.00016048116, 0.99999994), Quaternion(-0.0005103772, 6.3994263e-09, 0.0003361765, 0.9999998), Quaternion(-0.00088088156, -4.55839e-09, 0.0005802213, 0.99999946), Quaternion(-0.0013597796, 5.4791444e-10, 0.00089566334, 0.9999987), Quaternion(-0.0019521549, -4.8212447e-09, 0.0012858507, 0.99999726), Quaternion(-0.0026634966, -4.381286e-09, 0.0017543993, 0.99999493), Quaternion(-0.0034996674, -3.635737e-09, 0.0023051703, 0.9999912), Quaternion(-0.004466834, 4.2837814e-10, 0.0029422257, 0.9999857), Quaternion(-0.0055714766, -6.5139463e-09, 0.0036698352, 0.99997777), Quaternion(-0.0068203537, -7.8946777e-10, 0.0044924477, 0.9999666), Quaternion(-0.00822043, -3.0251261e-09, 0.0054146536, 0.99995154), Quaternion(-0.00977898, 1.0951067e-09, 0.0064412463, 0.99993145), Quaternion(-0.011503383, 5.279208e-09, 0.007577078, 0.9999051), Quaternion(-0.013401255, 4.2315143e-09, 0.008827174, 0.99987125), Quaternion(-0.015480342, 3.8350887e-09, 0.010196639, 0.99982816), Quaternion(-0.017748617, -9.388106e-10, 0.011690709, 0.99977416), Quaternion(-0.020213969, 4.3668544e-10, 0.01331459, 0.999707), Quaternion(-0.022884542, 5.415346e-09, 0.0150736505, 0.9996245), Quaternion(-0.025768302, 1.0336781e-09, 0.01697313, 0.9995239), Quaternion(-0.028873494, -4.3099435e-09, 0.01901846, 0.99940217), Quaternion(-0.032207955, 6.2037318e-09, 0.021214815, 0.999256), Quaternion(-0.03577976, -1.8060959e-09, 0.023567505, 0.9990818), Quaternion(-0.039596483, 5.4776805e-09, 0.02608151, 0.9988753), Quaternion(-0.04366551, -9.653742e-05, 0.026554022, 0.9986933), Quaternion(-0.047989003, -0.00072746596, 0.016477197, 0.9987117), Quaternion(-0.052578207, -0.0010999187, 0.013758633, 0.99852145), Quaternion(-0.057457253, 0.00015096381, 0.040467404, 0.9975275), Quaternion(-0.06256332, 0.002248531, 0.07702522, 0.99506176), Quaternion(-0.06797384, 0.0028381862, 0.08635223, 0.99393904), Quaternion(-0.07374038, 0.001176598, 0.06446314, 0.9951912), Quaternion(-0.07973764, -0.0017461121, 0.030728979, 0.99634063), Quaternion(-0.08597627, -0.0037142963, 0.013699778, 0.9961961), Quaternion(-0.0926025, -0.0029439684, 0.02941646, 0.9952642), Quaternion(-0.09953417, 0.00036470176, 0.06919941, 0.99262494), Quaternion(-0.106640935, 0.0038766044, 0.10627264, 0.9885944), Quaternion(-0.114076026, 0.0047379606, 0.116247796, 0.98663604), Quaternion(-0.1219042, 0.0018615602, 0.0954015, 0.98794454), Quaternion(-0.12990683, -0.0028010001, 0.06427333, 0.98943686), Quaternion(-0.1381273, -0.005045669, 0.05498072, 0.9888744), Quaternion(-0.14672147, -0.0031371424, 0.07559881, 0.9862798), Quaternion(-0.15552905, 0.00034173776, 0.10460316, 0.98227733), Quaternion(-0.16451651, 0.0019124025, 0.11975997, 0.9790752), Quaternion(-0.17372805, 0.0011204953, 0.1207402, 0.9773634), Quaternion(-0.18312164, 0.000114718605, 0.12123029, 0.97558683), Quaternion(-0.19267684, 3.8285837e-09, 0.12691295, 0.97302043), Quaternion(-0.20237318, -6.7195405e-09, 0.13329966, 0.970194), Quaternion(-0.21218668, 1.9258457e-09, 0.13976349, 0.967183), Quaternion(-0.2218146, 5.796128e-09, 0.14610533, 0.9640807), Quaternion(-0.2229201, -3.865552e-09, 0.1468338, 0.96371496), Quaternion(-0.22292046, 1.9327762e-09, 0.1468338, 0.96371484), Quaternion(-0.22292015, 0, 0.14683382, 0.96371496), Quaternion(-0.22292072, 0, 0.14683399, 0.9637147), Quaternion(-0.2229204, 1.9327762e-09, 0.14683375, 0.96371484), Quaternion(-0.22292008, 1.932776e-09, 0.14683336, 0.963715), Quaternion(-0.22292016, -1.932776e-09, 0.14683357, 0.96371496), Quaternion(-0.22292006, 1.9327757e-09, 0.14683326, 0.9637151), Quaternion(-0.22292058, 0, 0.1468338, 0.9637148), Quaternion(-0.22291988, 1.932776e-09, 0.14683355, 0.963715), Quaternion(-0.22292031, 1.9327762e-09, 0.14683379, 0.9637149), Quaternion(-0.22292086, 0, 0.14683388, 0.9637147), Quaternion(-0.22292031, 1.9327762e-09, 0.14683396, 0.96371484), Quaternion(-0.22292, 3.865552e-09, 0.14683366, 0.963715), Quaternion(-0.22292057, -3.8655528e-09, 0.14683418, 0.9637148), Quaternion(-0.22292024, -1.932776e-09, 0.14683317, 0.963715), Quaternion(-0.22292033, 5.7983285e-09, 0.14683366, 0.9637149), Quaternion(-0.22292055, 1.9327762e-09, 0.14683363, 0.96371484), Quaternion(-0.22291988, -7.731104e-09, 0.14683367, 0.963715), Quaternion(-0.2229204, -3.8655523e-09, 0.1468338, 0.96371484), Quaternion(-0.2229207, 1.9327764e-09, 0.1468337, 0.9637148), Quaternion(-0.22292073, -5.798329e-09, 0.14683391, 0.9637148), Quaternion(-0.22292063, -1.9327762e-09, 0.14683354, 0.96371484)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Stage/Rocket:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Stage/Rocket/Engine/FlameCore:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Stage/Rocket/Engine/Flame:amount_ratio")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.4, 2.55, 2.7, 2.9, 3.1, 3.35, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.2, 1.0, 0.15, 0.9, 0.25, 1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Stage/Rocket/Engine/FlameCore:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.5, 2.4, 2.55, 2.7, 2.9, 3.1, 3.35, 3.6, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1.05, 1), Vector3(1.1, 1.5, 1.1), Vector3(1.1, 1.5, 1.1), Vector3(0.7, 0.4, 0.7), Vector3(1.1, 1.4, 1.1), Vector3(0.6, 0.3, 0.6), Vector3(1, 1.3, 1), Vector3(0.7, 0.4, 0.7), Vector3(1.1, 1.5, 1.1), Vector3(1.2, 1.7, 1.2)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 2.28, 2.34, 2.55, 2.7, 2.9, 3.1, 3.35, 3.6, 3.66, 3.72, 3.78, 3.84, 3.9, 3.96, 4.02, 4.08, 4.14, 4.2, 4.26, 4.32, 4.38, 4.44, 4.5, 4.56, 4.62, 4.68, 4.74, 4.8, 4.86, 4.92, 4.98, 5.04, 5.1, 5.16, 5.22, 5.28, 5.34, 5.4, 5.46, 5.52, 5.58, 5.64, 5.7, 5.76, 5.82, 5.88, 5.94, 6, 6.06, 6.12, 6.18, 6.24, 6.3, 6.36, 6.42, 6.48, 6.54, 6.6, 6.66, 6.72, 6.78, 6.84, 6.9, 6.96, 7.02, 7.08, 7.14, 7.2, 7.26, 7.32, 7.38, 7.44, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [8.997710064053535, 9.967162996530533, 8.266874223947525, 7.828311592340469, 10.564274489879608, 8.721047446131706, 11.149153500795364, 8.89838719367981, 9.854646474123001, 11.009067088365555, 6.895902782678604, 8.359101578593254, 10.924733340740204, 8.968766748905182, 9.89597663283348, 7.1531859040260315, 7.52366977930069, 11.174050837755203, 7.609550625085831, 8.906884968280792, 8.321361556649208, 7.534633442759514, 9.286849647760391, 9.747516095638275, 8.434606567025185, 8.287476673722267, 9.397208869457245, 9.621112436056137, 9.286732167005539, 10.228751868009567, 7.969614118337631, 8.122204452753067, 7.660672, 7.070430636405945, 10.942358136177063, 10.298262655735016, 7.53910106420517, 9.169241, 9.514510989189148, 6.763499960303307, 2.0, 9.0, 1.5, 8.0, 2.0, 9.273491978645325, 10.507734060287476, 8.014913007616997, 11.163165360689163, 10.59008726477623, 10.000837057828903, 10.400219589471817, 7.065616071224213, 9.342459350824356, 9.419552743434906, 11.186584800481796, 7.610083043575287, 7.543121561408043, 9.682623267173767, 11.131711632013321, 7.79911869764328, 8.262114241719246, 10.25431975722313, 10.33114841580391, 10.461913079023361, 9.437344640493393, 10.135953068733215, 11.248139888048172, 10.435797482728958, 7.323508858680725, 8.64843575656414, 7.478353321552277, 11.072763115167618, 9.136176019906998, 7.128042474389076, 8.411727994680405, 8.765819281339645, 8.772870674729347, 7.509862571954727, 8.46118015050888, 8.213963896036148, 9.610790759325027, 8.662417709827423, 11.091103255748749, 8.932522594928741, 11.150065451860428, 8.59503324329853, 8.04894407093525, 6.958845242857933, 8.541861802339554, 7.713781535625458, 10.592968761920929, 9.990149796009064, 7.512260466814041, 7.613646358251572, 10.651308953762054, 10.304570138454437, 10.331980973482132, 7.524310827255249, 7.5257715582847595, 10.152741551399231, 10.027473270893097, 10.446326494216919, 7.0770143866539, 9.807765483856201, 8.920915737748146, 8.83856213092804, 9.573527097702026, 8.79477547109127, 8.568748265504837, 8.370331183075905]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Stage/Rocket/Engine/TrailSmoke:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Stage/Rocket/Engine/TrailGlow:amount_ratio")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 2.5, 2.6, 2.75, 2.9, 3.2, 3.4, 3.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.15, 1.0, 0.1, 0.8, 0.2, 1.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Stage/Rocket/Engine/TrailSmoke:amount_ratio")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 2.5, 2.6, 2.75, 2.9, 3.2, 3.4, 3.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.15, 1.0, 0.1, 0.8, 0.2, 1.0]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Stage/Rocket/Engine/Glint:transparency")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Stage/PadFX/Smoke:emitting")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Stage/PadFX/Steam:emitting")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Stage/PadFX/FlashLight:light_energy")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.4, 2.5),
+"transitions": PackedFloat32Array(1, 1, 0.3),
+"update": 0,
+"values": [5.0, 7.0, 0.0]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath(".:shake")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.6, 2.5, 2.6, 3.4, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.55, 1.0, 0.6, 0.2, 0.5, 0.4, 0.1, 0.0]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Overlay/Frame/BarBottom/Countdown/Prefix:text")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["T−", "T+"]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Overlay/Frame/BarBottom/Countdown/Caption:text")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_TMINUS", "TY_LAUNCH_TPLUS"]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:text")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["0", "1", "2", "3", "4", "5", "6", "7"]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(1, 0.654902, 0.4, 1), Color(0.7490196, 0.9098039, 1, 1)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 6.9, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 0.3, 2, 2.5, 2.6, 4.2, 4.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/23/type = "method"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Overlay/Frame/Caption/Appear")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0.3, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play"
+}, {
+"args": [],
+"method": &"play"
+}]
+}
+tracks/24/type = "method"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits/Pulse")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Overlay/Frame/Caption:text")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_IGNITION", "TY_LAUNCH_LIFTOFF", "TY_LAUNCH_SPUTTER"]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Overlay/Frame/Caption:text")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_IGNITION", "TY_LAUNCH_LIFTOFF", "TY_LAUNCH_SPUTTER"]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Overlay/Frame/Caption:self_modulate")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 0.85, 0.45, 1)]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.5, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_STATUS_IGNITION", "TY_LAUNCH_STATUS_LIFTOFF", "TY_LAUNCH_STATUS_SPUTTER", "TY_LAUNCH_STATUS_RECOVERED"]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Overlay/Frame/BarBottom/Status/Dot:modulate")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25)]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("Overlay/Frame/BarBottom/Thread:scale")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/31/type = "method"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath(".")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0.5, 2.7, 4.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["launch"],
+"method": &"_crowd"
+}, {
+"args": ["sweat"],
+"method": &"_emote"
+}, {
+"args": ["success"],
+"method": &"_crowd"
+}]
+}
+tracks/32/type = "method"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("Stage/Spectators/Confetti")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(4.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("Stage/CamRig/ShotCam:position")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(5.8, 0.9, 14.2), Vector3(5.8, 0.9, 14.2), Vector3(5.8, 1, 14.2), Vector3(5.8, 1.1, 14.2), Vector3(5.8, 1.2, 14.2), Vector3(5.8, 1.3, 14.2), Vector3(5.8, 1.4, 14.2), Vector3(5.8, 1.5, 14.2), Vector3(5.8, 1.5999999, 14.2), Vector3(5.8, 1.7, 14.2), Vector3(45.38624, 6, 18.002476), Vector3(45.38624, 6.308, 18.002476), Vector3(45.38624, 6.638, 18.002476), Vector3(45.544395, 6.968, 18.242586), Vector3(46.32944, 7.298, 19.43443), Vector3(47.684937, 7.6280003, 21.492317), Vector3(49.51309, 7.958, 24.267784), Vector3(51.716106, 8.288, 27.612368), Vector3(54.1962, 8.618, 31.377602), Vector3(56.85558, 8.948, 35.41502), Vector3(59.59645, 9.278, 39.57616), Vector3(62.321022, 9.608, 43.712555), Vector3(64.9315, 9.938, 47.675743), Vector3(67.33011, 10.268, 51.317257), Vector3(69.41904, 10.598, 54.488632), Vector3(71.1005, 10.9279995, 57.0414), Vector3(72.27671, 11.257999, 58.827103), Vector3(72.84988, 11.587999, 59.697273)]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Stage/CamRig/ShotCam:quaternion")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0.120751634, 0.19994506, -0.024838664, 0.9720206), Quaternion(0.1173592, 0.19128966, -0.023043675, 0.97421974), Quaternion(0.112525, 0.19140182, -0.022094496, 0.9747899), Quaternion(0.11336264, 0.19138588, -0.022259343, 0.9746922), Quaternion(0.12048348, 0.1912327, -0.023659438, 0.9738347), Quaternion(0.13447978, 0.19091578, -0.026414113, 0.97199214), Quaternion(0.15576401, 0.19039088, -0.030611468, 0.96878886), Quaternion(0.18434863, 0.18960312, -0.036269013, 0.96371716), Quaternion(0.21958199, 0.18850775, -0.04328763, 0.95622945), Quaternion(0.25994027, 0.18710884, -0.051417433, 0.94592685), Quaternion(0.051930938, 0.55992013, -0.035195224, 0.82616824), Quaternion(0.025450598, 0.56007844, -0.017218087, 0.82786953), Quaternion(0.043666426, 0.5583749, -0.029450163, 0.82791513), Quaternion(0.06489208, 0.55424154, -0.043401066, 0.8286867), Quaternion(0.087477505, 0.54377073, -0.057124313, 0.83270514), Quaternion(0.10990903, 0.52826786, -0.06919603, 0.8390858), Quaternion(0.13091166, 0.5096641, -0.07880153, 0.8466965), Quaternion(0.14962481, 0.4897417, -0.08574052, 0.8546426), Quaternion(0.1656571, 0.46987543, -0.09026413, 0.8623382), Quaternion(0.17900358, 0.45096275, -0.092843175, 0.86946565), Quaternion(0.18633701, 0.43389317, -0.09222684, 0.87664676), Quaternion(0.18780993, 0.4196019, -0.08918913, 0.8835763), Quaternion(0.18900155, 0.40758783, -0.08663547, 0.88918215), Quaternion(0.18996966, 0.39750093, -0.084491424, 0.89373696), Quaternion(0.19076155, 0.389016, -0.0826879, 0.8974627), Quaternion(0.19141512, 0.3818443, -0.08116352, 0.90053743), Quaternion(0.1919607, 0.37573338, -0.079864584, 0.90310425), Quaternion(0.19242314, 0.37046117, -0.07874396, 0.90527964)]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("Stage/CamRig/ShotCam:fov")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [52.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 48.0, 48.0, 48.10786322025687, 48.41309318396247, 48.8881503455193, 49.50549515932987, 50.23758807979668, 51.05688956132224, 51.93586005830903, 52.84696002515958, 53.76264991627638, 54.65539018606192, 55.49764128891873, 56.26186367924929, 56.92051781145611, 57.44606413994168, 57.810963119108536, 57.987675203359146]
+}
+tracks/36/type = "method"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath(".")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = {
+"times": PackedFloat32Array(5.2),
+"transitions": PackedFloat32Array(1.0),
+"values": [{
+"args": [],
+"method": &"_stage_separation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ddtj3"]
+length = 7.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Stage/Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.1, 7.2, 7.3, 7.4, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.006849304, 1.15, 0.020707), Vector3(0.040040288, 1.15, 0.01705743), Vector3(0.030031953, 1.15, 0.02556834), Vector3(-0.04519661, 1.15, -0.030353079), Vector3(0.03629056, 1.15, -0.011797093), Vector3(-0.045923565, 1.15, -0.01316705), Vector3(0, 1.15, 0), Vector3(-4.3568542e-07, 1.1640717, -6.614497e-07), Vector3(-7.0878204e-06, 1.2067565, -1.07606e-05), Vector3(-3.6616664e-05, 1.2790024, -5.559075e-05), Vector3(-0.0001184138, 1.381985, -0.00017977368), Vector3(-0.00029644024, 1.5170518, -0.00045005017), Vector3(-0.00063141825, 1.6856947, -0.0009586077), Vector3(-0.0012033591, 1.889531, -0.001826918), Vector3(-0.0021144236, 2.1302905, -0.0032100794), Vector3(-0.0034921179, 2.4098048, -0.0053016697), Vector3(-0.0054928353, 2.73, -0.008339123), Vector3(-0.008305751, 3.09289, -0.012609639), Vector3(-0.012157081, 3.5005713, -0.018456658), Vector3(-0.017314723, 3.9552178, -0.026286898), Vector3(-0.024093296, 4.4590774, -0.036578003), Vector3(-0.032859568, 5.014468, -0.049886797), Vector3(-0.044038326, 5.6237755, -0.06685819), Vector3(-0.058118667, 6.2894497, -0.08823471), Vector3(-0.07566077, 7.014003, -0.11486681), Vector3(-0.09730308, 7.800007, -0.14772376), Vector3(-0.123770036, 8.650091, -0.18790542), Vector3(-0.15588026, 9.566942, -0.23665456), Vector3(-0.19455525, 10.553299, -0.29537025), Vector3(-0.2408287, 11.611956, -0.36562172), Vector3(-0.29585615, 12.745756, -0.4491634), Vector3(-0.36092544, 13.957593, -0.54795045), Vector3(-0.43746763, 15.25041, -0.66415536), Vector3(-0.5270685, 16.627197, -0.8001858), Vector3(-0.6314807, 18.09099, -0.9587025), Vector3(-0.75263625, 19.644873, -1.1426386), Vector3(-0.8926604, 21.29197, -1.3552208), Vector3(-1.0538853, 23.03545, -1.5999895), Vector3(-1.238865, 24.878527, -1.8808223), Vector3(-1.4503901, 26.824453, -2.2019558), Vector3(-1.6915051, 28.876524, -2.5680122), Vector3(-1.965524, 31.038076, -2.9840229), Vector3(-2.2760487, 33.312485, -3.4554555), Vector3(-2.6269867, 35.70316, -3.9882433), Vector3(-3.0225704, 38.21355, -4.5888114), Vector3(-3.467377, 40.847153, -5.2641087), Vector3(-3.9663491, 43.607487, -6.0216393), Vector3(-4.5248156, 46.49812, -6.869493), Vector3(-5.148515, 49.522644, -7.8163824), Vector3(-5.843618, 52.684696, -8.871675), Vector3(-6.61675, 55.987946, -10.045429), Vector3(-7.4750175, 59.43609, -11.348435), Vector3(-8.426036, 63.03287, -12.7922535), Vector3(-9.477949, 66.78205, -14.38925), Vector3(-10.639466, 70.68745, -16.152643), Vector3(-11.919883, 74.75288, -18.096548), Vector3(-13.3114605, 78.982216, -20.209217), Vector3(-14.762719, 83.379364, -22.41249), Vector3(-16.270657, 87.94824, -24.701817), Vector3(-17.836584, 92.692825, -27.079178), Vector3(-19.461817, 97.617096, -29.546577), Vector3(-21.147686, 102.72508, -32.10603), Vector3(-22.895521, 108.02083, -34.759563), Vector3(-24.706676, 113.508415, -37.509224), Vector3(-26.582502, 119.19196, -40.35707), Vector3(-28.524372, 125.07561, -43.305183), Vector3(-30.533657, 131.1635, -46.355644), Vector3(-32.611744, 137.45987, -49.510555), Vector3(-34.760025, 143.96892, -52.772038), Vector3(-36.979904, 150.6949, -56.14222), Vector3(-39.272797, 157.6421, -59.623245), Vector3(-41.64012, 164.81482, -63.217274), Vector3(-44.08331, 172.2174, -66.926476), Vector3(-46.603798, 179.8542, -70.75304), Vector3(-49.203045, 187.72961, -74.699165), Vector3(-51.882492, 195.84805, -78.76706), Vector3(-54.643616, 204.21394, -82.95894), Vector3(-57.48789, 212.83176, -87.27706), Vector3(-60.416786, 221.70598, -91.72366)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Stage/Rocket:quaternion")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.1, 7.2, 7.3, 7.4, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0, 0, 0, 1), Quaternion(0, 0, 0, 1), Quaternion(-7.6590484e-05, -3.8639e-09, 5.0448823e-05, 1), Quaternion(-0.00024363963, 1.9718736e-09, 0.00016048116, 0.99999994), Quaternion(-0.0005103772, 6.3994263e-09, 0.0003361765, 0.9999998), Quaternion(-0.00088088156, -4.55839e-09, 0.0005802213, 0.99999946), Quaternion(-0.0013597796, 5.4791444e-10, 0.00089566334, 0.9999987), Quaternion(-0.0019521549, -4.8212447e-09, 0.0012858507, 0.99999726), Quaternion(-0.0026634966, -4.381286e-09, 0.0017543993, 0.99999493), Quaternion(-0.0034996674, -3.635737e-09, 0.0023051703, 0.9999912), Quaternion(-0.004466834, 4.2837814e-10, 0.0029422257, 0.9999857), Quaternion(-0.0055714766, -6.5139463e-09, 0.0036698352, 0.99997777), Quaternion(-0.0068203537, -7.8946777e-10, 0.0044924477, 0.9999666), Quaternion(-0.00822043, -3.0251261e-09, 0.0054146536, 0.99995154), Quaternion(-0.00977898, 1.0951067e-09, 0.0064412463, 0.99993145), Quaternion(-0.011503383, 5.279208e-09, 0.007577078, 0.9999051), Quaternion(-0.013401255, 4.2315143e-09, 0.008827174, 0.99987125), Quaternion(-0.015480342, 3.8350887e-09, 0.010196639, 0.99982816), Quaternion(-0.017748617, -9.388106e-10, 0.011690709, 0.99977416), Quaternion(-0.020213969, 4.3668544e-10, 0.01331459, 0.999707), Quaternion(-0.022884542, 5.415346e-09, 0.0150736505, 0.9996245), Quaternion(-0.025768302, 1.0336781e-09, 0.01697313, 0.9995239), Quaternion(-0.028873494, -4.3099435e-09, 0.01901846, 0.99940217), Quaternion(-0.032207955, 6.2037318e-09, 0.021214815, 0.999256), Quaternion(-0.03577976, -1.8060959e-09, 0.023567505, 0.9990818), Quaternion(-0.039596483, 5.4776805e-09, 0.02608151, 0.9988753), Quaternion(-0.043665614, -4.604704e-09, 0.028761797, 0.9986321), Quaternion(-0.047994517, 3.9646735e-09, 0.031613134, 0.9983472), Quaternion(-0.052589722, 6.532223e-09, 0.034639925, 0.9980152), Quaternion(-0.057457455, -7.00151e-09, 0.03784624, 0.99763036), Quaternion(-0.06260371, -5.019984e-09, 0.04123593, 0.99718624), Quaternion(-0.068033054, 6.1905885e-09, 0.04481225, 0.99667615), Quaternion(-0.07374975, -2.3374389e-10, 0.048577722, 0.996093), Quaternion(-0.07975676, -2.8067975e-09, 0.05253444, 0.99542904), Quaternion(-0.086056486, -3.7452286e-09, 0.056683946, 0.9946764), Quaternion(-0.09264929, -2.3427686e-09, 0.061026514, 0.99382687), Quaternion(-0.09953484, 0, 0.0655619, 0.9928718), Quaternion(-0.10671137, -5.634121e-09, 0.07028885, 0.99180245), Quaternion(-0.11417439, -6.1109784e-09, 0.075204626, 0.9906101), Quaternion(-0.121918395, -2.3535218e-09, 0.080305524, 0.98928607), Quaternion(-0.12993702, -4.714023e-10, 0.08558729, 0.98782146), Quaternion(-0.1382194, -2.360867e-09, 0.091042705, 0.9862082), Quaternion(-0.14675501, 6.14929e-09, 0.096665025, 0.98443836), Quaternion(-0.15552941, -3.7916252e-09, 0.10244453, 0.98250484), Quaternion(-0.16452764, 1.8998807e-09, 0.10837153, 0.9804011), Quaternion(-0.17373167, 0, 0.1144341, 0.97812176), Quaternion(-0.18312168, -4.7727697e-09, 0.12061907, 0.9756626), Quaternion(-0.19267684, 3.8285837e-09, 0.12691295, 0.97302043), Quaternion(-0.20237318, -6.7195405e-09, 0.13329966, 0.970194), Quaternion(-0.21218668, 1.9258457e-09, 0.13976349, 0.967183), Quaternion(-0.2218146, 5.796128e-09, 0.14610533, 0.9640807), Quaternion(-0.2229201, -3.865552e-09, 0.1468338, 0.96371496), Quaternion(-0.22292046, 1.9327762e-09, 0.1468338, 0.96371484), Quaternion(-0.22292015, 0, 0.14683382, 0.96371496), Quaternion(-0.22292072, 0, 0.14683399, 0.9637147), Quaternion(-0.2229204, 1.9327762e-09, 0.14683375, 0.96371484), Quaternion(-0.22292008, 1.932776e-09, 0.14683336, 0.963715), Quaternion(-0.22292016, -1.932776e-09, 0.14683357, 0.96371496), Quaternion(-0.22292006, 1.9327757e-09, 0.14683326, 0.9637151), Quaternion(-0.22292058, 0, 0.1468338, 0.9637148), Quaternion(-0.22291988, 1.932776e-09, 0.14683355, 0.963715), Quaternion(-0.22292031, 1.9327762e-09, 0.14683379, 0.9637149), Quaternion(-0.22292086, 0, 0.14683388, 0.9637147), Quaternion(-0.22292031, 1.9327762e-09, 0.14683396, 0.96371484), Quaternion(-0.22292, 3.865552e-09, 0.14683366, 0.963715), Quaternion(-0.22292057, -3.8655528e-09, 0.14683418, 0.9637148), Quaternion(-0.22292024, -1.932776e-09, 0.14683317, 0.963715), Quaternion(-0.22292033, 5.7983285e-09, 0.14683366, 0.9637149), Quaternion(-0.22292055, 1.9327762e-09, 0.14683363, 0.96371484), Quaternion(-0.22291988, -7.731104e-09, 0.14683367, 0.963715), Quaternion(-0.2229204, -3.8655523e-09, 0.1468338, 0.96371484), Quaternion(-0.2229207, 1.9327764e-09, 0.1468337, 0.9637148), Quaternion(-0.22292073, -5.798329e-09, 0.14683391, 0.9637148), Quaternion(-0.22292063, -1.9327762e-09, 0.14683354, 0.96371484)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Stage/Rocket:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Stage/Rocket/Engine/FlameCore:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Stage/Rocket/Engine/Flame:amount_ratio")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Stage/Rocket/Engine/FlameCore:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.5, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1.05, 1), Vector3(1.1, 1.5, 1.1), Vector3(1.2, 1.7, 1.2)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 2.28, 2.34, 2.4, 2.46, 2.52, 2.58, 2.64, 2.7, 2.76, 2.82, 2.88, 2.94, 3, 3.06, 3.12, 3.18, 3.24, 3.3, 3.36, 3.42, 3.48, 3.54, 3.6, 3.66, 3.72, 3.78, 3.84, 3.9, 3.96, 4.02, 4.08, 4.14, 4.2, 4.26, 4.32, 4.38, 4.44, 4.5, 4.56, 4.62, 4.68, 4.74, 4.8, 4.86, 4.92, 4.98, 5.04, 5.1, 5.16, 5.22, 5.28, 5.34, 5.4, 5.46, 5.52, 5.58, 5.64, 5.7, 5.76, 5.82, 5.88, 5.94, 6, 6.06, 6.12, 6.18, 6.24, 6.3, 6.36, 6.42, 6.48, 6.54, 6.6, 6.66, 6.72, 6.78, 6.84, 6.9, 6.96, 7.02, 7.08, 7.14, 7.2, 7.26, 7.32, 7.38, 7.44, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [8.997710064053535, 9.967162996530533, 8.266874223947525, 7.828311592340469, 10.564274489879608, 8.721047446131706, 11.149153500795364, 8.89838719367981, 9.854646474123001, 11.009067088365555, 6.895902782678604, 8.359101578593254, 10.924733340740204, 8.968766748905182, 9.89597663283348, 7.1531859040260315, 7.52366977930069, 11.174050837755203, 7.609550625085831, 8.906884968280792, 8.321361556649208, 7.534633442759514, 9.286849647760391, 9.747516095638275, 8.434606567025185, 8.287476673722267, 9.397208869457245, 9.621112436056137, 9.286732167005539, 10.228751868009567, 7.969614118337631, 8.122204452753067, 7.660672, 7.070430636405945, 10.942358136177063, 10.298262655735016, 7.53910106420517, 9.169241, 9.514510989189148, 6.763499960303307, 8.91280983388424, 11.080778360366821, 6.84214286506176, 8.877573385834694, 9.02509930729866, 10.859573, 8.728263929486275, 9.316688686609268, 10.67778691649437, 8.567989870905876, 8.196974515914917, 7.0713750422000885, 10.936302781105042, 10.753462761640549, 9.901040375232697, 10.723532795906067, 9.163338750600815, 8.308885261416435, 8.249778762459755, 7.546978175640106, 11.245277971029282, 7.712594389915466, 8.492385372519493, 7.947470471262932, 10.821203291416168, 11.17583692073822, 7.892457693815231, 10.378068566322327, 8.011443436145782, 10.969615012407303, 7.178243100643158, 8.009875684976578, 9.559626817703247, 9.086081743240356, 10.877805948257446, 10.713348180055618, 9.516244769096375, 8.46317383646965, 10.95292979478836, 7.474839091300964, 7.904184848070145, 10.339917093515396, 7.272511348128319, 8.347810953855515, 7.264240086078644, 8.779141813516617, 9.471166759729385, 9.275224953889847, 9.617845237255096, 9.324997633695602, 9.97388032078743, 8.736132860183716, 9.829406350851059, 7.186397284269333, 7.0240088403224945, 9.898644894361496, 7.208699584007263, 6.896823048591614, 8.354317992925644, 10.2573222219944, 9.51708510518074, 10.456570386886597, 9.894687294960022, 7.624728977680206, 9.211685299873352, 9.851031392812729, 8.333258897066116, 6.953016400337219, 6.866896435618401, 9.716273993253708, 7.915850445628166, 7.410046309232712, 8.279575824737549, 7.465119302272797, 10.373758792877197, 7.151913061738014, 8.685646176338196, 7.116944029927254, 8.741460129618645, 9.024538725614548, 10.741049498319626, 7.594706743955612, 6.90177346765995, 10.171476513147354, 7.13927435874939, 10.000486761331558]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Stage/Rocket/Engine/TrailSmoke:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Stage/Rocket/Engine/TrailGlow:amount_ratio")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Stage/Rocket/Engine/TrailSmoke:amount_ratio")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Stage/Rocket/Engine/Glint:transparency")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Stage/PadFX/Smoke:emitting")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Stage/PadFX/Steam:emitting")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Stage/PadFX/FlashLight:light_energy")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 0.4, 2.5),
+"transitions": PackedFloat32Array(1, 1, 0.3),
+"update": 0,
+"values": [5.0, 7.0, 0.0]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath(".:shake")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.6, 3.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.55, 1.0, 0.6, 0.15, 0.0]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Overlay/Frame/BarBottom/Countdown/Prefix:text")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["T−", "T+"]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Overlay/Frame/BarBottom/Countdown/Caption:text")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_TMINUS", "TY_LAUNCH_TPLUS"]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:text")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["0", "1", "2", "3", "4", "5", "6", "7"]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(1, 0.654902, 0.4, 1), Color(0.7490196, 0.9098039, 1, 1)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 6.9, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Overlay/Frame/Caption:text")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_IGNITION", "TY_LAUNCH_LIFTOFF"]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0, 0.3, 2.4, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/24/type = "method"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Overlay/Frame/Caption/Appear")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play"
+}]
+}
+tracks/25/type = "method"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Overlay/Frame/BarBottom/Countdown/Digits/Pulse")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}, {
+"args": [],
+"method": &"beat"
+}]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Overlay/Frame/Caption:self_modulate")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0, 0.3, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["TY_LAUNCH_STATUS_IGNITION", "TY_LAUNCH_STATUS_LIFTOFF", "TY_LAUNCH_STATUS_NOMINAL"]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Overlay/Frame/BarBottom/Status/Dot:modulate")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25), Color(1, 1, 1, 1), Color(1, 1, 1, 0.25)]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Overlay/Frame/BarBottom/Thread:scale")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/30/type = "method"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath(".")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0.5, 4.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["launch"],
+"method": &"_crowd"
+}, {
+"args": ["success"],
+"method": &"_crowd"
+}]
+}
+tracks/31/type = "method"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("Stage/Spectators/Confetti")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(4.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/32/type = "value"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("Stage/CamRig/ShotCam:position")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(5.8, 0.9, 14.2), Vector3(5.8, 0.9, 14.2), Vector3(5.8, 1, 14.2), Vector3(5.8, 1.1, 14.2), Vector3(5.8, 1.2, 14.2), Vector3(5.8, 1.3, 14.2), Vector3(5.8, 1.4, 14.2), Vector3(5.8, 1.5, 14.2), Vector3(5.8, 1.5999999, 14.2), Vector3(5.8, 1.7, 14.2), Vector3(45.38624, 6, 18.002476), Vector3(45.38624, 6.308, 18.002476), Vector3(45.38624, 6.638, 18.002476), Vector3(45.544395, 6.968, 18.242586), Vector3(46.32944, 7.298, 19.43443), Vector3(47.684937, 7.6280003, 21.492317), Vector3(49.51309, 7.958, 24.267784), Vector3(51.716106, 8.288, 27.612368), Vector3(54.1962, 8.618, 31.377602), Vector3(56.85558, 8.948, 35.41502), Vector3(59.59645, 9.278, 39.57616), Vector3(62.321022, 9.608, 43.712555), Vector3(64.9315, 9.938, 47.675743), Vector3(67.33011, 10.268, 51.317257), Vector3(69.41904, 10.598, 54.488632), Vector3(71.1005, 10.9279995, 57.0414), Vector3(72.27671, 11.257999, 58.827103), Vector3(72.84988, 11.587999, 59.697273)]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("Stage/CamRig/ShotCam:quaternion")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Quaternion(0.120751634, 0.19994506, -0.024838664, 0.9720206), Quaternion(0.1173592, 0.19128966, -0.023043675, 0.97421974), Quaternion(0.112525, 0.19140182, -0.022094496, 0.9747899), Quaternion(0.11336264, 0.19138588, -0.022259343, 0.9746922), Quaternion(0.12048348, 0.1912327, -0.023659438, 0.9738347), Quaternion(0.13447978, 0.19091578, -0.026414113, 0.97199214), Quaternion(0.15576401, 0.19039088, -0.030611468, 0.96878886), Quaternion(0.18434863, 0.18960312, -0.036269013, 0.96371716), Quaternion(0.21958199, 0.18850775, -0.04328763, 0.95622945), Quaternion(0.25994027, 0.18710884, -0.051417433, 0.94592685), Quaternion(0.051930938, 0.55992013, -0.035195224, 0.82616824), Quaternion(0.025450598, 0.56007844, -0.017218087, 0.82786953), Quaternion(0.043666426, 0.5583749, -0.029450163, 0.82791513), Quaternion(0.06489208, 0.55424154, -0.043401066, 0.8286867), Quaternion(0.087477505, 0.54377073, -0.057124313, 0.83270514), Quaternion(0.10990903, 0.52826786, -0.06919603, 0.8390858), Quaternion(0.13091166, 0.5096641, -0.07880153, 0.8466965), Quaternion(0.14962481, 0.4897417, -0.08574052, 0.8546426), Quaternion(0.1656571, 0.46987543, -0.09026413, 0.8623382), Quaternion(0.17900358, 0.45096275, -0.092843175, 0.86946565), Quaternion(0.18633701, 0.43389317, -0.09222684, 0.87664676), Quaternion(0.18780993, 0.4196019, -0.08918913, 0.8835763), Quaternion(0.18900155, 0.40758783, -0.08663547, 0.88918215), Quaternion(0.18996966, 0.39750093, -0.084491424, 0.89373696), Quaternion(0.19076155, 0.389016, -0.0826879, 0.8974627), Quaternion(0.19141512, 0.3818443, -0.08116352, 0.90053743), Quaternion(0.1919607, 0.37573338, -0.079864584, 0.90310425), Quaternion(0.19242314, 0.37046117, -0.07874396, 0.90527964)]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("Stage/CamRig/ShotCam:fov")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.8, 1.05, 1.3, 1.55, 1.8, 2.05, 2.3, 2.32, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4, 4.7, 5, 5.3, 5.6, 5.9, 6.2, 6.5, 6.8, 7.1, 7.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [52.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 48.0, 48.0, 48.10786322025687, 48.41309318396247, 48.8881503455193, 49.50549515932987, 50.23758807979668, 51.05688956132224, 51.93586005830903, 52.84696002515958, 53.76264991627638, 54.65539018606192, 55.49764128891873, 56.26186367924929, 56.92051781145611, 57.44606413994168, 57.810963119108536, 57.987675203359146]
+}
+tracks/35/type = "method"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath(".")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(5.2),
+"transitions": PackedFloat32Array(1.0),
+"values": [{
+"args": [],
+"method": &"_stage_separation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_lfyg0"]
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay/Frame/Cards:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay/Frame/BarTop:offset_top")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.8),
+"transitions": PackedFloat32Array(1, 3),
+"update": 0,
+"values": [0.0, -92.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Overlay/Frame/BarTop:offset_bottom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.8),
+"transitions": PackedFloat32Array(1, 3),
+"update": 0,
+"values": [92.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Overlay/Frame/BarBottom:offset_top")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.8),
+"transitions": PackedFloat32Array(1, 3),
+"update": 0,
+"values": [-92.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Overlay/Frame/BarBottom:offset_bottom")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1, 0.8),
+"transitions": PackedFloat32Array(1, 3),
+"update": 0,
+"values": [0.0, 92.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Overlay/Frame/Vignette:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Stage/Rocket/Engine/TrailGlow:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Stage/Rocket/Engine/Flame:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Stage/Rocket/Engine/EngineLight:light_energy")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath(".:shake")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_w407x"]
+length = 4.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Stage/Spectators/CrewCam:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(15.8, 2.3, 17.8), Vector3(15.1, 2.1499999, 17)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Stage/Spectators/CrewCam:quaternion")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Quaternion(-0.036005095, 0.4814945, 0.019801877, 0.87548536), Quaternion(-0.03236574, 0.49663785, 0.018536514, 0.86715615)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Stage/Spectators/CrewCam:fov")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [42.0, 40.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Stage/Spectators/CrewLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.2]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:watch")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.85]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Stage/PadFX/Smoke:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Stage/PadFX/Steam:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Overlay/Frame/Flash:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.12), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Overlay/Frame/Cards:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Overlay/Frame/BarBottom/Countdown:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Overlay/Frame/Caption:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Overlay/Frame/BarBottom/Status/StatusText:text")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["TY_LAUNCH_STATUS_REPORT"]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath(".:shake")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xivn0"]
+_data = {
+&"RESET": SubResource("Animation_ayni4"),
+&"countdown": SubResource("Animation_52w67"),
+&"flight_fail": SubResource("Animation_nh0ab"),
+&"flight_partial": SubResource("Animation_2osai"),
+&"flight_success": SubResource("Animation_ddtj3"),
+&"outro": SubResource("Animation_lfyg0"),
+&"result": SubResource("Animation_w407x")
+}
+
+[node name="LaunchSequence" type="Control" unique_id=1166682053]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("1_4hsj6")
+rocket_models = Array[PackedScene]([ExtResource("2_7djwy"), ExtResource("3_tgqty"), ExtResource("4_wjey4"), ExtResource("5_gjrsy"), ExtResource("6_c2yjq")])
+designed_rocket = ExtResource("designed_rocket")
+trail_ramps = Dictionary[String, Texture2D]({
+"leo": SubResource("Ramp_orbit"),
+"sso": SubResource("Ramp_orbit"),
+"geo": SubResource("Ramp_geo"),
+"lunar_flyby": SubResource("Ramp_moon"),
+"lunar_orbit": SubResource("Ramp_moon"),
+"lunar_surface": SubResource("Ramp_moon"),
+"lunar_pole": SubResource("Ramp_moon"),
+"comet": SubResource("Ramp_comet")
+})
+
+[node name="Stage" type="Node3D" parent="." unique_id=982988895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, 20)
+
+[node name="PreviewPad" type="Node3D" parent="Stage" unique_id=197501102 instance=ExtResource("7_e6bu8")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+script = ExtResource("8_ik1s4")
+kind = "pad"
+
+[node name="Rocket" type="Node3D" parent="Stage" unique_id=1972550593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Model" type="Node3D" parent="Stage/Rocket" unique_id=1157576534]
+
+[node name="Body" type="Node3D" parent="Stage/Rocket/Model" unique_id=1957589438 instance=ExtResource("2_7djwy")]
+
+[node name="Engine" type="Node3D" parent="Stage/Rocket" unique_id=261579349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Flame" type="GPUParticles3D" parent="Stage/Rocket/Engine" unique_id=107550689]
+cast_shadow = 0
+emitting = false
+amount = 140
+lifetime = 0.32
+fixed_fps = 0
+visibility_aabb = AABB(-4, -10, -4, 8, 12, 8)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_b8nox")
+draw_pass_1 = SubResource("BoxMesh_rr6gd")
+
+[node name="FlameCore" type="MeshInstance3D" parent="Stage/Rocket/Engine" unique_id=257220830]
+transform = Transform3D(1, 0, 0, 0, -0.001, 1.509958e-07, 0, -1.5099581e-10, -1, 0, -1.6, 0)
+visible = false
+cast_shadow = 0
+mesh = SubResource("PrismMesh_cbkup")
+
+[node name="TrailGlow" type="GPUParticles3D" parent="Stage/Rocket/Engine" unique_id=631288474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
+cast_shadow = 0
+emitting = false
+amount = 260
+lifetime = 1.1
+visibility_aabb = AABB(-400, -400, -400, 800, 800, 800)
+process_material = SubResource("ParticleProcessMaterial_vxf36")
+draw_pass_1 = SubResource("BoxMesh_cvmt5")
+
+[node name="TrailSmoke" type="GPUParticles3D" parent="Stage/Rocket/Engine" unique_id=1243058257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2, 0)
+cast_shadow = 0
+emitting = false
+amount = 900
+lifetime = 6.5
+visibility_aabb = AABB(-500, -500, -500, 1000, 1000, 1000)
+process_material = SubResource("ParticleProcessMaterial_r55ns")
+draw_pass_1 = SubResource("BoxMesh_drah2")
+
+[node name="Glint" type="MeshInstance3D" parent="Stage/Rocket/Engine" unique_id=1067894210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transparency = 1.0
+cast_shadow = 0
+mesh = SubResource("QuadMesh_fij0p")
+
+[node name="EngineLight" type="OmniLight3D" parent="Stage/Rocket/Engine" unique_id=372670098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
+light_color = Color(1, 0.62, 0.3, 1)
+light_energy = 0.0
+shadow_enabled = true
+omni_range = 22.0
+omni_attenuation = 1.1
+
+[node name="Separation" type="GPUParticles3D" parent="Stage/Rocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+cast_shadow = 0
+emitting = false
+amount = 140
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.95
+visibility_aabb = AABB(-200, -200, -200, 400, 400, 400)
+process_material = SubResource("Sep_ppm")
+draw_pass_1 = SubResource("Sep_box")
+
+[node name="FailFX" type="Node3D" parent="Stage" unique_id=1478005906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4615984, 15.91525, -2.205685)
+
+[node name="Poof" type="GPUParticles3D" parent="Stage/FailFX" unique_id=1204563940]
+cast_shadow = 0
+emitting = false
+amount = 140
+lifetime = 3.4
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-200, -200, -200, 400, 400, 400)
+process_material = SubResource("ParticleProcessMaterial_ab2eh")
+draw_pass_1 = SubResource("BoxMesh_13tjc")
+
+[node name="Debris" type="GPUParticles3D" parent="Stage/FailFX" unique_id=1879923861]
+cast_shadow = 0
+emitting = false
+amount = 60
+lifetime = 2.2
+one_shot = true
+explosiveness = 0.95
+visibility_aabb = AABB(-200, -200, -200, 400, 400, 400)
+process_material = SubResource("ParticleProcessMaterial_k4hie")
+draw_pass_1 = SubResource("BoxMesh_cuod8")
+
+[node name="PopLight" type="OmniLight3D" parent="Stage/FailFX" unique_id=111674687]
+light_color = Color(1, 0.6, 0.35, 1)
+light_energy = 0.0
+omni_range = 26.0
+
+[node name="PadFX" type="Node3D" parent="Stage" unique_id=1206425259]
+
+[node name="Steam" type="GPUParticles3D" parent="Stage/PadFX" unique_id=86589955]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+cast_shadow = 0
+emitting = false
+amount = 160
+lifetime = 2.4
+visibility_aabb = AABB(-40, -10, -40, 80, 60, 80)
+process_material = SubResource("ParticleProcessMaterial_01or1")
+draw_pass_1 = SubResource("BoxMesh_8udvd")
+
+[node name="Smoke" type="GPUParticles3D" parent="Stage/PadFX" unique_id=2035027922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+cast_shadow = 0
+emitting = false
+amount = 420
+lifetime = 4.5
+visibility_aabb = AABB(-60, -4, -60, 120, 40, 120)
+process_material = SubResource("ParticleProcessMaterial_q2b8l")
+draw_pass_1 = SubResource("BoxMesh_al2ut")
+
+[node name="Sparks" type="GPUParticles3D" parent="Stage/PadFX" unique_id=1812297061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+cast_shadow = 0
+emitting = false
+amount = 110
+lifetime = 1.4
+one_shot = true
+explosiveness = 0.85
+visibility_aabb = AABB(-40, -10, -40, 80, 60, 80)
+process_material = SubResource("ParticleProcessMaterial_fejda")
+draw_pass_1 = SubResource("BoxMesh_2n7f2")
+
+[node name="FlashLight" type="OmniLight3D" parent="Stage/PadFX" unique_id=2071028664]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(1, 0.7, 0.42, 1)
+light_energy = 0.0
+omni_range = 46.0
+omni_attenuation = 0.9
+
+[node name="Spectators" type="Node3D" parent="Stage" unique_id=1312850882]
+
+[node name="Cometling1" type="Node3D" parent="Stage/Spectators" unique_id=282386870 instance=ExtResource("9_67cof")]
+transform = Transform3D(-1.2196707, 0, -1.0355693, 0, 1.6, 0, 1.0355694, 0, -1.2196705, 9, 0, 10.6)
+script = ExtResource("10_w01pm")
+body_material = ExtResource("11_foe4y")
+personality_seed = 11
+listen_to_events = false
+
+[node name="Cometling2" type="Node3D" parent="Stage/Spectators" unique_id=1443496467 instance=ExtResource("9_67cof")]
+transform = Transform3D(-1.0319984, 0, -1.2226937, 0, 1.6000003, 0, 1.2226937, 0, -1.0319984, 10.9, 0, 9.2)
+script = ExtResource("10_w01pm")
+body_material = ExtResource("11_foe4y")
+personality_seed = 18
+listen_to_events = false
+
+[node name="Cometling3" type="Node3D" parent="Stage/Spectators" unique_id=172541838 instance=ExtResource("9_67cof")]
+transform = Transform3D(-1.3618735, 0, -0.83982193, 0, 1.6, 0, 0.839822, 0, -1.3618734, 7.4, 0, 12)
+script = ExtResource("10_w01pm")
+body_material = ExtResource("11_foe4y")
+personality_seed = 25
+listen_to_events = false
+
+[node name="Cometling4" type="Node3D" parent="Stage/Spectators" unique_id=1557281986 instance=ExtResource("9_67cof")]
+transform = Transform3D(-1.0811595, 0, -1.1794467, 0, 1.6, 0, 1.1794467, 0, -1.0811595, 12, 0, 11)
+script = ExtResource("10_w01pm")
+body_material = ExtResource("11_foe4y")
+personality_seed = 32
+listen_to_events = false
+
+[node name="Cometling5" type="Node3D" parent="Stage/Spectators" unique_id=1221584233 instance=ExtResource("9_67cof")]
+transform = Transform3D(-1.270409, 0, -0.97265685, 0, 1.6, 0, 0.97265685, 0, -1.270409, 9.8, 0, 12.8)
+script = ExtResource("10_w01pm")
+body_material = ExtResource("11_foe4y")
+personality_seed = 39
+listen_to_events = false
+
+[node name="CrewLight" type="OmniLight3D" parent="Stage/Spectators" unique_id=1766774478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.2, 7.6)
+light_color = Color(1, 0.78, 0.55, 1)
+light_energy = 0.0
+omni_range = 9.0
+
+[node name="CrewCam" type="Camera3D" parent="Stage/Spectators" unique_id=1413160927]
+transform = Transform3D(0.53554195, -0.06934501, 0.8416568, 0, 0.9966231, 0.08211285, -0.84450865, -0.043974876, 0.5337334, 15.8, 2.3, 17.8)
+fov = 42.0
+near = 0.1
+far = 2400.0
+
+[node name="Confetti" type="GPUParticles3D" parent="Stage/Spectators" unique_id=223208236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.8, 3.5, 11)
+cast_shadow = 0
+emitting = false
+amount = 160
+lifetime = 3.2
+one_shot = true
+explosiveness = 0.9
+visibility_aabb = AABB(-40, -10, -40, 80, 60, 80)
+process_material = SubResource("ParticleProcessMaterial_lkh2g")
+draw_pass_1 = SubResource("BoxMesh_y7ctm")
+
+[node name="CamRig" type="Node3D" parent="Stage" unique_id=1619921959]
+
+[node name="ShotCam" type="Camera3D" parent="Stage/CamRig" unique_id=1447275033]
+transform = Transform3D(0.70710677, -0.14673479, 0.6917144, 0, 0.9782319, 0.20751433, -0.70710677, -0.14673479, 0.6917144, 30, 14, 30)
+fov = 42.0
+near = 0.1
+far = 2400.0
+
+[node name="ShotRigs" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, 20)
+
+[node name="Front" type="Marker3D" parent="ShotRigs"]
+gizmo_extents = 6.0
+
+[node name="Left" type="Marker3D" parent="ShotRigs"]
+transform = Transform3D(0.707107, 0.0, 0.707107, 0.0, 1.0, 0.0, -0.707107, 0.0, 0.707107, 0.0, 0.0, 0.0)
+gizmo_extents = 6.0
+
+[node name="Right" type="Marker3D" parent="ShotRigs"]
+transform = Transform3D(0.707107, 0.0, -0.707107, 0.0, 1.0, 0.0, 0.707107, 0.0, 0.707107, 0.0, 0.0, 0.0)
+gizmo_extents = 6.0
+
+[node name="WideLeft" type="Marker3D" parent="ShotRigs"]
+transform = Transform3D(0.0, 0.0, 1.0, 0.0, 1.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+gizmo_extents = 6.0
+
+[node name="WideRight" type="Marker3D" parent="ShotRigs"]
+transform = Transform3D(0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+gizmo_extents = 6.0
+
+[node name="Behind" type="Marker3D" parent="ShotRigs"]
+transform = Transform3D(-1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0)
+gizmo_extents = 6.0
+
+[node name="Overlay" type="CanvasLayer" parent="." unique_id=1807398367]
+layer = 20
+
+[node name="Frame" type="Control" parent="Overlay" unique_id=1587252047]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("12_lg3np")
+
+[node name="Vignette" type="TextureRect" parent="Overlay/Frame" unique_id=1047728263]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_wqq0g")
+expand_mode = 1
+
+[node name="Flash" type="ColorRect" parent="Overlay/Frame" unique_id=1702209165]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("CanvasItemMaterial_72njy")
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 0.9, 0.74, 1)
+
+[node name="Caption" type="Label" parent="Overlay/Frame" unique_id=649168212]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -700.0
+offset_top = 130.0
+offset_right = 700.0
+offset_bottom = 250.0
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 84
+theme_override_colors/font_color = Color(1, 0.654902, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.05, 0.15, 0.85)
+theme_override_constants/outline_size = 14
+text = "TY_LAUNCH_IGNITION"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Appear" type="Node" parent="Overlay/Frame/Caption" unique_id=1286789308]
+script = ExtResource("13_q7s1h")
+on_ready = false
+on_poke = true
+offset = Vector2(0, 18)
+from_scale = Vector2(1.35, 1.35)
+seconds = 0.34
+curve = 2
+
+[node name="BarTop" type="ColorRect" parent="Overlay/Frame" unique_id=213843646]
+layout_mode = 0
+anchor_right = 1.0
+offset_top = -92.0
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.13, 0.97)
+
+[node name="Info" type="HBoxContainer" parent="Overlay/Frame/BarTop" unique_id=2088267561]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_right = -48.0
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Mission" type="VBoxContainer" parent="Overlay/Frame/BarTop/Info" unique_id=1549729209]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Kicker" type="Label" parent="Overlay/Frame/BarTop/Info/Mission" unique_id=2113052612]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 13
+text = "TY_LAUNCH_CONTROL"
+
+[node name="Row" type="HBoxContainer" parent="Overlay/Frame/BarTop/Info/Mission" unique_id=943476201]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MissionCode" type="Label" parent="Overlay/Frame/BarTop/Info/Mission/Row" unique_id=1472355215]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 28
+text = "SND-01"
+
+[node name="MissionRoute" type="Label" parent="Overlay/Frame/BarTop/Info/Mission/Row" unique_id=1995743534]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+text = "Sounding rocket  →  Suborbital"
+
+[node name="When" type="HBoxContainer" parent="Overlay/Frame/BarTop/Info" unique_id=699735873]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 2
+
+[node name="MissionDate" type="Label" parent="Overlay/Frame/BarTop/Info/When" unique_id=1790805185]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "Year 1, week 12"
+
+[node name="Live" type="PanelContainer" parent="Overlay/Frame/BarTop/Info/When" unique_id=487665415]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="Row" type="HBoxContainer" parent="Overlay/Frame/BarTop/Info/When/Live" unique_id=1479312058]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Dot" type="Panel" parent="Overlay/Frame/BarTop/Info/When/Live/Row" unique_id=1839935951]
+self_modulate = Color(1, 0.36078432, 0.42352942, 1)
+custom_minimum_size = Vector2(9, 9)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="Pulse" type="Node" parent="Overlay/Frame/BarTop/Info/When/Live/Row/Dot" unique_id=1691766270]
+script = ExtResource("14_ruj1b")
+on_poke = false
+loop = true
+peak_scale = Vector2(1.35, 1.35)
+glow = 1.4
+period = 1.6
+
+[node name="Text" type="Label" parent="Overlay/Frame/BarTop/Info/When/Live/Row" unique_id=1460786150]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_LIVE"
+
+[node name="BarBottom" type="ColorRect" parent="Overlay/Frame" unique_id=1831373233]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 92.0
+mouse_filter = 2
+color = Color(0.035, 0.043, 0.13, 0.97)
+
+[node name="Thread" type="TextureRect" parent="Overlay/Frame/BarBottom" unique_id=516404687]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 3.0
+scale = Vector2(1e-05, 1)
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_u2kg0")
+expand_mode = 1
+
+[node name="Status" type="HBoxContainer" parent="Overlay/Frame/BarBottom" unique_id=1337750853]
+layout_mode = 0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_right = 560.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Dot" type="Panel" parent="Overlay/Frame/BarBottom/Status" unique_id=922677586]
+self_modulate = Color(1, 0.5411765, 0.23921569, 1)
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="StatusText" type="Label" parent="Overlay/Frame/BarBottom/Status" unique_id=1864443615]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+text = "TY_LAUNCH_STATUS_COUNT"
+vertical_alignment = 1
+
+[node name="Countdown" type="HBoxContainer" parent="Overlay/Frame/BarBottom" unique_id=1571815202]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -40.0
+offset_right = 160.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Prefix" type="Label" parent="Overlay/Frame/BarBottom/Countdown" unique_id=1311806439]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.24705882, 0.8784314, 0.77254903, 1)
+text = "T−"
+
+[node name="Digits" type="Label" parent="Overlay/Frame/BarBottom/Countdown" unique_id=1178215013]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 52
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pulse" type="Node" parent="Overlay/Frame/BarBottom/Countdown/Digits" unique_id=1978237602]
+script = ExtResource("14_ruj1b")
+peak_scale = Vector2(1.18, 1.18)
+glow = 1.35
+beat_seconds = 0.3
+
+[node name="Caption" type="Label" parent="Overlay/Frame/BarBottom/Countdown" unique_id=232572284]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_TMINUS"
+
+[node name="Skip" type="PanelContainer" parent="Overlay/Frame/BarBottom" unique_id=1202955552]
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -17.0
+offset_right = -48.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="Text" type="Label" parent="Overlay/Frame/BarBottom/Skip" unique_id=1307894275]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_LAUNCH_SKIP"
+
+[node name="Cards" type="Control" parent="Overlay/Frame" unique_id=1210895260]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="CardSuccess" type="PanelContainer" parent="Overlay/Frame/Cards" unique_id=2130676180]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 72.0
+offset_top = -170.0
+offset_right = 572.0
+offset_bottom = 170.0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Overlay/Frame/Cards/CardSuccess" unique_id=2016424025]
+script = ExtResource("13_q7s1h")
+on_ready = false
+on_visible = true
+offset = Vector2(-28, 10)
+from_scale = Vector2(0.9, 0.9)
+pivot = Vector2(0, 0.5)
+seconds = 0.38
+curve = 2
+
+[node name="Margin" type="MarginContainer" parent="Overlay/Frame/Cards/CardSuccess" unique_id=929667887]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin" unique_id=623543398]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=562593874]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Dot" type="Panel" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Head" unique_id=728689136]
+self_modulate = Color(0.35686275, 0.8392157, 0.5568628, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="Kicker" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Head" unique_id=1612537540]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+text = "TY_LAUNCH_KICK_SUCCESS"
+
+[node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Head" unique_id=1142875543]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="TagText" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Head/Tag" unique_id=1041124245]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+text = "TY_LAUNCH_TAG_SUCCESS"
+
+[node name="Title" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=989256895]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 44
+text = "SND-01"
+
+[node name="Route" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=1958681558]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+text = "Sounding rocket  →  Suborbital"
+
+[node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=773482690]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=1268983129]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Grade" type="VBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats" unique_id=1936643795]
+layout_mode = 2
+theme_override_constants/separation = -6
+
+[node name="GradeCaption" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Grade" unique_id=1395220517]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_GRADE"
+
+[node name="GradeValue" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Grade" unique_id=1756418004]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 64
+theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+text = "7.4"
+
+[node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Grade/GradeValue" unique_id=880622805]
+script = ExtResource("15_7813y")
+seconds = 0.9
+flash_strength = 0.0
+pop_scale = Vector2(1.08, 1.08)
+
+[node name="Odds" type="VBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats" unique_id=294651487]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+
+[node name="OddsCaption" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Odds" unique_id=281802817]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_ODDS"
+
+[node name="OddsValue" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Odds" unique_id=1196887917]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 26
+text = "82%"
+
+[node name="Line" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=1052141836]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+text = "TY_LAUNCH_LINE_SUCCESS"
+autowrap_mode = 3
+
+[node name="Foot" type="HBoxContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=33825500]
+layout_mode = 2
+alignment = 2
+
+[node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Foot" unique_id=847775137]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_LAUNCH_CONTINUE"
+
+[node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Foot/Continue" unique_id=479290210]
+script = ExtResource("16_6spfu")
+
+[node name="CardPartial" type="PanelContainer" parent="Overlay/Frame/Cards" unique_id=1374989863]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 72.0
+offset_top = -170.0
+offset_right = 572.0
+offset_bottom = 170.0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Overlay/Frame/Cards/CardPartial" unique_id=1610922348]
+script = ExtResource("13_q7s1h")
+on_ready = false
+on_visible = true
+offset = Vector2(-28, 10)
+from_scale = Vector2(0.9, 0.9)
+pivot = Vector2(0, 0.5)
+seconds = 0.38
+curve = 2
+
+[node name="Margin" type="MarginContainer" parent="Overlay/Frame/Cards/CardPartial" unique_id=182213109]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin" unique_id=2063270346]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1636089382]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Dot" type="Panel" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Head" unique_id=679854554]
+self_modulate = Color(1, 0.77254903, 0.2784314, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="Kicker" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Head" unique_id=458036984]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+text = "TY_LAUNCH_KICK_PARTIAL"
+
+[node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Head" unique_id=430912592]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="TagText" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Head/Tag" unique_id=37797390]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+text = "TY_LAUNCH_TAG_PARTIAL"
+
+[node name="Title" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1610730395]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 44
+text = "SND-01"
+
+[node name="Route" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=23762793]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+text = "Sounding rocket  →  Suborbital"
+
+[node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1043126677]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1079183522]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Grade" type="VBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats" unique_id=1939934966]
+layout_mode = 2
+theme_override_constants/separation = -6
+
+[node name="GradeCaption" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Grade" unique_id=2083238993]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_GRADE"
+
+[node name="GradeValue" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Grade" unique_id=1424013182]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 64
+theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+text = "7.4"
+
+[node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Grade/GradeValue" unique_id=1658078046]
+script = ExtResource("15_7813y")
+seconds = 0.9
+flash_strength = 0.0
+pop_scale = Vector2(1.08, 1.08)
+
+[node name="Odds" type="VBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats" unique_id=591844650]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+
+[node name="OddsCaption" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Odds" unique_id=1840638625]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_ODDS"
+
+[node name="OddsValue" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Odds" unique_id=1614531034]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 26
+text = "82%"
+
+[node name="Line" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=802642979]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+text = "TY_LAUNCH_LINE_PARTIAL"
+autowrap_mode = 3
+
+[node name="Foot" type="HBoxContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=482016498]
+layout_mode = 2
+alignment = 2
+
+[node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Foot" unique_id=1179462301]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_LAUNCH_CONTINUE"
+
+[node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Foot/Continue" unique_id=2004642977]
+script = ExtResource("16_6spfu")
+
+[node name="CardFail" type="PanelContainer" parent="Overlay/Frame/Cards" unique_id=1299883065]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 72.0
+offset_top = -170.0
+offset_right = 572.0
+offset_bottom = 170.0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Overlay/Frame/Cards/CardFail" unique_id=1803338316]
+script = ExtResource("13_q7s1h")
+on_ready = false
+on_visible = true
+offset = Vector2(-28, 10)
+from_scale = Vector2(0.9, 0.9)
+pivot = Vector2(0, 0.5)
+seconds = 0.38
+curve = 2
+
+[node name="Margin" type="MarginContainer" parent="Overlay/Frame/Cards/CardFail" unique_id=2116597921]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin" unique_id=1193961641]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=314000014]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Dot" type="Panel" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Head" unique_id=1991243220]
+self_modulate = Color(1, 0.36078432, 0.42352942, 1)
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+
+[node name="Kicker" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Head" unique_id=1414241990]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+text = "TY_LAUNCH_KICK_FAIL"
+
+[node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Head" unique_id=1503053758]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="TagText" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Head/Tag" unique_id=860800540]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+text = "TY_LAUNCH_TAG_FAIL"
+
+[node name="Title" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=870609719]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 44
+text = "SND-01"
+
+[node name="Route" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=1404531926]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+text = "Sounding rocket  →  Suborbital"
+
+[node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=2007530640]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=2003270673]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="Grade" type="VBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats" unique_id=426605830]
+layout_mode = 2
+theme_override_constants/separation = -6
+
+[node name="GradeCaption" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Grade" unique_id=129054684]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_GRADE"
+
+[node name="GradeValue" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Grade" unique_id=875984048]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+theme_override_font_sizes/font_size = 64
+theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+text = "7.4"
+
+[node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Grade/GradeValue" unique_id=120156130]
+script = ExtResource("15_7813y")
+seconds = 0.9
+flash_strength = 0.0
+pop_scale = Vector2(1.08, 1.08)
+
+[node name="Odds" type="VBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats" unique_id=1177250588]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+
+[node name="OddsCaption" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Odds" unique_id=1339593052]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "TY_LAUNCH_ODDS"
+
+[node name="OddsValue" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Odds" unique_id=875203088]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 26
+text = "82%"
+
+[node name="Cause" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(1, 0.7647059, 0.5137255, 1)
+text = "Cause: stage 2 failure"
+autowrap_mode = 3
+
+[node name="Line" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=416874382]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+text = "TY_LAUNCH_LINE_FAIL"
+autowrap_mode = 3
+
+[node name="Foot" type="HBoxContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=1129762025]
+layout_mode = 2
+alignment = 2
+
+[node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Foot" unique_id=1211615658]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_LAUNCH_CONTINUE"
+
+[node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Foot/Continue" unique_id=1903270301]
+script = ExtResource("16_6spfu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1807002104]
+libraries/ = SubResource("AnimationLibrary_xivn0")
+
+[node name="LaunchAudio" parent="." node_paths=PackedStringArray("sequence_player", "sequence") instance=ExtResource("audio_launch")]
+sequence_player = NodePath("../AnimationPlayer")
+sequence = NodePath("..")
+
+[node name="CwOutline" parent="Stage/Spectators/CrewCam" instance=ExtResource("cw_outline")]
+
+[node name="CwOutline" parent="Stage/CamRig/ShotCam" instance=ExtResource("cw_outline")]

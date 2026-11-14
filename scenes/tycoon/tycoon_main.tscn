@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tycoon_hud.tscn" id="4_hud"]
 [ext_resource type="Script" path="res://src/tycoon/campus_day_cycle.gd" id="5_day"]
 [ext_resource type="Material" path="res://assets/campus/campus_voxel.tres" id="6_voxel"]
+[ext_resource type="PackedScene" path="res://scenes/audio/campus_audio.tscn" id="audio_campus"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="CameraAttributesPractical" id="cam_attr"]
 dof_blur_far_distance = 12.0
@@ -15,84 +17,126 @@ dof_blur_near_transition = 3.0
 dof_blur_amount = 0.06
 
 [sub_resource type="Curve" id="dc_sun_elev"]
-min_value = -15.0
-max_value = 30.0
-_data = [Vector2(0.0, 20), 0.0, 0.0, 0, 0, Vector2(0.25, 5), 0.0, 0.0, 0, 0, Vector2(0.45, -9), 0.0, 0.0, 0, 0, Vector2(0.62, -9), 0.0, 0.0, 0, 0, Vector2(0.8, 4), 0.0, 0.0, 0, 0, Vector2(1.0, 20), 0.0, 0.0, 0, 0]
+min_value = -15
+max_value = 45
+_data = [Vector2(0, 30), 0.0, 0.0, 0, 0, Vector2(0.25, 9), 0.0, 0.0, 0, 0, Vector2(0.45, -9), 0.0, 0.0, 0, 0, Vector2(0.62, -9), 0.0, 0.0, 0, 0, Vector2(0.8, 8), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_sun_energy"]
-min_value = 0.0
-max_value = 4.0
-_data = [Vector2(0.0, 2.6), 0.0, 0.0, 0, 0, Vector2(0.25, 1.6), 0.0, 0.0, 0, 0, Vector2(0.45, 0.0), 0.0, 0.0, 0, 0, Vector2(0.62, 0.0), 0.0, 0.0, 0, 0, Vector2(0.8, 1.3), 0.0, 0.0, 0, 0, Vector2(1.0, 2.6), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 4
+_data = [Vector2(0, 3), 0.0, 0.0, 0, 0, Vector2(0.25, 2.1), 0.0, 0.0, 0, 0, Vector2(0.45, 0), 0.0, 0.0, 0, 0, Vector2(0.62, 0), 0.0, 0.0, 0, 0, Vector2(0.8, 1.9), 0.0, 0.0, 0, 0, Vector2(1, 3), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Gradient" id="dc_sun_color"]
-offsets = PackedFloat32Array(0.0, 0.25, 0.45, 0.62, 0.8, 1.0)
-colors = PackedColorArray(1, 0.68, 0.46, 1, 1, 0.5, 0.3, 1, 0.9, 0.4, 0.3, 1, 0.9, 0.4, 0.3, 1, 1, 0.62, 0.55, 1, 1, 0.68, 0.46, 1)
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(1, 0.76, 0.54, 1, 1, 0.56, 0.34, 1, 0.9, 0.4, 0.3, 1, 0.9, 0.4, 0.3, 1, 1, 0.64, 0.52, 1, 1, 0.76, 0.54, 1)
 
 [sub_resource type="Curve" id="dc_moon"]
-min_value = 0.0
-max_value = 2.0
-_data = [Vector2(0.0, 0.38), 0.0, 0.0, 0, 0, Vector2(0.25, 0.45), 0.0, 0.0, 0, 0, Vector2(0.45, 0.8), 0.0, 0.0, 0, 0, Vector2(0.62, 0.8), 0.0, 0.0, 0, 0, Vector2(0.8, 0.42), 0.0, 0.0, 0, 0, Vector2(1.0, 0.38), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 0.38), 0.0, 0.0, 0, 0, Vector2(0.25, 0.55), 0.0, 0.0, 0, 0, Vector2(0.45, 1.2), 0.0, 0.0, 0, 0, Vector2(0.62, 1.2), 0.0, 0.0, 0, 0, Vector2(0.8, 0.55), 0.0, 0.0, 0, 0, Vector2(1, 0.38), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_amb"]
-min_value = 0.0
-max_value = 2.0
-_data = [Vector2(0.0, 0.6), 0.0, 0.0, 0, 0, Vector2(0.25, 0.5), 0.0, 0.0, 0, 0, Vector2(0.45, 0.34), 0.0, 0.0, 0, 0, Vector2(0.62, 0.34), 0.0, 0.0, 0, 0, Vector2(0.8, 0.46), 0.0, 0.0, 0, 0, Vector2(1.0, 0.6), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 0.72), 0.0, 0.0, 0, 0, Vector2(0.25, 0.86), 0.0, 0.0, 0, 0, Vector2(0.45, 0.78), 0.0, 0.0, 0, 0, Vector2(0.62, 0.78), 0.0, 0.0, 0, 0, Vector2(0.8, 0.84), 0.0, 0.0, 0, 0, Vector2(1, 0.72), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Gradient" id="dc_amb_color"]
-offsets = PackedFloat32Array(0.0, 0.25, 0.45, 0.62, 0.8, 1.0)
-colors = PackedColorArray(0.42, 0.5, 0.72, 1, 0.44, 0.44, 0.66, 1, 0.32, 0.4, 0.7, 1, 0.32, 0.4, 0.7, 1, 0.5, 0.48, 0.7, 1, 0.42, 0.5, 0.72, 1)
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.5, 0.56, 0.74, 1, 0.52, 0.52, 0.7, 1, 0.4, 0.52, 0.74, 1, 0.4, 0.52, 0.74, 1, 0.54, 0.54, 0.72, 1, 0.5, 0.56, 0.74, 1)
 
 [sub_resource type="Curve" id="dc_exposure"]
-min_value = 0.0
-max_value = 2.0
-_data = [Vector2(0.0, 1.05), 0.0, 0.0, 0, 0, Vector2(0.25, 1.1), 0.0, 0.0, 0, 0, Vector2(0.45, 1.3), 0.0, 0.0, 0, 0, Vector2(0.62, 1.3), 0.0, 0.0, 0, 0, Vector2(0.8, 1.12), 0.0, 0.0, 0, 0, Vector2(1.0, 1.05), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 1.08), 0.0, 0.0, 0, 0, Vector2(0.25, 1.18), 0.0, 0.0, 0, 0, Vector2(0.45, 1.22), 0.0, 0.0, 0, 0, Vector2(0.62, 1.22), 0.0, 0.0, 0, 0, Vector2(0.8, 1.18), 0.0, 0.0, 0, 0, Vector2(1, 1.08), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Gradient" id="dc_zenith"]
-offsets = PackedFloat32Array(0.0, 0.25, 0.45, 0.62, 0.8, 1.0)
-colors = PackedColorArray(0.02, 0.035, 0.1, 1, 0.014, 0.02, 0.07, 1, 0.005, 0.01, 0.035, 1, 0.005, 0.01, 0.035, 1, 0.03, 0.05, 0.13, 1, 0.02, 0.035, 0.1, 1)
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.02, 0.035, 0.1, 1, 0.02, 0.025, 0.09, 1, 0.012, 0.03, 0.11, 1, 0.012, 0.03, 0.11, 1, 0.03, 0.05, 0.13, 1, 0.02, 0.035, 0.1, 1)
 
 [sub_resource type="Gradient" id="dc_mid"]
-offsets = PackedFloat32Array(0.0, 0.25, 0.45, 0.62, 0.8, 1.0)
-colors = PackedColorArray(0.09, 0.11, 0.26, 1, 0.07, 0.07, 0.2, 1, 0.03, 0.04, 0.12, 1, 0.03, 0.04, 0.12, 1, 0.12, 0.14, 0.3, 1, 0.09, 0.11, 0.26, 1)
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.09, 0.11, 0.26, 1, 0.1, 0.08, 0.24, 1, 0.05, 0.1, 0.27, 1, 0.05, 0.1, 0.27, 1, 0.12, 0.14, 0.3, 1, 0.09, 0.11, 0.26, 1)
 
 [sub_resource type="Gradient" id="dc_horizon"]
-offsets = PackedFloat32Array(0.0, 0.25, 0.45, 0.62, 0.8, 1.0)
-colors = PackedColorArray(0.56, 0.37, 0.42, 1, 0.64, 0.3, 0.3, 1, 0.13, 0.13, 0.26, 1, 0.13, 0.13, 0.26, 1, 0.6, 0.42, 0.5, 1, 0.56, 0.37, 0.42, 1)
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.56, 0.37, 0.42, 1, 0.72, 0.34, 0.32, 1, 0.16, 0.24, 0.42, 1, 0.16, 0.24, 0.42, 1, 0.6, 0.42, 0.5, 1, 0.56, 0.37, 0.42, 1)
 
 [sub_resource type="Curve" id="dc_sky_glow"]
-min_value = 0.0
-max_value = 4.0
-_data = [Vector2(0.0, 1.6), 0.0, 0.0, 0, 0, Vector2(0.25, 2.2), 0.0, 0.0, 0, 0, Vector2(0.45, 0.15), 0.0, 0.0, 0, 0, Vector2(0.62, 0.15), 0.0, 0.0, 0, 0, Vector2(0.8, 1.5), 0.0, 0.0, 0, 0, Vector2(1.0, 1.6), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 4
+_data = [Vector2(0, 1.6), 0.0, 0.0, 0, 0, Vector2(0.25, 2.4), 0.0, 0.0, 0, 0, Vector2(0.45, 0.45), 0.0, 0.0, 0, 0, Vector2(0.62, 0.45), 0.0, 0.0, 0, 0, Vector2(0.8, 1.6), 0.0, 0.0, 0, 0, Vector2(1, 1.6), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_stars"]
-min_value = 0.0
-max_value = 4.0
-_data = [Vector2(0.0, 1.5), 0.0, 0.0, 0, 0, Vector2(0.25, 2.0), 0.0, 0.0, 0, 0, Vector2(0.45, 2.8), 0.0, 0.0, 0, 0, Vector2(0.62, 2.8), 0.0, 0.0, 0, 0, Vector2(0.8, 1.2), 0.0, 0.0, 0, 0, Vector2(1.0, 1.5), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 4
+_data = [Vector2(0, 1.5), 0.0, 0.0, 0, 0, Vector2(0.25, 2), 0.0, 0.0, 0, 0, Vector2(0.45, 2.6), 0.0, 0.0, 0, 0, Vector2(0.62, 2.6), 0.0, 0.0, 0, 0, Vector2(0.8, 1.2), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_aurora"]
-min_value = 0.0
-max_value = 2.0
-_data = [Vector2(0.0, 0.32), 0.0, 0.0, 0, 0, Vector2(0.25, 0.4), 0.0, 0.0, 0, 0, Vector2(0.45, 0.5), 0.0, 0.0, 0, 0, Vector2(0.62, 0.48), 0.0, 0.0, 0, 0, Vector2(0.8, 0.2), 0.0, 0.0, 0, 0, Vector2(1.0, 0.32), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 0.32), 0.0, 0.0, 0, 0, Vector2(0.25, 0.4), 0.0, 0.0, 0, 0, Vector2(0.45, 0.55), 0.0, 0.0, 0, 0, Vector2(0.62, 0.52), 0.0, 0.0, 0, 0, Vector2(0.8, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 0.32), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_windows"]
-min_value = 0.0
-max_value = 4.0
-_data = [Vector2(0.0, 1.0), 0.0, 0.0, 0, 0, Vector2(0.25, 1.4), 0.0, 0.0, 0, 0, Vector2(0.45, 2.0), 0.0, 0.0, 0, 0, Vector2(0.62, 2.0), 0.0, 0.0, 0, 0, Vector2(0.8, 1.3), 0.0, 0.0, 0, 0, Vector2(1.0, 1.0), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 4
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.25, 1.4), 0.0, 0.0, 0, 0, Vector2(0.45, 1.75), 0.0, 0.0, 0, 0, Vector2(0.62, 1.75), 0.0, 0.0, 0, 0, Vector2(0.8, 1.25), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 6
 
 [sub_resource type="Curve" id="dc_lamps"]
-min_value = 0.0
-max_value = 2.0
-_data = [Vector2(0.0, 1.0), 0.0, 0.0, 0, 0, Vector2(0.25, 1.15), 0.0, 0.0, 0, 0, Vector2(0.45, 1.35), 0.0, 0.0, 0, 0, Vector2(0.62, 1.35), 0.0, 0.0, 0, 0, Vector2(0.8, 1.05), 0.0, 0.0, 0, 0, Vector2(1.0, 1.0), 0.0, 0.0, 0, 0]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.25, 1.2), 0.0, 0.0, 0, 0, Vector2(0.45, 1.65), 0.0, 0.0, 0, 0, Vector2(0.62, 1.65), 0.0, 0.0, 0, 0, Vector2(0.8, 1.1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 6
+
+[sub_resource type="Curve" id="dc_saturation"]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 1.2), 0.0, 0.0, 0, 0, Vector2(0.25, 1.22), 0.0, 0.0, 0, 0, Vector2(0.45, 1.32), 0.0, 0.0, 0, 0, Vector2(0.62, 1.32), 0.0, 0.0, 0, 0, Vector2(0.8, 1.2), 0.0, 0.0, 0, 0, Vector2(1, 1.2), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="Curve" id="dc_contrast"]
+min_value = 0
+max_value = 2
+_data = [Vector2(0, 1.06), 0.0, 0.0, 0, 0, Vector2(0.25, 1.08), 0.0, 0.0, 0, 0, Vector2(0.45, 1.1), 0.0, 0.0, 0, 0, Vector2(0.62, 1.1), 0.0, 0.0, 0, 0, Vector2(0.8, 1.06), 0.0, 0.0, 0, 0, Vector2(1, 1.06), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="Curve" id="dc_fog_density"]
+min_value = 0
+max_value = 0.01
+_data = [Vector2(0, 0.0018), 0.0, 0.0, 0, 0, Vector2(0.25, 0.0016), 0.0, 0.0, 0, 0, Vector2(0.45, 0.0012), 0.0, 0.0, 0, 0, Vector2(0.62, 0.0012), 0.0, 0.0, 0, 0, Vector2(0.8, 0.0016), 0.0, 0.0, 0, 0, Vector2(1, 0.0018), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="Gradient" id="dc_moon_color"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.56, 0.68, 1, 1, 0.62, 0.66, 1, 1, 0.62, 0.76, 1, 1, 0.62, 0.76, 1, 1, 0.66, 0.68, 1, 1, 0.56, 0.68, 1, 1)
+
+[sub_resource type="Gradient" id="dc_fog_color"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.5, 0.44, 0.52, 1, 0.54, 0.4, 0.44, 1, 0.1, 0.16, 0.3, 1, 0.1, 0.16, 0.3, 1, 0.46, 0.4, 0.52, 1, 0.5, 0.44, 0.52, 1)
+
+[sub_resource type="Gradient" id="dc_window_tint"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.84, 0.64, 1, 1, 0.7, 0.42, 1, 1, 0.7, 0.42, 1, 1, 0.88, 0.72, 1, 1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="dc_shadow_tint"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.6, 0.4, 0.95, 1, 0.78, 0.42, 0.72, 1, 0.3, 0.42, 1, 1, 0.3, 0.42, 1, 1, 0.62, 0.5, 0.95, 1, 0.6, 0.4, 0.95, 1)
+
+[sub_resource type="Gradient" id="dc_rim_color"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(1, 0.74, 0.56, 1, 0.98, 0.56, 0.62, 1, 0.42, 0.9, 0.86, 1, 0.42, 0.9, 0.86, 1, 0.72, 0.76, 1, 1, 1, 0.74, 0.56, 1)
+
+[sub_resource type="Gradient" id="dc_outline_color"]
+offsets = PackedFloat32Array(0, 0.25, 0.45, 0.62, 0.8, 1)
+colors = PackedColorArray(0.16, 0.08, 0.18, 1, 0.18, 0.07, 0.16, 1, 0.04, 0.06, 0.16, 1, 0.04, 0.06, 0.16, 1, 0.12, 0.08, 0.2, 1, 0.16, 0.08, 0.18, 1)
 
 [node name="TycoonMain" type="Node3D"]
 script = ExtResource("1_main")
@@ -105,6 +149,8 @@ attributes = SubResource("cam_attr")
 fov = 31.0
 far = 1600.0
 script = ExtResource("3_cam")
+
+[node name="CwOutline" parent="Camera" instance=ExtResource("cw_outline")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -129,3 +175,15 @@ aurora = SubResource("dc_aurora")
 window_glow = SubResource("dc_windows")
 lamp_energy = SubResource("dc_lamps")
 voxel_material = ExtResource("6_voxel")
+moon_color = SubResource("dc_moon_color")
+saturation = SubResource("dc_saturation")
+contrast = SubResource("dc_contrast")
+fog_color = SubResource("dc_fog_color")
+fog_density = SubResource("dc_fog_density")
+window_tint = SubResource("dc_window_tint")
+shadow_tint = SubResource("dc_shadow_tint")
+rim_color = SubResource("dc_rim_color")
+outline_color = SubResource("dc_outline_color")
+
+[node name="Audio" parent="." node_paths=PackedStringArray("day_cycle") instance=ExtResource("audio_campus")]
+day_cycle = NodePath("../DayCycle")

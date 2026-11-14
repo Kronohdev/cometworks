@@ -7,6 +7,9 @@ shader_type spatial;
 //               src/tycoon/campus.gd sets `tidy`).
 //   side faces  layered earth and rock strata with a grass lip at the top edge.
 // Set `rock_top` for surfaces that should read as rock / sand from above (cliff, beach).
+// Lighting: the Cometworks toon light (shaders/include/cw_toon.gdshaderinc).
+#define CW_TOON_RIM_DEFAULT 0.0
+#include "res://shaders/include/cw_toon.gdshaderinc"
 
 group_uniforms grass;
 uniform vec3 grass_a : source_color = vec3(0.235, 0.380, 0.255);
@@ -120,4 +123,5 @@ void fragment() {
 	ALBEDO = col * brightness;
 	ROUGHNESS = roughness_value;
 	SPECULAR = 0.3;
+	EMISSION = cw_toon_rim(NORMAL, VIEW, ALBEDO, VERTEX, INV_VIEW_MATRIX);
 }

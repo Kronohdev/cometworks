@@ -1,0 +1,182 @@
+keys,en,pt
+TY_MS_SUBORBITAL,First suborbital flight,Primeiro voo suborbital
+TY_MS_SUBORBITAL_S,Suborbital flight,Voo suborbital
+TY_MS_SUBORBITAL_H,%s touches the edge of space,%s toca a borda do espaço
+TY_MS_SUBORBITAL_FACT,"A suborbital flight climbs past about 100 km (the Kármán line) but falls back: it lacks the ~7.8 km/s needed to stay in orbit.","Um voo suborbital passa de uns 100 km de altitude (a linha de Kármán), mas cai de volta: falta a velocidade de ~7,8 km/s para ficar em órbita."
+TY_MS_FIRST_SATELLITE,First satellite in orbit,Primeiro satélite em órbita
+TY_MS_FIRST_SATELLITE_S,Satellite in orbit,Satélite em órbita
+TY_MS_FIRST_SATELLITE_H,%s puts a satellite in orbit,%s põe um satélite em órbita
+TY_MS_FIRST_SATELLITE_FACT,A satellite in low orbit moves at about 7.8 km/s and goes around the planet in roughly 90 minutes.,"Um satélite em órbita baixa voa a cerca de 7,8 km/s e dá uma volta no planeta em uns 90 minutos."
+TY_MS_LONG_SIGNAL,First long-distance signal,Primeiro sinal de longa distância
+TY_MS_LONG_SIGNAL_S,Long-distance signal,Sinal distante
+TY_MS_LONG_SIGNAL_H,%s calls home from far away,%s fala com casa lá de longe
+TY_MS_LONG_SIGNAL_FACT,"A geostationary orbit is about 35 786 km high: there a satellite circles once a day and seems to stand still in the sky.","A órbita geoestacionária fica a uns 35 786 km de altura: lá o satélite dá uma volta por dia e parece parado no céu."
+TY_MS_COMETLING_SPACE,First Cometling in space,Primeiro Cometinho no espaço
+TY_MS_COMETLING_SPACE_S,Cometling in space,Cometinho no espaço
+TY_MS_COMETLING_SPACE_H,A Cometling in space! %s makes history,Um Cometinho no espaço! %s faz história
+TY_MS_COMETLING_SPACE_FACT,"Above about 100 km the sky turns black: there is too little air left to scatter sunlight.","Acima de uns 100 km o céu fica preto: sobra pouco ar para espalhar a luz do Sol."
+TY_MS_COMETLING_ORBIT,First Cometling in orbit,Primeiro Cometinho em órbita
+TY_MS_COMETLING_ORBIT_S,Cometling in orbit,Cometinho em órbita
+TY_MS_COMETLING_ORBIT_H,%s keeps a Cometling in orbit,%s mantém um Cometinho em órbita
+TY_MS_COMETLING_ORBIT_FACT,"Crews float in orbit not because gravity is gone, but because they and their ship are falling around the planet together.","Na órbita a tripulação flutua não porque a gravidade sumiu, mas porque ela e a nave caem juntas ao redor do planeta."
+TY_MS_PROBE_MOON,First probe to reach the Moon,Primeira sonda a atingir a Lua
+TY_MS_PROBE_MOON_S,Probe at the Moon,Sonda na Lua
+TY_MS_PROBE_MOON_H,%s reaches the Moon,%s chega à Lua
+TY_MS_PROBE_MOON_FACT,"The Moon is about 384 400 km away; a radio signal takes about 1.3 seconds to get there.","A Lua fica a cerca de 384 400 km; um sinal de rádio leva uns 1,3 segundo para chegar lá."
+TY_MS_FAR_SIDE,First photo of the far side,Primeira foto do lado oculto
+TY_MS_FAR_SIDE_S,Far side photo,Lado oculto
+TY_MS_FAR_SIDE_H,%s shows us the far side of the Moon,%s mostra o lado oculto da Lua
+TY_MS_FAR_SIDE_FACT,"The Moon always shows the same face because it is tidally locked. The far side is not dark: it gets as much sunlight as the near side.","A Lua mostra sempre a mesma face porque está em rotação sincronizada. O lado oculto não é escuro: recebe tanta luz do Sol quanto o lado visível."
+TY_MS_ROBOTIC_LANDING,First robotic landing,Primeiro pouso robótico
+TY_MS_ROBOTIC_LANDING_S,Robotic landing,Pouso robótico
+TY_MS_ROBOTIC_LANDING_H,Soft landing: %s touches down on the Moon,Pouso suave: %s desce na Lua
+TY_MS_ROBOTIC_LANDING_FACT,"The Moon has no air, so parachutes are useless: a lander brakes with its rocket engine all the way down.","A Lua não tem ar, então paraquedas não servem: o módulo freia com o motor do foguete até o chão."
+TY_MS_POLAR_ICE,Polar ice confirmed,Gelo polar confirmado
+TY_MS_POLAR_ICE_S,Polar ice,Gelo polar
+TY_MS_POLAR_ICE_H,Ice at the pole! %s confirms it,Gelo no polo! %s confirma
+TY_MS_POLAR_ICE_FACT,"Some craters near the lunar poles never see the Sun; water ice can stay frozen inside them for billions of years.","Algumas crateras perto dos polos da Lua nunca veem o Sol; gelo de água pode ficar congelado nelas por bilhões de anos."
+TY_MS_CREWED_FLYBY,First crewed lunar flyby,Primeiro sobrevoo tripulado da Lua
+TY_MS_CREWED_FLYBY_S,Crewed flyby,Sobrevoo tripulado
+TY_MS_CREWED_FLYBY_H,%s flies Cometlings around the Moon,%s leva Cometinhos ao redor da Lua
+TY_MS_CREWED_FLYBY_FACT,"A free-return trajectory swings around the Moon and back home with no big engine burn: a safety net for crews.","Uma trajetória de retorno livre contorna a Lua e volta para casa sem queima grande de motor: uma rede de segurança para a tripulação."
+TY_MS_CREWED_LANDING,First crewed landing,Primeiro pouso tripulado
+TY_MS_CREWED_LANDING_S,Crewed landing,Pouso tripulado
+TY_MS_CREWED_LANDING_H,%s puts Cometlings on the Moon,%s põe Cometinhos para andar na Lua
+TY_MS_CREWED_LANDING_FACT,"Lunar gravity is about one sixth of Earth's: every step on the Moon is a gentle hop.","A gravidade da Lua é cerca de um sexto da terrestre: cada passo na Lua vira um pulinho."
+TY_MS_BASE_MODULE,First base module,Primeiro módulo de base
+TY_MS_BASE_MODULE_S,Base module,Módulo de base
+TY_MS_BASE_MODULE_H,%s sets down the first base module,%s instala o primeiro módulo de base
+TY_MS_BASE_MODULE_FACT,Piling lunar soil (regolith) over a base shields it from radiation and micrometeoroids.,Cobrir uma base com solo lunar (regolito) protege contra radiação e micrometeoroides.
+TY_MS_LUNAR_PROPELLANT,First propellant made on the Moon,Primeiro propelente feito na Lua
+TY_MS_LUNAR_PROPELLANT_S,Lunar propellant,Propelente lunar
+TY_MS_LUNAR_PROPELLANT_H,%s makes rocket propellant on the Moon,%s fabrica propelente na Lua
+TY_MS_LUNAR_PROPELLANT_FACT,"Water ice can be split into hydrogen and oxygen, the same pair that fuels many rocket engines.","O gelo de água pode ser separado em hidrogênio e oxigênio, a mesma dupla que alimenta muitos motores de foguete."
+TY_MS_LAUNCH_BASE,Launch base operational,Base de partida operacional
+TY_MS_LAUNCH_BASE_S,Launch base,Base de partida
+TY_MS_LAUNCH_BASE_H,%s opens the launch base,%s inaugura a base de partida
+TY_MS_LAUNCH_BASE_FACT,"Leaving the Moon takes far less energy than leaving Earth: escape speed there is about 2.4 km/s, against 11.2 km/s here.","Sair da Lua gasta muito menos energia que sair da Terra: a velocidade de escape lá é de uns 2,4 km/s, contra 11,2 km/s aqui."
+TY_MS_COMET,Rendezvous with the Mother-Ice,Encontro com a Mãe-Gelo
+TY_MS_COMET_S,The Mother-Ice,Mãe-Gelo
+TY_MS_COMET_H,%s meets the Mother-Ice,%s encontra a Mãe-Gelo
+TY_MS_COMET_FACT,"Comets are leftovers from the birth of the Solar System: ice, dust and rock. Near the Sun the ice turns to gas and blows into a tail.","Cometas são sobras do nascimento do Sistema Solar: gelo, poeira e rocha. Perto do Sol o gelo vira gás e forma a cauda."
+TY_RIVAL_AURORA_PERS,Bold: launches early and takes risks,Ousada: lança cedo e arrisca
+TY_RIVAL_AURORA_STR,First to the crewed milestones,Chega primeiro nos marcos tripulados
+TY_RIVAL_AURORA_WEAK,Fails often; accidents cost it months,Falha muito; perde meses com acidentes
+TY_RIVAL_AURORA_TAUNT,“Careful is a word for those who arrive second.”,“Cautela é palavra de quem chega em segundo.”
+TY_RIVAL_AURORA_MOTTO,"Light it first, ask later.","Acende primeiro, pergunta depois."
+TY_RIVAL_NIMBO_PERS,Commercial and rich,Comercial e rica
+TY_RIVAL_NIMBO_STR,Wins contracts and licenses technology,Ganha contratos e licencia tecnologia
+TY_RIVAL_NIMBO_WEAK,Slow with crewed flights,Lenta em missões tripuladas
+TY_RIVAL_NIMBO_TAUNT,“Our shareholders send their warmest regards.”,“Nossos acionistas mandam lembranças.”
+TY_RIVAL_NIMBO_MOTTO,Every orbit has a price.,Toda órbita tem seu preço.
+TY_RIVAL_QUIETUDE_PERS,Scientific and cautious,Cientista e cautelosa
+TY_RIVAL_QUIETUDE_STR,Fast research; almost never fails,Pesquisa rápida; quase não falha
+TY_RIVAL_QUIETUDE_WEAK,Overspends and takes its time,Gasta demais e demora
+TY_RIVAL_QUIETUDE_TAUNT,“We measured twice. Then we measured again.”,“Medimos duas vezes. Depois medimos de novo.”
+TY_RIVAL_QUIETUDE_MOTTO,"Slowly, but all the way to the Moon.","Devagar, mas até a Lua."
+TY_RACE_NEWS_FIRST,%s takes a first: %s,%s conquista um marco: %s
+TY_RACE_NEWS_LATER,%s also reaches “%s” (#%d),%s também chega a “%s” (%dº)
+TY_RACE_NEWS_FAIL,%s tries “%s” and fails; months of delay,%s tenta “%s” e falha; meses de atraso
+TY_RACE_NEWS_DROP,%s shelves its “%s” programme,%s engaveta o programa “%s”
+TY_RACE_NEWS_COMET,The Mother-Ice passes the Sun. The race is over.,A Mãe-Gelo passa pelo Sol. A corrida acabou.
+TY_RACE_SCREEN_TITLE,The race to the Moon,A corrida para a Lua
+TY_RACE_SCREEN_SUB,Fifteen firsts between the shed and the Mother-Ice,Quinze marcos entre o galpão e a Mãe-Gelo
+TY_RACE_COMET_IN,Mother-Ice in,Mãe-Gelo em
+TY_RACE_HOME,Home world,Planeta natal
+TY_RACE_MOON,Moon,Lua
+TY_RACE_COMET,Mother-Ice,Mãe-Gelo
+TY_RACE_ERA,Era %d · %s,Era %d · %s
+TY_RACE_AGENCIES,Agencies,Agências
+TY_RACE_COUNT,%d of %d · %d firsts,%d de %d · %d primeiros
+TY_RACE_YOU,You,Você
+TY_RACE_NOW,Working on,Agora em
+TY_RACE_ALL_DONE,Every milestone taken,Todos os marcos feitos
+TY_RACE_SETBACKS,Setbacks,Tropeços
+TY_RACE_STRENGTH,Strength,Força
+TY_RACE_WEAKNESS,Weakness,Fraqueza
+TY_RACE_RIVALS,The rival agencies,As agências rivais
+TY_RACE_PRIZE,Prize,Prêmio
+TY_RACE_HOW,How to take it,Como conquistar
+TY_RACE_WHO,Who took it,Quem conquistou
+TY_RACE_NOBODY,"Nobody yet. The first takes the whole prize, later ones 30%.","Ninguém ainda. O primeiro leva o prêmio inteiro, os seguintes 30%."
+TY_RACE_EXPECT,Rivals expected in years %d–%d,Rivais esperados nos anos %d–%d
+TY_RACE_WHEN,Year %02d · week %02d,Ano %02d · semana %02d
+TY_RACE_YEAR_SHORT,Y%02d,A%02d
+TY_RACE_ORD_1,1st,1º
+TY_RACE_ORD_2,2nd,2º
+TY_RACE_ORD_3,3rd,3º
+TY_RACE_ORD_4,4th,4º
+TY_RACE_LAUNCH,Launch,Lançar
+TY_RACE_COMPLETE,Complete,Concluir
+TY_RACE_ANY_TYPE,any mission,qualquer missão
+TY_RACE_ANY_TARGET,any target,qualquer alvo
+TY_RACE_OUT_PARTIAL,partial success or better,sucesso parcial ou melhor
+TY_RACE_OUT_FULL,full success or better,sucesso total ou melhor
+TY_RACE_OUT_EXCEPTIONAL,an exceptional result,um resultado excepcional
+TY_RACE_REQUIRES,Needs first: %s,Precisa antes: %s
+TY_RACE_REWARD,%s · reputation +%d · hype +%d,%s · reputação +%d · hype +%d
+TY_RACE_VICTORY,Victory: +%d points in the final score,Vitória: +%d pontos na pontuação final
+TY_RACE_CLOSE,Close,Fechar
+TY_RACE_LEGEND_FIRST,first,primeiro
+TY_RACE_LEGEND_LATER,later,depois
+TY_RACE_LEGEND_NEXT,next goal,próxima meta
+TY_RACE_HOVER_HINT,Point at a milestone to read it,Aponte para um marco para ler
+TY_PAPER_NAME,The Tail Echo,O Eco da Cauda
+TY_PAPER_TAGLINE,The comet tail's most trusted rumours since year 1,Os boatos mais confiáveis da cauda desde o ano 1
+TY_PAPER_DATELINE,Year %d · week %d · issue no. %d,Ano %d · semana %d · edição nº %d
+TY_PAPER_PRICE,Price: one ice crystal,Preço: um cristal de gelo
+TY_PAPER_KICKER_FIRST,A first in the race · Era %d,Um marco na corrida · Era %d
+TY_PAPER_KICKER_FAIL,Setback in the race,Tropeço na corrida
+TY_PAPER_DECK_PLAYER,A prize of %s for the agency. The campus throws a party; the rivals take notes.,Um prêmio de %s para a agência. O campus faz festa; os rivais tomam nota.
+TY_PAPER_DECK_RIVAL,"%s pockets a prize of %s. The others can still get there, for 30%% of it.","%s embolsa um prêmio de %s. Os outros ainda podem chegar lá, por 30%% dele."
+TY_PAPER_DECK_VICTORY,The oldest dream of the Cometlings comes true.,O sonho mais antigo dos Cometinhos se realiza.
+TY_PAPER_QUOTE_BY,"— the directors, %s","— a direção, %s"
+TY_PAPER_PLAYER_QUOTE,“We did it with a shed and a lot of coffee.”,“Fizemos com um galpão e muito café.”
+TY_PAPER_FAIL_H,"Fireworks, no first: %s misses “%s”","Fogos, mas nada de marco: %s erra “%s”"
+TY_PAPER_FAIL_DECK,"No Cometling hurt, only pride. The programme slips %d months.","Nenhum Cometinho ferido, só o orgulho. O programa atrasa %d meses."
+TY_PAPER_FACT,Real science,Ciência de verdade
+TY_PAPER_BOARD,Race board,Placar da corrida
+TY_PAPER_WEATHER,"Tail weather: icy, with a chance of launches.","Tempo na cauda: gelado, com chance de lançamentos."
+TY_PAPER_CONTINUE,Back to work,De volta ao trabalho
+TY_PAPER_ALSO,Also in this issue,Também nesta edição
+TY_FIN_KICKER,End of year 25 · the comet passes,Fim do ano 25 · o cometa passa
+TY_FIN_TITLE,The Mother-Ice passes the Sun,A Mãe-Gelo passa pelo Sol
+TY_FIN_MET,Your Cometlings met the Mother-Ice. They made it home.,Seus Cometinhos encontraram a Mãe-Gelo. Eles voltaram para casa.
+TY_FIN_MISSED,"Your Cometlings watched it go by. Next pass, they ride along.","Seus Cometinhos viram a Mãe-Gelo passar. Na próxima, eles vão junto."
+TY_FIN_ROW_MET,met the comet,encontrou o cometa
+TY_FIN_ROW_MISSED,stayed behind,ficou para trás
+TY_FIN_SCORE,See the final score,Ver a pontuação final
+TY_FIN_FACTS,25 years · 15 milestones · 4 agencies,25 anos · 15 marcos · 4 agências
+TY_SCORE_KICKER,Campaign report · 25 years,Relatório da campanha · 25 anos
+TY_SCORE_TITLE,Final score,Pontuação final
+TY_SCORE_OF,of %d,de %d
+TY_SCORE_RANK,Place %d of %d agencies,%dº lugar entre %d agências
+TY_SCORE_RACE,Milestones,Marcos
+TY_SCORE_SCIENCE,Science downlinked,Ciência baixada
+TY_SCORE_REPUTATION,Reputation · last 5 years,Reputação · últimos 5 anos
+TY_SCORE_CASH,Cash in the bank,Dinheiro em caixa
+TY_SCORE_COMETLINGS,Cometlings · team levels,Cometinhos · níveis da equipe
+TY_SCORE_FIRSTS,Firsts,Primeiros lugares
+TY_SCORE_COMET_BONUS,Mother-Ice rendezvous,Encontro com a Mãe-Gelo
+TY_SCORE_STANDINGS,Standings,Classificação
+TY_SCORE_POINTS,Race pts,Pts corrida
+TY_SCORE_MILESTONES,Your milestones,Seus marcos
+TY_SCORE_MENU,Back to menu,Voltar ao menu
+TY_SCORE_RACE_BTN,The race,A corrida
+TY_SET_TITLE,Settings,Configurações
+TY_SET_CAMPAIGN,Campaign,Campanha
+TY_SET_SLOT,Slot %s,Espaço %s
+TY_SET_AUTO,Autosave,Automático
+TY_SET_EMPTY,Empty,Vazio
+TY_SET_SUMMARY,Year %02d · week %02d · %s,Ano %02d · semana %02d · %s
+TY_SET_SAVE,Save,Salvar
+TY_SET_LOAD,Load,Carregar
+TY_SET_SAVED,Saved in slot %s,Salvo no espaço %s
+TY_SET_SAVE_FAILED,Could not save,Não deu para salvar
+TY_SET_MENU,Back to menu,Voltar ao menu
+TY_SET_RESUME,Back to the campus,Voltar ao campus
+TY_SET_AUTOSAVE_NOTE,The campaign also saves itself every month.,A campanha também se salva sozinha todo mês.
+TY_SET_OPTIONS,Options,Opções
+TY_SAVE_CONTINUE_HINT,Year %02d · week %02d,Ano %02d · semana %02d
+TY_SAVE_CONTINUE_TIP,Continue the last saved campaign,Continuar a última campanha salva
+TY_SAVE_LOADING,Loading the campaign,Carregando a campanha

@@ -3,17 +3,15 @@
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod2.glb" id="1_nucleus"]
 [ext_resource type="Shader" path="res://shaders/menu_comet_tail.gdshader" id="2_tail"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="3_glow"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 
-[sub_resource type="StandardMaterial3D" id="ice"]
-vertex_color_use_as_albedo = true
-albedo_color = Color(0.9, 0.97, 1, 1)
-roughness = 0.7
-emission_enabled = true
-emission = Color(0.7, 0.95, 1, 1)
-emission_energy_multiplier = 0.9
-rim_enabled = true
-rim = 0.6
-rim_tint = 0.8
+[sub_resource type="ShaderMaterial" id="ice"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.9, 0.97, 1, 1)
+shader_parameter/use_vertex_color = true
+shader_parameter/roughness = 0.7
+shader_parameter/emission = Color(0.7, 0.95, 1, 1)
+shader_parameter/emission_energy = 0.9
 
 [sub_resource type="QuadMesh" id="tail_quad"]
 size = Vector2(1, 1)

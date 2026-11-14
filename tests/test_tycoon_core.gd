@@ -23,7 +23,11 @@ func _initialize() -> void:
 		s.advance_week()
 	_check(s.year() == 2 and s.week() == 1, "52 weeks later: year 2, week 1 (got %d/%d)" % [s.year(), s.week()])
 	_check(months[0] == 12, "12 month changes in a year (got %d)" % months[0])
-	_check(absf(s.cash - (300000.0 - 12.0 * bill)) < 0.01, "salaries paid 12 times (cash %.0f)" % s.cash)
+	# agency income booked in the ledger (hype donations, the year-2 government budget)
+	var income := 0.0
+	for mo: Dictionary in TycoonFinance.history(s):
+		income += TycoonFinance.total(mo["in"])
+	_check(absf(s.cash - (300000.0 - 12.0 * bill + income)) < 0.01, "salaries paid 12 times (cash %.0f)" % s.cash)
 	_check(s.comet_weeks_left() == 24 * 52, "comet countdown: 24 years left")
 	# save / load round trip
 	var d := s.to_dict()

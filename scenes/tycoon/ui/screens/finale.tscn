@@ -1,0 +1,302 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/finale_screen.gd" id="2_script"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_starfield.gd" id="3_stars"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_comet_art.gd" id="4_comet"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_marker.gd" id="5_marker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+
+[sub_resource type="Gradient" id="aurora"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.2471, 0.8784, 0.7725, 1, 0.5569, 0.4863, 1, 1, 1, 0.5412, 0.2392, 1)
+
+[sub_resource type="GradientTexture2D" id="thread"]
+gradient = SubResource("aurora")
+width = 256
+height = 2
+
+[sub_resource type="Animation" id="RESET"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Comet:head")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.66, 0.3)]
+}
+
+[sub_resource type="Animation" id="pass"]
+resource_name = "pass"
+length = 4.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Comet:head")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.4),
+"transitions": PackedFloat32Array(0.35, 1),
+"update": 0,
+"values": [Vector2(1.18, 0.22), Vector2(0.66, 0.3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text/Kicker:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text/Title:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.3, 2.1),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Text/Thread:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.8, 2.6),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Vector2(0, 1), Vector2(0, 1), Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Text/Message:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2.4, 3.0),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Text/Results:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 3.0, 3.6),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Text/ScoreButton:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 3.8, 4.3),
+"transitions": PackedFloat32Array(1, 0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="anims"]
+_data = {
+&"RESET": SubResource("RESET"),
+&"pass": SubResource("pass")
+}
+
+[node name="FinaleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Sky" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_stars")
+stars = 620
+
+[node name="Comet" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_comet")
+head = Vector2(0.66, 0.3)
+direction = Vector2(-1, -0.2)
+length = 820.0
+art_scale = 2.6
+
+[node name="Text" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -440.0
+offset_right = 960.0
+offset_bottom = -80.0
+grow_vertical = 0
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="Kicker" type="Label" parent="Text"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6157, 0.9412, 0.8314, 1)
+theme_override_font_sizes/font_size = 17
+text = "TY_FIN_KICKER"
+
+[node name="Title" type="Label" parent="Text"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 58
+text = "TY_FIN_TITLE"
+
+[node name="Thread" type="TextureRect" parent="Text"]
+custom_minimum_size = Vector2(420, 2)
+layout_mode = 2
+size_flags_horizontal = 0
+texture = SubResource("thread")
+expand_mode = 1
+
+[node name="Message" type="Label" parent="Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 21
+text = "Seus Cometinhos encontraram a Mãe-Gelo. Eles voltaram para casa."
+autowrap_mode = 3
+
+[node name="Results" type="VBoxContainer" parent="Text"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ResultTemplate" type="HBoxContainer" parent="Text/Results"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Marker" type="Control" parent="Text/Results/ResultTemplate"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("5_marker")
+radius = 6.0
+
+[node name="Name" type="Label" parent="Text/Results/ResultTemplate"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+text = "Cometworks"
+
+[node name="Status" type="Label" parent="Text/Results/ResultTemplate"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "encontrou o cometa"
+
+[node name="When" type="Label" parent="Text/Results/ResultTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.8118, 0.7647, 1, 1)
+text = "Ano 25 · semana 30"
+
+[node name="Gap" type="Control" parent="Text"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ScoreButton" type="Button" parent="Text"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_FIN_SCORE"
+
+[node name="Facts" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -50.0
+offset_right = -40.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.8118, 0.7647, 1, 1)
+text = "TY_FIN_FACTS"
+horizontal_alignment = 2
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("anims")
+}
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+panel = NodePath("..")
+slide = Vector2(0, 0)
+from_scale = Vector2(1, 1)
+in_seconds = 0.5
+out_seconds = 0.3
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

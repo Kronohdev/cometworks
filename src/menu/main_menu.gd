@@ -1,24 +1,30 @@
 class_name MainMenu
 extends Node
 ## Cometworks title screen (scenes/menu/main_menu.tscn). Behind: the attract loop of shots
-## (Background, src/menu/menu_director.gd). In front: the logo, the menu panel, the options
+## (Background, src/menu/menu_director.gd), each with its own soft ambience; the menu theme
+## comes from the MusicCue node (CwMusicCue). In front: the logo, the menu panel, the options
 ## panel, the observatory readout and the footer, all authored in the scene with the
 ## Cometworks theme (GDD section 22). This script only wires the buttons, plays the entry
 ## motion (panel slides 8 px and fades in over 140 ms), fills the readout and changes scene.
-##   New campaign  -> scenes/tycoon/tycoon_main.tscn
-##   Continue      -> disabled until there is a save system
+##   New campaign  -> the leader creator, then scenes/tycoon/tycoon_main.tscn (the opening
+##                    cutscene plays first, src/cutscene/)
+##   Continue      -> the newest save (TycoonSave), the same scene with TycoonMain.load_slot set
 ##   Fair mode     -> the same scene with TycoonMain.fair_mode = true (set before it enters the tree)
+##                    and the 15 s opening
 ##   Rocket workshop -> scenes/hangar.tscn
 ##   Options       -> language, fullscreen, master volume (MenuSettings)
 
 const TYCOON := "res://scenes/tycoon/tycoon_main.tscn"
 const HANGAR := "res://scenes/hangar.tscn"
+## New campaign first makes the player's leader Cometling (LeaderCreator opens the tycoon)
+const LEADER_CREATOR := "res://scenes/tycoon/ui/screens/leader_creator.tscn"
 const PANEL_SLIDE := 8.0
 const PANEL_FADE := 0.14
 
 var _leaving := false
 var _pending := ""
 var _pending_fair := false
+var _pending_slot := ""   # TycoonSave slot for Continue
 var _caption_key := ""
 var _shot_index := 0
 var _menu_focus: Dictionary = {}   # Button -> focus_mode, while the options panel is open
@@ -46,13 +52,12 @@ var _options_home := Vector2.ZERO
 func _ready() -> void:
 	MenuSettings.apply()
 	director.shot_started.connect(_on_shot_started)
-	new_campaign.pressed.connect(_go.bind(TYCOON, false, "MENU_LOADING_CAMPUS"))
+	new_campaign.pressed.connect(_go.bind(LEADER_CREATOR, false, "TY_LEADER_PREPARING"))
 	fair.pressed.connect(_go.bind(TYCOON, true, "MENU_LOADING_FAIR"))
 	workshop.pressed.connect(_go.bind(HANGAR, false, "MENU_LOADING_HANGAR"))
 	options_button.pressed.connect(open_options)
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
-	continue_button.disabled = true
-	continue_button.focus_mode = Control.FOCUS_NONE
+	_setup_continue()
 	new_campaign.mouse_entered.connect(new_campaign.grab_focus)
 	new_campaign.focus_entered.connect(peek.peek)
 	new_campaign.focus_exited.connect(peek.unpeek)
@@ -113,6 +118,7 @@ func open_options() -> void:
 	if options.visible:
 		return
 	options.sync()
+	CwSfx.play(&"ui_open")
 	options.visible = true
 	options.modulate.a = 0.0
 	options.position = _options_home + Vector2(0, PANEL_SLIDE)
@@ -129,6 +135,7 @@ func open_options() -> void:
 func close_options() -> void:
 	if not options.visible:
 		return
+	CwSfx.play(&"ui_close")
 	for b: Button in _menu_focus:
 		b.focus_mode = _menu_focus[b]
 	_menu_focus.clear()
@@ -169,7 +176,26 @@ func _switch() -> void:
 	# fair mode: TycoonMain reads its export in _ready, so set it before the scene enters the tree
 	if _pending_fair and "fair_mode" in scene:
 		scene.set("fair_mode", true)
+		scene.set("intro_cutscene", Cutscenes.OPENING_SHORT)   # the 15 s story
+	if _pending_slot != "" and "load_slot" in scene:
+		scene.set("load_slot", _pending_slot)
+		scene.set("fair_mode", bool(TycoonSave.read(_pending_slot).get("extra", {}).get("fair_mode", false)))
 	get_tree().change_scene_to_node(scene)
+
+
+## Continue: the newest TycoonSave slot, enabled only when there is one.
+func _setup_continue() -> void:
+	var slot := TycoonSave.latest_slot()
+	continue_button.disabled = slot == ""
+	continue_button.focus_mode = Control.FOCUS_NONE if slot == "" else Control.FOCUS_ALL
+	if slot == "":
+		return
+	var sm: Dictionary = TycoonSave.read(slot).get("summary", {})
+	continue_button.hint_key = tr("TY_SAVE_CONTINUE_HINT") % [int(sm.get("year", 1)), int(sm.get("week", 1))]
+	continue_button.tooltip_text = "TY_SAVE_CONTINUE_TIP"
+	continue_button.pressed.connect(func() -> void:
+		_pending_slot = slot
+		_go(TYCOON, false, "TY_SAVE_LOADING"))
 
 
 # ------------------------------------------------------------------ screenshot helpers

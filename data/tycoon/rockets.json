@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "_doc": "Tycoon rocket designer and Design Review (GDD sections 7 and 8.2, roadmap E2). A design picks one component per slot. Stats: dv (km/s) = (core.dv + upper.dv) * tank.dv_mult + boosters.dv; lift (t) = core.lift * tank.lift_mult * boosters.lift_mult * recovery.lift_mult; fairing.max_size bounds the mission type's size (missions.json). Unit cost = (core.cost + upper.cost) * tank.cost_mult * (1 + boosters.cost_mult) + fairing.cost + avionics.cost + recovery.cost, then the family's repeat discount and the factory. Build weeks = sum of component weeks (x repeat.weeks_mult once the family has flown, x the factory). A design reaches the target when dv >= targets[target] and lift >= payload_t[type] and the fairing fits. Hardware reliability = product of component 'rel'. Components without a 'tech' are there from the start; the others come with the research.json tech that lists them under unlocks.rockets.",
+  "slots": [
+    {"id": "core", "name_key": "TY_RK_SLOT_CORE", "risk": {"id": "stage1", "name_key": "TY_RK_RISK_STAGE1", "cause_key": "TY_RK_CAUSE_STAGE1", "fix_key": "TY_RK_FIX_STAGE1", "fix_weeks": 1, "fix_cost_frac": 0.10}},
+    {"id": "upper", "name_key": "TY_RK_SLOT_UPPER", "risk": {"id": "stage2", "name_key": "TY_RK_RISK_STAGE2", "cause_key": "TY_RK_CAUSE_STAGE2", "fix_key": "TY_RK_FIX_STAGE2", "fix_weeks": 1, "fix_cost_frac": 0.08}},
+    {"id": "tank", "name_key": "TY_RK_SLOT_TANK", "risk_into": "core"},
+    {"id": "boosters", "name_key": "TY_RK_SLOT_BOOSTERS", "risk": {"id": "boosters", "name_key": "TY_RK_RISK_BOOSTERS", "cause_key": "TY_RK_CAUSE_BOOSTERS", "fix_key": "TY_RK_FIX_BOOSTERS", "fix_weeks": 1, "fix_cost_frac": 0.06}},
+    {"id": "fairing", "name_key": "TY_RK_SLOT_FAIRING", "risk": {"id": "fairing", "name_key": "TY_RK_RISK_FAIRING", "cause_key": "TY_RK_CAUSE_FAIRING", "fix_key": "TY_RK_FIX_FAIRING", "fix_weeks": 1, "fix_cost_frac": 0.03}},
+    {"id": "avionics", "name_key": "TY_RK_SLOT_AVIONICS", "risk": {"id": "avionics", "name_key": "TY_RK_RISK_AVIONICS", "cause_key": "TY_RK_CAUSE_AVIONICS", "fix_key": "TY_RK_FIX_AVIONICS", "fix_weeks": 1, "fix_cost_frac": 0.05}},
+    {"id": "recovery", "name_key": "TY_RK_SLOT_RECOVERY"}
+  ],
+  "components": [
+    {"id": "core_kestrel", "slot": "core", "name_key": "TY_RK_C_CORE_KESTREL", "desc_key": "TY_RK_D_CORE_KESTREL", "cost": 24000, "rel": 0.97, "dv": 2.4, "lift": 0.25, "weeks": 2, "model": 1},
+    {"id": "core_falcao", "slot": "core", "name_key": "TY_RK_C_CORE_FALCAO", "desc_key": "TY_RK_D_CORE_FALCAO", "cost": 80000, "rel": 0.955, "dv": 7.2, "lift": 1.2, "weeks": 3, "model": 2},
+    {"id": "core_harpia", "slot": "core", "name_key": "TY_RK_C_CORE_HARPIA", "desc_key": "TY_RK_D_CORE_HARPIA", "cost": 220000, "rel": 0.95, "dv": 8.0, "lift": 6.0, "weeks": 4, "model": 3},
+    {"id": "core_metano", "slot": "core", "name_key": "TY_RK_C_CORE_METANO", "desc_key": "TY_RK_D_CORE_METANO", "cost": 650000, "rel": 0.955, "dv": 8.6, "lift": 20.0, "weeks": 5, "model": 4},
+    {"id": "core_hidra", "slot": "core", "name_key": "TY_RK_C_CORE_HIDRA", "desc_key": "TY_RK_D_CORE_HIDRA", "cost": 1100000, "rel": 0.96, "dv": 9.2, "lift": 40.0, "weeks": 6, "model": 5},
+
+    {"id": "upper_none", "slot": "upper", "name_key": "TY_RK_C_UPPER_NONE", "desc_key": "TY_RK_D_UPPER_NONE"},
+    {"id": "upper_kestrel_v", "slot": "upper", "name_key": "TY_RK_C_UPPER_KESTREL_V", "desc_key": "TY_RK_D_UPPER_KESTREL_V", "cost": 40000, "rel": 0.975, "dv": 2.8, "weeks": 1, "height": 0.08},
+    {"id": "upper_falcao_v", "slot": "upper", "name_key": "TY_RK_C_UPPER_FALCAO_V", "desc_key": "TY_RK_D_UPPER_FALCAO_V", "cost": 140000, "rel": 0.97, "dv": 4.6, "weeks": 2, "height": 0.12},
+    {"id": "upper_hidra_5", "slot": "upper", "name_key": "TY_RK_C_UPPER_HIDRA_5", "desc_key": "TY_RK_D_UPPER_HIDRA_5", "cost": 450000, "rel": 0.97, "dv": 6.8, "weeks": 2, "height": 0.14},
+
+    {"id": "tank_s", "slot": "tank", "name_key": "TY_RK_C_TANK_S", "desc_key": "TY_RK_D_TANK_S", "dv_mult": 0.9, "lift_mult": 0.85, "cost_mult": 0.85, "height": 0.86},
+    {"id": "tank_m", "slot": "tank", "name_key": "TY_RK_C_TANK_M", "desc_key": "TY_RK_D_TANK_M"},
+    {"id": "tank_l", "slot": "tank", "name_key": "TY_RK_C_TANK_L", "desc_key": "TY_RK_D_TANK_L", "dv_mult": 1.12, "lift_mult": 1.25, "cost_mult": 1.2, "rel": 0.995, "weeks": 1, "height": 1.18},
+
+    {"id": "boost_none", "slot": "boosters", "name_key": "TY_RK_C_BOOST_NONE", "desc_key": "TY_RK_D_BOOST_NONE"},
+    {"id": "boost_srb2", "slot": "boosters", "name_key": "TY_RK_C_BOOST_SRB2", "desc_key": "TY_RK_D_BOOST_SRB2", "cost_mult": 0.3, "dv": 0.8, "lift_mult": 1.4, "rel": 0.985, "weeks": 1, "count": 2, "size": 0.32},
+    {"id": "boost_srb4", "slot": "boosters", "name_key": "TY_RK_C_BOOST_SRB4", "desc_key": "TY_RK_D_BOOST_SRB4", "cost_mult": 0.5, "dv": 1.3, "lift_mult": 1.8, "rel": 0.975, "weeks": 1, "count": 4, "size": 0.32},
+    {"id": "boost_liquid2", "slot": "boosters", "name_key": "TY_RK_C_BOOST_LIQUID2", "desc_key": "TY_RK_D_BOOST_LIQUID2", "cost_mult": 0.65, "dv": 1.8, "lift_mult": 2.2, "rel": 0.98, "weeks": 2, "count": 2, "size": 0.5},
+
+    {"id": "fairing_none", "slot": "fairing", "name_key": "TY_RK_C_FAIRING_NONE", "desc_key": "TY_RK_D_FAIRING_NONE", "max_size": 0.6},
+    {"id": "fairing_s", "slot": "fairing", "name_key": "TY_RK_C_FAIRING_S", "desc_key": "TY_RK_D_FAIRING_S", "cost": 8000, "rel": 0.995, "max_size": 1.6},
+    {"id": "fairing_m", "slot": "fairing", "name_key": "TY_RK_C_FAIRING_M", "desc_key": "TY_RK_D_FAIRING_M", "cost": 35000, "rel": 0.993, "max_size": 2.4},
+    {"id": "fairing_l", "slot": "fairing", "name_key": "TY_RK_C_FAIRING_L", "desc_key": "TY_RK_D_FAIRING_L", "cost": 110000, "rel": 0.99, "max_size": 3.2},
+
+    {"id": "avionics_basic", "slot": "avionics", "name_key": "TY_RK_C_AVIONICS_BASIC", "desc_key": "TY_RK_D_AVIONICS_BASIC", "cost": 6000, "rel": 0.985},
+    {"id": "avionics_redundant", "slot": "avionics", "name_key": "TY_RK_C_AVIONICS_REDUNDANT", "desc_key": "TY_RK_D_AVIONICS_REDUNDANT", "cost": 14000, "rel": 0.995, "weeks": 1},
+    {"id": "avionics_smart", "slot": "avionics", "name_key": "TY_RK_C_AVIONICS_SMART", "desc_key": "TY_RK_D_AVIONICS_SMART", "cost": 50000, "rel": 0.999, "weeks": 1},
+
+    {"id": "recovery_none", "slot": "recovery", "name_key": "TY_RK_C_RECOVERY_NONE", "desc_key": "TY_RK_D_RECOVERY_NONE"},
+    {"id": "recovery_chute", "slot": "recovery", "name_key": "TY_RK_C_RECOVERY_CHUTE", "desc_key": "TY_RK_D_RECOVERY_CHUTE", "cost": 5000, "refund": 0.3, "lift_mult": 0.97},
+    {"id": "recovery_landing", "slot": "recovery", "name_key": "TY_RK_C_RECOVERY_LANDING", "desc_key": "TY_RK_D_RECOVERY_LANDING", "cost": 60000, "refund": 0.6, "lift_mult": 0.85, "weeks": 1}
+  ],
+  "_targets": "Delta-v (km/s) a design needs for each mission target, from the parts.json delta_v_map (surface -> LEO 9.4, + GTO 2.44, + GEO 1.5, + TLI 3.1, + LLO 0.9, + landing 1.7).",
+  "targets": {"suborbital": 2.0, "leo": 9.4, "sso": 9.8, "geo": 13.3, "lunar_flyby": 12.5, "lunar_orbit": 13.4,
+    "lunar_surface": 15.1, "lunar_pole": 15.3, "comet": 16.5},
+  "_payload_t": "Payload mass (t) of each mission type, what the design's lift must carry.",
+  "payload_t": {"sounding": 0.05, "demo_sat": 0.3, "comms": 1.5, "earth_obs": 1.2, "space_weather": 1.0, "telescope": 1.6,
+    "impactor": 1.5, "orbiter": 2.5, "lander": 5.0, "rover": 6.0, "crewed_flight": 8.0, "crewed_landing": 20.0,
+    "sample_return": 8.0, "base_module": 25.0, "isru": 22.0, "comet_mission": 12.0},
+  "_classes": "Launch class of a design by its lift (t): the first whose max_lift is above it. Used for the pad and the rocket's size in the launch.",
+  "classes": [{"id": "sounding", "max_lift": 0.5}, {"id": "light", "max_lift": 2.5}, {"id": "medium", "max_lift": 8.0},
+    {"id": "heavy", "max_lift": 25.0}, {"id": "lunar", "max_lift": 1000000.0}],
+  "_margins": "Requirement meters: margin = have / need - 1. Below 0 the design does not reach (red, blocks the launch). Between 0 and 'green' it reaches with a thin margin (yellow): a risk of up to risk_max at margin 0, falling to 0 at 'green'.",
+  "margins": {
+    "dv": {"green": 0.10, "risk_max": 0.10, "name_key": "TY_RK_RISK_DV", "cause_key": "TY_RK_CAUSE_DV"},
+    "lift": {"green": 0.20, "risk_max": 0.06, "name_key": "TY_RK_RISK_LIFT", "cause_key": "TY_RK_CAUSE_LIFT"}
+  },
+  "_heritage": "Flight heritage (GDD 8.2): a family's trust starts at 'debut' (debut_known_core when another family with the same main stage has flown well), +step for each successful flight up to max, -fail_drop for a failure down to min. The family's reliability is the hardware reliability x trust; the Design Review shows 1 - trust as the new family's risk.",
+  "heritage": {"debut": 0.9, "debut_known_core": 0.94, "step": 0.02, "max": 1.0, "fail_drop": 0.06, "min": 0.7,
+    "risk": {"id": "debut", "name_key": "TY_RK_RISK_DEBUT", "cause_key": "TY_RK_CAUSE_DEBUT", "fix_key": "TY_RK_FIX_DEBUT", "fix_weeks": 2, "fix_cost_frac": 0.15}},
+  "repeat": {"cost_step": 0.04, "cost_floor": 0.8, "weeks_mult": 0.6},
+  "factory": {"cost_mult": [1.0, 0.95, 0.9, 0.8], "weeks_mult": [1.0, 0.9, 0.8, 0.7]},
+  "_review": "Design Review (GDD 7): every risk is a failure mode with a chance p; the launch succeeds with the product of (1 - p). 'Fix' multiplies a rocket risk by fix_factor for fix_weeks weeks and fix_cost_frac x the unit cost (at least fix_cost_min); the chosen fixes run in parallel (the delay is the longest one). The payload risk is ProjectDesk's p_payload (projects.json launch); its fix (an extra readiness review) cuts the residual defects to payload_fix_defects and adds payload_fix_rel to the reliability fraction. Risks below 'low' are green, at 'high' and above red. Scrub cancels the launch: the team is freed and the reputation drops by scrub_reputation.",
+  "review": {"fix_factor": 0.5, "fix_cost_min": 3000, "payload_fix_weeks": 1, "payload_fix_defects": 0.4, "payload_fix_rel": 0.15,
+    "low": 0.02, "high": 0.05, "scrub_reputation": 1.0, "rebuild_review": true},
+  "proposals": {"cost_weight": 0.05},
+  "family_names": ["Andorinha", "Bem-te-vi", "Sabiá", "Colibri", "Tucano", "Arara", "Garça", "Gavião", "Condor", "Harpia",
+    "Albatroz", "Fragata", "Quero-quero", "Jaçanã", "Socó", "Tiê", "Uirapuru", "Carcará"]
+}

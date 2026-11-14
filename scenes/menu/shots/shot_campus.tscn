@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" path="res://scenes/tycoon/campus.tscn" id="2_campus"]
 [ext_resource type="Shader" path="res://shaders/campus_sky.gdshader" id="3_sky"]
 [ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="4_creature"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_day.wav" id="audio_bed_stream"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("3_sky")
@@ -13,7 +16,7 @@ shader_parameter/horizon_color = Color(0.62, 0.38, 0.4, 1)
 shader_parameter/ground_color = Color(0.03, 0.04, 0.07, 1)
 shader_parameter/horizon_height = 0.17
 shader_parameter/anti_sun_cool = 0.35
-shader_parameter/sun_dir = Vector3(-0.3, 0.05, -0.95)
+shader_parameter/sun_dir = Vector3(-0.92, 0.04, -0.37)
 shader_parameter/glow_color = Color(1, 0.5, 0.22, 1)
 shader_parameter/glow_strength = 1.5
 shader_parameter/glow_width = 0.28
@@ -36,9 +39,9 @@ shader_parameter/moon_dir = Vector3(0.551, 0.451, 0.702)
 shader_parameter/moon_size = 0.025
 shader_parameter/moon_brightness = 2.2
 shader_parameter/comet_enabled = true
-shader_parameter/comet_dir = Vector3(-0.785, 0.19, -0.588)
-shader_parameter/comet_tail_dir = Vector3(-0.44, 0.8, 0.41)
-shader_parameter/comet_length = 0.42
+shader_parameter/comet_dir = Vector3(-0.368, 0.225, -0.903)
+shader_parameter/comet_tail_dir = Vector3(0.365, 0.85, -0.342)
+shader_parameter/comet_length = 0.36
 shader_parameter/comet_width = 0.011
 shader_parameter/comet_curve = 0.5
 shader_parameter/comet_brightness = 1.6
@@ -138,3 +141,11 @@ environment = SubResource("env")
 attributes = SubResource("cam_attr")
 fov = 38.0
 far = 1600.0
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -10.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

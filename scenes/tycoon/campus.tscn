@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/tycoon/campus_nature.tscn" id="7_nature"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/campus_dressing.tscn" id="8_dressing"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/campus_life.tscn" id="9_life"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("3_sky")
@@ -156,6 +157,10 @@ size = Vector3(150, 3, 104)
 
 [sub_resource type="ShaderMaterial" id="m0"]
 shader = ExtResource("4_terrain")
+shader_parameter/grass_a = Color(0.25, 0.43, 0.25, 1)
+shader_parameter/grass_b = Color(0.33, 0.5, 0.27, 1)
+shader_parameter/grass_dry = Color(0.5, 0.49, 0.29, 1)
+shader_parameter/clover = Color(0.19, 0.37, 0.25, 1)
 shader_parameter/brightness = 1.0
 shader_parameter/lip_height = 0.0
 
@@ -164,6 +169,10 @@ size = Vector3(162, 3, 116)
 
 [sub_resource type="ShaderMaterial" id="m1"]
 shader = ExtResource("4_terrain")
+shader_parameter/grass_a = Color(0.25, 0.43, 0.25, 1)
+shader_parameter/grass_b = Color(0.33, 0.5, 0.27, 1)
+shader_parameter/grass_dry = Color(0.5, 0.49, 0.29, 1)
+shader_parameter/clover = Color(0.19, 0.37, 0.25, 1)
 shader_parameter/brightness = 0.78
 shader_parameter/dry_amount = 0.5
 shader_parameter/earth_amount = 0.25
@@ -174,6 +183,10 @@ size = Vector3(172, 10, 126)
 
 [sub_resource type="ShaderMaterial" id="m2"]
 shader = ExtResource("4_terrain")
+shader_parameter/grass_a = Color(0.25, 0.43, 0.25, 1)
+shader_parameter/grass_b = Color(0.33, 0.5, 0.27, 1)
+shader_parameter/grass_dry = Color(0.5, 0.49, 0.29, 1)
+shader_parameter/clover = Color(0.19, 0.37, 0.25, 1)
 shader_parameter/brightness = 0.7
 shader_parameter/dry_amount = 0.7
 shader_parameter/earth_amount = 0.4
@@ -303,18 +316,20 @@ size = Vector3(8.12, 1.0, 5.313)
 [sub_resource type="BoxMesh" id="b38"]
 size = Vector3(52.409, 32.407, 31.755)
 
-[sub_resource type="StandardMaterial3D" id="m4"]
-albedo_color = Color(0.0706, 0.1020, 0.1569, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m4"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.0706, 0.1020, 0.1569, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b39"]
 size = Vector3(64.58, 31.923, 48.409)
 
-[sub_resource type="StandardMaterial3D" id="m5"]
-albedo_color = Color(0.0549, 0.0824, 0.1333, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m5"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.0549, 0.0824, 0.1333, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b40"]
 size = Vector3(64.47, 22.01, 40.368)
@@ -397,19 +412,21 @@ size = Vector3(4, 0.05, 7.0)
 [sub_resource type="BoxMesh" id="b63"]
 size = Vector3(0.25, 0.08, 0.25)
 
-[sub_resource type="StandardMaterial3D" id="m8"]
-albedo_color = Color(0.2471, 0.8784, 0.7725, 1.000)
-emission_enabled = true
-emission = Color(0.2471, 0.8784, 0.7725, 1.000)
-emission_energy_multiplier = 2.6
+[sub_resource type="ShaderMaterial" id="m8"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2471, 0.8784, 0.7725, 1.000)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(0.2471, 0.8784, 0.7725, 1.000)
+shader_parameter/emission_energy = 2.6
 
 [sub_resource type="BoxMesh" id="b64"]
 size = Vector3(18, 0.05, 0.18)
 
-[sub_resource type="StandardMaterial3D" id="m9"]
-albedo_color = Color(0.2275, 0.3020, 0.4471, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m9"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2275, 0.3020, 0.4471, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b65"]
 size = Vector3(0.18, 0.05, 13)
@@ -417,36 +434,40 @@ size = Vector3(0.18, 0.05, 13)
 [sub_resource type="BoxMesh" id="b66"]
 size = Vector3(0.25, 0.6, 0.25)
 
-[sub_resource type="StandardMaterial3D" id="m10"]
-albedo_color = Color(0.1686, 0.2039, 0.2706, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m10"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.1686, 0.2039, 0.2706, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b67"]
 size = Vector3(0.27, 0.12, 0.27)
 
-[sub_resource type="StandardMaterial3D" id="m11"]
-albedo_color = Color(0.2471, 0.8784, 0.7725, 1.000)
-emission_enabled = true
-emission = Color(0.2471, 0.8784, 0.7725, 1.000)
-emission_energy_multiplier = 1.6
+[sub_resource type="ShaderMaterial" id="m11"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2471, 0.8784, 0.7725, 1.000)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(0.2471, 0.8784, 0.7725, 1.000)
+shader_parameter/emission_energy = 1.6
 
 [sub_resource type="BoxMesh" id="b68"]
 size = Vector3(0.15, 1.6, 0.15)
 
-[sub_resource type="StandardMaterial3D" id="m12"]
-albedo_color = Color(0.3529, 0.2745, 0.2118, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m12"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.3529, 0.2745, 0.2118, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b69"]
 size = Vector3(1.4, 0.8, 0.08)
 
-[sub_resource type="StandardMaterial3D" id="m13"]
-albedo_color = Color(0.7490, 0.9098, 1.0000, 1.000)
-emission_enabled = true
-emission = Color(0.7490, 0.9098, 1.0000, 1.000)
-emission_energy_multiplier = 1.5
+[sub_resource type="ShaderMaterial" id="m13"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.7490, 0.9098, 1.0000, 1.000)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(0.7490, 0.9098, 1.0000, 1.000)
+shader_parameter/emission_energy = 1.5
 
 [sub_resource type="BoxMesh" id="b70"]
 size = Vector3(26, 0.05, 0.18)
@@ -481,11 +502,12 @@ size = Vector3(0.18, 4.2, 0.18)
 [sub_resource type="BoxMesh" id="b80"]
 size = Vector3(0.7, 0.18, 0.4)
 
-[sub_resource type="StandardMaterial3D" id="m14"]
-albedo_color = Color(1.0000, 0.8235, 0.6039, 1.000)
-emission_enabled = true
-emission = Color(1.0000, 0.8235, 0.6039, 1.000)
-emission_energy_multiplier = 3.0
+[sub_resource type="ShaderMaterial" id="m14"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1.0000, 0.8235, 0.6039, 1.000)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1.0000, 0.8235, 0.6039, 1.000)
+shader_parameter/emission_energy = 3.0
 
 [sub_resource type="BoxMesh" id="b81"]
 size = Vector3(0.45, 1.444, 0.45)
@@ -493,10 +515,11 @@ size = Vector3(0.45, 1.444, 0.45)
 [sub_resource type="BoxMesh" id="b82"]
 size = Vector3(2.241, 1.624, 2.241)
 
-[sub_resource type="StandardMaterial3D" id="m15"]
-albedo_color = Color(0.1843, 0.3529, 0.2902, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m15"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.1843, 0.3529, 0.2902, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b83"]
 size = Vector3(1.345, 1.263, 1.345)
@@ -525,10 +548,11 @@ size = Vector3(0.45, 1.451, 0.45)
 [sub_resource type="BoxMesh" id="b91"]
 size = Vector3(2.057, 1.633, 2.057)
 
-[sub_resource type="StandardMaterial3D" id="m16"]
-albedo_color = Color(0.1451, 0.2863, 0.2471, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m16"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.1451, 0.2863, 0.2471, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b92"]
 size = Vector3(1.234, 1.27, 1.234)
@@ -539,10 +563,11 @@ size = Vector3(0.45, 1.476, 0.45)
 [sub_resource type="BoxMesh" id="b94"]
 size = Vector3(2.373, 1.66, 2.373)
 
-[sub_resource type="StandardMaterial3D" id="m17"]
-albedo_color = Color(0.2353, 0.4196, 0.3333, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m17"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2353, 0.4196, 0.3333, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b95"]
 size = Vector3(1.424, 1.291, 1.424)
@@ -934,18 +959,20 @@ size = Vector3(1.408, 1.206, 1.408)
 [sub_resource type="BoxMesh" id="b224"]
 size = Vector3(2.059, 0.568, 1.498)
 
-[sub_resource type="StandardMaterial3D" id="m18"]
-albedo_color = Color(0.2902, 0.3294, 0.3843, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m18"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2902, 0.3294, 0.3843, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b225"]
 size = Vector3(1.797, 0.891, 1.799)
 
-[sub_resource type="StandardMaterial3D" id="m19"]
-albedo_color = Color(0.2314, 0.2667, 0.3216, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m19"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2314, 0.2667, 0.3216, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b226"]
 size = Vector3(1.491, 0.93, 1.593)
@@ -980,18 +1007,20 @@ size = Vector3(2.049, 1.199, 1.796)
 [sub_resource type="BoxMesh" id="b236"]
 size = Vector3(2.4, 0.5, 0.7)
 
-[sub_resource type="StandardMaterial3D" id="m20"]
-albedo_color = Color(0.4196, 0.3294, 0.2510, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m20"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.4196, 0.3294, 0.2510, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b237"]
 size = Vector3(1.2, 1.0, 1.2)
 
-[sub_resource type="StandardMaterial3D" id="m21"]
-albedo_color = Color(0.4902, 0.5255, 0.5882, 1.000)
-roughness = 0.9
-metallic = 0.0
+[sub_resource type="ShaderMaterial" id="m21"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.4902, 0.5255, 0.5882, 1.000)
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
 
 [sub_resource type="BoxMesh" id="b238"]
 size = Vector3(0.7, 0.7, 0.7)
@@ -2735,3 +2764,6 @@ role = "pilot"
 transform = Transform3D(0.86603, 0, 0.50000, 0, 1.0, 0, -0.50000, 0, 0.86603, 3.897, 0.000, 0.250)
 variant = 2
 role = "ground"
+
+[node name="Gate" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 31)

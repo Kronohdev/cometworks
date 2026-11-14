@@ -378,20 +378,39 @@ def wall_trim(g, st, r, walls):
     top = y0 + h
     for side, wl in walls.items():
         a0, a1 = (x0 + 0.1, x1 - 0.1) if side in ("pz", "nz") else (z0 + 0.1, z1 - 0.1)
+        # doorways on this wall (with their frames): the plinth bands stop at them, so no
+        # kerb runs across a door, and ribs start above the door
+        gaps = sorted((a - w / 2 - 0.2, a + w / 2 + 0.2, y0 + dh + 0.3)
+                      for (sd, a, w, dh) in getattr(r, "doors", []) if sd == side)
+
+        def plinth(ya, yb, col):
+            lo = a0
+            for (g0, g1, _t) in gaps:
+                if g0 > lo:
+                    wl.box(lo, min(g0, a1), ya, yb, 0.0, 0.1, col)
+                lo = max(lo, g1)
+            if lo < a1:
+                wl.box(lo, a1, ya, yb, 0.0, 0.1, col)
+
         if era == 2:
             wl.box(a0, a1, top - 0.4, top - 0.2, 0.0, 0.1, st["trim"])
             for a in np.arange(a0 + 0.2, a1 - 0.1, 0.4):
                 wl.box(a, a + 0.1, top - 0.5, top - 0.4, 0.0, 0.1, st["trim"])
         elif era == 3:
-            wl.box(a0, a1, y0 + 0.1, y0 + 0.3, 0.0, 0.1, st["wall_dk"])
+            plinth(y0 + 0.1, y0 + 0.3, st["wall_dk"])
         elif era == 4:
             wl.box(a0, a1, top - 0.3, top - 0.2, 0.0, 0.1, st["led"])
-            wl.box(a0, a1, y0 + 0.1, y0 + 0.2, 0.0, 0.1, st["led"])
+            plinth(y0 + 0.1, y0 + 0.2, st["led"])
         elif era == 5:
             wl.box(a0, a1, top - 0.5, top - 0.4, 0.0, 0.1, st["trim"])
-            wl.box(a0, a1, y0 + 0.1, y0 + 0.4, 0.0, 0.1, st["wall_dk"])
+            plinth(y0 + 0.1, y0 + 0.4, st["wall_dk"])
             for a in np.arange(a0 + 0.7, a1 - 0.5, 1.6):
-                wl.box(a, a + 0.2, y0 + 0.4, top - 0.5, 0.0, 0.1, st["wall"][1])
+                yb = y0 + 0.4
+                for (g0, g1, t) in gaps:
+                    if a + 0.2 > g0 and a < g1:
+                        yb = max(yb, t)
+                if yb < top - 0.5:
+                    wl.box(a, a + 0.2, yb, top - 0.5, 0.0, 0.1, st["wall"][1])
 
 
 def roof_dressing(g, st, r, reserved=()):

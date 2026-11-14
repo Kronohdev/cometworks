@@ -3,7 +3,8 @@ extends Node
 ## Drop this node under any panel (Control) to give it the Cometworks entrance (GDD section
 ## 22.6): when the panel becomes visible it slides `distance` px from `from_side` and fades in
 ## over `seconds` with a cubic ease-out. No bounce: the interface stays calm. Works with
-## containers too (it animates the panel's visual offset and modulate, never its layout).
+## containers too: it moves the panel's drawing through a CwMotion channel, never its layout,
+## so it composes with the other motion components (src/tycoon/ui/motion/).
 
 enum Side { BELOW, ABOVE, LEFT, RIGHT }
 
@@ -46,15 +47,10 @@ func play() -> void:
 			off = Vector2(-distance, 0)
 		Side.RIGHT:
 			off = Vector2(distance, 0)
-	# the panel's own CanvasItem transform offsets the drawing without touching the layout
-	_panel.modulate.a = 0.0
-	_set_offset(off)
-	_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_tween.tween_property(_panel, "modulate:a", 1.0, seconds)
-	_tween.tween_method(_set_offset, off, Vector2.ZERO, seconds)
-
-
-func _set_offset(o: Vector2) -> void:
-	var t := _panel.get_transform()
-	t.origin += o
-	RenderingServer.canvas_item_set_transform(_panel.get_canvas_item(), t)
+	if CwMotion.reduced():
+		off = Vector2.ZERO
+	_tween = create_tween()
+	_tween.tween_method(func(k: float) -> void:
+		CwMotion.set_channel(_panel, &"panel", off * (1.0 - k), Vector2.ONE, 0.0, k), 0.0, 1.0, seconds) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	CwMotion.set_channel(_panel, &"panel", off, Vector2.ONE, 0.0, 0.0)

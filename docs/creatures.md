@@ -100,29 +100,67 @@ Fully procedural, no bones and no AnimationPlayer: every frame a `Pose` (about 3
 squash, lean, hip and head angles, arm and foot offsets, ear lift, eye scale, lid, mouth,
 held item) is built in layers and written to the pivots.
 
-1. **Idle**: breathing squash at 0.33 Hz, head drift, tail wag, antenna pulse, random
-   glances, blinking every 1.6-4.8 s (25 % double blinks).
-2. **Walk** (`set_move_velocity(v)`): cadence follows the speed (stride 0.16 m), feet arc
-   and roll, squash on contact / stretch mid-step, hip sway and twist, arm swing, lean.
-3. **Loop actions** (`play(name)`, cross-faded over 0.3 s): `idle`, `sit`, `look_up`,
-   `work_hammer` (slow wind-up, fast strike, impact squash), `work_scan`, `carry`,
-   `clipboard`, `talk` (mouth flaps, gestures), `dance`.
-4. **One-shots on top** (eased in/out): `wave`, `cheer` (hops, arms pumping, happy eyes),
-   `jump` (anticipation squash, stretch, landing squash), `surprise` (pop with overshoot,
-   wide eyes, "O" mouth, ears spring up), `nod`, `spin`. `play_sequence([...])` chains them.
-5. **Look-at**: `look_at_point(p, weight)`; the head takes 75 % of the yaw and the hips 25 %
-   (overlap), pupils shift a little toward the target.
-6. **Secondary motion**: ears, antenna, tail and scarf tail ride damped springs driven by
-   the head's velocity (they stream back when running, bounce after jumps, flop on
-   surprises). Springs are sub-stepped so long frames stay stable.
-7. **Emotes**: `show_emote("heart")` pops a bubble with an overshoot, floats and shrinks.
+1. **Idle**: breathing squash (`breath_rate`, `breath_depth`), head drift, tail wag, antenna
+   pulse, random glances (often with a blink, like a real look), quick eye darts, blinking
+   every 1.6-4.8 s (`blink_interval`, 25 % double blinks) and a slow weight shift from one foot
+   to the other.
+2. **Idle habits** (`fidgets`, `fidget_interval`): look around, curious head tilt, ear flick,
+   antenna boing, toe bounce, happy tail wag, shy foot scuff (paws behind the back), little
+   hop, yawn, stretch, sigh. `personality_seed` gives every Cometling its own tempo, curiosity
+   and sleepiness, so a crowd never moves in sync.
+3. **Mood** (`mood`, -1 gloomy .. 1 bubbly): ears, tail height and wag, eyelids, mouth,
+   breathing speed and which habits play (bubbly ones hop and wag, gloomy ones scuff and sigh).
+   The tycoon can feed morale into it.
+4. **Walk / run** (`set_move_velocity(v)`): cadence follows the speed (`stride`, `run_stride`),
+   feet arc and roll, squash on contact / stretch mid-step (`walk_bounce`), hip sway and twist,
+   arm swing (`arm_swing`). Above `run_speed` it turns into a run: longer strides, airborne
+   bounce, pumping arms, forward lean, open mouth. Turning rolls the body into the turn
+   (`turn_lean`), the head leads (`head_lead`) and the tail swings out. The body lean rides a
+   spring with inertia (`lean_spring_hz`, `lean_inertia`): it tips back when starting, forward
+   when stopping, then rocks back.
+5. **Loop actions** (`play(name)`, cross-faded over 0.3 s): `idle`, `sit`, `look_up` (with awed
+   toe bounces), `work_hammer`, `work_scan`, `carry` (load bobs, re-grip hops), `clipboard`
+   (ticks boxes), `talk` (emphasis nods, shared laughs), `dance` (a twirl every 8 beats),
+   `sleep` (nap sitting down: eyes shut, slow breaths, nodding off and jerking awake, zZ
+   bubbles when `auto_emotes`), `think` (paw on the chin, head tilts, eyes up; every few
+   seconds an idea lights the bulb), `sad` (slump, droopy ears, frown, sniffles, foot scuff),
+   `work_type` (typing bursts and reading pauses) and `work_wrench` (ratchet pulls, a happy
+   beat when the bolt is tight). Played while walking, the stationary ones keep walking legs.
+6. **One-shots on top** (eased in/out, `play(name, duration)`): `wave`, `cheer`, `jump`,
+   `surprise`, `nod`, `spin`, `hop`, `clap` (paws meet; pass a duration for a long applause),
+   `celebrate` (anticipation, spinning leap, landing squash, fist pumps), `startled` (jumps
+   back, flails, paws to the mouth, trembles), `point`, `salute`, `bow`, `shrug`, `laugh`,
+   `sigh`, `shake_head`, `yawn`, `stretch`. `play_sequence([...])` chains them, `stop_shot()`
+   cancels.
+7. **Faces** (`set_expression(name, duration)`, `clear_expression()`): `happy` (squint),
+   `joy` (^ ^ and open mouth), `content`, `sad` (tilted lids, frown, droopy ears),
+   `surprised`, `sleepy`, `grumpy` (slanted lids), `worried`. Built only from the authored
+   face parts: eyes scale and squash, the lids scale and tilt, the mouth parts scale and the
+   smile turns upside down for a frown.
+8. **Look-at**: `look_at_point(p, weight)`; the head takes 75 % of the yaw and gets there
+   first, the hips take 25 % a moment later; pupils shift a little toward the target.
+9. **Secondary motion**: ears, antenna, tail, scarf tail and body lean ride damped springs
+   driven by the head's velocity and the turn rate (they stream back when running, bounce
+   after jumps, flop on surprises). Springs are sub-stepped so long frames stay stable.
+10. **Emotes**: `show_emote("heart")` pops a bubble with an overshoot, floats and shrinks.
+
+All tunables are exports on the `Creature` node (groups *Liveliness*, *Gait*, *Level of
+detail*). `Cometling.all_actions()` / `has_action()` list the names; the full public API is
+at the top of `creature.gd`.
+
+Bench: `godot --path . --resolution 1600x900 --script res://tests/screenshot_creature_anims.gd -- <out_dir>`
+saves film strips of every action (`anims_loops*`, `anims_shots_*`, `anims_gait`), the face
+sheet (`anims_faces`) and an idling crowd (`anims_crowd`). Headless:
+`tests/test_creature_anims.gd` plays every action, expression and reaction.
 
 ### Reacting to the hangar
 
 ```gdscript
 creature.react("part_placed")   # surprise -> cheer / jump / spin, "!" or star bubble
 creature.react("part_removed")  # surprise -> nod, sweat bubble
-# also: vessel_cleared, launch, success, failure, hello, staged
+# also: vessel_cleared, launch, success, failure, hello, staged,
+#       level_up, hired, good_news, bad_news, idea, tired, scared, poke
+creature.poke()                 # a random cute reaction (clicks)
 NpcEvents.emit("launch")        # every listening Cometling reacts (singleton-free bus)
 NpcEvents.emit("part_placed", {"position": p, "radius": 30.0, "stagger": 0.4})
 ```
@@ -137,7 +175,11 @@ added -> `part_placed`, six or more at once -> `success`, removed -> `part_remov
 - Shared material, no shadow casting (a blob-shadow quad instead), visibility range 170 m.
 - Off-screen Cometlings skip the animation entirely (`VisibleOnScreenNotifier3D`); beyond
   45 m they update every 2nd frame, beyond 90 m every 4th (time accumulates, motion stays
-  correct).
+  correct). Eye darts only run closer than `detail_distance` (24 m, times the node scale),
+  idle habits up to `habit_distance_factor` (2.5x) that.
+- No per-frame allocation: the pose layers reuse two `Pose` buffers, face parts and props only
+  toggle visibility when they change, the bulb glow is only re-sent when it changes. Stepping
+  48 Cometlings headless costs ~45-55 us each per frame, the same as before the new actions.
 - Measured in the hangar (Garça loaded, 1600x900, AMD integrated GPU, other Godot
   instances running in parallel): the 9-NPC crowd adds ~50 draw calls and ~0.27 M
   triangles to a ~4.2 M-triangle frame and ~1.2-1.8 ms of physics-step CPU (navigation +
@@ -176,4 +218,4 @@ Instanced by `scenes/environment/vab.tscn` (added by `tools/build_vab_scene.py`)
 | `scenes/npc/creature.tscn` · `creature.gdshader` · `creature_material.tres` · `blob_shadow.tres` | the rig |
 | `scenes/npc/hangar_npc.tscn` · `hangar_crowd.tscn` · `hangar_navmesh.tres` · `creature_showcase.tscn` | crowd and studio |
 | `src/npc/creature.gd` (`Cometling`) · `npc_walker.gd` (`NpcWalker`) · `hangar_crowd.gd` (`NpcCrowd`) · `npc_events.gd` (`NpcEvents`) · `cometling_looks.gd` (`CometlingLooks`) · `bake_hangar_navmesh.gd` | code |
-| `tests/test_crew.gd` · `tests/screenshot_creatures.gd` | tests, screenshots, FPS benchmark |
+| `tests/test_crew.gd` · `tests/test_creature_anims.gd` · `tests/screenshot_creatures.gd` · `tests/screenshot_creature_anims.gd` | tests, screenshots, animation bench, FPS benchmark |

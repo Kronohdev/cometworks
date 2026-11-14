@@ -1,0 +1,366 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/launch/launch_audio.gd" id="1_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/countdown_tick.wav" id="2_countdown_tick"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/countdown_go.wav" id="3_countdown_go"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/ignition.wav" id="4_ignition"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/rumble_loop.wav" id="5_rumble_loop"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/sputter.wav" id="6_sputter"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/engine_cut.wav" id="7_engine_cut"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/fall_whistle.wav" id="8_fall_whistle"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/fwoomp.wav" id="9_fwoomp"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/debris.wav" id="10_debris"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/crowd_cheer.wav" id="11_crowd_cheer"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/crowd_aww.wav" id="12_crowd_aww"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/confetti_pop.wav" id="13_confetti_pop"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_success.wav" id="14_result_success"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_partial.wav" id="15_result_partial"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_fail.wav" id="16_result_fail"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_close.wav" id="17_ui_close"]
+
+[sub_resource type="Animation" id="anim_countdown"]
+resource_name = "countdown"
+length = 7
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6, 1.18, 1.76, 2.34, 2.92, 3.5, 4.08, 4.66, 5, 5.24, 5.82, 6.3, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Ignition"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Tick"],
+"method": &"cue"
+}, {
+"args": [&"Rumble"],
+"method": &"cue"
+}, {
+"args": [&"Go"],
+"method": &"cue"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Players/Rumble:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(6.3, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-30, -6]
+}
+
+[sub_resource type="Animation" id="anim_flight_success"]
+resource_name = "flight_success"
+length = 7.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4.8, 4.9, 7.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [&"Cheer"],
+"method": &"cue"
+}, {
+"args": [&"Confetti"],
+"method": &"cue"
+}, {
+"args": [&"Rumble", 0.05],
+"method": &"stop_cue"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Players/Rumble:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2, 3, 5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-6, -6, -12, -24, -45, -60]
+}
+
+[sub_resource type="Animation" id="anim_flight_partial"]
+resource_name = "flight_partial"
+length = 7.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2.55, 2.9, 3.35, 4.6, 4.9, 7.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Cheer"],
+"method": &"cue"
+}, {
+"args": [&"Confetti"],
+"method": &"cue"
+}, {
+"args": [&"Rumble", 0.05],
+"method": &"stop_cue"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Players/Rumble:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.4, 2.55, 2.7, 2.9, 3.1, 3.35, 3.6, 5, 7, 7.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-6, -6, -16, -7, -17, -8, -16, -9, -22, -45, -60]
+}
+
+[sub_resource type="Animation" id="anim_flight_fail"]
+resource_name = "flight_fail"
+length = 6.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.54, 1.02, 1.5, 2.04, 2.52, 2.6, 2.62, 2.95, 3.7, 3.75, 4.05),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"Sputter"],
+"method": &"cue"
+}, {
+"args": [&"EngineCut"],
+"method": &"cue"
+}, {
+"args": [&"Whistle"],
+"method": &"cue"
+}, {
+"args": [&"Rumble", 0.1],
+"method": &"stop_cue"
+}, {
+"args": [&"Fwoomp"],
+"method": &"cue"
+}, {
+"args": [&"Debris"],
+"method": &"cue"
+}, {
+"args": [&"Aww"],
+"method": &"cue"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Players/Rumble:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.54, 0.62, 1.02, 1.1, 1.5, 1.58, 2.04, 2.12, 2.52, 2.6, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-6, -15, -7, -15, -7, -15, -7, -15, -8, -16, -10, -60]
+}
+
+[sub_resource type="Animation" id="anim_result"]
+resource_name = "result"
+length = 4.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"cue_result"
+}]
+}
+
+[sub_resource type="Animation" id="anim_outro"]
+resource_name = "outro"
+length = 0.9
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"Whoosh"],
+"method": &"cue"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="cues_lib"]
+_data = {
+&"countdown": SubResource("anim_countdown"),
+&"flight_success": SubResource("anim_flight_success"),
+&"flight_partial": SubResource("anim_flight_partial"),
+&"flight_fail": SubResource("anim_flight_fail"),
+&"result": SubResource("anim_result"),
+&"outro": SubResource("anim_outro")
+}
+
+[node name="LaunchAudio" type="Node" node_paths=PackedStringArray("long_players")]
+script = ExtResource("1_audio")
+long_players = [NodePath("Players/Ignition"), NodePath("Players/Rumble"), NodePath("Players/Whistle"), NodePath("Players/Sputter")]
+
+[node name="Cues" type="AnimationPlayer" parent="."]
+callback_mode_method = 1
+libraries = {
+&"": SubResource("cues_lib")
+}
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Tick" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("2_countdown_tick")
+volume_db = -12
+max_polyphony = 2
+bus = &"SFX"
+
+[node name="Go" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("3_countdown_go")
+volume_db = -9
+bus = &"SFX"
+
+[node name="Ignition" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("4_ignition")
+volume_db = -4
+bus = &"SFX"
+
+[node name="Rumble" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("5_rumble_loop")
+volume_db = -6
+bus = &"SFX"
+
+[node name="Sputter" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("6_sputter")
+volume_db = -5
+max_polyphony = 2
+bus = &"SFX"
+
+[node name="EngineCut" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("7_engine_cut")
+volume_db = -6
+bus = &"SFX"
+
+[node name="Whistle" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("8_fall_whistle")
+volume_db = -17
+bus = &"SFX"
+
+[node name="Fwoomp" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("9_fwoomp")
+volume_db = -4
+bus = &"SFX"
+
+[node name="Debris" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("10_debris")
+volume_db = -9
+bus = &"SFX"
+
+[node name="Cheer" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("11_crowd_cheer")
+volume_db = -8
+bus = &"SFX"
+
+[node name="Aww" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("12_crowd_aww")
+volume_db = -10
+bus = &"SFX"
+
+[node name="Confetti" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("13_confetti_pop")
+volume_db = -11
+bus = &"SFX"
+
+[node name="ResultSuccess" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("14_result_success")
+volume_db = -7
+bus = &"SFX"
+
+[node name="ResultPartial" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("15_result_partial")
+volume_db = -8
+bus = &"SFX"
+
+[node name="ResultFail" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("16_result_fail")
+volume_db = -8
+bus = &"SFX"
+
+[node name="Whoosh" type="AudioStreamPlayer" parent="Players"]
+stream = ExtResource("17_ui_close")
+volume_db = -13
+bus = &"SFX"

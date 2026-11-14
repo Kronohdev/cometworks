@@ -4,36 +4,45 @@
 [ext_resource type="PackedScene" path="res://scenes/npc/hangar_npc.tscn" id="2_npc"]
 [ext_resource type="NavigationMesh" path="res://scenes/npc/hangar_navmesh.tres" id="3_nav"]
 [ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="4_crate"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 
-[sub_resource type="StandardMaterial3D" id="m_hazard"]
-albedo_color = Color(0.949, 0.7176, 0.01961, 1)
-roughness = 0.55
-metallic = 0.05
+[sub_resource type="ShaderMaterial" id="m_hazard"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.949, 0.7176, 0.01961, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.05
 
-[sub_resource type="StandardMaterial3D" id="m_gunmetal"]
-albedo_color = Color(0.2353, 0.2667, 0.3137, 1)
-roughness = 0.55
-metallic = 0.4
+[sub_resource type="ShaderMaterial" id="m_gunmetal"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2353, 0.2667, 0.3137, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.4
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="m_metal"]
-albedo_color = Color(0.6392, 0.6784, 0.7216, 1)
-roughness = 0.55
-metallic = 0.4
+[sub_resource type="ShaderMaterial" id="m_metal"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.6392, 0.6784, 0.7216, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.4
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="m_accent2"]
-albedo_color = Color(0.3725, 0.6902, 0.8471, 1)
-roughness = 0.55
-metallic = 0.05
+[sub_resource type="ShaderMaterial" id="m_accent2"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.3725, 0.6902, 0.8471, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.05
 
-[sub_resource type="StandardMaterial3D" id="m_accent"]
-albedo_color = Color(0.9608, 0.6039, 0.2118, 1)
-roughness = 0.55
-metallic = 0.05
+[sub_resource type="ShaderMaterial" id="m_accent"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.9608, 0.6039, 0.2118, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.05
 
-[sub_resource type="StandardMaterial3D" id="m_structure"]
-albedo_color = Color(0.8745, 0.8902, 0.9059, 1)
-roughness = 0.55
-metallic = 0.05
+[sub_resource type="ShaderMaterial" id="m_structure"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.8745, 0.8902, 0.9059, 1)
+shader_parameter/roughness = 0.55
+shader_parameter/metallic = 0.05
 
 [sub_resource type="BoxMesh" id="b_unit"]
 

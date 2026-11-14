@@ -24,14 +24,30 @@ extends Node3D
 @export_range(-1.0, 1.0) var wall_facing_threshold := 0.2
 ## Fold speed (1 / seconds for a full fold).
 @export var cutaway_speed := 3.5
+@export_group("Pad")
+## seconds a pad's rocket takes to glide to its new rollout place when a week passes
+@export var rollout_glide := 1.2
 
 var era := 1
 var level := 1
 var building := false
+## pads: the next rocket's rollout, 1 = standing on the pad (set_rocket_progress)
+var rocket_progress := 1.0
+## pads: the launch sequence keeps the pad's rocket off (hold_rocket)
+var rocket_held := false
+
+const ROLLOUT := "res://scenes/tycoon/launch/pad_rollout.tscn"
+const DESIGNED_ROCKET := "res://scenes/tycoon/launch/designed_rocket.tscn"
+## pads: the design of the rocket on the pad ({} = the era's rocket), set_rocket_design
+var rocket_parts: Dictionary = {}
+var _designed_era := 0
 
 const _WALL_DIRS := {"CutPX": Vector3.RIGHT, "CutNX": Vector3.LEFT, "CutPZ": Vector3.BACK, "CutNZ": Vector3.FORWARD}
 
 var _open := false
+var _rollout: Node3D
+var _rollout_tween: Tween
+var _rocket_home := {}   # era -> the rocket's authored transform on the pad
 ## [{node: Node3D, dir: Vector3 (ZERO for roofs and upper storeys), t: float 0 closed .. 1 folded}]
 var _cut: Array[Dictionary] = []
 
@@ -58,15 +74,104 @@ func set_look(p_era: int, p_level: int, under_construction := false) -> void:
 	var sc := get_node_or_null("Scaffold") as Node3D
 	if sc:
 		sc.visible = building
+	if kind == "pad":
+		if not rocket_parts.is_empty() and _designed_era != era:
+			_apply_design()
+		_show_rocket(rocket_progress)
 	_collect_cut()
 
 
-## The rocket standing on a pad (only pads have one).
-func set_rocket_visible(on: bool) -> void:
+## The pad's next rocket after a launch: 0 = just launched (empty pad) .. 1 = standing ready.
+## The look is scenes/tycoon/launch/pad_rollout.tscn: its AnimationPlayer "rollout" (0..1 s =
+## the progress) keys the crawler and RocketSlot, whose place the era's rocket takes.
+## A change while on screen glides there in `rollout_glide` seconds.
+func set_rocket_progress(p: float) -> void:
+	p = clampf(p, 0.0, 1.0)
+	if is_equal_approx(p, rocket_progress):
+		return
+	var from := rocket_progress
+	rocket_progress = p
+	if _rollout_tween:
+		_rollout_tween.kill()
+	if is_inside_tree() and is_visible_in_tree() and p > from and rollout_glide > 0.0:
+		_rollout_tween = create_tween()
+		_rollout_tween.tween_method(_show_rocket, from, p, rollout_glide)
+	else:
+		_show_rocket(p)
+
+
+## The designed rocket the pad shows (E2, RocketDesigner parts; {} = the era's own rocket):
+## a DesignedRocket (scenes/tycoon/launch/designed_rocket.tscn) takes the place of the era
+## model under Era<n>/Level1/Rocket, so the rollout carries it too (LaunchPads.pad_rocket).
+func set_rocket_design(parts: Dictionary) -> void:
+	if kind != "pad":
+		return
+	var same := rocket_parts.is_empty() == parts.is_empty() \
+		and (parts.is_empty() or RocketDesigner.same_parts(rocket_parts, parts))
+	if same and _designed_era == era:
+		return
+	rocket_parts = parts.duplicate()
+	_apply_design()
+
+
+func _apply_design() -> void:
+	_designed_era = era
 	for e in range(1, 6):
 		var r := get_node_or_null("Era%d/Level1/Rocket" % e) as Node3D
-		if r:
-			r.visible = on
+		if r == null:
+			continue
+		var m := r.get_node_or_null("Model") as Node3D
+		var d := r.get_node_or_null("Designed") as DesignedRocket
+		var on := e == era and not rocket_parts.is_empty()
+		if m:
+			m.visible = not on
+		if on:
+			if d == null:
+				d = (load(DESIGNED_ROCKET) as PackedScene).instantiate() as DesignedRocket
+				d.name = "Designed"
+				r.add_child(d)
+			d.visible = true
+			d.build(rocket_parts)
+		elif d:
+			d.visible = false
+
+
+## Keeps the pad's rocket (and its rollout) off while the launch sequence flies its own.
+func hold_rocket(on: bool) -> void:
+	rocket_held = on
+	_show_rocket(rocket_progress)
+
+
+func _show_rocket(p: float) -> void:
+	var r := get_node_or_null("Era%d/Level1/Rocket" % era) as Node3D
+	if r == null:
+		return
+	if not _rocket_home.has(era):
+		_rocket_home[era] = r.transform
+	var home: Transform3D = _rocket_home[era]
+	if p >= 1.0 or level <= 0:
+		r.transform = home
+		r.visible = not rocket_held
+		if _rollout:
+			_rollout.visible = false
+		return
+	if _rollout == null:
+		var ps := load(ROLLOUT) as PackedScene
+		if ps == null:
+			r.visible = false
+			return
+		_rollout = ps.instantiate() as Node3D
+		add_child(_rollout)
+	_rollout.visible = not rocket_held
+	var ap := _rollout.get_node_or_null("AnimationPlayer") as AnimationPlayer
+	if ap and ap.has_animation("rollout"):
+		ap.play("rollout")
+		ap.seek(p * ap.current_animation_length, true)
+		ap.pause()
+	var slot := _rollout.get_node_or_null("RocketSlot") as Node3D
+	r.visible = not rocket_held and slot != null and slot.visible
+	if slot:
+		r.transform = Transform3D(home.basis, slot.position)
 
 
 ## Walk spots in world space: [{"pos", "door", "action", "yaw"}, plus "via" for interior
@@ -80,7 +185,7 @@ func spots() -> Array[Dictionary]:
 	for m in sp.get_children():
 		if m is Marker3D and int(m.get_meta("level", 1)) <= level:
 			var d: Vector3 = m.get_meta("door", Vector3.ZERO)
-			var spot := {"pos": (m as Marker3D).global_position, "door": global_transform * d,
+			var spot := {"name": String(m.name), "pos": (m as Marker3D).global_position, "door": global_transform * d,
 				"action": String(m.get_meta("action", "idle")), "yaw": (m as Marker3D).global_rotation.y}
 			if m.has_meta("via"):
 				spot["via"] = global_transform * (m.get_meta("via") as Vector3)

@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="8_moon"]
 [ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="9_comet"]
 [ext_resource type="Script" path="res://src/hangar/part_instance.gd" id="10_part"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_space.wav" id="audio_bed_stream"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("2_sky")
@@ -230,3 +233,11 @@ far = 20000.0
 libraries = {
 &"": SubResource("anim_lib")
 }
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -9.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

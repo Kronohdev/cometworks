@@ -3,6 +3,9 @@ shader_type spatial;
 // vertex COLOR carries the palette color with baked ambient occlusion, UV holds the
 // voxel coordinates on the face plane and UV2 = (slice, face id), so the subtle
 // per-voxel brightness jitter is reconstructed here even on merged quads.
+// Lighting: the Cometworks toon light (shaders/include/cw_toon.gdshaderinc).
+
+#include "res://shaders/include/cw_toon.gdshaderinc"
 
 uniform float jitter = 0.07;
 uniform float roughness_value : hint_range(0.0, 1.0) = 0.8;
@@ -20,4 +23,5 @@ void fragment() {
 	ALBEDO = COLOR.rgb * (1.0 + (h - 0.5) * jitter);
 	ROUGHNESS = roughness_value;
 	METALLIC = metallic_value;
+	EMISSION = cw_toon_rim(NORMAL, VIEW, ALBEDO, VERTEX, INV_VIEW_MATRIX);
 }

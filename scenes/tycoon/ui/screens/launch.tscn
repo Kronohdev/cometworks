@@ -1,0 +1,5 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/tycoon/launch/launch_sequence.tscn" id="1_seq"]
+
+[node name="Launch" instance=ExtResource("1_seq")]

@@ -1,9 +1,10 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/menu/menu_item.gd" id="1_item"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 
 [node name="MenuItem" type="Button"]
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 60)
 theme_type_variation = &"CwMenuItem"
 text = "MENU_CONTINUE"
 alignment = 0
@@ -12,18 +13,20 @@ index_text = "02"
 hint_key = "MENU_CONTINUE_HINT"
 
 [node name="Index" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -9.0
-offset_right = 46.0
-offset_bottom = 9.0
+offset_left = 16.0
+offset_top = -12.0
+offset_right = 44.0
+offset_bottom = 12.0
 grow_vertical = 2
 mouse_filter = 2
-theme_type_variation = &"CwMenuMono"
+theme_type_variation = &"CwMenuIndex"
 text = "02"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Hint" type="Label" parent="."]
@@ -34,15 +37,25 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -236.0
-offset_top = -9.0
-offset_right = -16.0
-offset_bottom = 9.0
+offset_top = -12.0
+offset_right = -18.0
+offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 15
 text = "MENU_CONTINUE_HINT"
 horizontal_alignment = 2
 vertical_alignment = 1
 text_overrun_behavior = 3
+
+[node name="CwButton" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+lift = Vector2(8, 0)
+hover_scale = Vector2(1, 1)
+glow = 1.0
+press_scale = Vector2(0.985, 0.92)
+sweep_on_focus = true
+hover_sound = &"menu_hover"
+press_sound = &"menu_select"

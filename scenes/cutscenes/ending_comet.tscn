@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/cutscene.tscn" id="1_base"]
+
+[node name="EndingComet" instance=ExtResource("1_base")]
+shots = PackedStringArray("res://scenes/cutscenes/shots/ending_01_cruise.tscn", "res://scenes/cutscenes/shots/ending_02_contact.tscn", "res://scenes/cutscenes/shots/ending_03_campus.tscn", "res://scenes/cutscenes/shots/ending_04_party.tscn", "res://scenes/cutscenes/shots/ending_05_home.tscn")
+shot_animation = &"shot"
+music = &"music_menu"

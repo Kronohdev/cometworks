@@ -1,5 +1,7 @@
 [gd_scene load_steps=8 format=3]
 
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+
 [sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
 sky_top_color = Color(0.55, 0.72, 0.86, 1)
 sky_horizon_color = Color(0.86, 0.9, 0.94, 1)
@@ -30,17 +32,19 @@ ssao_intensity = 1.2
 [sub_resource type="PlaneMesh" id="floor"]
 size = Vector2(40, 40)
 
-[sub_resource type="StandardMaterial3D" id="floor_mat"]
-albedo_color = Color(0.86, 0.88, 0.9, 1)
-roughness = 0.8
+[sub_resource type="ShaderMaterial" id="floor_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.86, 0.88, 0.9, 1)
+shader_parameter/roughness = 0.8
 
 [sub_resource type="PlaneMesh" id="backdrop"]
 size = Vector2(40, 12)
 orientation = 2
 
-[sub_resource type="StandardMaterial3D" id="backdrop_mat"]
-albedo_color = Color(0.78, 0.83, 0.89, 1)
-roughness = 0.9
+[sub_resource type="ShaderMaterial" id="backdrop_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.78, 0.83, 0.89, 1)
+shader_parameter/roughness = 0.9
 
 [node name="CreatureShowcase" type="Node3D"]
 

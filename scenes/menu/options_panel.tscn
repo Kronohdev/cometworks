@@ -3,10 +3,18 @@
 [ext_resource type="Script" path="res://src/menu/options_panel.gd" id="1_opt"]
 [ext_resource type="Theme" path="res://ui/menu/menu_theme.tres" id="2_theme"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="3_icon"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 
 [sub_resource type="ButtonGroup" id="lang_group"]
 
 [sub_resource type="ButtonGroup" id="display_group"]
+
+[sub_resource type="ButtonGroup" id="motion_group"]
+
+[sub_resource type="ButtonGroup" id="style_group"]
+
+[sub_resource type="ButtonGroup" id="outline_group"]
 
 [node name="OptionsPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(420, 0)
@@ -32,8 +40,7 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Icon" type="TextureRect" parent="Margin/VBox/Head"]
-self_modulate = Color(0.749, 0.9098, 1, 1)
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("3_icon")
@@ -44,10 +51,13 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
 text = "MENU_OPT_TITLE"
 
 [node name="Index" type="Label" parent="Margin/VBox/Head"]
+visible = false
 layout_mode = 2
+visible = false
 theme_type_variation = &"CwMenuMono"
 text = "05"
 
@@ -64,6 +74,7 @@ columns = 2
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
 text = "MENU_OPT_LANGUAGE"
 
 [node name="Lang" type="HBoxContainer" parent="Margin/VBox/Grid"]
@@ -78,7 +89,7 @@ layout_mode = 2
 theme_type_variation = &"CwMenuKey"
 toggle_mode = true
 button_group = SubResource("lang_group")
-text = "PORTUGUÊS"
+text = "Português"
 auto_translate_mode = 2
 
 [node name="LangEN" type="Button" parent="Margin/VBox/Grid/Lang"]
@@ -88,12 +99,13 @@ layout_mode = 2
 theme_type_variation = &"CwMenuKey"
 toggle_mode = true
 button_group = SubResource("lang_group")
-text = "ENGLISH"
+text = "English"
 auto_translate_mode = 2
 
 [node name="DisplayLabel" type="Label" parent="Margin/VBox/Grid"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
 text = "MENU_OPT_DISPLAY"
 
 [node name="Display" type="HBoxContainer" parent="Margin/VBox/Grid"]
@@ -121,6 +133,7 @@ text = "MENU_OPT_FULLSCREEN"
 [node name="VolumeLabel" type="Label" parent="Margin/VBox/Grid"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
 text = "MENU_OPT_VOLUME"
 
 [node name="VolumeRow" type="HBoxContainer" parent="Margin/VBox/Grid"]
@@ -144,6 +157,60 @@ theme_type_variation = &"CwMonoSmall"
 text = " 80 %"
 horizontal_alignment = 2
 
+[node name="MusicLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "MENU_OPT_MUSIC"
+
+[node name="MusicRow" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MusicVolume" type="HSlider" parent="Margin/VBox/Grid/MusicRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+value = 70.0
+
+[node name="MusicValue" type="Label" parent="Margin/VBox/Grid/MusicRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = " 70 %"
+horizontal_alignment = 2
+
+[node name="SfxLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "MENU_OPT_SFX"
+
+[node name="SfxRow" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SfxVolume" type="HSlider" parent="Margin/VBox/Grid/SfxRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+step = 5.0
+value = 90.0
+
+[node name="SfxValue" type="Label" parent="Margin/VBox/Grid/SfxRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = " 90 %"
+horizontal_alignment = 2
+
 [node name="Sep2" type="HSeparator" parent="Margin/VBox"]
 layout_mode = 2
 
@@ -162,7 +229,110 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="EscHint" type="Label" parent="Margin/VBox/Foot"]
+visible = false
 layout_mode = 2
 theme_type_variation = &"CwMenuMono"
 text = "ESC"
 vertical_alignment = 1
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Margin/VBox/Grid")
+on_visible = true
+offset = Vector2(0, 8)
+delay = 0.04
+step = 0.03
+seconds = 0.26
+animate_added = false
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.03, 1.03)
+glow = 1.1
+sweep_on_focus = true
+
+[node name="MotionLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "MENU_OPT_MOTION"
+
+[node name="Motion" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MotionFull" type="Button" parent="Margin/VBox/Grid/Motion"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("motion_group")
+text = "MENU_OPT_MOTION_FULL"
+
+[node name="MotionReduced" type="Button" parent="Margin/VBox/Grid/Motion"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("motion_group")
+text = "MENU_OPT_MOTION_REDUCED"
+
+[node name="StyleLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "MENU_OPT_STYLE"
+
+[node name="Style" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StyleToon" type="Button" parent="Margin/VBox/Grid/Style"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("style_group")
+text = "MENU_OPT_STYLE_TOON"
+
+[node name="StyleClassic" type="Button" parent="Margin/VBox/Grid/Style"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("style_group")
+text = "MENU_OPT_STYLE_CLASSIC"
+
+[node name="OutlineLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "MENU_OPT_OUTLINES"
+
+[node name="Outlines" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="OutlinesOn" type="Button" parent="Margin/VBox/Grid/Outlines"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("outline_group")
+text = "MENU_OPT_ON"
+
+[node name="OutlinesOff" type="Button" parent="Margin/VBox/Grid/Outlines"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("outline_group")
+text = "MENU_OPT_OFF"

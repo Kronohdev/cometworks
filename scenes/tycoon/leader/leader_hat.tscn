@@ -1,0 +1,666 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/leader_hat.gd" id="1_hat"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+
+[sub_resource type="ShaderMaterial" id="gold"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.784, 0.239, 1)
+shader_parameter/roughness = 0.45
+shader_parameter/metallic = 0.35
+shader_parameter/toon_specular = 1.0
+shader_parameter/emission = Color(1, 0.69, 0.2, 1)
+shader_parameter/emission_energy = 0.25
+
+[sub_resource type="ShaderMaterial" id="ruby"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.361, 0.424, 1)
+shader_parameter/roughness = 0.3
+shader_parameter/emission = Color(1, 0.361, 0.424, 1)
+shader_parameter/emission_energy = 0.4
+
+[sub_resource type="ShaderMaterial" id="teal"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.247, 0.878, 0.773, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="ShaderMaterial" id="cap_red"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.42, 0.42, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="cap_yellow"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.8, 0.333, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="knit"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.557, 0.486, 1, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="knit_light"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.788, 0.722, 1, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="white"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.96, 0.97, 1, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="gore_red"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.38, 0.4, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="gore_yellow"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.8, 0.28, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="gore_blue"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.353, 0.663, 1, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="gore_green"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.43, 0.88, 0.5, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="cream"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.957, 0.886, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="knit_stripe"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.561, 0.722, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="ruby_dark"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.85, 0.22, 0.33, 1)
+shader_parameter/roughness = 0.4
+
+[sub_resource type="ShaderMaterial" id="petal"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.561, 0.722, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="leaf"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.494, 0.878, 0.541, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="BoxMesh" id="ring_x"]
+size = Vector3(0.34, 0.07, 0.04)
+
+[sub_resource type="BoxMesh" id="ring_z"]
+size = Vector3(0.04, 0.07, 0.34)
+
+[sub_resource type="BoxMesh" id="spike"]
+size = Vector3(0.05, 0.06, 0.05)
+
+[sub_resource type="BoxMesh" id="gem"]
+size = Vector3(0.05, 0.05, 0.025)
+
+[sub_resource type="BoxMesh" id="gore_L0"]
+size = Vector3(0.31, 0.07, 0.3)
+
+[sub_resource type="BoxMesh" id="gore_L1"]
+size = Vector3(0.29, 0.06, 0.28)
+
+[sub_resource type="BoxMesh" id="gore_L2"]
+size = Vector3(0.25, 0.06, 0.24)
+
+[sub_resource type="BoxMesh" id="gore_L3"]
+size = Vector3(0.18, 0.05, 0.17)
+
+[sub_resource type="BoxMesh" id="trim"]
+size = Vector3(0.64, 0.035, 0.62)
+
+[sub_resource type="BoxMesh" id="button"]
+size = Vector3(0.1, 0.04, 0.1)
+
+[sub_resource type="BoxMesh" id="stalk"]
+size = Vector3(0.04, 0.1, 0.04)
+
+[sub_resource type="BoxMesh" id="hub"]
+size = Vector3(0.09, 0.06, 0.09)
+
+[sub_resource type="BoxMesh" id="blade_root"]
+size = Vector3(0.1, 0.026, 0.05)
+
+[sub_resource type="BoxMesh" id="blade_paddle"]
+size = Vector3(0.17, 0.028, 0.12)
+
+[sub_resource type="BoxMesh" id="blade_tip"]
+size = Vector3(0.04, 0.028, 0.09)
+
+[sub_resource type="BoxMesh" id="beanie_cuff"]
+size = Vector3(0.64, 0.1, 0.62)
+
+[sub_resource type="BoxMesh" id="beanie_l1"]
+size = Vector3(0.6, 0.07, 0.58)
+
+[sub_resource type="BoxMesh" id="beanie_l2"]
+size = Vector3(0.52, 0.06, 0.5)
+
+[sub_resource type="BoxMesh" id="beanie_l3"]
+size = Vector3(0.38, 0.05, 0.36)
+
+[sub_resource type="BoxMesh" id="rib"]
+size = Vector3(0.03, 0.1, 0.63)
+
+[sub_resource type="BoxMesh" id="pom_x"]
+size = Vector3(0.17, 0.11, 0.11)
+
+[sub_resource type="BoxMesh" id="pom_y"]
+size = Vector3(0.11, 0.17, 0.11)
+
+[sub_resource type="BoxMesh" id="pom_z"]
+size = Vector3(0.11, 0.11, 0.17)
+
+[sub_resource type="BoxMesh" id="petal_box"]
+size = Vector3(0.085, 0.085, 0.045)
+
+[sub_resource type="BoxMesh" id="flower_center"]
+size = Vector3(0.08, 0.08, 0.06)
+
+[sub_resource type="BoxMesh" id="leaf_box"]
+size = Vector3(0.11, 0.04, 0.035)
+
+[sub_resource type="BoxMesh" id="bow_inner"]
+size = Vector3(0.07, 0.09, 0.05)
+
+[sub_resource type="BoxMesh" id="bow_outer"]
+size = Vector3(0.07, 0.15, 0.05)
+
+[sub_resource type="BoxMesh" id="bow_knot"]
+size = Vector3(0.07, 0.08, 0.065)
+
+[sub_resource type="BoxMesh" id="bow_tail"]
+size = Vector3(0.045, 0.1, 0.035)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Propeller/Blades:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="anim_spin"]
+resource_name = "spin"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Propeller/Blades:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="anims"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"spin": SubResource("anim_spin")
+}
+
+[node name="LeaderHat" type="Node3D"]
+script = ExtResource("1_hat")
+
+[node name="Crown" type="Node3D" parent="."]
+transform = Transform3D(0.992809, -0.119712, 0, 0.119712, 0.992809, 0, 0, 0, 1, 0.03, 0, 0)
+
+[node name="RingF" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.555, 0.15)
+cast_shadow = 0
+mesh = SubResource("ring_x")
+surface_material_override/0 = SubResource("gold")
+
+[node name="RingB" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.555, -0.15)
+cast_shadow = 0
+mesh = SubResource("ring_x")
+surface_material_override/0 = SubResource("gold")
+
+[node name="RingL" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.555, 0)
+cast_shadow = 0
+mesh = SubResource("ring_z")
+surface_material_override/0 = SubResource("gold")
+
+[node name="RingR" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.555, 0)
+cast_shadow = 0
+mesh = SubResource("ring_z")
+surface_material_override/0 = SubResource("gold")
+
+[node name="SpikeFL" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.62, 0.15)
+cast_shadow = 0
+mesh = SubResource("spike")
+surface_material_override/0 = SubResource("gold")
+
+[node name="SpikeFR" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.62, 0.15)
+cast_shadow = 0
+mesh = SubResource("spike")
+surface_material_override/0 = SubResource("gold")
+
+[node name="SpikeBL" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.62, -0.15)
+cast_shadow = 0
+mesh = SubResource("spike")
+surface_material_override/0 = SubResource("gold")
+
+[node name="SpikeBR" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.62, -0.15)
+cast_shadow = 0
+mesh = SubResource("spike")
+surface_material_override/0 = SubResource("gold")
+
+[node name="SpikeF" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1.4, 0, 0, 0, 1, 0, 0.635, 0.15)
+cast_shadow = 0
+mesh = SubResource("spike")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Gem" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.555, 0.175)
+cast_shadow = 0
+mesh = SubResource("gem")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="GemL" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.175, 0.555, 0)
+cast_shadow = 0
+mesh = SubResource("gem")
+surface_material_override/0 = SubResource("teal")
+
+[node name="GemR" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.175, 0.555, 0)
+cast_shadow = 0
+mesh = SubResource("gem")
+surface_material_override/0 = SubResource("teal")
+
+[node name="Propeller" type="Node3D" parent="."]
+visible = false
+metadata/hides_antenna = true
+
+[node name="Trim" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+cast_shadow = 0
+mesh = SubResource("trim")
+surface_material_override/0 = SubResource("cream")
+
+[node name="L0FR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.155, 0.425, 0.15)
+cast_shadow = 0
+mesh = SubResource("gore_L0")
+surface_material_override/0 = SubResource("gore_red")
+
+[node name="L0FL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.425, 0.15)
+cast_shadow = 0
+mesh = SubResource("gore_L0")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="L0BL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.155, 0.425, -0.15)
+cast_shadow = 0
+mesh = SubResource("gore_L0")
+surface_material_override/0 = SubResource("gore_green")
+
+[node name="L0BR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.155, 0.425, -0.15)
+cast_shadow = 0
+mesh = SubResource("gore_L0")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="L1FR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.145, 0.49, 0.14)
+cast_shadow = 0
+mesh = SubResource("gore_L1")
+surface_material_override/0 = SubResource("gore_red")
+
+[node name="L1FL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.145, 0.49, 0.14)
+cast_shadow = 0
+mesh = SubResource("gore_L1")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="L1BL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.145, 0.49, -0.14)
+cast_shadow = 0
+mesh = SubResource("gore_L1")
+surface_material_override/0 = SubResource("gore_green")
+
+[node name="L1BR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.145, 0.49, -0.14)
+cast_shadow = 0
+mesh = SubResource("gore_L1")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="L2FR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.55, 0.12)
+cast_shadow = 0
+mesh = SubResource("gore_L2")
+surface_material_override/0 = SubResource("gore_red")
+
+[node name="L2FL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, 0.55, 0.12)
+cast_shadow = 0
+mesh = SubResource("gore_L2")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="L2BL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, 0.55, -0.12)
+cast_shadow = 0
+mesh = SubResource("gore_L2")
+surface_material_override/0 = SubResource("gore_green")
+
+[node name="L2BR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.55, -0.12)
+cast_shadow = 0
+mesh = SubResource("gore_L2")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="L3FR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.605, 0.085)
+cast_shadow = 0
+mesh = SubResource("gore_L3")
+surface_material_override/0 = SubResource("gore_red")
+
+[node name="L3FL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.605, 0.085)
+cast_shadow = 0
+mesh = SubResource("gore_L3")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="L3BL" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.605, -0.085)
+cast_shadow = 0
+mesh = SubResource("gore_L3")
+surface_material_override/0 = SubResource("gore_green")
+
+[node name="L3BR" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09, 0.605, -0.085)
+cast_shadow = 0
+mesh = SubResource("gore_L3")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="Button" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+cast_shadow = 0
+mesh = SubResource("button")
+surface_material_override/0 = SubResource("cream")
+
+[node name="Stalk" type="MeshInstance3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71, 0)
+cast_shadow = 0
+mesh = SubResource("stalk")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Blades" type="Node3D" parent="Propeller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+
+[node name="Hub" type="MeshInstance3D" parent="Propeller/Blades"]
+cast_shadow = 0
+mesh = SubResource("hub")
+surface_material_override/0 = SubResource("gore_red")
+
+[node name="BladeA" type="Node3D" parent="Propeller/Blades"]
+transform = Transform3D(1, 0, 0, 0, 0.829038, -0.559193, 0, 0.559193, 0.829038, 0, 0, 0)
+
+[node name="Root" type="MeshInstance3D" parent="Propeller/Blades/BladeA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_root")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="Paddle" type="MeshInstance3D" parent="Propeller/Blades/BladeA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.215, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_paddle")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="Tip" type="MeshInstance3D" parent="Propeller/Blades/BladeA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.315, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_tip")
+surface_material_override/0 = SubResource("gore_yellow")
+
+[node name="BladeB" type="Node3D" parent="Propeller/Blades"]
+transform = Transform3D(-1, 6.84814e-17, 1.01528e-16, 0, 0.829038, -0.559193, -1.22465e-16, -0.559193, -0.829038, 0, 0, 0)
+
+[node name="Root" type="MeshInstance3D" parent="Propeller/Blades/BladeB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_root")
+surface_material_override/0 = SubResource("teal")
+
+[node name="Paddle" type="MeshInstance3D" parent="Propeller/Blades/BladeB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.215, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_paddle")
+surface_material_override/0 = SubResource("teal")
+
+[node name="Tip" type="MeshInstance3D" parent="Propeller/Blades/BladeB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.315, 0, 0)
+cast_shadow = 0
+mesh = SubResource("blade_tip")
+surface_material_override/0 = SubResource("teal")
+
+[node name="Beanie" type="Node3D" parent="."]
+visible = false
+metadata/hides_antenna = true
+
+[node name="Cuff" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("beanie_cuff")
+surface_material_override/0 = SubResource("knit_light")
+
+[node name="Rib0" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("rib")
+surface_material_override/0 = SubResource("knit")
+
+[node name="Rib1" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("rib")
+surface_material_override/0 = SubResource("knit")
+
+[node name="Rib2" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("rib")
+surface_material_override/0 = SubResource("knit")
+
+[node name="Rib3" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("rib")
+surface_material_override/0 = SubResource("knit")
+
+[node name="Rib4" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 0.41, 0)
+cast_shadow = 0
+mesh = SubResource("rib")
+surface_material_override/0 = SubResource("knit")
+
+[node name="L1" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.495, 0)
+cast_shadow = 0
+mesh = SubResource("beanie_l1")
+surface_material_override/0 = SubResource("knit")
+
+[node name="L2" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56, 0)
+cast_shadow = 0
+mesh = SubResource("beanie_l2")
+surface_material_override/0 = SubResource("knit_stripe")
+
+[node name="L3" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.615, 0)
+cast_shadow = 0
+mesh = SubResource("beanie_l3")
+surface_material_override/0 = SubResource("knit")
+
+[node name="PomX" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+cast_shadow = 0
+mesh = SubResource("pom_x")
+surface_material_override/0 = SubResource("white")
+
+[node name="PomY" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+cast_shadow = 0
+mesh = SubResource("pom_y")
+surface_material_override/0 = SubResource("white")
+
+[node name="PomZ" type="MeshInstance3D" parent="Beanie"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+cast_shadow = 0
+mesh = SubResource("pom_z")
+surface_material_override/0 = SubResource("white")
+
+[node name="Flower" type="Node3D" parent="."]
+visible = false
+transform = Transform3D(0.897417, 0.277604, 0.342898, -0.29552, 0.955336, 0, -0.327583, -0.101333, 0.939373, 0.2, 0.53, 0.15)
+
+[node name="Center" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+cast_shadow = 0
+mesh = SubResource("flower_center")
+surface_material_override/0 = SubResource("cap_yellow")
+
+[node name="PetalU" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.005)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("petal")
+
+[node name="PetalD" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.005)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("petal")
+
+[node name="PetalL" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0, -0.005)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("petal")
+
+[node name="PetalR" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0, -0.005)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("petal")
+
+[node name="PetalUL" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, -0.02)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("knit_stripe")
+
+[node name="PetalUR" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, -0.02)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("knit_stripe")
+
+[node name="PetalDL" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, -0.02)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("knit_stripe")
+
+[node name="PetalDR" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, -0.02)
+cast_shadow = 0
+mesh = SubResource("petal_box")
+surface_material_override/0 = SubResource("knit_stripe")
+
+[node name="Leaf" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(0.877583, -0.479426, 0, 0.479426, 0.877583, 0, 0, 0, 1, -0.1, -0.11, -0.03)
+cast_shadow = 0
+mesh = SubResource("leaf_box")
+surface_material_override/0 = SubResource("leaf")
+
+[node name="Leaf2" type="MeshInstance3D" parent="Flower"]
+transform = Transform3D(0.877583, 0.479426, 0, -0.479426, 0.877583, 0, 0, 0, 1, 0.1, -0.11, -0.03)
+cast_shadow = 0
+mesh = SubResource("leaf_box")
+surface_material_override/0 = SubResource("leaf")
+
+[node name="Bow" type="Node3D" parent="."]
+visible = false
+transform = Transform3D(0.897417, -0.327583, -0.29552, 0.342898, 0.939373, 0, 0.277604, -0.101333, 0.955336, -0.19, 0.57, 0.11)
+
+[node name="Knot" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+cast_shadow = 0
+mesh = SubResource("bow_knot")
+surface_material_override/0 = SubResource("ruby_dark")
+
+[node name="InnerL" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.005, 0)
+cast_shadow = 0
+mesh = SubResource("bow_inner")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="OuterL" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.015, -0.005)
+cast_shadow = 0
+mesh = SubResource("bow_outer")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="InnerR" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.005, 0)
+cast_shadow = 0
+mesh = SubResource("bow_inner")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="OuterR" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, 0.015, -0.005)
+cast_shadow = 0
+mesh = SubResource("bow_outer")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="TailL" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(0.939373, -0.342898, 0, 0.342898, 0.939373, 0, 0, 0, 1, 0.035, -0.08, -0.01)
+cast_shadow = 0
+mesh = SubResource("bow_tail")
+surface_material_override/0 = SubResource("ruby_dark")
+
+[node name="TailR" type="MeshInstance3D" parent="Bow"]
+transform = Transform3D(0.939373, 0.342898, 0, -0.342898, 0.939373, 0, 0, 0, 1, -0.035, -0.08, -0.01)
+cast_shadow = 0
+mesh = SubResource("bow_tail")
+surface_material_override/0 = SubResource("ruby_dark")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anims")
+}

@@ -12,9 +12,21 @@ extends Node3D
 @export var campaign_seed := 2026
 ## hackathon "modo feira": 1 s per week at any speed (GDD section 17)
 @export var fair_mode := false
+## TycoonSave slot to continue ("" = new campaign); set before the scene enters the tree
+@export var load_slot := ""
+## the player's leader from the leader creator (TycoonLeader); set before the scene enters
+## the tree, used by a new campaign only
+@export var leader: Dictionary = {}
+## the story cutscene that opens a new campaign (Cutscenes: "opening" after the leader
+## creator, "opening_short" in fair mode; "" = none); set before the scene enters the tree
+@export var intro_cutscene := ""
+## story cutscenes (the opening and the ending, src/cutscene/); screenshot tools turn them off
+@export var cutscenes := true
 
 var state: TycoonState
 var clock: TycoonClock
+## newspaper pages, finale and monthly autosave (src/tycoon/race/race_flow.gd)
+var race_flow: TycoonRaceFlow
 
 @onready var campus: Campus = $Campus
 @onready var camera: CampusCamera = $Camera
@@ -22,12 +34,21 @@ var clock: TycoonClock
 
 
 func _ready() -> void:
-	state = TycoonState.new_campaign(campaign_seed, _roster_staff())
+	state = TycoonSave.load_state(load_slot) if load_slot != "" else null
+	if state == null:
+		state = TycoonState.new_campaign(campaign_seed, _roster_staff())
+		if not leader.is_empty():
+			TycoonLeader.found(state, leader)
 	clock = TycoonClock.new(state.rules)
 	clock.fair_mode = fair_mode
 	campus.bind(state)
 	hud.bind(state, clock)
+	race_flow = TycoonRaceFlow.new(state, clock, hud)
+	race_flow.before_finale = _play_ending
 	hud.build_requested.connect(_on_build)
+	var flow := ProjectFlow.new()  # mission projects: phase and review screens (E1)
+	add_child(flow)
+	flow.bind(state, clock, hud)
 	camera.tour_source = _tour_shots
 	camera.follow_changed.connect(_on_follow_changed)
 	camera.tour_changed.connect(func(on: bool) -> void:
@@ -39,6 +60,23 @@ func _ready() -> void:
 	_update_obstacles()
 	state.building_finished.connect(func(lot_id: String, _lv: int) -> void:
 		hud.flash_hint(tr("TY_BUILT_HINT") % tr(String(state.building_type(state.lot_kind(lot_id)).get("name_key", "")))))
+	if cutscenes and intro_cutscene != "" and load_slot == "":
+		_play_intro.call_deferred()
+
+
+func _play_intro() -> void:
+	Cutscenes.play(self, intro_cutscene, state)
+
+
+## The comet passed: the ending cutscene plays before the finale screen (`done` opens it).
+func _play_ending(done: Callable) -> bool:
+	if not cutscenes:
+		return false
+	var c := Cutscenes.play(self, Cutscenes.ending_for(state), state)
+	if c == null:
+		return false
+	c.finished.connect(func(_skipped: bool) -> void: done.call(), CONNECT_ONE_SHOT)
+	return true
 
 
 ## The agency's first employees: the crew roster (pilots, engineers, scientists).
@@ -55,6 +93,8 @@ static func _roster_staff() -> Array[Dictionary]:
 func _process(delta: float) -> void:
 	for i in clock.tick(delta):
 		state.advance_week()
+		if clock.speed == 0:  # a decision paused the game mid-tick
+			break
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -69,11 +109,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_3:
 				clock.set_speed(3)
 			KEY_ESCAPE:
+				# Esc steps back one layer: the open screen, the lot panel, the followed
+				# Cometling or the tour; with nothing open it brings up the pause menu
 				if hud.current_screen() != "":
 					hud.close_screen()
-					return
-				camera.release()
-				hud.close_lot()
+				elif hud.lot_id != "":
+					hud.close_lot()
+				elif camera.mode != CampusCamera.Mode.FREE:
+					camera.release()
+				else:
+					hud.open_screen("settings")
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
@@ -108,8 +153,13 @@ func _on_follow_changed(who: Node3D) -> void:
 		return
 	var m := campus.cometling_member(who)
 	var title := String(m.get("name", tr("TY_CAM_COMETLING")))
+	if TycoonLeader.is_leader(m):
+		title = tr("TY_LEADER_TAG") % title
 	var role := String(who.get("role")) if who.get("role") != null else ""
-	if role != "":
+	var prof_key := String(state.profession(String(m.get("profession", ""))).get("name_key", ""))
+	if prof_key != "":
+		title += " · " + tr(prof_key)
+	elif role != "":
 		title += " · " + tr("ROLE_" + role.to_upper())
 	hud.show_camera_tag(tr("TY_CAM_FOLLOWING"), title, tr("TY_CAM_FOLLOW_HINT"))
 

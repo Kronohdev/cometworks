@@ -5,6 +5,9 @@ shader_type spatial;
 // glow) plus a gentle wind sway that grows with height, phased by world position so a
 // meadow ripples instead of nodding in unison. A MultiMesh with use_colors tints each
 // instance (Godot multiplies the instance colour into COLOR; keep its alpha at 1).
+// Lighting: the Cometworks toon light (shaders/include/cw_toon.gdshaderinc); BACKLIGHT keeps
+// the leaves' translucency in both styles.
+#include "res://shaders/include/cw_toon.gdshaderinc"
 
 uniform float jitter = 0.06;
 uniform float voxels_per_metre = 5.0;
@@ -48,5 +51,5 @@ void fragment() {
 	ALBEDO = COLOR.rgb * (1.0 + (h - 0.5) * jitter);
 	ROUGHNESS = roughness_value;
 	BACKLIGHT = vec3(backlight) * COLOR.rgb;
-	EMISSION = COLOR.rgb * glow;
+	EMISSION = COLOR.rgb * glow + cw_toon_rim(NORMAL, VIEW, ALBEDO, VERTEX, INV_VIEW_MATRIX);
 }

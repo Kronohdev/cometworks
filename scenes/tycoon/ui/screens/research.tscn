@@ -1,0 +1,777 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/research_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_tech_links.gd" id="4_links"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[node name="Research" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Frame" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 86.0
+offset_top = 88.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="VBox" type="VBoxContainer" parent="Frame"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="Titles" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Frame/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+text = "TY_RS_TITLE"
+
+[node name="Sub" type="Label" parent="Frame/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_SUB"
+
+[node name="Spacer" type="Control" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Pool" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Pool"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_POOL"
+
+[node name="PoolValue" type="Label" parent="Frame/VBox/Head/Pool"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "120 PP"
+
+[node name="Rate" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Rate"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_RATE"
+
+[node name="RateValue" type="Label" parent="Frame/VBox/Head/Rate"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "+9.6"
+
+[node name="Lab" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Lab"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_LAB"
+
+[node name="LabValue" type="Label" parent="Frame/VBox/Head/Lab"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "Nível 1 · 2/2"
+
+[node name="SeatsBar" type="Control" parent="Frame/VBox/Head/Lab"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 1.0
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 2
+gap = 3.0
+
+[node name="Sep" type="VSeparator" parent="Frame/VBox/Head"]
+layout_mode = 2
+
+[node name="Close" type="Button" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_CLOSE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="HSep" type="HSeparator" parent="Frame/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="Tree" type="VBoxContainer" parent="Frame/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="EraHeads" type="HBoxContainer" parent="Frame/VBox/Body/Tree"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Era1" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era1"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Era 1 · Galpão"
+horizontal_alignment = 1
+
+[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era1"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "anos 1–5"
+horizontal_alignment = 1
+
+[node name="Era2" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era2"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Era 2 · Órbita"
+horizontal_alignment = 1
+
+[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era2"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "anos 6–10"
+horizontal_alignment = 1
+
+[node name="Era3" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era3"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Era 3 · Lua robótica"
+horizontal_alignment = 1
+
+[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era3"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "anos 11–15"
+horizontal_alignment = 1
+
+[node name="Era4" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era4"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Era 4 · Lua tripulada"
+horizontal_alignment = 1
+
+[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era4"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "anos 16–20"
+horizontal_alignment = 1
+
+[node name="Era5" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era5"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Era 5 · Base de partida"
+horizontal_alignment = 1
+
+[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era5"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "anos 21–25"
+horizontal_alignment = 1
+
+[node name="Canvas" type="Control" parent="Frame/VBox/Body/Tree"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Bands" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Band1" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.1255, 0.1647, 0.3843, 0.55)
+
+[node name="Band2" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Band3" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Band4" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Band5" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Links" type="Control" parent="Frame/VBox/Body/Tree/Canvas"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_links")
+
+[node name="Nodes" type="Control" parent="Frame/VBox/Body/Tree/Canvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NodeTemplate" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 216.0
+offset_bottom = 102.0
+mouse_default_cursor_shape = 2
+
+[node name="Card" type="PanelContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwNodeAvailable"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Top" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="DotBox" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
+custom_minimum_size = Vector2(6, 16)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="Dot" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top/DotBox"]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 6.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 14
+text = "Estágio superior religável"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="Fill" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Bottom" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Cost" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "90 PP"
+
+[node name="State" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "DISPONÍVEL"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.4
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 16
+gap = 2.0
+
+[node name="Ring" type="Panel" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwRing"
+
+[node name="Foot" type="HBoxContainer" parent="Frame/VBox/Body/Tree"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="QueueCaption" type="Label" parent="Frame/VBox/Body/Tree/Foot"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_QUEUE"
+
+[node name="QueueLabel" type="Label" parent="Frame/VBox/Body/Tree/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Foguete orbital (8 sem)  →  Barramento de satélite"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Legend" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Done" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Done"]
+custom_minimum_size = Vector2(14, 2)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2471, 0.8784, 0.7725, 0.75)
+
+[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Done"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_RS_ST_DONE"
+
+[node name="Active" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Active"]
+custom_minimum_size = Vector2(14, 2)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.5569, 0.4863, 1, 1)
+
+[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Active"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_RS_ST_RESEARCHING"
+
+[node name="Open" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Open"]
+custom_minimum_size = Vector2(14, 2)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2902, 0.3451, 0.651, 1)
+
+[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Open"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_RS_ST_AVAILABLE"
+
+[node name="Locked" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Locked"]
+custom_minimum_size = Vector2(14, 2)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.149, 0.1843, 0.4, 1)
+
+[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Locked"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_RS_ST_LOCKED"
+
+[node name="Detail" type="PanelContainer" parent="Frame/VBox/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="DBranch" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Propulsão"
+
+[node name="DName" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 22
+text = "Foguete orbital"
+autowrap_mode = 3
+
+[node name="DState" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "Era 1 · disponível"
+
+[node name="DDesc" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "Descrição da tecnologia."
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Cost" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Cost"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_COST"
+
+[node name="DCost" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "90 PP"
+
+[node name="Time" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Time"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_MIN_TIME"
+
+[node name="DTime" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Time"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "4 sem"
+
+[node name="Eta" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Eta"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_ETA"
+
+[node name="DEta" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Eta"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "9 sem"
+
+[node name="DBar" type="Control" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.3
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 24
+gap = 2.0
+
+[node name="DProgress" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 13
+text = "27 / 90 PP"
+horizontal_alignment = 2
+
+[node name="UnlocksCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_UNLOCKS"
+
+[node name="Unlocks" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="UnlockTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Unlocks"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Kind" type="Label" parent="Frame/VBox/Body/Detail/VBox/Unlocks/UnlockTemplate"]
+custom_minimum_size = Vector2(104, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "MISSÃO"
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Detail/VBox/Unlocks/UnlockTemplate"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Satélite de demonstração"
+autowrap_mode = 3
+
+[node name="RequiresCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_REQUIRES"
+
+[node name="Requires" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Nenhum"
+autowrap_mode = 3
+
+[node name="Fill" type="Control" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="BenchSep" type="HSeparator" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+
+[node name="BenchCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_BENCH"
+
+[node name="Bench" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="SeatTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Bench"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Dot" type="ColorRect" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.5569, 0.4863, 1, 1)
+
+[node name="Name" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Lyra"
+
+[node name="Prof" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Pesquisadora"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="PP" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "+6.4 PP"
+
+[node name="BenchEmpty" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RS_BENCH_EMPTY"
+autowrap_mode = 3
+
+[node name="Fund" type="Button" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_RS_FUND"
+
+[node name="License" type="Button" parent="Frame/VBox/Body/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "TY_RS_LICENSE"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Frame")
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwTechs" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/Body/Tree/Canvas/Nodes")
+offset = Vector2(0, 8)
+delay = 0.2
+step = 0.012
+seconds = 0.26
+max_delay = 0.4
+from_scale = Vector2(0.96, 0.96)
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

@@ -6,6 +6,9 @@ shader_type spatial;
 //   5 launch-base concrete slabs with hazard edges
 // The plaza (`plaza = true`) goes from trodden earth to paving tiles with a star inlay.
 // Roads are box meshes: set the instance parameter `along_z` on roads that run along Z.
+// Lighting: the Cometworks toon light (shaders/include/cw_toon.gdshaderinc).
+#define CW_TOON_RIM_DEFAULT 0.0
+#include "res://shaders/include/cw_toon.gdshaderinc"
 
 uniform int era : hint_range(1, 5) = 1;
 uniform bool plaza = false;
@@ -111,9 +114,9 @@ void fragment() {
 			float s2 = step(abs(across), 0.03);
 			col *= 1.0 - (max(s1, s2)) * 0.35;
 			// hazard-striped edges
-			float edge = step(half_width - 0.35, abs(across)) * step(abs(across), half_width - 0.1);
-			float stripe = step(0.5, fract((along + across) * 0.8));
-			col = mix(col, mix(hazard, asphalt_night, stripe), edge);
+			float edge = step(half_width - 0.26, abs(across)) * step(abs(across), half_width - 0.1);
+			float stripe = step(0.5, fract((along + across) * 0.6));
+			col = mix(col, mix(hazard * 0.75, asphalt_night, stripe), edge * 0.85);
 		} else {
 			// dashed centre line
 			float dash = step(abs(across), 0.07) * step(0.5, fract(along / 3.0));

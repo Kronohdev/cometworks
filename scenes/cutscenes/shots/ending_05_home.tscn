@@ -1,0 +1,278 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/founding_yard.tscn" id="set"]
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="menu_sky"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="comet"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="ShaderMaterial" id="night_sky_mat"]
+shader = ExtResource("menu_sky")
+shader_parameter/zenith_color = Color(0.01, 0.016, 0.05, 1)
+shader_parameter/mid_color = Color(0.04, 0.055, 0.15, 1)
+shader_parameter/horizon_color = Color(0.22, 0.16, 0.34, 1)
+shader_parameter/ground_color = Color(0.01, 0.015, 0.03, 1)
+shader_parameter/horizon_height = 0.16
+shader_parameter/sun_dir = Vector3(0.79, -0.08, -0.6)
+shader_parameter/glow_color = Color(0.5, 0.35, 0.8, 1)
+shader_parameter/glow_strength = 0.6
+shader_parameter/glow_width = 0.2
+shader_parameter/star_brightness = 1.8
+shader_parameter/star_horizon = 0.08
+shader_parameter/comet_enabled = false
+
+[sub_resource type="Sky" id="night_sky"]
+sky_material = SubResource("night_sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="night_env"]
+background_mode = 2
+sky = SubResource("night_sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.36, 0.42, 0.72, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 4
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.3
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.05
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.16, 0.17, 0.34, 1)
+fog_density = 0.01
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="CameraAttributesPractical" id="night_cam"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 14.0
+dof_blur_far_transition = 24.0
+dof_blur_amount = 0.05
+
+[sub_resource type="Gradient" id="confetti_colors"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(1, 0.54, 0.24, 1, 0.25, 0.88, 0.77, 1, 0.56, 0.49, 1, 1, 1, 0.82, 0.3, 1, 1, 0.45, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="confetti_colors_tex"]
+gradient = SubResource("confetti_colors")
+
+[sub_resource type="ParticleProcessMaterial" id="confetti_process"]
+emission_shape = 3
+emission_box_extents = Vector3(3.5, 0.2, 2.5)
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 0.2
+initial_velocity_max = 0.6
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+gravity = Vector3(0, -0.6, 0)
+turbulence_enabled = true
+turbulence_noise_strength = 0.6
+turbulence_noise_scale = 2.0
+color_initial_ramp = SubResource("confetti_colors_tex")
+
+[sub_resource type="ShaderMaterial" id="confetti_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/use_vertex_color = true
+shader_parameter/roughness = 0.6
+shader_parameter/emission = Color(0.25, 0.25, 0.25, 1)
+shader_parameter/emission_energy = 1.0
+
+[sub_resource type="BoxMesh" id="confetti_mesh"]
+material = SubResource("confetti_mat")
+size = Vector3(0.06, 0.01, 0.04)
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 13
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Leader")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6, 4.2, 4.4, 4.6, 7.2, 9.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["content", -1],
+"method": &"set_expression"
+}, {
+"args": [Vector3(-40, 45, -120), 0.8],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(0.1, 0.9, 0.2), 0.7],
+"method": &"look_at_point"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["bow", -1],
+"method": &"play"
+}, {
+"args": ["heart", 2.6],
+"method": &"show_emote"
+}, {
+"args": ["wave", -1],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6, 4.6, 8.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["CS_END_6"],
+"method": &"say"
+}, {
+"args": ["CS_END_7"],
+"method": &"say"
+}, {
+"args": ["CS_END_CARD", "CS_END_CARD_KICKER"],
+"method": &"card"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="Ending05Home" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player", "leader_cometlings")]
+script = ExtResource("shot")
+duration = 13
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+leader_cometlings = [NodePath("Cast/Leader")]
+dip_in = 0.8
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Sun" parent="Set"]
+light_color = Color(0.6, 0.68, 1, 1)
+light_energy = 0.45
+
+[node name="Fill" parent="Set"]
+light_color = Color(1, 0.8, 0.6, 1)
+light_energy = 1.6
+
+[node name="BigComet" parent="." instance=ExtResource("comet")]
+transform = Transform3D(3.4122, -2.6659, 2.5, 3.0783, 3.9401, 0, -1.97, 1.5392, 4.3301, 7, 15, -62)
+
+[node name="Nucleus" parent="BigComet"]
+visible = false
+
+[node name="Confetti" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, -3)
+amount = 120
+lifetime = 6.0
+preprocess = 3.0
+visibility_aabb = AABB(-6, -6, -5, 12, 8, 10)
+process_material = SubResource("confetti_process")
+draw_pass_1 = SubResource("confetti_mesh")
+
+[node name="Key" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.6, -1.4)
+light_color = Color(1, 0.86, 0.7, 1)
+light_energy = 1.6
+omni_range = 5
+
+[node name="Tail" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4.5)
+light_color = Color(0.5, 0.95, 1, 1)
+light_energy = 1.0
+omni_range = 8
+
+[node name="Cast" type="Node3D" parent="."]
+
+[node name="Leader" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9996, 0, 0.027, 0, 1, 0, -0.027, 0, 0.9996, 0, 0, -3.2)
+role = "pilot"
+body_color = Color(1, 0.792, 0.659, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 100
+start_action = "idle"
+listen_to_events = false
+mood = 0.8
+
+[node name="A" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.8944, 0, 0.4472, 0, 1, 0, -0.4472, 0, 0.8944, -1.3, 0, -4.6)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 111
+start_action = "dance"
+listen_to_events = false
+mood = 0.8
+
+[node name="B" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9138, 0, -0.4061, 0, 1, 0, 0.4061, 0, 0.9138, 1.2, 0, -4.7)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 112
+start_action = "dance"
+listen_to_events = false
+mood = 0.8
+
+[node name="C" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9985, 0, 0.0555, 0, 1, 0, -0.0555, 0, 0.9985, -0.2, 0, -5.6)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 113
+start_action = "dance"
+listen_to_events = false
+mood = 0.8
+
+[node name="D" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.8752, 0, -0.4837, 0, 1, 0, 0.4837, 0, 0.8752, 2.1, 0, -5.8)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 114
+start_action = "dance"
+listen_to_events = false
+mood = 0.8
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1, 1.7)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1, 0.95)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3.4)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1, 1.7)
+environment = SubResource("night_env")
+attributes = SubResource("night_cam")
+fov = 36
+near = 0.05
+far = 900
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

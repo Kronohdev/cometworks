@@ -1,0 +1,83 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/space_comet.tscn" id="set"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/props/probe.tscn" id="probe"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 10
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["CS_END_1"],
+"method": &"say"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Probe:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.5, -0.3, -1), Vector3(-2.5, 0.6, -22)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="Ending01Cruise" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("shot")
+duration = 10
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.2
+animation_player = NodePath("AnimationPlayer")
+dip_in = 1.4
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Comet" parent="Set"]
+transform = Transform3D(5.7797, 1.0191, 1.2475, -1.0419, 5.9088, 0, -1.2285, -0.2166, 5.8689, -12, 5, -90)
+
+[node name="Probe" parent="." instance=ExtResource("probe")]
+transform = Transform3D(0.9903, 0, 0.1392, 0, 1, 0, -0.1392, 0, 0.9903, 0.5, -0.3, -1)
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.35, 2.6)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -14)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.8, -70)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.35, 2.6)
+fov = 46
+near = 0.05
+far = 20000
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

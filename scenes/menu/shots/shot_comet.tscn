@@ -6,6 +6,9 @@
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="4_glow"]
 [ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod1.glb" id="6_jupiter"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_space.wav" id="audio_bed_stream"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("2_sky")
@@ -135,3 +138,11 @@ far = 20000.0
 libraries = {
 &"": SubResource("anim_lib")
 }
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -8.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

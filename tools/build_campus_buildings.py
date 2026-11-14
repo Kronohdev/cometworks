@@ -16,12 +16,17 @@ settings, so the scenes stay editable. Interiors: HQ offices and meeting room, w
 with a stage on cradles and a high bay, pad blockhouse, lab benches and a telescope dome,
 mission control consoles, radio hut, gym, factory line.
 
-Spots: walk targets for the campus Cometlings (src/tycoon/campus_walker.gd walks
-spot -> door -> road -> door -> spot in straight lines). Door markers sit on the road side
-(local z = +9) straight out from the doorway; interior spots add a `via` point just inside
-the doorway. The script checks the legs against the voxels and prints any that clip props.
+Spots: walk targets for the campus Cometlings (src/tycoon/campus_walker.gd finds its way to
+them on the campus walk grid, src/tycoon/campus_nav.gd, which reads the walk masks below).
+Door markers sit on the road side (local z = +9) straight out from the doorway; interior
+spots add a `via` point just inside the doorway (hints, kept in the scenes). The script
+checks those legs against the voxels and prints any that clip props.
+
+Walk masks: assets/campus/<kind>/<kind>_walk.png, where the Cometlings may stand on the lot
+in every era and level (see write_walk_mask; read by src/tycoon/campus_nav.gd).
 
 Usage: python tools/build_campus_buildings.py [kind ...]   (also run by build_campus_scene.py)
+       python tools/build_campus_buildings.py --walk [kind ...]   (walk masks only)
 """
 import math
 import sys
@@ -975,6 +980,98 @@ def check_paths(kind, union_occ, grid):
 
 _WRITTEN = set()
 
+# ------------------------------------------------------------------ walk masks
+# assets/campus/<kind>/<kind>_walk.png: where the campus Cometlings may stand on a lot, read by
+# src/tycoon/campus_nav.gd. One 8-bit grey layer per era and level (cumulative, like the scene
+# shows them: rows of era 1 level 1, era 1 level 2, ... era 5 level 3) plus one for the
+# construction scaffold, stacked from the top. Cells are WALK_CELL metres, centred on the lot
+# origin (x right, image rows = +z), symmetric so a lot turned by 180 degrees maps cell on cell.
+# 255 = blocked (any voxel between WALK_BAND metres high), 128 = within WALK_NEAR of a blocked
+# cell (walkable, but paths keep away), 0 = free floor.
+WALK_CELL = 0.25
+WALK_BAND = (0.3, 2.0)
+WALK_NEAR = 0.75
+WALK_IMPORT = """[remap]
+
+importer="image"
+type="Image"
+
+[deps]
+
+source_file="{src}"
+
+[params]
+
+"""
+
+
+def walk_extent(kind):
+    """half extents (x, z) of the walk mask in metres, multiples of WALK_CELL"""
+    w, d = LOT_SIZE[kind]
+    hx = math.ceil((w / 2 + 1) / WALK_CELL) * WALK_CELL
+    hz = math.ceil((d / 2 + 1.5) / WALK_CELL) * WALK_CELL
+    return hx, hz
+
+
+def walk_layer(occ, grid, kind):
+    """(rows z, cols x) uint8 layer from a voxel occupancy volume"""
+    hx, hz = walk_extent(kind)
+    nxc, nzc = int(round(2 * hx / WALK_CELL)), int(round(2 * hz / WALK_CELL))
+    band = occ[:, m2v_(WALK_BAND[0]):m2v_(WALK_BAND[1]), :].any(axis=1)
+    blocked = np.zeros((nzc, nxc), bool)
+    ii, kk = np.nonzero(band)
+    x0 = (ii + grid.min[0]) / cv.VPM
+    z0 = (kk + grid.min[2]) / cv.VPM
+    eps = 1e-4
+    # a voxel blocks every cell it touches (conservative)
+    for xa in (x0 + eps, x0 + cv.VOX - eps):
+        for za in (z0 + eps, z0 + cv.VOX - eps):
+            ci = np.floor((xa + hx) / WALK_CELL).astype(np.int64)
+            ck = np.floor((za + hz) / WALK_CELL).astype(np.int64)
+            ok = (ci >= 0) & (ci < nxc) & (ck >= 0) & (ck < nzc)
+            blocked[ck[ok], ci[ok]] = True
+    r = int(math.ceil(WALK_NEAR / WALK_CELL))
+    pad = np.pad(blocked, r)
+    near = np.zeros_like(blocked)
+    for dz in range(-r, r + 1):
+        for dx in range(-r, r + 1):
+            if dx * dx + dz * dz <= (WALK_NEAR / WALK_CELL) ** 2:
+                near |= pad[r + dz:r + dz + nzc, r + dx:r + dx + nxc]
+    out = np.zeros((nzc, nxc), np.uint8)
+    out[near] = 128
+    out[blocked] = 255
+    return out
+
+
+def m2v_(y):
+    return cv.m2v(y)
+
+
+def write_walk_mask(kind):
+    """Builds the voxel grids of every era and level again (no meshing) and writes the mask."""
+    from PIL import Image
+    w, d = LOT_SIZE[kind]
+    layers = []
+    for era in (1, 2, 3, 4, 5):
+        st = STYLES[era]
+        union = None
+        for lv in (1, 2, 3):
+            g = Grid(-w / 2 - 1, w / 2 + 1, HEIGHT[kind], -d / 2 - 1, d / 2 + 1.5)
+            RECIPES[kind](g, st, lv, Ctx(st))
+            occ = g.col > 0
+            union = occ if union is None else (union | occ)
+            layers.append(walk_layer(union, g, kind))
+    sg = scaffold(kind)
+    layers.append(walk_layer(sg.col > 0, sg, kind))
+    img = np.concatenate(layers, axis=0)
+    path = ASSETS / kind / f"{kind}_walk.png"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    Image.fromarray(img, "L").save(path, optimize=True)
+    imp = path.with_name(path.name + ".import")
+    if not imp.exists() or 'importer="image"' not in imp.read_text(encoding="utf-8"):
+        imp.write_text(WALK_IMPORT.format(src=f"{RES}/{kind}/{kind}_walk.png"), encoding="utf-8", newline="\n")
+    return img.shape
+
 
 def build_kind(kind, eras=(1, 2, 3, 4, 5)):
     w, d = LOT_SIZE[kind]
@@ -1081,15 +1178,20 @@ def write_scene(kind, info):
     (OUT_BUILD / f"{kind}.tscn").write_text(text, encoding="utf-8", newline="\n")
 
 
-def main(kinds=None):
+def main(kinds=None, walk_only=False):
     kinds = kinds or list(RECIPES)
     for kind in kinds:
         t0 = time.time()
-        info = build_kind(kind)
-        write_scene(kind, info)
-        print(f"wrote buildings/{kind}.tscn + assets/campus/{kind}/ ({info['tris'] // 1000}k tris, "
-              f"{time.time() - t0:.1f}s)")
+        if not walk_only:
+            info = build_kind(kind)
+            write_scene(kind, info)
+            print(f"wrote buildings/{kind}.tscn + assets/campus/{kind}/ ({info['tris'] // 1000}k tris, "
+                  f"{time.time() - t0:.1f}s)")
+        shape = write_walk_mask(kind)
+        print(f"wrote assets/campus/{kind}/{kind}_walk.png {shape[1]}x{shape[0]}")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:] or None)
+    # --walk: only the walk masks (assets/campus/<kind>/<kind>_walk.png), no models or scenes
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    main(args or None, walk_only="--walk" in sys.argv)

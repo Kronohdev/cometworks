@@ -1,0 +1,343 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="sky"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="glow"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="crate"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/yard_nature.tscn" id="nature"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="audio_bed_stream"]
+
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e1_l1.glb" id="f_shed"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l1.glb" id="f_pad"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e1.glb" id="f_rocket"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/windsock.glb" id="f_sock"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/fence_wood.glb" id="f_fence"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/hay_bale.glb" id="f_hay"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/tree_round_a.glb" id="f_tree"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/tree_pine_a.glb" id="f_pine"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("sky")
+shader_parameter/zenith_color = Color(0.05, 0.08, 0.2, 1)
+shader_parameter/mid_color = Color(0.22, 0.24, 0.45, 1)
+shader_parameter/horizon_color = Color(0.98, 0.6, 0.42, 1)
+shader_parameter/ground_color = Color(0.06, 0.06, 0.09, 1)
+shader_parameter/horizon_height = 0.2
+shader_parameter/sun_dir = Vector3(0.7916, 0.0507, -0.6089)
+shader_parameter/glow_color = Color(1, 0.55, 0.25, 1)
+shader_parameter/glow_strength = 2.2
+shader_parameter/glow_width = 0.22
+shader_parameter/star_brightness = 0.35
+shader_parameter/star_horizon = 0.45
+shader_parameter/comet_enabled = false
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.42, 0.46, 0.66, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 4
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.5
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 0.95
+fog_enabled = true
+fog_light_color = Color(0.7, 0.5, 0.48, 1)
+fog_density = 0.008
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="CameraAttributesPractical" id="cam_attr"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 12.0
+dof_blur_far_transition = 20.0
+dof_blur_amount = 0.06
+
+[sub_resource type="ShaderMaterial" id="cradle"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.95, 0.55, 0.18, 1)
+shader_parameter/roughness = 0.6
+shader_parameter/metallic = 0.2
+
+[sub_resource type="ShaderMaterial" id="steel"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.33, 0.36, 0.42, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.6
+shader_parameter/toon_specular = 1.0
+
+[sub_resource type="ShaderMaterial" id="wood"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.52, 0.36, 0.22, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="bulb"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.85, 0.55, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.72, 0.38, 1)
+shader_parameter/emission_energy = 6.0
+
+[sub_resource type="ShaderMaterial" id="lamp_head"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.9, 0.7, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.85, 0.6, 1)
+shader_parameter/emission_energy = 5.0
+
+[sub_resource type="BoxMesh" id="bench_top"]
+size = Vector3(1.8, 0.08, 0.7)
+
+[sub_resource type="BoxMesh" id="bench_leg"]
+size = Vector3(0.08, 0.72, 0.08)
+
+[sub_resource type="BoxMesh" id="pole"]
+size = Vector3(0.14, 4.2, 0.14)
+
+[sub_resource type="BoxMesh" id="lamp"]
+size = Vector3(0.5, 0.28, 0.3)
+
+[sub_resource type="BoxMesh" id="toolbox"]
+size = Vector3(0.5, 0.25, 0.28)
+
+[sub_resource type="SphereMesh" id="bulb_mesh"]
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 4
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="lamp_glow"]
+render_priority = 1
+shader = ExtResource("glow")
+shader_parameter/glow_color = Color(1, 0.8, 0.5, 1)
+shader_parameter/intensity = 0.8
+shader_parameter/core = 0.02
+shader_parameter/falloff = 5.0
+
+[node name="FoundingYard" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+camera_attributes = SubResource("cam_attr")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.6097, -0.1579, 0.7767, 0, 0.98, 0.1992, -0.7926, 0.1214, -0.5975, 0, 0, 0)
+light_color = Color(1, 0.7, 0.42, 1)
+light_energy = 2.2
+shadow_enabled = true
+directional_shadow_max_distance = 40.0
+
+[node name="Yard" type="Node3D" parent="."]
+
+[node name="Bench" type="Node3D" parent="Yard"]
+transform = Transform3D(0.866, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866, -2.1, 0, 0.6)
+
+[node name="Top" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
+mesh = SubResource("bench_top")
+surface_material_override/0 = SubResource("wood")
+
+[node name="Leg0" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.36, -0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg1" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.36, -0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg2" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.36, 0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg3" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.36, 0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Toolbox" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.92, 0)
+mesh = SubResource("toolbox")
+surface_material_override/0 = SubResource("cradle")
+
+[node name="Crate0" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.9696, 0, 0.3473, 0, 2, 0, -0.3473, 0, 1.9696, 5.4, 0, -0.6)
+
+[node name="Crate1" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.9805, 0, -0.2783, 0, 2, 0, 0.2783, 0, 1.9805, 6.25, 0, -0.45)
+
+[node name="Crate2" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.6383, 0, 1.1472, 0, 2, 0, -1.1472, 0, 1.6383, 5.8, 0.82, -0.55)
+
+[node name="PoleA" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 2.1, -2.4)
+mesh = SubResource("pole")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PoleB" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 2.1, -4.2)
+mesh = SubResource("pole")
+surface_material_override/0 = SubResource("steel")
+
+[node name="LampHead" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 4.1, -2.25)
+cast_shadow = 0
+mesh = SubResource("lamp")
+surface_material_override/0 = SubResource("lamp_head")
+
+[node name="LampGlow" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6.5, 4.1, -2.1)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("lamp_glow")
+
+[node name="WorkLight" type="SpotLight3D" parent="Yard"]
+transform = Transform3D(0.8192, -0.4698, 0.329, 0, 0.5736, 0.8192, -0.5736, -0.671, 0.4698, 6.5, 4, -2.1)
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 6.0
+shadow_enabled = true
+spot_range = 14.0
+spot_angle = 40.0
+
+[node name="StringLights" type="Node3D" parent="Yard"]
+
+[node name="Bulb0" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4643, 4.0398, -2.4643)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb1" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7929, 3.8439, -2.5929)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb2" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1214, 3.6806, -2.7214)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb3" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45, 3.55, -2.85)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb4" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7786, 3.452, -2.9786)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb5" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1071, 3.3867, -3.1071)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb6" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4357, 3.3541, -3.2357)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb7" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7643, 3.3541, -3.3643)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb8" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0929, 3.3867, -3.4929)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb9" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4214, 3.452, -3.6214)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb10" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 3.55, -3.75)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb11" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9214, 3.6806, -3.8786)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb12" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5929, 3.8439, -4.0071)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb13" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2643, 4.0398, -4.1357)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="YardNature" parent="." instance=ExtResource("nature")]
+
+[node name="Fill" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.6, 5.5)
+light_color = Color(0.85, 0.82, 1, 1)
+light_energy = 1.1
+omni_range = 10.0
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -11.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="Shed" parent="." instance=ExtResource("f_shed")]
+transform = Transform3D(0.5634, 0, 0.3253, 0, 0.65, 0, -0.3253, 0, 0.5634, -7.5, 0, -10)
+
+[node name="Pad" parent="." instance=ExtResource("f_pad")]
+transform = Transform3D(0.62, 0, 0, 0, 0.62, 0, 0, 0, 0.62, 7, 0, -13)
+
+[node name="Rocket" parent="Pad" instance=ExtResource("f_rocket")]
+
+[node name="Windsock" parent="." instance=ExtResource("f_sock")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 1.5, 0, -14)
+
+[node name="Fence" parent="." instance=ExtResource("f_fence")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -1.2, 0, -16)
+
+[node name="Fence2" parent="." instance=ExtResource("f_fence")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 1.4, 0, -16)
+
+[node name="Hay" parent="." instance=ExtResource("f_hay")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -3.2, 0, -5.5)
+
+[node name="Tree" parent="." instance=ExtResource("f_tree")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -13, 0, -16)
+
+[node name="Pine" parent="." instance=ExtResource("f_pine")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 14, 0, -20)

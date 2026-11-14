@@ -1,6 +1,6 @@
 keys,en,pt
-MENU_TAGLINE,A SPACE AGENCY RUN BY COMETLINGS,UMA AGÊNCIA ESPACIAL DE COMETINHOS
-MENU_NEW_CAMPAIGN,NEW CAMPAIGN,NOVA CAMPANHA
+MENU_TAGLINE,A space agency run by Cometlings,Uma agência espacial de Cometinhos
+MENU_NEW_CAMPAIGN,New campaign,Nova campanha
 MENU_NEW_CAMPAIGN_HINT,25 years until Mãe-Gelo returns,25 anos até a Mãe-Gelo voltar
 MENU_CONTINUE,Continue,Continuar
 MENU_CONTINUE_HINT,No saved campaign yet,Nenhuma campanha salva
@@ -11,23 +11,28 @@ MENU_FAIR_TIP,"The hackathon demo: the full campaign, one week per second.","A d
 MENU_WORKSHOP,Rocket workshop,Oficina de foguetes
 MENU_WORKSHOP_HINT,Free building in the hangar,Montagem livre no hangar
 MENU_OPTIONS,Options,Opções
-MENU_OPTIONS_HINT,Language · display · sound,Idioma · tela · som
+MENU_OPTIONS_HINT,Language · display · sound · style,Idioma · tela · som · estilo
 MENU_QUIT,Quit,Sair
 MENU_QUIT_HINT,See you at perihelion,Até o periélio
-MENU_KEYS,↑↓ CHOOSE   ENTER OPEN   ESC BACK,↑↓ ESCOLHER   ENTER ABRIR   ESC VOLTAR
-MENU_EVENT,NASA SPACE APPS CHALLENGE 2026,NASA SPACE APPS CHALLENGE 2026
-MENU_FEED,OBSERVATORY FEED,TRANSMISSÃO DO OBSERVATÓRIO
+MENU_KEYS,↑↓ choose   Enter open   Esc back,↑↓ escolher   Enter abrir   Esc voltar
+MENU_EVENT,NASA Space Apps Challenge 2026,NASA Space Apps Challenge 2026
+MENU_FEED,From the observatory,Do observatório
 MENU_CAM,CAM %02d,CAM %02d
-MENU_LOADING_CAMPUS,PREPARING THE CAMPUS,PREPARANDO O CAMPUS
-MENU_LOADING_FAIR,PREPARING THE FAIR DEMO,PREPARANDO A DEMONSTRAÇÃO
-MENU_LOADING_HANGAR,OPENING THE HANGAR,ABRINDO O HANGAR
+MENU_LOADING_CAMPUS,Preparing the campus…,Preparando o campus…
+MENU_LOADING_FAIR,Getting the fair demo ready,Preparando a demonstração
+MENU_LOADING_HANGAR,Opening the hangar,Abrindo o hangar
 MENU_OPT_TITLE,Options,Opções
-MENU_OPT_LANGUAGE,LANGUAGE,IDIOMA
-MENU_OPT_DISPLAY,DISPLAY,TELA
+MENU_OPT_LANGUAGE,Language,Idioma
+MENU_OPT_DISPLAY,Display,Tela
 MENU_OPT_WINDOW,Window,Janela
 MENU_OPT_FULLSCREEN,Fullscreen,Tela cheia
-MENU_OPT_VOLUME,MASTER VOLUME,VOLUME GERAL
+MENU_OPT_VOLUME,Volume,Volume geral
+MENU_OPT_MUSIC,Music,Música
+MENU_OPT_SFX,Effects,Efeitos
 MENU_OPT_BACK,Back,Voltar
+MENU_OPT_MOTION,Animations,Animações
+MENU_OPT_MOTION_FULL,Full,Completas
+MENU_OPT_MOTION_REDUCED,Reduced,Reduzidas
 MENU_SHOT_STARGAZE,Mãe-Gelo over the north hill,Mãe-Gelo sobre a colina norte
 MENU_SHOT_WORKSHOP,Assembly yard · second shift,Pátio de montagem · segundo turno
 MENU_SHOT_EARTH,Low Earth orbit · spacewalk,Órbita baixa · caminhada espacial
@@ -35,3 +40,9 @@ MENU_SHOT_LAUNCH,Pad 1 · liftoff,Plataforma 1 · decolagem
 MENU_SHOT_COMET,Mãe-Gelo · perihelion pass,Mãe-Gelo · passagem pelo periélio
 MENU_SHOT_CAMPUS,Cometworks campus · dusk,Campus Cometworks · entardecer
 MENU_SHOT_SATURN,Outer system · Saturn,Sistema externo · Saturno
+MENU_OPT_STYLE,Style,Estilo
+MENU_OPT_STYLE_TOON,Cartoon,Cartoon
+MENU_OPT_STYLE_CLASSIC,Classic,Clássico
+MENU_OPT_OUTLINES,Outlines,Contornos
+MENU_OPT_ON,On,Ligados
+MENU_OPT_OFF,Off,Desligados

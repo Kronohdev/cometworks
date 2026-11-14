@@ -1,0 +1,768 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/project/rocket_designer_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/launch/designed_rocket.tscn" id="3_rocket"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="cwm_ticker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="ShaderMaterial" id="pad_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.1804, 0.2275, 0.4706, 1.0)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="pad_mesh"]
+material = SubResource("pad_mat")
+top_radius = 2.6
+bottom_radius = 2.8
+height = 0.3
+radial_segments = 24
+
+[sub_resource type="ShaderMaterial" id="ring_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1.0000, 0.7725, 0.2784, 1.0)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1.0000, 0.7725, 0.2784, 1.0)
+shader_parameter/emission_energy = 0.6
+
+[sub_resource type="TorusMesh" id="ring_mesh"]
+material = SubResource("ring_mat")
+inner_radius = 2.5
+outer_radius = 2.62
+rings = 32
+ring_segments = 6
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.6039, 0.6510, 0.9020, 1.0)
+ambient_light_energy = 0.9
+tonemap_mode = 2
+
+[node name="RocketDesigner" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -404.0
+offset_right = 700.0
+offset_bottom = 404.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "SND-02 · Sounding rocket → Suborbital"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_RK_DESIGNER_TITLE"
+
+[node name="Hint" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_DESIGNER_HINT"
+
+[node name="Need" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Need"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RK_CHECK"
+horizontal_alignment = 2
+
+[node name="NeedLine" type="Label" parent="Panel/Margin/VBox/Header/Need"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+text = "Needs 2.0 km/s and 0.05 t"
+horizontal_alignment = 2
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "TY_RK_BACK"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(340, 0)
+theme_override_constants/separation = 8
+
+[node name="FamiliesCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_FAMILIES"
+
+[node name="NoFamilies" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_NO_FAMILIES"
+autowrap_mode = 3
+
+[node name="FamilyScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body/Left"]
+custom_minimum_size = Vector2(0, 196)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Families" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/FamilyScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="FamilyTemplate" type="Button" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwRow"
+toggle_mode = true
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 6.0
+offset_right = -14.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 17
+text = "Andorinha"
+text_overrun_behavior = 3
+
+[node name="Meta" type="Label" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "3 flights · 3 good · Kestrel"
+text_overrun_behavior = 3
+
+[node name="Side" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Rel" type="Label" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row/Side"]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text = "91%"
+horizontal_alignment = 2
+
+[node name="Reach" type="Label" parent="Panel/Margin/VBox/Body/Left/FamilyScroll/Families/FamilyTemplate/Row/Side"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_font_sizes/font_size = 13
+text = "It can get there"
+horizontal_alignment = 2
+
+[node name="SepL" type="HSeparator" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+
+[node name="ProposalsCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_PROPOSALS"
+
+[node name="Proposals" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ProposalTemplate" type="Button" parent="Panel/Margin/VBox/Body/Left/Proposals"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwRow"
+toggle_mode = true
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 6.0
+offset_right = -14.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 17
+text = "Balanced"
+
+[node name="Meta" type="Label" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "30 000 cr · 2 wk"
+
+[node name="Odds" type="Label" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate/Row"]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text = "87%"
+vertical_alignment = 1
+
+[node name="NoProposals" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_NO_PROPOSALS"
+autowrap_mode = 3
+
+[node name="SepA" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Mid" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="BuildCaption" type="Label" parent="Panel/Margin/VBox/Body/Mid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_BUILD"
+
+[node name="Slots" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Mid"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 9
+
+[node name="SlotTemplate" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Mid/Slots"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Head"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 16
+text = "Main stage"
+custom_minimum_size = Vector2(150, 0)
+
+[node name="Desc" type="Label" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Head"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "A small kerosene engine for sounding rockets"
+size_flags_horizontal = 3
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Locked" type="Label" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Head"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+theme_override_font_sizes/font_size = 13
+text = "+2 in research"
+
+[node name="Trough" type="PanelContainer" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwSegmented"
+
+[node name="Options" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Trough"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="OptionTemplate" type="Button" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Trough/Options"]
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+toggle_mode = true
+text = "Kestrel"
+clip_text = true
+
+[node name="SepB" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 0)
+theme_override_constants/separation = 8
+
+[node name="PreviewBay" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"CwBay"
+
+[node name="Preview" type="SubViewportContainer" parent="Panel/Margin/VBox/Body/Right/PreviewBay"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+stretch = true
+mouse_filter = 2
+
+[node name="Viewport" type="SubViewport" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(372, 236)
+render_target_update_mode = 4
+
+[node name="World" type="Node3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport"]
+
+[node name="Env" type="WorldEnvironment" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World"]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World"]
+transform = Transform3D(0.766, -0.4132, 0.4924, 0, 0.766, 0.6428, -0.6428, -0.4924, 0.5868, 4, 8, 4)
+light_color = Color(1.0000, 0.9569, 0.8863, 1.0)
+light_energy = 1.25
+
+[node name="Rim" type="OmniLight3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, -3)
+light_color = Color(0.2471, 0.8784, 0.7725, 1.0)
+light_energy = 2.0
+omni_range = 14.0
+
+[node name="PreviewCam" type="Camera3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 11)
+fov = 34.0
+
+[node name="Turntable" type="Node3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World"]
+unique_name_in_owner = true
+
+[node name="Pad" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/Turntable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+mesh = SubResource("pad_mesh")
+
+[node name="Ring" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/Turntable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("ring_mesh")
+
+[node name="PreviewRocket" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/Turntable" instance=ExtResource("3_rocket")]
+unique_name_in_owner = true
+
+[node name="VerdictRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/VerdictRow"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_CHECK"
+size_flags_horizontal = 3
+vertical_alignment = 1
+
+[node name="VerdictPill" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/VerdictRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwVerdict"
+
+[node name="Verdict" type="Label" parent="Panel/Margin/VBox/Body/Right/VerdictRow/VerdictPill"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_font_sizes/font_size = 18
+text = "It can get there"
+horizontal_alignment = 1
+
+[node name="Pulse" type="Node" parent="Panel/Margin/VBox/Body/Right/VerdictRow/VerdictPill/Verdict"]
+script = ExtResource("cwm_pulse")
+
+[node name="MeterDv" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterDv"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_RK_M_DV"
+custom_minimum_size = Vector2(132, 0)
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/MeterDv"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+color = Color(0.1843, 0.7686, 0.6275, 1)
+pill = true
+marker = 0.5
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterDv"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "2.4 / 2.0 km/s"
+custom_minimum_size = Vector2(118, 0)
+horizontal_alignment = 2
+
+[node name="MeterLift" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterLift"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_RK_M_LIFT"
+custom_minimum_size = Vector2(132, 0)
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/MeterLift"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+color = Color(0.1843, 0.7686, 0.6275, 1)
+pill = true
+marker = 0.5
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterLift"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "2.4 / 2.0 km/s"
+custom_minimum_size = Vector2(118, 0)
+horizontal_alignment = 2
+
+[node name="MeterSize" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterSize"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_RK_M_SIZE"
+custom_minimum_size = Vector2(132, 0)
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/MeterSize"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+color = Color(0.1843, 0.7686, 0.6275, 1)
+pill = true
+marker = 0.5
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/MeterSize"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "2.4 / 2.0 km/s"
+custom_minimum_size = Vector2(118, 0)
+horizontal_alignment = 2
+
+[node name="SepR" type="HSeparator" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Cost" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Cost"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_COST"
+
+[node name="CostValue" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 22
+text = "30 000 cr"
+
+[node name="Ticker" type="Node" parent="Panel/Margin/VBox/Body/Right/Stats/Cost/CostValue"]
+script = ExtResource("cwm_ticker")
+seconds = 0.35
+sound_up = &""
+sound_down = &""
+flash_strength = 0.0
+
+[node name="Weeks" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Weeks"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_WEEKS"
+
+[node name="WeeksValue" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Weeks"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 22
+text = "2 wk"
+
+[node name="Rel" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Rel"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_RK_REL"
+
+[node name="RelValue" type="Label" parent="Panel/Margin/VBox/Body/Right/Stats/Rel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 22
+text = "86%"
+
+[node name="Ticker" type="Node" parent="Panel/Margin/VBox/Body/Right/Stats/Rel/RelValue"]
+script = ExtResource("cwm_ticker")
+seconds = 0.35
+sound_up = &""
+sound_down = &""
+flash_strength = 0.0
+
+[node name="Heritage" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "New family · first flight"
+
+[node name="NameRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FamilyName" type="LineEdit" parent="Panel/Margin/VBox/Body/Right/NameRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "TY_RK_NAME"
+text = "Andorinha"
+max_length = 24
+
+[node name="Save" type="Button" parent="Panel/Margin/VBox/Body/Right/NameRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(132, 38)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_RK_SAVE"
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Error" type="Label" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = ""
+size_flags_horizontal = 3
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Back" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_RK_BACK"
+
+[node name="Start" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_RK_START"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.97, 0.97)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwFamilies" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Left/FamilyScroll/Families")
+offset = Vector2(-10, 0)
+delay = 0.16
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwProposals" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Left/Proposals")
+offset = Vector2(-10, 0)
+delay = 0.22
+step = 0.04
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwSlots" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Mid/Slots")
+offset = Vector2(0, 8)
+delay = 0.18
+step = 0.035
+seconds = 0.26
+max_delay = 0.5
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true
+
+[node name="CwOutline" parent="Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/PreviewCam" instance=ExtResource("cw_outline")]

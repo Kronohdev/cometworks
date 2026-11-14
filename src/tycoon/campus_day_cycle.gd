@@ -5,9 +5,12 @@ extends Node
 ## TycoonClock.week_fraction(); it stops while the game is paused). Every look is a curve or
 ## a gradient over the cycle phase (0 = golden hour, ~0.45 = night, ~0.8 = dawn), authored in
 ## the inspector (scenes/tycoon/tycoon_main.tscn: DayCycle):
-##   sun elevation (deg) / energy / colour, moon energy, ambient energy / colour, exposure,
-##   sky colours (zenith, mid, horizon), sky glow and stars, building windows (glow gain of
-##   the voxel material) and lamp energies. Windows and lamps glow brighter at night.
+##   sun elevation (deg) / energy / colour, moon energy / colour, ambient energy / colour,
+##   exposure, saturation and contrast, fog colour and density, sky colours (zenith, mid,
+##   horizon), sky glow and stars, building windows (glow gain of the voxel material) and
+##   lamp energies, and the cartoon look's shadow tint, rim and ink colours. Windows and lamps glow brighter at night. Night is a "blue hour": a
+##   luminous blue sky, cool moonlight, lifted ambient and warm windows and lamps, so the
+##   campus stays readable. Unset curves leave the scene's own values alone.
 
 @export var enabled := true
 ## the campus scene (Campus node) whose lights, environment and lamps are driven
@@ -23,10 +26,18 @@ extends Node
 @export var sun_energy: Curve
 @export var sun_color: Gradient
 @export var moon_energy: Curve
+@export var moon_color: Gradient
 @export_group("Ambient")
 @export var ambient_energy: Curve
 @export var ambient_color: Gradient
 @export var exposure: Curve
+## colour grade: saturation and contrast of the Environment adjustment
+@export var saturation: Curve
+@export var contrast: Curve
+@export_group("Fog")
+## haze colour (light colour of the Environment fog) and density
+@export var fog_color: Gradient
+@export var fog_density: Curve
 @export_group("Sky")
 @export var zenith_color: Gradient
 @export var mid_color: Gradient
@@ -37,8 +48,18 @@ extends Node
 @export_group("Lights")
 ## glow gain of the buildings' voxel material (windows, screens)
 @export var window_glow: Curve
+## tint of the pale window lights (glow_tint of the voxel material): warm lamplight at night
+@export var window_tint: Gradient
 @export var lamp_energy: Curve
 @export var voxel_material: ShaderMaterial
+@export_group("Toon")
+## colour the shadow side of the cartoon light leans to (shader global cw_shadow_tint, see
+## shaders/include/cw_toon.gdshaderinc): warm at dusk, blue at night
+@export var shadow_tint: Gradient
+## rim light of the cartoon look (cw_rim_color): the colour of the sky / aurora
+@export var rim_color: Gradient
+## ink of the outlines (cw_outline_color)
+@export var outline_color: Gradient
 
 var phase := 0.0
 var _sun: DirectionalLight3D
@@ -77,6 +98,11 @@ func _ready() -> void:
 				_flood_base.append((n as Light3D).light_energy)
 
 
+## The toon tints are global: put the project values back when the campus goes away.
+func _exit_tree() -> void:
+	CwLook.reset_tints()
+
+
 func _process(_delta: float) -> void:
 	if not enabled or campus == null:
 		return
@@ -112,11 +138,21 @@ func apply(p: float) -> void:
 			_sky.set_shader_parameter("sun_dir", to_sun)
 	if _moon:
 		_moon.light_energy = _c(moon_energy, p, 0.38)
+		if moon_color:
+			_moon.light_color = moon_color.sample(p)
 	if _env:
 		_env.ambient_light_energy = _c(ambient_energy, p, 0.6)
 		if ambient_color:
 			_env.ambient_light_color = ambient_color.sample(p)
 		_env.tonemap_exposure = _c(exposure, p, 1.05)
+		if saturation:
+			_env.adjustment_saturation = saturation.sample_baked(p)
+		if contrast:
+			_env.adjustment_contrast = contrast.sample_baked(p)
+		if fog_color:
+			_env.fog_light_color = fog_color.sample(p)
+		if fog_density:
+			_env.fog_density = fog_density.sample_baked(p)
 	if _sky:
 		if zenith_color:
 			_sky.set_shader_parameter("zenith_color", zenith_color.sample(p))
@@ -129,6 +165,14 @@ func apply(p: float) -> void:
 		_sky.set_shader_parameter("aurora_strength", _c(aurora, p, 0.32))
 	if voxel_material:
 		voxel_material.set_shader_parameter("glow_gain", _c(window_glow, p, 1.0))
+		if window_tint:
+			voxel_material.set_shader_parameter("glow_tint", window_tint.sample(p))
+	if shadow_tint:
+		CwLook.set_global(&"cw_shadow_tint", shadow_tint.sample(p))
+	if rim_color:
+		CwLook.set_global(&"cw_rim_color", rim_color.sample(p))
+	if outline_color:
+		CwLook.set_global(&"cw_outline_color", outline_color.sample(p))
 	var lamp := _c(lamp_energy, p, 1.0)
 	for i in _lamps.size():
 		_lamps[i].light_energy = _lamp_base[i] * lamp

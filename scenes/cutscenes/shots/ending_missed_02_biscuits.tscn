@@ -1,0 +1,203 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/meadow_night.tscn" id="set"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 9
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Butter")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 4.6, 4.7, 5.8, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["sad", -1],
+"method": &"set_expression"
+}, {
+"args": ["sweat", 2],
+"method": &"show_emote"
+}, {
+"args": ["idle", -1],
+"method": &"play"
+}, {
+"args": ["surprised", 1],
+"method": &"set_expression"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["laugh", -1],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Lilac")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["sigh", -1],
+"method": &"play"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/Leader")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.6, 6.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["nod", -1],
+"method": &"play"
+}, {
+"args": ["happy", 2],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cast/Mint")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3.6, 3.7, 3.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.64, 0, -0.12)],
+"method": &"set_move_velocity"
+}, {
+"args": [Vector3(0, 0, 0)],
+"method": &"set_move_velocity"
+}, {
+"args": [Vector3(0.55, 0.8, -0.6), 0.8],
+"method": &"look_at_point"
+}, {
+"args": ["heart", 2.2],
+"method": &"show_emote"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["CS_MISS_3"],
+"method": &"say"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast/Mint:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 3.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-2.6, 0, 0.2), Vector3(-0.5, 0, -0.15)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="EndingMissed02Biscuits" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player", "leader_cometlings")]
+script = ExtResource("shot")
+duration = 9
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+leader_cometlings = [NodePath("Cast/Leader")]
+dip_in = 0.6
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Cast" type="Node3D" parent="."]
+
+[node name="Butter" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9988, 0, 0.0499, 0, 1, 0, -0.0499, 0, 0.9988, 0.55, 0, -0.6)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 131
+start_action = "sad"
+listen_to_events = false
+mood = -0.6
+
+[node name="Lilac" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.7498, 0, 0.6616, 0, 1, 0, -0.6616, 0, 0.7498, -0.2, 0, -1.45)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 132
+start_action = "idle"
+listen_to_events = false
+mood = -0.2
+
+[node name="Leader" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9977, 0, -0.0676, 0, 1, 0, 0.0676, 0, 0.9977, 1.6, 0, -0.45)
+role = "pilot"
+body_color = Color(1, 0.792, 0.659, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 133
+start_action = "idle"
+listen_to_events = false
+mood = 0.3
+
+[node name="Mint" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.1736, 0, 0.9848, 0, 1, 0, -0.9848, 0, 0.1736, -2.6, 0, 0.2)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 134
+start_action = "carry"
+listen_to_events = false
+mood = 0.3
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.7, 4.6)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.72, 3.9)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.8, -0.6)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.7, 4.6)
+fov = 40
+near = 0.05
+far = 400
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

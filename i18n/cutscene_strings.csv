@@ -1,0 +1,43 @@
+keys,en,pt
+CS_SKIP,Skip,Pular
+CS_HINT,Space: next line · hold: skip it all,Espaço: próxima fala · segure: pular tudo
+CS_LEADER_FALLBACK,Boss,Chefe
+TY_SET_CUTSCENES,Story scenes,Cenas da história
+TY_SET_CUTSCENES_TIP,Play the Cometlings' story at the start and at the end of a campaign,Mostra a história dos Cometinhos no começo e no fim da campanha
+TY_SET_REPLAY_OPENING,Rewatch the opening,Rever abertura
+TY_SET_REPLAY_OPENING_TIP,The Cometlings' story from the start,A história dos Cometinhos desde o começo
+CS_OPEN_KICKER,A Cometling story,Uma história dos Cometinhos
+CS_OPEN_TITLE,The Mother-Ice,A Mãe-Gelo
+CS_OPEN_1,"Far beyond the clouds travels the Mother-Ice: an old, icy, shining comet.","Muito além das nuvens viaja a Mãe-Gelo, um cometa velho, gelado e brilhante."
+CS_OPEN_2,From the icy dust of her tail came some very curious little flakes.,Da poeira gelada da cauda dela nasceram uns floquinhos muito curiosos.
+CS_OPEN_3,"Tail ears, a star on the antenna and no sense of danger. The Cometlings!","Orelhas de cauda, antena de estrela e nenhum senso de perigo. Os Cometinhos!"
+CS_OPEN_4,"On her last pass, a handful of them tumbled down here, onto our world.","Na última passagem dela, um punhado deles caiu aqui embaixo, no nosso mundo."
+CS_OPEN_5,The Mother-Ice sailed on. They kept waving… for quite a while.,A Mãe-Gelo seguiu viagem. Eles ficaram acenando… por um bom tempo.
+CS_OPEN_6,But a comet always comes back. The Mother-Ice returns in 25 years.,Mas cometa que é cometa sempre volta. A Mãe-Gelo volta em 25 anos.
+CS_OPEN_7,"And they made a promise: next time, we're going with her!","E eles prometeram: da próxima vez, a gente vai junto!"
+CS_OPEN_8,"From down here the comet is too far. Too much fuel, not enough rocket.","Daqui de baixo, o cometa fica longe demais. Muito combustível, pouco foguete."
+CS_OPEN_9,"But the Moon has low gravity and ice at its poles: fuel to hop over to her.","Mas a Lua tem pouca gravidade e gelo nos polos: combustível para pular até ela."
+CS_OPEN_10,"So they put together a shed, a launch pad and a dream as big as the sky.","Então juntaram um galpão, uma plataforma e um sonho do tamanho do céu."
+CS_OPEN_11,"The plan: first the Moon. Then the comet. Then a snack.","O plano: primeiro a Lua. Depois, o cometa. Depois, um lanchinho."
+CS_OPEN_12,All they needed was someone to run this happy mess.,Só faltava alguém para comandar essa bagunça.
+CS_OPEN_13,"{leader}, {agency} is yours. Let's take everyone home!","{leader}, a {agency} é sua. Vamos levar todo mundo para casa!"
+CS_OPEN_FOUNDED,Founded in year 1 · 25 years until the comet,Fundada no ano 1 · 25 anos até o cometa
+CS_SHORT_1,"The Cometlings were born from the tail of the Mother-Ice, a comet that returns in 25 years.","Os Cometinhos nasceram da cauda da Mãe-Gelo, um cometa que volta em 25 anos."
+CS_SHORT_2,"Next time she passes, they promised to go along.","Da próxima vez que ela passar, eles prometeram ir junto."
+CS_SHORT_3,"First the Moon, then the comet. Get to work, {agency}!","Primeiro a Lua, depois o cometa. Mãos à obra, {agency}!"
+CS_END_1,"Twenty-five years of rockets, sums and a few stumbles later…","Vinte e cinco anos de foguetes, contas e alguns tropeços depois…"
+CS_END_2,…a Cometling probe reaches the Mother-Ice. Contact!,…uma sonda dos Cometinhos chega à Mãe-Gelo. Contato!
+CS_END_3,"She flicks her tail, as if to say: I knew you'd come.","Ela balança a cauda, como quem diz: eu sabia que vocês vinham."
+CS_END_4,"Over the campus, her tail lights up the whole sky.","Sobre o campus, a cauda dela acende o céu inteiro."
+CS_END_5,"Nobody worked that night. Well, almost nobody.","Ninguém trabalhou naquela noite. Bom, quase ninguém."
+CS_END_6,"{leader}, promise kept.","{leader}, promessa cumprida."
+CS_END_7,Home isn't a place in the sky. It's getting there together.,Casa não é um lugar no céu. É chegar lá juntos.
+CS_END_CARD,The end,Fim
+CS_END_CARD_KICKER,{agency} · 25 years to the Mother-Ice,{agency} · 25 anos até a Mãe-Gelo
+CS_MISS_1,"At the end of year 25, the Mother-Ice passed right over the hill.","No fim do ano 25, a Mãe-Gelo passou bem em cima do morro."
+CS_MISS_2,"This time, we didn't make it in time.","Desta vez, a gente não chegou a tempo."
+CS_MISS_3,"There was sniffling, there were hugs and a whole packet of biscuits.","Teve fungada, teve abraço e teve um pacote inteiro de biscoitos."
+CS_MISS_4,{leader} looked up and smiled: she always comes back.,{leader} olhou para cima e sorriu: ela sempre volta.
+CS_MISS_5,"And on her next pass, we'll be ready.","E na próxima passagem, a gente vai estar pronto."
+CS_MISS_CARD,"See you next time, Mother-Ice","Até a próxima, Mãe-Gelo"
+CS_MISS_CARD_KICKER,{agency} · the next pass is in 25 years,{agency} · a próxima passagem é daqui a 25 anos

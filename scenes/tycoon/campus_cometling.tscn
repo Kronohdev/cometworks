@@ -1,7 +1,30 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://src/tycoon/campus_walker.gd" id="1_walker"]
 [ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="2_creature"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="3_star"]
+
+[sub_resource type="Animation" id="mark_bob"]
+resource_name = "bob"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 2.36, 0), Vector3(0, 2.46, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="mark_lib"]
+_data = {
+&"bob": SubResource("mark_bob")
+}
 
 [node name="CampusCometling" type="Node3D"]
 script = ExtResource("1_walker")
@@ -9,3 +32,21 @@ script = ExtResource("1_walker")
 [node name="Creature" parent="." instance=ExtResource("2_creature")]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0)
 listen_to_events = false
+
+[node name="LeaderMark" type="Sprite3D" parent="."]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36, 0)
+modulate = Color(1, 0.84, 0.3, 1)
+pixel_size = 0.024
+billboard = 1
+shaded = false
+alpha_cut = 1
+render_priority = 1
+texture = ExtResource("3_star")
+visibility_range_end = 170.0
+
+[node name="Bob" type="AnimationPlayer" parent="LeaderMark"]
+libraries = {
+&"": SubResource("mark_lib")
+}
+autoplay = "bob"

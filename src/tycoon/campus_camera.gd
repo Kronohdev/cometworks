@@ -17,13 +17,19 @@ extends Camera3D
 ##             right, so the building sits a bit left of centre).
 ## Idle tour   after tour_idle_seconds without input the camera drifts between shots given by
 ##             tour_source (Cometlings at work, the pad, buildings) until any input.
+## Cinematic   begin_cinematic(rig) hands the view to a Camera3D rig animated elsewhere (the
+##             launch sequence, src/tycoon/launch/launch_sequence.gd): the camera eases from
+##             where it is onto the rig, then copies its transform and lens every frame (cuts
+##             in the rig's animation stay cuts), plus `cinematic_shake`. Player input does not
+##             move it meanwhile. end_cinematic() eases back to the free view as it was.
 ## Input comes through _unhandled_input, so anything over a HUD panel (mouse_filter STOP)
 ## never moves the camera; drags are polled so they keep working when the cursor crosses a panel.
 
 signal follow_changed(target: Node3D)   ## null when the camera lets go
 signal tour_changed(active: bool)
+signal cinematic_changed(active: bool)
 
-enum Mode { FREE, FOLLOW, TOUR }
+enum Mode { FREE, FOLLOW, TOUR, CINEMATIC }
 
 @export_group("Start view")
 ## ground point the free view orbits at the start
@@ -152,6 +158,24 @@ enum Mode { FREE, FOLLOW, TOUR }
 @export var pick_radius_px := 24.0
 ## head height of a campus Cometling (m)
 @export var cometling_head_height := 0.9
+
+@export_group("Cinematic")
+## seconds to ease from the current view onto the cinematic rig
+@export var cinematic_blend_in := 1.3
+## seconds to ease back to the free view after end_cinematic()
+@export var cinematic_blend_out := 1.6
+## strongest shake (degrees of jitter at cinematic_shake = 1)
+@export_range(0.0, 5.0, 0.05) var cinematic_shake_deg := 1.1
+## shake frequency (Hz)
+@export var cinematic_shake_frequency := 17.0
+
+## 0..1, set by whoever drives the cinematic (an engine roar shakes the view)
+var cinematic_shake := 0.0
+var _rig: Camera3D = null
+var _cine_t := 1.0
+var _cine_len := 1.0
+var _cine_from := Transform3D()
+var _cine_from_fov := 32.0
 
 ## areas the follow shots keep out of and see past (building footprints, x/z), set by the owner
 var obstacles: Array[Rect2] = []
@@ -310,6 +334,41 @@ func is_touring() -> bool:
 	return mode == Mode.TOUR
 
 
+## Hands the view to a Camera3D rig (not current itself) until end_cinematic(): eases onto it
+## over `blend` seconds (-1 = cinematic_blend_in), then follows it exactly.
+func begin_cinematic(rig: Camera3D, blend := -1.0) -> void:
+	if rig == null:
+		return
+	var was := mode == Mode.CINEMATIC
+	_set_mode(Mode.CINEMATIC)
+	if not was:
+		cinematic_changed.emit(true)
+	_rig = rig
+	_cine_from = global_transform
+	_cine_from_fov = fov
+	_cine_len = cinematic_blend_in if blend < 0.0 else blend
+	_cine_t = 0.0 if _cine_len > 0.0 else 1.0
+	_drag_button = MOUSE_BUTTON_NONE
+	_pan_vel = Vector3.ZERO
+	_anchor_on = false
+	var attr := attributes as CameraAttributesPractical
+	if attr:
+		attr.dof_blur_far_enabled = false
+		attr.dof_blur_near_enabled = false
+
+
+## Leaves the cinematic: eases from the shot on screen back to the free view the player left.
+func end_cinematic(blend := -1.0) -> void:
+	if mode != Mode.CINEMATIC:
+		return
+	_set_mode(Mode.FREE)
+	_start_glide(cinematic_blend_out if blend < 0.0 else blend, 0.0)
+
+
+func is_cinematic() -> bool:
+	return mode == Mode.CINEMATIC
+
+
 ## The Cometling under a screen point (nearest head within the click radius), or null.
 func pick(screen: Vector2, candidates: Array) -> Node3D:
 	var best: Node3D = null
@@ -360,6 +419,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if mode == Mode.CINEMATIC:
+		return
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		match mb.button_index:
@@ -422,6 +483,9 @@ func _rotate(deg: float) -> void:
 func _process(delta: float) -> void:
 	var dt := minf(delta, 0.1)
 	_time += dt
+	if mode == Mode.CINEMATIC:
+		_update_cinematic(dt)
+		return
 	_update_drag(dt)
 	_update_keys(dt)
 	_update_free(dt)
@@ -724,6 +788,12 @@ func _leave_to_free(seconds: float) -> void:
 func _set_mode(m: Mode) -> void:
 	var old := mode
 	mode = m
+	if old == Mode.CINEMATIC and m != Mode.CINEMATIC:
+		# whatever ends the cinematic glides on from the shot on screen
+		_pose = _pose_from_transform(global_transform, fov)
+		_rig = null
+		cinematic_shake = 0.0
+		cinematic_changed.emit(false)
 	if m == Mode.FREE:
 		_target = null
 	if m != Mode.TOUR:
@@ -733,6 +803,50 @@ func _set_mode(m: Mode) -> void:
 		follow_changed.emit(null)
 	if old == Mode.TOUR and m != Mode.TOUR:
 		tour_changed.emit(false)
+
+
+# ------------------------------------------------------------ cinematic
+func _update_cinematic(dt: float) -> void:
+	if _rig == null or not is_instance_valid(_rig):
+		end_cinematic()
+		return
+	var to := _rig.global_transform.orthonormalized()
+	var to_fov := _rig.fov
+	if _cine_t < 1.0:
+		_cine_t = minf(_cine_t + dt / maxf(_cine_len, 0.01), 1.0)
+		var k := _ease(_cine_t)
+		to = _cine_from.interpolate_with(to, k)
+		to_fov = lerpf(_cine_from_fov, to_fov, k)
+	if cinematic_shake > 0.001 and cinematic_shake_deg > 0.0:
+		var t := _time * cinematic_shake_frequency
+		var a := deg_to_rad(cinematic_shake_deg) * cinematic_shake
+		to.basis = to.basis * Basis.from_euler(Vector3(
+			(sin(t * 1.0) * 0.6 + sin(t * 2.31 + 0.7) * 0.4) * a,
+			(sin(t * 0.87 + 2.1) * 0.6 + sin(t * 1.93 + 1.3) * 0.4) * a,
+			sin(t * 0.71 + 4.2) * a * 0.4))
+	global_transform = to
+	fov = to_fov
+	near = clampf(_rig.near, 0.05, 2.0)
+	far = maxf(_rig.far, 1600.0)
+	# keep a pose for when the cinematic ends
+	_hand_w = 0.0
+
+
+## The orbit pose (focus, yaw, pitch, distance) that reproduces a camera transform, aiming at
+## the ground when the camera looks down at it, else at a point ahead.
+func _pose_from_transform(t: Transform3D, lens: float) -> Pose:
+	var p := Pose.new()
+	var fwd := -t.basis.z.normalized()
+	var d := 40.0
+	if fwd.y < -0.08:
+		d = clampf(-t.origin.y / fwd.y, 4.0, 400.0)
+	p.focus = t.origin + fwd * d
+	var off := -fwd
+	p.dist = d
+	p.pitch = rad_to_deg(asin(clampf(off.y, -0.99, 0.99)))
+	p.yaw = rad_to_deg(atan2(off.x, off.z))
+	p.fov = lens
+	return p
 
 
 # ------------------------------------------------------------ tour

@@ -1,0 +1,82 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="2_sky"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="3_comet"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="4_glow"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod1.glb" id="6_jupiter"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_space.wav" id="audio_bed_stream"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("2_sky")
+shader_parameter/star_brightness = 2.2
+shader_parameter/milky_way = 0.9
+shader_parameter/galactic_pole = Vector3(0.2, 0.7, 0.68)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.25
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="sun_glow"]
+render_priority = 1
+shader = ExtResource("4_glow")
+shader_parameter/glow_color = Color(1, 0.72, 0.42, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/core = 0.03
+shader_parameter/falloff = 6.0
+
+[sub_resource type="ShaderMaterial" id="mat_gas"]
+shader = ExtResource("5_planet")
+shader_parameter/normal_blend = 0.75
+shader_parameter/roughness = 0.85
+
+[node name="SpaceComet" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.6866, 0.0875, -0.7217, 0, 0.9927, 0.1203, 0.727, 0.0826, -0.6816, 0, 0, 0)
+light_color = Color(1, 0.93, 0.84, 1)
+light_energy = 1.6
+
+[node name="SunGlow" type="MeshInstance3D" parent="."]
+transform = Transform3D(900, 0, 0, 0, 900, 0, 0, 0, 900, -2886.937, 481.1562, -2726.5516)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("sun_glow")
+
+[node name="Comet" parent="." instance=ExtResource("3_comet")]
+transform = Transform3D(0.4831, -0.1701, 0.6146, 0.2657, 0.7546, 0, -0.5797, 0.2041, 0.5121, 1.5, -3.5, -24)
+
+[node name="Jupiter" parent="." instance=ExtResource("6_jupiter")]
+transform = Transform3D(29.9589, -1.5701, 0, 1.5679, 29.9178, -1.5701, 0.0822, 1.5679, 29.9589, 300, -170, -760)
+
+[node name="jupiter_lod1" parent="Jupiter" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -8.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")

@@ -1,0 +1,583 @@
+[gd_resource type="Resource" script_class="CwSoundLibrary" load_steps=104 format=3]
+
+[ext_resource type="Script" path="res://src/audio/cw_sound_library.gd" id="1_lib"]
+[ext_resource type="Script" path="res://src/audio/cw_sound.gd" id="1_snd"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_hover.wav" id="2_ui_hover"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_click.wav" id="3_ui_click"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_back.wav" id="4_ui_back"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_open.wav" id="5_ui_open"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_close.wav" id="6_ui_close"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_toggle_on.wav" id="7_ui_toggle_on"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_toggle_off.wav" id="8_ui_toggle_off"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/ui_denied.wav" id="9_ui_denied"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/cash_up.wav" id="10_cash_up"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/cash_down.wav" id="11_cash_down"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/news_chime.wav" id="12_news_chime"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_hover_1.wav" id="13_menu_hover_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_hover_2.wav" id="14_menu_hover_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_hover_3.wav" id="15_menu_hover_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_hover_4.wav" id="16_menu_hover_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_hover_5.wav" id="17_menu_hover_5"]
+[ext_resource type="AudioStream" path="res://assets/audio/ui/menu_select.wav" id="18_menu_select"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/music_menu.wav" id="19_music_menu"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/music_campus.wav" id="20_music_campus"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/stinger_milestone.wav" id="21_stinger_milestone"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/stinger_finale.wav" id="22_stinger_finale"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_day.wav" id="23_amb_day"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="24_amb_night"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_space.wav" id="25_amb_space"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/workshop_1.wav" id="26_workshop_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/workshop_2.wav" id="27_workshop_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/workshop_3.wav" id="28_workshop_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/workshop_4.wav" id="29_workshop_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_happy_1.wav" id="30_voice_happy_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_happy_2.wav" id="31_voice_happy_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_happy_3.wav" id="32_voice_happy_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_happy_4.wav" id="33_voice_happy_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_question_1.wav" id="34_voice_question_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_question_2.wav" id="35_voice_question_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_surprised_1.wav" id="36_voice_surprised_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_surprised_2.wav" id="37_voice_surprised_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_sad_1.wav" id="38_voice_sad_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_sad_2.wav" id="39_voice_sad_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_babble_1.wav" id="40_voice_babble_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_babble_2.wav" id="41_voice_babble_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_babble_3.wav" id="42_voice_babble_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_cheer_1.wav" id="43_voice_cheer_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_cheer_2.wav" id="44_voice_cheer_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voice/voice_snore.wav" id="45_voice_snore"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/countdown_tick.wav" id="46_countdown_tick"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/countdown_go.wav" id="47_countdown_go"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/ignition.wav" id="48_ignition"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/rumble_loop.wav" id="49_rumble_loop"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/sputter.wav" id="50_sputter"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/engine_cut.wav" id="51_engine_cut"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/fall_whistle.wav" id="52_fall_whistle"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/fwoomp.wav" id="53_fwoomp"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/debris.wav" id="54_debris"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/crowd_cheer.wav" id="55_crowd_cheer"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/crowd_aww.wav" id="56_crowd_aww"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/confetti_pop.wav" id="57_confetti_pop"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_success.wav" id="58_result_success"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_partial.wav" id="59_result_partial"]
+[ext_resource type="AudioStream" path="res://assets/audio/launch/result_fail.wav" id="60_result_fail"]
+
+[sub_resource type="Resource" id="snd_ui_hover"]
+script = ExtResource("1_snd")
+name = &"ui_hover"
+streams = Array[AudioStream]([ExtResource("2_ui_hover")])
+volume_db = -16.0
+pitch_min = 0.94
+pitch_max = 1.08
+bus = &"UI"
+cooldown = 0.045
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_click"]
+script = ExtResource("1_snd")
+name = &"ui_click"
+streams = Array[AudioStream]([ExtResource("3_ui_click")])
+volume_db = -8.0
+pitch_min = 0.96
+pitch_max = 1.05
+bus = &"UI"
+cooldown = 0.04
+max_voices = 3
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_back"]
+script = ExtResource("1_snd")
+name = &"ui_back"
+streams = Array[AudioStream]([ExtResource("4_ui_back")])
+volume_db = -9.0
+pitch_min = 0.98
+pitch_max = 1.02
+bus = &"UI"
+cooldown = 0.06
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_open"]
+script = ExtResource("1_snd")
+name = &"ui_open"
+streams = Array[AudioStream]([ExtResource("5_ui_open")])
+volume_db = -13.0
+pitch_min = 0.95
+pitch_max = 1.05
+bus = &"UI"
+cooldown = 0.08
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_close"]
+script = ExtResource("1_snd")
+name = &"ui_close"
+streams = Array[AudioStream]([ExtResource("6_ui_close")])
+volume_db = -14.0
+pitch_min = 0.95
+pitch_max = 1.05
+bus = &"UI"
+cooldown = 0.08
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_toggle_on"]
+script = ExtResource("1_snd")
+name = &"ui_toggle_on"
+streams = Array[AudioStream]([ExtResource("7_ui_toggle_on")])
+volume_db = -10.0
+pitch_min = 0.98
+pitch_max = 1.02
+bus = &"UI"
+cooldown = 0.04
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_toggle_off"]
+script = ExtResource("1_snd")
+name = &"ui_toggle_off"
+streams = Array[AudioStream]([ExtResource("8_ui_toggle_off")])
+volume_db = -11.0
+pitch_min = 0.98
+pitch_max = 1.02
+bus = &"UI"
+cooldown = 0.04
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_ui_denied"]
+script = ExtResource("1_snd")
+name = &"ui_denied"
+streams = Array[AudioStream]([ExtResource("9_ui_denied")])
+volume_db = -10.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"UI"
+cooldown = 0.15
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_cash_up"]
+script = ExtResource("1_snd")
+name = &"cash_up"
+streams = Array[AudioStream]([ExtResource("10_cash_up")])
+volume_db = -12.0
+pitch_min = 0.98
+pitch_max = 1.04
+bus = &"UI"
+cooldown = 0.25
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_cash_down"]
+script = ExtResource("1_snd")
+name = &"cash_down"
+streams = Array[AudioStream]([ExtResource("11_cash_down")])
+volume_db = -13.0
+pitch_min = 0.98
+pitch_max = 1.02
+bus = &"UI"
+cooldown = 0.25
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_news_chime"]
+script = ExtResource("1_snd")
+name = &"news_chime"
+streams = Array[AudioStream]([ExtResource("12_news_chime")])
+volume_db = -11.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"UI"
+cooldown = 0.6
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_menu_hover"]
+script = ExtResource("1_snd")
+name = &"menu_hover"
+streams = Array[AudioStream]([ExtResource("13_menu_hover_1"), ExtResource("14_menu_hover_2"), ExtResource("15_menu_hover_3"), ExtResource("16_menu_hover_4"), ExtResource("17_menu_hover_5")])
+volume_db = -15.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"UI"
+cooldown = 0.05
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_menu_select"]
+script = ExtResource("1_snd")
+name = &"menu_select"
+streams = Array[AudioStream]([ExtResource("18_menu_select")])
+volume_db = -9.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"UI"
+cooldown = 0.1
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_music_menu"]
+script = ExtResource("1_snd")
+name = &"music_menu"
+streams = Array[AudioStream]([ExtResource("19_music_menu")])
+volume_db = -6.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Music"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_music_campus"]
+script = ExtResource("1_snd")
+name = &"music_campus"
+streams = Array[AudioStream]([ExtResource("20_music_campus")])
+volume_db = -8.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Music"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_stinger_milestone"]
+script = ExtResource("1_snd")
+name = &"stinger_milestone"
+streams = Array[AudioStream]([ExtResource("21_stinger_milestone")])
+volume_db = -6.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Music"
+cooldown = 1.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_stinger_finale"]
+script = ExtResource("1_snd")
+name = &"stinger_finale"
+streams = Array[AudioStream]([ExtResource("22_stinger_finale")])
+volume_db = -5.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Music"
+cooldown = 1.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_amb_day"]
+script = ExtResource("1_snd")
+name = &"amb_day"
+streams = Array[AudioStream]([ExtResource("23_amb_day")])
+volume_db = -4.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Ambience"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_amb_night"]
+script = ExtResource("1_snd")
+name = &"amb_night"
+streams = Array[AudioStream]([ExtResource("24_amb_night")])
+volume_db = -4.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Ambience"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_amb_space"]
+script = ExtResource("1_snd")
+name = &"amb_space"
+streams = Array[AudioStream]([ExtResource("25_amb_space")])
+volume_db = -4.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"Ambience"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_workshop_clank"]
+script = ExtResource("1_snd")
+name = &"workshop_clank"
+streams = Array[AudioStream]([ExtResource("26_workshop_1"), ExtResource("27_workshop_2"), ExtResource("28_workshop_3"), ExtResource("29_workshop_4")])
+volume_db = -10.0
+pitch_min = 0.9
+pitch_max = 1.1
+bus = &"Ambience"
+cooldown = 0.8
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_voice_happy"]
+script = ExtResource("1_snd")
+name = &"voice_happy"
+streams = Array[AudioStream]([ExtResource("30_voice_happy_1"), ExtResource("31_voice_happy_2"), ExtResource("32_voice_happy_3"), ExtResource("33_voice_happy_4")])
+volume_db = -9.0
+pitch_min = 0.9
+pitch_max = 1.15
+bus = &"SFX"
+cooldown = 0.35
+max_voices = 3
+chance = 0.55
+
+[sub_resource type="Resource" id="snd_voice_question"]
+script = ExtResource("1_snd")
+name = &"voice_question"
+streams = Array[AudioStream]([ExtResource("34_voice_question_1"), ExtResource("35_voice_question_2")])
+volume_db = -9.0
+pitch_min = 0.92
+pitch_max = 1.12
+bus = &"SFX"
+cooldown = 0.35
+max_voices = 3
+chance = 0.6
+
+[sub_resource type="Resource" id="snd_voice_surprised"]
+script = ExtResource("1_snd")
+name = &"voice_surprised"
+streams = Array[AudioStream]([ExtResource("36_voice_surprised_1"), ExtResource("37_voice_surprised_2")])
+volume_db = -9.0
+pitch_min = 0.92
+pitch_max = 1.12
+bus = &"SFX"
+cooldown = 0.3
+max_voices = 3
+chance = 0.7
+
+[sub_resource type="Resource" id="snd_voice_sad"]
+script = ExtResource("1_snd")
+name = &"voice_sad"
+streams = Array[AudioStream]([ExtResource("38_voice_sad_1"), ExtResource("39_voice_sad_2")])
+volume_db = -10.0
+pitch_min = 0.92
+pitch_max = 1.08
+bus = &"SFX"
+cooldown = 0.4
+max_voices = 2
+chance = 0.6
+
+[sub_resource type="Resource" id="snd_voice_babble"]
+script = ExtResource("1_snd")
+name = &"voice_babble"
+streams = Array[AudioStream]([ExtResource("40_voice_babble_1"), ExtResource("41_voice_babble_2"), ExtResource("42_voice_babble_3")])
+volume_db = -11.0
+pitch_min = 0.9
+pitch_max = 1.15
+bus = &"SFX"
+cooldown = 0.4
+max_voices = 3
+chance = 0.45
+
+[sub_resource type="Resource" id="snd_voice_cheer"]
+script = ExtResource("1_snd")
+name = &"voice_cheer"
+streams = Array[AudioStream]([ExtResource("43_voice_cheer_1"), ExtResource("44_voice_cheer_2")])
+volume_db = -9.0
+pitch_min = 0.9
+pitch_max = 1.15
+bus = &"SFX"
+cooldown = 0.25
+max_voices = 3
+chance = 0.7
+
+[sub_resource type="Resource" id="snd_voice_snore"]
+script = ExtResource("1_snd")
+name = &"voice_snore"
+streams = Array[AudioStream]([ExtResource("45_voice_snore")])
+volume_db = -16.0
+pitch_min = 0.9
+pitch_max = 1.1
+bus = &"SFX"
+cooldown = 2.0
+max_voices = 1
+chance = 0.15
+
+[sub_resource type="Resource" id="snd_countdown_tick"]
+script = ExtResource("1_snd")
+name = &"countdown_tick"
+streams = Array[AudioStream]([ExtResource("46_countdown_tick")])
+volume_db = -12.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_countdown_go"]
+script = ExtResource("1_snd")
+name = &"countdown_go"
+streams = Array[AudioStream]([ExtResource("47_countdown_go")])
+volume_db = -9.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_ignition"]
+script = ExtResource("1_snd")
+name = &"launch_ignition"
+streams = Array[AudioStream]([ExtResource("48_ignition")])
+volume_db = -4.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_rumble"]
+script = ExtResource("1_snd")
+name = &"launch_rumble"
+streams = Array[AudioStream]([ExtResource("49_rumble_loop")])
+volume_db = -6.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_sputter"]
+script = ExtResource("1_snd")
+name = &"launch_sputter"
+streams = Array[AudioStream]([ExtResource("50_sputter")])
+volume_db = -6.0
+pitch_min = 0.9
+pitch_max = 1.1
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 2
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_engine_cut"]
+script = ExtResource("1_snd")
+name = &"launch_engine_cut"
+streams = Array[AudioStream]([ExtResource("51_engine_cut")])
+volume_db = -6.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_fall_whistle"]
+script = ExtResource("1_snd")
+name = &"launch_fall_whistle"
+streams = Array[AudioStream]([ExtResource("52_fall_whistle")])
+volume_db = -14.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_fwoomp"]
+script = ExtResource("1_snd")
+name = &"launch_fwoomp"
+streams = Array[AudioStream]([ExtResource("53_fwoomp")])
+volume_db = -4.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_launch_debris"]
+script = ExtResource("1_snd")
+name = &"launch_debris"
+streams = Array[AudioStream]([ExtResource("54_debris")])
+volume_db = -9.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_crowd_cheer"]
+script = ExtResource("1_snd")
+name = &"crowd_cheer"
+streams = Array[AudioStream]([ExtResource("55_crowd_cheer")])
+volume_db = -8.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_crowd_aww"]
+script = ExtResource("1_snd")
+name = &"crowd_aww"
+streams = Array[AudioStream]([ExtResource("56_crowd_aww")])
+volume_db = -9.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_confetti_pop"]
+script = ExtResource("1_snd")
+name = &"confetti_pop"
+streams = Array[AudioStream]([ExtResource("57_confetti_pop")])
+volume_db = -10.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_result_success"]
+script = ExtResource("1_snd")
+name = &"result_success"
+streams = Array[AudioStream]([ExtResource("58_result_success")])
+volume_db = -7.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_result_partial"]
+script = ExtResource("1_snd")
+name = &"result_partial"
+streams = Array[AudioStream]([ExtResource("59_result_partial")])
+volume_db = -8.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[sub_resource type="Resource" id="snd_result_fail"]
+script = ExtResource("1_snd")
+name = &"result_fail"
+streams = Array[AudioStream]([ExtResource("60_result_fail")])
+volume_db = -8.0
+pitch_min = 1.0
+pitch_max = 1.0
+bus = &"SFX"
+cooldown = 0.0
+max_voices = 1
+chance = 1.0
+
+[resource]
+script = ExtResource("1_lib")
+sounds = Array[ExtResource("1_snd")]([SubResource("snd_ui_hover"), SubResource("snd_ui_click"), SubResource("snd_ui_back"), SubResource("snd_ui_open"), SubResource("snd_ui_close"), SubResource("snd_ui_toggle_on"), SubResource("snd_ui_toggle_off"), SubResource("snd_ui_denied"), SubResource("snd_cash_up"), SubResource("snd_cash_down"), SubResource("snd_news_chime"), SubResource("snd_menu_hover"), SubResource("snd_menu_select"), SubResource("snd_music_menu"), SubResource("snd_music_campus"), SubResource("snd_stinger_milestone"), SubResource("snd_stinger_finale"), SubResource("snd_amb_day"), SubResource("snd_amb_night"), SubResource("snd_amb_space"), SubResource("snd_workshop_clank"), SubResource("snd_voice_happy"), SubResource("snd_voice_question"), SubResource("snd_voice_surprised"), SubResource("snd_voice_sad"), SubResource("snd_voice_babble"), SubResource("snd_voice_cheer"), SubResource("snd_voice_snore"), SubResource("snd_countdown_tick"), SubResource("snd_countdown_go"), SubResource("snd_launch_ignition"), SubResource("snd_launch_rumble"), SubResource("snd_launch_sputter"), SubResource("snd_launch_engine_cut"), SubResource("snd_launch_fall_whistle"), SubResource("snd_launch_fwoomp"), SubResource("snd_launch_debris"), SubResource("snd_crowd_cheer"), SubResource("snd_crowd_aww"), SubResource("snd_confetti_pop"), SubResource("snd_result_success"), SubResource("snd_result_partial"), SubResource("snd_result_fail")])

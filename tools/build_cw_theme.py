@@ -2,6 +2,11 @@
 docs/GDD_Cometworks.pdf section 22), once. After that the .tres is the source of truth: tune it
 in the Godot theme editor. Re-running this script overwrites hand edits.
 
+NOTE: the .tres has since been restyled by hand (cozy night-sky palette, CwButtonStyle
+keys with a lip, calm rounded CwPanelStyle panels, CwSegment / CwStat / CwHintPill / CwDot
+variations). This generator still writes the older flat-instrument look: do not re-run it
+unless you port those changes first.
+
 Fonts (OFL, bundled under ui/fonts/ with their licences):
   Bricolage Grotesque (variable: wght / opsz / wdth)  titles, logo, headlines
   Atkinson Hyperlegible                              body, buttons, labels (caps +8 %)

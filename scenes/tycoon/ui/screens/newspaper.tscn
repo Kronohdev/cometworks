@@ -1,0 +1,530 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/newspaper_screen.gd" id="2_script"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_marker.gd" id="3_marker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_starfield.gd" id="4_stars"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[sub_resource type="SystemFont" id="serif"]
+font_names = PackedStringArray("Georgia", "Times New Roman", "Noto Serif", "DejaVu Serif")
+
+[sub_resource type="SystemFont" id="serif_b"]
+font_names = PackedStringArray("Georgia", "Times New Roman", "Noto Serif", "DejaVu Serif")
+font_weight = 700
+
+[sub_resource type="SystemFont" id="serif_i"]
+font_names = PackedStringArray("Georgia", "Times New Roman", "Noto Serif", "DejaVu Serif")
+font_italic = true
+
+[sub_resource type="StyleBoxFlat" id="sheet"]
+bg_color = Color(0.925, 0.898, 0.827, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.745, 0.667, 1)
+[sub_resource type="FastNoiseLite" id="noise"]
+frequency = 0.7
+
+[sub_resource type="NoiseTexture2D" id="grain"]
+width = 256
+height = 256
+noise = SubResource("noise")
+
+[sub_resource type="StyleBoxFlat" id="photo"]
+bg_color = Color(0.0706, 0.102, 0.169, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.11, 0.125, 0.188, 1)
+[sub_resource type="StyleBoxFlat" id="factbox"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.11, 0.125, 0.188, 0.05)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.11, 0.125, 0.188, 0.8)
+[node name="NewspaperScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03922, 0.05098, 0.149, 0.8)
+
+[node name="Paper" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -386.0
+offset_right = 440.0
+offset_bottom = 330.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0122
+pivot_offset = Vector2(440, 365)
+mouse_filter = 2
+
+[node name="Shadow" type="ColorRect" parent="Paper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Sheet" type="Panel" parent="Paper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sheet")
+
+[node name="Grain" type="TextureRect" parent="Paper"]
+modulate = Color(0.45, 0.38, 0.25, 0.09)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("grain")
+stretch_mode = 1
+
+[node name="Content" type="MarginContainer" parent="Paper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="Paper/Content"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Mast" type="HBoxContainer" parent="Paper/Content/VBox"]
+layout_mode = 2
+
+[node name="Issue" type="Label" parent="Paper/Content/VBox/Mast"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif_b")
+theme_override_font_sizes/font_size = 14
+text = "Nº 012"
+vertical_alignment = 2
+
+[node name="Name" type="Label" parent="Paper/Content/VBox/Mast"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif_b")
+theme_override_font_sizes/font_size = 56
+text = "TY_PAPER_NAME"
+horizontal_alignment = 1
+
+[node name="Price" type="Label" parent="Paper/Content/VBox/Mast"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.8)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 13
+text = "TY_PAPER_PRICE"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Tagline" type="Label" parent="Paper/Content/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.75)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 13
+text = "TY_PAPER_TAGLINE"
+horizontal_alignment = 1
+
+[node name="Rules" type="VBoxContainer" parent="Paper/Content/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Thick" type="ColorRect" parent="Paper/Content/VBox/Rules"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 1)
+
+[node name="Thin" type="ColorRect" parent="Paper/Content/VBox/Rules"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 1)
+
+[node name="DateRow" type="HBoxContainer" parent="Paper/Content/VBox"]
+layout_mode = 2
+
+[node name="Dateline" type="Label" parent="Paper/Content/VBox/DateRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif")
+theme_override_font_sizes/font_size = 13
+text = "Ano 13 · semana 31 · edição nº 12"
+
+[node name="Weather" type="Label" parent="Paper/Content/VBox/DateRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.75)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 13
+text = "TY_PAPER_WEATHER"
+
+[node name="Rule3" type="ColorRect" parent="Paper/Content/VBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 0.6)
+
+[node name="Gap" type="Control" parent="Paper/Content/VBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Kicker" type="Label" parent="Paper/Content/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.722, 0.263, 0.11, 1)
+theme_override_font_sizes/font_size = 13
+text = "Um marco na corrida · Era 3"
+
+[node name="Headline" type="Label" parent="Paper/Content/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 44
+text = "Aurora Rubra chega à Lua"
+autowrap_mode = 3
+
+[node name="Deck" type="Label" parent="Paper/Content/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.85)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 18
+text = "Aurora Rubra embolsa um prêmio de 350 000 cr."
+autowrap_mode = 3
+
+[node name="Rule4" type="ColorRect" parent="Paper/Content/VBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 0.6)
+
+[node name="Gap2" type="Control" parent="Paper/Content/VBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Body" type="HBoxContainer" parent="Paper/Content/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Left" type="VBoxContainer" parent="Paper/Content/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Photo" type="Panel" parent="Paper/Content/VBox/Body/Left"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 196)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("photo")
+
+[node name="Stars" type="Control" parent="Paper/Content/VBox/Body/Left/Photo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_stars")
+star_seed = 7
+stars = 160
+grid = false
+background = Color(0.0706, 0.102, 0.169, 1)
+
+[node name="Limb" type="Line2D" parent="Paper/Content/VBox/Body/Left/Photo"]
+points = PackedVector2Array(0, 150, 60, 158, 130, 170, 200, 186, 250, 200)
+width = 1.5
+default_color = Color(0.749, 0.9098, 1, 0.55)
+antialiased = true
+
+[node name="PhotoTrail" type="Line2D" parent="Paper/Content/VBox/Body/Left/Photo"]
+unique_name_in_owner = true
+points = PackedVector2Array(70, 160, 140, 118, 220, 88, 300, 70, 370, 64)
+width = 1.5
+default_color = Color(1, 0.5412, 0.2392, 0.8)
+antialiased = true
+
+[node name="PhotoMarker" type="Control" parent="Paper/Content/VBox/Body/Left/Photo"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 360.0
+offset_top = 44.0
+offset_right = 404.0
+offset_bottom = 88.0
+mouse_filter = 2
+script = ExtResource("3_marker")
+fill = Color(1, 0.3608, 0.4235, 1)
+outline = Color(0.9412, 0.9529, 1, 1)
+radius = 14.0
+ring = true
+ring_color = Color(0.749, 0.9098, 1, 0.6)
+
+[node name="PhotoCaption" type="Label" parent="Paper/Content/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.75)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 12
+text = "Aurora Rubra · Primeira sonda a atingir a Lua"
+
+[node name="Quote" type="Label" parent="Paper/Content/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif_i")
+theme_override_font_sizes/font_size = 20
+text = "“Cautela é palavra de quem chega em segundo.”"
+autowrap_mode = 3
+
+[node name="QuoteBy" type="Label" parent="Paper/Content/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.7)
+theme_override_fonts/font = SubResource("serif")
+theme_override_font_sizes/font_size = 13
+text = "— a direção, Aurora Rubra"
+horizontal_alignment = 2
+
+[node name="AlsoRule" type="ColorRect" parent="Paper/Content/VBox/Body/Left"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 0.6)
+
+[node name="AlsoCap" type="Label" parent="Paper/Content/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_font_sizes/font_size = 12
+text = "TY_PAPER_ALSO"
+
+[node name="Also" type="VBoxContainer" parent="Paper/Content/VBox/Body/Left"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="AlsoTemplate" type="Label" parent="Paper/Content/VBox/Body/Left/Also"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 0.9)
+theme_override_fonts/font = SubResource("serif")
+theme_override_font_sizes/font_size = 14
+text = "■  Consórcio Nimbo também chega a “Satélite em órbita” (2º)"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="Right" type="VBoxContainer" parent="Paper/Content/VBox/Body"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FactBox" type="PanelContainer" parent="Paper/Content/VBox/Body/Right"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("factbox")
+
+[node name="VBox" type="VBoxContainer" parent="Paper/Content/VBox/Body/Right/FactBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FactCap" type="Label" parent="Paper/Content/VBox/Body/Right/FactBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.722, 0.263, 0.11, 1)
+theme_override_font_sizes/font_size = 12
+text = "TY_PAPER_FACT"
+
+[node name="Fact" type="Label" parent="Paper/Content/VBox/Body/Right/FactBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif")
+theme_override_font_sizes/font_size = 14
+text = "A Lua fica a cerca de 384 400 km."
+autowrap_mode = 3
+
+[node name="BoardCap" type="Label" parent="Paper/Content/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_font_sizes/font_size = 12
+text = "TY_PAPER_BOARD"
+
+[node name="BoardRule" type="ColorRect" parent="Paper/Content/VBox/Body/Right"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.11, 0.125, 0.188, 0.8)
+
+[node name="Board" type="VBoxContainer" parent="Paper/Content/VBox/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="BoardRowTemplate" type="HBoxContainer" parent="Paper/Content/VBox/Body/Right/Board"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Swatch" type="ColorRect" parent="Paper/Content/VBox/Body/Right/Board/BoardRowTemplate"]
+custom_minimum_size = Vector2(9, 9)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.3608, 0.4235, 1)
+
+[node name="Name" type="Label" parent="Paper/Content/VBox/Body/Right/Board/BoardRowTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_fonts/font = SubResource("serif")
+theme_override_font_sizes/font_size = 14
+text = "Aurora Rubra"
+
+[node name="Count" type="Label" parent="Paper/Content/VBox/Body/Right/Board/BoardRowTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.11, 0.125, 0.188, 1)
+theme_override_font_sizes/font_size = 14
+text = "6"
+
+[node name="TapeLeft" type="ColorRect" parent="Paper"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -6.0
+offset_right = 82.0
+offset_bottom = 22.0
+rotation = -0.62
+mouse_filter = 2
+color = Color(0.95, 0.86, 0.6, 0.55)
+
+[node name="TapeRight" type="ColorRect" parent="Paper"]
+layout_mode = 0
+offset_left = 808.0
+offset_top = -40.0
+offset_right = 912.0
+offset_bottom = -12.0
+rotation = 0.62
+mouse_filter = 2
+color = Color(0.95, 0.86, 0.6, 0.55)
+
+[node name="Continue" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -64.0
+offset_right = 140.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_PAPER_CONTINUE"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Backdrop")
+panel = NodePath("../Paper")
+extra = Array[NodePath]([NodePath("../Continue")])
+slide = Vector2(0, -10)
+from_scale = Vector2(1.07, 1.07)
+overshoot = true
+in_seconds = 0.36
+extra_step = 0.25
+
+[node name="CwBoard" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Paper/Content/VBox/Body/Right/Board")
+offset = Vector2(10, 0)
+delay = 0.4
+step = 0.05
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

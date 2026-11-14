@@ -1,0 +1,493 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/space_comet.tscn" id="set"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="Gradient" id="mote_ramp"]
+offsets = PackedFloat32Array(0, 0.2, 0.75, 1)
+colors = PackedColorArray(0.8, 1, 0.97, 0, 0.75, 1, 0.95, 1, 0.62, 0.6, 1, 0.9, 1, 0.6, 0.4, 0)
+
+[sub_resource type="GradientTexture1D" id="mote_ramp_tex"]
+gradient = SubResource("mote_ramp")
+
+[sub_resource type="ParticleProcessMaterial" id="mote_process"]
+emission_shape = 3
+emission_box_extents = Vector3(5, 3, 3)
+direction = Vector3(0.3, -1, 0.5)
+spread = 25.0
+initial_velocity_min = 0.15
+initial_velocity_max = 0.45
+gravity = Vector3(0, -0.02, 0)
+scale_min = 0.5
+scale_max = 1.6
+turbulence_enabled = true
+turbulence_noise_strength = 0.3
+turbulence_noise_scale = 2.5
+color_ramp = SubResource("mote_ramp_tex")
+
+[sub_resource type="StandardMaterial3D" id="mote_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(2.4, 2.4, 2.6, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id="mote_mesh"]
+material = SubResource("mote_mat")
+radius = 0.018
+height = 0.036
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 11.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Flake1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.2, 4.3, 7, 7.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["surprised", -1],
+"method": &"set_expression"
+}, {
+"args": ["exclaim", 1.6],
+"method": &"show_emote"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Flake2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.4, 3.5, 6.2, 6.3, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["surprised", -1],
+"method": &"set_expression"
+}, {
+"args": ["startled", -1],
+"method": &"play"
+}, {
+"args": ["joy", -1],
+"method": &"set_expression"
+}, {
+"args": ["wave", -1],
+"method": &"play"
+}, {
+"args": ["sparkle", 2],
+"method": &"show_emote"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/Flake3")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 4.8, 4.9, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["spin", -1],
+"method": &"play"
+}, {
+"args": ["star", 2],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6, 5.7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["CS_OPEN_2"],
+"method": &"say"
+}, {
+"args": ["CS_OPEN_3"],
+"method": &"say"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cast/Flake1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5, 1.25, -3.1), Vector3(-1.25, 0.85, -2.6)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast/Flake2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.15, 0.35, -2.3), Vector3(0.3, 0.05, -1.9)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cast/Flake3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.35, 1.45, -3.9), Vector3(1.15, 1, -3.3)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Cast/Flake1:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.44, 0.21), Vector3(0.1, 0.1, -0.15)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Cast/Flake2:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.17, -0.14), Vector3(-0.08, 0.25, 0.12)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Cast/Flake3:rotation")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 11.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.52, 0.1), Vector3(0.06, -0.2, -0.12)]
+}
+
+[sub_resource type="Animation" id="anim_short"]
+resource_name = "short"
+length = 5.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cast/Flake1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.016, 2.064, 3.36, 3.408),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["surprised", -1],
+"method": &"set_expression"
+}, {
+"args": ["exclaim", 1.6],
+"method": &"show_emote"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Flake2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.632, 1.68, 2.976, 3.024, 3.072),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["surprised", -1],
+"method": &"set_expression"
+}, {
+"args": ["startled", -1],
+"method": &"play"
+}, {
+"args": ["joy", -1],
+"method": &"set_expression"
+}, {
+"args": ["wave", -1],
+"method": &"play"
+}, {
+"args": ["sparkle", 2],
+"method": &"show_emote"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/Flake3")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.304, 2.352, 3.84),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": ["sleepy", -1],
+"method": &"set_expression"
+}, {
+"args": ["happy", -1],
+"method": &"set_expression"
+}, {
+"args": ["spin", -1],
+"method": &"play"
+}, {
+"args": ["star", 2],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["CS_SHORT_1"],
+"method": &"say"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cast/Flake1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5, 1.25, -3.1), Vector3(-1.25, 0.85, -2.6)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast/Flake2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.15, 0.35, -2.3), Vector3(0.3, 0.05, -1.9)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cast/Flake3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.35, 1.45, -3.9), Vector3(1.15, 1, -3.3)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Cast/Flake1:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.44, 0.21), Vector3(0.1, 0.1, -0.15)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Cast/Flake2:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.17, -0.14), Vector3(-0.08, 0.25, 0.12)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Cast/Flake3:rotation")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.52, 0.1), Vector3(0.06, -0.2, -0.12)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot"),
+&"short": SubResource("anim_short")
+}
+
+[node name="Opening02Flakes" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("shot")
+duration = 11.5
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+dip_in = 1
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Comet" parent="Set"]
+transform = Transform3D(2.918, 0.4622, 0.5209, -0.4693, 2.9631, 0, -0.5145, -0.0815, 2.9544, -13, 4.6, -34)
+
+[node name="Motes" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -3)
+amount = 70
+lifetime = 9.0
+preprocess = 8.0
+visibility_aabb = AABB(-10, -8, -8, 20, 16, 16)
+process_material = SubResource("mote_process")
+draw_pass_1 = SubResource("mote_mesh")
+
+[node name="Key" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.7, 0.6)
+light_color = Color(0.82, 0.95, 1, 1)
+light_energy = 1.6
+omni_range = 7
+
+[node name="Rim" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 2.2, -6.5)
+light_color = Color(0.45, 1, 0.92, 1)
+light_energy = 4.0
+omni_range = 9
+
+[node name="Cast" type="Node3D" parent="."]
+
+[node name="Flake1" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.5319, -0.1131, 0.2536, 0.1247, 0.5869, 0, -0.248, 0.0527, 0.5438, -1.5, 1.25, -3.1)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 41
+start_action = "idle"
+listen_to_events = false
+mood = 0.3
+
+[node name="Shadow" parent="Cast/Flake1" index="0"]
+visible = false
+
+[node name="Flake2" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.5851, 0.0822, -0.1042, -0.0835, 0.5942, 0, 0.1032, 0.0145, 0.5909, 0.15, 0.35, -2.3)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 42
+start_action = "idle"
+listen_to_events = false
+mood = 0.3
+
+[node name="Shadow" parent="Cast/Flake2" index="0"]
+visible = false
+
+[node name="Flake3" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.5168, -0.0543, -0.3, 0.0627, 0.5967, 0, 0.2984, -0.0314, 0.5196, 1.35, 1.45, -3.9)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 43
+start_action = "idle"
+listen_to_events = false
+mood = 0.3
+
+[node name="Shadow" parent="Cast/Flake3" index="0"]
+visible = false
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.45, 3.6)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.55, 2.7)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.9, -8)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.45, 3.6)
+fov = 48
+near = 0.05
+far = 20000
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

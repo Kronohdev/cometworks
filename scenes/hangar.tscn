@@ -53,6 +53,7 @@
 [ext_resource type="Texture2D" path="res://ui/kit/icon_sym_6.svg" id="k_icon_sym_6"]
 [ext_resource type="Texture2D" path="res://ui/kit/icon_sym_8.svg" id="k_icon_sym_8"]
 [ext_resource type="PackedScene" path="res://scenes/ui/crew_panel.tscn" id="crew_panel"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -234,6 +235,19 @@ theme_type_variation = &"TopBarPanel"
 [node name="HBox" type="HBoxContainer" parent="UI/Root/TopBar"]
 layout_mode = 2
 theme_override_constants/separation = 10
+
+[node name="BtnMenu" type="Button" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "UI_BACK_MENU_TIP"
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+text = "UI_BACK_MENU"
+icon = ExtResource("k_icon_undo")
+size_flags_vertical = 4
+
+[node name="SepMenu" type="VSeparator" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
 
 [node name="Brand" type="HBoxContainer" parent="UI/Root/TopBar/HBox"]
 layout_mode = 2
@@ -1591,3 +1605,5 @@ text = "UI_SYMMETRY_HINT"
 theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
 custom_minimum_size = Vector2(320, 0)
+
+[node name="CwOutline" parent="CameraRig/Camera3D" instance=ExtResource("cw_outline")]

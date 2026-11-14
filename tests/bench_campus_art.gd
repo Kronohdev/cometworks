@@ -2,6 +2,8 @@ extends SceneTree
 ## Frame cost of the campus art layers (scenes/tycoon/tycoon_main.tscn, era 5, every lot at
 ## level 3, the default game camera): everything, then without Nature, Dressing and Life, then
 ## with the plain environment effects off (SSIL, SSAO, glow, fog), to see what each one costs.
+## The cartoon look is measured too: without the ink outlines (scenes/fx/cw_outline.tscn) and
+## in the classic style (cw_toon = 0, no outlines); the player's settings are not touched.
 ## Run windowed: godot --path . --resolution 1600x900 --script res://tests/bench_campus_art.gd
 
 var main: TycoonMain
@@ -24,6 +26,14 @@ func _initialize() -> void:
 	await _frames(30)
 	var campus := main.campus
 	await _measure("all layers")
+	var outline := cam.get_node_or_null("CwOutline") as Node3D
+	if outline:
+		outline.visible = false
+		await _measure("all, outlines off")
+		RenderingServer.global_shader_parameter_set(&"cw_toon", 0.0)
+		await _measure("all, classic style")
+		RenderingServer.global_shader_parameter_set(&"cw_toon", 1.0)
+		outline.visible = true
 	for layer in ["Nature", "Dressing", "Life"]:
 		(campus.get_node(layer) as Node3D).visible = false
 		await _measure("without %s" % layer)

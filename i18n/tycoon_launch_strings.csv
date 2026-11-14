@@ -1,0 +1,35 @@
+keys,en,pt
+TY_LAUNCH_CONTROL,Launch control,Controle de lançamento
+TY_LAUNCH_LIVE,Live,Ao vivo
+TY_LAUNCH_DATE,"Year %d, week %d","Ano %d, semana %d"
+TY_LAUNCH_SKIP,"Click, Esc or Space to skip","Clique, Esc ou Espaço para pular"
+TY_LAUNCH_TMINUS,seconds to launch,segundos para o lançamento
+TY_LAUNCH_TPLUS,seconds in flight,segundos de voo
+TY_LAUNCH_IGNITION,Ignition!,Ignição!
+TY_LAUNCH_LIFTOFF,Liftoff!,Decolagem!
+TY_LAUNCH_SPUTTER,Engine hiccup!,Soluço no motor!
+TY_LAUNCH_ANOMALY,Uh-oh…,Ih…
+TY_LAUNCH_STATUS_COUNT,"Countdown, all systems go","Contagem regressiva, tudo pronto"
+TY_LAUNCH_STATUS_IGNITION,Main engine ignition,Ignição do motor principal
+TY_LAUNCH_STATUS_LIFTOFF,"Liftoff, the tower is clear","Decolagem, a torre ficou para trás"
+TY_LAUNCH_STATUS_NOMINAL,"A smooth climb, on course for the target","Subida tranquila, rumo ao alvo"
+TY_LAUNCH_STATUS_SPUTTER,"Thrust dropped, correcting","O empuxo caiu, corrigindo"
+TY_LAUNCH_STATUS_RECOVERED,"Thrust is back, a little off course","O empuxo voltou, um pouco fora da rota"
+TY_LAUNCH_STATUS_ANOMALY,The engine cut out,O motor apagou
+TY_LAUNCH_STATUS_LOST,We lost the rocket,Perdemos o foguete
+TY_LAUNCH_STATUS_REPORT,Flight report,Relatório do voo
+TY_LAUNCH_KICK_SUCCESS,Mission accomplished,Missão cumprida
+TY_LAUNCH_KICK_EXCEPTIONAL,An exceptional mission!,Uma missão excepcional!
+TY_LAUNCH_KICK_PARTIAL,Partial success,Sucesso parcial
+TY_LAUNCH_KICK_FAIL,The launch failed,O lançamento falhou
+TY_LAUNCH_TAG_SUCCESS,In flight,Em voo
+TY_LAUNCH_TAG_PARTIAL,Off course,Fora da rota
+TY_LAUNCH_TAG_FAIL,Lost,Perdido
+TY_LAUNCH_LINE_SUCCESS,Clean ascent. The Cometlings are dancing on the pad!,Subida limpa. Os Cometinhos estão dançando na plataforma!
+TY_LAUNCH_LINE_PARTIAL,"A bumpy ride, but it made it up there. Not everything went to plan.","Um voo aos solavancos, mas chegou lá em cima. Nem tudo saiu como o planejado."
+TY_LAUNCH_LINE_FAIL,"The engine coughed and gave up. The team is sad, but every failure teaches something.","O motor tossiu e desistiu. A equipe está triste, mas toda falha ensina algo."
+TY_LAUNCH_GRADE,Grade,Nota
+TY_LAUNCH_ODDS,Odds,Chance
+TY_LAUNCH_CONTINUE,Continue,Continuar
+TY_SET_LAUNCH_CINEMATIC,Launch cinematic,Cinemática de lançamento
+TY_SET_LAUNCH_CINEMATIC_TIP,Play the countdown and liftoff on the pad when a mission launches,Mostra a contagem regressiva e a decolagem na plataforma quando uma missão é lançada

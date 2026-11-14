@@ -1,0 +1,56 @@
+keys,en,pt
+TY_LEADER_TITLE,Create your leader Cometling,Crie seu Cometinho líder
+TY_LEADER_SUBTITLE,Who will run the agency until the comet passes?,Quem vai comandar a agência até a passagem do cometa?
+TY_LEADER_SUBTITLE_EDIT,"Change the name and the look; profession and strength stay as founded","Mude o nome e o visual; profissão e ponto forte ficam como na fundação"
+TY_LEADER_PREVIEW,Your leader,Seu líder
+TY_LEADER_DRAG,Drag to turn,Arraste para girar
+TY_LEADER_NAME,Name,Nome
+TY_LEADER_NAME_PLACEHOLDER,What is your Cometling called?,Como seu Cometinho se chama?
+TY_LEADER_RANDOM_NAME,Random name,Sortear nome
+TY_LEADER_BODY,Body colour,Cor do corpo
+TY_LEADER_SPOT,Tip colour,Cor das pontinhas
+TY_LEADER_HAT,Hat,Chapéu
+TY_LEADER_HAT_ROLE,Job gear,Da profissão
+TY_LEADER_HAT_NONE,None,Nenhum
+TY_LEADER_HAT_CROWN,Crown,Coroa
+TY_LEADER_HAT_PROPELLER,Propeller cap,Boné-hélice
+TY_LEADER_HAT_BEANIE,Beanie,Gorro
+TY_LEADER_HAT_FLOWER,Flower,Florzinha
+TY_LEADER_HAT_BOW,Bow,Lacinho
+TY_LEADER_PROFESSION,Profession,Profissão
+TY_LEADER_PROFESSION_HINT,Sets the gear and a founding bonus,Define o equipamento e um bônus de fundação
+TY_LEADER_FAVOURS,Favours,Favorece
+TY_LEADER_SPEC_LINE,Arrives already specialised: %s,Já chega especializado(a): %s
+TY_LEADER_START_LINE,Founding bonus: %s,Bônus de fundação: %s
+TY_LEADER_BONUS_CASH,+%s cash,+%s em caixa
+TY_LEADER_BONUS_REPUTATION,+%d reputation,+%d de reputação
+TY_LEADER_BONUS_HYPE,+%d hype,+%d de hype
+TY_LEADER_BONUS_RESEARCH_POINTS,+%d research points,+%d pontos de pesquisa
+TY_LEADER_LOCKED,Chosen at founding,Escolhido na fundação
+TY_LEADER_STRENGTH,Strength,Ponto forte
+TY_LEADER_STR_SKILL,Skill,Habilidade
+TY_LEADER_STR_CURIOSITY,Curiosity,Curiosidade
+TY_LEADER_STR_COURAGE,Courage,Coragem
+TY_LEADER_STRENGTH_LINE,"%s starts at %d, the other traits at %d","%s começa em %d, os outros traços em %d"
+TY_LEADER_QUIRK,Personality,Jeitinho
+TY_LEADER_QUIRK_CHEERFUL,Cheerful,Alegre
+TY_LEADER_QUIRK_DREAMER,Dreamer,Sonhador(a)
+TY_LEADER_QUIRK_TINKERER,Tinkerer,Inventor(a)
+TY_LEADER_QUIRK_CALM,Easygoing,Tranquilo(a)
+TY_LEADER_AGENCY,Agency,Agência
+TY_LEADER_AGENCY_PLACEHOLDER,Agency name,Nome da agência
+TY_LEADER_RANDOM_AGENCY,Random,Sortear
+TY_LEADER_AGENCY_COLOR,Colour in the race,Cor na corrida
+TY_LEADER_EMBLEM,Emblem,Emblema
+TY_LEADER_BACK,Back,Voltar
+TY_LEADER_CANCEL,Cancel,Cancelar
+TY_LEADER_RANDOM_ALL,Randomize,Aleatório
+TY_LEADER_START,Start,Começar
+TY_LEADER_SAVE,Save,Salvar
+TY_LEADER_LOADING,Opening the campus...,Abrindo o campus...
+TY_LEADER_PREPARING,Preparing the creation room...,Preparando a sala de criação...
+TY_LEADER_BADGE,Agency leader,Líder da agência
+TY_LEADER_EDIT,Edit leader,Editar líder
+TY_LEADER_TAG,Leader · %s,Líder · %s
+TY_LEADER_ERR_FIRE,"The leader is you: no firing yourself","O líder é você: não dá para se demitir"
+TY_LEADER_NEWS_FOUNDED,%s founds the %s agency,%s funda a agência %s

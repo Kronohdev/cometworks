@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "_doc": "Mission project loop (GDD sections 6.4-6.6, Appendix C). Bars are eng/sci/ops/rel. Each phase has 3 sliders; a slider's 'feeds' weights sum to 1 and say which bars its time turns into. 'removes_defects' marks the test sliders of GDD 6.5.",
+  "phases": [
+    {"id": "concept", "name_key": "TY_PJ_PHASE_CONCEPT", "sliders": [
+      {"id": "architecture", "name_key": "TY_PJ_SL_ARCHITECTURE", "feeds": {"eng": 0.8, "rel": 0.2}},
+      {"id": "payload", "name_key": "TY_PJ_SL_PAYLOAD", "feeds": {"sci": 1.0}},
+      {"id": "conops", "name_key": "TY_PJ_SL_CONOPS", "feeds": {"ops": 0.8, "eng": 0.2}}
+    ]},
+    {"id": "build", "name_key": "TY_PJ_PHASE_BUILD", "sliders": [
+      {"id": "structure", "name_key": "TY_PJ_SL_STRUCTURE", "feeds": {"eng": 1.0}},
+      {"id": "instruments", "name_key": "TY_PJ_SL_INSTRUMENTS", "feeds": {"sci": 0.8, "eng": 0.2}},
+      {"id": "env_tests", "name_key": "TY_PJ_SL_ENV_TESTS", "feeds": {"rel": 1.0}, "removes_defects": true}
+    ]},
+    {"id": "flight_prep", "name_key": "TY_PJ_PHASE_FLIGHT_PREP", "sliders": [
+      {"id": "software", "name_key": "TY_PJ_SL_SOFTWARE", "feeds": {"ops": 0.6, "eng": 0.4}},
+      {"id": "training", "name_key": "TY_PJ_SL_TRAINING", "feeds": {"ops": 1.0}, "extra_xp": true},
+      {"id": "readiness", "name_key": "TY_PJ_SL_READINESS", "feeds": {"rel": 0.7, "sci": 0.3}, "removes_defects": true}
+    ]}
+  ],
+  "points": {
+    "base": 10.0,
+    "skill_floor": 0.4,
+    "morale_floor": 0.6,
+    "level_step": 0.08,
+    "nap_morale": 30.0,
+    "building_bonus": 1.0,
+    "_team": "Balancing addition (not in the GDD formula): a project of size s has an ideal team of ceil(s * team_per_size) Cometlings; each one beyond that adds only overstaff_efficiency of a full member.",
+    "team_per_size": 4.0,
+    "overstaff_efficiency": 0.4
+  },
+  "defects": {
+    "per_point": 0.04,
+    "rel_fraction_relief": 0.5,
+    "removal_per_rel_point": 0.10,
+    "removal_without_tests": 0.3,
+    "tester_removal_mult": 2.0
+  },
+  "grade": {
+    "expectation_era": [60, 140, 260, 420, 600],
+    "repeat_step": 0.1,
+    "repeat_window_weeks": 104,
+    "best_grade_step": 0.03,
+    "best_grade_pivot": 5.0,
+    "q_cap": 1.5,
+    "q_weight": 0.55,
+    "match_weight": 0.45,
+    "match_penalty": 0.5,
+    "defect_penalty": 0.6,
+    "bar_score_headroom": 1.25
+  },
+  "compat_tiers": {"great": 1.15, "good": 1.0, "poor": 0.75},
+  "cost": {
+    "week_base": 6000,
+    "era_factor": [1.0, 1.6, 2.4, 3.4, 4.5]
+  },
+  "launch": {
+    "classes": {"sounding": 30000, "light": 150000, "medium": 450000, "heavy": 1200000, "lunar": 2500000},
+    "type_class": {"sounding": "sounding", "demo_sat": "light", "comms": "light", "earth_obs": "light",
+      "space_weather": "light", "telescope": "medium", "impactor": "medium", "orbiter": "heavy", "lander": "lunar",
+      "rover": "lunar", "crewed_flight": "heavy", "crewed_landing": "lunar", "sample_return": "lunar",
+      "base_module": "lunar", "isru": "lunar", "comet_mission": "lunar"},
+    "pad_rollout_weeks": 6,
+    "payload_base": 0.55,
+    "payload_rel": 0.45,
+    "payload_defect": 0.03,
+    "payload_min": 0.30,
+    "payload_max": 0.99,
+    "rocket_start": 0.75,
+    "rocket_step": 0.03,
+    "rocket_max": 0.98,
+    "crewed_types": ["crewed_flight", "crewed_landing"],
+    "crewed_courage_floor": 0.85,
+    "exceptional_grade": 8.5,
+    "full_grade": 5.5,
+    "science_mult": {"fail": 0.0, "partial": 0.5, "full": 1.0, "exceptional": 1.3},
+    "ops_weeks": {"sounding": 0, "demo_sat": 8, "comms": 26, "earth_obs": 26, "space_weather": 26, "telescope": 52,
+      "impactor": 4, "orbiter": 26, "lander": 12, "rover": 16, "crewed_flight": 2, "crewed_landing": 3,
+      "sample_return": 8, "base_module": 52, "isru": 52, "comet_mission": 30}
+  },
+  "review": {
+    "noise": 0.7,
+    "outcome_shift": {"fail": -6.0, "partial": -1.2, "full": 0.0, "exceptional": 0.6},
+    "novelty_bonus": 0.4,
+    "papers": [
+      {"id": "echo", "name_key": "TY_PJ_PAPER_ECHO", "kind_key": "TY_PJ_PAPER_ECHO_KIND", "novelty": 1.2, "crewed": 0.8, "hype": 0.012, "hype_pivot": 30.0},
+      {"id": "orbita", "name_key": "TY_PJ_PAPER_ORBITA", "kind_key": "TY_PJ_PAPER_ORBITA_KIND", "tech": 0.3, "tech_pivot": 6.0, "defects": 0.25},
+      {"id": "coma", "name_key": "TY_PJ_PAPER_COMA", "kind_key": "TY_PJ_PAPER_COMA_KIND", "science": 0.35, "science_pivot": 6.0, "fail_extra": -0.8},
+      {"id": "folha", "name_key": "TY_PJ_PAPER_FOLHA", "kind_key": "TY_PJ_PAPER_FOLHA_KIND", "value": 1.2, "value_cap": 1.0, "contract": 0.4, "fail_extra": -1.0}
+    ]
+  },
+  "rewards": {
+    "reputation_pivot": 5.0,
+    "reputation_cap": 5.0,
+    "hype_div": 5.0,
+    "research_per_science": 0.5,
+    "science_per_point": 1.0,
+    "xp_per_week": 12.0,
+    "xp_grade_floor": 0.5,
+    "training_xp_per_week": 8.0,
+    "xp_per_level": 100.0,
+    "max_level": 6,
+    "morale_success": 6.0,
+    "morale_fail": -10.0
+  }
+}

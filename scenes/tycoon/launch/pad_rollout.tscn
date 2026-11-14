@@ -1,0 +1,184 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+
+[sub_resource type="ShaderMaterial" id="Mat_deck"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.56, 0.6, 0.68, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="Mat_tread"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.16, 0.17, 0.22, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="Mat_stripe"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.77, 0.28, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="Mat_beacon"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.54, 0.24, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(1, 0.54, 0.24, 1)
+shader_parameter/emission_energy = 2.5
+
+[sub_resource type="BoxMesh" id="Box_deck"]
+material = SubResource("Mat_deck")
+size = Vector3(4.2, 0.5, 4.2)
+
+[sub_resource type="BoxMesh" id="Box_tread"]
+material = SubResource("Mat_tread")
+size = Vector3(0.9, 0.6, 4.6)
+
+[sub_resource type="BoxMesh" id="Box_stripe"]
+material = SubResource("Mat_stripe")
+size = Vector3(4.24, 0.12, 0.5)
+
+[sub_resource type="BoxMesh" id="Box_beacon"]
+material = SubResource("Mat_beacon")
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="Animation" id="Anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crawler:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 9)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RocketSlot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.15, 9)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RocketSlot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Crawler/Beacon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Anim_rollout"]
+resource_name = "rollout"
+length = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crawler:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.95, 1),
+"transitions": PackedFloat32Array(1, -2, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 9), Vector3(0, 0, 9), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RocketSlot:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.45, 0.95, 1),
+"transitions": PackedFloat32Array(1, -2, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.15, 9), Vector3(0, 1.15, 9), Vector3(0, 1.15, 0), Vector3(0, 1.15, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RocketSlot:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Crawler/Beacon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.45, 0.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib"]
+_data = {
+&"RESET": SubResource("Anim_reset"),
+&"rollout": SubResource("Anim_rollout")
+}
+
+[node name="PadRollout" type="Node3D"]
+
+[node name="RocketSlot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 9)
+visible = false
+gizmo_extents = 1.5
+
+[node name="Crawler" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+
+[node name="Deck" type="MeshInstance3D" parent="Crawler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Box_deck")
+
+[node name="Stripe" type="MeshInstance3D" parent="Crawler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 1.85)
+mesh = SubResource("Box_stripe")
+
+[node name="TreadL" type="MeshInstance3D" parent="Crawler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.3, 0)
+mesh = SubResource("Box_tread")
+
+[node name="TreadR" type="MeshInstance3D" parent="Crawler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.3, 0)
+mesh = SubResource("Box_tread")
+
+[node name="Beacon" type="MeshInstance3D" parent="Crawler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75, 1.25, 1.75)
+cast_shadow = 0
+mesh = SubResource("Box_beacon")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimLib")

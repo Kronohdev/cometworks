@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/audio/campus_audio.gd" id="1_campus"]
+[ext_resource type="Script" path="res://src/audio/cw_music_cue.gd" id="2_cue"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="3_bed"]
+[ext_resource type="Script" path="res://src/audio/cw_random_emitter.gd" id="4_emit"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_day.wav" id="5_day"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="6_night"]
+
+[sub_resource type="Curve" id="night_curve"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.22, 0.1), 0.0, 0.0, 0, 0, Vector2(0.36, 0.8), 0.0, 0.0, 0, 0, Vector2(0.45, 1), 0.0, 0.0, 0, 0, Vector2(0.62, 1), 0.0, 0.0, 0, 0, Vector2(0.74, 0.6), 0.0, 0.0, 0, 0, Vector2(0.84, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[node name="CampusAudio" type="Node" node_paths=PackedStringArray("day_bed", "night_bed", "clanks")]
+script = ExtResource("1_campus")
+night = SubResource("night_curve")
+day_bed = NodePath("DayBed")
+night_bed = NodePath("NightBed")
+clanks = NodePath("Clanks")
+
+[node name="MusicCue" type="Node" parent="."]
+script = ExtResource("2_cue")
+track = &"music_campus"
+fade = 3.0
+
+[node name="DayBed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_day")
+volume_db = -6.0
+bus = &"Ambience"
+script = ExtResource("3_bed")
+fade_in = 3.0
+
+[node name="NightBed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_night")
+volume_db = -7.0
+bus = &"Ambience"
+script = ExtResource("3_bed")
+fade_in = 3.0
+mix = 0.0
+
+[node name="Clanks" type="AudioStreamPlayer3D" parent="."]
+volume_db = -8.0
+unit_size = 14.0
+max_distance = 160.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 3500.0
+attenuation_filter_db = -18.0
+script = ExtResource("4_emit")
+interval = Vector2(5, 14)

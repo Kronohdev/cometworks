@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/launch/designed_rocket.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e1.glb" id="2_e1"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e2.glb" id="3_e2"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e3.glb" id="4_e3"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e4.glb" id="5_e4"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e5.glb" id="6_e5"]
+
+[node name="DesignedRocket" type="Node3D"]
+script = ExtResource("1_script")
+models = Array[PackedScene]([ExtResource("2_e1"), ExtResource("3_e2"), ExtResource("4_e3"), ExtResource("5_e4"), ExtResource("6_e5")])
+booster_models = Array[PackedScene]([ExtResource("2_e1"), ExtResource("3_e2")])
+
+[node name="Core" type="Node3D" parent="."]
+
+[node name="Model" parent="Core" instance=ExtResource("2_e1")]
+
+[node name="Boosters" type="Node3D" parent="."]
+
+[node name="Slot0" type="Marker3D" parent="Boosters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="Slot1" type="Marker3D" parent="Boosters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="Slot2" type="Marker3D" parent="Boosters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Slot3" type="Marker3D" parent="Boosters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)

@@ -252,7 +252,7 @@ func _act(delta: float) -> void:
 		_emote_timer = _rng.randf_range(2.0, 4.5) if kind != "chat" else _rng.randf_range(1.4, 2.6)
 	if _timer <= 0.0:
 		if kind == "chat" and _rng.randf() < 0.4:
-			creature.play(["jump", "cheer", "nod", "spin"][_rng.randi() % 4])
+			creature.play(["jump", "cheer", "nod", "spin", "laugh", "clap"][_rng.randi() % 6])
 		_end_task(true)
 
 
@@ -277,7 +277,10 @@ func _end_task(think: bool) -> void:
 	partner = null
 	_carrying = false
 	creature.clear_look()
+	var woke := creature.current_action() == "sleep"
 	creature.play("idle")
+	if woke:
+		creature.play(["yawn", "stretch"][_rng.randi() % 2])
 	task = {}
 	state = "think"
 	_timer = _rng.randf_range(0.6, 2.5) if think else 0.0

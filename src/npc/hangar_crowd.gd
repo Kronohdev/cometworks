@@ -175,7 +175,13 @@ func _make_task(npc: NpcWalker, kind: String, cam: Camera3D) -> Dictionary:
 			var emotes := {"work_hammer": ["wrench", "sparkle", "fire", "check"],
 				"work_scan": ["idea", "check", "question", "planet"],
 				"clipboard": ["check", "idea", "rocket", "note"]}
-			return {"type": "act", "pos": p.global_position, "face": base, "action": kind,
+			# some variety: ratchet instead of hammering, stop to think over the checklist
+			var action := kind
+			if kind == "work_hammer" and _rng.randf() < 0.35:
+				action = "work_wrench"
+			elif kind == "clipboard" and _rng.randf() < 0.25:
+				action = "think"
+			return {"type": "act", "pos": p.global_position, "face": base, "action": action,
 				"duration": _rng.randf_range(7.0, 14.0), "emotes": emotes[kind], "poi": p}
 		"bench":
 			var p := _claim(npc, "bench")
@@ -194,8 +200,10 @@ func _make_task(npc: NpcWalker, kind: String, cam: Camera3D) -> Dictionary:
 			var p := _claim(npc, "rest")
 			if p == null:
 				return {}
-			return {"type": "act", "pos": p.global_position, "face": rocket, "action": "sit",
-				"duration": _rng.randf_range(8.0, 15.0), "emotes": ["zzz", "note", "heart"], "poi": p}
+			# half of the rests are real naps (the sleep loop snores by itself)
+			var nap := _rng.randf() < 0.5
+			return {"type": "act", "pos": p.global_position, "face": rocket, "action": "sleep" if nap else "sit",
+				"duration": _rng.randf_range(8.0, 15.0), "emotes": [] if nap else ["zzz", "note", "heart"], "poi": p}
 		"door":
 			var p := _claim(npc, "door")
 			if p == null:

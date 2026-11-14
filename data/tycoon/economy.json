@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "_doc": "Agency economy (GDD section 12 and appendix C). Government budget paid at the start of every year from year 2: G = gov_budget[era] * (0.5 + reputation/100) * (1 + gov_milestone_step * milestones). Hype donations every month. Ledger keeps the last ledger_months closed months. Three month-ends with negative cash: the government steps in and offers a loan (loan_base * era_mult[era]) repaid in loan_months instalments at loan_rate_month interest.",
+  "gov_budget": [400000, 900000, 1800000, 3200000, 5000000],
+  "gov_milestone_step": 0.05,
+  "donations_per_hype": 400,
+  "ledger_months": 24,
+  "intervention_months": 3,
+  "loan_base": 200000,
+  "loan_era_mult": [1.0, 1.8, 3.0, 4.5, 6.5],
+  "loan_months": 24,
+  "loan_rate_month": 0.01,
+  "projection_months": 12,
+  "income": ["grant", "contracts", "bonus", "donations", "licences", "loan", "other"],
+  "expense": ["salaries", "upkeep", "projects", "penalties", "loan_repay"]
+}

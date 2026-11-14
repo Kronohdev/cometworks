@@ -33,6 +33,8 @@ signal palette_clicked
 signal height_changed(y: float)
 ## The Launch button (top bar, right).
 signal launch_pressed
+## The Menu button (top bar, left): back to the main menu.
+signal menu_pressed
 
 const STAGE_CARD := preload("res://scenes/ui/stage_card.tscn")
 const PART_CARD := preload("res://scenes/ui/part_card.tscn")
@@ -164,6 +166,7 @@ func _ready() -> void:
 	%BtnUndo.pressed.connect(func() -> void: undo_pressed.emit())
 	%BtnRedo.pressed.connect(func() -> void: redo_pressed.emit())
 	_btn_launch.pressed.connect(func() -> void: launch_pressed.emit())
+	%BtnMenu.pressed.connect(func() -> void: menu_pressed.emit())
 	_btn_sym.pressed.connect(_open_symmetry)
 	_btn_sym.gui_input.connect(func(e: InputEvent) -> void:
 		var mb := e as InputEventMouseButton

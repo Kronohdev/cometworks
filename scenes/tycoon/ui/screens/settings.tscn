@@ -1,0 +1,262 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/settings_screen.gd" id="2_script"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="3_icon"]
+[ext_resource type="PackedScene" path="res://scenes/menu/options_panel.tscn" id="4_options"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[node name="SettingsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -228.0
+offset_right = 440.0
+offset_bottom = 262.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Head"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+text = "TY_SET_TITLE"
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_RACE_CLOSE"
+
+[node name="HSep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="Campaign" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SET_CAMPAIGN"
+
+[node name="Slots" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Campaign"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SlotTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Info" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_font_sizes/font_size = 13
+text = "Slot 1"
+
+[node name="Summary" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "Ano 07 · semana 12 · 1 284 000 cr"
+
+[node name="When" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "2026-11-04  13:22"
+
+[node name="Save" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "TY_SET_SAVE"
+
+[node name="Load" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "TY_SET_LOAD"
+
+[node name="Note" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_SET_AUTOSAVE_NOTE"
+
+[node name="LaunchCinematic" type="CheckButton" parent="Panel/Margin/VBox/Body/Campaign"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_LAUNCH_CINEMATIC_TIP"
+focus_mode = 0
+button_pressed = true
+text = "TY_SET_LAUNCH_CINEMATIC"
+
+[node name="Cutscenes" type="CheckButton" parent="Panel/Margin/VBox/Body/Campaign"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_CUTSCENES_TIP"
+focus_mode = 0
+button_pressed = true
+text = "TY_SET_CUTSCENES"
+
+[node name="ReplayOpening" type="Button" parent="Panel/Margin/VBox/Body/Campaign"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "TY_SET_REPLAY_OPENING_TIP"
+focus_mode = 0
+text = "TY_SET_REPLAY_OPENING"
+
+[node name="Status" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "Salvo no espaço 1"
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Campaign"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Campaign"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Menu" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "TY_SET_MENU"
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Resume" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_SET_RESUME"
+
+[node name="VSep" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Options" parent="Panel/Margin/VBox/Body" instance=ExtResource("4_options")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Index" parent="Panel/Margin/VBox/Body/Options/Margin/VBox/Head" index="2"]
+visible = false
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Backdrop")
+panel = NodePath("../Panel")
+overshoot = true
+from_scale = Vector2(0.95, 0.95)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.1
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwSlots" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Campaign/Slots")
+offset = Vector2(-10, 0)
+delay = 0.2
+step = 0.05
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

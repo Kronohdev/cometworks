@@ -39,6 +39,7 @@ func _ready() -> void:
 			var screen := String(btn.name).to_snake_case()
 			btn.pressed.connect(func() -> void:
 				if not open_screen(screen):
+					_mark_rail(current_screen())
 					flash_hint(tr("TY_SOON") % tr(btn.tooltip_text)))
 	%Build.toggled.connect(func(on: bool) -> void:
 		flash_hint(tr("TY_BUILD_HINT") if on else _hint_default, 6.0 if on else 0.1))
@@ -76,6 +77,8 @@ func _press_speed(s: int) -> void:
 
 
 func flash_hint(text: String, seconds := 2.5) -> void:
+	if %Hint.text != text:
+		CwMotion.poke(%Hint)
 	%Hint.text = text
 	_hint_timer = seconds
 
@@ -84,14 +87,23 @@ func flash_hint(text: String, seconds := 2.5) -> void:
 func refresh() -> void:
 	if state == null:
 		return
+	%Name.text = state.agency_name
+	var emblem := TycoonLeader.agency_emblem(state)   # the leader's emblem in the agency colour
+	if emblem:
+		%Mark.texture = emblem
+		%Mark.self_modulate = TycoonLeader.agency_color(state, CwPalette.IGNITION)
 	%DateValue.text = "%02d · %02d" % [state.year(), state.week()]
 	%EraValue.text = tr("TY_ERA_%d" % state.era())
-	%CashValue.text = fmt_cr(state.cash)
-	%CashValue.add_theme_color_override("font_color", CwPalette.DANGER if state.cash < 0.0 else CwPalette.COMET_ICE)
-	%RepValue.text = "%d" % roundi(state.reputation)
-	%HypeValue.text = "%d" % roundi(state.hype)
+	# number labels count to their new value when they carry a CwNumberTicker (scene)
+	CwNumberTicker.show(%CashValue, state.cash, fmt_cr)
+	%CashValue.add_theme_color_override("font_color", CwPalette.MONEY_NEG if state.cash < 0.0 else CwPalette.MONEY_POS)
+	CwNumberTicker.show(%RepValue, state.reputation, fmt_int)
+	CwNumberTicker.show(%HypeValue, state.hype, fmt_int)
 	var left := state.comet_weeks_left()
+	var comet_was: String = %CometValue.text
 	%CometValue.text = "T− %02da %02ds" % [left / state.weeks_per_year(), left % state.weeks_per_year()]
+	if %CometValue.text != comet_was:
+		CwMotion.poke(%CometValue)
 	_fill_race()
 	_fill_news()
 	_fill_strips()
@@ -122,12 +134,25 @@ func _fill_race() -> void:
 	var rows := _copies(%RaceRowTemplate, board.size())
 	for i in board.size():
 		var r: Dictionary = board[i]
-		var name_l := rows[i].get_node("Name") as Label
+		var col: Color = r["color"]
+		var name_l := rows[i].get_node("Head/Name") as Label
 		name_l.text = String(r["name"]) if r.has("name") else tr(String(r["name_key"]))
 		name_l.add_theme_color_override("font_color", CwPalette.TEXT if r["player"] else CwPalette.TEXT_DIM)
+		(rows[i].get_node("Head/Dot") as Control).self_modulate = col
+		# the player's row wears the agency emblem instead of the dot
+		var emblem := TycoonLeader.agency_emblem(state) if r["player"] else null
+		var emblem_r := rows[i].get_node_or_null("Head/Emblem") as TextureRect
+		if emblem_r:
+			emblem_r.visible = emblem != null
+			emblem_r.texture = emblem
+			emblem_r.self_modulate = col
+			(rows[i].get_node("Head/Dot") as Control).visible = emblem == null
+		var count_l := rows[i].get_node("Head/Count") as Label
+		count_l.text = "%d/%d" % [roundi(float(r["progress"]) * state.milestones_total()), state.milestones_total()]
+		count_l.add_theme_color_override("font_color", CwPalette.ink(col.lerp(CwPalette.TEXT, 0.35)))
 		var bar := rows[i].get_node("Bar") as CwSegmentBar
 		bar.segments = state.milestones_total()
-		bar.color = r["color"]
+		bar.color = col
 		bar.value = float(r["progress"])
 
 
@@ -136,7 +161,10 @@ func _fill_news() -> void:
 	var lines := _copies(%NewsTemplate, n)
 	for i in n:
 		var l := lines[i] as Label
-		l.text = news_text(state.news[i])
+		var t := news_text(state.news[i])
+		if l.text != t:
+			l.text = t
+			CwMotion.poke(l)   # the line's CwAppear slides it in
 		l.add_theme_color_override("font_color", CwPalette.TEXT if i == 0 else CwPalette.TEXT_DIM)
 
 
@@ -243,15 +271,27 @@ func open_screen(screen_name: String, args := {}) -> bool:
 		scr.call("bind", state, clock, self)
 	if not args.is_empty() and scr.has_method("open_with"):
 		scr.call("open_with", args)
+	_mark_rail(screen_name)
 	screen_opened.emit(screen_name)
 	return true
 
 
 func close_screen() -> void:
 	for c in %Screens.get_children():
-		c.queue_free()
-		%Screens.remove_child(c)
+		# a screen with a CwScreenTransition leaves the layer now (the next screen and the
+		# game carry on) and plays its exit below the Screens layer before it is freed
+		if not CwScreenTransition.leave(c as Control, self, %Screens.get_index()):
+			c.queue_free()
+			%Screens.remove_child(c)
 		screen_closed.emit(String(c.get_meta("screen_name", "")))
+	_mark_rail("")
+
+
+## Lights the rail key of the screen on show (the rail keys are toggles; only one is lit).
+func _mark_rail(screen_name: String) -> void:
+	for b in %VBox.get_children():
+		if b is Button and b.name != "Build":
+			(b as Button).set_pressed_no_signal(String(b.name).to_snake_case() == screen_name)
 
 
 ## The name of the screen on show, "" when the campus is.
@@ -280,6 +320,10 @@ func hide_camera_tag() -> void:
 
 
 # ------------------------------------------------------------ formatting
+static func fmt_int(v: float) -> String:
+	return "%d" % roundi(v)
+
+
 ## 1284000 -> "1 284 000 cr" (thin spaces between groups).
 static func fmt_cr(v: float) -> String:
 	var neg := v < 0.0

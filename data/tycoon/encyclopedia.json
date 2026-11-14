@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "_doc": "Encyclopedia cards (GDD section 15.1). Text: TY_ENC_<ID>_TITLE / TY_ENC_<ID>_FACT in i18n/tycoon_ops_strings.csv. A card unlocks when a mission of one of `types` has flown (active or archived) or the antenna network reaches `antenna_level`. Cards without a checked source (verified false or no url) never appear. Sources checked 2026-11-04.",
+  "cards": [
+    {"id": "sounding", "year": 0, "types": ["sounding"], "verified": true, "url": "https://www.nasa.gov/soundingrockets/overview/"},
+    {"id": "sputnik", "year": 1957, "types": ["demo_sat"], "verified": true, "url": "https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/"},
+    {"id": "explorer1", "year": 1958, "types": ["space_weather", "demo_sat"], "verified": true, "url": "https://www.jpl.nasa.gov/missions/explorer-1"},
+    {"id": "syncom2", "year": 1963, "types": ["comms"], "verified": true, "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1963-031A"},
+    {"id": "landsat1", "year": 1972, "types": ["earth_obs"], "verified": true, "url": "https://science.nasa.gov/mission/landsat-1"},
+    {"id": "hubble", "year": 1990, "types": ["telescope"], "verified": true, "url": "https://science.nasa.gov/mission/hubble/"},
+    {"id": "lcross", "year": 2009, "types": ["impactor"], "verified": true, "url": "https://science.nasa.gov/mission/lcross/"},
+    {"id": "lro", "year": 2009, "types": ["orbiter"], "verified": true, "url": "https://science.nasa.gov/mission/lro/"},
+    {"id": "surveyor1", "year": 1966, "types": ["lander"], "verified": true, "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A"},
+    {"id": "lunokhod1", "year": 1970, "types": ["rover"], "verified": true, "url": "https://science.nasa.gov/image-article/apod-1997-april-20-moon-robot-lunokhod-1/"},
+    {"id": "apollo8", "year": 1968, "types": ["crewed_flight"], "verified": true, "url": "https://www.nasa.gov/mission/apollo-8/"},
+    {"id": "apollo11", "year": 1969, "types": ["crewed_landing"], "verified": true, "url": "https://www.nasa.gov/mission/apollo-11/"},
+    {"id": "apollo_samples", "year": 1969, "types": ["sample_return", "crewed_landing"], "verified": true, "url": "https://curator.jsc.nasa.gov/lunar/"},
+    {"id": "artemis", "year": 0, "types": ["base_module", "isru"], "verified": true, "url": "https://www.nasa.gov/humans-in-space/artemis/"},
+    {"id": "rosetta", "year": 2014, "types": ["comet_mission"], "verified": true, "url": "https://www.jpl.nasa.gov/news/rosettas-philae-makes-historic-first-landing-on-a-comet/"},
+    {"id": "dsn", "year": 0, "types": [], "antenna_level": 2, "verified": true, "url": "https://www.jpl.nasa.gov/missions/dsn/"}
+  ]
+}

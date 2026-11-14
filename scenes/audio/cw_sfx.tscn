@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/audio/cw_sfx.gd" id="1_sfx"]
+[ext_resource type="Resource" path="res://assets/audio/cw_sound_library.tres" id="2_lib"]
+
+[node name="CwAudio" type="Node"]
+process_mode = 3
+script = ExtResource("1_sfx")
+library = ExtResource("2_lib")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="OneShot" type="AudioStreamPlayer" parent="Players"]
+bus = &"UI"
+
+[node name="Spatial" type="AudioStreamPlayer3D" parent="Players"]
+unit_size = 6.0
+max_db = 0.0
+max_distance = 45.0
+max_polyphony = 1
+panning_strength = 0.8
+bus = &"SFX"
+attenuation_filter_cutoff_hz = 9000.0
+attenuation_filter_db = -12.0
+
+[node name="Music" type="Node" parent="."]
+
+[node name="DeckA" type="AudioStreamPlayer" parent="Music"]
+volume_db = -80.0
+bus = &"Music"
+
+[node name="DeckB" type="AudioStreamPlayer" parent="Music"]
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Stinger" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"

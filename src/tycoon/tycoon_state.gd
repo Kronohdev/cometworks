@@ -12,12 +12,21 @@ signal year_passed(year: int)
 signal era_changed(era: int)
 signal building_finished(lot_id: String, level: int)
 ## A mission project left the pad. `result`: {"project_id", "code", "type", "target", "grade",
-## "success" (bool), "outcome" ("fail" | "partial" | "full" | "exceptional"), "contract_id"}
+## "success" (bool), "outcome" ("fail" | "partial" | "full" | "exceptional"), "contract_id",
+## "pad" (the lot it left from, LaunchPads)}
 signal mission_launched(result: Dictionary)
+## Just before mission_launched, same result: the launch sequence (ProjectFlow) opens on it,
+## so the screens other listeners open on mission_launched wait behind it.
+signal mission_launching(result: Dictionary)
 ## A mission ended its operations (or was lost), same keys as mission_launched plus "science".
 signal mission_completed(result: Dictionary)
 ## The player or a rival took a race milestone (GDD section 13).
 signal milestone_claimed(milestone_id: String, by: String)
+## A mission project entered phase 0..2 and wants the player's sliders (ProjectDesk, E1).
+signal project_phase_started(project_id: String, phase: int)
+## A mission project finished development and waits for its Design Review (DesignReview, E2):
+## emitted when it gets there and again every week it keeps waiting. Only with review_gate on.
+signal project_review_ready(project_id: String)
 
 const RULES_PATH := "res://data/tycoon/rules.json"
 const BUILDINGS_PATH := "res://data/tycoon/buildings.json"
@@ -45,6 +54,9 @@ var staff: Array[Dictionary] = []
 ## rivals: [{"id", "name_key", "color", "capacity", "milestones"}]
 var rivals: Array[Dictionary] = []
 var milestones := 0
+## the race to the Moon: milestones, rival AI, newspaper, final score (src/tycoon/race/);
+## it keeps `milestones` and rivals[].milestones up to date
+var race: RaceDirector
 ## active mission projects (E1 fills these): [{"code", "kind", "phase", "progress", "color"}]
 var projects: Array[Dictionary] = []
 ## contract offers and accepted contracts (owned by the contract board):
@@ -54,14 +66,43 @@ var contracts: Array[Dictionary] = []
 ## missions in space (owned by mission ops): [{"id", "code", "type", "target", "start_week",
 ##   "weeks_total", "data_stored", "data_down", "science", "status": "cruise" | "ops" | "done" | "lost"}]
 var active_missions: Array[Dictionary] = []
+## mission projects in development (owned by ProjectDesk, src/tycoon/project/); `projects`
+## mirrors them for the HUD strips
+var mission_projects: Array[MissionProject] = []
+## launched projects, newest last: grade, reviews, rewards... (owned by ProjectDesk)
+var project_history: Array[Dictionary] = []
+## finished missions, oldest first (owned by mission ops, src/tycoon/ops/mission_ops.gd):
+## [{"id", "code", "type", "target", "start_week", "end_week", "status", "outcome", "grade",
+##   "science", "data_gen", "data_down", "data_lost", "return", "lesson", ...}]
+var mission_archive: Array[Dictionary] = []
 ## research points waiting to be spent (owned by research)
 var research_points := 0.0
 ## unlocked research: tech id -> true (owned by research)
 var unlocked: Dictionary = {}
+## research sub-state (TycoonResearch): funded tech, queue, progress, licences
+var research: Dictionary = {}
+## contract board bookkeeping (TycoonContracts): offer id sequence, month of the last renewal
+var contract_board: Dictionary = {}
+## monthly ledger, loan and intervention (TycoonFinance)
+var finance: Dictionary = {}
 ## news ticker lines (translation key + args), newest first
 var news: Array[Dictionary] = []
-## campus: lot id -> {"kind", "level" (built), "target" (level being built), "weeks_left"}
+## campus: lot id -> {"kind", "level" (built), "target" (level being built), "weeks_left"};
+## pads also keep "last_launch", "rocket_weeks" and "rocket_total" (LaunchPads)
 var buildings: Dictionary = {}
+## crew market and its RNG (owned by TycoonCrew, src/tycoon/crew/tycoon_crew.gd)
+var crew: Dictionary = {}
+## the player's leader Cometling, made in the leader creator (owned by TycoonLeader,
+## src/tycoon/crew/tycoon_leader.gd); {} when the campaign started without one
+var leader: Dictionary = {}
+## the agency's rocket families (RocketFamilies, E2): {"families": [...], "next": n}
+var rockets: Dictionary = {}
+## runtime, not saved: when on (ProjectFlow binds the review screen), a project that ends its
+## development waits for the player's Design Review; off (headless, tests) it launches at once
+## with the review's defaults (no fixes)
+var review_gate := false
+## story beats the campaign has seen (Cutscenes): {"opening": true, "ending": true}
+var story: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -106,6 +147,7 @@ static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = []) -> T
 		if lot.get("start", false):
 			s.buildings[lot_id] = {"kind": lot["kind"], "level": 1, "target": 1, "weeks_left": 0}
 	s.news.append({"key": "TY_NEWS_WELCOME", "args": []})
+	s.race = RaceDirector.new(s)
 	return s
 
 
@@ -261,22 +303,20 @@ func mission_target(id: String) -> Dictionary:
 	return {}
 
 
-## Can a new project use this mission type / target? (The research module refines this
-## with its tech tree; until then the era gates it.)
+## Can a new project use this mission type / target? The tech tree decides (a type or target
+## a research unlocks needs that research done; the others only their era): TycoonResearch.
 func mission_type_available(id: String) -> bool:
-	var t := mission_type(id)
-	return not t.is_empty() and era() >= int(t.get("era", 1))
+	return TycoonResearch.mission_type_available(self, id)
 
 
 func mission_target_available(id: String) -> bool:
-	var t := mission_target(id)
-	return not t.is_empty() and era() >= int(t.get("era", 1))
+	return TycoonResearch.mission_target_available(self, id)
 
 
-## A mission project tied to a contract ended (owned by the contract board: pays the reward
-## and bonus, or the penalty). Stub until the contract board lands.
-func complete_contract(_contract_id: String, _grade: float, _success: bool) -> void:
-	pass
+## A mission project tied to a contract ended: pays the reward and the bonus (grade >= 8) or
+## the penalty, and moves reputation (TycoonContracts.complete).
+func complete_contract(contract_id: String, grade: float, success: bool) -> void:
+	TycoonContracts.complete(self, contract_id, grade, success)
 
 
 ## Fills the staff fields every system relies on (see `staff`), mapping the crew roster's
@@ -306,6 +346,9 @@ func advance_week() -> void:
 	var era0 := era()
 	weeks += 1
 	_advance_construction()
+	LaunchPads.advance_week(self)  # the next rocket rolls out onto a pad that launched
+	ProjectDesk.advance_week(self)
+	MissionOps.advance_week(self)
 	week_passed.emit(year(), week())
 	var m1 := _month_of(weeks)
 	if m1 != m0:
@@ -317,6 +360,9 @@ func advance_week() -> void:
 	if era() != era0:
 		news.push_front({"key": "TY_NEWS_ERA", "args": [era()]})
 		era_changed.emit(era())
+	TycoonCrew.on_week(self)
+	TycoonAgency.week(self)  # research, contract board, ledger and government budget (E3)
+	race.advance_week()
 	changed.emit()
 
 
@@ -327,7 +373,7 @@ func milestones_total() -> int:
 
 ## Race standing: [{"name_key" or "name", "color", "progress" 0..1, "player"}], player first.
 func race_board() -> Array[Dictionary]:
-	var out: Array[Dictionary] = [{"name": agency_name, "color": CwPalette.IGNITION,
+	var out: Array[Dictionary] = [{"name": agency_name, "color": TycoonLeader.agency_color(self, CwPalette.IGNITION),
 		"progress": float(milestones) / milestones_total(), "player": true}]
 	for r in rivals:
 		out.append({"name_key": r["name_key"], "color": Color(String(r["color"])),
@@ -337,11 +383,14 @@ func race_board() -> Array[Dictionary]:
 
 # ------------------------------------------------------------ save / load
 func to_dict() -> Dictionary:
-	return {"version": 1, "seed": campaign_seed, "rng_state": rng.state, "weeks": weeks, "cash": cash,
+	return {"version": 1, "seed": campaign_seed, "rng_state": str(rng.state), "weeks": weeks, "cash": cash,
 		"reputation": reputation, "hype": hype, "agency_name": agency_name, "staff": staff, "rivals": rivals,
 		"milestones": milestones, "projects": projects, "news": news, "buildings": buildings,
 		"contracts": contracts, "active_missions": active_missions, "research_points": research_points,
-		"unlocked": unlocked}
+		"unlocked": unlocked, "crew": crew, "mission_projects": ProjectDesk.save(self),
+		"project_history": project_history, "mission_archive": mission_archive, "research": research,
+		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
+		"rockets": rockets, "story": story}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -349,7 +398,8 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s._load_data()
 	s.campaign_seed = int(d.get("seed", 0))
 	s.rng.seed = s.campaign_seed
-	s.rng.state = int(d.get("rng_state", s.rng.state))
+	var rs: Variant = d.get("rng_state", s.rng.state)  # saved as a string: JSON numbers lose 64-bit precision
+	s.rng.state = String(rs).to_int() if rs is String else int(rs)
 	s.weeks = int(d.get("weeks", 0))
 	s.cash = float(d.get("cash", 0.0))
 	s.reputation = float(d.get("reputation", 0.0))
@@ -364,11 +414,22 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s.news.assign(d.get("news", []))
 	s.contracts.assign(d.get("contracts", []))
 	s.active_missions.assign(d.get("active_missions", []))
+	s.mission_archive.assign(d.get("mission_archive", []))
 	s.research_points = float(d.get("research_points", 0.0))
 	s.unlocked = d.get("unlocked", {})
+	RocketFamilies.restore(s, d.get("rockets", {}))
+	ProjectDesk.restore(s, d)
+	s.research = d.get("research", {})
+	s.contract_board = d.get("contract_board", {})
+	s.finance = d.get("finance", {})
 	s.buildings = d.get("buildings", {})
+	s.crew = d.get("crew", {})
+	var ld: Dictionary = d.get("leader", {})
+	s.leader = TycoonLeader.sanitize(ld) if not ld.is_empty() else {}
+	s.story = d.get("story", {})
 	for lot_id: String in s.buildings:  # JSON numbers come back as floats
 		var b: Dictionary = s.buildings[lot_id]
 		for k in ["level", "target", "weeks_left"]:
 			b[k] = int(b.get(k, 0))
+	s.race = RaceDirector.new(s, d.get("race", {}))
 	return s

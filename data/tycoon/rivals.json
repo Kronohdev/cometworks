@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "_doc": "Rival agency personalities (GDD section 13). The rivals are simulated in the abstract, once a month, with their own seeded RNG (RaceDirector): each pursues the milestones in order. Monthly attempt chance = attempt_base * capacity * pace * (crewed_mult on crewed milestones) / difficulty * (1 + elastic * lag) * push, where lag = milestones behind the leader / 3 (max 1.5) and push grows near the end of the milestone's plausible years. An attempt fails with chance fail_base * (1 - reliability) * boldness and costs setback_months; otherwise the milestone is taken and capacity grows (growth_first / growth_later). delay_weeks / crewed_delay_weeks hold a rival back after the earliest plausible year. Capacity comes from rules.json (rivals[].capacity).",
+  "attempt_base": 0.045,
+  "fail_base": 0.5,
+  "elastic": 0.5,
+  "push_last_year": 1.6,
+  "push_late": 2.6,
+  "growth_first": 0.05,
+  "growth_later": 0.02,
+  "fail_front_page_gap_weeks": 52,
+  "rivals": {
+    "aurora": {"initials": "AR", "boldness": 1.5, "reliability": 0.5, "pace": 1.1, "crewed_mult": 1.5,
+      "delay_weeks": 0, "crewed_delay_weeks": 0, "setback_months": [3, 6],
+      "personality_key": "TY_RIVAL_AURORA_PERS", "strength_key": "TY_RIVAL_AURORA_STR", "weakness_key": "TY_RIVAL_AURORA_WEAK",
+      "taunt_key": "TY_RIVAL_AURORA_TAUNT", "motto_key": "TY_RIVAL_AURORA_MOTTO"},
+    "nimbo": {"initials": "CN", "boldness": 0.8, "reliability": 0.8, "pace": 1.05, "crewed_mult": 0.6,
+      "delay_weeks": 0, "crewed_delay_weeks": 52, "setback_months": [2, 4],
+      "personality_key": "TY_RIVAL_NIMBO_PERS", "strength_key": "TY_RIVAL_NIMBO_STR", "weakness_key": "TY_RIVAL_NIMBO_WEAK",
+      "taunt_key": "TY_RIVAL_NIMBO_TAUNT", "motto_key": "TY_RIVAL_NIMBO_MOTTO"},
+    "quietude": {"initials": "IQ", "boldness": 0.6, "reliability": 0.95, "pace": 0.85, "crewed_mult": 0.9,
+      "delay_weeks": 26, "crewed_delay_weeks": 26, "setback_months": [2, 3],
+      "personality_key": "TY_RIVAL_QUIETUDE_PERS", "strength_key": "TY_RIVAL_QUIETUDE_STR", "weakness_key": "TY_RIVAL_QUIETUDE_WEAK",
+      "taunt_key": "TY_RIVAL_QUIETUDE_TAUNT", "motto_key": "TY_RIVAL_QUIETUDE_MOTTO"}
+  }
+}

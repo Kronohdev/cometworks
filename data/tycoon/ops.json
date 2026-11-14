@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "_doc": "Mission operations (GDD sections 7 and 14), read by src/tycoon/ops/mission_ops.gd. Data in Gb. Each week in operations: generated = gen_per_week * modifiers; stored = min(storage, stored + generated) (the excess is LOST); downlinked = min(possible, stored) with possible = base_downlink * network.gain[antenna level] * target.link * target.contact[antenna level] * spacecraft antenna; science += downlinked * value * scientist bonus; research points += science * research_share.",
+  "base_downlink": 40.0,
+  "research_share": 0.5,
+  "scientist_bonus_each": 0.05,
+  "scientist_bonus_max": 5,
+  "decision_timeout_weeks": 3,
+  "outcome_gen": {"fail": 0.0, "partial": 0.6, "full": 1.0, "exceptional": 1.25},
+  "outcome_health": {"fail": 0.0, "partial": 0.75, "full": 1.0, "exceptional": 1.0},
+  "network": {
+    "_doc": "index = level of the antenna building (0 = only the small campus dish). stations: ground stations drawn on the map.",
+    "gain": [0.5, 1.0, 2.2, 4.5],
+    "stations": [1, 1, 3, 3],
+    "deep_space": [false, false, false, true],
+    "name_keys": ["TY_OPS_NET_0", "TY_OPS_NET_1", "TY_OPS_NET_2", "TY_OPS_NET_3"]
+  },
+  "targets": {
+    "suborbital":    {"distance_km": 110,     "cruise_weeks": 0, "link": 1.6,  "contact": [1.0, 1.0, 1.0, 1.0],   "hazard": 0.0,   "class": "earth"},
+    "leo":           {"distance_km": 450,     "cruise_weeks": 1, "link": 1.0,  "contact": [0.10, 0.16, 0.32, 0.45], "hazard": 0.002, "class": "earth"},
+    "sso":           {"distance_km": 700,     "cruise_weeks": 1, "link": 0.85, "contact": [0.10, 0.18, 0.36, 0.50], "hazard": 0.002, "class": "earth"},
+    "geo":           {"distance_km": 35786,   "cruise_weeks": 2, "link": 0.35, "contact": [1.0, 1.0, 1.0, 1.0],   "hazard": 0.002, "class": "earth"},
+    "lunar_flyby":   {"distance_km": 384400,  "cruise_weeks": 1, "link": 0.1,  "contact": [0.4, 0.45, 0.9, 1.0],  "hazard": 0.003, "class": "moon"},
+    "lunar_orbit":   {"distance_km": 384400,  "cruise_weeks": 1, "link": 0.1,  "contact": [0.32, 0.36, 0.72, 0.8], "hazard": 0.003, "class": "moon"},
+    "lunar_surface": {"distance_km": 384400,  "cruise_weeks": 1, "link": 0.09, "contact": [0.4, 0.45, 0.9, 1.0],  "hazard": 0.005, "class": "moon"},
+    "lunar_pole":    {"distance_km": 384400,  "cruise_weeks": 1, "link": 0.08, "contact": [0.2, 0.25, 0.55, 0.7], "hazard": 0.006, "class": "moon"},
+    "comet":         {"distance_km": 4500000, "cruise_weeks": 6, "link": 0.03, "contact": [0.3, 0.4, 0.85, 1.0],  "hazard": 0.008, "class": "comet"}
+  },
+  "types": {
+    "_doc": "gen_per_week (Gb), storage (Gb), value (science per Gb downlinked), ops_weeks (design life), antenna (spacecraft antenna gain), samples (science credited at the end when the mission comes home).",
+    "sounding":       {"gen_per_week": 6,  "storage": 20, "value": 1.2, "ops_weeks": 1,  "antenna": 1.0},
+    "demo_sat":       {"gen_per_week": 5,  "storage": 24, "value": 0.8, "ops_weeks": 10, "antenna": 1.0},
+    "comms":          {"gen_per_week": 2,  "storage": 16, "value": 0.5, "ops_weeks": 16, "antenna": 1.5},
+    "earth_obs":      {"gen_per_week": 14, "storage": 48, "value": 0.9, "ops_weeks": 16, "antenna": 1.0},
+    "space_weather":  {"gen_per_week": 8,  "storage": 32, "value": 1.1, "ops_weeks": 16, "antenna": 1.0},
+    "telescope":      {"gen_per_week": 12, "storage": 60, "value": 1.6, "ops_weeks": 20, "antenna": 1.2},
+    "impactor":       {"gen_per_week": 10, "storage": 30, "value": 2.5, "ops_weeks": 2,  "antenna": 1.0},
+    "orbiter":        {"gen_per_week": 9,  "storage": 40, "value": 1.8, "ops_weeks": 14, "antenna": 1.0},
+    "lander":         {"gen_per_week": 7,  "storage": 32, "value": 2.2, "ops_weeks": 8,  "antenna": 1.0},
+    "rover":          {"gen_per_week": 8,  "storage": 36, "value": 2.4, "ops_weeks": 12, "antenna": 1.0},
+    "crewed_flight":  {"gen_per_week": 4,  "storage": 40, "value": 1.5, "ops_weeks": 2,  "antenna": 1.5},
+    "crewed_landing": {"gen_per_week": 6,  "storage": 60, "value": 3.0, "ops_weeks": 3,  "antenna": 1.5, "samples": 40},
+    "sample_return":  {"gen_per_week": 3,  "storage": 20, "value": 2.0, "ops_weeks": 4,  "antenna": 1.0, "samples": 60},
+    "base_module":    {"gen_per_week": 5,  "storage": 50, "value": 1.6, "ops_weeks": 20, "antenna": 2.0},
+    "isru":           {"gen_per_week": 4,  "storage": 40, "value": 1.6, "ops_weeks": 20, "antenna": 2.0},
+    "comet_mission":  {"gen_per_week": 12, "storage": 80, "value": 4.0, "ops_weeks": 10, "antenna": 3.0}
+  },
+  "events": [
+    {"id": "storage", "weight": 3, "classes": ["earth", "moon", "comet"], "min_ops": 3,
+     "choices": [
+       {"key": "TY_OPS_EV_STORAGE_A", "effects": {"buffer_mult": 1.5, "value_mult": 0.9}},
+       {"key": "TY_OPS_EV_STORAGE_B", "effects": {"free_stored": 0.4}, "default": true},
+       {"key": "TY_OPS_EV_STORAGE_C", "effects": {"gen_mult": 0.5, "gen_weeks": 4}}]},
+    {"id": "wheel", "weight": 2, "classes": ["earth", "moon", "comet"], "min_ops": 3, "not_targets": ["lunar_surface", "lunar_pole"],
+     "choices": [
+       {"key": "TY_OPS_EV_WHEEL_A", "effects": {"gen_mult": 0.0, "gen_weeks": 2}, "default": true},
+       {"key": "TY_OPS_EV_WHEEL_B", "effects": {"risk": 0.25, "health": -0.3}},
+       {"key": "TY_OPS_EV_WHEEL_C", "effects": {"ops_weeks": -4}}]},
+    {"id": "storm", "weight": 2, "classes": ["earth", "moon", "comet"], "min_ops": 2,
+     "choices": [
+       {"key": "TY_OPS_EV_STORM_A", "effects": {"gen_mult": 0.0, "gen_weeks": 1}, "default": true},
+       {"key": "TY_OPS_EV_STORM_B", "effects": {"gen_mult": 2.5, "gen_weeks": 1, "risk": 0.12, "health": -0.2}}]},
+    {"id": "debris", "weight": 2, "targets": ["leo", "sso"], "min_ops": 2,
+     "choices": [
+       {"key": "TY_OPS_EV_DEBRIS_A", "effects": {"ops_weeks": -2}, "default": true},
+       {"key": "TY_OPS_EV_DEBRIS_B", "effects": {"risk": 0.08}}]},
+    {"id": "night", "weight": 3, "targets": ["lunar_surface", "lunar_pole"], "min_ops": 2,
+     "choices": [
+       {"key": "TY_OPS_EV_NIGHT_A", "effects": {"gen_mult": 0.0, "gen_weeks": 2}, "default": true},
+       {"key": "TY_OPS_EV_NIGHT_B", "effects": {"risk": 0.2}},
+       {"key": "TY_OPS_EV_NIGHT_C", "effects": {"health": -0.25, "gen_mult": 0.5, "gen_weeks": 2}}]},
+    {"id": "dust", "weight": 2, "targets": ["lunar_surface", "lunar_pole"], "min_ops": 3,
+     "choices": [
+       {"key": "TY_OPS_EV_DUST_A", "effects": {"risk": 0.05, "health": 0.1}},
+       {"key": "TY_OPS_EV_DUST_B", "effects": {"gen_mult": 0.6, "gen_weeks": 6}, "default": true}]},
+    {"id": "jets", "weight": 4, "targets": ["comet"], "min_ops": 2,
+     "choices": [
+       {"key": "TY_OPS_EV_JETS_A", "effects": {"gen_mult": 2.0, "gen_weeks": 3, "risk": 0.2}},
+       {"key": "TY_OPS_EV_JETS_B", "effects": {}, "default": true}]},
+    {"id": "recovery", "weight": 5, "targets": ["suborbital"], "min_ops": 1,
+     "choices": [
+       {"key": "TY_OPS_EV_RECOVERY_A", "effects": {"cash": -8000, "science": 6}},
+       {"key": "TY_OPS_EV_RECOVERY_B", "effects": {}, "default": true}]},
+    {"id": "extend", "weight": 2, "classes": ["earth", "moon"], "min_ops": 8,
+     "choices": [
+       {"key": "TY_OPS_EV_EXTEND_A", "effects": {"ops_weeks": 6, "cash": -40000}},
+       {"key": "TY_OPS_EV_EXTEND_B", "effects": {}, "default": true}]}
+  ]
+}

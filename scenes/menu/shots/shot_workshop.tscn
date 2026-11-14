@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" path="res://scenes/examples/andorinha.tscn" id="rocket"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="glow"]
 [ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="crate"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/yard_nature.tscn" id="nature"]
+[ext_resource type="Script" path="res://src/audio/cw_ambience_player.gd" id="audio_bed"]
+[ext_resource type="AudioStream" path="res://assets/audio/ambience/amb_night.wav" id="audio_bed_stream"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("sky")
@@ -55,67 +60,76 @@ dof_blur_far_distance = 12.0
 dof_blur_far_transition = 20.0
 dof_blur_amount = 0.06
 
-[sub_resource type="StandardMaterial3D" id="concrete"]
-albedo_color = Color(0.42, 0.42, 0.45, 1)
-roughness = 0.9
+[sub_resource type="ShaderMaterial" id="concrete"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.42, 0.42, 0.45, 1)
+shader_parameter/roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="paint"]
-albedo_color = Color(1, 0.77, 0.2, 1)
-roughness = 0.7
+[sub_resource type="ShaderMaterial" id="paint"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.77, 0.2, 1)
+shader_parameter/roughness = 0.7
 
-[sub_resource type="StandardMaterial3D" id="cradle"]
-albedo_color = Color(0.95, 0.55, 0.18, 1)
-roughness = 0.6
-metallic = 0.2
+[sub_resource type="ShaderMaterial" id="cradle"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.95, 0.55, 0.18, 1)
+shader_parameter/roughness = 0.6
+shader_parameter/metallic = 0.2
 
-[sub_resource type="StandardMaterial3D" id="steel"]
-albedo_color = Color(0.33, 0.36, 0.42, 1)
-roughness = 0.5
-metallic = 0.6
+[sub_resource type="ShaderMaterial" id="steel"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.33, 0.36, 0.42, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.6
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="wood"]
-albedo_color = Color(0.52, 0.36, 0.22, 1)
-roughness = 0.85
+[sub_resource type="ShaderMaterial" id="wood"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.52, 0.36, 0.22, 1)
+shader_parameter/roughness = 0.85
 
-[sub_resource type="StandardMaterial3D" id="hangar"]
-albedo_color = Color(0.13, 0.15, 0.24, 1)
-roughness = 0.95
+[sub_resource type="ShaderMaterial" id="hangar"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.13, 0.15, 0.24, 1)
+shader_parameter/roughness = 0.95
 
-[sub_resource type="StandardMaterial3D" id="tower"]
-albedo_color = Color(0.55, 0.2, 0.18, 1)
-roughness = 0.6
-metallic = 0.3
+[sub_resource type="ShaderMaterial" id="tower"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.55, 0.2, 0.18, 1)
+shader_parameter/roughness = 0.6
+shader_parameter/metallic = 0.3
+shader_parameter/toon_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="beacon"]
-albedo_color = Color(1, 0.2, 0.15, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 0.15, 0.1, 1)
-emission_energy_multiplier = 6.0
+[sub_resource type="ShaderMaterial" id="beacon"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.2, 0.15, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.15, 0.1, 1)
+shader_parameter/emission_energy = 6.0
 
-[sub_resource type="StandardMaterial3D" id="door_light"]
-albedo_color = Color(1, 0.78, 0.5, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 0.7, 0.42, 1)
-emission_energy_multiplier = 2.2
+[sub_resource type="ShaderMaterial" id="door_light"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.78, 0.5, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.7, 0.42, 1)
+shader_parameter/emission_energy = 2.2
 
-[sub_resource type="StandardMaterial3D" id="bulb"]
-albedo_color = Color(1, 0.85, 0.55, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 0.72, 0.38, 1)
-emission_energy_multiplier = 6.0
+[sub_resource type="ShaderMaterial" id="bulb"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.85, 0.55, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.72, 0.38, 1)
+shader_parameter/emission_energy = 6.0
 
-[sub_resource type="StandardMaterial3D" id="lamp_head"]
-albedo_color = Color(1, 0.9, 0.7, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 0.85, 0.6, 1)
-emission_energy_multiplier = 5.0
+[sub_resource type="ShaderMaterial" id="lamp_head"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.9, 0.7, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/emission = Color(1, 0.85, 0.6, 1)
+shader_parameter/emission_energy = 5.0
 
 [sub_resource type="BoxMesh" id="ground"]
-size = Vector3(90, 1, 70)
+size = Vector3(26, 1, 24)
 
 [sub_resource type="BoxMesh" id="line"]
 size = Vector3(0.12, 0.02, 16)
@@ -177,7 +191,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 12),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-1.4, 0, 1.3), Vector3(2, 0, 4.3)]
+"values": [Vector3(-0.6, 0, 0.9), Vector3(2, 0, 4.3)]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -316,7 +330,7 @@ directional_shadow_max_distance = 40.0
 [node name="Yard" type="Node3D" parent="."]
 
 [node name="Ground" type="MeshInstance3D" parent="Yard"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.5, -5)
 mesh = SubResource("ground")
 surface_material_override/0 = SubResource("concrete")
 
@@ -564,6 +578,8 @@ cast_shadow = 0
 mesh = SubResource("bulb_mesh")
 surface_material_override/0 = SubResource("bulb")
 
+[node name="YardNature" parent="." instance=ExtResource("nature")]
+
 [node name="Fill" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.6, 5.5)
 light_color = Color(0.85, 0.82, 1, 1)
@@ -603,7 +619,7 @@ start_action = "clipboard"
 listen_to_events = false
 
 [node name="Carrier" parent="Cometlings" instance=ExtResource("cr")]
-transform = Transform3D(0.6616, 0, 0.7498, 0, 1, 0, -0.7498, 0, 0.6616, -1.4, 0, 1.3)
+transform = Transform3D(0.6616, 0, 0.7498, 0, 1, 0, -0.7498, 0, 0.6616, -0.6, 0, 0.9)
 role = "ground"
 body_color = Color(0.682, 0.933, 0.714, 1)
 spot_color = Color(0.373, 0.69, 0.847, 1)
@@ -612,7 +628,7 @@ start_action = "carry"
 listen_to_events = false
 
 [node name="ChatA" parent="Cometlings" instance=ExtResource("cr")]
-transform = Transform3D(0.4832, 0, 0.8755, 0, 1, 0, -0.8755, 0, 0.4832, -1.3, 0, 1.6)
+transform = Transform3D(0.4832, 0, 0.8755, 0, 1, 0, -0.8755, 0, 0.4832, -3.05, 0, 2.05)
 role = "engineer"
 body_color = Color(1, 0.639, 0.639, 1)
 spot_color = Color(1, 0.8, 0.333, 1)
@@ -621,7 +637,7 @@ start_action = "talk"
 listen_to_events = false
 
 [node name="ChatB" parent="Cometlings" instance=ExtResource("cr")]
-transform = Transform3D(0.902, 0, -0.4318, 0, 1, 0, 0.4318, 0, 0.902, -0.45, 0, 2.05)
+transform = Transform3D(0.902, 0, -0.4318, 0, 1, 0, 0.4318, 0, 0.902, -1.85, 0, 2.3)
 role = "ground"
 body_color = Color(0.651, 0.918, 0.859, 1)
 spot_color = Color(1, 0.561, 0.722, 1)
@@ -649,3 +665,11 @@ far = 300.0
 libraries = {
 &"": SubResource("anim_lib")
 }
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("audio_bed_stream")
+volume_db = -11.0
+bus = &"Ambience"
+script = ExtResource("audio_bed")
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

@@ -1,0 +1,535 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/contracts_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[node name="Contracts" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Frame" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 86.0
+offset_top = 88.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="VBox" type="VBoxContainer" parent="Frame"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="Titles" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Frame/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+text = "TY_CT_TITLE"
+
+[node name="Sub" type="Label" parent="Frame/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_SUB"
+
+[node name="Spacer" type="Control" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Slots" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Slots"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_SIGNED"
+
+[node name="SlotsValue" type="Label" parent="Frame/VBox/Head/Slots"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "1 / 2"
+
+[node name="SlotsBar" type="Control" parent="Frame/VBox/Head/Slots"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 2
+gap = 3.0
+
+[node name="Renew" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Renew"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_RENEW"
+
+[node name="RenewValue" type="Label" parent="Frame/VBox/Head/Renew"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "3 sem"
+
+[node name="Rep" type="VBoxContainer" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head/Rep"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_REP"
+
+[node name="RepValue" type="Label" parent="Frame/VBox/Head/Rep"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "24"
+
+[node name="Sep" type="VSeparator" parent="Frame/VBox/Head"]
+layout_mode = 2
+
+[node name="Close" type="Button" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_CLOSE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="HSep" type="HSeparator" parent="Frame/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="Offers" type="VBoxContainer" parent="Frame/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Body/Offers"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Offers/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "TY_CT_OFFERS"
+
+[node name="FullNote" type="Label" parent="Frame/VBox/Body/Offers/Head"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "TY_CT_FULL"
+
+[node name="Note" type="Label" parent="Frame/VBox/Body/Offers/Head"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_CT_RIVAL_NOTE"
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/Body/Offers"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="OfferList" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="OfferTemplate" type="PanelContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Row" type="HBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Who" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Kind" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Who"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Programa do governo · Programa Espacial Nacional"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Mission" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Who"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 21
+text = "Observação da Terra"
+
+[node name="Target" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Who"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "→ Órbita heliossíncrona"
+
+[node name="Sep1" type="VSeparator" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+layout_mode = 2
+
+[node name="Req" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+custom_minimum_size = Vector2(196, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_CT_REQ"
+
+[node name="Chips" type="HBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChipTemplate" type="PanelContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req/Chips"]
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwChip"
+
+[node name="HBox" type="HBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req/Chips/ChipTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req/Chips/ChipTemplate/HBox"]
+custom_minimum_size = Vector2(3, 12)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.749, 0.9098, 1, 1)
+
+[node name="Label" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req/Chips/ChipTemplate/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "CIÊ ≥ 6,0"
+
+[node name="DeadlineCaption" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_CT_DEADLINE"
+
+[node name="Deadline" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Req"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "26 sem"
+
+[node name="Sep2" type="VSeparator" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+layout_mode = 2
+
+[node name="Money" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Money"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_CT_REWARD"
+
+[node name="Reward" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Money"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_font_sizes/font_size = 19
+text = "+ 185 000 cr"
+
+[node name="Bonus" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Money"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "+46 250 cr se nota ≥ 8"
+
+[node name="Penalty" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Money"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 0.85)
+theme_override_font_sizes/font_size = 13
+text = "−55 500 cr se atrasar ou falhar"
+
+[node name="Science" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Money"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+theme_override_font_sizes/font_size = 13
+text = "+80 PP de ciência"
+
+[node name="Actions" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="Sign" type="Button" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Actions"]
+custom_minimum_size = Vector2(118, 34)
+layout_mode = 2
+focus_mode = 0
+text = "TY_CT_SIGN"
+
+[node name="Decline" type="Button" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/Row/Actions"]
+custom_minimum_size = Vector2(118, 26)
+layout_mode = 2
+tooltip_text = "TY_CT_DECLINE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 13
+text = "TY_CT_DECLINE"
+
+[node name="SpaceApps" type="VBoxContainer" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/SpaceApps"]
+layout_mode = 2
+
+[node name="Problem" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/SpaceApps"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.84, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "Descrição do problema real."
+autowrap_mode = 3
+
+[node name="Data" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList/OfferTemplate/VBox/SpaceApps"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+theme_override_font_sizes/font_size = 13
+text = "Dados abertos: NASA FIRMS"
+
+[node name="OffersEmpty" type="Label" parent="Frame/VBox/Body/Offers/Scroll/OfferList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_CT_NONE_OFFERS"
+
+[node name="Side" type="VBoxContainer" parent="Frame/VBox/Body"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Signed" type="PanelContainer" parent="Frame/VBox/Body/Side"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Side/Signed"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_ACTIVE"
+
+[node name="SignedList" type="VBoxContainer" parent="Frame/VBox/Body/Side/Signed/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SignedTemplate" type="VBoxContainer" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Top" type="HBoxContainer" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate"]
+layout_mode = 2
+
+[node name="Mission" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Sondagem → Suborbital"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Reward" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate/Top"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "75 000 cr"
+
+[node name="Sponsor" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Programa Espacial Nacional"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.6
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 26
+gap = 2.0
+
+[node name="Left" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox/SignedList/SignedTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "faltam 14 sem"
+horizontal_alignment = 2
+
+[node name="SignedEmpty" type="Label" parent="Frame/VBox/Body/Side/Signed/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_CT_NONE_ACTIVE"
+autowrap_mode = 3
+
+[node name="Grant" type="PanelContainer" parent="Frame/VBox/Body/Side"]
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Side/Grant"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Side/Grant/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_GRANT"
+
+[node name="GrantValue" type="Label" parent="Frame/VBox/Body/Side/Grant/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 20
+text = "280 000 cr"
+
+[node name="GrantNote" type="Label" parent="Frame/VBox/Body/Side/Grant/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_CT_GRANT_NEXT"
+autowrap_mode = 3
+
+[node name="Rules" type="PanelContainer" parent="Frame/VBox/Body/Side"]
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Side/Rules"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Frame/VBox/Body/Side/Rules/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CT_RULES"
+
+[node name="Text" type="Label" parent="Frame/VBox/Body/Side/Rules/VBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_CT_RULES_TXT"
+autowrap_mode = 3
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Frame")
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwOffers" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/Body/Offers/Scroll/OfferList")
+offset = Vector2(18, 0)
+delay = 0.16
+step = 0.05
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwSigned" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/Body/Side/Signed/VBox/SignedList")
+offset = Vector2(12, 0)
+delay = 0.16
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

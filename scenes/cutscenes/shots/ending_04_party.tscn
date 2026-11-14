@@ -1,0 +1,449 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cutscene/cutscene_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/sets/founding_yard.tscn" id="set"]
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="menu_sky"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="comet"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+
+[sub_resource type="ShaderMaterial" id="night_sky_mat"]
+shader = ExtResource("menu_sky")
+shader_parameter/zenith_color = Color(0.01, 0.016, 0.05, 1)
+shader_parameter/mid_color = Color(0.04, 0.055, 0.15, 1)
+shader_parameter/horizon_color = Color(0.22, 0.16, 0.34, 1)
+shader_parameter/ground_color = Color(0.01, 0.015, 0.03, 1)
+shader_parameter/horizon_height = 0.16
+shader_parameter/sun_dir = Vector3(0.79, -0.08, -0.6)
+shader_parameter/glow_color = Color(0.5, 0.35, 0.8, 1)
+shader_parameter/glow_strength = 0.6
+shader_parameter/glow_width = 0.2
+shader_parameter/star_brightness = 1.8
+shader_parameter/star_horizon = 0.08
+shader_parameter/comet_enabled = false
+
+[sub_resource type="Sky" id="night_sky"]
+sky_material = SubResource("night_sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="night_env"]
+background_mode = 2
+sky = SubResource("night_sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.36, 0.42, 0.72, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 4
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.3
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.05
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.16, 0.17, 0.34, 1)
+fog_density = 0.01
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="CameraAttributesPractical" id="night_cam"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 14.0
+dof_blur_far_transition = 24.0
+dof_blur_amount = 0.05
+
+[sub_resource type="Gradient" id="confetti_colors"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(1, 0.54, 0.24, 1, 0.25, 0.88, 0.77, 1, 0.56, 0.49, 1, 1, 1, 0.82, 0.3, 1, 1, 0.45, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="confetti_colors_tex"]
+gradient = SubResource("confetti_colors")
+
+[sub_resource type="ParticleProcessMaterial" id="confetti_process"]
+emission_shape = 3
+emission_box_extents = Vector3(3.5, 0.2, 2.5)
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 0.2
+initial_velocity_max = 0.6
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+gravity = Vector3(0, -0.6, 0)
+turbulence_enabled = true
+turbulence_noise_strength = 0.6
+turbulence_noise_scale = 2.0
+color_initial_ramp = SubResource("confetti_colors_tex")
+
+[sub_resource type="ShaderMaterial" id="confetti_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/use_vertex_color = true
+shader_parameter/roughness = 0.6
+shader_parameter/emission = Color(0.25, 0.25, 0.25, 1)
+shader_parameter/emission_energy = 1.0
+
+[sub_resource type="BoxMesh" id="confetti_mesh"]
+material = SubResource("confetti_mat")
+size = Vector3(0.06, 0.01, 0.04)
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 10
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.5, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["confetti_pop"],
+"method": &"sfx"
+}, {
+"args": ["crowd_cheer"],
+"method": &"sfx"
+}, {
+"args": ["CS_END_5"],
+"method": &"say"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cast/Leader")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 0.5, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["celebrate", -1],
+"method": &"play"
+}, {
+"args": ["joy", 6],
+"method": &"set_expression"
+}, {
+"args": ["dance", -1],
+"method": &"play"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cast/G")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6, 3.2, 6.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["clap", -1],
+"method": &"play"
+}, {
+"args": ["jump", -1],
+"method": &"play"
+}, {
+"args": ["celebrate", -1],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cast/H")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.9, 3.4, 6.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["cheer", -1],
+"method": &"play"
+}, {
+"args": ["clap", -1],
+"method": &"play"
+}, {
+"args": ["cheer", -1],
+"method": &"play"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cast/A")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["heart", 2],
+"method": &"show_emote"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cast/B")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["star", 2],
+"method": &"show_emote"
+}]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cast/D")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["note", 2],
+"method": &"show_emote"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Cast/C")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["sparkle", 2],
+"method": &"show_emote"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Cast/Busy")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(5.6, 6, 6.1, 7.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0.2, 0.9, 1.6), 0.8],
+"method": &"look_at_point"
+}, {
+"args": ["shrug", -1],
+"method": &"play"
+}, {
+"args": ["sweat", 1.8],
+"method": &"show_emote"
+}, {
+"args": ["clipboard", -1],
+"method": &"play"
+}]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Cast/E")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["fire", 2],
+"method": &"show_emote"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="Ending04Party" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player", "leader_cometlings")]
+script = ExtResource("shot")
+duration = 10
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/M0"), NodePath("CamPath/M1")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.5
+animation_player = NodePath("AnimationPlayer")
+leader_cometlings = [NodePath("Cast/Leader")]
+dip_in = 0.7
+
+[node name="Set" parent="." instance=ExtResource("set")]
+
+[node name="Sun" parent="Set"]
+light_color = Color(0.6, 0.68, 1, 1)
+light_energy = 0.45
+
+[node name="Fill" parent="Set"]
+light_color = Color(1, 0.8, 0.6, 1)
+light_energy = 1.6
+
+[node name="BigComet" parent="." instance=ExtResource("comet")]
+transform = Transform3D(3.4122, -2.6659, 2.5, 3.0783, 3.9401, 0, -1.97, 1.5392, 4.3301, 7, 15, -62)
+
+[node name="Nucleus" parent="BigComet"]
+visible = false
+
+[node name="Confetti" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, -3)
+amount = 260
+lifetime = 6.0
+preprocess = 3.0
+visibility_aabb = AABB(-6, -6, -5, 12, 8, 10)
+process_material = SubResource("confetti_process")
+draw_pass_1 = SubResource("confetti_mesh")
+
+[node name="Party" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 2.2, -1.2)
+light_color = Color(1, 0.82, 0.62, 1)
+light_energy = 2.2
+omni_range = 8
+
+[node name="Tail" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, -4.5)
+light_color = Color(0.5, 0.95, 1, 1)
+light_energy = 1.0
+omni_range = 8
+
+[node name="Cast" type="Node3D" parent="."]
+
+[node name="Leader" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9991, 0, 0.0416, 0, 1, 0, -0.0416, 0, 0.9991, 0, 0, -3.2)
+role = "pilot"
+body_color = Color(1, 0.792, 0.659, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 100
+start_action = "idle"
+listen_to_events = false
+mood = 0.9
+
+[node name="A" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9554, 0, 0.2953, 0, 1, 0, -0.2953, 0, 0.9554, -1.5, 0, -3.9)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 101
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="B" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9722, 0, -0.2341, 0, 1, 0, 0.2341, 0, 0.9722, 1.5, 0, -3.8)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 102
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="C" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9304, 0, 0.3665, 0, 1, 0, -0.3665, 0, 0.9304, -2.4, 0, -5)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 103
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="D" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9458, 0, -0.3247, 0, 1, 0, 0.3247, 0, 0.9458, 2.5, 0, -5.1)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 104
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="E" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9899, 0, 0.1414, 0, 1, 0, -0.1414, 0, 0.9899, -0.8, 0, -5.4)
+role = "engineer"
+body_color = Color(1, 0.639, 0.639, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 105
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="F" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.9953, 0, -0.0968, 0, 1, 0, 0.0968, 0, 0.9953, 0.9, 0, -5.6)
+role = "ground"
+body_color = Color(0.651, 0.918, 0.859, 1)
+spot_color = Color(1, 0.561, 0.722, 1)
+personality_seed = 106
+start_action = "dance"
+listen_to_events = false
+mood = 0.9
+
+[node name="G" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.8042, 0, 0.5944, 0, 1, 0, -0.5944, 0, 0.8042, -3.2, 0, -3)
+role = "scientist"
+body_color = Color(0.722, 0.769, 1, 1)
+spot_color = Color(1, 0.741, 0.478, 1)
+personality_seed = 107
+start_action = "idle"
+listen_to_events = false
+mood = 0.9
+
+[node name="H" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(0.8348, 0, -0.5506, 0, 1, 0, 0.5506, 0, 0.8348, 3.3, 0, -3.1)
+role = "ground"
+body_color = Color(0.839, 0.961, 0.627, 1)
+spot_color = Color(0.961, 0.722, 0.91, 1)
+personality_seed = 108
+start_action = "idle"
+listen_to_events = false
+mood = 0.9
+
+[node name="Busy" parent="Cast" instance=ExtResource("cr")]
+transform = Transform3D(-0.9363, 0, 0.3511, 0, 1, 0, -0.3511, 0, -0.9363, 4.6, 0, -6.6)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 110
+start_action = "clipboard"
+listen_to_events = false
+mood = 0.3
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="M0" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.85, 2.4)
+
+[node name="M1" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.95, 1.3)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -4)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.85, 2.4)
+environment = SubResource("night_env")
+attributes = SubResource("night_cam")
+fov = 44
+near = 0.05
+far = 900
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+
+[node name="CwOutline" parent="Camera3D" instance=ExtResource("cw_outline")]

@@ -1,0 +1,1338 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_map_screen.gd" id="1_screen"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_map_camera.gd" id="3_cam"]
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="4_sky"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="6_atmo"]
+[ext_resource type="Shader" path="res://shaders/solar_orbit.gdshader" id="7_orbit"]
+[ext_resource type="Shader" path="res://shaders/flight_map_line.gdshader" id="8_line"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="9_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod0.glb" id="10_clouds"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod0.glb" id="11_moon"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="12_comet"]
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_marker.gd" id="13_marker"]
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_link_overlay.gd" id="14_links"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="15_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("4_sky")
+shader_parameter/star_brightness = 1.6
+shader_parameter/milky_way = 0.55
+shader_parameter/galactic_pole = Vector3(0.6, 0.55, 0.58)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.22
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.55
+glow_bloom = 0.02
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.08
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("5_planet")
+shader_parameter/night_floor = 0.05
+shader_parameter/ocean_glint = 0.5
+
+[sub_resource type="ShaderMaterial" id="mat_clouds"]
+shader = ExtResource("5_planet")
+shader_parameter/normal_blend = 0.7
+shader_parameter/night_floor = 0.02
+
+[sub_resource type="ShaderMaterial" id="mat_moon"]
+shader = ExtResource("5_planet")
+shader_parameter/night_floor = 0.06
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radius = 1.0
+height = 2.0
+radial_segments = 96
+rings = 48
+
+[sub_resource type="ShaderMaterial" id="mat_atmo"]
+shader = ExtResource("6_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.0
+shader_parameter/power = 2.2
+shader_parameter/sun_position = Vector3(844, 298, 447)
+
+[sub_resource type="PlaneMesh" id="ring_plane"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="mat_ring"]
+shader = ExtResource("7_orbit")
+shader_parameter/width_px = 1.3
+shader_parameter/base_alpha = 0.55
+shader_parameter/trail_alpha = 0.0
+shader_parameter/trail_power = 3.0
+
+[sub_resource type="ShaderMaterial" id="mat_line"]
+render_priority = 1
+shader = ExtResource("8_line")
+
+[sub_resource type="ButtonGroup" id="speed_group"]
+
+[sub_resource type="ButtonGroup" id="view_group"]
+allow_unpress = true
+
+[node name="OpsMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_screen")
+
+[node name="View" type="SubViewportContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="View"]
+own_world_3d = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(1600, 900)
+render_target_update_mode = 4
+
+[node name="World" type="Node3D" parent="View/Viewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="View/Viewport/World"]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="View/Viewport/World"]
+rotation_degrees = Vector3(-17.3, 62.1, 0)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.35
+
+[node name="Earth" type="Node3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+
+[node name="EarthSpin" type="Node3D" parent="View/Viewport/World/Earth"]
+unique_name_in_owner = true
+
+[node name="Globe" parent="View/Viewport/World/Earth/EarthSpin" instance=ExtResource("9_earth")]
+
+[node name="earth_lod0" parent="View/Viewport/World/Earth/EarthSpin/Globe" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Clouds" parent="View/Viewport/World/Earth/EarthSpin" instance=ExtResource("10_clouds")]
+
+[node name="earth_clouds_lod0" parent="View/Viewport/World/Earth/EarthSpin/Clouds" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+
+[node name="Stations" type="Node3D" parent="View/Viewport/World/Earth/EarthSpin"]
+unique_name_in_owner = true
+
+[node name="Station0" type="Marker3D" parent="View/Viewport/World/Earth/EarthSpin/Stations"]
+unique_name_in_owner = true
+position = Vector3(1.009, -0.04, 0)
+
+[node name="Station1" type="Marker3D" parent="View/Viewport/World/Earth/EarthSpin/Stations"]
+position = Vector3(-0.414, 0.58, -0.716)
+
+[node name="Station2" type="Marker3D" parent="View/Viewport/World/Earth/EarthSpin/Stations"]
+position = Vector3(-0.414, -0.58, 0.716)
+
+[node name="Atmosphere" type="MeshInstance3D" parent="View/Viewport/World/Earth"]
+transform = Transform3D(1.085, 0, 0, 0, 1.085, 0, 0, 0, 1.085, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo")
+
+[node name="LabelAnchor" type="Marker3D" parent="View/Viewport/World/Earth"]
+position = Vector3(0, -1.12, 0)
+
+[node name="RingLEO" type="MeshInstance3D" parent="View/Viewport/World/Earth"]
+unique_name_in_owner = true
+rotation_degrees = Vector3(51.6, 30, 0)
+scale = Vector3(1.28, 1.28, 1.28)
+cast_shadow = 0
+mesh = SubResource("ring_plane")
+surface_material_override/0 = SubResource("mat_ring")
+instance_shader_parameters/line_color = Color(0.749, 0.91, 1, 0.75)
+
+[node name="Anchor" type="Marker3D" parent="View/Viewport/World/Earth/RingLEO"]
+position = Vector3(0.94, 0, 0.34)
+
+[node name="RingSSO" type="MeshInstance3D" parent="View/Viewport/World/Earth"]
+unique_name_in_owner = true
+rotation_degrees = Vector3(98, -40, 0)
+scale = Vector3(1.5, 1.5, 1.5)
+cast_shadow = 0
+mesh = SubResource("ring_plane")
+surface_material_override/0 = SubResource("mat_ring")
+instance_shader_parameters/line_color = Color(0.749, 0.91, 1, 0.75)
+
+[node name="Anchor" type="Marker3D" parent="View/Viewport/World/Earth/RingSSO"]
+position = Vector3(-0.2, 0, -0.98)
+
+[node name="RingGEO" type="MeshInstance3D" parent="View/Viewport/World/Earth"]
+unique_name_in_owner = true
+scale = Vector3(3, 3, 3)
+cast_shadow = 0
+mesh = SubResource("ring_plane")
+surface_material_override/0 = SubResource("mat_ring")
+instance_shader_parameters/line_color = Color(0.749, 0.91, 1, 0.75)
+
+[node name="Anchor" type="Marker3D" parent="View/Viewport/World/Earth/RingGEO"]
+position = Vector3(-0.42, 0, 0.907)
+
+[node name="CoverLEO" type="MeshInstance3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+cast_shadow = 0
+extra_cull_margin = 4.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.247, 0.878, 0.773, 1)
+instance_shader_parameters/line_width = 3.0
+
+[node name="CoverSSO" type="MeshInstance3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+cast_shadow = 0
+extra_cull_margin = 4.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.247, 0.878, 0.773, 1)
+instance_shader_parameters/line_width = 3.0
+
+[node name="CoverGEO" type="MeshInstance3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+cast_shadow = 0
+extra_cull_margin = 4.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.247, 0.878, 0.773, 1)
+instance_shader_parameters/line_width = 3.0
+
+[node name="MoonPlane" type="Node3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+rotation_degrees = Vector3(18, 25, 0)
+
+[node name="MoonRing" type="MeshInstance3D" parent="View/Viewport/World/MoonPlane"]
+scale = Vector3(9.5, 9.5, 9.5)
+cast_shadow = 0
+mesh = SubResource("ring_plane")
+surface_material_override/0 = SubResource("mat_ring")
+instance_shader_parameters/line_color = Color(0.557, 0.486, 1, 0.9)
+
+[node name="Anchor" type="Marker3D" parent="View/Viewport/World/MoonPlane/MoonRing"]
+position = Vector3(-0.707, 0, 0.707)
+
+[node name="MoonPivot" type="Node3D" parent="View/Viewport/World/MoonPlane"]
+unique_name_in_owner = true
+
+[node name="Moon" type="Node3D" parent="View/Viewport/World/MoonPlane/MoonPivot"]
+unique_name_in_owner = true
+position = Vector3(9.5, 0, 0)
+
+[node name="Globe" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon" instance=ExtResource("11_moon")]
+transform = Transform3D(0.42, 0, 0, 0, 0.42, 0, 0, 0, 0.42, 0, 0, 0)
+
+[node name="moon_lod0" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon/Globe" index="0"]
+material_override = SubResource("mat_moon")
+cast_shadow = 0
+
+[node name="RingLunar" type="MeshInstance3D" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon"]
+unique_name_in_owner = true
+rotation_degrees = Vector3(0, 35, 90)
+scale = Vector3(0.78, 0.78, 0.78)
+cast_shadow = 0
+mesh = SubResource("ring_plane")
+surface_material_override/0 = SubResource("mat_ring")
+instance_shader_parameters/line_color = Color(0.749, 0.91, 1, 0.75)
+
+[node name="SiteSurface" type="Marker3D" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon"]
+unique_name_in_owner = true
+position = Vector3(-0.41, 0.1, 0.03)
+
+[node name="SitePole" type="Marker3D" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon"]
+unique_name_in_owner = true
+position = Vector3(-0.05, -0.425, 0)
+
+[node name="LabelAnchor" type="Marker3D" parent="View/Viewport/World/MoonPlane/MoonPivot/Moon"]
+position = Vector3(0, 0.5, 0)
+
+[node name="Comet" parent="View/Viewport/World" instance=ExtResource("12_comet")]
+unique_name_in_owner = true
+rotation_degrees = Vector3(0, 152, -17.3)
+scale = Vector3(0.16, 0.16, 0.16)
+
+[node name="Sparks" parent="View/Viewport/World/Comet" index="5"]
+visible = false
+
+[node name="LabelAnchor" type="Marker3D" parent="View/Viewport/World/Comet"]
+position = Vector3(0, -3.5, 0)
+
+[node name="TransferTemplate" type="MeshInstance3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+visible = false
+cast_shadow = 0
+extra_cull_margin = 4.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.749, 0.91, 1, 0.9)
+instance_shader_parameters/line_width = 1.6
+instance_shader_parameters/dash = 0.32
+
+[node name="Camera" type="Camera3D" parent="View/Viewport/World"]
+unique_name_in_owner = true
+fov = 40.0
+near = 0.05
+far = 600.0
+script = ExtResource("3_cam")
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Links" type="Control" parent="Overlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("14_links")
+
+[node name="Labels" type="Control" parent="Overlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LblEarth" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_EARTH"
+metadata/anchor = NodePath("../../../View/Viewport/World/Earth/LabelAnchor")
+metadata/offset = Vector2(-18, 4)
+
+[node name="LblMoon" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_MOON"
+metadata/anchor = NodePath("../../../View/Viewport/World/MoonPlane/MoonPivot/Moon/LabelAnchor")
+metadata/offset = Vector2(-14, -22)
+
+[node name="LblComet" type="Label" parent="Overlay/Labels"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.4863, 0.7843, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_COMET"
+metadata/anchor = NodePath("../../../View/Viewport/World/Comet/LabelAnchor")
+metadata/offset = Vector2(-20, 6)
+
+[node name="LblLEO" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_ORBIT_LEO"
+metadata/anchor = NodePath("../../../View/Viewport/World/Earth/RingLEO/Anchor")
+metadata/offset = Vector2(6, -6)
+
+[node name="LblSSO" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_ORBIT_SSO"
+metadata/anchor = NodePath("../../../View/Viewport/World/Earth/RingSSO/Anchor")
+metadata/offset = Vector2(6, -6)
+
+[node name="LblGEO" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_ORBIT_GEO"
+metadata/anchor = NodePath("../../../View/Viewport/World/Earth/RingGEO/Anchor")
+metadata/offset = Vector2(6, -6)
+
+[node name="LblMoonOrbit" type="Label" parent="Overlay/Labels"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 20.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.702, 0.6118, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_ORBIT_MOON"
+metadata/anchor = NodePath("../../../View/Viewport/World/MoonPlane/MoonRing/Anchor")
+metadata/offset = Vector2(6, -6)
+
+[node name="Stations" type="Control" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StationTemplate" type="Control" parent="Overlay/Stations"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+script = ExtResource("13_marker")
+color = Color(0.247, 0.878, 0.773, 1)
+fill = Color(0.247, 0.878, 0.773, 0.25)
+radius = 3.5
+square = true
+
+[node name="Markers" type="Control" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarkerTemplate" type="Control" parent="Overlay/Markers"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 22.0
+offset_bottom = 22.0
+mouse_default_cursor_shape = 2
+script = ExtResource("13_marker")
+
+[node name="Code" type="Label" parent="Overlay/Markers/MarkerTemplate"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = -9.0
+offset_right = 89.0
+offset_bottom = 9.0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "ORB-01"
+
+[node name="Header" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 790.0
+offset_bottom = 106.0
+theme_type_variation = &"CwPanelTop"
+
+[node name="VBox" type="VBoxContainer" parent="Header"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Top" type="HBoxContainer" parent="Header/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Caption" type="Label" parent="Header/VBox/Top"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "TY_OPS_MAP_CAPTION"
+
+[node name="Title" type="Label" parent="Header/VBox/Top"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "TY_OPS_MAP_TITLE"
+
+[node name="Row" type="HBoxContainer" parent="Header/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="DateValue" type="Label" parent="Header/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+tooltip_text = "TY_DATE"
+mouse_filter = 0
+theme_type_variation = &"CwMono"
+text = "01 · 01"
+
+[node name="Speed" type="HBoxContainer" parent="Header/VBox/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Pause" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_PAUSE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "II"
+
+[node name="S1" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("speed_group")
+text = "1"
+
+[node name="S2" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "2"
+
+[node name="S3" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "3"
+
+[node name="Sep" type="VSeparator" parent="Header/VBox/Row"]
+layout_mode = 2
+
+[node name="Views" type="HBoxContainer" parent="Header/VBox/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="ViewAll" type="Button" parent="Header/VBox/Row/Views"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("view_group")
+text = "TY_OPS_VIEW_ALL"
+
+[node name="ViewEarth" type="Button" parent="Header/VBox/Row/Views"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("view_group")
+text = "TY_OPS_VIEW_EARTH"
+
+[node name="ViewMoon" type="Button" parent="Header/VBox/Row/Views"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("view_group")
+text = "TY_OPS_VIEW_MOON"
+
+[node name="ViewComet" type="Button" parent="Header/VBox/Row/Views"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("view_group")
+text = "TY_OPS_VIEW_COMET"
+
+[node name="Spacer" type="Control" parent="Header/VBox/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Back" type="Button" parent="Header/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Esc"
+focus_mode = 0
+text = "TY_OPS_BACK"
+
+[node name="Notes" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 22.0
+offset_top = 116.0
+offset_right = 790.0
+offset_bottom = 156.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="ScaleNote" type="Label" parent="Notes"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_SCALE_NOTE"
+
+[node name="Help" type="Label" parent="Notes"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.8118, 0.7647, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_HELP"
+
+[node name="Network" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -292.0
+offset_right = 356.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Network"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Network/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_NETWORK"
+
+[node name="NetLevel" type="Label" parent="Network/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Nível 1 · Estação terrestre"
+
+[node name="NetLevelBar" type="Control" parent="Network/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("15_seg")
+value = 0.333
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 3
+gap = 3.0
+
+[node name="Sep" type="HSeparator" parent="Network/VBox"]
+layout_mode = 2
+
+[node name="RowLEO" type="HBoxContainer" parent="Network/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Network/VBox/RowLEO"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_NET_LEO"
+
+[node name="Bar" type="Control" parent="Network/VBox/RowLEO"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 18
+
+[node name="Value" type="Label" parent="Network/VBox/RowLEO"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+horizontal_alignment = 2
+text = "6.4 Gb/sem"
+
+[node name="RowGEO" type="HBoxContainer" parent="Network/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Network/VBox/RowGEO"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_NET_GEO"
+
+[node name="Bar" type="Control" parent="Network/VBox/RowGEO"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 18
+
+[node name="Value" type="Label" parent="Network/VBox/RowGEO"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+horizontal_alignment = 2
+text = "14.0 Gb/sem"
+
+[node name="RowMoon" type="HBoxContainer" parent="Network/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Network/VBox/RowMoon"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_NET_MOON"
+
+[node name="Bar" type="Control" parent="Network/VBox/RowMoon"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 18
+
+[node name="Value" type="Label" parent="Network/VBox/RowMoon"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+horizontal_alignment = 2
+text = "1.4 Gb/sem"
+
+[node name="RowComet" type="HBoxContainer" parent="Network/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Network/VBox/RowComet"]
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_NET_COMET"
+
+[node name="Bar" type="Control" parent="Network/VBox/RowComet"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(1, 0.5608, 0.3137, 1)
+segments = 18
+
+[node name="Value" type="Label" parent="Network/VBox/RowComet"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+horizontal_alignment = 2
+text = "0.2 Gb/sem"
+
+[node name="NetNext" type="Label" parent="Network/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 13
+text = "Próximo nível"
+autowrap_mode = 3
+
+[node name="Sep2" type="HSeparator" parent="Network/VBox"]
+layout_mode = 2
+
+[node name="Legend" type="HBoxContainer" parent="Network/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Swatch" type="ColorRect" parent="Network/VBox/Legend"]
+custom_minimum_size = Vector2(18, 3)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.247, 0.878, 0.773, 1)
+
+[node name="Text" type="Label" parent="Network/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_COVERAGE"
+
+[node name="NetTip" type="Label" parent="Network/VBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_NET_TIP"
+autowrap_mode = 3
+
+[node name="Missions" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -404.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Missions"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Missions/VBox"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Missions/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_ACTIVE"
+
+[node name="Count" type="Label" parent="Missions/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "0"
+
+[node name="Sep" type="HSeparator" parent="Missions/VBox"]
+layout_mode = 2
+
+[node name="Empty" type="VBoxContainer" parent="Missions/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Text" type="Label" parent="Missions/VBox/Empty"]
+layout_mode = 2
+text = "TY_OPS_NONE"
+
+[node name="Hint" type="Label" parent="Missions/VBox/Empty"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_OPS_NONE_HINT"
+autowrap_mode = 3
+
+[node name="FlowSep" type="HSeparator" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="FlowTitle" type="Label" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 1)
+text = "TY_OPS_FLOW_TITLE"
+
+[node name="Step1" type="HBoxContainer" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Index" type="Label" parent="Missions/VBox/Empty/Step1"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "1"
+
+[node name="Text" type="Label" parent="Missions/VBox/Empty/Step1"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_FLOW_1"
+autowrap_mode = 3
+
+[node name="Step2" type="HBoxContainer" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Index" type="Label" parent="Missions/VBox/Empty/Step2"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "2"
+
+[node name="Text" type="Label" parent="Missions/VBox/Empty/Step2"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_FLOW_2"
+autowrap_mode = 3
+
+[node name="Step3" type="HBoxContainer" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Index" type="Label" parent="Missions/VBox/Empty/Step3"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "3"
+
+[node name="Text" type="Label" parent="Missions/VBox/Empty/Step3"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_FLOW_3"
+autowrap_mode = 3
+
+[node name="Step4" type="HBoxContainer" parent="Missions/VBox/Empty"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Index" type="Label" parent="Missions/VBox/Empty/Step4"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+text = "4"
+
+[node name="Text" type="Label" parent="Missions/VBox/Empty/Step4"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_OPS_FLOW_4"
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Missions/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Cards" type="VBoxContainer" parent="Missions/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="CardTemplate" type="PanelContainer" parent="Missions/VBox/Scroll/Cards"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"CwStrip"
+
+[node name="VBox" type="VBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 5
+
+[node name="Head" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 8
+
+[node name="Code" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 15
+text = "ORB-01"
+
+[node name="Type" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Orbitador"
+clip_text = true
+
+[node name="Status" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "OPERAÇÃO"
+
+[node name="Target" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Órbita lunar · 384 400 km"
+
+[node name="Phase" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 10
+
+[node name="Bar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Phase"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 26
+gap = 2.0
+
+[node name="Weeks" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Phase"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "sem 3/15"
+
+[node name="Data" type="GridContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 3
+columns = 3
+
+[node name="StoredCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_STORED"
+
+[node name="StoredBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.3098, 0.6627, 0.9412, 1)
+segments = 16
+
+[node name="StoredVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+custom_minimum_size = Vector2(104, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "12 / 40 Gb"
+
+[node name="DownCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_DOWN"
+
+[node name="DownBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 16
+
+[node name="DownVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "48 Gb · 72%"
+
+[node name="HealthCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_HEALTH"
+
+[node name="HealthBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.2706, 0.8, 0.5098, 1)
+segments = 16
+
+[node name="HealthVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "100%"
+
+[node name="Foot" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 8
+
+[node name="SciCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_OPS_SCIENCE"
+
+[node name="Science" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 15
+text = "12.4"
+
+[node name="Link" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "em contato"
+
+[node name="Decision" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -416.0
+offset_top = -262.0
+offset_right = 148.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Decision"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="DecCaption" type="Label" parent="Decision/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+text = "DECISÃO DE OPERAÇÃO · ORB-01"
+
+[node name="DecTitle" type="Label" parent="Decision/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "Gravador quase cheio"
+
+[node name="DecText" type="Label" parent="Decision/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(530, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_font_sizes/font_size = 13
+text = "O gravador enche mais rápido do que o solo consegue baixar."
+autowrap_mode = 3
+
+[node name="Choices" type="VBoxContainer" parent="Decision/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ChoiceTemplate" type="Button" parent="Decision/VBox/Choices"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+focus_mode = 0
+
+[node name="HBox" type="HBoxContainer" parent="Decision/VBox/Choices/ChoiceTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_right = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Index" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox"]
+custom_minimum_size = Vector2(14, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+text = "1"
+
+[node name="Text" type="VBoxContainer" parent="Decision/VBox/Choices/ChoiceTemplate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox/Text"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Comprimir os dados"
+
+[node name="Fx" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox/Text"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "+50% de gravador"
+
+[node name="Risk" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "sem risco"
+
+[node name="Foot" type="HBoxContainer" parent="Decision/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DecTimer" type="Label" parent="Decision/VBox/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Sem resposta em 3 sem"
+
+[node name="DecLater" type="Button" parent="Decision/VBox/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "TY_OPS_LATER"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../View")
+panel = NodePath("../Header")
+extra = Array[NodePath]([NodePath("../Missions"), NodePath("../Network"), NodePath("../Notes")])
+slide = Vector2(0, -14)
+from_scale = Vector2(1, 1)
+extra_slide = Vector2(18, 0)
+backdrop_seconds = 0.35
+extra_step = 0.07
+
+[node name="CwCards" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Missions/VBox/Scroll/Cards")
+offset = Vector2(16, 0)
+delay = 0.25
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwChoices" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Decision/VBox/Choices")
+offset = Vector2(0, 8)
+delay = 0.12
+step = 0.05
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwPop" type="Node" parent="Decision"]
+script = ExtResource("cwm_appear")
+on_ready = false
+on_visible = true
+offset = Vector2(0, 16)
+from_scale = Vector2(0.92, 0.92)
+pivot = Vector2(0.5, 1)
+seconds = 0.34
+curve = 2
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

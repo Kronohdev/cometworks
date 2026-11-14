@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/cutscenes/cutscene.tscn" id="1_base"]
+
+[node name="OpeningShort" instance=ExtResource("1_base")]
+shots = PackedStringArray("res://scenes/cutscenes/shots/opening_02_flakes.tscn", "res://scenes/cutscenes/shots/opening_04_promise.tscn", "res://scenes/cutscenes/shots/opening_06_founding.tscn")
+shot_animation = &"short"
+music = &"music_menu"

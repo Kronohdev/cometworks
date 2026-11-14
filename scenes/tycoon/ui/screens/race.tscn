@@ -1,0 +1,714 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/race_screen.gd" id="2_script"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_race_track.gd" id="3_track"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_marker.gd" id="4_marker"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/race.svg" id="5_race"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_bar_grow.gd" id="cwm_grow"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[sub_resource type="StyleBoxFlat" id="tag_style"]
+content_margin_left = 5.0
+content_margin_top = 1.0
+content_margin_right = 5.0
+content_margin_bottom = 1.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = true
+[sub_resource type="StyleBoxEmpty" id="hit_empty"]
+
+[node name="RaceScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 86.0
+offset_top = 88.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Head"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_race")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+text = "TY_RACE_SCREEN_TITLE"
+
+[node name="Sub" type="Label" parent="Panel/Margin/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_RACE_SCREEN_SUB"
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Legend" type="HBoxContainer" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+
+[node name="First" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+fill = Color(0.749, 0.9098, 1, 1)
+outline = Color(0.1686, 0.1647, 0.3608, 1)
+radius = 6.0
+
+[node name="FirstText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_FIRST"
+
+[node name="Gap" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Later" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+fill = Color(0.749, 0.9098, 1, 0.35)
+outline = Color(0.1843, 0.4706, 0.8, 1)
+radius = 4.5
+
+[node name="LaterText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_LATER"
+
+[node name="Gap2" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Next" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+outline = Color(0.549, 0.5373, 0.702, 1)
+radius = 4.0
+ring = true
+
+[node name="NextText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_NEXT"
+
+[node name="Sep" type="VSeparator" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+
+[node name="Comet" type="VBoxContainer" parent="Panel/Margin/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Head/Comet"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_COMET_IN"
+
+[node name="CometValue" type="Label" parent="Panel/Margin/VBox/Head/Comet"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "T− 18a 22s"
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_RACE_CLOSE"
+
+[node name="HSep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Track" type="Control" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 272)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_track")
+
+[node name="HomeLabel" type="Label" parent="Panel/Margin/VBox/Track"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 238.0
+offset_right = 160.0
+offset_bottom = 254.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.75)
+text = "TY_RACE_HOME"
+
+[node name="MoonLabel" type="Label" parent="Panel/Margin/VBox/Track"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 700.0
+offset_top = 240.0
+offset_right = 800.0
+offset_bottom = 256.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 0.8)
+text = "TY_RACE_MOON"
+horizontal_alignment = 1
+
+[node name="CometLabel" type="Label" parent="Panel/Margin/VBox/Track"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 100.0
+offset_right = 1420.0
+offset_bottom = 116.0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.85)
+text = "TY_RACE_COMET"
+horizontal_alignment = 2
+
+[node name="Eras" type="Control" parent="Panel/Margin/VBox/Track"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="EraTemplate" type="Label" parent="Panel/Margin/VBox/Track/Eras"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 16.0
+theme_type_variation = &"CwCaps"
+text = "Era 1 · Galpão"
+horizontal_alignment = 1
+
+[node name="Stations" type="Control" parent="Panel/Margin/VBox/Track"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StationTemplate" type="Control" parent="Panel/Margin/VBox/Track/Stations"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[node name="Marker" type="Control" parent="Panel/Margin/VBox/Track/Stations/StationTemplate"]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+mouse_filter = 2
+script = ExtResource("4_marker")
+radius = 7.0
+
+[node name="Info" type="VBoxContainer" parent="Panel/Margin/VBox/Track/Stations/StationTemplate"]
+layout_mode = 0
+offset_left = -74.0
+offset_top = 16.0
+offset_right = 74.0
+offset_bottom = 82.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Num" type="Label" parent="Panel/Margin/VBox/Track/Stations/StationTemplate/Info"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.2902, 0.3451, 0.651, 1)
+theme_override_font_sizes/font_size = 12
+text = "01"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Track/Stations/StationTemplate/Info"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Suborbital flight"
+horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="First" type="Label" parent="Panel/Margin/VBox/Track/Stations/StationTemplate/Info"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "AR · A01"
+horizontal_alignment = 1
+
+[node name="Hit" type="Button" parent="Panel/Margin/VBox/Track/Stations/StationTemplate"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -48.0
+offset_right = 40.0
+offset_bottom = 48.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("hit_empty")
+theme_override_styles/hover = SubResource("hit_empty")
+theme_override_styles/pressed = SubResource("hit_empty")
+theme_override_styles/focus = SubResource("hit_empty")
+flat = true
+
+[node name="Lanes" type="VBoxContainer" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LaneTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Lanes"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="PanelContainer" parent="Panel/Margin/VBox/Lanes/LaneTemplate"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Head"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Emblem" type="TextureRect" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Head/HBox"]
+visible = false
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Head/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Cometworks"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Count" type="Label" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Head/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "3/15 · 1★"
+vertical_alignment = 1
+
+[node name="Cells" type="Control" parent="Panel/Margin/VBox/Lanes/LaneTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Rail" type="ColorRect" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 1.0
+mouse_filter = 2
+color = Color(0.1804, 0.2275, 0.4706, 1)
+
+[node name="Progress" type="ColorRect" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 2.0
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 0.55)
+
+[node name="CellTemplate" type="Control" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[node name="Marker" type="Control" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells/CellTemplate"]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -9.0
+offset_right = 9.0
+offset_bottom = 9.0
+mouse_filter = 2
+script = ExtResource("4_marker")
+radius = 5.0
+
+[node name="Year" type="Label" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells/CellTemplate"]
+layout_mode = 0
+offset_left = -18.0
+offset_top = 7.0
+offset_right = 18.0
+offset_bottom = 21.0
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "07"
+horizontal_alignment = 1
+
+[node name="Tag" type="PanelContainer" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("tag_style")
+
+[node name="Initials" type="Label" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells/Tag"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.03922, 0.05098, 0.149, 1)
+theme_override_font_sizes/font_size = 12
+text = "CW"
+horizontal_alignment = 1
+
+[node name="Bottom" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="Rivals" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_RIVALS"
+
+[node name="Cards" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CardTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 18
+text = "Aurora Rubra"
+
+[node name="Initials" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "AR"
+
+[node name="Pers" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_font_sizes/font_size = 13
+text = "Bold: launches early and takes risks"
+autowrap_mode = 3
+
+[node name="Grid" type="GridContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="StrCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "TY_RACE_STRENGTH"
+
+[node name="Str" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "First to the crewed milestones"
+autowrap_mode = 3
+
+[node name="WeakCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+text = "TY_RACE_WEAKNESS"
+
+[node name="Weak" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Fails often"
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+
+[node name="Now" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Now"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_NOW"
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Now"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Robotic landing"
+clip_text = true
+
+[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Motto" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Foot"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.7)
+theme_override_font_sizes/font_size = 13
+text = "Light it first, ask later."
+clip_text = true
+
+[node name="Setbacks" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Foot"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "SETBACKS 2"
+
+[node name="Detail" type="PanelContainer" parent="Panel/Margin/VBox/Bottom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DNum" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 32
+text = "08"
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="DEra" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Era 3 · Lua robótica"
+
+[node name="DName" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "First robotic landing"
+
+[node name="DReward" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "500 000 cr · reputation +8 · hype +20"
+
+[node name="HowCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_HOW"
+
+[node name="DHow" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Complete: Lander / Rover → Lunar surface / Lunar pole (partial success or better)"
+autowrap_mode = 3
+
+[node name="DExpect" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Rivals expected in years 11–16"
+
+[node name="WhoCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_WHO"
+
+[node name="Claims" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ClaimTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Marker" type="Control" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+radius = 5.0
+
+[node name="Order" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "1º"
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Aurora Rubra"
+
+[node name="When" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "Year 12 · week 30"
+
+[node name="DNobody" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_NOBODY"
+autowrap_mode = 3
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+panel = NodePath("../Panel")
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwLanes" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Lanes")
+offset = Vector2(-16, 0)
+delay = 0.25
+step = 0.06
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwRivals" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Bottom/Rivals/Cards")
+offset = Vector2(0, 10)
+delay = 0.35
+step = 0.06
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwGrow" type="Node" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells/Progress"]
+script = ExtResource("cwm_grow")
+delay = 0.35
+index_delay = 0.08
+index_depth = 2
+seconds = 0.8
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

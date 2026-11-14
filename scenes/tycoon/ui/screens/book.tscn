@@ -1,0 +1,462 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_book_screen.gd" id="1_book"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[sub_resource type="ButtonGroup" id="tabs"]
+
+[node name="OpsBook" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_book")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Frame" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="VBox" type="VBoxContainer" parent="Frame"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Frame/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Caption" type="Label" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "TY_BOOK_CAPTION"
+
+[node name="Title" type="Label" parent="Frame/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_BOOK_TITLE"
+
+[node name="Spacer" type="Control" parent="Frame/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TabMissions" type="Button" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("tabs")
+text = "TY_BOOK_TAB_MISSIONS"
+
+[node name="TabCards" type="Button" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("tabs")
+text = "TY_BOOK_TAB_CARDS"
+
+[node name="Sep" type="VSeparator" parent="Frame/VBox/Head"]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Esc"
+focus_mode = 0
+text = "TY_OPS_BACK"
+
+[node name="HSep" type="HSeparator" parent="Frame/VBox"]
+layout_mode = 2
+
+[node name="MissionsPage" type="VBoxContainer" parent="Frame/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Stats" type="HBoxContainer" parent="Frame/VBox/MissionsPage"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Flown" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/MissionsPage/Stats/Flown"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_FLOWN"
+
+[node name="StatFlown" type="Label" parent="Frame/VBox/MissionsPage/Stats/Flown"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="Success" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/MissionsPage/Stats/Success"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_SUCCESS"
+
+[node name="StatSuccess" type="Label" parent="Frame/VBox/MissionsPage/Stats/Success"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.357, 0.839, 0.557, 1)
+theme_override_font_sizes/font_size = 28
+text = "—"
+
+[node name="Science" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/MissionsPage/Stats/Science"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_SCIENCE"
+
+[node name="StatScience" type="Label" parent="Frame/VBox/MissionsPage/Stats/Science"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 28
+text = "0"
+
+[node name="Data" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/MissionsPage/Stats/Data"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_DATA"
+
+[node name="StatData" type="Label" parent="Frame/VBox/MissionsPage/Stats/Data"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_font_sizes/font_size = 28
+text = "0 Gb"
+
+[node name="ColumnHead" type="HBoxContainer" parent="Frame/VBox/MissionsPage"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Pad" type="Control" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Mission" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_COL_MISSION"
+
+[node name="Dates" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_COL_DATES"
+
+[node name="Result" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_COL_RESULT"
+
+[node name="Grade" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_GRADE"
+
+[node name="Science" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_SCIENCE"
+
+[node name="Return" type="Label" parent="Frame/VBox/MissionsPage/ColumnHead"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BOOK_RETURN"
+
+[node name="Empty" type="VBoxContainer" parent="Frame/VBox/MissionsPage"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Text" type="Label" parent="Frame/VBox/MissionsPage/Empty"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "TY_BOOK_EMPTY"
+
+[node name="Hint" type="Label" parent="Frame/VBox/MissionsPage/Empty"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_BOOK_EMPTY_HINT"
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/MissionsPage"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="RowTemplate" type="PanelContainer" parent="Frame/VBox/MissionsPage/Scroll/Rows"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="HBox" type="HBoxContainer" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Mission" type="VBoxContainer" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Code" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox/Mission"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 15
+text = "DEM-01"
+
+[node name="Type" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox/Mission"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Satélite de demonstração · Órbita baixa"
+clip_text = true
+
+[node name="Dates" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "A03 S02 → A03 S14"
+
+[node name="Result" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "SUCESSO"
+
+[node name="Grade" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "7.5"
+
+[node name="Science" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "26.4"
+
+[node name="Return" type="HBoxContainer" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Bar" type="Control" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox/Return"]
+custom_minimum_size = Vector2(110, 6)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 12
+
+[node name="Pct" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox/Return"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "100%"
+
+[node name="Lesson" type="Label" parent="Frame/VBox/MissionsPage/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "100% dos dados chegaram ao solo."
+autowrap_mode = 3
+
+[node name="CardsPage" type="VBoxContainer" parent="Frame/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Info" type="HBoxContainer" parent="Frame/VBox/CardsPage"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardCount" type="Label" parent="Frame/VBox/CardsPage/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "0 de 16 fichas"
+
+[node name="Note" type="Label" parent="Frame/VBox/CardsPage/Info"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwDim"
+text = "TY_BOOK_CARDS_NOTE"
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/CardsPage"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Frame/VBox/CardsPage/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 3
+
+[node name="CardTemplate" type="PanelContainer" parent="Frame/VBox/CardsPage/Scroll/Grid"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 196)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Top" type="HBoxContainer" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox"]
+layout_mode = 2
+
+[node name="Year" type="Label" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+text = "1957"
+
+[node name="Tag" type="Label" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox/Top"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "SATÉLITE"
+
+[node name="Title" type="Label" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "Sputnik 1"
+
+[node name="Fact" type="Label" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+text = "Fato"
+autowrap_mode = 3
+
+[node name="Source" type="LinkButton" parent="Frame/VBox/CardsPage/Scroll/Grid/CardTemplate/VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_colors/font_hover_color = Color(0.1843, 0.4706, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "Fonte: nasa.gov"
+underline = 1
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Backdrop")
+panel = NodePath("../Frame")
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwRows" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/MissionsPage/Scroll/Rows")
+offset = Vector2(0, 8)
+delay = 0.16
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwCards" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/CardsPage/Scroll/Grid")
+offset = Vector2(0, 8)
+delay = 0.16
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+on_visible = true
+from_scale = Vector2(0.96, 0.96)
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

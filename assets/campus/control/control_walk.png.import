@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://crj8a2a1d6b4d"
+path="res://.godot/imported/control_walk.png-904fa7eeee93af00f8c52f50a8b85650.image"
+
+[deps]
+
+source_file="res://assets/campus/control/control_walk.png"
+dest_files=["res://.godot/imported/control_walk.png-904fa7eeee93af00f8c52f50a8b85650.image"]
+
+[params]
+

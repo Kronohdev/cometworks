@@ -65,6 +65,7 @@ const LOOSE_TINT := preload("res://scenes/hangar/loose_part.tres")
 ## Height of the bottom of a loaded vessel (and of the first part) above the pad (m).
 const BUILD_CLEARANCE := 3.0
 const SAVE_LOOSE_PATH := "user://vessel_loose.tscn"
+const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 
 ## Top of the launch pad in the hangar environment; the vessel stands on it.
 @export var pad_top_y := 0.62
@@ -173,6 +174,7 @@ func _ready() -> void:
 	if crew_panel and crew_panel.has_method("set_vessel"):
 		crew_panel.set_vessel(vessel)
 	ui.launch_pressed.connect(launch)
+	ui.menu_pressed.connect(back_to_menu)
 	if FlightSession.has_vessel():
 		vessel.load_scene(FlightSession.vessel_scene)
 		_place_in_air()
@@ -267,7 +269,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				_cycle_symmetry()
 			KEY_C:
 				_toggle_angle_snap()
-			KEY_ESCAPE, KEY_DELETE, KEY_BACKSPACE:
+			KEY_ESCAPE:
+				# Esc lets go of the part in hand first; with empty hands it leaves the hangar
+				if held:
+					_drop_held()
+				else:
+					back_to_menu()
+			KEY_DELETE, KEY_BACKSPACE:
 				_drop_held()
 			KEY_F:
 				cam.frame(vessel.bounds())
@@ -904,6 +912,11 @@ func launch() -> void:
 
 
 # ------------------------------------------------------------ save / load / examples
+## Back to the main menu (the Menu button, or Esc with nothing in hand).
+func back_to_menu() -> void:
+	get_tree().change_scene_to_file(MAIN_MENU)
+
+
 func save_vessel() -> void:
 	var ps := vessel.to_packed_scene()
 	if ps and ResourceSaver.save(ps, SAVE_PATH) == OK:

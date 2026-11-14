@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/core/cw_outline.gd" id="1_script"]
+[ext_resource type="Material" path="res://scenes/fx/cw_outline_material.tres" id="2_mat"]
+
+[sub_resource type="QuadMesh" id="quad"]
+size = Vector2(2, 2)
+
+[node name="CwOutline" type="MeshInstance3D"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+gi_mode = 0
+mesh = SubResource("quad")
+surface_material_override/0 = ExtResource("2_mat")
+script = ExtResource("1_script")

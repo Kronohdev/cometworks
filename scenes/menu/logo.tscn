@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" path="res://ui/menu/logo_star.svg" id="1_star"]
 [ext_resource type="Shader" path="res://shaders/menu_aurora_line.gdshader" id="2_line"]
 [ext_resource type="FontFile" path="res://ui/fonts/bricolage_grotesque/BricolageGrotesque-Variable.ttf" id="3_bri"]
-[ext_resource type="FontFile" path="res://ui/fonts/atkinson_hyperlegible/AtkinsonHyperlegible-Bold.ttf" id="4_atk_b"]
+[ext_resource type="FontFile" path="res://ui/fonts/fredoka/Fredoka-Variable.ttf" id="4_fredoka"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_button_style.gd" id="5_btn"]
 
 [sub_resource type="FontVariation" id="f_logo"]
 base_font = ExtResource("3_bri")
@@ -15,8 +16,28 @@ variation_opentype = {
 spacing_glyph = 5
 
 [sub_resource type="FontVariation" id="f_tag"]
-base_font = ExtResource("4_atk_b")
-spacing_glyph = 4
+base_font = ExtResource("4_fredoka")
+variation_opentype = {
+2003265652: 600
+}
+
+[sub_resource type="StyleBox" id="tag_pill"]
+script = ExtResource("5_btn")
+face_top = Color(1, 0.8902, 0.5412, 1)
+face_bottom = Color(1, 0.8118, 0.3216, 1)
+lip_color = Color(0.8431, 0.6039, 0.1098, 1)
+lip = 4.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 2.5
+outline_body = true
+gloss_color = Color(1, 1, 1, 0)
+shine_color = Color(1, 1, 1, 0.85)
+corner_radius = 99.0
+shadow_color = Color(0.1, 0.09, 0.27, 0.35)
+shadow_offset = Vector2(0, 4)
+shadow_size = 6
+padding = Vector4(20, 4, 22, 9)
+
 
 [sub_resource type="Gradient" id="halo_grad"]
 offsets = PackedFloat32Array(0, 0.25, 1)
@@ -196,6 +217,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.85), Color(1, 1, 1, 0.6)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Word/StarSlot/Mark:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.06, 1.06), Vector2(1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="anims"]
 _data = {
@@ -278,14 +311,16 @@ vertical_alignment = 1
 
 [node name="Tagline" type="Label" parent="."]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 136.0
-offset_right = 706.0
-offset_bottom = 160.0
+offset_left = 10.0
+offset_top = 138.0
+offset_right = 30.0
+offset_bottom = 172.0
+rotation = -0.035
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.85)
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
 theme_override_fonts/font = SubResource("f_tag")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("tag_pill")
 text = "MENU_TAGLINE"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

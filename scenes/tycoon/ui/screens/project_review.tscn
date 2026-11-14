@@ -1,0 +1,993 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/project/project_review_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[node name="ProjectReview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -318.0
+offset_right = 640.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Mission review · SND-01"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "Sounding rocket · Suborbital"
+
+[node name="Badge" type="PanelContainer" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwBadge"
+
+[node name="Outcome" type="Label" parent="Panel/Margin/VBox/Header/Badge"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_font_sizes/font_size = 16
+text = "Full success"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GradeCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PJ_GRADE"
+
+[node name="GradeRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Grade" type="Label" parent="Panel/Margin/VBox/Body/Left/GradeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 80
+text = "8.4"
+
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Left/GradeRow"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 22
+text = "/10"
+
+[node name="BarsCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_BARS"
+
+[node name="BarEng" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_ENG"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.8
+segments = 10
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "8.0"
+horizontal_alignment = 2
+
+[node name="BarSci" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_SCI"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+color = Color(0.3098, 0.6627, 0.9412, 1)
+segments = 10
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "6.0"
+horizontal_alignment = 2
+
+[node name="BarOps" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_OPS"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.7
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 10
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "7.0"
+horizontal_alignment = 2
+
+[node name="BarRel" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_REL"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.9
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 10
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "9.0"
+horizontal_alignment = 2
+
+[node name="SepL" type="HSeparator" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+
+[node name="Facts" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Chance" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Facts"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Chance"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_P_SUCCESS"
+
+[node name="ChanceValue" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Chance"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "74%"
+
+[node name="Defects" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Facts"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Defects"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_DEFECTS"
+
+[node name="DefectsValue" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Defects"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "0.4"
+
+[node name="RocketLine" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Rocket Andorinha"
+autowrap_mode = 3
+
+[node name="CauseLine" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_colors/font_color = Color(1, 0.7647059, 0.5137255, 1)
+theme_override_font_sizes/font_size = 16
+text = "Cause: stage 2 failure"
+autowrap_mode = 3
+
+[node name="Novelty" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "TY_PJ_NOVELTY"
+autowrap_mode = 3
+
+[node name="SepV" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PJ_PRESS"
+
+[node name="AvgCaption" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_AVG"
+
+[node name="Avg" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 26
+text = "7.3"
+
+[node name="Papers" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Card0" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 12.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.017
+pivot_offset = Vector2(100, 150)
+mouse_filter = 2
+
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPaper"
+
+[node name="Paper0" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "The Tail Echo"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+text = "popular"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 1)
+
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 48
+text = "8"
+
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+theme_override_font_sizes/font_size = 16
+text = "/10"
+
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 0.45)
+
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+text = "“Whole burrows stayed up to watch it.”"
+autowrap_mode = 3
+
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = 10.0
+grow_horizontal = 2
+rotation = 0.05
+pivot_offset = Vector2(36, 10)
+mouse_filter = 2
+color = Color(0.9412, 0.9098, 0.7922, 0.62)
+
+[node name="Card1" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 12.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.012
+pivot_offset = Vector2(100, 150)
+mouse_filter = 2
+
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPaper"
+
+[node name="Paper1" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "Orbit Magazine"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+text = "technical"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 1)
+
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 48
+text = "7"
+
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+theme_override_font_sizes/font_size = 16
+text = "/10"
+
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 0.45)
+
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+text = "“Solid engineering.”"
+autowrap_mode = 3
+
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = 10.0
+grow_horizontal = 2
+rotation = -0.04
+pivot_offset = Vector2(36, 10)
+mouse_filter = 2
+color = Color(0.9412, 0.9098, 0.7922, 0.62)
+
+[node name="Card2" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 12.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.008
+pivot_offset = Vector2(100, 150)
+mouse_filter = 2
+
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPaper"
+
+[node name="Paper2" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "Coma Bulletin"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+text = "scientific"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 1)
+
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 48
+text = "6"
+
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+theme_override_font_sizes/font_size = 16
+text = "/10"
+
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 0.45)
+
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+text = "“Useful data, if modest.”"
+autowrap_mode = 3
+
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = 10.0
+grow_horizontal = 2
+rotation = 0.03
+pivot_offset = Vector2(36, 10)
+mouse_filter = 2
+color = Color(0.9412, 0.9098, 0.7922, 0.62)
+
+[node name="Card3" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 12.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.019
+pivot_offset = Vector2(100, 150)
+mouse_filter = 2
+
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwPaper"
+
+[node name="Paper3" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "The Taxpayer's Sheet"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+text = "public money"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 1)
+
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
+theme_override_font_sizes/font_size = 48
+text = "5"
+
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
+theme_override_font_sizes/font_size = 16
+text = "/10"
+
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.149, 0.1843, 0.4, 0.45)
+
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+text = "“Not cheap, not wasteful.”"
+autowrap_mode = 3
+
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = 10.0
+grow_horizontal = 2
+rotation = -0.06
+pivot_offset = Vector2(36, 10)
+mouse_filter = 2
+color = Color(0.9412, 0.9098, 0.7922, 0.62)
+
+[node name="Results" type="PanelContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Results"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PJ_REWARDS"
+vertical_alignment = 1
+
+[node name="Sep0" type="VSeparator" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+
+[node name="Cash" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Cash"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_CASH"
+
+[node name="RwCash" type="Label" parent="Panel/Margin/VBox/Results/HBox/Cash"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "—"
+
+[node name="Rep" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Rep"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_REP"
+
+[node name="RwRep" type="Label" parent="Panel/Margin/VBox/Results/HBox/Rep"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+2.3"
+
+[node name="Hype" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Hype"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_HYPE"
+
+[node name="RwHype" type="Label" parent="Panel/Margin/VBox/Results/HBox/Hype"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+10.6"
+
+[node name="Research" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Research"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_RESEARCH"
+
+[node name="RwResearch" type="Label" parent="Panel/Margin/VBox/Results/HBox/Research"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+4.1"
+
+[node name="Xp" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Xp"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_XP"
+
+[node name="RwXp" type="Label" parent="Panel/Margin/VBox/Results/HBox/Xp"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+48"
+
+[node name="Cost" type="VBoxContainer" parent="Panel/Margin/VBox/Results/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Results/HBox/Cost"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PJ_RW_COST"
+
+[node name="RwCost" type="Label" parent="Panel/Margin/VBox/Results/HBox/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "39 000 cr"
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="InOrbit" type="Label" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+text = "TY_PJ_IN_ORBIT"
+vertical_alignment = 1
+
+[node name="Back" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_PJ_BACK"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+overshoot = true
+from_scale = Vector2(0.94, 0.94)
+in_seconds = 0.32
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.12
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.02, 1.02)
+glow = 1.08
+sweep_on_focus = true

@@ -1,0 +1,804 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_shot.gd" id="1_shot"]
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="sky"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="PackedScene" path="res://scenes/examples/andorinha.tscn" id="rocket"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="glow"]
+[ext_resource type="PackedScene" path="res://scenes/flight/engine_plume.tscn" id="plume"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("sky")
+shader_parameter/zenith_color = Color(0.02, 0.035, 0.1, 1)
+shader_parameter/mid_color = Color(0.1, 0.11, 0.27, 1)
+shader_parameter/horizon_color = Color(0.55, 0.32, 0.42, 1)
+shader_parameter/ground_color = Color(0.02, 0.025, 0.04, 1)
+shader_parameter/horizon_height = 0.18
+shader_parameter/sun_dir = Vector3(-0.7501, 0.04, -0.6601)
+shader_parameter/glow_color = Color(1, 0.5, 0.24, 1)
+shader_parameter/glow_strength = 1.2
+shader_parameter/glow_width = 0.18
+shader_parameter/star_brightness = 1.2
+shader_parameter/star_horizon = 0.15
+shader_parameter/comet_enabled = true
+shader_parameter/comet_dir = Vector3(0.3006, 0.501, -0.8116)
+shader_parameter/comet_tail_dir = Vector3(0.8296, 0.5185, 0.2074)
+shader_parameter/comet_length = 0.3
+shader_parameter/comet_width = 0.008
+shader_parameter/comet_curve = 0.8
+shader_parameter/comet_brightness = 1.4
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.32, 0.38, 0.62, 1)
+ambient_light_energy = 0.45
+tonemap_mode = 4
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.5
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 0.95
+fog_enabled = true
+fog_light_color = Color(0.25, 0.24, 0.38, 1)
+fog_density = 0.004
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="StandardMaterial3D" id="grass"]
+albedo_color = Color(0.12, 0.24, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="berm"]
+albedo_color = Color(0.1, 0.2, 0.18, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="concrete"]
+albedo_color = Color(0.4, 0.4, 0.43, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="tower"]
+albedo_color = Color(0.75, 0.22, 0.16, 1)
+roughness = 0.6
+metallic = 0.3
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.3, 0.33, 0.4, 1)
+roughness = 0.5
+metallic = 0.5
+
+[sub_resource type="StandardMaterial3D" id="beacon"]
+albedo_color = Color(1, 0.2, 0.15, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.15, 0.1, 1)
+emission_energy_multiplier = 6.0
+
+[sub_resource type="StandardMaterial3D" id="hill"]
+albedo_color = Color(0.05, 0.08, 0.14, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="fence_light"]
+albedo_color = Color(1, 0.85, 0.55, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.75, 0.4, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="ground"]
+size = Vector3(160, 1, 160)
+
+[sub_resource type="BoxMesh" id="berm_box"]
+size = Vector3(16, 0.6, 5)
+
+[sub_resource type="BoxMesh" id="deck"]
+size = Vector3(12, 1.6, 12)
+
+[sub_resource type="BoxMesh" id="col"]
+size = Vector3(0.35, 26, 0.35)
+
+[sub_resource type="BoxMesh" id="bar"]
+size = Vector3(2.6, 0.22, 0.22)
+
+[sub_resource type="BoxMesh" id="arm"]
+size = Vector3(4.2, 0.4, 0.5)
+
+[sub_resource type="BoxMesh" id="hill_box"]
+size = Vector3(60, 14, 16)
+
+[sub_resource type="BoxMesh" id="post"]
+size = Vector3(0.08, 0.9, 0.08)
+
+[sub_resource type="BoxMesh" id="beacon_box"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="SphereMesh" id="bulb_mesh"]
+radius = 0.06
+height = 0.12
+radial_segments = 8
+rings = 4
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="flare"]
+render_priority = 1
+shader = ExtResource("glow")
+shader_parameter/glow_color = Color(1, 0.66, 0.32, 1)
+shader_parameter/intensity = 2.6
+shader_parameter/core = 0.04
+shader_parameter/falloff = 4.0
+
+[sub_resource type="Gradient" id="smoke_ramp"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(1, 0.85, 0.7, 0, 1, 0.92, 0.86, 0.9, 0.82, 0.8, 0.84, 0.7, 0.7, 0.7, 0.76, 0)
+
+[sub_resource type="GradientTexture1D" id="smoke_ramp_tex"]
+gradient = SubResource("smoke_ramp")
+
+[sub_resource type="Curve" id="smoke_scale"]
+_data = [Vector2(0, 0.3), 0.0, 1.5, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="smoke_scale_tex"]
+curve = SubResource("smoke_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="smoke_process"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.5
+emission_ring_radius = 2.5
+emission_ring_inner_radius = 0.5
+direction = Vector3(1, 0.05, 0)
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 7.0
+initial_velocity_max = 13.0
+gravity = Vector3(0, 0.12, 0)
+damping_min = 2.0
+damping_max = 3.0
+scale_min = 3.0
+scale_max = 5.5
+scale_curve = SubResource("smoke_scale_tex")
+color_ramp = SubResource("smoke_ramp_tex")
+
+[sub_resource type="Gradient" id="puff_grad"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.55, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="puff_tex"]
+gradient = SubResource("puff_grad")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+width = 64
+height = 64
+
+[sub_resource type="StandardMaterial3D" id="smoke_mat"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("puff_tex")
+roughness = 1.0
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="smoke_quad"]
+material = SubResource("smoke_mat")
+size = Vector2(2, 2)
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 13
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.2, 13),
+"transitions": PackedFloat32Array(1, 2.6, 1),
+"update": 0,
+"values": [Vector3(2, 15.55, -42), Vector3(2, 15.55, -42), Vector3(2, 110.55, -42)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LaunchLight:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.4, 13),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 9.0, 6.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Rocket/Flare:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Smoke:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [false, true]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Rocket/Plume")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.75, "kerolox", 900000.0],
+"method": &"setup"
+}, {
+"args": [1.0, 1.0],
+"method": &"set_state"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CamPath/LookAt:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.2, 13),
+"transitions": PackedFloat32Array(1, 2.6, 1),
+"update": 0,
+"values": [Vector3(-4, 9, -42), Vector3(-4, 10, -42), Vector3(-4, 40, -42)]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Crowd/A")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 2.6, 2.65, 7.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["rocket", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["surprise", "cheer"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Crowd/B")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 4.6, 4.65, 9.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["heart", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["jump", "cheer"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Crowd/C")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 3.4, 3.45, 7.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["fire", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["surprise", "jump"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Crowd/D")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 5.6, 5.65, 10.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["star", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["cheer", "spin"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Crowd/E")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 2.4, 2.45, 6.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["exclaim", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["surprise", "cheer"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+tracks/11/type = "method"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Crowd/F")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 4, 4.05, 8.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [Vector3(2, 12, -42), 0.9],
+"method": &"look_at_point"
+}, {
+"args": ["sparkle", 2.2],
+"method": &"show_emote"
+}, {
+"args": [["cheer", "jump"]],
+"method": &"play_sequence"
+}, {
+"args": ["cheer"],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="ShotLaunch" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player", "watchers", "watch_target")]
+script = ExtResource("1_shot")
+duration = 13.0
+caption_key = "MENU_SHOT_LAUNCH"
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/Start"), NodePath("CamPath/End")]
+look_target = NodePath("CamPath/LookAt")
+animation_player = NodePath("AnimationPlayer")
+watchers = [NodePath("Crowd/A"), NodePath("Crowd/B"), NodePath("Crowd/C"), NodePath("Crowd/D"), NodePath("Crowd/E"), NodePath("Crowd/F")]
+watch_target = NodePath("Rocket/Watch")
+watch_weight = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Dusk" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.686, 0.183, -0.7042, 0, 0.9679, 0.2515, 0.7276, 0.1725, -0.664, 0, 0, 0)
+light_color = Color(0.85, 0.6, 0.62, 1)
+light_energy = 0.55
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8321, -0.3864, 0.398, 0, 0.7175, 0.6965, -0.5547, -0.5795, 0.597, 0, 0, 0)
+light_color = Color(0.55, 0.62, 1, 1)
+light_energy = 0.3
+
+[node name="LaunchLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.5, -39)
+light_color = Color(1, 0.62, 0.3, 1)
+light_energy = 0.0
+shadow_enabled = true
+omni_range = 75.0
+omni_attenuation = 0.9
+
+[node name="Site" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -40)
+mesh = SubResource("ground")
+surface_material_override/0 = SubResource("grass")
+
+[node name="Berm" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.3, 1.2)
+mesh = SubResource("berm_box")
+surface_material_override/0 = SubResource("berm")
+
+[node name="Deck" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.8, -42)
+mesh = SubResource("deck")
+surface_material_override/0 = SubResource("concrete")
+
+[node name="Col0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 14.6, -44.2)
+mesh = SubResource("col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="Col1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.4, 14.6, -44.2)
+mesh = SubResource("col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="Col2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 14.6, -41.8)
+mesh = SubResource("col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="Col3" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.4, 14.6, -41.8)
+mesh = SubResource("col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 3.1, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 4.7, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 6.3, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 7.9, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 9.5, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 11.1, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF3" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 12.7, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS3" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 14.3, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF4" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 15.9, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS4" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 17.5, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF5" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 19.1, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS5" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 20.7, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF6" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 22.3, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS6" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 23.9, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarF7" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 25.5, -41.8)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="BarS7" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 6, 27.1, -43)
+mesh = SubResource("bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="Arm" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 16.1, -43)
+mesh = SubResource("arm")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Beacon" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 27.8, -43)
+cast_shadow = 0
+mesh = SubResource("beacon_box")
+surface_material_override/0 = SubResource("beacon")
+
+[node name="Hill0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, -120)
+mesh = SubResource("hill_box")
+surface_material_override/0 = SubResource("hill")
+
+[node name="Hill1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 2, -135)
+mesh = SubResource("hill_box")
+surface_material_override/0 = SubResource("hill")
+
+[node name="Hill2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1.2, 0, 0, 0, 1, 0, 0, 0, 1, 75, 2, -110)
+mesh = SubResource("hill_box")
+surface_material_override/0 = SubResource("hill")
+
+[node name="Post0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight0" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight1" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight2" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post3" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight3" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post4" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight4" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post5" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight5" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post6" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight6" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post7" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight7" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Post8" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, 0.45, -1.4)
+mesh = SubResource("post")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PostLight8" type="MeshInstance3D" parent="Site"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, 0.95, -1.4)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("fence_light")
+
+[node name="Rocket" parent="." instance=ExtResource("rocket")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 15.55, -42)
+
+[node name="Watch" type="Marker3D" parent="Rocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+
+[node name="Plume" parent="Rocket" instance=ExtResource("plume")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.95, 0)
+light_energy = 8.0
+
+[node name="Flare" type="MeshInstance3D" parent="Rocket"]
+transform = Transform3D(4.5, 0, 0, 0, 4.5, 0, 0, 0, 4.5, 0, -15.15, 0)
+visible = false
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("flare")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.1, -42)
+emitting = false
+amount = 110
+lifetime = 7.0
+visibility_aabb = AABB(-40, -4, -40, 80, 30, 80)
+process_material = SubResource("smoke_process")
+draw_pass_1 = SubResource("smoke_quad")
+
+[node name="Crowd" type="Node3D" parent="."]
+
+[node name="A" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.9764, 0, 0.2159, 0, 1, 0, -0.2159, 0, -0.9764, -2.9, 0, 1.2)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 105
+start_action = "look_up"
+listen_to_events = false
+
+[node name="B" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.999, 0, -0.0448, 0, 1, 0, 0.0448, 0, -0.999, -2.05, 0, 0.6)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 106
+start_action = "look_up"
+listen_to_events = false
+
+[node name="C" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.984, 0, 0.178, 0, 1, 0, -0.178, 0, -0.984, -1.2, 0, 1.05)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 107
+start_action = "look_up"
+listen_to_events = false
+
+[node name="D" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.9964, 0, -0.0842, 0, 1, 0, 0.0842, 0, -0.9964, -0.35, 0, 0.45)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 108
+start_action = "look_up"
+listen_to_events = false
+
+[node name="E" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.9903, 0, 0.139, 0, 1, 0, -0.139, 0, -0.9903, 0.5, 0, 1.2)
+role = "ground"
+body_color = Color(1, 0.639, 0.639, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 109
+start_action = "look_up"
+listen_to_events = false
+
+[node name="F" parent="Crowd" instance=ExtResource("cr")]
+transform = Transform3D(-0.9923, 0, -0.124, 0, 1, 0, 0.124, 0, -0.9923, 1.35, 0, 0.6)
+role = "engineer"
+body_color = Color(1, 0.741, 0.478, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 110
+start_action = "look_up"
+listen_to_events = false
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="Start" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.95, 6.6)
+
+[node name="End" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.8, 5.4)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 9, -42)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.95, 6.6)
+fov = 50.0
+far = 600.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}

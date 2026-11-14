@@ -1,0 +1,144 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="1_theme"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_node.svg" id="2_node"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_prograde.svg" id="3_pro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_retrograde.svg" id="4_retro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_normal.svg" id="5_nor"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_antinormal.svg" id="6_anti"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_radial_out.svg" id="7_rout"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_radial_in.svg" id="8_rin"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_delete.svg" id="9_del"]
+
+[sub_resource type="StyleBoxFlat" id="tag"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0.0549, 0.0784, 0.1059, 0.86)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.6039, 0.2392, 0.6)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="NodeGizmo" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("1_theme")
+
+[node name="Pro" type="TextureRect" parent="."]
+self_modulate = Color(0.7882, 0.8275, 0.4157, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_pro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Retro" type="TextureRect" parent="."]
+self_modulate = Color(0.7882, 0.8275, 0.4157, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("4_retro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Normal" type="TextureRect" parent="."]
+self_modulate = Color(0.7098, 0.5647, 1, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("5_nor")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Anti" type="TextureRect" parent="."]
+self_modulate = Color(0.7098, 0.5647, 1, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("6_anti")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RadOut" type="TextureRect" parent="."]
+self_modulate = Color(0.3098, 0.8392, 0.6902, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("7_rout")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RadIn" type="TextureRect" parent="."]
+self_modulate = Color(0.3098, 0.8392, 0.6902, 1)
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("8_rin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Center" type="TextureRect" parent="."]
+self_modulate = Color(1, 0.6039, 0.2392, 1)
+layout_mode = 0
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+mouse_filter = 2
+texture = ExtResource("2_node")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Delete" type="TextureRect" parent="."]
+self_modulate = Color(1, 0.3725, 0.4275, 1)
+layout_mode = 0
+offset_left = 18.0
+offset_top = -34.0
+offset_right = 34.0
+offset_bottom = -18.0
+mouse_filter = 2
+texture = ExtResource("9_del")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Tag" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 14.0
+offset_right = 140.0
+offset_bottom = 34.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("tag")
+
+[node name="Text" type="Label" parent="Tag"]
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 12
+text = "Δv 845.2 m/s"

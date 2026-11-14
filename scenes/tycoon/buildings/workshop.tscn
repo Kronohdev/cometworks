@@ -1,0 +1,585 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/campus_building.gd" id="1_bld"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e1_l1.glb" id="m1"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/rocket_h.glb" id="m2"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/tank_s.glb" id="m3"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e1_l2.glb" id="m4"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/rocket_v.glb" id="m5"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e1_l3.glb" id="m6"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/tank_m.glb" id="m7"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e2_l1.glb" id="m8"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e2_l2.glb" id="m9"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e2_l3.glb" id="m10"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e3_l1.glb" id="m11"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e3_l2.glb" id="m12"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e3_l3.glb" id="m13"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e4_l1.glb" id="m14"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e4_l2.glb" id="m15"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e4_l3.glb" id="m16"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e5_l1.glb" id="m17"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e5_l2.glb" id="m18"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_e5_l3.glb" id="m19"]
+[ext_resource type="PackedScene" path="res://assets/campus/workshop/workshop_scaffold.glb" id="m20"]
+
+[node name="Workshop" type="Node3D"]
+script = ExtResource("1_bld")
+kind = "workshop"
+
+[node name="Era1" type="Node3D" parent="."]
+
+[node name="Level1" type="Node3D" parent="Era1"]
+
+[node name="Model" parent="Era1/Level1" instance=ExtResource("m1")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era1/Level1" instance=ExtResource("m2")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 0.050, -2.800)
+
+[node name="Prop2" parent="Era1/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 0.050, -3.800)
+
+[node name="Lights" type="Node3D" parent="Era1/Level1"]
+
+[node name="Light1" type="OmniLight3D" parent="Era1/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.000, -2.000)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 2.08
+light_specular = 0.3
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era1/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 3.200, -4.500)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light3" type="OmniLight3D" parent="Era1/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 5.000, 3.200, -4.500)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light4" type="OmniLight3D" parent="Era1/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.600, 5.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 1.20
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Light5" type="OmniLight3D" parent="Era1/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -8.300, 3.000, 4.800)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 0.80
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level2" type="Node3D" parent="Era1"]
+visible = false
+
+[node name="Model" parent="Era1/Level2" instance=ExtResource("m4")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era1/Level2" instance=ExtResource("m5")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 0.050, -3.600)
+
+[node name="Lights" type="Node3D" parent="Era1/Level2"]
+
+[node name="Light1" type="OmniLight3D" parent="Era1/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 10.000, -3.000)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 9.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era1/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 4.600, -1.000)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level3" type="Node3D" parent="Era1"]
+visible = false
+
+[node name="Model" parent="Era1/Level3" instance=ExtResource("m6")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era1/Level3" instance=ExtResource("m7")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 10.500, 0.050, -4.400)
+
+[node name="Lights" type="Node3D" parent="Era1/Level3"]
+
+[node name="Light1" type="OmniLight3D" parent="Era1/Level3/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 10.500, 4.400, -2.000)
+light_color = Color(1.0000, 0.7059, 0.4196, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Era2" type="Node3D" parent="."]
+visible = false
+
+[node name="Level1" type="Node3D" parent="Era2"]
+
+[node name="Model" parent="Era2/Level1" instance=ExtResource("m8")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era2/Level1" instance=ExtResource("m2")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 0.050, -2.800)
+
+[node name="Prop2" parent="Era2/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 0.050, -3.800)
+
+[node name="Lights" type="Node3D" parent="Era2/Level1"]
+
+[node name="Light1" type="OmniLight3D" parent="Era2/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.000, -2.000)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.95
+light_specular = 0.3
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era2/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 3.200, -4.500)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light3" type="OmniLight3D" parent="Era2/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 5.000, 3.200, -4.500)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light4" type="OmniLight3D" parent="Era2/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.600, 5.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 1.20
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Light5" type="OmniLight3D" parent="Era2/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -8.300, 3.000, 4.800)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 0.80
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level2" type="Node3D" parent="Era2"]
+visible = false
+
+[node name="Model" parent="Era2/Level2" instance=ExtResource("m9")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era2/Level2" instance=ExtResource("m5")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 0.050, -3.600)
+
+[node name="Lights" type="Node3D" parent="Era2/Level2"]
+
+[node name="Light1" type="OmniLight3D" parent="Era2/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 10.000, -3.000)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 9.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era2/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 4.600, -1.000)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level3" type="Node3D" parent="Era2"]
+visible = false
+
+[node name="Model" parent="Era2/Level3" instance=ExtResource("m10")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era2/Level3" instance=ExtResource("m7")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 10.500, 0.050, -4.400)
+
+[node name="Lights" type="Node3D" parent="Era2/Level3"]
+
+[node name="Light1" type="OmniLight3D" parent="Era2/Level3/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 10.500, 4.400, -2.000)
+light_color = Color(1.0000, 0.8118, 0.6039, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Era3" type="Node3D" parent="."]
+visible = false
+
+[node name="Level1" type="Node3D" parent="Era3"]
+
+[node name="Model" parent="Era3/Level1" instance=ExtResource("m11")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era3/Level1" instance=ExtResource("m2")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 0.050, -2.800)
+
+[node name="Prop2" parent="Era3/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 0.050, -3.800)
+
+[node name="Lights" type="Node3D" parent="Era3/Level1"]
+
+[node name="Light1" type="OmniLight3D" parent="Era3/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.000, -2.000)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.95
+light_specular = 0.3
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era3/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 3.200, -4.500)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light3" type="OmniLight3D" parent="Era3/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 5.000, 3.200, -4.500)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light4" type="OmniLight3D" parent="Era3/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.600, 5.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 1.20
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Light5" type="OmniLight3D" parent="Era3/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -8.300, 3.000, 4.800)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 0.80
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level2" type="Node3D" parent="Era3"]
+visible = false
+
+[node name="Model" parent="Era3/Level2" instance=ExtResource("m12")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era3/Level2" instance=ExtResource("m5")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 0.050, -3.600)
+
+[node name="Lights" type="Node3D" parent="Era3/Level2"]
+
+[node name="Light1" type="OmniLight3D" parent="Era3/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 10.000, -3.000)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 9.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era3/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 4.600, -1.000)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level3" type="Node3D" parent="Era3"]
+visible = false
+
+[node name="Model" parent="Era3/Level3" instance=ExtResource("m13")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era3/Level3" instance=ExtResource("m7")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 10.500, 0.050, -4.400)
+
+[node name="Lights" type="Node3D" parent="Era3/Level3"]
+
+[node name="Light1" type="OmniLight3D" parent="Era3/Level3/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 10.500, 4.400, -2.000)
+light_color = Color(0.9176, 0.9490, 1.0000, 1)
+light_energy = 1.50
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Era4" type="Node3D" parent="."]
+visible = false
+
+[node name="Level1" type="Node3D" parent="Era4"]
+
+[node name="Model" parent="Era4/Level1" instance=ExtResource("m14")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era4/Level1" instance=ExtResource("m2")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 0.050, -2.800)
+
+[node name="Prop2" parent="Era4/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 0.050, -3.800)
+
+[node name="Lights" type="Node3D" parent="Era4/Level1"]
+
+[node name="Light1" type="OmniLight3D" parent="Era4/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.000, -2.000)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 2.08
+light_specular = 0.3
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era4/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 3.200, -4.500)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light3" type="OmniLight3D" parent="Era4/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 5.000, 3.200, -4.500)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light4" type="OmniLight3D" parent="Era4/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.600, 5.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 1.20
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Light5" type="OmniLight3D" parent="Era4/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -8.300, 3.000, 4.800)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 0.80
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level2" type="Node3D" parent="Era4"]
+visible = false
+
+[node name="Model" parent="Era4/Level2" instance=ExtResource("m15")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era4/Level2" instance=ExtResource("m5")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 0.050, -3.600)
+
+[node name="Lights" type="Node3D" parent="Era4/Level2"]
+
+[node name="Light1" type="OmniLight3D" parent="Era4/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 10.000, -3.000)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 9.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era4/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 4.600, -1.000)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level3" type="Node3D" parent="Era4"]
+visible = false
+
+[node name="Model" parent="Era4/Level3" instance=ExtResource("m16")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era4/Level3" instance=ExtResource("m7")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 10.500, 0.050, -4.400)
+
+[node name="Lights" type="Node3D" parent="Era4/Level3"]
+
+[node name="Light1" type="OmniLight3D" parent="Era4/Level3/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 10.500, 4.400, -2.000)
+light_color = Color(0.8118, 0.9373, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Era5" type="Node3D" parent="."]
+visible = false
+
+[node name="Level1" type="Node3D" parent="Era5"]
+
+[node name="Model" parent="Era5/Level1" instance=ExtResource("m17")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era5/Level1" instance=ExtResource("m2")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 0.050, -2.800)
+
+[node name="Prop2" parent="Era5/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 0.050, -3.800)
+
+[node name="Lights" type="Node3D" parent="Era5/Level1"]
+
+[node name="Light1" type="OmniLight3D" parent="Era5/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.000, -2.000)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 2.08
+light_specular = 0.3
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era5/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -5.000, 3.200, -4.500)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light3" type="OmniLight3D" parent="Era5/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 5.000, 3.200, -4.500)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Light4" type="OmniLight3D" parent="Era5/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 5.600, 5.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 1.20
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Light5" type="OmniLight3D" parent="Era5/Level1/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -8.300, 3.000, 4.800)
+light_color = Color(1.0000, 0.8235, 0.6039, 1)
+light_energy = 0.80
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level2" type="Node3D" parent="Era5"]
+visible = false
+
+[node name="Model" parent="Era5/Level2" instance=ExtResource("m18")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era5/Level2" instance=ExtResource("m5")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 0.050, -3.600)
+
+[node name="Lights" type="Node3D" parent="Era5/Level2"]
+
+[node name="Light1" type="OmniLight3D" parent="Era5/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 10.000, -3.000)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 9.0
+omni_attenuation = 1.2
+
+[node name="Light2" type="OmniLight3D" parent="Era5/Level2/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, -10.500, 4.600, -1.000)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 5.0
+omni_attenuation = 1.2
+
+[node name="Level3" type="Node3D" parent="Era5"]
+visible = false
+
+[node name="Model" parent="Era5/Level3" instance=ExtResource("m19")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Prop" parent="Era5/Level3" instance=ExtResource("m7")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 10.500, 0.050, -4.400)
+
+[node name="Lights" type="Node3D" parent="Era5/Level3"]
+
+[node name="Light1" type="OmniLight3D" parent="Era5/Level3/Lights"]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 10.500, 4.400, -2.000)
+light_color = Color(0.9255, 0.9020, 1.0000, 1)
+light_energy = 1.60
+light_specular = 0.3
+omni_range = 6.0
+omni_attenuation = 1.2
+
+[node name="Scaffold" type="Node3D" parent="."]
+visible = false
+
+[node name="Model" parent="Scaffold" instance=ExtResource("m20")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
+
+[node name="Spots" type="Node3D" parent="."]
+
+[node name="Stage" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, 0.000, 0.000, -0.800)
+metadata/action = "work_hammer"
+metadata/door = Vector3(0.0, 0, 9.0)
+metadata/level = 1
+metadata/via = Vector3(0.0, 0, 2.9)
+
+[node name="Engine" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, -5.000, 0.000, 0.400)
+metadata/action = "work_scan"
+metadata/door = Vector3(0.0, 0, 9.0)
+metadata/level = 1
+metadata/via = Vector3(0.0, 0, 2.9)
+
+[node name="Bench" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, 6.000, 0.000, -5.000)
+metadata/action = "work_hammer"
+metadata/door = Vector3(0.0, 0, 9.0)
+metadata/level = 1
+metadata/via = Vector3(0.0, 0, 2.9)
+
+[node name="Crates" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, 7.600, 0.000, 7.400)
+metadata/action = "carry"
+metadata/door = Vector3(7.6, 0, 9.0)
+metadata/level = 1
+
+[node name="HighBay" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, -10.500, 0.000, -1.000)
+metadata/action = "look_up"
+metadata/door = Vector3(-10.5, 0, 9.0)
+metadata/level = 2
+metadata/via = Vector3(-10.5, 0, 2.9)
+
+[node name="Store" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, 10.500, 0.000, -1.400)
+metadata/action = "carry"
+metadata/door = Vector3(10.5, 0, 9.0)
+metadata/level = 3
+metadata/via = Vector3(10.5, 0, 1.9)

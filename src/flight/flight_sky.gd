@@ -28,6 +28,8 @@ func _ready() -> void:
 	_mat.set_shader_parameter("sun_dir", sun_direction.normalized())
 	_mat.set_shader_parameter("moon_dir", moon_direction.normalized())
 	_mat.set_shader_parameter("planet_radius", FlightOrbit.R)
+	# in-scattering samples (half-resolution pass) per quality level
+	_mat.set_shader_parameter("scatter_steps", [6, 9, 12][GraphicsQuality.current()])
 	if sun_light:
 		sun_light.look_at_from_position(Vector3.ZERO, -sun_direction.normalized(),
 			Vector3.UP if absf(sun_direction.normalized().y) < 0.99 else Vector3.RIGHT)
@@ -49,9 +51,26 @@ func planet_to_tex() -> Basis:
 	return b * a.transposed()
 
 
+## Sun / Moon directions (from the camera, PCI) and the Moon's angular radius, from the
+## solar system at the current mission time (FlightWorld._update_sky_bodies).
+func set_bodies(sun_dir: Vector3, moon_dir: Vector3, moon_radius: float) -> void:
+	if not sun_dir.is_equal_approx(sun_direction):
+		sun_direction = sun_dir
+		_mat.set_shader_parameter("sun_dir", sun_dir)
+		if sun_light:
+			sun_light.look_at_from_position(Vector3.ZERO, -sun_dir,
+				Vector3.UP if absf(sun_dir.y) < 0.99 else Vector3.RIGHT)
+	if not moon_dir.is_equal_approx(moon_direction):
+		moon_direction = moon_dir
+		_mat.set_shader_parameter("moon_dir", moon_dir)
+	_mat.set_shader_parameter("moon_radius", moon_radius)
+
+
 ## cam_pci: camera position in the inertial frame (doubles); site_origin_pci: the launch
 ## site scene's origin in the same frame.
 func update_camera(cam_pci: PackedFloat64Array, site_origin_pci: PackedFloat64Array, map_mode: bool) -> void:
+	if has_meta("frozen"):
+		return
 	var r := sqrt(cam_pci[0] * cam_pci[0] + cam_pci[1] * cam_pci[1] + cam_pci[2] * cam_pci[2])
 	var alt := r - FlightOrbit.R
 	var up := Vector3(cam_pci[0] / r, cam_pci[1] / r, cam_pci[2] / r)

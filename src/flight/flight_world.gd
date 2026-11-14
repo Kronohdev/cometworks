@@ -5,17 +5,34 @@ extends Node3D
 ## on the active vessel, drives the camera, sky, smoke, map view and HUD, and writes the
 ## flight-test report.
 ##
-## Frames: the simulation runs in the planet-centred inertial frame (PCI, doubles) with
-## +Y = up at the launch pad. The render frame is the PCI frame translated by `origin`
-## (= the active vessel, interpolated), so the rocket is always rendered near (0, 0, 0)
-## and the launch site / planet / smoke / debris are placed at (PCI - origin).
+## Frames: the simulation runs in an inertial frame centred on the body whose sphere of
+## influence holds the vessel (`soi`: Earth at launch, the Moon, the Sun...; patched
+## conics, FlightSolar) with the PCI axes (+Y = up at the launch pad). The render frame is
+## that frame translated by `origin` (= the active vessel, interpolated), so the rocket is
+## always rendered near (0, 0, 0) and the launch site / planet / smoke / debris are placed
+## at (position - origin). The sky always gets the camera relative to the Earth.
+##
+## Maneuver planning: `plan` (FlightManeuvers) holds the nodes; `traj` (FlightTrajectory)
+## is the cached patched-conic prediction, recomputed only when its inputs change (node
+## edits, thrust, SOI change, staging, horizon reached), never every frame. On-rails warp
+## follows the predicted conics exactly, crossing SOI boundaries at their computed times.
 
 signal flight_ended(report: Dictionary)
 
 const DT := 0.02
 const MAX_STEPS_PER_FRAME := 400
-const PHYS_WARPS := [1, 2, 4]
-const RAILS_WARPS := [1, 10, 50, 100, 1000]
+## wall-clock budget of the physics steps per frame (ms): high physics warp slows down
+## instead of dropping the frame rate
+const STEP_BUDGET_MS := 10.0
+## Time warp levels the player picks from ( , / . / the HUD arrows). A level runs on rails
+## (exact conics, any speed) whenever the vessel coasts above the air; otherwise the
+## physics runs at the same level capped to PHYS_MAX (same fixed step, only more steps
+## per frame), and switches to rails by itself once coasting in space again.
+const WARPS := [1, 2, 4, 10, 50, 100, 1000, 10000, 100000, 1000000]
+const PHYS_MAX := 100
+const RAILS_MIN := 10
+## rails warp stops this long before a node's burn start (s, mission time)
+const NODE_LEAD := 20.0
 ## Launch-site scene origin in the PCI frame: pad A of the site (local -125, -745) sits
 ## exactly on the +Y axis. Must match src/flight/gen/make_flight_textures.py.
 const SITE_ORIGIN := [125.0, 6371000.0, 745.0]
@@ -44,22 +61,37 @@ var origin := PackedFloat64Array([0.0, 6371000.0, 0.0])
 var time := 0.0
 var launched := false
 var liftoff_time := -1.0
-var warp_index := 0
+## time warp the player picked (one of WARPS); the effective rate is current_warp()
+var warp := 1
 var on_rails := false
-var _rails_t0 := 0.0
-var _rails_state := PackedFloat64Array()
 var _acc := 0.0
 var _alpha := 1.0
 var paused := false
 var ended := false
 var map_view := false
 var autopilot: FlightAutopilot = null
-## extra physics warp for scripted runs (screenshots); players use PHYS_WARPS
+## extra physics warp for scripted runs (screenshots); players use WARPS
 var debug_warp := 1.0
 ## steering input injected by test scripts (pitch, roll, yaw); zero = keyboard
 var scripted_input := Vector3.ZERO
 var predicted_dv := 0.0
 var vessel_name := ""
+# patched conics / maneuvers
+var sys: FlightSolar
+## index (FlightSolar) of the body whose SOI holds the active vessel
+var soi := 0
+var plan := FlightManeuvers.new()
+var traj: FlightTrajectory = null
+## body the map has targeted (closest approach, AN / DN), -1 = none
+var target_body := -1
+var executor: FlightNodeExecutor = null
+var _traj_dirty := true
+var _traj_timer := 0.0
+var _traj_version := -1
+## warp-to target (mission time), < 0 = none
+var _warp_to := -1.0
+## lower prediction quality while a node is being dragged
+var plan_dragging := false
 var _east := EAST.normalized()
 ## planet rotation axis (texture north pole) in the render frame, for navball headings
 var _pole := Vector3(0, 0, -1)
@@ -75,6 +107,8 @@ var _chunks: Array[Node3D] = []
 ## launch-site materials whose patterns are computed in site coordinates
 var _site_materials: Array[ShaderMaterial] = []
 var _ground_plane: Node3D
+## SSAO as set by GraphicsQuality (turned off while the launch site is out of view)
+var _ssao_quality := false
 # report
 var stats := {}
 var events: Array = []
@@ -103,6 +137,7 @@ func _ready() -> void:
 		var gq: Script = load(GRAPHICS_QUALITY)
 		if gq and gq.has_method("apply"):
 			gq.call("apply", self)
+	_ssao_quality = $WorldEnvironment.environment.ssao_enabled
 	var lang := OS.get_locale_language()
 	if not TranslationServer.get_locale().begins_with("pt") and not TranslationServer.get_locale().begins_with("en"):
 		TranslationServer.set_locale("pt" if lang == "pt" else "en")
@@ -138,8 +173,11 @@ func _ready() -> void:
 			if not _site_materials.has(m):
 				_site_materials.append(m)
 	_reset_stats()
+	sys = FlightSolar.get_system()
+	soi = sys.earth
+	plan.changed.connect(func() -> void: _traj_dirty = true)
 	hud.setup(self)
-	map.setup(sky.planet_to_tex(), sky.sun_direction, sky.moon_direction)
+	map.setup(self, sky.planet_to_tex())
 	hud.action.connect(_on_hud_action)
 	if auto_start_autopilot or FlightSession.auto_ascent:
 		set_autopilot(true)
@@ -158,7 +196,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not map_view and cam.handle_input(event):
 		return
-	if map_view and map.handle_input(event):
+	if map_view and not paused and map.handle_input(event):
 		return
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
@@ -193,9 +231,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_X:
 			active.throttle = 0.0
 		KEY_PERIOD:
+			_warp_to = -1.0
 			change_warp(1)
 		KEY_COMMA:
+			_warp_to = -1.0
 			change_warp(-1)
+		KEY_B:
+			warp_to_next_node()
+		KEY_Y:
+			set_executor(executor == null)
 		KEY_ENTER, KEY_KP_ENTER:
 			if _orbit_announced:
 				end_flight("orbit")
@@ -254,6 +298,82 @@ func set_autopilot(on: bool) -> void:
 		hud.toast(tr("FL_AUTO_OFF"), MarginPalette.TEXT_DIM)
 
 
+## Starts / stops the "execute next node" autopilot (points along the remaining Δv,
+## burns half before and half after the node, cuts at zero).
+func set_executor(on: bool) -> void:
+	if on and executor == null:
+		var n := plan.first()
+		if n == null or not launched:
+			return
+		set_autopilot(false)
+		executor = FlightNodeExecutor.new(n)
+		hud.toast(tr("FL_EXEC_ON"), MarginPalette.DATA_1)
+		warp_to_next_node()
+	elif not on and executor != null:
+		executor = null
+		active.throttle = 0.0
+		active.set_sas(FlightVessel.Sas.HOLD)
+		hud.toast(tr("FL_EXEC_OFF"), MarginPalette.TEXT_DIM)
+
+
+## Warps (rails when allowed, physics otherwise) to NODE_LEAD seconds before the next
+## node's burn start.
+func warp_to_next_node() -> void:
+	var n := plan.first()
+	if n == null:
+		return
+	var t := n.time - node_burn_time(n) * 0.5 - NODE_LEAD
+	if t <= time + 1.0:
+		return
+	warp_to(t)
+
+
+func warp_to(t: float) -> void:
+	_warp_to = t
+	hud.toast(tr("FL_WARPING_TO") % FlightHUD.fmt_time(t - time), MarginPalette.ACCENT)
+
+
+## Orbit insertion planner on the current state and plan (see FlightCapture).
+func capture_planner() -> FlightCapture:
+	var b := active.body
+	var keep: Array[FlightManeuverNode] = []
+	for n in plan.nodes:
+		if not n.auto_capture or n.locked:
+			keep.append(n)
+	var last: FlightManeuverNode = keep[-1] if not keep.is_empty() else null
+	return FlightCapture.new(sys, soi, b.pos(), b.vel(), time, keep, node_burn_time(last) if last else 0.0)
+
+
+## Plans an orbit insertion (altitudes in m, inclination in degrees or NAN = keep the
+## arrival plane) and adds its nodes to the plan. Returns FlightCapture.plan()'s result.
+func plan_capture(pe_alt: float, ap_alt: float, inc_deg: float) -> Dictionary:
+	if not launched or active.landed:
+		return {"ok": false, "msg": "FL_CAPT_NO_ENCOUNTER"}
+	var res := capture_planner().plan(pe_alt, ap_alt, inc_deg)
+	if res["ok"]:
+		# a new insertion replaces the previous one (nodes not yet burning)
+		for n in plan.nodes.duplicate():
+			if n.auto_capture and not n.locked:
+				if executor != null and executor.node == n:
+					set_executor(false)
+				plan.remove(n)
+		var first: FlightManeuverNode = null
+		for nd: Dictionary in res["nodes"]:
+			var n := plan.add(float(nd["t"]), nd["dv"])
+			n.auto_capture = true
+			if first == null:
+				first = n
+		res["first"] = first
+		_traj_dirty = true
+	return res
+
+
+## Estimated burn time of a node with the engines that would burn now.
+func node_burn_time(n: FlightManeuverNode) -> float:
+	var bt := active.burn_time(n.remaining_world().length() if n.locked else n.dv_total())
+	return bt if bt < INF else 0.0
+
+
 func set_map(on: bool) -> void:
 	map_view = on
 	map.set_active(on)
@@ -269,46 +389,82 @@ func toggle_pause() -> void:
 
 
 func change_warp(d: int) -> void:
-	var rails_ok := _rails_allowed()
-	var levels: Array = RAILS_WARPS if rails_ok else PHYS_WARPS
-	var cur: int = current_warp()
-	var idx := levels.find(cur)
+	var idx := WARPS.find(warp)
 	if idx < 0:
 		idx = 0
-	idx = clampi(idx + d, 0, levels.size() - 1)
-	_set_warp_value(int(levels[idx]))
-	if d > 0 and idx == levels.size() - 1 and not rails_ok and active.body.altitude() < FlightOrbit.ATMO_TOP:
-		hud.toast(tr("FL_WARP_ATMO"), MarginPalette.WARNING)
+	idx = clampi(idx + d, 0, WARPS.size() - 1)
+	_set_warp_value(int(WARPS[idx]))
+	if d > 0 and warp > current_warp():
+		hud.toast(_warp_limit_text(), MarginPalette.WARNING)
 
 
+## Effective time warp (what the simulation runs at now).
 func current_warp() -> int:
-	if on_rails:
-		return int(RAILS_WARPS[warp_index])
-	return int(PHYS_WARPS[warp_index]) if warp_index < PHYS_WARPS.size() else 1
+	return warp if on_rails else mini(warp, PHYS_MAX)
+
+
+func _phys_warp() -> float:
+	return float(mini(warp, PHYS_MAX)) * debug_warp
 
 
 func _set_warp_value(w: int) -> void:
-	if w >= 10:
-		if not on_rails:
-			_enter_rails()
-		warp_index = RAILS_WARPS.find(w)
-	else:
-		if on_rails:
-			_exit_rails()
-		warp_index = maxi(PHYS_WARPS.find(w), 0)
+	warp = w
+	_apply_warp_mode()
+
+
+## Rails when the picked warp asks for it and the vessel may coast on rails, else physics.
+func _apply_warp_mode() -> void:
+	var want := warp >= RAILS_MIN and _rails_allowed()
+	if want and not on_rails:
+		_enter_rails()
+	elif not want and on_rails:
+		_exit_rails()
+
+
+## Lowest altitude for on-rails warp around the current body: the top of the air, or a
+## safety margin above an airless surface.
+func _rails_floor() -> float:
+	return sys.atmo_top[soi] if sys.atmo_top[soi] > 0.0 else maxf(5000.0, sys.radius[soi] * 0.005)
 
 
 func _rails_allowed() -> bool:
-	return launched and not active.landed and active.body.altitude() > FlightOrbit.ATMO_TOP \
-		and active.thrust_n <= 0.0 and not active.crashed and (autopilot == null or autopilot.done)
+	return _rails_block() == ""
+
+
+## Why on-rails warp is not possible now ("" = it is): a translation key.
+func _rails_block() -> String:
+	if not launched or active.landed or active.crashed:
+		return "FL_WARP_WHY_GROUND"
+	if active.body.altitude() <= _rails_floor():
+		return "FL_WARP_WHY_AIR"
+	if active.thrust_n > 0.0 or _engines_lit():
+		return "FL_WARP_WHY_THRUST"
+	if autopilot != null and not autopilot.done and active.burn_engines()["thrust"] > 0.0:
+		return "FL_WARP_WHY_AUTO"
+	# the node executor is about to burn (or burning): rails would skip the burn
+	var n := plan.first()
+	if executor != null and n != null and time > n.time - node_burn_time(n) * 0.5 - NODE_LEAD - 0.5:
+		return "FL_WARP_WHY_BURN"
+	return ""
+
+
+## Throttle up with an engine of the active stage that still has propellant.
+func _engines_lit() -> bool:
+	return active.throttle > 0.0 and active.current_stage >= 0 and active.burn_engines()["stage"] == active.current_stage
+
+
+func _warp_limit_text() -> String:
+	var why := _rails_block()
+	var t := tr("FL_WARP_LIMIT") % PHYS_MAX
+	if why == "FL_WARP_WHY_AIR":
+		return t + " · " + tr(why) % FlightHUD.fmt_dist(_rails_floor())
+	return t + " · " + tr(why) if why != "" else t
 
 
 func _enter_rails() -> void:
 	on_rails = true
-	_rails_t0 = time
-	_rails_state = PackedFloat64Array([active.body.px, active.body.py, active.body.pz,
-		active.body.vx, active.body.vy, active.body.vz])
 	active.body.w = Vector3.ZERO
+	_predict(1.0)
 	for d in debris:
 		d.queue_free()
 	debris.clear()
@@ -372,7 +528,10 @@ func _process(delta: float) -> void:
 	var t0 := Time.get_ticks_usec()
 	_read_flight_keys(delta)
 	if not paused and not ended:
+		_update_warp_to(delta)
 		_simulate(delta)
+		_update_nodes()
+		_update_trajectory(delta)
 	var t1 := Time.get_ticks_usec()
 	_place_world()
 	var t2 := Time.get_ticks_usec()
@@ -396,29 +555,34 @@ func _process(delta: float) -> void:
 
 func _simulate(delta: float) -> void:
 	if on_rails:
-		if not _rails_allowed() or active.body.altitude() < FlightOrbit.ATMO_TOP:
+		if not _rails_allowed():
+			# something changed under rails warp (throttle up, air below): stop
 			_set_warp_value(1)
 		else:
-			var w := float(RAILS_WARPS[warp_index])
-			time += delta * w
-			var s := FlightOrbit.propagate(FlightOrbit.vec(_rails_state[0], _rails_state[1], _rails_state[2]),
-				FlightOrbit.vec(_rails_state[3], _rails_state[4], _rails_state[5]), time - _rails_t0)
-			active.body.set_from_array(s)
-			active.prev.copy_from(active.body)
-			_alpha = 1.0
-			_track_stats(0.0)
+			_simulate_rails(delta * float(warp))
 			return
-	var w := float(PHYS_WARPS[warp_index]) * debug_warp
+	elif warp >= RAILS_MIN and _rails_allowed():
+		# high warp picked while the physics had to run (air, thrust): coasting in space
+		# again, switch to rails
+		_enter_rails()
+		_simulate_rails(delta * float(warp))
+		return
+	var w := _phys_warp()
 	_acc += delta * w
 	var steps := 0
+	var t_end := Time.get_ticks_usec() + int(STEP_BUDGET_MS * 1000.0)
+	var over := false
 	while _acc >= DT and steps < MAX_STEPS_PER_FRAME:
 		_acc -= DT
 		steps += 1
 		_step(DT)
 		if ended:
 			break
-	if steps >= MAX_STEPS_PER_FRAME:
-		_acc = 0.0
+		if steps % 8 == 0 and Time.get_ticks_usec() > t_end:
+			over = true
+			break
+	if steps >= MAX_STEPS_PER_FRAME or over:
+		_acc = minf(_acc, DT)
 	_alpha = clampf(_acc / DT, 0.0, 1.0)
 
 
@@ -427,7 +591,20 @@ func _step(dt: float) -> void:
 	if autopilot:
 		if autopilot.update(active, dt):
 			stage()
+	if executor:
+		match executor.update(active, time, dt, soi):
+			FlightNodeExecutor.STAGE:
+				stage()
+			FlightNodeExecutor.DONE:
+				_finish_node(true)
+			FlightNodeExecutor.ABORT:
+				executor = null
+				active.throttle = 0.0
+				active.set_sas(FlightVessel.Sas.HOLD)
+				hud.toast(tr("FL_EXEC_NO_FUEL"), MarginPalette.WARNING)
 	var dropped := active.physics_step(dt)
+	_accumulate_burn(dt)
+	_check_soi()
 	for p in dropped:
 		_add_debris(p)
 	for d in debris.duplicate():
@@ -487,7 +664,7 @@ func _track_stats(dt: float) -> void:
 	if not _space_announced and alt > 100000.0:
 		_space_announced = true
 		_log("EV_SPACE", {})
-	if not _orbit_announced and alt > FlightOrbit.ATMO_TOP and active.thrust_n <= 0.0:
+	if not _orbit_announced and soi == sys.earth and alt > FlightOrbit.ATMO_TOP and active.thrust_n <= 0.0:
 		var el := FlightOrbit.elements(b.pos(), b.vel())
 		if float(el["pe_alt"]) > ORBIT_PE:
 			_orbit_announced = true
@@ -532,7 +709,7 @@ func end_flight(result: String) -> void:
 		return
 	ended = true
 	_set_warp_value(1)
-	var el := FlightOrbit.elements(active.body.pos(), active.body.vel())
+	var el := _elements()
 	stats["result"] = result
 	var report := stats.duplicate()
 	report["vessel"] = vessel_name
@@ -636,10 +813,15 @@ func _place_world() -> void:
 	var sy: float = SITE_ORIGIN[1] - oy
 	var sz: float = SITE_ORIGIN[2] - oz
 	site.position = Vector3(sx, sy, sz)
-	for m in _site_materials:
-		m.set_shader_parameter("site_origin", site.position)
 	var alt := active.body.altitude()
-	site.visible = alt < SITE_HIDE_ALT
+	var site_on := alt < SITE_HIDE_ALT and soi == sys.earth
+	if site_on != site.visible:
+		site.visible = site_on
+		# ambient occlusion only matters around the launch site (~2 ms on an iGPU)
+		sky.environment.ssao_enabled = site_on and _ssao_quality
+	if site.visible:
+		for m in _site_materials:
+			m.set_shader_parameter("site_origin", site.position)
 	# above a few km the sky shader draws the site's coast itself (no plane edge in view)
 	if _ground_plane:
 		var cam_alt := alt + cam.camera.global_position.dot(active.body.up())
@@ -647,6 +829,11 @@ func _place_world() -> void:
 	var up := active.body.up()
 	var cam_render := cam.camera.global_position
 	var cam_pci := PackedFloat64Array([ox + cam_render.x, oy + cam_render.y, oz + cam_render.z])
+	if soi != sys.earth:
+		# the sky always works relative to the Earth
+		var eo := sys.pos_rel(soi, sys.earth, time)
+		cam_pci = PackedFloat64Array([cam_pci[0] + eo[0], cam_pci[1] + eo[1], cam_pci[2] + eo[2]])
+	_update_sky_bodies(cam_pci)
 	sky.update_camera(cam_pci, PackedFloat64Array(SITE_ORIGIN), map_view)
 	var focus := Vector3.ZERO if not active.crashed else _crash_focus()
 	cam.min_height = _ground_floor(focus) - _alt_of_render(focus)
@@ -655,7 +842,7 @@ func _place_world() -> void:
 	if launched and not active.crashed and active.thrust_n > 0.0 and alt < 3000.0:
 		cam.shake = maxf(cam.shake, 0.12 * (1.0 - alt / 3000.0))
 	if map_view:
-		map.update_map(active, origin, debris)
+		map.update_map()
 
 
 ## Altitude (m) of a render-space point (doubles via the floating origin).
@@ -663,7 +850,7 @@ func _alt_of_render(p: Vector3) -> float:
 	var x: float = origin[0] + p.x
 	var y: float = origin[1] + p.y
 	var z: float = origin[2] + p.z
-	return sqrt(x * x + y * y + z * z) - FlightOrbit.R
+	return sqrt(x * x + y * y + z * z) - sys.radius[soi]
 
 
 ## Lowest allowed camera altitude near a render-space point: the launcher top around the
@@ -674,7 +861,7 @@ func _ground_floor(p: Vector3) -> float:
 	var z: float = origin[2] + p.z
 	var r := sqrt(x * x + y * y + z * z)
 	var horiz := Vector3(x / r, y / r, z / r).distance_to(_pad_up) * FlightOrbit.R
-	var ground := PAD_TOP if horiz < 450.0 else 0.0
+	var ground := PAD_TOP if horiz < 450.0 and soi == sys.earth else 0.0
 	return ground + CAMERA_MARGIN
 
 
@@ -699,10 +886,12 @@ func _update_effects(delta: float) -> void:
 	var ox: float = origin[0]
 	var oy: float = origin[1]
 	var oz: float = origin[2]
-	if not paused and not on_rails:
-		_emit_smoke(delta * float(PHYS_WARPS[warp_index]) * debug_warp)
-	smoke.update(delta * (1.0 if paused else float(PHYS_WARPS[warp_index]) * debug_warp) * (0.0 if paused else 1.0),
-		ox, oy, oz, active.body.up())
+	if on_rails:
+		return
+	var w := _phys_warp()
+	if not paused:
+		_emit_smoke(delta * w)
+	smoke.update(0.0 if paused else delta * w, ox, oy, oz, active.body.up())
 
 
 func _emit_smoke(dt: float) -> void:
@@ -758,9 +947,13 @@ func _emit_smoke(dt: float) -> void:
 
 
 # ------------------------------------------------------------ telemetry for the HUD
+func _elements() -> Dictionary:
+	return FlightOrbit.elements(active.body.pos(), active.body.vel(), sys.mu[soi], sys.radius[soi])
+
+
 func _telemetry() -> Dictionary:
 	var b := active.body
-	var el := FlightOrbit.elements(b.pos(), b.vel())
+	var el := _elements()
 	var now := Time.get_ticks_msec()
 	if _dv_cache.is_empty() or now - _dv_time > 1000:
 		_dv_time = now
@@ -775,12 +968,221 @@ func _telemetry() -> Dictionary:
 	var nose := active.nose_world()
 	var up := b.up()
 	var east_now := _pole.cross(up).normalized()
+	var node := plan.first()
+	var node_info := {}
+	if node != null and node.valid:
+		var rem := node.remaining_world()
+		var bt := node_burn_time(node)
+		node_info = {"dv": rem.length() if node.locked else node.dv_total(), "dir": rem.normalized(),
+			"t_node": node.time - time, "burn": bt, "t_burn": node.time - bt * 0.5 - time, "exec": executor != null}
 	return {"alt": b.altitude(), "vs": b.vertical_speed(), "hs": b.horizontal_speed(), "speed": b.speed(),
-		"ap": el["ap_alt"], "pe": el["pe_alt"], "e": el["e"], "t_ap": FlightOrbit.time_to_apoapsis(b.pos(), b.vel()),
+		"soi": soi, "soi_name": sys.display_name(soi), "node": node_info,
+		"ap": el["ap_alt"], "pe": el["pe_alt"], "e": el["e"], "t_ap": FlightOrbit.time_to_apoapsis(b.pos(), b.vel(), sys.mu[soi]),
 		"g": active.g_load, "q": active.q_dyn, "max_q": stats["max_q"], "maxq_passed": _maxq_announced,
 		"throttle": active.throttle, "thrust": active.thrust_n, "mass": active.mass,
 		"dv_stage": dv_stage, "dv_total": dv_total, "dv_rows": _dv_cache,
-		"met": mission_time(), "launched": launched, "warp": current_warp(), "rails": on_rails,
+		"met": mission_time(), "launched": launched, "warp": current_warp(), "warp_set": warp, "rails": on_rails,
 		"sas": active.sas, "auto": autopilot != null, "q_body": active.body.q, "up": up, "east": east_now,
 		"vel": b.velocity_v3(), "nose": nose, "stage": active.current_stage, "stages": active.stage_count,
 		"vessel": active, "mach": active.mach, "aoa": active.aoa, "orbit": _orbit_announced}
+
+
+# ------------------------------------------------------------ patched conics
+## Re-centres the simulation on another body (SOI change): the vessel state is offset by
+## the old body's state relative to the new one; debris and smoke (old frame) go away.
+func _switch_soi(new_body: int) -> void:
+	if new_body == soi:
+		return
+	var off := sys.state_rel(soi, new_body, time)
+	var air := sys.atmo_top[new_body] > 0.0
+	var home := new_body == sys.earth
+	active.body.rebase(off, sys.mu[new_body], sys.radius[new_body], air, home)
+	active.prev.rebase(off, sys.mu[new_body], sys.radius[new_body], air, home)
+	var entering := sys.parent[new_body] == soi
+	soi = new_body
+	for d in debris:
+		d.queue_free()
+	debris.clear()
+	smoke.clear()
+	_traj_dirty = true
+	_log("EV_SOI", {"body": sys.display_name(new_body), "enter": entering})
+
+
+## Physics steps: did the vessel cross an SOI boundary?
+func _check_soi() -> void:
+	var b := active.body
+	var r2 := b.px * b.px + b.py * b.py + b.pz * b.pz
+	if sys.parent[soi] >= 0 and r2 > sys.soi[soi] * sys.soi[soi]:
+		_switch_soi(sys.parent[soi])
+		return
+	for k in sys.children[soi]:
+		var q := sys.pos_rel_parent(k, time)
+		var dx := b.px - q[0]
+		var dy := b.py - q[1]
+		var dz := b.pz - q[2]
+		if dx * dx + dy * dy + dz * dz < sys.soi[k] * sys.soi[k]:
+			_switch_soi(k)
+			return
+
+
+## On-rails warp: follow the predicted conics exactly; SOI changes happen at their computed
+## times, the warp stops before the air / the surface, a node or the warp-to target.
+func _simulate_rails(dt_game: float) -> void:
+	var t_target := time + dt_game
+	var stop := INF
+	if _warp_to > 0.0:
+		stop = minf(stop, _warp_to)
+	var n := plan.first()
+	if n != null:
+		var t_lead := n.time - node_burn_time(n) * 0.5 - NODE_LEAD
+		if t_lead > time + 0.5:
+			stop = minf(stop, t_lead)
+	for guard in 8:
+		if traj == null or traj.current_segment_at(time) < 0:
+			_predict(1.0)
+		var si := traj.current_segment_at(time) if traj else -1
+		if si < 0:
+			_set_warp_value(1)
+			return
+		var seg: FlightTrajectory.Segment = traj.segments[si]
+		var c := seg.conic
+		# never warp into the air or the ground
+		var floor_r := sys.radius[soi] + _rails_floor()
+		if c.rp < floor_r:
+			var t_floor := c.time_to_radius(floor_r, time, false)
+			if t_floor < INF:
+				stop = minf(stop, t_floor)
+		var t_end := minf(t_target, stop)
+		if (seg.end == FlightTrajectory.End.ESCAPE or seg.end == FlightTrajectory.End.ENCOUNTER) and t_end >= seg.t1:
+			active.body.set_from_array(c.state_at(seg.t1))
+			time = seg.t1
+			_switch_soi(seg.next_body)
+			_predict(1.0)
+			continue
+		if t_end > seg.t1 and seg.end == FlightTrajectory.End.HORIZON:
+			# past the prediction horizon (one revolution): same conic, refresh the plan later
+			_traj_dirty = true
+		time = t_end
+		active.body.set_from_array(c.state_at(time))
+		break
+	active.prev.copy_from(active.body)
+	_alpha = 1.0
+	_track_stats(0.0)
+	if t_target >= stop:
+		_set_warp_value(1)
+		if _warp_to > 0.0 and time >= _warp_to - 0.01:
+			_warp_to = -1.0
+
+
+## Warp-to: picks the warp level that reaches the target smoothly (rails if allowed).
+func _update_warp_to(delta: float) -> void:
+	if _warp_to < 0.0:
+		return
+	var left := _warp_to - time
+	if left <= 0.05:
+		_warp_to = -1.0
+		_set_warp_value(1)
+		return
+	var cap: int = WARPS[-1] if _rails_allowed() else PHYS_MAX
+	var best := 1
+	for w in WARPS:
+		if int(w) <= cap and float(w) * delta * 4.0 < left:
+			best = int(w)
+	if best != warp:
+		_set_warp_value(best)
+
+
+## Thrust towards the next node counts as burned Δv (KSP-style remaining-Δv tracking).
+func _accumulate_burn(dt: float) -> void:
+	var n := plan.first()
+	if n == null or active.thrust_n <= 0.0 or not n.valid:
+		return
+	var window := maxf(node_burn_time(n), 10.0) * 1.5 + 30.0
+	if time < n.time - window:
+		return
+	n.locked = true
+	n.burned += active.accel_ng * dt
+
+
+## Node bookkeeping each frame: completion (remaining Δv ~ 0 or overshoot).
+func _update_nodes() -> void:
+	var n := plan.first()
+	if n == null or not n.locked or not n.valid or executor != null:
+		return
+	var rem := n.remaining_world()
+	var full := Vector3(n.dv_world[0], n.dv_world[1], n.dv_world[2])
+	if active.thrust_n <= 0.0 and (rem.length() < 0.2 or rem.dot(full) < 0.0):
+		_finish_node(executor != null)
+
+
+func _finish_node(from_executor: bool) -> void:
+	var n := plan.first()
+	if n != null:
+		plan.remove(n)
+	if from_executor:
+		executor = null
+		active.throttle = 0.0
+		active.set_sas(FlightVessel.Sas.HOLD)
+	hud.toast(tr("FL_NODE_DONE"), MarginPalette.SUCCESS)
+	_traj_dirty = true
+
+
+## Recomputes the cached prediction when needed (see the class notes).
+func _update_trajectory(delta: float) -> void:
+	if active.landed or active.clamped or active.crashed:
+		if traj != null:
+			traj = null
+			if map_view:
+				map.trajectory_changed()
+		return
+	_traj_timer -= delta
+	var need: bool = _traj_dirty or traj == null or plan.version != _traj_version or time > traj.valid_until
+	# periodic refresh: the state drifts from the cached conic under thrust / drag (and,
+	# very slowly, numerically in physics warp); on rails it follows the conic exactly
+	if not need and not on_rails and _traj_timer <= 0.0:
+		need = true
+	if need:
+		_predict(0.4 if plan_dragging else 1.0)
+		var thrusting := active.thrust_n > 0.0 or active.q_dyn > 1.0
+		_traj_timer = (0.2 if map_view else 1.0) if thrusting else (2.0 if map_view else 8.0)
+
+
+func _predict(quality: float) -> void:
+	var b := active.body
+	traj = FlightTrajectory.predict(sys, soi, b.pos(), b.vel(), time, plan.nodes, target_body, quality)
+	_traj_dirty = false
+	_traj_version = plan.version
+	if map_view:
+		map.trajectory_changed()
+
+
+## Sun and Moon for the sky shader, from the real geometry at the current time.
+func _update_sky_bodies(cam_earth: PackedFloat64Array) -> void:
+	var sun_p := sys.pos_rel(sys.sun, sys.earth, time)
+	var sd := Vector3(sun_p[0] - cam_earth[0], sun_p[1] - cam_earth[1], sun_p[2] - cam_earth[2]).normalized()
+	var mp := sys.pos_rel(sys.moon, sys.earth, time)
+	var md := Vector3(mp[0] - cam_earth[0], mp[1] - cam_earth[1], mp[2] - cam_earth[2])
+	var dist := md.length()
+	# drawn larger than life when far (an artistic choice, fades to the real size up close)
+	var mag := clampf(1.0 + 2.5 * (dist - 3.0e7) / 3.5e8, 1.0, 3.5)
+	var ang := asin(clampf(sys.radius[sys.moon] / maxf(dist, sys.radius[sys.moon] * 1.0001), 0.0, 1.0)) * mag
+	sky.set_bodies(sd, md / dist, minf(ang, 1.5))
+
+
+## Test / tool hook: puts the active vessel on a given state around a body (no launch).
+func set_orbit_state(body: int, r: PackedFloat64Array, v: PackedFloat64Array) -> void:
+	launched = true
+	if liftoff_time < 0.0:
+		liftoff_time = time
+	active.clamped = false
+	active.landed = false
+	if body != soi:
+		var air := sys.atmo_top[body] > 0.0
+		active.body.rebase(PackedFloat64Array([0, 0, 0, 0, 0, 0]), sys.mu[body], sys.radius[body], air, body == sys.earth)
+		soi = body
+	active.body.set_state(r, v)
+	active.prev.copy_from(active.body)
+	for d in debris:
+		d.queue_free()
+	debris.clear()
+	_traj_dirty = true

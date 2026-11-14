@@ -1,0 +1,488 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_aurora_line.gd" id="3_aurora"]
+
+[node name="CwUiKit" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0275, 0.0431, 0.0784, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="Columns" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Left" type="VBoxContainer" parent="Margin/Columns"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Type" type="PanelContainer" parent="Margin/Columns/Left"]
+layout_mode = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="V" type="VBoxContainer" parent="Margin/Columns/Left/Type"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Display" type="Label" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_type_variation = &"CwDisplay"
+text = "Cometworks"
+
+[node name="Heading" type="Label" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "Corrida à Lua"
+
+[node name="Title" type="Label" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "Laboratório de P&D · nível 2"
+
+[node name="Caps" type="Label" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "REPUTAÇÃO · FASE 2/3"
+
+[node name="Body" type="Label" parent="Margin/Columns/Left/Type/V"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "Equipamento de verdade, operado por criaturinhas fofas. Ação, informação, pão de queijo."
+autowrap_mode = 3
+
+[node name="Dim" type="Label" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Legenda e unidades em texto apagado"
+
+[node name="Mono" type="HBoxContainer" parent="Margin/Columns/Left/Type/V"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Big" type="Label" parent="Margin/Columns/Left/Type/V/Mono"]
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+text = "T- 04a 42s"
+
+[node name="Mid" type="Label" parent="Margin/Columns/Left/Type/V/Mono"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMono"
+text = "8 335 000 cr"
+
+[node name="Small" type="Label" parent="Margin/Columns/Left/Type/V/Mono"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwMonoSmall"
+text = "SAT-07 · 62%"
+
+[node name="Buttons" type="PanelContainer" parent="Margin/Columns/Left"]
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="V" type="VBoxContainer" parent="Margin/Columns/Left/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caps" type="Label" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "BOTÕES"
+
+[node name="Row" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Primary" type="Button" parent="Margin/Columns/Left/Buttons/V/Row"]
+layout_mode = 2
+theme_type_variation = &"CwPrimary"
+text = "Novo projeto"
+
+[node name="Button" type="Button" parent="Margin/Columns/Left/Buttons/V/Row"]
+layout_mode = 2
+text = "Contratar"
+
+[node name="Secondary" type="Button" parent="Margin/Columns/Left/Buttons/V/Row"]
+layout_mode = 2
+theme_type_variation = &"CwSecondary"
+text = "Detalhes"
+
+[node name="Danger" type="Button" parent="Margin/Columns/Left/Buttons/V/Row"]
+layout_mode = 2
+theme_type_variation = &"CwDanger"
+text = "Abortar"
+
+[node name="Row2" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Disabled" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2"]
+layout_mode = 2
+disabled = true
+text = "Indisponível"
+
+[node name="PrimaryDisabled" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2"]
+layout_mode = 2
+disabled = true
+theme_type_variation = &"CwPrimary"
+text = "Lançar"
+
+[node name="Link" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2"]
+layout_mode = 2
+theme_type_variation = &"CwLink"
+text = "Ver relatório"
+
+[node name="Keys" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V/Row2"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="K0" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2/Keys"]
+layout_mode = 2
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "II"
+
+[node name="K1" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2/Keys"]
+layout_mode = 2
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+text = "1"
+
+[node name="K2" type="Button" parent="Margin/Columns/Left/Buttons/V/Row2/Keys"]
+layout_mode = 2
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "2"
+
+[node name="Row3" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Check" type="CheckBox" parent="Margin/Columns/Left/Buttons/V/Row3"]
+layout_mode = 2
+button_pressed = true
+text = "Testes extras"
+
+[node name="Check2" type="CheckBox" parent="Margin/Columns/Left/Buttons/V/Row3"]
+layout_mode = 2
+text = "Tripulada"
+
+[node name="Toggle" type="CheckButton" parent="Margin/Columns/Left/Buttons/V/Row3"]
+layout_mode = 2
+button_pressed = true
+text = "Auto-staging"
+
+[node name="Toggle2" type="CheckButton" parent="Margin/Columns/Left/Buttons/V/Row3"]
+layout_mode = 2
+theme_type_variation = &"CwToggle"
+text = "PILOTO"
+
+[node name="Row4" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Option" type="OptionButton" parent="Margin/Columns/Left/Buttons/V/Row4"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Foguete Faísca"
+popup/item_0/id = 0
+popup/item_1/text = "Foguete Brasa"
+popup/item_1/id = 1
+popup/item_2/text = "Foguete Fornalha"
+popup/item_2/id = 2
+
+[node name="Line" type="LineEdit" parent="Margin/Columns/Left/Buttons/V/Row4"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+placeholder_text = "Nome da missão"
+
+[node name="Spin" type="SpinBox" parent="Margin/Columns/Left/Buttons/V/Row4"]
+layout_mode = 2
+value = 42.0
+
+[node name="Line2" type="LineEdit" parent="Margin/Columns/Left/Buttons/V"]
+layout_mode = 2
+text = "Mãe-Gelo · campo com foco"
+
+[node name="Bars" type="PanelContainer" parent="Margin/Columns/Left"]
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="V" type="VBoxContainer" parent="Margin/Columns/Left/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caps" type="Label" parent="Margin/Columns/Left/Bars/V"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "BARRAS DE QUALIDADE"
+
+[node name="Eng" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_type_variation = &"CwBarEng"
+value = 72.0
+show_percentage = false
+
+[node name="Sci" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_type_variation = &"CwBarSci"
+value = 48.0
+show_percentage = false
+
+[node name="Ops" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_type_variation = &"CwBarOps"
+value = 91.0
+show_percentage = false
+
+[node name="Rel" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_type_variation = &"CwBarRel"
+value = 35.0
+show_percentage = false
+
+[node name="Plain" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+value = 62.0
+
+[node name="Seg" type="Control" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+script = ExtResource("2_seg")
+value = 0.62
+marker = 0.7
+
+[node name="Aurora" type="Control" parent="Margin/Columns/Left/Bars/V"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+script = ExtResource("3_aurora")
+
+[node name="Mid" type="VBoxContainer" parent="Margin/Columns"]
+custom_minimum_size = Vector2(470, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Tabs" type="TabContainer" parent="Margin/Columns/Mid"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+current_tab = 0
+
+[node name="Equipe" type="VBoxContainer" parent="Margin/Columns/Mid/Tabs"]
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/_tab_index = 0
+
+[node name="List" type="ItemList" parent="Margin/Columns/Mid/Tabs/Equipe"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+item_count = 6
+item_0/text = "Muruli Dustydot · Cientista"
+item_1/text = "Tarsa Quillwhisk · Engenheira"
+item_2/text = "Bipo Lumen · Piloto"
+item_3/text = "Nhoque Rasante · Solo"
+item_4/text = "Cauda Breve · Cientista"
+item_5/text = "Mira Fagulha · Engenheira"
+
+[node name="Sliders" type="HBoxContainer" parent="Margin/Columns/Mid/Tabs/Equipe"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Caps" type="Label" parent="Margin/Columns/Mid/Tabs/Equipe/Sliders"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "SALÁRIO"
+
+[node name="HSlider" type="HSlider" parent="Margin/Columns/Mid/Tabs/Equipe/Sliders"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 40.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="Val" type="Label" parent="Margin/Columns/Mid/Tabs/Equipe/Sliders"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "4 200 cr"
+
+[node name="Pesquisa" type="VBoxContainer" parent="Margin/Columns/Mid/Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Fases" type="VBoxContainer" parent="Margin/Columns/Mid/Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Throttles" type="PanelContainer" parent="Margin/Columns/Mid"]
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="H" type="HBoxContainer" parent="Margin/Columns/Mid/Throttles"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="Caps" type="Label" parent="Margin/Columns/Mid/Throttles/H"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+text = "FASES"
+
+[node name="T1" type="VSlider" parent="Margin/Columns/Mid/Throttles/H"]
+custom_minimum_size = Vector2(28, 150)
+layout_mode = 2
+theme_type_variation = &"CwThrottle"
+value = 60.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="T2" type="VSlider" parent="Margin/Columns/Mid/Throttles/H"]
+custom_minimum_size = Vector2(28, 150)
+layout_mode = 2
+theme_type_variation = &"CwThrottle"
+value = 25.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="T3" type="VSlider" parent="Margin/Columns/Mid/Throttles/H"]
+custom_minimum_size = Vector2(28, 150)
+layout_mode = 2
+theme_type_variation = &"CwThrottle"
+value = 15.0
+tick_count = 11
+ticks_on_borders = true
+
+[node name="Plain" type="VSlider" parent="Margin/Columns/Mid/Throttles/H"]
+custom_minimum_size = Vector2(28, 150)
+layout_mode = 2
+value = 70.0
+
+[node name="Tabs2" type="TabContainer" parent="Margin/Columns/Mid/Throttles/H"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTabsUnderline"
+current_tab = 0
+
+[node name="Resumo" type="Label" parent="Margin/Columns/Mid/Throttles/H/Tabs2"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Abas planas dentro de painéis."
+autowrap_mode = 3
+metadata/_tab_index = 0
+
+[node name="Custos" type="Label" parent="Margin/Columns/Mid/Throttles/H/Tabs2"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Right" type="VBoxContainer" parent="Margin/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="Card" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="V" type="VBoxContainer" parent="Margin/Columns/Right/Card"]
+layout_mode = 2
+
+[node name="Caps" type="Label" parent="Margin/Columns/Right/Card/V"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "CONTRATO"
+
+[node name="Title" type="Label" parent="Margin/Columns/Right/Card/V"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "Satélite de telecom"
+
+[node name="Body" type="Label" parent="Margin/Columns/Right/Card/V"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Órbita geoestacionária, 320 kg, prazo de 26 semanas."
+autowrap_mode = 3
+
+[node name="Raised" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwPanelRaised"
+
+[node name="L" type="Label" parent="Margin/Columns/Right/Raised"]
+layout_mode = 2
+text = "Painel elevado (linha selecionada)"
+
+[node name="Inset" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="L" type="Label" parent="Margin/Columns/Right/Inset"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "> telemetria 12.4 km/s"
+
+[node name="Strip" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="V" type="VBoxContainer" parent="Margin/Columns/Right/Strip"]
+layout_mode = 2
+
+[node name="T" type="Label" parent="Margin/Columns/Right/Strip/V"]
+layout_mode = 2
+text = "SAT-07 · Faísca"
+
+[node name="S" type="Label" parent="Margin/Columns/Right/Strip/V"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Fase 2/3 · semana 4"
+
+[node name="Rich" type="RichTextLabel" parent="Margin/Columns/Right"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]Rádio da Cauda[/b]: a Aurora Rubra lançou um [i]orbitador[/i]. Caixa: [code]-120 000 cr[/code]."
+
+[node name="Tree" type="Tree" parent="Margin/Columns/Right"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true

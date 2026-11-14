@@ -1,0 +1,651 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_shot.gd" id="1_shot"]
+[ext_resource type="Shader" path="res://shaders/menu_sky.gdshader" id="sky"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="cr"]
+[ext_resource type="PackedScene" path="res://scenes/examples/andorinha.tscn" id="rocket"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="glow"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="crate"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("sky")
+shader_parameter/zenith_color = Color(0.05, 0.08, 0.2, 1)
+shader_parameter/mid_color = Color(0.22, 0.24, 0.45, 1)
+shader_parameter/horizon_color = Color(0.98, 0.6, 0.42, 1)
+shader_parameter/ground_color = Color(0.06, 0.06, 0.09, 1)
+shader_parameter/horizon_height = 0.2
+shader_parameter/sun_dir = Vector3(0.7916, 0.0507, -0.6089)
+shader_parameter/glow_color = Color(1, 0.55, 0.25, 1)
+shader_parameter/glow_strength = 2.2
+shader_parameter/glow_width = 0.22
+shader_parameter/star_brightness = 0.35
+shader_parameter/star_horizon = 0.45
+shader_parameter/comet_enabled = false
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.42, 0.46, 0.66, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 4
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.5
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 0.95
+fog_enabled = true
+fog_light_color = Color(0.7, 0.5, 0.48, 1)
+fog_density = 0.008
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="CameraAttributesPractical" id="cam_attr"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 12.0
+dof_blur_far_transition = 20.0
+dof_blur_amount = 0.06
+
+[sub_resource type="StandardMaterial3D" id="concrete"]
+albedo_color = Color(0.42, 0.42, 0.45, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="paint"]
+albedo_color = Color(1, 0.77, 0.2, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="cradle"]
+albedo_color = Color(0.95, 0.55, 0.18, 1)
+roughness = 0.6
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="steel"]
+albedo_color = Color(0.33, 0.36, 0.42, 1)
+roughness = 0.5
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="wood"]
+albedo_color = Color(0.52, 0.36, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="hangar"]
+albedo_color = Color(0.13, 0.15, 0.24, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="tower"]
+albedo_color = Color(0.55, 0.2, 0.18, 1)
+roughness = 0.6
+metallic = 0.3
+
+[sub_resource type="StandardMaterial3D" id="beacon"]
+albedo_color = Color(1, 0.2, 0.15, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.15, 0.1, 1)
+emission_energy_multiplier = 6.0
+
+[sub_resource type="StandardMaterial3D" id="door_light"]
+albedo_color = Color(1, 0.78, 0.5, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.7, 0.42, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="StandardMaterial3D" id="bulb"]
+albedo_color = Color(1, 0.85, 0.55, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.72, 0.38, 1)
+emission_energy_multiplier = 6.0
+
+[sub_resource type="StandardMaterial3D" id="lamp_head"]
+albedo_color = Color(1, 0.9, 0.7, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0.85, 0.6, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="BoxMesh" id="ground"]
+size = Vector3(90, 1, 70)
+
+[sub_resource type="BoxMesh" id="line"]
+size = Vector3(0.12, 0.02, 16)
+
+[sub_resource type="BoxMesh" id="cradle_box"]
+size = Vector3(0.45, 0.36, 1.7)
+
+[sub_resource type="BoxMesh" id="bench_top"]
+size = Vector3(1.8, 0.08, 0.7)
+
+[sub_resource type="BoxMesh" id="bench_leg"]
+size = Vector3(0.08, 0.72, 0.08)
+
+[sub_resource type="BoxMesh" id="pole"]
+size = Vector3(0.14, 4.2, 0.14)
+
+[sub_resource type="BoxMesh" id="lamp"]
+size = Vector3(0.5, 0.28, 0.3)
+
+[sub_resource type="BoxMesh" id="hangar_box"]
+size = Vector3(30, 14, 16)
+
+[sub_resource type="BoxMesh" id="tower_col"]
+size = Vector3(0.3, 22, 0.3)
+
+[sub_resource type="BoxMesh" id="tower_bar"]
+size = Vector3(2.2, 0.2, 0.2)
+
+[sub_resource type="BoxMesh" id="toolbox"]
+size = Vector3(0.5, 0.25, 0.28)
+
+[sub_resource type="SphereMesh" id="bulb_mesh"]
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 4
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="lamp_glow"]
+render_priority = 1
+shader = ExtResource("glow")
+shader_parameter/glow_color = Color(1, 0.8, 0.5, 1)
+shader_parameter/intensity = 0.8
+shader_parameter/core = 0.02
+shader_parameter/falloff = 5.0
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 12
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cometlings/Carrier:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.4, 0, 1.3), Vector3(2, 0, 4.3)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cometlings/Carrier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [Vector3(0.2833, 0, 0.25)],
+"method": &"set_move_velocity"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cometlings/Engineer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2.4, 8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["wrench", 1.8],
+"method": &"show_emote"
+}, {
+"args": ["sparkle", 1.8],
+"method": &"show_emote"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cometlings/Scientist")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(4.2, 4.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["check", 1.8],
+"method": &"show_emote"
+}, {
+"args": ["nod"],
+"method": &"play"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cometlings/Pilot")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 6, 6.2, 6.3, 9.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(-0.95, 1.6, -2.635), 0.7],
+"method": &"look_at_point"
+}, {
+"args": [Vector3(2.2, 1.3, 8), 1.0],
+"method": &"look_at_point"
+}, {
+"args": ["wave"],
+"method": &"play"
+}, {
+"args": ["happy", 2.0],
+"method": &"show_emote"
+}, {
+"args": [Vector3(-0.95, 1.6, -2.635), 0.7],
+"method": &"look_at_point"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cometlings/ChatA")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1, 7.2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["chat", 1.6],
+"method": &"show_emote"
+}, {
+"args": ["idea", 1.8],
+"method": &"show_emote"
+}]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cometlings/ChatB")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(3.6, 7.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["note", 1.8],
+"method": &"show_emote"
+}, {
+"args": ["jump"],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="ShotWorkshop" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("1_shot")
+duration = 12.0
+caption_key = "MENU_SHOT_WORKSHOP"
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/Start"), NodePath("CamPath/End")]
+look_target = NodePath("CamPath/LookAt")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+camera_attributes = SubResource("cam_attr")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.6097, -0.1579, 0.7767, 0, 0.98, 0.1992, -0.7926, 0.1214, -0.5975, 0, 0, 0)
+light_color = Color(1, 0.7, 0.42, 1)
+light_energy = 2.2
+shadow_enabled = true
+directional_shadow_max_distance = 40.0
+
+[node name="Yard" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -10)
+mesh = SubResource("ground")
+surface_material_override/0 = SubResource("concrete")
+
+[node name="Line" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(0.527, 0, 0.85, 0, 1, 0, -0.85, 0, 0.527, -0.9568, 0.01, -4.522)
+mesh = SubResource("line")
+surface_material_override/0 = SubResource("paint")
+
+[node name="Line2" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(0.527, 0, 0.85, 0, 1, 0, -0.85, 0, 0.527, -2.6432, 0.01, -1.802)
+mesh = SubResource("line")
+surface_material_override/0 = SubResource("paint")
+
+[node name="Cradle0" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(-0.85, 0, 0.527, 0, 1, 0, -0.527, 0, -0.85, 1.43, 0.18, -1.1594)
+mesh = SubResource("cradle_box")
+surface_material_override/0 = SubResource("cradle")
+
+[node name="Cradle1" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(-0.85, 0, 0.527, 0, 1, 0, -0.527, 0, -0.85, -3.075, 0.18, -3.9525)
+mesh = SubResource("cradle_box")
+surface_material_override/0 = SubResource("cradle")
+
+[node name="Cradle2" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(-0.85, 0, 0.527, 0, 1, 0, -0.527, 0, -0.85, -6.9, 0.18, -6.324)
+mesh = SubResource("cradle_box")
+surface_material_override/0 = SubResource("cradle")
+
+[node name="TowerCol0" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 11, -71)
+mesh = SubResource("tower_col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerCol1" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 11, -71)
+mesh = SubResource("tower_col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerCol2" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 11, -69)
+mesh = SubResource("tower_col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerCol3" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 11, -69)
+mesh = SubResource("tower_col")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar0" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar1" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 5, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar2" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 8, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar3" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 11, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar4" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 14, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar5" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 17, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBar6" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 20, -69)
+mesh = SubResource("tower_bar")
+surface_material_override/0 = SubResource("tower")
+
+[node name="TowerBeacon" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 22.3, -70)
+cast_shadow = 0
+mesh = SubResource("toolbox")
+surface_material_override/0 = SubResource("beacon")
+
+[node name="Bench" type="Node3D" parent="Yard"]
+transform = Transform3D(0.866, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866, -2.1, 0, 0.6)
+
+[node name="Top" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
+mesh = SubResource("bench_top")
+surface_material_override/0 = SubResource("wood")
+
+[node name="Leg0" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.36, -0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg1" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.36, -0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg2" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.36, 0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Leg3" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.36, 0.28)
+mesh = SubResource("bench_leg")
+surface_material_override/0 = SubResource("steel")
+
+[node name="Toolbox" type="MeshInstance3D" parent="Yard/Bench"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.92, 0)
+mesh = SubResource("toolbox")
+surface_material_override/0 = SubResource("cradle")
+
+[node name="Crate0" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.9696, 0, 0.3473, 0, 2, 0, -0.3473, 0, 1.9696, 5.4, 0, -0.6)
+
+[node name="Crate1" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.9805, 0, -0.2783, 0, 2, 0, 0.2783, 0, 1.9805, 6.25, 0, -0.45)
+
+[node name="Crate2" parent="Yard" instance=ExtResource("crate")]
+transform = Transform3D(1.6383, 0, 1.1472, 0, 2, 0, -1.1472, 0, 1.6383, 5.8, 0.82, -0.55)
+
+[node name="PoleA" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 2.1, -2.4)
+mesh = SubResource("pole")
+surface_material_override/0 = SubResource("steel")
+
+[node name="PoleB" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 2.1, -4.2)
+mesh = SubResource("pole")
+surface_material_override/0 = SubResource("steel")
+
+[node name="LampHead" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 4.1, -2.25)
+cast_shadow = 0
+mesh = SubResource("lamp")
+surface_material_override/0 = SubResource("lamp_head")
+
+[node name="LampGlow" type="MeshInstance3D" parent="Yard"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6.5, 4.1, -2.1)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("lamp_glow")
+
+[node name="WorkLight" type="SpotLight3D" parent="Yard"]
+transform = Transform3D(0.8192, -0.4698, 0.329, 0, 0.5736, 0.8192, -0.5736, -0.671, 0.4698, 6.5, 4, -2.1)
+light_color = Color(1, 0.78, 0.5, 1)
+light_energy = 6.0
+shadow_enabled = true
+spot_range = 14.0
+spot_angle = 40.0
+
+[node name="StringLights" type="Node3D" parent="Yard"]
+
+[node name="Bulb0" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4643, 4.0398, -2.4643)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb1" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7929, 3.8439, -2.5929)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb2" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1214, 3.6806, -2.7214)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb3" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45, 3.55, -2.85)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb4" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7786, 3.452, -2.9786)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb5" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1071, 3.3867, -3.1071)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb6" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4357, 3.3541, -3.2357)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb7" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7643, 3.3541, -3.3643)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb8" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0929, 3.3867, -3.4929)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb9" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4214, 3.452, -3.6214)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb10" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 3.55, -3.75)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb11" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9214, 3.6806, -3.8786)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb12" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5929, 3.8439, -4.0071)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Bulb13" type="MeshInstance3D" parent="Yard/StringLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2643, 4.0398, -4.1357)
+cast_shadow = 0
+mesh = SubResource("bulb_mesh")
+surface_material_override/0 = SubResource("bulb")
+
+[node name="Fill" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.6, 5.5)
+light_color = Color(0.85, 0.82, 1, 1)
+light_energy = 1.1
+omni_range = 10.0
+
+[node name="Rocket" parent="." instance=ExtResource("rocket")]
+transform = Transform3D(0.527, -0.85, 0, 0, 0, 1, -0.85, -0.527, 0, -8.5575, 1, -7.3517)
+
+[node name="Cometlings" type="Node3D" parent="."]
+
+[node name="Engineer" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.9063, 0, 0.4226, 0, 1, 0, -0.4226, 0, 0.9063, 0.24, 1.62, -1.8972)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 31
+start_action = "work_hammer"
+listen_to_events = false
+
+[node name="Scientist" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.1184, 0, -0.993, 0, 1, 0, 0.993, 0, 0.1184, 3.9, 0, 1.5)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 32
+start_action = "work_scan"
+listen_to_events = false
+
+[node name="Pilot" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.8192, 0, -0.5736, 0, 1, 0, 0.5736, 0, 0.8192, 2.3, 0, 2.6)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 33
+start_action = "clipboard"
+listen_to_events = false
+
+[node name="Carrier" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.6616, 0, 0.7498, 0, 1, 0, -0.7498, 0, 0.6616, -1.4, 0, 1.3)
+role = "ground"
+body_color = Color(0.682, 0.933, 0.714, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 34
+start_action = "carry"
+listen_to_events = false
+
+[node name="ChatA" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.4832, 0, 0.8755, 0, 1, 0, -0.8755, 0, 0.4832, -1.3, 0, 1.6)
+role = "engineer"
+body_color = Color(1, 0.639, 0.639, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 35
+start_action = "talk"
+listen_to_events = false
+
+[node name="ChatB" parent="Cometlings" instance=ExtResource("cr")]
+transform = Transform3D(0.902, 0, -0.4318, 0, 1, 0, 0.4318, 0, 0.902, -0.45, 0, 2.05)
+role = "ground"
+body_color = Color(0.651, 0.918, 0.859, 1)
+spot_color = Color(1, 0.561, 0.722, 1)
+personality_seed = 36
+start_action = "talk"
+listen_to_events = false
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="Start" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.25, 7.3)
+
+[node name="End" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1.15, 6.5)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.25, 7.3)
+fov = 46.0
+far = 300.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}

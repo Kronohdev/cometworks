@@ -1,0 +1,152 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod2.glb" id="1_nucleus"]
+[ext_resource type="Shader" path="res://shaders/menu_comet_tail.gdshader" id="2_tail"]
+[ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="3_glow"]
+
+[sub_resource type="StandardMaterial3D" id="ice"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.9, 0.97, 1, 1)
+roughness = 0.7
+emission_enabled = true
+emission = Color(0.7, 0.95, 1, 1)
+emission_energy_multiplier = 0.9
+rim_enabled = true
+rim = 0.6
+rim_tint = 0.8
+
+[sub_resource type="QuadMesh" id="tail_quad"]
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ion_mat"]
+render_priority = 1
+shader = ExtResource("2_tail")
+shader_parameter/head_color = Color(0.85, 1, 0.98, 1)
+shader_parameter/color_a = Color(0.247, 0.878, 0.773, 1)
+shader_parameter/color_b = Color(0.557, 0.486, 1, 1)
+shader_parameter/color_c = Color(0.557, 0.486, 1, 1)
+shader_parameter/intensity = 0.75
+shader_parameter/width_start = 0.05
+shader_parameter/width_end = 0.3
+shader_parameter/bend = 0.0
+shader_parameter/streaks = 0.85
+shader_parameter/flow_speed = 0.06
+shader_parameter/fade_power = 1.2
+shader_parameter/gradient_scale = 1.0
+
+[sub_resource type="ShaderMaterial" id="dust_mat"]
+render_priority = 1
+shader = ExtResource("2_tail")
+shader_parameter/head_color = Color(0.9, 0.97, 1, 1)
+shader_parameter/color_a = Color(0.247, 0.878, 0.773, 1)
+shader_parameter/color_b = Color(0.557, 0.486, 1, 1)
+shader_parameter/color_c = Color(1, 0.541, 0.239, 1)
+shader_parameter/intensity = 1.0
+shader_parameter/width_start = 0.07
+shader_parameter/width_end = 0.5
+shader_parameter/bend = -0.55
+shader_parameter/streaks = 0.5
+shader_parameter/flow_speed = 0.03
+shader_parameter/fade_power = 1.5
+shader_parameter/gradient_scale = 0.9
+
+[sub_resource type="QuadMesh" id="glow_quad"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="coma_mat"]
+render_priority = 2
+shader = ExtResource("3_glow")
+shader_parameter/glow_color = Color(0.55, 0.92, 0.95, 1)
+shader_parameter/intensity = 0.5
+shader_parameter/core = 0.0
+shader_parameter/falloff = 3.2
+
+[sub_resource type="ShaderMaterial" id="core_mat"]
+render_priority = 2
+shader = ExtResource("3_glow")
+shader_parameter/glow_color = Color(0.85, 0.97, 1, 1)
+shader_parameter/intensity = 1.4
+shader_parameter/core = 0.04
+shader_parameter/falloff = 7.0
+
+[sub_resource type="Gradient" id="spark_ramp"]
+offsets = PackedFloat32Array(0, 0.1, 0.5, 1)
+colors = PackedColorArray(0.8, 1, 0.97, 0, 0.247, 0.878, 0.773, 1, 0.557, 0.486, 1, 0.8, 1, 0.541, 0.239, 0)
+
+[sub_resource type="GradientTexture1D" id="spark_ramp_tex"]
+gradient = SubResource("spark_ramp")
+
+[sub_resource type="ParticleProcessMaterial" id="spark_process"]
+emission_shape = 1
+emission_sphere_radius = 0.8
+direction = Vector3(1, 0, 0)
+spread = 8.0
+initial_velocity_min = 3.0
+initial_velocity_max = 7.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.4
+color_ramp = SubResource("spark_ramp_tex")
+
+[sub_resource type="StandardMaterial3D" id="spark_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(2, 2, 2, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id="spark_mesh"]
+material = SubResource("spark_mat")
+radius = 0.06
+height = 0.12
+radial_segments = 6
+rings = 3
+
+[node name="MaeGelo" type="Node3D"]
+
+[node name="Nucleus" parent="." instance=ExtResource("1_nucleus")]
+transform = Transform3D(0.55, 0.1, 0, -0.08, 0.42, 0.05, 0, -0.04, 0.48, 0, 0, 0)
+
+[node name="moon_lod2" parent="Nucleus" index="0"]
+material_override = SubResource("ice")
+cast_shadow = 0
+
+[node name="IonTail" type="MeshInstance3D" parent="."]
+transform = Transform3D(70, 0, 0, 0, 7, 0, 0, 0, 1, 0, 0, 0)
+cast_shadow = 0
+custom_aabb = AABB(0, -0.6, -4, 1, 1.2, 8)
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("ion_mat")
+
+[node name="DustTail" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 20, 0, 0, 0, 1, 0, 0, 0)
+cast_shadow = 0
+custom_aabb = AABB(0, -0.6, -8, 1, 1.2, 16)
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("dust_mat")
+
+[node name="Coma" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("coma_mat")
+
+[node name="Core" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("glow_quad")
+surface_material_override/0 = SubResource("core_mat")
+
+[node name="Sparks" type="GPUParticles3D" parent="."]
+amount = 90
+lifetime = 7.0
+preprocess = 7.0
+visibility_aabb = AABB(-4, -12, -12, 60, 24, 24)
+process_material = SubResource("spark_process")
+draw_pass_1 = SubResource("spark_mesh")

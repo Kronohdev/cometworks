@@ -1,64 +1,155 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=61 format=3]
 
-[ext_resource type="Script" path="res://src/flight/flight_map.gd" id="1_map"]
-[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="2_earth"]
-[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod0.glb" id="3_clouds"]
-[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="4_moon"]
-[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
-[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="6_atmo"]
-[ext_resource type="Shader" path="res://shaders/solar_sky.gdshader" id="7_sky"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_apsis.svg" id="8_apsis"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="9_ship"]
-[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="10_theme"]
+[ext_resource type="Script" path="res://src/flight/flight_map.gd" id="s_map"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="theme"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="sh_solar_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_sun.gdshader" id="sh_solar_sun"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="sh_solar_atmosphere"]
+[ext_resource type="Shader" path="res://shaders/solar_rings.gdshader" id="sh_solar_rings"]
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="sh_flight_map_sky"]
+[ext_resource type="Shader" path="res://shaders/flight_map_line.gdshader" id="sh_flight_map_line"]
+[ext_resource type="Shader" path="res://shaders/flight_map_glow.gdshader" id="sh_flight_map_glow"]
+[ext_resource type="PackedScene" path="res://scenes/flight/map_node_gizmo.tscn" id="p_gizmo"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="t_vessel"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/map_add.svg" id="t_add"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod0.glb" id="g_sun0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod1.glb" id="g_sun1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod2.glb" id="g_sun2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod0.glb" id="g_mercury0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod1.glb" id="g_mercury1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod2.glb" id="g_mercury2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod0.glb" id="g_venus0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod1.glb" id="g_venus1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod2.glb" id="g_venus2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="g_earth0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod1.glb" id="g_earth1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod2.glb" id="g_earth2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod0.glb" id="g_clouds0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod1.glb" id="g_clouds1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod2.glb" id="g_clouds2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod0.glb" id="g_moon0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="g_moon1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod2.glb" id="g_moon2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod0.glb" id="g_mars0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod1.glb" id="g_mars1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod2.glb" id="g_mars2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod0.glb" id="g_jupiter0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod1.glb" id="g_jupiter1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod2.glb" id="g_jupiter2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod0.glb" id="g_europa0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod1.glb" id="g_europa1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod2.glb" id="g_europa2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod0.glb" id="g_saturn0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod1.glb" id="g_saturn1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod2.glb" id="g_saturn2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod0.glb" id="g_rings0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod1.glb" id="g_rings1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod2.glb" id="g_rings2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod0.glb" id="g_uranus0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod1.glb" id="g_uranus1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod2.glb" id="g_uranus2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod0.glb" id="g_neptune0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod1.glb" id="g_neptune1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod2.glb" id="g_neptune2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod0.glb" id="g_pluto0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod1.glb" id="g_pluto1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod2.glb" id="g_pluto2"]
 
-[sub_resource type="ShaderMaterial" id="m_stars"]
-shader = ExtResource("7_sky")
-shader_parameter/star_brightness = 2.4
-shader_parameter/milky_way = 0.6
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("sh_flight_map_sky")
 
 [sub_resource type="Sky" id="sky"]
-sky_material = SubResource("m_stars")
+sky_material = SubResource("sky_mat")
 radiance_size = 0
 
 [sub_resource type="Environment" id="env"]
 background_mode = 2
 sky = SubResource("sky")
 ambient_light_source = 2
-ambient_light_color = Color(0.25, 0.3, 0.4, 1)
-ambient_light_energy = 0.35
+ambient_light_color = Color(0.42, 0.5, 0.72, 1)
+ambient_light_energy = 0.16
+reflected_light_source = 1
 tonemap_mode = 3
 tonemap_exposure = 1.05
-glow_enabled = true
-glow_intensity = 0.6
-glow_bloom = 0.05
+adjustment_enabled = true
+adjustment_contrast = 1.04
+adjustment_saturation = 1.1
 
-[sub_resource type="ShaderMaterial" id="m_earth"]
-shader = ExtResource("5_planet")
+[sub_resource type="ShaderMaterial" id="mat_planet"]
+shader = ExtResource("sh_solar_planet")
+
+[sub_resource type="ShaderMaterial" id="mat_gas"]
+shader = ExtResource("sh_solar_planet")
+shader_parameter/normal_blend = 0.75
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("sh_solar_planet")
 shader_parameter/ocean_glint = 0.7
-shader_parameter/night_floor = 0.03
 
-[sub_resource type="ShaderMaterial" id="m_clouds"]
-shader = ExtResource("5_planet")
+[sub_resource type="ShaderMaterial" id="mat_clouds"]
+shader = ExtResource("sh_solar_planet")
 shader_parameter/normal_blend = 0.7
 shader_parameter/night_floor = 0.012
 shader_parameter/specular_amount = 0.05
 
-[sub_resource type="ShaderMaterial" id="m_moon"]
-shader = ExtResource("5_planet")
-shader_parameter/night_floor = 0.01
+[sub_resource type="ShaderMaterial" id="mat_sun"]
+shader = ExtResource("sh_solar_sun")
+shader_parameter/energy_near = 1.1
+shader_parameter/energy_far = 3.0
+shader_parameter/energy_distance = Vector2(2.7e+06, 1.6e+07)
 
-[sub_resource type="ShaderMaterial" id="m_atmo"]
-shader = ExtResource("6_atmo")
-shader_parameter/atmo_color = Color(0.435294, 0.705882, 1, 1)
-shader_parameter/intensity = 1.9
-shader_parameter/power = 2.2
-shader_parameter/sun_position = Vector3(1e+06, 6e+05, 7e+05)
+[sub_resource type="ShaderMaterial" id="mat_rings"]
+shader = ExtResource("sh_solar_rings")
+shader_parameter/brightness = 1.5
+shader_parameter/two_sided_wrap = 0.8
+
+[sub_resource type="ShaderMaterial" id="mat_line"]
+render_priority = 1
+shader = ExtResource("sh_flight_map_line")
+
+[sub_resource type="ShaderMaterial" id="mat_glow"]
+render_priority = 2
+shader = ExtResource("sh_flight_map_glow")
+
+[sub_resource type="QuadMesh" id="quad2"]
+size = Vector2(2, 2)
 
 [sub_resource type="SphereMesh" id="atmo_sphere"]
 radius = 1.0
 height = 2.0
-radial_segments = 96
-rings = 48
+radial_segments = 64
+rings = 32
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_earth"]
+shader = ExtResource("sh_solar_atmosphere")
+shader_parameter/atmo_color = Color(0.435294, 0.705882, 1.0, 1)
+shader_parameter/intensity = 1.9
+shader_parameter/power = 2.2
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_venus"]
+shader = ExtResource("sh_solar_atmosphere")
+shader_parameter/atmo_color = Color(1.0, 0.886275, 0.658824, 1)
+shader_parameter/intensity = 1.4
+shader_parameter/power = 2.0
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_mars"]
+shader = ExtResource("sh_solar_atmosphere")
+shader_parameter/atmo_color = Color(1.0, 0.690196, 0.541176, 1)
+shader_parameter/intensity = 0.8
+shader_parameter/power = 2.6
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_uranus"]
+shader = ExtResource("sh_solar_atmosphere")
+shader_parameter/atmo_color = Color(0.65098, 0.941176, 1.0, 1)
+shader_parameter/intensity = 0.9
+shader_parameter/power = 2.6
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_neptune"]
+shader = ExtResource("sh_solar_atmosphere")
+shader_parameter/atmo_color = Color(0.435294, 0.611765, 1.0, 1)
+shader_parameter/intensity = 1.1
+shader_parameter/power = 2.6
 
 [node name="MapView" type="Control"]
 layout_mode = 3
@@ -68,8 +159,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("10_theme")
-script = ExtResource("1_map")
+theme = ExtResource("theme")
+script = ExtResource("s_map")
 
 [node name="Container" type="SubViewportContainer" parent="."]
 layout_mode = 1
@@ -85,60 +176,864 @@ stretch = true
 unique_name_in_owner = true
 own_world_3d = true
 handle_input_locally = false
-msaa_3d = 2
 size = Vector2i(1600, 900)
 render_target_update_mode = 0
 
 [node name="World" type="Node3D" parent="Container/MapViewport"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
 environment = SubResource("env")
 
-[node name="MapSun" type="DirectionalLight3D" parent="Container/MapViewport/World"]
+[node name="SunLight" type="OmniLight3D" parent="Container/MapViewport/World"]
 unique_name_in_owner = true
-light_color = Color(1, 0.9451, 0.8627, 1)
-light_energy = 1.6
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 2.4
+light_specular = 0.35
+omni_range = 1e+11
+omni_attenuation = 0.0
 
 [node name="MapCamera" type="Camera3D" parent="Container/MapViewport/World"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.877583, 0.479426, 0, -0.479426, 0.877583, 0, 1246, 2281)
+transform = Transform3D(1, 0, 0, 0, 0.877583, 0.479426, 0, -0.479426, 0.877583, 0, 12000, 22000)
 fov = 50.0
-near = 5.0
-far = 200000.0
+near = 1.0
+far = 1e+08
 
-[node name="Earth" type="Node3D" parent="Container/MapViewport/World"]
+[node name="Bodies" type="Node3D" parent="Container/MapViewport/World"]
 unique_name_in_owner = true
-transform = Transform3D(614.8, 0, 0, 0, 614.8, 0, 0, 0, 614.8, 0, 0, 0)
 
-[node name="Surface" parent="Container/MapViewport/World/Earth" instance=ExtResource("2_earth")]
+[node name="Sun" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "sun"
 
-[node name="earth_lod0" parent="Container/MapViewport/World/Earth/Surface" index="0"]
-material_override = SubResource("m_earth")
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Sun"]
+transform = Transform3D(1, 0, 0, 0, 0.992005, 0.126199, 0, -0.126199, 0.992005, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Sun/Tilt" instance=ExtResource("g_sun0")]
+transform = Transform3D(683063, 0, 0, 0, 683063, 0, 0, 0, 683063, 0, 0, 0)
+
+[node name="sun_lod0" parent="Container/MapViewport/World/Bodies/Sun/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_sun")
 cast_shadow = 0
+visibility_range_end = 9562886.6
+visibility_range_end_margin = 1147546.4
+visibility_range_fade_mode = 1
 
-[node name="Clouds" parent="Container/MapViewport/World/Earth" instance=ExtResource("3_clouds")]
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Sun/Tilt" instance=ExtResource("g_sun1")]
+transform = Transform3D(683063, 0, 0, 0, 683063, 0, 0, 0, 683063, 0, 0, 0)
 
-[node name="earth_clouds_lod0" parent="Container/MapViewport/World/Earth/Clouds" index="0"]
-material_override = SubResource("m_clouds")
+[node name="sun_lod1" parent="Container/MapViewport/World/Bodies/Sun/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_sun")
 cast_shadow = 0
+visibility_range_begin = 9562886.6
+visibility_range_begin_margin = 1147546.4
+visibility_range_end = 31420913.1
+visibility_range_end_margin = 3770509.6
+visibility_range_fade_mode = 1
 
-[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Earth"]
-transform = Transform3D(1.085, 0, 0, 0, 1.085, 0, 0, 0, 1.085, 0, 0, 0)
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Sun/Tilt" instance=ExtResource("g_sun2")]
+transform = Transform3D(683063, 0, 0, 0, 683063, 0, 0, 0, 683063, 0, 0, 0)
+
+[node name="sun_lod2" parent="Container/MapViewport/World/Bodies/Sun/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_sun")
+cast_shadow = 0
+visibility_range_begin = 31420913.1
+visibility_range_begin_margin = 3770509.6
+visibility_range_end = 273225331.4
+visibility_range_end_margin = 32787039.8
+visibility_range_fade_mode = 1
+
+[node name="Halo" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Sun"]
+transform = Transform3D(2678445.0, 0, 0, 0, 2678445.0, 0, 0, 0, 2678445.0, 0, 0, 0)
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("quad2")
+surface_material_override/0 = SubResource("mat_glow")
+instance_shader_parameters/glow_color = Color(1, 0.72, 0.38, 1)
+instance_shader_parameters/min_px = 70.0
+instance_shader_parameters/intensity = 1.6
+instance_shader_parameters/core = 0.26
+
+[node name="Mercury" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "mercury"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Mercury"]
+transform = Transform3D(1, 0, 0, 0, 1, 0.000593412, 0, -0.000593412, 1, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Mercury/Tilt" instance=ExtResource("g_mercury0")]
+transform = Transform3D(2249.61, 0, 0, 0, 2249.61, 0, 0, 0, 2249.61, 0, 0, 0)
+
+[node name="mercury_lod0" parent="Container/MapViewport/World/Bodies/Mercury/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 31494.5
+visibility_range_end_margin = 3779.34
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Mercury/Tilt" instance=ExtResource("g_mercury1")]
+transform = Transform3D(2249.61, 0, 0, 0, 2249.61, 0, 0, 0, 2249.61, 0, 0, 0)
+
+[node name="mercury_lod1" parent="Container/MapViewport/World/Bodies/Mercury/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 31494.5
+visibility_range_begin_margin = 3779.34
+visibility_range_end = 103482
+visibility_range_end_margin = 12417.8
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Mercury/Tilt" instance=ExtResource("g_mercury2")]
+transform = Transform3D(2249.61, 0, 0, 0, 2249.61, 0, 0, 0, 2249.61, 0, 0, 0)
+
+[node name="mercury_lod2" parent="Container/MapViewport/World/Bodies/Mercury/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 103482
+visibility_range_begin_margin = 12417.8
+visibility_range_end = 899843
+visibility_range_end_margin = 107981
+visibility_range_fade_mode = 1
+
+[node name="Venus" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "venus"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Venus"]
+transform = Transform3D(1, 0, 0, 0, -0.998939, 0.0460604, 0, -0.0460604, -0.998939, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Venus/Tilt" instance=ExtResource("g_venus0")]
+transform = Transform3D(5919.79, 0, 0, 0, 5919.79, 0, 0, 0, 5919.79, 0, 0, 0)
+
+[node name="venus_lod0" parent="Container/MapViewport/World/Bodies/Venus/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 82877
+visibility_range_end_margin = 9945.25
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Venus/Tilt" instance=ExtResource("g_venus1")]
+transform = Transform3D(5919.79, 0, 0, 0, 5919.79, 0, 0, 0, 5919.79, 0, 0, 0)
+
+[node name="venus_lod1" parent="Container/MapViewport/World/Bodies/Venus/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 82877
+visibility_range_begin_margin = 9945.25
+visibility_range_end = 272310
+visibility_range_end_margin = 32677.2
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Venus/Tilt" instance=ExtResource("g_venus2")]
+transform = Transform3D(5919.79, 0, 0, 0, 5919.79, 0, 0, 0, 5919.79, 0, 0, 0)
+
+[node name="venus_lod2" parent="Container/MapViewport/World/Bodies/Venus/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 272310
+visibility_range_begin_margin = 32677.2
+visibility_range_end = 2367915.5
+visibility_range_end_margin = 284150
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Venus/Tilt"]
+transform = Transform3D(6293.87, 0, 0, 0, 6293.87, 0, 0, 0, 6293.87, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("atmo_sphere")
-surface_material_override/0 = SubResource("m_atmo")
+surface_material_override/0 = SubResource("mat_atmo_venus")
+visibility_range_end = 680776
+visibility_range_end_margin = 81693.1
+visibility_range_fade_mode = 1
 
-[node name="Moon" type="Node3D" parent="Container/MapViewport/World"]
-unique_name_in_owner = true
-transform = Transform3D(173.74, 0, 0, 0, 173.74, 0, 0, 0, 173.74, -23000, 19000, 22000)
+[node name="Earth" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "earth"
 
-[node name="Surface" parent="Container/MapViewport/World/Moon" instance=ExtResource("4_moon")]
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Earth"]
+transform = Transform3D(1, 0, 0, 0, 0.917477, 0.397789, 0, -0.397789, 0.917477, 0, 0, 0)
 
-[node name="moon_lod1" parent="Container/MapViewport/World/Moon/Surface" index="0"]
-material_override = SubResource("m_moon")
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_earth0")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_lod0" parent="Container/MapViewport/World/Bodies/Earth/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_earth")
 cast_shadow = 0
+visibility_range_end = 80623.7
+visibility_range_end_margin = 9674.84
+visibility_range_fade_mode = 1
 
-[node name="MapOverlay" type="Control" parent="."]
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_earth1")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_lod1" parent="Container/MapViewport/World/Bodies/Earth/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+visibility_range_begin = 80623.7
+visibility_range_begin_margin = 9674.84
+visibility_range_end = 264906
+visibility_range_end_margin = 31788.8
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_earth2")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_lod2" parent="Container/MapViewport/World/Bodies/Earth/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+visibility_range_begin = 264906
+visibility_range_begin_margin = 31788.8
+visibility_range_end = 2303534.3
+visibility_range_end_margin = 276424
+visibility_range_fade_mode = 1
+
+[node name="Clouds0" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_clouds0")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_clouds_lod0" parent="Container/MapViewport/World/Bodies/Earth/Tilt/Clouds0" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_end = 80623.7
+visibility_range_end_margin = 9674.84
+visibility_range_fade_mode = 1
+
+[node name="Clouds1" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_clouds1")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_clouds_lod1" parent="Container/MapViewport/World/Bodies/Earth/Tilt/Clouds1" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_begin = 80623.7
+visibility_range_begin_margin = 9674.84
+visibility_range_end = 264906
+visibility_range_end_margin = 31788.8
+visibility_range_fade_mode = 1
+
+[node name="Clouds2" parent="Container/MapViewport/World/Bodies/Earth/Tilt" instance=ExtResource("g_clouds2")]
+transform = Transform3D(5758.84, 0, 0, 0, 5758.84, 0, 0, 0, 5758.84, 0, 0, 0)
+
+[node name="earth_clouds_lod2" parent="Container/MapViewport/World/Bodies/Earth/Tilt/Clouds2" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_begin = 264906
+visibility_range_begin_margin = 31788.8
+visibility_range_end = 2303534.3
+visibility_range_end_margin = 276424
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Earth/Tilt"]
+transform = Transform3D(6625.84, 0, 0, 0, 6625.84, 0, 0, 0, 6625.84, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_earth")
+visibility_range_end = 662266
+visibility_range_end_margin = 79471.9
+visibility_range_fade_mode = 1
+
+[node name="Moon" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "moon"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Moon"]
+transform = Transform3D(1, 0, 0, 0, 0.993211, 0.116324, 0, -0.116324, 0.993211, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Moon/Tilt" instance=ExtResource("g_moon0")]
+transform = Transform3D(1605.88, 0, 0, 0, 1605.88, 0, 0, 0, 1605.88, 0, 0, 0)
+
+[node name="moon_lod0" parent="Container/MapViewport/World/Bodies/Moon/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 22482.3
+visibility_range_end_margin = 2697.88
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Moon/Tilt" instance=ExtResource("g_moon1")]
+transform = Transform3D(1605.88, 0, 0, 0, 1605.88, 0, 0, 0, 1605.88, 0, 0, 0)
+
+[node name="moon_lod1" parent="Container/MapViewport/World/Bodies/Moon/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 22482.3
+visibility_range_begin_margin = 2697.88
+visibility_range_end = 73870.4
+visibility_range_end_margin = 8864.45
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Moon/Tilt" instance=ExtResource("g_moon2")]
+transform = Transform3D(1605.88, 0, 0, 0, 1605.88, 0, 0, 0, 1605.88, 0, 0, 0)
+
+[node name="moon_lod2" parent="Container/MapViewport/World/Bodies/Moon/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 73870.4
+visibility_range_begin_margin = 8864.45
+visibility_range_end = 642351
+visibility_range_end_margin = 77082.2
+visibility_range_fade_mode = 1
+
+[node name="Mars" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "mars"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Mars"]
+transform = Transform3D(1, 0, 0, 0, 0.904901, 0.425621, 0, -0.425621, 0.904901, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Mars/Tilt" instance=ExtResource("g_mars0")]
+transform = Transform3D(3136.97, 0, 0, 0, 3136.97, 0, 0, 0, 3136.97, 0, 0, 0)
+
+[node name="mars_lod0" parent="Container/MapViewport/World/Bodies/Mars/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 43917.6
+visibility_range_end_margin = 5270.12
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Mars/Tilt" instance=ExtResource("g_mars1")]
+transform = Transform3D(3136.97, 0, 0, 0, 3136.97, 0, 0, 0, 3136.97, 0, 0, 0)
+
+[node name="mars_lod1" parent="Container/MapViewport/World/Bodies/Mars/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 43917.6
+visibility_range_begin_margin = 5270.12
+visibility_range_end = 144301
+visibility_range_end_margin = 17316.1
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Mars/Tilt" instance=ExtResource("g_mars2")]
+transform = Transform3D(3136.97, 0, 0, 0, 3136.97, 0, 0, 0, 3136.97, 0, 0, 0)
+
+[node name="mars_lod2" parent="Container/MapViewport/World/Bodies/Mars/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 144301
+visibility_range_begin_margin = 17316.1
+visibility_range_end = 1254789.4
+visibility_range_end_margin = 150575
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Mars/Tilt"]
+transform = Transform3D(3525.08, 0, 0, 0, 3525.08, 0, 0, 0, 3525.08, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_mars")
+visibility_range_end = 360752
+visibility_range_end_margin = 43290.2
+visibility_range_fade_mode = 1
+
+[node name="Jupiter" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "jupiter"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Jupiter"]
+transform = Transform3D(1, 0, 0, 0, 0.998508, 0.0546016, 0, -0.0546016, 0.998508, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt" instance=ExtResource("g_jupiter0")]
+transform = Transform3D(68715.4, 0, 0, 0, 68715.4, 0, 0, 0, 68715.4, 0, 0, 0)
+
+[node name="jupiter_lod0" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 962015
+visibility_range_end_margin = 115442
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt" instance=ExtResource("g_jupiter1")]
+transform = Transform3D(68715.4, 0, 0, 0, 68715.4, 0, 0, 0, 68715.4, 0, 0, 0)
+
+[node name="jupiter_lod1" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 962015
+visibility_range_begin_margin = 115442
+visibility_range_end = 3160906.2
+visibility_range_end_margin = 379309
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt" instance=ExtResource("g_jupiter2")]
+transform = Transform3D(68715.4, 0, 0, 0, 68715.4, 0, 0, 0, 68715.4, 0, 0, 0)
+
+[node name="jupiter_lod2" parent="Container/MapViewport/World/Bodies/Jupiter/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 3160906.2
+visibility_range_begin_margin = 379309
+visibility_range_end = 27486141.1
+visibility_range_end_margin = 3298336.9
+visibility_range_fade_mode = 1
+
+[node name="Europa" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "europa"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Europa"]
+transform = Transform3D(1, 0, 0, 0, 0.999998, 0.00174533, 0, -0.00174533, 0.999998, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Europa/Tilt" instance=ExtResource("g_europa0")]
+transform = Transform3D(1517.55, 0, 0, 0, 1517.55, 0, 0, 0, 1517.55, 0, 0, 0)
+
+[node name="europa_lod0" parent="Container/MapViewport/World/Bodies/Europa/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 21245.7
+visibility_range_end_margin = 2549.48
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Europa/Tilt" instance=ExtResource("g_europa1")]
+transform = Transform3D(1517.55, 0, 0, 0, 1517.55, 0, 0, 0, 1517.55, 0, 0, 0)
+
+[node name="europa_lod1" parent="Container/MapViewport/World/Bodies/Europa/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 21245.7
+visibility_range_begin_margin = 2549.48
+visibility_range_end = 69807.3
+visibility_range_end_margin = 8376.88
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Europa/Tilt" instance=ExtResource("g_europa2")]
+transform = Transform3D(1517.55, 0, 0, 0, 1517.55, 0, 0, 0, 1517.55, 0, 0, 0)
+
+[node name="europa_lod2" parent="Container/MapViewport/World/Bodies/Europa/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 69807.3
+visibility_range_begin_margin = 8376.88
+visibility_range_end = 607020
+visibility_range_end_margin = 72842.4
+visibility_range_fade_mode = 1
+
+[node name="Saturn" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "saturn"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Saturn"]
+transform = Transform3D(1, 0, 0, 0, 0.893136, 0.449787, 0, -0.449787, 0.893136, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_saturn0")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_lod0" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 800440
+visibility_range_end_margin = 96052.8
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_saturn1")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_lod1" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 800440
+visibility_range_begin_margin = 96052.8
+visibility_range_end = 2630016.7
+visibility_range_end_margin = 315602
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_saturn2")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_lod2" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 2630016.7
+visibility_range_begin_margin = 315602
+visibility_range_end = 22869710.4
+visibility_range_end_margin = 2744365.2
+visibility_range_fade_mode = 1
+
+[node name="Rings0" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_rings0")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_rings_lod0" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/Rings0" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_end = 800440
+visibility_range_end_margin = 96052.8
+visibility_range_fade_mode = 1
+
+[node name="Rings1" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_rings1")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_rings_lod1" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/Rings1" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_begin = 800440
+visibility_range_begin_margin = 96052.8
+visibility_range_end = 2630016.7
+visibility_range_end_margin = 315602
+visibility_range_fade_mode = 1
+
+[node name="Rings2" parent="Container/MapViewport/World/Bodies/Saturn/Tilt" instance=ExtResource("g_rings2")]
+transform = Transform3D(57174.3, 0, 0, 0, 57174.3, 0, 0, 0, 57174.3, 0, 0, 0)
+
+[node name="saturn_rings_lod2" parent="Container/MapViewport/World/Bodies/Saturn/Tilt/Rings2" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_begin = 2630016.7
+visibility_range_begin_margin = 315602
+visibility_range_end = 22869710.4
+visibility_range_end_margin = 2744365.2
+visibility_range_fade_mode = 1
+
+[node name="Uranus" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "uranus"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Uranus"]
+transform = Transform3D(1, 0, 0, 0, -0.135197, 0.990819, 0, -0.990819, -0.135197, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Uranus/Tilt" instance=ExtResource("g_uranus0")]
+transform = Transform3D(24808.8, 0, 0, 0, 24808.8, 0, 0, 0, 24808.8, 0, 0, 0)
+
+[node name="uranus_lod0" parent="Container/MapViewport/World/Bodies/Uranus/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 347323
+visibility_range_end_margin = 41678.7
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Uranus/Tilt" instance=ExtResource("g_uranus1")]
+transform = Transform3D(24808.8, 0, 0, 0, 24808.8, 0, 0, 0, 24808.8, 0, 0, 0)
+
+[node name="uranus_lod1" parent="Container/MapViewport/World/Bodies/Uranus/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 347323
+visibility_range_begin_margin = 41678.7
+visibility_range_end = 1141203.2
+visibility_range_end_margin = 136944
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Uranus/Tilt" instance=ExtResource("g_uranus2")]
+transform = Transform3D(24808.8, 0, 0, 0, 24808.8, 0, 0, 0, 24808.8, 0, 0, 0)
+
+[node name="uranus_lod2" parent="Container/MapViewport/World/Bodies/Uranus/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 1141203.2
+visibility_range_begin_margin = 136944
+visibility_range_end = 9923505.8
+visibility_range_end_margin = 1190820.7
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Uranus/Tilt"]
+transform = Transform3D(26376.5, 0, 0, 0, 26376.5, 0, 0, 0, 26376.5, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_uranus")
+visibility_range_end = 2853007.9
+visibility_range_end_margin = 342361
+visibility_range_fade_mode = 1
+
+[node name="Neptune" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "neptune"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Neptune"]
+transform = Transform3D(1, 0, 0, 0, 0.880312, 0.474396, 0, -0.474396, 0.880312, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Neptune/Tilt" instance=ExtResource("g_neptune0")]
+transform = Transform3D(24084.9, 0, 0, 0, 24084.9, 0, 0, 0, 24084.9, 0, 0, 0)
+
+[node name="neptune_lod0" parent="Container/MapViewport/World/Bodies/Neptune/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 337189
+visibility_range_end_margin = 40462.6
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Neptune/Tilt" instance=ExtResource("g_neptune1")]
+transform = Transform3D(24084.9, 0, 0, 0, 24084.9, 0, 0, 0, 24084.9, 0, 0, 0)
+
+[node name="neptune_lod1" parent="Container/MapViewport/World/Bodies/Neptune/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 337189
+visibility_range_begin_margin = 40462.6
+visibility_range_end = 1107905.7
+visibility_range_end_margin = 132949
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Neptune/Tilt" instance=ExtResource("g_neptune2")]
+transform = Transform3D(24084.9, 0, 0, 0, 24084.9, 0, 0, 0, 24084.9, 0, 0, 0)
+
+[node name="neptune_lod2" parent="Container/MapViewport/World/Bodies/Neptune/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 1107905.7
+visibility_range_begin_margin = 132949
+visibility_range_end = 9633962.6
+visibility_range_end_margin = 1156075.5
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/Neptune/Tilt"]
+transform = Transform3D(25606.9, 0, 0, 0, 25606.9, 0, 0, 0, 25606.9, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_neptune")
+visibility_range_end = 2769764.3
+visibility_range_end_margin = 332372
+visibility_range_fade_mode = 1
+
+[node name="Pluto" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "pluto"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Pluto"]
+transform = Transform3D(1, 0, 0, 0, -0.537741, 0.84311, 0, -0.84311, -0.537741, 0, 0, 0)
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Pluto/Tilt" instance=ExtResource("g_pluto0")]
+transform = Transform3D(1105.19, 0, 0, 0, 1105.19, 0, 0, 0, 1105.19, 0, 0, 0)
+
+[node name="pluto_lod0" parent="Container/MapViewport/World/Bodies/Pluto/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 15472.7
+visibility_range_end_margin = 1856.72
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Pluto/Tilt" instance=ExtResource("g_pluto1")]
+transform = Transform3D(1105.19, 0, 0, 0, 1105.19, 0, 0, 0, 1105.19, 0, 0, 0)
+
+[node name="pluto_lod1" parent="Container/MapViewport/World/Bodies/Pluto/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 15472.7
+visibility_range_begin_margin = 1856.72
+visibility_range_end = 50838.7
+visibility_range_end_margin = 6100.65
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Pluto/Tilt" instance=ExtResource("g_pluto2")]
+transform = Transform3D(1105.19, 0, 0, 0, 1105.19, 0, 0, 0, 1105.19, 0, 0, 0)
+
+[node name="pluto_lod2" parent="Container/MapViewport/World/Bodies/Pluto/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 50838.7
+visibility_range_begin_margin = 6100.65
+visibility_range_end = 442076
+visibility_range_end_margin = 53049.1
+visibility_range_fade_mode = 1
+
+[node name="Orbits" type="Node3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+
+[node name="Mercury" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.639, 0.624, 0.605, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "mercury"
+
+[node name="Venus" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.834, 0.756, 0.601, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "venus"
+
+[node name="Earth" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.400, 0.553, 0.734, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "earth"
+
+[node name="Moon" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.702, 0.698, 0.687, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "moon"
+
+[node name="Mars" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.806, 0.564, 0.432, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "mars"
+
+[node name="Jupiter" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.803, 0.734, 0.639, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "jupiter"
+
+[node name="Europa" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.814, 0.790, 0.745, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "europa"
+
+[node name="Saturn" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.827, 0.771, 0.646, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "saturn"
+
+[node name="Uranus" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.680, 0.810, 0.825, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "uranus"
+
+[node name="Neptune" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.439, 0.523, 0.760, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "neptune"
+
+[node name="Pluto" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.771, 0.700, 0.618, 0.5)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "pluto"
+
+[node name="Trajectory" type="Node3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+
+[node name="Seg0" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg1" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg2" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg3" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg4" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg5" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg6" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg7" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg8" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg9" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg10" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg11" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg12" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Seg13" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="Detail" type="MeshInstance3D" parent="Container/MapViewport/World/Trajectory"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_width = 2.6
+
+[node name="SoiRings" type="Node3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+
+[node name="Ring0" type="MeshInstance3D" parent="Container/MapViewport/World/SoiRings"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.576, 0.639, 0.722, 0.22)
+instance_shader_parameters/line_width = 1.0
+
+[node name="Ring1" type="MeshInstance3D" parent="Container/MapViewport/World/SoiRings"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.576, 0.639, 0.722, 0.22)
+instance_shader_parameters/line_width = 1.0
+
+[node name="Ring2" type="MeshInstance3D" parent="Container/MapViewport/World/SoiRings"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.576, 0.639, 0.722, 0.22)
+instance_shader_parameters/line_width = 1.0
+
+[node name="Overlay" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -148,76 +1043,162 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ShipMarker" type="TextureRect" parent="MapOverlay"]
+[node name="Labels" type="Control" parent="Overlay"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Markers" type="Control" parent="Overlay"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="VesselMarker" type="TextureRect" parent="Overlay"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 48.0
-offset_bottom = 24.0
+offset_right = 36.0
+offset_bottom = 18.0
 mouse_filter = 2
-texture = ExtResource("9_ship")
+texture = ExtResource("t_vessel")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ApMarker" type="VBoxContainer" parent="MapOverlay"]
+[node name="Hover" type="Control" parent="Overlay"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Overlay/Hover"]
+self_modulate = Color(1, 0.6039, 0.2392, 1)
+layout_mode = 0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
+mouse_filter = 2
+texture = ExtResource("t_add")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Overlay/Hover"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 140.0
-offset_bottom = 46.0
-mouse_filter = 2
-theme_override_constants/separation = 0
-alignment = 2
-
-[node name="ApLabel" type="Label" parent="MapOverlay/ApMarker"]
-unique_name_in_owner = true
-layout_mode = 2
+offset_left = 14.0
+offset_top = -26.0
+offset_right = 260.0
+offset_bottom = -8.0
 theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 13
-text = "Ap"
-horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 0.7412, 0.4784, 1)
+theme_override_colors/font_outline_color = Color(0.0392, 0.0549, 0.0745, 0.9)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 12
+text = "+ node  T- 12:00"
 
-[node name="Icon" type="TextureRect" parent="MapOverlay/ApMarker"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("8_apsis")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PeMarker" type="VBoxContainer" parent="MapOverlay"]
+[node name="Gizmo" parent="Overlay" instance=ExtResource("p_gizmo")]
 unique_name_in_owner = true
-layout_mode = 0
-offset_right = 140.0
-offset_bottom = 46.0
-mouse_filter = 2
-theme_override_constants/separation = 0
-alignment = 2
+visible = false
 
-[node name="PeLabel" type="Label" parent="MapOverlay/PeMarker"]
+[node name="MapBar" type="PanelContainer" parent="Overlay"]
 unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 13
-text = "Pe"
-horizontal_alignment = 1
-
-[node name="Icon" type="TextureRect" parent="MapOverlay/PeMarker"]
-self_modulate = Color(0.372549, 0.690196, 0.847059, 1)
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("8_apsis")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Legend" type="Label" parent="MapOverlay"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
+offset_left = 16.0
+offset_top = -116.0
+offset_right = 548.0
+offset_bottom = -48.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Overlay/MapBar"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Overlay/MapBar/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Overlay/MapBar/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "FL_MAP_TITLE"
+
+[node name="BtnPrev" type="Button" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+tooltip_text = "FL_MAP_FOCUS_TIP"
+focus_mode = 0
+text = "‹"
+
+[node name="Focus" type="Label" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+theme_override_font_sizes/font_size = 16
+text = "Earth"
+horizontal_alignment = 1
+
+[node name="BtnNext" type="Button" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+tooltip_text = "FL_MAP_FOCUS_TIP"
+focus_mode = 0
+text = "›"
+
+[node name="Sep" type="VSeparator" parent="Overlay/MapBar/VBox/Head"]
+layout_mode = 2
+
+[node name="BtnVessel" type="Button" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_MAP_SCALE_VESSEL_TIP"
+focus_mode = 0
+theme_type_variation = &"SegmentButton"
+toggle_mode = true
+text = "FL_MAP_SCALE_VESSEL"
+
+[node name="BtnSystem" type="Button" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_MAP_SCALE_SYSTEM_TIP"
+focus_mode = 0
+theme_type_variation = &"SegmentButton"
+toggle_mode = true
+text = "FL_MAP_SCALE_SYSTEM"
+
+[node name="BtnSolar" type="Button" parent="Overlay/MapBar/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_MAP_SCALE_SOLAR_TIP"
+focus_mode = 0
+theme_type_variation = &"SegmentButton"
+toggle_mode = true
+text = "FL_MAP_SCALE_SOLAR"
+
+[node name="Info" type="Label" parent="Overlay/MapBar/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 13
+text = "Target: Moon"
+
+[node name="Hint" type="Label" parent="Overlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
 offset_top = -40.0
-offset_right = 520.0
-offset_bottom = -16.0
+offset_right = 548.0
+offset_bottom = -6.0
 grow_vertical = 0
 theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 12
 text = "FL_MAP_HINT"
+autowrap_mode = 3

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Margin"
-run/main_scene="res://scenes/hangar.tscn"
+run/main_scene="res://scenes/menu/main_menu.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -29,7 +29,7 @@ project/assembly_name="Margin"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res://i18n/strings.pt.translation", "res://i18n/solar_system_strings.en.translation", "res://i18n/solar_system_strings.pt.translation", "res://i18n/surface_strings.en.translation", "res://i18n/surface_strings.pt.translation", "res://i18n/crew_strings.en.translation", "res://i18n/crew_strings.pt.translation", "res://i18n/flight_strings.en.translation", "res://i18n/flight_strings.pt.translation")
+locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res://i18n/strings.pt.translation", "res://i18n/solar_system_strings.en.translation", "res://i18n/solar_system_strings.pt.translation", "res://i18n/surface_strings.en.translation", "res://i18n/surface_strings.pt.translation", "res://i18n/crew_strings.en.translation", "res://i18n/crew_strings.pt.translation", "res://i18n/flight_strings.en.translation", "res://i18n/flight_strings.pt.translation", "res://i18n/tycoon_strings.en.translation", "res://i18n/tycoon_strings.pt.translation", "res://i18n/menu_strings.en.translation", "res://i18n/menu_strings.pt.translation")
 
 [physics]
 

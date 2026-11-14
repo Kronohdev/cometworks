@@ -1,0 +1,156 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_capture_panel.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="2_theme"]
+
+[node name="Capture" type="PanelContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -316.0
+offset_top = -700.0
+offset_right = -16.0
+offset_bottom = -440.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "FL_CAPT_TITLE"
+
+[node name="BtnCollapse" type="Button" parent="VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+tooltip_text = "FL_CAPT_COLLAPSE_TIP"
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+text = "-"
+
+[node name="Target" type="Label" parent="VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(268, 0)
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_colors/font_color = Color(0.3098, 0.8392, 0.6902, 1)
+theme_override_font_sizes/font_size = 13
+text = "Lua · T- 4d 20h"
+autowrap_mode = 3
+
+[node name="Form" type="VBoxContainer" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PeRow" type="HBoxContainer" parent="VBox/Form"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="VBox/Form/PeRow"]
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_CAPT_PE"
+
+[node name="PeSpin" type="SpinBox" parent="VBox/Form/PeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_CAPT_PE_TIP"
+max_value = 10000000.0
+step = 1.0
+value = 100.0
+allow_greater = true
+alignment = 2
+suffix = "km"
+select_all_on_focus = true
+
+[node name="ApRow" type="HBoxContainer" parent="VBox/Form"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="VBox/Form/ApRow"]
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_CAPT_AP"
+
+[node name="ApSpin" type="SpinBox" parent="VBox/Form/ApRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_CAPT_AP_TIP"
+max_value = 10000000.0
+step = 1.0
+value = 100.0
+allow_greater = true
+alignment = 2
+suffix = "km"
+select_all_on_focus = true
+
+[node name="Circular" type="CheckBox" parent="VBox/Form"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+button_pressed = true
+text = "FL_CAPT_CIRCULAR"
+
+[node name="IncRow" type="HBoxContainer" parent="VBox/Form"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IncCheck" type="CheckBox" parent="VBox/Form/IncRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+tooltip_text = "FL_CAPT_INC_TIP"
+focus_mode = 0
+text = "FL_CAPT_INC"
+
+[node name="IncSpin" type="SpinBox" parent="VBox/Form/IncRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_CAPT_INC_TIP"
+max_value = 180.0
+step = 0.5
+alignment = 2
+suffix = "°"
+select_all_on_focus = true
+
+[node name="IncHint" type="Label" parent="VBox/Form"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 12
+text = "FL_CAPT_KEEP_PLANE"
+horizontal_alignment = 2
+
+[node name="BtnPlan" type="Button" parent="VBox/Form"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_CAPT_PLAN_TIP"
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+text = "FL_CAPT_PLAN"
+
+[node name="Result" type="Label" parent="VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(268, 0)
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3

@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://shaders/campus_voxel.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/jitter = 0.1
+shader_parameter/voxels_per_metre = 5.0
+shader_parameter/roughness_value = 0.93
+shader_parameter/glow_scale = 8.0
+shader_parameter/glow_gain = 1.0

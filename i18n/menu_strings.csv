@@ -1,0 +1,37 @@
+keys,en,pt
+MENU_TAGLINE,A SPACE AGENCY RUN BY COMETLINGS,UMA AGÊNCIA ESPACIAL DE COMETINHOS
+MENU_NEW_CAMPAIGN,NEW CAMPAIGN,NOVA CAMPANHA
+MENU_NEW_CAMPAIGN_HINT,25 years until Mãe-Gelo returns,25 anos até a Mãe-Gelo voltar
+MENU_CONTINUE,Continue,Continuar
+MENU_CONTINUE_HINT,No saved campaign yet,Nenhuma campanha salva
+MENU_CONTINUE_TIP,Saving is not in the game yet. Start a new campaign!,Ainda não dá para salvar. Comece uma nova campanha!
+MENU_FAIR,Fair mode,Modo feira
+MENU_FAIR_HINT,Quick campaign · 1 s per week,Campanha rápida · 1 s por semana
+MENU_FAIR_TIP,"The hackathon demo: the full campaign, one week per second.","A demonstração do hackathon: a campanha inteira, uma semana por segundo."
+MENU_WORKSHOP,Rocket workshop,Oficina de foguetes
+MENU_WORKSHOP_HINT,Free building in the hangar,Montagem livre no hangar
+MENU_OPTIONS,Options,Opções
+MENU_OPTIONS_HINT,Language · display · sound,Idioma · tela · som
+MENU_QUIT,Quit,Sair
+MENU_QUIT_HINT,See you at perihelion,Até o periélio
+MENU_KEYS,↑↓ CHOOSE   ENTER OPEN   ESC BACK,↑↓ ESCOLHER   ENTER ABRIR   ESC VOLTAR
+MENU_EVENT,NASA SPACE APPS CHALLENGE 2026,NASA SPACE APPS CHALLENGE 2026
+MENU_FEED,OBSERVATORY FEED,TRANSMISSÃO DO OBSERVATÓRIO
+MENU_CAM,CAM %02d,CAM %02d
+MENU_LOADING_CAMPUS,PREPARING THE CAMPUS,PREPARANDO O CAMPUS
+MENU_LOADING_FAIR,PREPARING THE FAIR DEMO,PREPARANDO A DEMONSTRAÇÃO
+MENU_LOADING_HANGAR,OPENING THE HANGAR,ABRINDO O HANGAR
+MENU_OPT_TITLE,Options,Opções
+MENU_OPT_LANGUAGE,LANGUAGE,IDIOMA
+MENU_OPT_DISPLAY,DISPLAY,TELA
+MENU_OPT_WINDOW,Window,Janela
+MENU_OPT_FULLSCREEN,Fullscreen,Tela cheia
+MENU_OPT_VOLUME,MASTER VOLUME,VOLUME GERAL
+MENU_OPT_BACK,Back,Voltar
+MENU_SHOT_STARGAZE,Mãe-Gelo over the north hill,Mãe-Gelo sobre a colina norte
+MENU_SHOT_WORKSHOP,Assembly yard · second shift,Pátio de montagem · segundo turno
+MENU_SHOT_EARTH,Low Earth orbit · spacewalk,Órbita baixa · caminhada espacial
+MENU_SHOT_LAUNCH,Pad 1 · liftoff,Plataforma 1 · decolagem
+MENU_SHOT_COMET,Mãe-Gelo · perihelion pass,Mãe-Gelo · passagem pelo periélio
+MENU_SHOT_CAMPUS,Cometworks campus · dusk,Campus Cometworks · entardecer
+MENU_SHOT_SATURN,Outer system · Saturn,Sistema externo · Saturno

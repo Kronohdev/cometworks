@@ -1,0 +1,140 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_campus_shot.gd" id="1_shot"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus.tscn" id="2_campus"]
+[ext_resource type="Shader" path="res://shaders/campus_sky.gdshader" id="3_sky"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="4_creature"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("3_sky")
+shader_parameter/zenith_color = Color(0.02, 0.035, 0.1, 1)
+shader_parameter/mid_color = Color(0.11, 0.12, 0.29, 1)
+shader_parameter/horizon_color = Color(0.62, 0.38, 0.4, 1)
+shader_parameter/ground_color = Color(0.03, 0.04, 0.07, 1)
+shader_parameter/horizon_height = 0.17
+shader_parameter/anti_sun_cool = 0.35
+shader_parameter/sun_dir = Vector3(-0.3, 0.05, -0.95)
+shader_parameter/glow_color = Color(1, 0.5, 0.22, 1)
+shader_parameter/glow_strength = 1.5
+shader_parameter/glow_width = 0.28
+shader_parameter/sun_core = 2.0
+shader_parameter/star_brightness = 1.4
+shader_parameter/star_horizon = 0.12
+shader_parameter/twinkle = 0.35
+shader_parameter/aurora_strength = 0.25
+shader_parameter/aurora_azimuth = -2.55
+shader_parameter/aurora_spread = 0.5
+shader_parameter/aurora_low = 0.1
+shader_parameter/aurora_high = 0.36
+shader_parameter/aurora_speed = 0.03
+shader_parameter/mountains_enabled = true
+shader_parameter/far_range_color = Color(0.3, 0.24, 0.36, 1)
+shader_parameter/near_range_color = Color(0.17, 0.15, 0.26, 1)
+shader_parameter/far_range_height = 0.05
+shader_parameter/near_range_height = 0.025
+shader_parameter/moon_dir = Vector3(0.551, 0.451, 0.702)
+shader_parameter/moon_size = 0.025
+shader_parameter/moon_brightness = 2.2
+shader_parameter/comet_enabled = true
+shader_parameter/comet_dir = Vector3(-0.785, 0.19, -0.588)
+shader_parameter/comet_tail_dir = Vector3(-0.44, 0.8, 0.41)
+shader_parameter/comet_length = 0.42
+shader_parameter/comet_width = 0.011
+shader_parameter/comet_curve = 0.5
+shader_parameter/comet_brightness = 1.6
+shader_parameter/comet_striae = 0.45
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+process_mode = 3
+radiance_size = 3
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.48, 0.52, 0.74, 1)
+ambient_light_energy = 0.62
+tonemap_mode = 4
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 1.6
+ssao_intensity = 1.5
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.05
+glow_hdr_threshold = 1.0
+fog_enabled = true
+fog_light_color = Color(0.42, 0.36, 0.5, 1)
+fog_density = 0.004
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.12
+
+[sub_resource type="CameraAttributesPractical" id="cam_attr"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 110.0
+dof_blur_far_transition = 80.0
+dof_blur_amount = 0.05
+
+[node name="ShotCampus" type="Node3D" node_paths=PackedStringArray("campus", "camera", "path", "look_target")]
+script = ExtResource("1_shot")
+campus = NodePath("Campus")
+duration = 12.0
+caption_key = "MENU_SHOT_CAMPUS"
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/Start"), NodePath("CamPath/Mid"), NodePath("CamPath/End")]
+look_target = NodePath("CamPath/LookAt")
+easing = 0.3
+
+[node name="Campus" parent="." instance=ExtResource("2_campus")]
+
+[node name="Watchers" type="Node3D" parent="."]
+
+[node name="Watcher1" parent="Watchers" instance=ExtResource("4_creature")]
+transform = Transform3D(-1.2257, 0, -1.0285, 0, 1.6, 0, 1.0285, 0, -1.2257, 48, 0, 37)
+role = "pilot"
+body_color = Color(0.749, 0.914, 1, 1)
+spot_color = Color(0.961, 0.604, 0.212, 1)
+personality_seed = 28
+start_action = "look_up"
+listen_to_events = false
+
+[node name="Watcher2" parent="Watchers" instance=ExtResource("4_creature")]
+transform = Transform3D(-1.3856, 0, -0.8, 0, 1.6, 0, 0.8, 0, -1.3856, 49.5, 0, 37.8)
+role = "engineer"
+body_color = Color(1, 0.878, 0.561, 1)
+spot_color = Color(1, 0.42, 0.42, 1)
+personality_seed = 48
+start_action = "look_up"
+listen_to_events = false
+
+[node name="Watcher3" parent="Watchers" instance=ExtResource("4_creature")]
+transform = Transform3D(-1.1314, 0, -1.1314, 0, 1.6, 0, 1.1314, 0, -1.1314, 46.6, 0, 38.4)
+role = "scientist"
+body_color = Color(0.788, 0.722, 1, 1)
+spot_color = Color(1, 0.8, 0.333, 1)
+personality_seed = 58
+start_action = "look_up"
+listen_to_events = false
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="Start" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 9, 50)
+
+[node name="Mid" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62, 8, 58)
+
+[node name="End" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 7.5, 64)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 8, -6)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 9, 50)
+environment = SubResource("env")
+attributes = SubResource("cam_attr")
+fov = 38.0
+far = 1600.0

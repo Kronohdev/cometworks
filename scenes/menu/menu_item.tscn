@@ -1,0 +1,48 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_item.gd" id="1_item"]
+
+[node name="MenuItem" type="Button"]
+custom_minimum_size = Vector2(0, 48)
+theme_type_variation = &"CwMenuItem"
+text = "MENU_CONTINUE"
+alignment = 0
+script = ExtResource("1_item")
+index_text = "02"
+hint_key = "MENU_CONTINUE_HINT"
+
+[node name="Index" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -9.0
+offset_right = 46.0
+offset_bottom = 9.0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwMenuMono"
+text = "02"
+vertical_alignment = 1
+
+[node name="Hint" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -236.0
+offset_top = -9.0
+offset_right = -16.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "MENU_CONTINUE_HINT"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 3

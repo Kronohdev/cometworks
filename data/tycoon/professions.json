@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "bars": ["eng", "sci", "ops", "rel"],
+  "affinity": {"primary": 1.0, "secondary": 0.4, "other": 0.15},
+  "professions": [
+    {"id": "systems_engineer", "name_key": "TY_PROF_SYSTEMS", "primary": "eng", "secondary": "rel", "color": "#ff8a3d", "salary_mult": 1.0},
+    {"id": "propulsion_engineer", "name_key": "TY_PROF_PROPULSION", "primary": "eng", "secondary": "", "color": "#ff5c6c", "salary_mult": 1.05},
+    {"id": "scientist", "name_key": "TY_PROF_SCIENTIST", "primary": "sci", "secondary": "ops", "color": "#5aa8ff", "salary_mult": 1.0},
+    {"id": "researcher", "name_key": "TY_PROF_RESEARCHER", "primary": "sci", "secondary": "", "color": "#8e7cff", "salary_mult": 1.0},
+    {"id": "flight_controller", "name_key": "TY_PROF_CONTROLLER", "primary": "ops", "secondary": "rel", "color": "#3fe0c5", "salary_mult": 1.0},
+    {"id": "test_technician", "name_key": "TY_PROF_TESTER", "primary": "rel", "secondary": "eng", "color": "#ffd166", "salary_mult": 0.9},
+    {"id": "pilot", "name_key": "TY_PROF_PILOT", "primary": "ops", "secondary": "rel", "color": "#f2f5ff", "salary_mult": 1.3}
+  ],
+  "roster_role_map": {"pilot": "pilot", "engineer": "systems_engineer", "scientist": "scientist"}
+}

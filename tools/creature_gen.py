@@ -135,25 +135,17 @@ def surface(c, occ_mask=None):
 
 # ------------------------------------------------------------------ meshing with tint masks
 def mesh_masked(c, pivot):
+    """Greedy-meshed part with the tint-mask level (0..3) of each face in vertex alpha.
+    The mask comes from the palette index of each vertex (vg.mesh_greedy with_cidx), so
+    merged quads keep their mask."""
     if not (c.a > 0).any():
         raise ValueError("empty canvas")
-    m = vg.mesh(c)
-    # second pass on a copy coloured by mask id, AO off: same occupancy -> same vertex order
-    ids = np.zeros(len(vg.NAMES) + 1, np.uint8)
+    pos, nrm, col, idx, _uv, _uv2, cid = vg.mesh_greedy(c, with_cidx=True)
+    level_of = np.zeros(len(vg.NAMES) + 1, np.uint8)
     for n in vg.NAMES:
-        ids[vg.CI[n]] = vg.CI["_m%d" % mask_of(n)]
-    saved_a, saved_ao = c.a, vg.AO_LEVEL
-    c.a = ids[saved_a]
-    vg.AO_LEVEL = np.ones(4, np.float32)
-    try:
-        mm = vg.mesh(c)
-    finally:
-        c.a, vg.AO_LEVEL = saved_a, saved_ao
-    srgb = (mm[2][:, 0].astype(np.float32) / 255.0) ** (1 / 2.2) * 255.0
-    level = np.digitize(srgb, [40, 128, 212]).astype(np.uint8)   # 0..3
-    pos, nrm, col, idx = m
+        level_of[vg.CI[n]] = mask_of(n)
     col = col.copy()
-    col[:, 3] = level * 85
+    col[:, 3] = level_of[cid] * 85
     pos = pos - np.array(pivot, np.float32)
     return pos, nrm, col, idx
 

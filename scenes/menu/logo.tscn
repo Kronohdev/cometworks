@@ -1,0 +1,295 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://ui/menu/logo_star.svg" id="1_star"]
+[ext_resource type="Shader" path="res://shaders/menu_aurora_line.gdshader" id="2_line"]
+[ext_resource type="FontFile" path="res://ui/fonts/bricolage_grotesque/BricolageGrotesque-Variable.ttf" id="3_bri"]
+[ext_resource type="FontFile" path="res://ui/fonts/atkinson_hyperlegible/AtkinsonHyperlegible-Bold.ttf" id="4_atk_b"]
+
+[sub_resource type="FontVariation" id="f_logo"]
+base_font = ExtResource("3_bri")
+variation_opentype = {
+2003265652: 700,
+1869640570: 96,
+2003072104: 92
+}
+spacing_glyph = 5
+
+[sub_resource type="FontVariation" id="f_tag"]
+base_font = ExtResource("4_atk_b")
+spacing_glyph = 4
+
+[sub_resource type="Gradient" id="halo_grad"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(0.749, 0.91, 1, 0.55, 0.62, 0.86, 1, 0.18, 0.4, 0.7, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="halo_tex"]
+gradient = SubResource("halo_grad")
+width = 160
+height = 160
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="additive"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="tail_width"]
+_data = [Vector2(0, 1), 0.0, -0.4, 0, 0, Vector2(1, 0.45), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="tail_grad"]
+offsets = PackedFloat32Array(0, 0.07, 0.5, 0.86, 1)
+colors = PackedColorArray(0.749, 0.91, 1, 1, 0.2471, 0.8784, 0.7725, 1, 0.5569, 0.4863, 1, 0.95, 1, 0.5412, 0.2392, 0.85, 1, 0.5412, 0.2392, 0)
+
+[sub_resource type="Gradient" id="white"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="white_tex"]
+gradient = SubResource("white")
+width = 8
+
+[sub_resource type="ShaderMaterial" id="tail_mat"]
+shader = ExtResource("2_line")
+shader_parameter/reveal = 1.0
+shader_parameter/softness = 0.06
+
+[sub_resource type="Animation" id="RESET"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Word:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Word/StarSlot/Mark:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Word/StarSlot/Tail:material:shader_parameter/reveal")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tagline:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Word/StarSlot/Halo:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.6)]
+}
+
+[sub_resource type="Animation" id="intro"]
+resource_name = "intro"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Word:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Word/StarSlot/Mark:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.55),
+"transitions": PackedFloat32Array(1, 0.3, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Word/StarSlot/Tail:material:shader_parameter/reveal")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.25),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tagline:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Word/StarSlot/Halo:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.6, 1.3),
+"transitions": PackedFloat32Array(1, 0.4, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.6)]
+}
+
+[sub_resource type="Animation" id="idle"]
+resource_name = "idle"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Word/StarSlot/Halo:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.85), Color(1, 1, 1, 0.6)]
+}
+
+[sub_resource type="AnimationLibrary" id="anims"]
+_data = {
+&"RESET": SubResource("RESET"),
+&"idle": SubResource("idle"),
+&"intro": SubResource("intro")
+}
+
+[node name="Logo" type="Control"]
+custom_minimum_size = Vector2(720, 170)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 720.0
+offset_bottom = 170.0
+mouse_filter = 2
+
+[node name="Word" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 720.0
+offset_bottom = 118.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="C" type="Label" parent="Word"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9137, 0.9333, 0.9686, 1)
+theme_override_fonts/font = SubResource("f_logo")
+theme_override_font_sizes/font_size = 96
+text = "C"
+vertical_alignment = 1
+
+[node name="StarSlot" type="Control" parent="Word"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Halo" type="TextureRect" parent="Word/StarSlot"]
+modulate = Color(1, 1, 1, 0.6)
+material = SubResource("additive")
+layout_mode = 0
+offset_left = -44.0
+offset_top = -17.0
+offset_right = 116.0
+offset_bottom = 143.0
+mouse_filter = 2
+texture = SubResource("halo_tex")
+
+[node name="Tail" type="Line2D" parent="Word/StarSlot"]
+material = SubResource("tail_mat")
+points = PackedVector2Array(36, 63, 43.4, 73.8, 48.6, 81.1, 55.5, 87.7, 64.1, 93.8, 74.6, 99.2, 86.8, 104.2, 100.8, 108.5, 116.5, 112.3, 134.2, 115.6, 153.6, 118.3, 174.9, 120.5, 198.1, 122.2, 223.1, 123.3, 250, 124, 277.7, 124.3, 305, 124.3, 332, 123.9, 358.5, 123.4, 384.5, 122.5, 410.1, 121.4, 435, 120, 459.3, 118.4, 483, 116.5, 506, 114.4, 528.2, 112.1, 549.7, 109.6, 570.3, 106.9, 590, 104)
+width = 2.4
+width_curve = SubResource("tail_width")
+gradient = SubResource("tail_grad")
+texture = SubResource("white_tex")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Mark" type="TextureRect" parent="Word/StarSlot"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = 24.0
+offset_right = 75.0
+offset_bottom = 102.0
+pivot_offset = Vector2(39, 39)
+mouse_filter = 2
+texture = ExtResource("1_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="METWORKS" type="Label" parent="Word"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9137, 0.9333, 0.9686, 1)
+theme_override_fonts/font = SubResource("f_logo")
+theme_override_font_sizes/font_size = 96
+text = "METWORKS"
+vertical_alignment = 1
+
+[node name="Tagline" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 136.0
+offset_right = 706.0
+offset_bottom = 160.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.85)
+theme_override_fonts/font = SubResource("f_tag")
+theme_override_font_sizes/font_size = 14
+text = "MENU_TAGLINE"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anims")
+}
+autoplay = &"intro"

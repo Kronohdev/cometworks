@@ -1,0 +1,232 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_shot.gd" id="1_shot"]
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="2_sky"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="3_creature"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="4_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="5_atmo"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="6_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="8_moon"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="9_comet"]
+[ext_resource type="Script" path="res://src/hangar/part_instance.gd" id="10_part"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("2_sky")
+shader_parameter/star_brightness = 2.2
+shader_parameter/milky_way = 0.8
+shader_parameter/galactic_pole = Vector3(0.6, 0.55, 0.58)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.65
+glow_bloom = 0.03
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("4_planet")
+shader_parameter/ocean_glint = 0.35
+
+[sub_resource type="ShaderMaterial" id="mat_moon"]
+shader = ExtResource("4_planet")
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radial_segments = 96
+rings = 48
+
+[sub_resource type="ShaderMaterial" id="mat_atmo"]
+shader = ExtResource("5_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/power = 2.0
+shader_parameter/sun_position = Vector3(72028.8173, 38015.2091, 58023.2139)
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Earth/LOD0:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 2.2, 0), Vector3(0, 2.3, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Floaters:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.05, 0.12, 0.05), Vector3(0.1, 0.02, 0.1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Floaters/Pilot:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 6, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.2, -0.45, 0.28), Vector3(0.02, -0.15, 0.08), Vector3(0.22, 0.12, -0.18)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Floaters/Pilot")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.6, 1.8, 6.8, 6.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [Vector3(0, 0.2, 6), 1.0],
+"method": &"look_at_point"
+}, {
+"args": ["wave"],
+"method": &"play"
+}, {
+"args": ["heart", 2.2],
+"method": &"show_emote"
+}, {
+"args": ["spin"],
+"method": &"play"
+}, {
+"args": ["planet", 2.0],
+"method": &"show_emote"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Floaters/Capsule:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.5, 0.3, 1.2), Vector3(0.56, 0.42, 1.28)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="ShotEarth" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("1_shot")
+duration = 12.0
+caption_key = "MENU_SHOT_EARTH"
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/Start"), NodePath("CamPath/End")]
+look_target = NodePath("CamPath/LookAt")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.6273, -0.296, 0.7203, 0, 0.9249, 0.3802, -0.7788, -0.2385, 0.5802, 0, 0, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 1.5
+
+[node name="Key" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.4, 0.5)
+light_color = Color(1, 0.9, 0.8, 1)
+light_energy = 1.4
+omni_range = 7.0
+
+[node name="Earthshine" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0, -3, -2)
+light_color = Color(0.45, 0.65, 1, 1)
+light_energy = 0.8
+omni_range = 9.0
+
+[node name="Earth" type="Node3D" parent="."]
+transform = Transform3D(0.9903, -0.1392, 0, 0.1097, 0.7803, 0.6157, -0.0857, -0.6097, 0.788, 380, -1157, -1585)
+
+[node name="LOD0" parent="Earth" instance=ExtResource("6_earth")]
+transform = Transform3D(904, 0, 0, 0, 904, 0, 0, 0, 904, 0, 0, 0)
+
+[node name="earth_lod0" parent="Earth/LOD0" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Earth"]
+transform = Transform3D(1040, 0, 0, 0, 1040, 0, 0, 0, 1040, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo")
+
+[node name="Moon" parent="." instance=ExtResource("8_moon")]
+transform = Transform3D(250, 0, 0, 0, 250, 0, 0, 0, 250, 1076.7745, 1794.6242, -5623.1558)
+
+[node name="moon_lod1" parent="Moon" index="0"]
+material_override = SubResource("mat_moon")
+cast_shadow = 0
+
+[node name="Comet" parent="." instance=ExtResource("9_comet")]
+transform = Transform3D(-43.0282, 32.0713, 26.8328, 35.8569, 48.107, 0, -21.5141, 16.0357, -53.6656, -2600, 3000, -9000)
+
+[node name="Floaters" type="Node3D" parent="."]
+
+[node name="Pilot" parent="Floaters" instance=ExtResource("3_creature")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, -0.12, -3.7)
+role = "pilot"
+body_color = Color(1, 0.792, 0.659, 1)
+spot_color = Color(0.373, 0.69, 0.847, 1)
+personality_seed = 21
+listen_to_events = false
+
+[node name="Shadow" parent="Floaters/Pilot" index="0"]
+visible = false
+
+[node name="Capsule" type="Node3D" parent="Floaters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.2, -10.5)
+script = ExtResource("10_part")
+part_id = "capsule_1"
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="Start" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.25, 1.2)
+
+[node name="End" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.05, 0.4)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, -1.2, -10)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.25, 1.2)
+fov = 46.0
+near = 0.05
+far = 20000.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}

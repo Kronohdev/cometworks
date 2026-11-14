@@ -7,6 +7,7 @@ extends RefCounted
 
 const DATA_PATH := "res://data/parts.json"
 const MODEL_DIR := "res://assets/voxel/parts/"
+const JOINTS_PATH := "res://data/part_joints.json"
 const G0 := 9.80665
 
 static var size_classes: Dictionary = {}
@@ -32,7 +33,12 @@ static func _ensure() -> void:
 	propellants = data["propellants"]
 	categories = data["categories"]
 	delta_v_map = data["delta_v_map"]
+	# joint profiles of the models (tools/joint_profiles.py): solid body faces near each stack node
+	var joints: Variant = JSON.parse_string(FileAccess.get_file_as_string(JOINTS_PATH)) \
+		if FileAccess.file_exists(JOINTS_PATH) else {}
 	for p in data["parts"]:
+		if typeof(joints) == TYPE_DICTIONARY and joints.has(p["id"]):
+			p["joint"] = joints[p["id"]]
 		parts[p["id"]] = p
 		part_order.append(p["id"])
 

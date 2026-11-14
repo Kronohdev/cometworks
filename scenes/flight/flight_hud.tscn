@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="Script" path="res://src/flight/flight_hud.gd" id="1_hud"]
 [ext_resource type="Theme" path="res://ui/margin_theme.tres" id="2_theme"]
@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" path="res://ui/kit/icon_expand.svg" id="11_expand"]
 [ext_resource type="Script" path="res://src/flight/flight_plot.gd" id="12_plot"]
 [ext_resource type="Texture2D" path="res://ui/kit/emblem_margin.svg" id="13_emblem"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_maneuver.svg" id="14_node"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_capture_panel.tscn" id="15_capture"]
 
 [sub_resource type="ShaderMaterial" id="m_ball"]
 shader = ExtResource("4_navball")
@@ -85,6 +87,22 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="burn_box"]
+content_margin_left = 16.0
+content_margin_top = 5.0
+content_margin_right = 16.0
+content_margin_bottom = 5.0
+bg_color = Color(0.051, 0.067, 0.09, 0.82)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.4157, 0.6627, 1, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="bar_fill_q"]
 bg_color = Color(0.373, 0.69, 0.847, 1)
@@ -637,6 +655,17 @@ texture = ExtResource("7_pro")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="MarkNode" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource("14_node")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Chevron" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
 layout_mode = 1
 anchors_preset = 8
@@ -707,6 +736,359 @@ tooltip_text = "FL_MAP_TIP"
 focus_mode = 0
 toggle_mode = true
 text = "FL_MAP"
+
+[node name="BurnStrip" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -336.0
+offset_right = 200.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("burn_box")
+
+[node name="HBox" type="HBoxContainer" parent="Root/BurnStrip"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Caption" type="Label" parent="Root/BurnStrip/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "FL_BURN_IN"
+
+[node name="BurnCountdown" type="Label" parent="Root/BurnStrip/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 17
+text = "T- 00:42"
+
+[node name="Sep" type="VSeparator" parent="Root/BurnStrip/HBox"]
+layout_mode = 2
+
+[node name="BurnDv" type="Label" parent="Root/BurnStrip/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_colors/font_color = Color(0.6392, 0.7882, 1, 1)
+text = "Δv 845 m/s"
+
+[node name="Sep2" type="VSeparator" parent="Root/BurnStrip/HBox"]
+layout_mode = 2
+
+[node name="BurnTime" type="Label" parent="Root/BurnStrip/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "1:23"
+
+[node name="Maneuver" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -316.0
+offset_top = -420.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="Root/Maneuver"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Root/Maneuver/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/Maneuver/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "FL_MANEUVER"
+
+[node name="NodeIndex" type="Label" parent="Root/Maneuver/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "1/1"
+
+[node name="BtnNodePrev" type="Button" parent="Root/Maneuver/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+tooltip_text = "FL_NODE_PREV_TIP"
+focus_mode = 0
+text = "‹"
+
+[node name="BtnNodeNext" type="Button" parent="Root/Maneuver/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_NEXT_TIP"
+focus_mode = 0
+text = "›"
+
+[node name="BtnNodeDelete" type="Button" parent="Root/Maneuver/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_DELETE_TIP"
+focus_mode = 0
+text = "✕"
+theme_type_variation = &"FlatButton"
+
+[node name="Empty" type="Label" parent="Root/Maneuver/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(268, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 13
+text = "FL_NODE_EMPTY"
+autowrap_mode = 3
+
+[node name="Body" type="VBoxContainer" parent="Root/Maneuver/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NodeDvRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeDvRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_NODE_DV"
+
+[node name="NodeDvValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeDvRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="NodeBurnRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeBurnRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_BURN_TIME"
+
+[node name="NodeBurnValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeBurnRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="NodeEtaRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeEtaRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_NODE_ETA"
+
+[node name="NodeEtaValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeEtaRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="Sep1" type="HSeparator" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+
+[node name="ProRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/ProRow"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.7882, 0.8275, 0.4157, 1)
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/ProRow"]
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_PROGRADE"
+
+[node name="ProSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/ProRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_PROGRADE_TIP"
+min_value = -100000.0
+max_value = 100000.0
+step = 0.1
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "m/s"
+select_all_on_focus = true
+
+[node name="NorRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/NorRow"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.7098, 0.5647, 1, 1)
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NorRow"]
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_NORMAL"
+
+[node name="NorSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/NorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_NORMAL_TIP"
+min_value = -100000.0
+max_value = 100000.0
+step = 0.1
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "m/s"
+select_all_on_focus = true
+
+[node name="RadRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/RadRow"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.3098, 0.8392, 0.6902, 1)
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/RadRow"]
+custom_minimum_size = Vector2(86, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_RADIAL"
+
+[node name="RadSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/RadRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "FL_RADIAL_TIP"
+min_value = -100000.0
+max_value = 100000.0
+step = 0.1
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "m/s"
+select_all_on_focus = true
+
+[node name="TimeRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/TimeRow"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_NODE_TIME"
+
+[node name="BtnOrbitBack" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_ORBIT_BACK_TIP"
+focus_mode = 0
+text = "«"
+size_flags_horizontal = 3
+
+[node name="BtnTimeBack" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_TIME_BACK_TIP"
+focus_mode = 0
+text = "‹"
+size_flags_horizontal = 3
+
+[node name="BtnTimeFwd" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_TIME_FWD_TIP"
+focus_mode = 0
+text = "›"
+size_flags_horizontal = 3
+
+[node name="BtnOrbitFwd" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_NODE_ORBIT_FWD_TIP"
+focus_mode = 0
+text = "»"
+size_flags_horizontal = 3
+
+[node name="Sep2" type="HSeparator" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+
+[node name="After" type="Label" parent="Root/Maneuver/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 13
+text = "Ap 384 400 km · Pe 210 km"
+
+[node name="Encounter" type="Label" parent="Root/Maneuver/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_colors/font_color = Color(0.3098, 0.8392, 0.6902, 1)
+theme_override_font_sizes/font_size = 13
+text = "Moon · Pe 120 km"
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnWarpNode" type="Button" parent="Root/Maneuver/VBox/Body/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_WARP_TO_NODE_TIP"
+focus_mode = 0
+text = "FL_WARP_TO_NODE"
+size_flags_horizontal = 3
+
+[node name="BtnExecute" type="Button" parent="Root/Maneuver/VBox/Body/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_EXECUTE_TIP"
+focus_mode = 0
+text = "FL_EXECUTE"
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryButton"
+toggle_mode = true
+
+[node name="Capture" parent="Root" instance=ExtResource("15_capture")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 
 [node name="Toast" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true

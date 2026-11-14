@@ -1,7 +1,8 @@
 class_name GraphicsQuality
 extends RefCounted
 ## Graphics presets (LOW / MEDIUM / HIGH) applied to a viewport and its WorldEnvironment.
-## Defaults to MEDIUM, tuned for integrated GPUs; the choice persists in user://settings.cfg.
+## First run picks MEDIUM on integrated GPUs and HIGH on dedicated ones; the choice
+## persists in user://settings.cfg (F3 cycles in the hangar).
 ## Any scene can call GraphicsQuality.apply(self) in _ready and cycle() on a key (F3).
 
 enum Level { LOW, MEDIUM, HIGH }
@@ -12,11 +13,14 @@ const NAMES := ["LOW", "MEDIUM", "HIGH"]
 ## Per level: 3D render scale (FSR upscaling below 1.0), screen-space effects, shadows.
 const PRESETS := {
 	Level.LOW: {"scale": 0.6, "ssao": false, "ssil": false, "glow": false, "fog": true,
-		"shadow_cascades": 1, "shadow_distance": 120.0, "omni_shadows": false},
-	Level.MEDIUM: {"scale": 0.77, "ssao": true, "ssil": false, "glow": true, "fog": true,
-		"shadow_cascades": 2, "shadow_distance": 220.0, "omni_shadows": false},
+		"shadow_cascades": 1, "shadow_distance": 120.0, "omni_shadows": false,
+		"optional_lights": false, "ambient_boost": 1.6},
+	Level.MEDIUM: {"scale": 0.7, "ssao": false, "ssil": false, "glow": true, "fog": true,
+		"shadow_cascades": 2, "shadow_distance": 220.0, "omni_shadows": false,
+		"optional_lights": false, "ambient_boost": 1.35},
 	Level.HIGH: {"scale": 1.0, "ssao": true, "ssil": true, "glow": true, "fog": true,
-		"shadow_cascades": 4, "shadow_distance": 320.0, "omni_shadows": true},
+		"shadow_cascades": 4, "shadow_distance": 320.0, "omni_shadows": true,
+		"optional_lights": true, "ambient_boost": 1.0},
 }
 
 static var level: int = -1
@@ -25,10 +29,17 @@ static var level: int = -1
 static func current() -> int:
 	if level < 0:
 		var cfg := ConfigFile.new()
-		level = Level.MEDIUM
+		level = default_level()
 		if cfg.load(SETTINGS_PATH) == OK:
-			level = clampi(int(cfg.get_value("graphics", "quality", Level.MEDIUM)), Level.LOW, Level.HIGH)
+			level = clampi(int(cfg.get_value("graphics", "quality", level)), Level.LOW, Level.HIGH)
 	return level
+
+
+## First run: MEDIUM on integrated GPUs (the target hardware), HIGH on dedicated ones.
+static func default_level() -> int:
+	if RenderingServer.get_video_adapter_type() == RenderingDevice.DEVICE_TYPE_DISCRETE_GPU:
+		return Level.HIGH
+	return Level.MEDIUM
 
 
 static func set_level(l: int) -> void:
@@ -51,6 +62,11 @@ static func apply(root: Node) -> void:
 		var env: Environment = (we as WorldEnvironment).environment
 		if env == null:
 			continue
+		# lights in the "optional_light" group are fill lights; below HIGH they turn off and
+		# the ambient light makes up for them (authored energy kept in metadata)
+		if not env.has_meta("authored_ambient"):
+			env.set_meta("authored_ambient", env.ambient_light_energy)
+		env.ambient_light_energy = float(env.get_meta("authored_ambient")) * float(p["ambient_boost"])
 		env.ssao_enabled = p["ssao"]
 		env.ssil_enabled = p["ssil"]
 		env.glow_enabled = p["glow"]
@@ -68,6 +84,8 @@ static func apply(root: Node) -> void:
 			if not l.has_meta("authored_shadow"):
 				l.set_meta("authored_shadow", (l as Light3D).shadow_enabled)
 			(l as Light3D).shadow_enabled = bool(l.get_meta("authored_shadow")) and bool(p["omni_shadows"])
+		if (l as Node).is_in_group("optional_light"):
+			(l as Light3D).visible = bool(p["optional_lights"])
 
 
 ## Cycles LOW -> MEDIUM -> HIGH, applies and returns the new level name.

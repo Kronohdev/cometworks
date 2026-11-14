@@ -6,7 +6,9 @@ extends CanvasLayer
 ##   top strip: altitude, mission clock, time warp
 ##   left: flight data (Ap / Pe, speeds, G, dynamic pressure with Max-Q, Δv) - collapsible
 ##   right: stage stack (scenes/flight/flight_stage_row.tscn rows) - collapsible
-##   bottom: navball cluster (throttle, speed, navball with prograde / retrograde, modes)
+##   bottom: navball cluster (throttle, speed, navball with prograde / retrograde and the
+##   maneuver marker, modes) with the burn countdown strip above it
+##   bottom-right (map view): the maneuver-node panel (Δv fields, time, warp / execute)
 ##   F2 hides everything, F1 shows the controls.
 
 signal action(what: String)
@@ -19,16 +21,19 @@ const TOAST_KEYS := {
 	"EV_IGNITION_PAD": "MSG_IGNITION", "EV_LIFTOFF": "MSG_LIFTOFF", "EV_MAXQ": "MSG_MAXQ",
 	"EV_BOOSTER_SEP": "MSG_BOOSTER_SEP", "EV_STAGE_SEP": "MSG_STAGE_SEP", "EV_FAIRING": "MSG_FAIRING",
 	"EV_FLAMEOUT": "MSG_FLAMEOUT", "EV_SPACE": "MSG_SPACE", "EV_ORBIT": "MSG_ORBIT", "EV_CRASH": "MSG_CRASH",
+	"EV_SOI": "MSG_SOI",
 }
 
 const DESIGN_SIZE := Vector2(1600, 900)
 
-var world: Node = null
+var world: FlightWorld = null
 var hud_visible := true
 var _toast_t := 0.0
 var _rows: Array[FlightStageRow] = []
 var _row_stage_count := -1
 var _tele_collapsed := false
+## the stages panel was folded to make room for the orbit-insertion panel (map view)
+var _stages_folded_by_map := false
 var _stages_collapsed := false
 var _last_report := {}
 
@@ -61,6 +66,18 @@ var _last_report := {}
 @onready var _ball_box: Control = %NavballBox
 @onready var _mark_pro: Control = %MarkPro
 @onready var _mark_retro: Control = %MarkRetro
+@onready var _mark_node: Control = %MarkNode
+@onready var _burn_strip: Control = %BurnStrip
+@onready var _burn_caption: Label = %Caption
+@onready var _burn_count: Label = %BurnCountdown
+@onready var _burn_dv: Label = %BurnDv
+@onready var _burn_time: Label = %BurnTime
+@onready var _mnv: Control = %Maneuver
+@onready var _capt: FlightCapturePanel = %Capture
+@onready var _mnv_body: Control = %Body
+@onready var _mnv_empty: Control = %Empty
+@onready var _spins: Array[SpinBox] = [%ProSpin, %NorSpin, %RadSpin]
+@onready var _alt_caption: Label = $Root/TopStrip/HBox/AltBox/Caption
 @onready var _btn_sas: Button = %BtnSas
 @onready var _btn_pro: Button = %BtnPro
 @onready var _btn_retro: Button = %BtnRetro
@@ -92,10 +109,30 @@ func _ready() -> void:
 	_btn_auto.pressed.connect(func() -> void: action.emit("auto"))
 	_btn_map.pressed.connect(func() -> void: action.emit("map"))
 	%BtnTeleCollapse.pressed.connect(func() -> void: set_tele_collapsed(not _tele_collapsed))
+	%BtnNodePrev.pressed.connect(func() -> void: _cycle_node(-1))
+	%BtnNodeNext.pressed.connect(func() -> void: _cycle_node(1))
+	%BtnNodeDelete.pressed.connect(func() -> void:
+		if panel_node():
+			map_view.select_node(panel_node())
+			map_view.delete_selected())
+	%BtnOrbitBack.pressed.connect(func() -> void: _shift_node(-1.0, true))
+	%BtnOrbitFwd.pressed.connect(func() -> void: _shift_node(1.0, true))
+	%BtnTimeBack.pressed.connect(func() -> void: _shift_node(-1.0, false))
+	%BtnTimeFwd.pressed.connect(func() -> void: _shift_node(1.0, false))
+	%BtnWarpNode.pressed.connect(func() -> void: world.warp_to_next_node())
+	%BtnExecute.toggled.connect(func(on: bool) -> void: world.set_executor(on))
+	for i in 3:
+		var k := i
+		_spins[i].value_changed.connect(func(v: float) -> void: _on_spin(k, v))
+		_spins[i].get_line_edit().focus_mode = Control.FOCUS_CLICK
 	%BtnStagesCollapse.pressed.connect(func() -> void: set_stages_collapsed(not _stages_collapsed))
 	get_viewport().size_changed.connect(_rescale)
 	_rescale()
 	_toast.visible = false
+	_burn_strip.visible = false
+	_mnv.visible = false
+	_capt.visible = false
+	_mark_node.visible = false
 	_help.visible = false
 	_pause.visible = false
 	_report.visible = false
@@ -104,6 +141,7 @@ func _ready() -> void:
 
 func setup(w: Node) -> void:
 	world = w
+	_capt.bind(w, map_view)
 
 
 ## The layout is authored for 1600x900; other window sizes scale the whole HUD.
@@ -118,6 +156,16 @@ func _rescale() -> void:
 
 
 func _process(delta: float) -> void:
+	if _capt.visible:
+		_capt.refresh(false, delta)
+		# stacked right above the maneuver panel (both grow upwards)
+		_capt.size.y = 0.0
+		_capt.position = Vector2(_mnv.position.x, _mnv.position.y - _capt.get_combined_minimum_size().y - 8.0)
+		# no room under the stages panel: fold it while the map is open
+		var sp := $Root/StagesPanel as Control
+		if not _stages_collapsed and _capt.position.y < sp.position.y + sp.size.y + 8.0:
+			set_stages_collapsed(true)
+			_stages_folded_by_map = true
 	if _toast_t > 0.0:
 		_toast_t -= delta
 		_toast.modulate.a = clampf(_toast_t / 0.6, 0.0, 1.0)
@@ -142,6 +190,104 @@ func show_pause(on: bool) -> void:
 func set_map_mode(on: bool) -> void:
 	map_view.set_active(on)
 	_btn_map.set_pressed_no_signal(on)
+	_mnv.visible = on
+	_capt.visible = on
+	if not on and _stages_folded_by_map:
+		_stages_folded_by_map = false
+		set_stages_collapsed(false)
+	if on:
+		_update_maneuver()
+		_capt.refresh(true)
+
+
+# ------------------------------------------------------------ maneuver panel
+## The node shown in the panel: the one selected on the map, else the next one.
+func panel_node() -> FlightManeuverNode:
+	if map_view.selected != null and world.plan.nodes.has(map_view.selected):
+		return map_view.selected
+	return world.plan.first()
+
+
+func _cycle_node(d: int) -> void:
+	var nodes := world.plan.nodes
+	if nodes.is_empty():
+		return
+	var i := nodes.find(panel_node())
+	map_view.select_node(nodes[posmod(i + d, nodes.size())])
+	_update_maneuver()
+
+
+func _on_spin(axis: int, v: float) -> void:
+	var n := panel_node()
+	if n == null:
+		return
+	var dv := n.dv
+	dv[axis] = v
+	world.plan.set_dv(n, dv)
+
+
+## Node time: one orbit (of the path it sits on) or 30 s earlier / later.
+func _shift_node(sign: float, orbit: bool) -> void:
+	var n := panel_node()
+	if n == null:
+		return
+	var step := 30.0
+	if orbit:
+		step = 3600.0
+		if world.traj:
+			for s in world.traj.segments:
+				if s.end == FlightTrajectory.End.NODE and s.node_index < world.plan.nodes.size() 						and world.plan.nodes[s.node_index] == n and s.conic.is_closed():
+					step = s.conic.period
+	if Input.is_key_pressed(KEY_SHIFT) and not orbit:
+		step *= 10.0
+	world.plan.set_time(n, n.time + sign * step, world.time)
+
+
+func _update_maneuver() -> void:
+	if world == null:
+		return
+	var n := panel_node()
+	var has := n != null
+	_mnv_body.visible = has
+	_mnv_empty.visible = not has
+	%BtnNodePrev.disabled = world.plan.nodes.size() < 2
+	%BtnNodeNext.disabled = world.plan.nodes.size() < 2
+	%BtnNodeDelete.disabled = not has
+	if not has:
+		%NodeIndex.text = ""
+		return
+	%NodeIndex.text = "%d/%d" % [world.plan.index_of(n) + 1, world.plan.nodes.size()]
+	var dv := n.remaining_world().length() if n.locked else n.dv_total()
+	%NodeDvValue.text = fmt_speed(dv)
+	var bt := world.node_burn_time(n)
+	%NodeBurnValue.text = fmt_time(bt) if bt > 0.0 else tr("FL_NO_ENGINE")
+	%NodeEtaValue.text = FlightMap.fmt_eta(n.time - world.time)
+	for i in 3:
+		var sp := _spins[i]
+		if not sp.get_line_edit().has_focus():
+			sp.set_value_no_signal(snappedf(n.dv[i], 0.1))
+	# the orbit after this node and what it leads to
+	var after := ""
+	var enc := ""
+	if world.traj:
+		var idx := world.plan.index_of(n)
+		for s in world.traj.segments:
+			if s.plan == idx + 1:
+				var c := s.conic
+				var r: float = world.sys.radius[s.body]
+				if c.is_closed() and c.ra < world.sys.soi[s.body]:
+					after = "%s %s  ·  %s %s" % [tr("FL_AP"), fmt_dist(c.ra - r), tr("FL_PE"), fmt_dist(c.rp - r)]
+				else:
+					after = "%s %s  ·  %s" % [tr("FL_PE"), fmt_dist(c.rp - r), tr("FL_ESCAPE_ORBIT")]
+				break
+		var e := world.traj.encounter_summary(world.sys, idx + 1)
+		if not e.is_empty():
+			enc = tr("FL_NODE_ENCOUNTER") % [world.sys.display_name(e["body"]), fmt_dist(e["pe_alt"]),
+				FlightMap.fmt_eta(float(e["t_pe"]) - world.time)]
+	%After.text = after
+	%Encounter.text = enc
+	%Encounter.visible = enc != ""
+	%BtnExecute.set_pressed_no_signal(world.executor != null)
 
 
 func set_tele_collapsed(on: bool) -> void:
@@ -170,6 +316,8 @@ func event(key: String, data: Dictionary) -> void:
 	var text := tr(TOAST_KEYS[key])
 	if data.has("stage"):
 		text = text % int(data["stage"]) if text.contains("%d") else text
+	if data.has("body") and text.contains("%s"):
+		text = text % String(data["body"])
 	var col := MarginPalette.TEXT
 	match key:
 		"EV_MAXQ":
@@ -181,7 +329,9 @@ func event(key: String, data: Dictionary) -> void:
 			text = tr(String(data.get("reason", "CRASH_IMPACT")))
 		"EV_BOOSTER_SEP", "EV_STAGE_SEP", "EV_FAIRING":
 			col = MarginPalette.ACCENT
-	toast(text, col, 4.0 if key == "EV_ORBIT" else 2.6)
+		"EV_SOI":
+			col = MarginPalette.DATA_3
+	toast(text, col, 4.0 if key == "EV_ORBIT" or key == "EV_SOI" else 2.6)
 
 
 # ------------------------------------------------------------ formatting
@@ -231,11 +381,31 @@ static func _group(v: float, decimals: int) -> String:
 
 
 # ------------------------------------------------------------ telemetry
+## Time warp as shown in the top strip: 1×, 100×, 10k×, 1M×.
+static func fmt_warp(w: int) -> String:
+	if w >= 1000000:
+		return "%dM×" % (w / 1000000)
+	if w >= 10000:
+		return "%dk×" % (w / 1000)
+	return "%d×" % w
+
+
 func update_telemetry(t: Dictionary) -> void:
 	_alt.text = fmt_dist(t["alt"])
+	var soi_name: String = t.get("soi_name", "")
+	_alt_caption.text = tr("FL_ALTITUDE") if int(t.get("soi", 3)) == world.sys.earth else "%s · %s" % [
+		tr("FL_ALTITUDE"), soi_name.to_upper()]
 	_clock.text = fmt_time(t["met"], true) if t["launched"] else tr("FL_ON_PAD")
-	_warp.text = "%d×" % int(t["warp"])
-	_warp.add_theme_color_override("font_color", MarginPalette.ACCENT if int(t["warp"]) > 1 else MarginPalette.TEXT)
+	# effective warp; a picked warp the physics cannot reach yet shows as "100×/1000×"
+	var w := int(t["warp"])
+	var ws := int(t.get("warp_set", w))
+	_warp.text = fmt_warp(w) if ws <= w else "%s/%s" % [fmt_warp(w), fmt_warp(ws)]
+	var wc := MarginPalette.TEXT
+	if ws > w:
+		wc = MarginPalette.WARNING
+	elif w > 1:
+		wc = MarginPalette.ACCENT
+	_warp.add_theme_color_override("font_color", wc)
 	var ap: float = t["ap"]
 	var pe: float = t["pe"]
 	_ap.text = fmt_dist(ap) if ap > -FlightOrbit.R * 0.99 else "—"
@@ -266,7 +436,10 @@ func update_telemetry(t: Dictionary) -> void:
 	_btn_retro.set_pressed_no_signal(int(t["sas"]) == FlightVessel.Sas.RETROGRADE)
 	_btn_auto.set_pressed_no_signal(t["auto"])
 	_update_navball(t)
+	_update_burn(t)
 	_update_stages(t)
+	if _mnv.visible:
+		_update_maneuver()
 	_hint.visible = not t["launched"]
 
 
@@ -309,6 +482,29 @@ func _update_navball(t: Dictionary) -> void:
 	else:
 		_mark_pro.visible = false
 		_mark_retro.visible = false
+	var node: Dictionary = t.get("node", {})
+	if not node.is_empty() and float(node["dv"]) > 0.05:
+		var d_ball := r_ball * (to_h * (node["dir"] as Vector3))
+		_place_marker(_mark_node, d_ball, center, radius)
+	else:
+		_mark_node.visible = false
+
+
+## Burn countdown above the navball: time to the burn start (half the burn before the
+## node), the Δv left and the burn time.
+func _update_burn(t: Dictionary) -> void:
+	var node: Dictionary = t.get("node", {})
+	_burn_strip.visible = not node.is_empty()
+	if node.is_empty():
+		return
+	var tb: float = node["t_burn"]
+	var burning := tb <= 0.0 and float(t["thrust"]) > 0.0
+	_burn_caption.text = tr("FL_BURNING") if burning else tr("FL_BURN_IN")
+	_burn_count.text = FlightMap.fmt_eta(tb) if not burning else fmt_time(maxf(float(node["burn"]) * 0.5 + float(node["t_node"]), 0.0))
+	_burn_count.add_theme_color_override("font_color", MarginPalette.WARNING if tb < 10.0 else MarginPalette.TEXT)
+	_burn_dv.text = "Δv %s" % fmt_speed(node["dv"])
+	var bt: float = node["burn"]
+	_burn_time.text = ("%s %s" % [tr("FL_BURN"), fmt_time(bt)]) if bt > 0.0 else tr("FL_NO_ENGINE")
 
 
 func _place_marker(m: Control, d: Vector3, center: Vector2, radius: float) -> void:
@@ -410,4 +606,6 @@ func _event_text(key: String, data: Dictionary) -> String:
 	var s := tr(k)
 	if s.contains("%d"):
 		s = s % int(data.get("stage", 1))
+	elif s.contains("%s"):
+		s = s % String(data.get("body", ""))
 	return s

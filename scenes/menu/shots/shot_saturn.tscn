@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/menu_shot.gd" id="1_shot"]
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="2_sky"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="3_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_rings.gdshader" id="4_rings"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod1.glb" id="5_saturn"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod1.glb" id="6_rings"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod1.glb" id="7_moon"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="8_comet"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("2_sky")
+shader_parameter/star_brightness = 2.2
+shader_parameter/milky_way = 0.7
+shader_parameter/galactic_pole = Vector3(-0.3, 0.8, 0.5)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.25
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.04
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="ShaderMaterial" id="mat_gas"]
+shader = ExtResource("3_planet")
+shader_parameter/normal_blend = 0.75
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="mat_rings"]
+shader = ExtResource("4_rings")
+shader_parameter/brightness = 1.6
+shader_parameter/two_sided_wrap = 0.8
+
+[sub_resource type="ShaderMaterial" id="mat_moon"]
+shader = ExtResource("3_planet")
+
+[sub_resource type="Animation" id="anim_shot"]
+resource_name = "shot"
+length = 13
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Saturn/Body:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 13),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.25, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"shot": SubResource("anim_shot")
+}
+
+[node name="ShotSaturn" type="Node3D" node_paths=PackedStringArray("camera", "path", "look_target", "animation_player")]
+script = ExtResource("1_shot")
+duration = 13.0
+caption_key = "MENU_SHOT_SATURN"
+camera = NodePath("Camera3D")
+path = [NodePath("CamPath/Start"), NodePath("CamPath/End")]
+look_target = NodePath("CamPath/LookAt")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.2983, 0.2423, -0.9232, 0, 0.9672, 0.2539, 0.9545, -0.0757, 0.2885, 0, 0, 0)
+light_color = Color(1, 0.94, 0.86, 1)
+light_energy = 1.7
+
+[node name="Saturn" type="Node3D" parent="."]
+transform = Transform3D(0.795, -0.3913, -0.4636, 0.2243, 0.8996, -0.3746, 0.5636, 0.1938, 0.803, 80, -22, -320)
+
+[node name="Body" parent="Saturn" instance=ExtResource("5_saturn")]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="saturn_lod1" parent="Saturn/Body" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+
+[node name="Rings" parent="Saturn" instance=ExtResource("6_rings")]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="saturn_rings_lod1" parent="Saturn/Rings" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+
+[node name="Moon" parent="." instance=ExtResource("7_moon")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 18, 26, -300)
+
+[node name="europa_lod1" parent="Moon" index="0"]
+material_override = SubResource("mat_moon")
+cast_shadow = 0
+
+[node name="Comet" parent="." instance=ExtResource("8_comet")]
+transform = Transform3D(8.2563, -2.1757, -2.846, 2.2934, 8.7029, 0, 2.7521, -0.7252, 8.5381, -60, 95, -900)
+
+[node name="CamPath" type="Node3D" parent="."]
+
+[node name="Start" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 12)
+
+[node name="End" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 6)
+
+[node name="LookAt" type="Marker3D" parent="CamPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -4, -320)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, 12)
+fov = 45.0
+near = 0.1
+far = 20000.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "weeks_per_year": 52,
+  "campaign_years": 25,
+  "seconds_per_week": [0.0, 6.0, 3.0, 1.0],
+  "fair_seconds_per_week": 1.0,
+  "start": {
+    "cash": 300000,
+    "reputation": 20,
+    "hype": 5,
+    "agency_name": "Cometworks"
+  },
+  "salary_month_base": 4000,
+  "salary_level_step": 0.25,
+  "hype_decay_month": 0.03,
+  "milestones_total": 15,
+  "rivals": [
+    {"id": "aurora", "name_key": "TY_RIVAL_AURORA", "color": "#ff5c6c", "capacity": 1.1},
+    {"id": "nimbo", "name_key": "TY_RIVAL_NIMBO", "color": "#bfe8ff", "capacity": 0.9},
+    {"id": "quietude", "name_key": "TY_RIVAL_QUIETUDE", "color": "#8e7cff", "capacity": 1.0}
+  ]
+}

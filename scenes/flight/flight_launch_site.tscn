@@ -43,22 +43,306 @@ transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.25, 0)
 surface_material_override/0 = SubResource("m_ground")
 
 [node name="ApronFront" parent="Ground"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
 
 [node name="ApronBack" parent="Ground"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
 
 [node name="ApronLeft" parent="Ground"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
 
 [node name="ApronRight" parent="Ground"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
 
 [node name="PadDeck" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
 
 [node name="PadDeck" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
 surface_material_override/0 = SubResource("m_apron")
+
+[node name="Lane0" parent="Crawlerway"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Lane1" parent="Crawlerway"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="ApronLink" parent="Crawlerway"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="LightPosts" parent="Crawlerway"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightHeads" parent="Crawlerway"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="Hardstand" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Ramp" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="FlameTrench" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="FlameDeflector" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="TowerLattice" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="AccessArm0" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail0" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArm1" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail1" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArm2" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail2" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="TowerCrane" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="TowerTop" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="TowerBeacon" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast0" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon0" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand0" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast1" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon1" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand1" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast2" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon2" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand2" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="CatenaryWires" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="Leg0" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Leg1" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Leg2" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Leg3" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Tank" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Band" parent="LaunchComplexA/WaterTower"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="PropellantSphere0" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="PropellantSkirt0" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="PropellantSphere1" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="PropellantSkirt1" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Blockhouse" parent="LaunchComplexA"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="BlockhouseBand" parent="LaunchComplexA"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="Hardstand" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="Ramp" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="FlameTrench" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="FlameDeflector" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="TowerLattice" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="AccessArm0" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail0" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArm1" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail1" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArm2" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="AccessArmRail2" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="TowerCrane" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="TowerTop" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="TowerBeacon" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast0" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon0" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand0" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast1" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon1" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand1" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="LightningMast2" parent="LaunchComplexB"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="MastBeacon2" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="MastBand2" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="CatenaryWires" parent="LaunchComplexB"]
+visibility_range_end = 1500.0
+visibility_range_end_margin = 150.0
+
+[node name="VoxelTerrain" parent="Terrain"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="VoxelTrees" parent="Terrain"]
+visibility_range_end = 6000.0
+visibility_range_end_margin = 600.0
+
+[node name="VoxelClouds" parent="Clouds"]
+visibility_range_end = 12000.0
+visibility_range_end_margin = 1200.0
 
 [node name="CrashGround" type="StaticBody3D" parent="."]
 

@@ -5,8 +5,14 @@ FL_ALTITUDE,ALTITUDE,ALTITUDE
 FL_MISSION_TIME,MISSION TIME,TEMPO DE MISSÃO
 FL_ON_PAD,ON THE PAD,NA PLATAFORMA
 FL_WARP_DOWN_TIP,Slower time warp ( , ),Acelerar menos o tempo ( , )
-FL_WARP_UP_TIP,Faster time warp ( . ) - 10x to 1000x only above the atmosphere with the engines off,Acelerar o tempo ( . ) - 10x a 1000x só acima da atmosfera e com os motores desligados
-FL_WARP_ATMO,High warp only above 140 km with the engines off,Aceleração alta só acima de 140 km e com os motores desligados
+FL_WARP_UP_TIP,"Faster time warp ( . ) - up to 1 000 000x coasting in space, up to 100x in the air or under thrust","Acelerar o tempo ( . ) - até 1 000 000x no espaço sem motor, até 100x no ar ou com motor ligado"
+FL_WARP_LIMIT,Time warp limited to %dx,Aceleração limitada a %dx
+FL_WARP_WHY_GROUND,on the ground,em solo
+FL_WARP_WHY_AIR,above %s for more,acima de %s para mais
+FL_WARP_WHY_THRUST,engines on (X cuts),motor ligado (X desliga)
+FL_WARP_WHY_AUTO,auto-ascent flying (P turns it off),subida automática ativa (P desliga)
+FL_WARP_WHY_BURN,maneuver burn,queima da manobra
+FL_EXEC_NO_FUEL,Node execution stopped: no propellant left,Execução da manobra parada: sem propelente
 FL_FLIGHT_DATA,FLIGHT DATA,DADOS DE VOO
 FL_COLLAPSE_TIP,Collapse / expand,Recolher / expandir
 FL_APOAPSIS,Apoapsis,Apoapse
@@ -41,10 +47,10 @@ FL_AUTO_ON,Auto-ascent engaged,Subida automática ligada
 FL_AUTO_OFF,Auto-ascent off,Subida automática desligada
 FL_MAP,MAP,MAPA
 FL_MAP_TIP,Map view (M),Vista de mapa (M)
-FL_MAP_HINT,Map view · right mouse: rotate · wheel: zoom · M: back,Vista de mapa · botão direito: girar · roda: zoom · M: voltar
+FL_MAP_HINT,Map · right mouse: rotate · wheel: zoom · click the orbit: add a node · Tab: focus · 1 2 3: scale · right click a body: target · M: back,Mapa · botão direito: girar · roda: zoom · clique na órbita: criar manobra · Tab: foco · 1 2 3: escala · botão direito num corpo: alvo · M: voltar
 FL_PAD_HINT,Press SPACE to ignite stage 1 · P auto-ascent · F1 controls,Aperte ESPAÇO para ignição do estágio 1 · P subida automática · F1 controles
 FL_HELP_TITLE,Flight controls,Controles de voo
-FL_HELP_TEXT,"SPACE        next stage (ignite / separate)\nW / S        pitch down / up\nA / D        yaw left / right\nQ / E        roll\nShift / Ctrl throttle up / down\nZ / X        full throttle / cut\nT            SAS: hold attitude\nG / H        hold prograde / retrograde\nP            auto-ascent to orbit\nM            map view\n,  .         time warp\nRight mouse  orbit camera · wheel: zoom\nEsc          pause menu\nF2           hide HUD","ESPAÇO       próximo estágio (ignição / separação)\nW / S        arfagem para baixo / cima\nA / D        guinada esquerda / direita\nQ / E        rolagem\nShift / Ctrl acelerar / desacelerar\nZ / X        aceleração máxima / cortar\nT            SAS: manter atitude\nG / H        manter progrado / retrógrado\nP            subida automática até a órbita\nM            vista de mapa\n,  .         acelerar o tempo\nBotão dir.   girar câmera · roda: zoom\nEsc          menu de pausa\nF2           esconder o HUD"
+FL_HELP_TEXT,"SPACE        next stage (ignite / separate)\nW / S        pitch down / up\nA / D        yaw left / right\nQ / E        roll\nShift / Ctrl throttle up / down\nZ / X        full throttle / cut\nT            SAS: hold attitude\nG / H        hold prograde / retrograde\nP            auto-ascent to orbit\nM            map view (Tab focus, 1 2 3 scale)\nB / Y        warp to node / execute node\n,  .         time warp\nRight mouse  orbit camera · wheel: zoom\nEsc          pause menu\nF2           hide HUD","ESPAÇO       próximo estágio (ignição / separação)\nW / S        arfagem para baixo / cima\nA / D        guinada esquerda / direita\nQ / E        rolagem\nShift / Ctrl acelerar / desacelerar\nZ / X        aceleração máxima / cortar\nT            SAS: manter atitude\nG / H        manter progrado / retrógrado\nP            subida automática até a órbita\nM            mapa (Tab foco, 1 2 3 escala)\nB / Y        ir até a manobra / executar\n,  .         acelerar o tempo\nBotão dir.   girar câmera · roda: zoom\nEsc          menu de pausa\nF2           esconder o HUD"
 FL_PAUSED,PAUSED,PAUSADO
 FL_PAUSED_SUB,The flight is frozen,O voo está congelado
 FL_RESUME,Resume,Continuar
@@ -80,10 +86,98 @@ RP_MAX_Q,Max-Q,Max-Q
 RP_MAX_G,Max G-force,Força G máxima
 RP_FLIGHT_TIME,Flight time,Tempo de voo
 RP_DV,Δv used / hangar,Δv usado / hangar
-RP_DV_NOTE,"Δv the engines delivered vs. the hangar's prediction for the whole rocket (gravity and drag losses are part of the bill).","Δv entregue pelos motores vs. a previsão do hangar para o foguete inteiro (as perdas por gravidade e arrasto fazem parte da conta)."
+RP_DV_NOTE,Δv the engines delivered vs. the hangar's prediction for the whole rocket (gravity and drag losses are part of the bill).,Δv entregue pelos motores vs. a previsão do hangar para o foguete inteiro (as perdas por gravidade e arrasto fazem parte da conta).
 RP_CAUSE,Cause,Causa
 RP_TIMELINE,TIMELINE,LINHA DO TEMPO
 RP_PROFILE,ASCENT PROFILE,PERFIL DE SUBIDA
 RP_KEY_ALT,— altitude,— altitude
 RP_KEY_SPEED,— speed,— velocidade
 RP_CONTINUE,Keep flying,Continuar voando
+FL_EXEC_ON,Executing the maneuver node,Executando a manobra
+FL_EXEC_OFF,Node execution off,Execução da manobra desligada
+FL_WARPING_TO,Warping to the burn (%s),Acelerando até a queima (%s)
+FL_NODE_DONE,Maneuver complete,Manobra concluída
+MSG_SOI,Sphere of influence: %s,Esfera de influência: %s
+FL_MAP_TITLE,MAP,MAPA
+FL_MAP_VESSEL,Vessel,Nave
+FL_MAP_FOCUS_TIP,Focus: previous / next body (Tab),Foco: corpo anterior / seguinte (Tab)
+FL_MAP_SCALE_VESSEL,Orbit,Órbita
+FL_MAP_SCALE_VESSEL_TIP,The vessel and its orbit (1),A nave e a sua órbita (1)
+FL_MAP_SCALE_SYSTEM,System,Sistema
+FL_MAP_SCALE_SYSTEM_TIP,The body the vessel orbits and its moons (2),O corpo que a nave orbita e suas luas (2)
+FL_MAP_SCALE_SOLAR,Solar,Solar
+FL_MAP_SCALE_SOLAR_TIP,The whole solar system (3),O sistema solar inteiro (3)
+FL_MAP_TARGET,Target: %s · closest approach and AN / DN shown,Alvo: %s · aproximação máxima e NA / ND no mapa
+FL_MAP_TARGET_NONE,Right-click a body to set it as target,Botão direito num corpo para definir o alvo
+FL_AP,Ap,Ap
+FL_PE,Pe,Pe
+FL_AN,AN,NA
+FL_DN,DN,ND
+FL_MAP_ENCOUNTER,Encounter %s · %s,Encontro %s · %s
+FL_MAP_ESCAPE,Leaving %s · %s,Saindo de %s · %s
+FL_MAP_IMPACT,Impact · %s,Impacto · %s
+FL_MAP_CLOSEST,Closest %s · %s,Mais perto %s · %s
+FL_MAP_GHOST,%s at the encounter,%s no encontro
+FL_MAP_ADD_NODE,+ maneuver · %s,+ manobra · %s
+FL_BURN,burn,queima
+FL_BURN_IN,BURN,QUEIMA
+FL_BURNING,BURNING,QUEIMANDO
+FL_MANEUVER,MANEUVER,MANOBRA
+FL_NODE_PREV_TIP,Previous node,Manobra anterior
+FL_NODE_NEXT_TIP,Next node,Próxima manobra
+FL_NODE_DELETE_TIP,Delete this node (Delete; Shift+Delete clears all),Apagar esta manobra (Delete; Shift+Delete apaga todas)
+FL_NODE_EMPTY,"Click the predicted orbit on the map to add a maneuver node, then drag its handles.",Clique na órbita prevista no mapa para criar uma manobra e arraste as alças.
+FL_NODE_DV,Δv,Δv
+FL_BURN_TIME,Burn time,Tempo de queima
+FL_NODE_ETA,Node in,Manobra em
+FL_PROGRADE,Prograde,Progrado
+FL_PROGRADE_TIP,Δv along the velocity (m/s); negative = retrograde,Δv na direção da velocidade (m/s); negativo = retrógrado
+FL_NORMAL,Normal,Normal
+FL_NORMAL_TIP,Δv perpendicular to the orbit plane (m/s); negative = anti-normal,Δv perpendicular ao plano da órbita (m/s); negativo = antinormal
+FL_RADIAL,Radial,Radial
+FL_RADIAL_TIP,"Δv away from the body, in the orbit plane (m/s); negative = radial in","Δv para fora do corpo, no plano da órbita (m/s); negativo = radial para dentro"
+FL_RETROGRADE,Retrograde,Retrógrado
+FL_ANTINORMAL,Anti-normal,Antinormal
+FL_RADIAL_OUT,Radial out,Radial para fora
+FL_RADIAL_IN,Radial in,Radial para dentro
+FL_NODE_TIME,Time,Tempo
+FL_NODE_ORBIT_BACK_TIP,One orbit earlier,Uma órbita antes
+FL_NODE_TIME_BACK_TIP,30 s earlier (Shift: 5 min),30 s antes (Shift: 5 min)
+FL_NODE_TIME_FWD_TIP,30 s later (Shift: 5 min),30 s depois (Shift: 5 min)
+FL_NODE_ORBIT_FWD_TIP,One orbit later,Uma órbita depois
+FL_WARP_TO_NODE,Warp to  [B],Acelerar até  [B]
+FL_WARP_TO_NODE_TIP,Time warp to just before the burn starts,Acelerar o tempo até pouco antes do início da queima
+FL_EXECUTE,Execute  [Y],Executar  [Y]
+FL_EXECUTE_TIP,"Autopilot: point along the maneuver and burn (half before, half after the node)","Piloto automático: apontar para a manobra e queimar (metade antes, metade depois do nó)"
+FL_NO_ENGINE,no engine,sem motor
+FL_ESCAPE_ORBIT,escape,escape
+FL_NODE_ENCOUNTER,%s · Pe %s · %s,%s · Pe %s · %s
+FL_CAPT_TITLE,ORBIT INSERTION,INSERÇÃO ORBITAL
+FL_CAPT_COLLAPSE_TIP,Show / hide,Mostrar / esconder
+FL_CAPT_TARGET,%s · enters its sphere %s,%s · entra na esfera %s
+FL_CAPT_TARGET_IN,%s · inside its sphere of influence,%s · dentro da esfera de influência
+FL_CAPT_NONE,"No encounter yet: plan a transfer to another body first (a node whose path enters its sphere of influence), then pick the orbit here.","Ainda sem encontro: planeje antes uma transferência até outro corpo (uma manobra cuja rota entre na esfera de influência dele) e escolha a órbita aqui."
+FL_CAPT_PE,Periapsis,Periapse
+FL_CAPT_PE_TIP,Lowest altitude of the orbit,Altitude mais baixa da órbita
+FL_CAPT_AP,Apoapsis,Apoapse
+FL_CAPT_AP_TIP,Highest altitude of the orbit,Altitude mais alta da órbita
+FL_CAPT_CIRCULAR,Circular orbit,Órbita circular
+FL_CAPT_INC,Inclination,Inclinação
+FL_CAPT_INC_TIP,"Angle to the body's own orbit plane: 0° prograde, 90° polar, 180° retrograde. Off: keep the arrival plane (cheapest)","Ângulo com o plano da órbita do próprio corpo: 0° prograda, 90° polar, 180° retrógrada. Desligado: mantém o plano da chegada (mais barato)"
+FL_CAPT_KEEP_PLANE,plane of the arrival,plano da chegada
+FL_CAPT_PROGRADE,prograde orbit,órbita prograda
+FL_CAPT_POLAR,polar orbit,órbita polar
+FL_CAPT_RETRO,retrograde orbit,órbita retrógrada
+FL_CAPT_PLAN,Plan insertion,Planejar inserção
+FL_CAPT_PLAN_TIP,"Adds a course correction (aims the arrival) and the capture burn at the periapsis. Execute them with Y, one after the other","Adiciona uma correção de rota (mira a chegada) e a queima de captura na periapse. Execute-as com Y, uma depois da outra"
+FL_CAPT_RESULT,Correction %s · capture %s,Correção %s · captura %s
+FL_CAPT_ORBIT,Orbit: Pe %s · Ap %s · %s°,Órbita: Pe %s · Ap %s · %s°
+FL_CAPT_MIN,min %s,mín %s
+FL_CAPT_DONE,Orbit insertion planned: %d nodes,Inserção orbital planejada: %d manobras
+FL_CAPT_NO_ENCOUNTER,No encounter with another body on the current plan,Nenhum encontro com outro corpo no plano atual
+FL_CAPT_NODES_AFTER,Delete the nodes after the encounter first,Apague antes as manobras depois do encontro
+FL_CAPT_AIM_FAILED,Could not aim the arrival: try another orbit,Não foi possível mirar a chegada: tente outra órbita
+FL_CAPT_IMPACT,The arrival hits the surface before the periapsis,A chegada atinge a superfície antes da periapse
+FL_CAPT_APPROX,Periapsis only approximate,Periapse só aproximada
+FL_CAPT_PLANNED,Insertion planned (%d nodes),Inserção planejada (%d manobras)
+FL_CAPT_REPLAN,Plan again (replaces),Planejar de novo (substitui)

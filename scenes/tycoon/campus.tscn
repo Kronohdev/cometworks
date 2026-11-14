@@ -1,0 +1,2737 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/campus.gd" id="1_campus"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus_cometling.tscn" id="2_cl"]
+[ext_resource type="Shader" path="res://shaders/campus_sky.gdshader" id="3_sky"]
+[ext_resource type="Shader" path="res://shaders/campus_terrain.gdshader" id="4_terrain"]
+[ext_resource type="Shader" path="res://shaders/campus_road.gdshader" id="5_road"]
+[ext_resource type="Shader" path="res://shaders/campus_sea.gdshader" id="6_sea"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus_nature.tscn" id="7_nature"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus_dressing.tscn" id="8_dressing"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus_life.tscn" id="9_life"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("3_sky")
+shader_parameter/zenith_color = Color(0.02, 0.035, 0.1, 1)
+shader_parameter/mid_color = Color(0.09, 0.11, 0.26, 1)
+shader_parameter/horizon_color = Color(0.56, 0.37, 0.42, 1)
+shader_parameter/ground_color = Color(0.02, 0.028, 0.05, 1)
+shader_parameter/horizon_height = 0.2
+shader_parameter/anti_sun_cool = 0.45
+shader_parameter/sun_dir = Vector3(0.619, 0.339, -0.709)
+shader_parameter/glow_color = Color(1, 0.5, 0.24, 1)
+shader_parameter/glow_strength = 1.6
+shader_parameter/glow_width = 0.3
+shader_parameter/sun_core = 3.0
+shader_parameter/star_brightness = 1.5
+shader_parameter/star_horizon = 0.1
+shader_parameter/twinkle = 0.35
+shader_parameter/aurora_strength = 0.32
+shader_parameter/aurora_azimuth = -2.2
+shader_parameter/aurora_spread = 0.8
+shader_parameter/aurora_low = 0.12
+shader_parameter/aurora_high = 0.42
+shader_parameter/aurora_speed = 0.03
+shader_parameter/mountains_enabled = true
+shader_parameter/far_range_color = Color(0.26, 0.23, 0.36, 1)
+shader_parameter/near_range_color = Color(0.15, 0.14, 0.25, 1)
+shader_parameter/far_range_height = 0.065
+shader_parameter/near_range_height = 0.03
+shader_parameter/moon_dir = Vector3(-0.551, 0.451, 0.702)
+shader_parameter/moon_size = 0.025
+shader_parameter/moon_brightness = 2.2
+shader_parameter/comet_enabled = true
+shader_parameter/comet_dir = Vector3(-0.5, 0.42, -0.76)
+shader_parameter/comet_tail_dir = Vector3(-0.85, 0.45, 0.25)
+shader_parameter/comet_length = 0.62
+shader_parameter/comet_width = 0.012
+shader_parameter/comet_curve = 0.45
+shader_parameter/comet_brightness = 1.7
+shader_parameter/comet_striae = 0.45
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+process_mode = 3
+radiance_size = 3
+
+[sub_resource type="Gradient" id="grade_grad"]
+offsets = PackedFloat32Array(0, 0.18, 0.5, 0.82, 1)
+colors = PackedColorArray(0.015, 0.02, 0.05, 1, 0.16, 0.175, 0.225, 1, 0.5, 0.495, 0.5, 1, 0.84, 0.82, 0.79, 1, 1, 0.98, 0.94, 1)
+
+[sub_resource type="GradientTexture1D" id="grade_lut"]
+gradient = SubResource("grade_grad")
+width = 128
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.42, 0.5, 0.72, 1)
+ambient_light_sky_contribution = 0.45
+ambient_light_energy = 0.6
+reflected_light_source = 2
+tonemap_mode = 4
+tonemap_exposure = 1.05
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 1.3
+ssao_intensity = 1.8
+ssao_power = 1.4
+ssao_detail = 0.6
+ssao_light_affect = 0.15
+ssil_enabled = true
+ssil_radius = 3.0
+ssil_intensity = 0.7
+glow_enabled = true
+glow_levels/1 = 0.3
+glow_levels/2 = 0.6
+glow_levels/3 = 1.0
+glow_levels/5 = 0.6
+glow_intensity = 0.75
+glow_strength = 1.05
+glow_bloom = 0.04
+glow_blend_mode = 1
+glow_hdr_threshold = 0.95
+glow_hdr_scale = 2.2
+fog_enabled = true
+fog_light_color = Color(0.34, 0.33, 0.5, 1)
+fog_light_energy = 0.9
+fog_sun_scatter = 0.18
+fog_density = 0.0022
+fog_aerial_perspective = 0.45
+fog_sky_affect = 0.0
+fog_height = -5.0
+fog_height_density = 0.12
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 1.12
+adjustment_color_correction = SubResource("grade_lut")
+
+[sub_resource type="Gradient" id="tail_grad"]
+offsets = PackedFloat32Array(0, 0.06, 0.4, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.75, 0.91, 1, 0.85, 0.25, 0.88, 0.77, 0.3, 0.56, 0.49, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="tail_tex"]
+gradient = SubResource("tail_grad")
+fill_from = Vector2(0, 0.5)
+fill_to = Vector2(1, 0.5)
+width = 256
+height = 8
+
+[sub_resource type="StandardMaterial3D" id="tail_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+cull_mode = 2
+albedo_texture = SubResource("tail_tex")
+fog_enabled = false
+
+[sub_resource type="QuadMesh" id="tail_quad"]
+size = Vector2(150, 8)
+center_offset = Vector3(75, 0, 0)
+
+[sub_resource type="PlaneMesh" id="sea_mesh"]
+size = Vector2(1400, 1400)
+
+[sub_resource type="ShaderMaterial" id="sea_mat"]
+render_priority = 0
+shader = ExtResource("6_sea")
+shader_parameter/deep = Color(0.016, 0.04, 0.085, 1)
+shader_parameter/shallow = Color(0.05, 0.17, 0.2, 1)
+shader_parameter/foam_color = Color(0.86, 0.92, 1, 1)
+shader_parameter/shore_center = Vector2(6, 2)
+shader_parameter/shore_half = Vector2(90, 67)
+shader_parameter/shore_round = 3.0
+shader_parameter/shelf = 22.0
+shader_parameter/wave_scale = 0.12
+shader_parameter/wave_strength = 0.35
+shader_parameter/wave_speed = 0.6
+shader_parameter/foam_reach = 7.0
+shader_parameter/foam_spacing = 2.6
+shader_parameter/foam_speed = 0.45
+shader_parameter/foam_strength = 0.9
+
+[sub_resource type="BoxMesh" id="b0"]
+size = Vector3(150, 3, 104)
+
+[sub_resource type="ShaderMaterial" id="m0"]
+shader = ExtResource("4_terrain")
+shader_parameter/brightness = 1.0
+shader_parameter/lip_height = 0.0
+
+[sub_resource type="BoxMesh" id="b1"]
+size = Vector3(162, 3, 116)
+
+[sub_resource type="ShaderMaterial" id="m1"]
+shader = ExtResource("4_terrain")
+shader_parameter/brightness = 0.78
+shader_parameter/dry_amount = 0.5
+shader_parameter/earth_amount = 0.25
+shader_parameter/lip_height = -3.0
+
+[sub_resource type="BoxMesh" id="b2"]
+size = Vector3(172, 10, 126)
+
+[sub_resource type="ShaderMaterial" id="m2"]
+shader = ExtResource("4_terrain")
+shader_parameter/brightness = 0.7
+shader_parameter/dry_amount = 0.7
+shader_parameter/earth_amount = 0.4
+shader_parameter/lip_height = -6.0
+shader_parameter/lip_depth = 0.5
+
+[sub_resource type="BoxMesh" id="b3"]
+size = Vector3(180, 1, 134)
+
+[sub_resource type="ShaderMaterial" id="m3"]
+shader = ExtResource("4_terrain")
+shader_parameter/grass_a = Color(0.62, 0.55, 0.43, 1)
+shader_parameter/grass_b = Color(0.68, 0.61, 0.48, 1)
+shader_parameter/grass_dry = Color(0.55, 0.49, 0.39, 1)
+shader_parameter/clover = Color(0.6, 0.53, 0.42, 1)
+shader_parameter/earth = Color(0.45, 0.41, 0.35, 1)
+shader_parameter/earth_amount = 0.5
+shader_parameter/cell_size = 0.2
+shader_parameter/rock_a = Color(0.45, 0.41, 0.35, 1)
+shader_parameter/rock_b = Color(0.52, 0.47, 0.39, 1)
+shader_parameter/soil = Color(0.42, 0.38, 0.32, 1)
+shader_parameter/lip_height = -8.4
+shader_parameter/lip_depth = 0.0
+
+[sub_resource type="BoxMesh" id="b4"]
+size = Vector3(11.031, 1.0, 5.259)
+
+[sub_resource type="BoxMesh" id="b5"]
+size = Vector3(9.526, 1.0, 3.931)
+
+[sub_resource type="BoxMesh" id="b6"]
+size = Vector3(12.013, 1.0, 6.172)
+
+[sub_resource type="BoxMesh" id="b7"]
+size = Vector3(5.417, 1.0, 3.075)
+
+[sub_resource type="BoxMesh" id="b8"]
+size = Vector3(9.397, 1.0, 6.891)
+
+[sub_resource type="BoxMesh" id="b9"]
+size = Vector3(6.103, 1.0, 4.471)
+
+[sub_resource type="BoxMesh" id="b10"]
+size = Vector3(12.979, 1.0, 7.978)
+
+[sub_resource type="BoxMesh" id="b11"]
+size = Vector3(6.601, 1.0, 3.351)
+
+[sub_resource type="BoxMesh" id="b12"]
+size = Vector3(4.601, 1.0, 3.084)
+
+[sub_resource type="BoxMesh" id="b13"]
+size = Vector3(8.23, 1.0, 7.902)
+
+[sub_resource type="BoxMesh" id="b14"]
+size = Vector3(11.007, 1.0, 4.349)
+
+[sub_resource type="BoxMesh" id="b15"]
+size = Vector3(10.822, 1.0, 3.59)
+
+[sub_resource type="BoxMesh" id="b16"]
+size = Vector3(8.381, 1.0, 6.41)
+
+[sub_resource type="BoxMesh" id="b17"]
+size = Vector3(10.926, 1.0, 5.096)
+
+[sub_resource type="BoxMesh" id="b18"]
+size = Vector3(4.004, 1.0, 7.322)
+
+[sub_resource type="BoxMesh" id="b19"]
+size = Vector3(11.689, 1.0, 6.209)
+
+[sub_resource type="BoxMesh" id="b20"]
+size = Vector3(6.324, 1.0, 6.863)
+
+[sub_resource type="BoxMesh" id="b21"]
+size = Vector3(5.879, 1.0, 6.183)
+
+[sub_resource type="BoxMesh" id="b22"]
+size = Vector3(12.632, 1.0, 5.419)
+
+[sub_resource type="BoxMesh" id="b23"]
+size = Vector3(12.176, 1.0, 7.089)
+
+[sub_resource type="BoxMesh" id="b24"]
+size = Vector3(8.985, 1.0, 6.435)
+
+[sub_resource type="BoxMesh" id="b25"]
+size = Vector3(4.935, 1.0, 3.193)
+
+[sub_resource type="BoxMesh" id="b26"]
+size = Vector3(7.787, 1.0, 7.524)
+
+[sub_resource type="BoxMesh" id="b27"]
+size = Vector3(12.795, 1.0, 3.632)
+
+[sub_resource type="BoxMesh" id="b28"]
+size = Vector3(5.836, 1.0, 3.083)
+
+[sub_resource type="BoxMesh" id="b29"]
+size = Vector3(5.586, 1.0, 4.844)
+
+[sub_resource type="BoxMesh" id="b30"]
+size = Vector3(12.824, 1.0, 6.285)
+
+[sub_resource type="BoxMesh" id="b31"]
+size = Vector3(7.217, 1.0, 4.559)
+
+[sub_resource type="BoxMesh" id="b32"]
+size = Vector3(4.605, 1.0, 4.555)
+
+[sub_resource type="BoxMesh" id="b33"]
+size = Vector3(10.633, 1.0, 7.501)
+
+[sub_resource type="BoxMesh" id="b34"]
+size = Vector3(12.108, 1.0, 7.356)
+
+[sub_resource type="BoxMesh" id="b35"]
+size = Vector3(9.625, 1.0, 4.912)
+
+[sub_resource type="BoxMesh" id="b36"]
+size = Vector3(12.94, 1.0, 7.399)
+
+[sub_resource type="BoxMesh" id="b37"]
+size = Vector3(8.12, 1.0, 5.313)
+
+[sub_resource type="BoxMesh" id="b38"]
+size = Vector3(52.409, 32.407, 31.755)
+
+[sub_resource type="StandardMaterial3D" id="m4"]
+albedo_color = Color(0.0706, 0.1020, 0.1569, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b39"]
+size = Vector3(64.58, 31.923, 48.409)
+
+[sub_resource type="StandardMaterial3D" id="m5"]
+albedo_color = Color(0.0549, 0.0824, 0.1333, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b40"]
+size = Vector3(64.47, 22.01, 40.368)
+
+[sub_resource type="BoxMesh" id="b41"]
+size = Vector3(53.078, 42.968, 43.318)
+
+[sub_resource type="BoxMesh" id="b42"]
+size = Vector3(48.012, 39.13, 34.284)
+
+[sub_resource type="BoxMesh" id="b43"]
+size = Vector3(59.859, 21.813, 46.742)
+
+[sub_resource type="BoxMesh" id="b44"]
+size = Vector3(46.765, 25.75, 39.013)
+
+[sub_resource type="BoxMesh" id="b45"]
+size = Vector3(60.799, 28.711, 43.443)
+
+[sub_resource type="BoxMesh" id="b46"]
+size = Vector3(64.302, 25.787, 43.565)
+
+[sub_resource type="BoxMesh" id="b47"]
+size = Vector3(40.765, 40.162, 32.718)
+
+[sub_resource type="BoxMesh" id="b48"]
+size = Vector3(71.17, 25.46, 45.937)
+
+[sub_resource type="BoxMesh" id="b49"]
+size = Vector3(72.295, 36.341, 49.169)
+
+[sub_resource type="BoxMesh" id="b50"]
+size = Vector3(40.431, 23.003, 39.444)
+
+[sub_resource type="BoxMesh" id="b51"]
+size = Vector3(67.892, 27.681, 40.408)
+
+[sub_resource type="BoxMesh" id="b52"]
+size = Vector3(43.488, 43.375, 48.652)
+
+[sub_resource type="BoxMesh" id="b53"]
+size = Vector3(76.399, 35.515, 37.536)
+
+[sub_resource type="BoxMesh" id="b54"]
+size = Vector3(68.877, 23.737, 46.367)
+
+[sub_resource type="BoxMesh" id="b55"]
+size = Vector3(79.094, 45.454, 40.739)
+
+[sub_resource type="BoxMesh" id="b56"]
+size = Vector3(128, 0.06, 5)
+
+[sub_resource type="ShaderMaterial" id="m6"]
+shader = ExtResource("5_road")
+shader_parameter/era = 1
+
+[sub_resource type="BoxMesh" id="b57"]
+size = Vector3(5, 0.06, 76)
+
+[sub_resource type="BoxMesh" id="b58"]
+size = Vector3(14, 0.08, 14)
+
+[sub_resource type="ShaderMaterial" id="m7"]
+shader = ExtResource("5_road")
+shader_parameter/era = 1
+shader_parameter/plaza = true
+
+[sub_resource type="BoxMesh" id="b59"]
+size = Vector3(4, 0.05, 6.5)
+
+[sub_resource type="BoxMesh" id="b60"]
+size = Vector3(4, 0.05, 5.5)
+
+[sub_resource type="BoxMesh" id="b61"]
+size = Vector3(4, 0.05, 7.5)
+
+[sub_resource type="BoxMesh" id="b62"]
+size = Vector3(4, 0.05, 7.0)
+
+[sub_resource type="BoxMesh" id="b63"]
+size = Vector3(0.25, 0.08, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="m8"]
+albedo_color = Color(0.2471, 0.8784, 0.7725, 1.000)
+emission_enabled = true
+emission = Color(0.2471, 0.8784, 0.7725, 1.000)
+emission_energy_multiplier = 2.6
+
+[sub_resource type="BoxMesh" id="b64"]
+size = Vector3(18, 0.05, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="m9"]
+albedo_color = Color(0.2275, 0.3020, 0.4471, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b65"]
+size = Vector3(0.18, 0.05, 13)
+
+[sub_resource type="BoxMesh" id="b66"]
+size = Vector3(0.25, 0.6, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="m10"]
+albedo_color = Color(0.1686, 0.2039, 0.2706, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b67"]
+size = Vector3(0.27, 0.12, 0.27)
+
+[sub_resource type="StandardMaterial3D" id="m11"]
+albedo_color = Color(0.2471, 0.8784, 0.7725, 1.000)
+emission_enabled = true
+emission = Color(0.2471, 0.8784, 0.7725, 1.000)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="BoxMesh" id="b68"]
+size = Vector3(0.15, 1.6, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="m12"]
+albedo_color = Color(0.3529, 0.2745, 0.2118, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b69"]
+size = Vector3(1.4, 0.8, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="m13"]
+albedo_color = Color(0.7490, 0.9098, 1.0000, 1.000)
+emission_enabled = true
+emission = Color(0.7490, 0.9098, 1.0000, 1.000)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="BoxMesh" id="b70"]
+size = Vector3(26, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b71"]
+size = Vector3(0.18, 0.05, 17)
+
+[sub_resource type="BoxMesh" id="b72"]
+size = Vector3(17, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b73"]
+size = Vector3(20, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b74"]
+size = Vector3(16, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b75"]
+size = Vector3(0.18, 0.05, 12)
+
+[sub_resource type="BoxMesh" id="b76"]
+size = Vector3(15, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b77"]
+size = Vector3(0.18, 0.05, 15)
+
+[sub_resource type="BoxMesh" id="b78"]
+size = Vector3(22, 0.05, 0.18)
+
+[sub_resource type="BoxMesh" id="b79"]
+size = Vector3(0.18, 4.2, 0.18)
+
+[sub_resource type="BoxMesh" id="b80"]
+size = Vector3(0.7, 0.18, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="m14"]
+albedo_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+emission_enabled = true
+emission = Color(1.0000, 0.8235, 0.6039, 1.000)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="b81"]
+size = Vector3(0.45, 1.444, 0.45)
+
+[sub_resource type="BoxMesh" id="b82"]
+size = Vector3(2.241, 1.624, 2.241)
+
+[sub_resource type="StandardMaterial3D" id="m15"]
+albedo_color = Color(0.1843, 0.3529, 0.2902, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b83"]
+size = Vector3(1.345, 1.263, 1.345)
+
+[sub_resource type="BoxMesh" id="b84"]
+size = Vector3(0.45, 1.68, 0.45)
+
+[sub_resource type="BoxMesh" id="b85"]
+size = Vector3(2.333, 1.89, 2.333)
+
+[sub_resource type="BoxMesh" id="b86"]
+size = Vector3(1.4, 1.47, 1.4)
+
+[sub_resource type="BoxMesh" id="b87"]
+size = Vector3(0.45, 1.591, 0.45)
+
+[sub_resource type="BoxMesh" id="b88"]
+size = Vector3(2.239, 1.79, 2.239)
+
+[sub_resource type="BoxMesh" id="b89"]
+size = Vector3(1.344, 1.392, 1.344)
+
+[sub_resource type="BoxMesh" id="b90"]
+size = Vector3(0.45, 1.451, 0.45)
+
+[sub_resource type="BoxMesh" id="b91"]
+size = Vector3(2.057, 1.633, 2.057)
+
+[sub_resource type="StandardMaterial3D" id="m16"]
+albedo_color = Color(0.1451, 0.2863, 0.2471, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b92"]
+size = Vector3(1.234, 1.27, 1.234)
+
+[sub_resource type="BoxMesh" id="b93"]
+size = Vector3(0.45, 1.476, 0.45)
+
+[sub_resource type="BoxMesh" id="b94"]
+size = Vector3(2.373, 1.66, 2.373)
+
+[sub_resource type="StandardMaterial3D" id="m17"]
+albedo_color = Color(0.2353, 0.4196, 0.3333, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b95"]
+size = Vector3(1.424, 1.291, 1.424)
+
+[sub_resource type="BoxMesh" id="b96"]
+size = Vector3(0.45, 1.453, 0.45)
+
+[sub_resource type="BoxMesh" id="b97"]
+size = Vector3(2.344, 1.634, 2.344)
+
+[sub_resource type="BoxMesh" id="b98"]
+size = Vector3(1.406, 1.271, 1.406)
+
+[sub_resource type="BoxMesh" id="b99"]
+size = Vector3(0.45, 1.785, 0.45)
+
+[sub_resource type="BoxMesh" id="b100"]
+size = Vector3(2.214, 2.008, 2.214)
+
+[sub_resource type="BoxMesh" id="b101"]
+size = Vector3(1.328, 1.562, 1.328)
+
+[sub_resource type="BoxMesh" id="b102"]
+size = Vector3(0.45, 1.421, 0.45)
+
+[sub_resource type="BoxMesh" id="b103"]
+size = Vector3(1.909, 1.599, 1.909)
+
+[sub_resource type="BoxMesh" id="b104"]
+size = Vector3(1.145, 1.244, 1.145)
+
+[sub_resource type="BoxMesh" id="b105"]
+size = Vector3(0.45, 1.164, 0.45)
+
+[sub_resource type="BoxMesh" id="b106"]
+size = Vector3(2.487, 1.31, 2.487)
+
+[sub_resource type="BoxMesh" id="b107"]
+size = Vector3(1.492, 1.019, 1.492)
+
+[sub_resource type="BoxMesh" id="b108"]
+size = Vector3(0.45, 1.625, 0.45)
+
+[sub_resource type="BoxMesh" id="b109"]
+size = Vector3(2.652, 1.828, 2.652)
+
+[sub_resource type="BoxMesh" id="b110"]
+size = Vector3(1.591, 1.422, 1.591)
+
+[sub_resource type="BoxMesh" id="b111"]
+size = Vector3(0.45, 1.059, 0.45)
+
+[sub_resource type="BoxMesh" id="b112"]
+size = Vector3(2.213, 1.191, 2.213)
+
+[sub_resource type="BoxMesh" id="b113"]
+size = Vector3(1.328, 0.926, 1.328)
+
+[sub_resource type="BoxMesh" id="b114"]
+size = Vector3(0.45, 1.633, 0.45)
+
+[sub_resource type="BoxMesh" id="b115"]
+size = Vector3(2.703, 1.837, 2.703)
+
+[sub_resource type="BoxMesh" id="b116"]
+size = Vector3(1.622, 1.429, 1.622)
+
+[sub_resource type="BoxMesh" id="b117"]
+size = Vector3(0.45, 1.839, 0.45)
+
+[sub_resource type="BoxMesh" id="b118"]
+size = Vector3(1.934, 2.069, 1.934)
+
+[sub_resource type="BoxMesh" id="b119"]
+size = Vector3(1.16, 1.609, 1.16)
+
+[sub_resource type="BoxMesh" id="b120"]
+size = Vector3(0.45, 1.706, 0.45)
+
+[sub_resource type="BoxMesh" id="b121"]
+size = Vector3(2.343, 1.919, 2.343)
+
+[sub_resource type="BoxMesh" id="b122"]
+size = Vector3(1.406, 1.493, 1.406)
+
+[sub_resource type="BoxMesh" id="b123"]
+size = Vector3(0.45, 1.117, 0.45)
+
+[sub_resource type="BoxMesh" id="b124"]
+size = Vector3(2.482, 1.256, 2.482)
+
+[sub_resource type="BoxMesh" id="b125"]
+size = Vector3(1.489, 0.977, 1.489)
+
+[sub_resource type="BoxMesh" id="b126"]
+size = Vector3(0.45, 1.096, 0.45)
+
+[sub_resource type="BoxMesh" id="b127"]
+size = Vector3(1.824, 1.233, 1.824)
+
+[sub_resource type="BoxMesh" id="b128"]
+size = Vector3(1.095, 0.959, 1.095)
+
+[sub_resource type="BoxMesh" id="b129"]
+size = Vector3(0.45, 1.178, 0.45)
+
+[sub_resource type="BoxMesh" id="b130"]
+size = Vector3(2.79, 1.325, 2.79)
+
+[sub_resource type="BoxMesh" id="b131"]
+size = Vector3(1.674, 1.031, 1.674)
+
+[sub_resource type="BoxMesh" id="b132"]
+size = Vector3(0.45, 1.41, 0.45)
+
+[sub_resource type="BoxMesh" id="b133"]
+size = Vector3(2.127, 1.586, 2.127)
+
+[sub_resource type="BoxMesh" id="b134"]
+size = Vector3(1.276, 1.233, 1.276)
+
+[sub_resource type="BoxMesh" id="b135"]
+size = Vector3(0.45, 1.715, 0.45)
+
+[sub_resource type="BoxMesh" id="b136"]
+size = Vector3(2.208, 1.93, 2.208)
+
+[sub_resource type="BoxMesh" id="b137"]
+size = Vector3(1.325, 1.501, 1.325)
+
+[sub_resource type="BoxMesh" id="b138"]
+size = Vector3(0.45, 1.116, 0.45)
+
+[sub_resource type="BoxMesh" id="b139"]
+size = Vector3(2.124, 1.255, 2.124)
+
+[sub_resource type="BoxMesh" id="b140"]
+size = Vector3(1.274, 0.976, 1.274)
+
+[sub_resource type="BoxMesh" id="b141"]
+size = Vector3(0.45, 1.792, 0.45)
+
+[sub_resource type="BoxMesh" id="b142"]
+size = Vector3(2.4, 2.016, 2.4)
+
+[sub_resource type="BoxMesh" id="b143"]
+size = Vector3(1.44, 1.568, 1.44)
+
+[sub_resource type="BoxMesh" id="b144"]
+size = Vector3(0.45, 1.769, 0.45)
+
+[sub_resource type="BoxMesh" id="b145"]
+size = Vector3(2.543, 1.99, 2.543)
+
+[sub_resource type="BoxMesh" id="b146"]
+size = Vector3(1.526, 1.548, 1.526)
+
+[sub_resource type="BoxMesh" id="b147"]
+size = Vector3(0.45, 1.678, 0.45)
+
+[sub_resource type="BoxMesh" id="b148"]
+size = Vector3(2.269, 1.888, 2.269)
+
+[sub_resource type="BoxMesh" id="b149"]
+size = Vector3(1.361, 1.468, 1.361)
+
+[sub_resource type="BoxMesh" id="b150"]
+size = Vector3(0.45, 1.573, 0.45)
+
+[sub_resource type="BoxMesh" id="b151"]
+size = Vector3(2.016, 1.769, 2.016)
+
+[sub_resource type="BoxMesh" id="b152"]
+size = Vector3(1.21, 1.376, 1.21)
+
+[sub_resource type="BoxMesh" id="b153"]
+size = Vector3(0.45, 1.5, 0.45)
+
+[sub_resource type="BoxMesh" id="b154"]
+size = Vector3(2.415, 1.687, 2.415)
+
+[sub_resource type="BoxMesh" id="b155"]
+size = Vector3(1.449, 1.312, 1.449)
+
+[sub_resource type="BoxMesh" id="b156"]
+size = Vector3(0.45, 1.196, 0.45)
+
+[sub_resource type="BoxMesh" id="b157"]
+size = Vector3(1.811, 1.346, 1.811)
+
+[sub_resource type="BoxMesh" id="b158"]
+size = Vector3(1.086, 1.047, 1.086)
+
+[sub_resource type="BoxMesh" id="b159"]
+size = Vector3(0.45, 1.395, 0.45)
+
+[sub_resource type="BoxMesh" id="b160"]
+size = Vector3(1.876, 1.57, 1.876)
+
+[sub_resource type="BoxMesh" id="b161"]
+size = Vector3(1.126, 1.221, 1.126)
+
+[sub_resource type="BoxMesh" id="b162"]
+size = Vector3(0.45, 1.168, 0.45)
+
+[sub_resource type="BoxMesh" id="b163"]
+size = Vector3(2.77, 1.314, 2.77)
+
+[sub_resource type="BoxMesh" id="b164"]
+size = Vector3(1.662, 1.022, 1.662)
+
+[sub_resource type="BoxMesh" id="b165"]
+size = Vector3(0.45, 1.571, 0.45)
+
+[sub_resource type="BoxMesh" id="b166"]
+size = Vector3(2.096, 1.767, 2.096)
+
+[sub_resource type="BoxMesh" id="b167"]
+size = Vector3(1.258, 1.375, 1.258)
+
+[sub_resource type="BoxMesh" id="b168"]
+size = Vector3(0.45, 1.644, 0.45)
+
+[sub_resource type="BoxMesh" id="b169"]
+size = Vector3(1.853, 1.849, 1.853)
+
+[sub_resource type="BoxMesh" id="b170"]
+size = Vector3(1.112, 1.438, 1.112)
+
+[sub_resource type="BoxMesh" id="b171"]
+size = Vector3(0.45, 1.219, 0.45)
+
+[sub_resource type="BoxMesh" id="b172"]
+size = Vector3(2.278, 1.371, 2.278)
+
+[sub_resource type="BoxMesh" id="b173"]
+size = Vector3(1.367, 1.067, 1.367)
+
+[sub_resource type="BoxMesh" id="b174"]
+size = Vector3(0.45, 1.618, 0.45)
+
+[sub_resource type="BoxMesh" id="b175"]
+size = Vector3(1.944, 1.82, 1.944)
+
+[sub_resource type="BoxMesh" id="b176"]
+size = Vector3(1.167, 1.416, 1.167)
+
+[sub_resource type="BoxMesh" id="b177"]
+size = Vector3(0.45, 1.374, 0.45)
+
+[sub_resource type="BoxMesh" id="b178"]
+size = Vector3(2.004, 1.545, 2.004)
+
+[sub_resource type="BoxMesh" id="b179"]
+size = Vector3(1.202, 1.202, 1.202)
+
+[sub_resource type="BoxMesh" id="b180"]
+size = Vector3(0.45, 1.465, 0.45)
+
+[sub_resource type="BoxMesh" id="b181"]
+size = Vector3(2.753, 1.648, 2.753)
+
+[sub_resource type="BoxMesh" id="b182"]
+size = Vector3(1.652, 1.282, 1.652)
+
+[sub_resource type="BoxMesh" id="b183"]
+size = Vector3(0.45, 1.667, 0.45)
+
+[sub_resource type="BoxMesh" id="b184"]
+size = Vector3(2.647, 1.876, 2.647)
+
+[sub_resource type="BoxMesh" id="b185"]
+size = Vector3(1.588, 1.459, 1.588)
+
+[sub_resource type="BoxMesh" id="b186"]
+size = Vector3(0.45, 1.442, 0.45)
+
+[sub_resource type="BoxMesh" id="b187"]
+size = Vector3(2.716, 1.622, 2.716)
+
+[sub_resource type="BoxMesh" id="b188"]
+size = Vector3(1.629, 1.262, 1.629)
+
+[sub_resource type="BoxMesh" id="b189"]
+size = Vector3(0.45, 1.38, 0.45)
+
+[sub_resource type="BoxMesh" id="b190"]
+size = Vector3(1.838, 1.553, 1.838)
+
+[sub_resource type="BoxMesh" id="b191"]
+size = Vector3(1.103, 1.208, 1.103)
+
+[sub_resource type="BoxMesh" id="b192"]
+size = Vector3(0.45, 1.169, 0.45)
+
+[sub_resource type="BoxMesh" id="b193"]
+size = Vector3(2.431, 1.315, 2.431)
+
+[sub_resource type="BoxMesh" id="b194"]
+size = Vector3(1.459, 1.023, 1.459)
+
+[sub_resource type="BoxMesh" id="b195"]
+size = Vector3(0.45, 1.099, 0.45)
+
+[sub_resource type="BoxMesh" id="b196"]
+size = Vector3(2.247, 1.237, 2.247)
+
+[sub_resource type="BoxMesh" id="b197"]
+size = Vector3(1.348, 0.962, 1.348)
+
+[sub_resource type="BoxMesh" id="b198"]
+size = Vector3(0.45, 1.709, 0.45)
+
+[sub_resource type="BoxMesh" id="b199"]
+size = Vector3(2.125, 1.923, 2.125)
+
+[sub_resource type="BoxMesh" id="b200"]
+size = Vector3(1.275, 1.495, 1.275)
+
+[sub_resource type="BoxMesh" id="b201"]
+size = Vector3(0.45, 1.335, 0.45)
+
+[sub_resource type="BoxMesh" id="b202"]
+size = Vector3(2.262, 1.502, 2.262)
+
+[sub_resource type="BoxMesh" id="b203"]
+size = Vector3(1.357, 1.168, 1.357)
+
+[sub_resource type="BoxMesh" id="b204"]
+size = Vector3(0.45, 1.288, 0.45)
+
+[sub_resource type="BoxMesh" id="b205"]
+size = Vector3(2.404, 1.449, 2.404)
+
+[sub_resource type="BoxMesh" id="b206"]
+size = Vector3(1.442, 1.127, 1.442)
+
+[sub_resource type="BoxMesh" id="b207"]
+size = Vector3(0.45, 1.566, 0.45)
+
+[sub_resource type="BoxMesh" id="b208"]
+size = Vector3(2.166, 1.762, 2.166)
+
+[sub_resource type="BoxMesh" id="b209"]
+size = Vector3(1.3, 1.37, 1.3)
+
+[sub_resource type="BoxMesh" id="b210"]
+size = Vector3(2.238, 2.016, 2.238)
+
+[sub_resource type="BoxMesh" id="b211"]
+size = Vector3(1.343, 1.568, 1.343)
+
+[sub_resource type="BoxMesh" id="b212"]
+size = Vector3(0.45, 1.239, 0.45)
+
+[sub_resource type="BoxMesh" id="b213"]
+size = Vector3(2.629, 1.393, 2.629)
+
+[sub_resource type="BoxMesh" id="b214"]
+size = Vector3(1.577, 1.084, 1.577)
+
+[sub_resource type="BoxMesh" id="b215"]
+size = Vector3(0.45, 1.631, 0.45)
+
+[sub_resource type="BoxMesh" id="b216"]
+size = Vector3(2.597, 1.835, 2.597)
+
+[sub_resource type="BoxMesh" id="b217"]
+size = Vector3(1.558, 1.427, 1.558)
+
+[sub_resource type="BoxMesh" id="b218"]
+size = Vector3(0.45, 1.647, 0.45)
+
+[sub_resource type="BoxMesh" id="b219"]
+size = Vector3(2.612, 1.853, 2.612)
+
+[sub_resource type="BoxMesh" id="b220"]
+size = Vector3(1.567, 1.441, 1.567)
+
+[sub_resource type="BoxMesh" id="b221"]
+size = Vector3(0.45, 1.378, 0.45)
+
+[sub_resource type="BoxMesh" id="b222"]
+size = Vector3(2.347, 1.55, 2.347)
+
+[sub_resource type="BoxMesh" id="b223"]
+size = Vector3(1.408, 1.206, 1.408)
+
+[sub_resource type="BoxMesh" id="b224"]
+size = Vector3(2.059, 0.568, 1.498)
+
+[sub_resource type="StandardMaterial3D" id="m18"]
+albedo_color = Color(0.2902, 0.3294, 0.3843, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b225"]
+size = Vector3(1.797, 0.891, 1.799)
+
+[sub_resource type="StandardMaterial3D" id="m19"]
+albedo_color = Color(0.2314, 0.2667, 0.3216, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b226"]
+size = Vector3(1.491, 0.93, 1.593)
+
+[sub_resource type="BoxMesh" id="b227"]
+size = Vector3(1.967, 1.211, 1.854)
+
+[sub_resource type="BoxMesh" id="b228"]
+size = Vector3(1.39, 0.836, 0.961)
+
+[sub_resource type="BoxMesh" id="b229"]
+size = Vector3(1.086, 0.84, 1.121)
+
+[sub_resource type="BoxMesh" id="b230"]
+size = Vector3(2.077, 1.103, 0.819)
+
+[sub_resource type="BoxMesh" id="b231"]
+size = Vector3(1.058, 0.674, 1.059)
+
+[sub_resource type="BoxMesh" id="b232"]
+size = Vector3(1.193, 0.638, 1.633)
+
+[sub_resource type="BoxMesh" id="b233"]
+size = Vector3(1.724, 1.117, 0.902)
+
+[sub_resource type="BoxMesh" id="b234"]
+size = Vector3(1.918, 1.281, 1.674)
+
+[sub_resource type="BoxMesh" id="b235"]
+size = Vector3(2.049, 1.199, 1.796)
+
+[sub_resource type="BoxMesh" id="b236"]
+size = Vector3(2.4, 0.5, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="m20"]
+albedo_color = Color(0.4196, 0.3294, 0.2510, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b237"]
+size = Vector3(1.2, 1.0, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="m21"]
+albedo_color = Color(0.4902, 0.5255, 0.5882, 1.000)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="BoxMesh" id="b238"]
+size = Vector3(0.7, 0.7, 0.7)
+
+[node name="Campus" type="Node3D"]
+script = ExtResource("1_campus")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Dusk" type="DirectionalLight3D" parent="Lights"]
+transform = Transform3D(-0.753, -0.223, 0.619, 0, 0.941, 0.339, -0.658, 0.255, -0.709, 0, 30, 0)
+light_color = Color(1, 0.68, 0.46, 1)
+light_energy = 2.6
+light_angular_distance = 1.2
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 1.2
+shadow_blur = 1.3
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 200.0
+
+[node name="Moon" type="DirectionalLight3D" parent="Lights"]
+transform = Transform3D(0.787, 0.278, -0.551, 0, 0.892, 0.451, 0.617, -0.355, 0.702, 0, 30, 0)
+light_color = Color(0.56, 0.68, 1, 1)
+light_energy = 0.38
+light_specular = 0.6
+sky_mode = 1
+
+[node name="Sky" type="Node3D" parent="."]
+
+[node name="Comet" type="MeshInstance3D" parent="Sky"]
+visible = false
+transform = Transform3D(0.94, -0.34, 0, 0.34, 0.94, 0, 0, 0, 1, -190, 105, -360)
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("tail_mat")
+cast_shadow = 0
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Sea" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, -9.000, 0.000)
+mesh = SubResource("sea_mesh")
+surface_material_override/0 = SubResource("sea_mat")
+cast_shadow = 0
+
+[node name="Plateau" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.000, -1.500, 2.000)
+mesh = SubResource("b0")
+surface_material_override/0 = SubResource("m0")
+
+[node name="Terrace" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.000, -4.500, 2.000)
+mesh = SubResource("b1")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Cliff" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.000, -11.000, 2.000)
+mesh = SubResource("b2")
+surface_material_override/0 = SubResource("m2")
+
+[node name="Beach" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.000, -8.900, 2.000)
+mesh = SubResource("b3")
+surface_material_override/0 = SubResource("m3")
+
+[node name="Step" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 63.056, -0.450, 57.141)
+mesh = SubResource("b4")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step2" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 53.408, -0.450, -50.855)
+mesh = SubResource("b5")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step3" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -49.880, -0.450, 55.232)
+mesh = SubResource("b6")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step4" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 30.012, -0.450, 55.693)
+mesh = SubResource("b7")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step5" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -66.438, -0.450, -53.277)
+mesh = SubResource("b8")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step6" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 20.190, -0.450, 53.172)
+mesh = SubResource("b9")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step7" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -0.657, -0.450, -49.669)
+mesh = SubResource("b10")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step8" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -22.817, -0.450, 53.378)
+mesh = SubResource("b11")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step9" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -55.183, -0.450, 53.745)
+mesh = SubResource("b12")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step10" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -39.284, -0.450, -53.462)
+mesh = SubResource("b13")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step11" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -60.606, -0.450, 55.777)
+mesh = SubResource("b14")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step12" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -20.117, -0.450, 57.784)
+mesh = SubResource("b15")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step13" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -70.291, -0.450, -50.790)
+mesh = SubResource("b16")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step14" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 7.383, -0.450, 57.912)
+mesh = SubResource("b17")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step15" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -10.403, -0.450, -53.940)
+mesh = SubResource("b18")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step16" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -39.129, -0.450, -50.366)
+mesh = SubResource("b19")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step17" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 82.331, -0.450, -49.279)
+mesh = SubResource("b20")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step18" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.757, -0.450, 52.446)
+mesh = SubResource("b21")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step19" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -14.014, -0.450, 54.719)
+mesh = SubResource("b22")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step20" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.479, -0.450, 52.925)
+mesh = SubResource("b23")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step21" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -47.278, -0.450, -51.774)
+mesh = SubResource("b24")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step22" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 22.151, -0.450, 54.529)
+mesh = SubResource("b25")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step23" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 43.413, -0.450, -50.350)
+mesh = SubResource("b26")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step24" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 9.132, -0.450, 57.575)
+mesh = SubResource("b27")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step25" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -28.286, -0.450, -53.504)
+mesh = SubResource("b28")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step26" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -2.470, -0.450, 52.363)
+mesh = SubResource("b29")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step27" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -15.505, -0.450, -53.346)
+mesh = SubResource("b30")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step28" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 72.080, -0.450, -50.849)
+mesh = SubResource("b31")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step29" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 21.346, -0.450, -48.449)
+mesh = SubResource("b32")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step30" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -60.259, -0.450, -51.277)
+mesh = SubResource("b33")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step31" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -17.114, -0.450, 56.111)
+mesh = SubResource("b34")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step32" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 62.702, -0.450, -51.437)
+mesh = SubResource("b35")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step33" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, -59.488, -0.450, -51.836)
+mesh = SubResource("b36")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Step34" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 73.743, -0.450, 56.165)
+mesh = SubResource("b37")
+surface_material_override/0 = SubResource("m1")
+
+[node name="Roads" type="Node3D" parent="."]
+
+[node name="RoadEW" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.030, 2.000)
+mesh = SubResource("b56")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+
+[node name="RoadNS" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.030, -4.000)
+mesh = SubResource("b57")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+
+[node name="Plaza" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.040, 2.000)
+mesh = SubResource("b58")
+surface_material_override/0 = SubResource("m7")
+cast_shadow = 0
+
+[node name="Drive" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -16.000, 0.025, -3.250)
+mesh = SubResource("b59")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive2" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 16.000, 0.025, -2.750)
+mesh = SubResource("b60")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive3" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 38.000, 0.025, 7.750)
+mesh = SubResource("b61")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive4" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -17.000, 0.025, 7.250)
+mesh = SubResource("b59")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive5" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 14.000, 0.025, 7.500)
+mesh = SubResource("b62")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive6" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.025, -2.750)
+mesh = SubResource("b60")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive7" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.025, 7.250)
+mesh = SubResource("b59")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive8" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 43.000, 0.025, -3.250)
+mesh = SubResource("b59")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="Drive9" type="MeshInstance3D" parent="Roads"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 60.000, 0.025, 7.750)
+mesh = SubResource("b61")
+surface_material_override/0 = SubResource("m6")
+cast_shadow = 0
+instance_shader_parameters/along_z = true
+instance_shader_parameters/half_width = 2.0
+
+[node name="PathLights" type="Node3D" parent="Roads"]
+visible = false
+
+[node name="Edge" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -58.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -58.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -53.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -53.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge5" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -48.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge6" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -48.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge7" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge8" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge9" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -38.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge10" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -38.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge11" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -33.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge12" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -33.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge13" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -28.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge14" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -28.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge15" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -23.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge16" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -23.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge17" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -18.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge18" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -18.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge19" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge20" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge21" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge22" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge23" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -3.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge24" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -3.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge25" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 2.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge26" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 2.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge27" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge28" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge29" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 12.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge30" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 12.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge31" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 17.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge32" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 17.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge33" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 22.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge34" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 22.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge35" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 27.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge36" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 27.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge37" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 32.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge38" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 32.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge39" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 37.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge40" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 37.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge41" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 42.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge42" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 42.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge43" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 47.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge44" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 47.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge45" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 52.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge46" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 52.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge47" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 57.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge48" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 57.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge49" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 62.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge50" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 62.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge51" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 67.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge52" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 67.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge53" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 72.000, 0.060, -0.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Edge54" type="MeshInstance3D" parent="Roads/PathLights"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 72.000, 0.060, 4.700)
+mesh = SubResource("b63")
+surface_material_override/0 = SubResource("m8")
+cast_shadow = 0
+
+[node name="Lots" type="Node3D" parent="."]
+
+[node name="hq" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -16.000, 0.000, -13.000)
+metadata/kind = "hq"
+metadata/size = Vector2(18, 13)
+metadata/face = 0.00000
+metadata/start = true
+
+[node name="Frame" type="Node3D" parent="Lots/hq"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -6.500)
+mesh = SubResource("b64")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 6.500)
+mesh = SubResource("b64")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -9.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -9.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -9.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -9.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -9.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.800, 0.800, 5.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/hq/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.800, 1.600, 5.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="workshop" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 16.000, 0.000, -14.000)
+metadata/kind = "workshop"
+metadata/size = Vector2(26, 17)
+metadata/face = 0.00000
+metadata/start = true
+
+[node name="Frame" type="Node3D" parent="Lots/workshop"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -8.500)
+mesh = SubResource("b70")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 8.500)
+mesh = SubResource("b70")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 13.000, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 13.000, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 13.000, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -13.000, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 13.000, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 13.000, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.800, 0.800, 7.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/workshop/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.800, 1.600, 7.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="pad" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 38.000, 0.000, 20.000)
+metadata/kind = "pad"
+metadata/size = Vector2(17, 17)
+metadata/face = 3.14159
+metadata/start = true
+
+[node name="Frame" type="Node3D" parent="Lots/pad"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -8.500)
+mesh = SubResource("b72")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 8.500)
+mesh = SubResource("b72")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.300, 0.800, -7.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/pad/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.300, 1.600, -7.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="lab" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -17.000, 0.000, 17.000)
+metadata/kind = "lab"
+metadata/size = Vector2(20, 13)
+metadata/face = 3.14159
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/lab"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -6.500)
+mesh = SubResource("b73")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 6.500)
+mesh = SubResource("b73")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -10.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 10.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -10.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -10.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 10.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 10.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -10.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -10.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 10.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 10.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.800, 0.800, -5.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/lab/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.800, 1.600, -5.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="control" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 14.000, 0.000, 17.000)
+metadata/kind = "control"
+metadata/size = Vector2(16, 12)
+metadata/face = 3.14159
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/control"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -6.000)
+mesh = SubResource("b74")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 6.000)
+mesh = SubResource("b74")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.055, 0.000)
+mesh = SubResource("b75")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.055, 0.000)
+mesh = SubResource("b75")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.300, -6.000)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.660, -6.000)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.300, -6.000)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.660, -6.000)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.300, 6.000)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.660, 6.000)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.300, 6.000)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.660, 6.000)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.800, 0.800, -4.800)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/control/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.800, 1.600, -4.800)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="antenna" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.000, -13.000)
+metadata/kind = "antenna"
+metadata/size = Vector2(15, 15)
+metadata/face = 0.00000
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/antenna"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -7.500)
+mesh = SubResource("b76")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 7.500)
+mesh = SubResource("b76")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.500, 0.055, 0.000)
+mesh = SubResource("b77")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.500, 0.055, 0.000)
+mesh = SubResource("b77")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.500, 0.300, -7.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.500, 0.660, -7.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.500, 0.300, -7.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.500, 0.660, -7.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.500, 0.300, 7.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.500, 0.660, 7.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.500, 0.300, 7.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.500, 0.660, 7.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.300, 0.800, 6.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/antenna/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.300, 1.600, 6.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="factory" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -43.000, 0.000, 17.000)
+metadata/kind = "factory"
+metadata/size = Vector2(22, 13)
+metadata/face = 3.14159
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/factory"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -6.500)
+mesh = SubResource("b78")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 6.500)
+mesh = SubResource("b78")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -11.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 11.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.800, 0.800, -5.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/factory/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 9.800, 1.600, -5.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="training" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 43.000, 0.000, -13.000)
+metadata/kind = "training"
+metadata/size = Vector2(16, 13)
+metadata/face = 0.00000
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/training"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -6.500)
+mesh = SubResource("b74")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 6.500)
+mesh = SubResource("b74")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.055, 0.000)
+mesh = SubResource("b65")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.300, -6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.660, -6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.300, 6.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.000, 0.660, 6.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.800, 0.800, 5.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/training/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 6.800, 1.600, 5.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="pad2" type="Node3D" parent="Lots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 60.000, 0.000, 20.000)
+metadata/kind = "pad"
+metadata/size = Vector2(17, 17)
+metadata/face = 3.14159
+metadata/start = false
+
+[node name="Frame" type="Node3D" parent="Lots/pad2"]
+
+[node name="Edge" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, -8.500)
+mesh = SubResource("b72")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge2" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 0.000, 0.055, 8.500)
+mesh = SubResource("b72")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge3" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Edge4" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.055, 0.000)
+mesh = SubResource("b71")
+surface_material_override/0 = SubResource("m9")
+cast_shadow = 0
+
+[node name="Post" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post2" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.300, -8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led2" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.660, -8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post3" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led3" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -8.500, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Post4" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.300, 8.500)
+mesh = SubResource("b66")
+surface_material_override/0 = SubResource("m10")
+
+[node name="Led4" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 8.500, 0.660, 8.500)
+mesh = SubResource("b67")
+surface_material_override/0 = SubResource("m11")
+cast_shadow = 0
+
+[node name="Stake" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.300, 0.800, -7.300)
+mesh = SubResource("b68")
+surface_material_override/0 = SubResource("m12")
+
+[node name="SignBoard" type="MeshInstance3D" parent="Lots/pad2/Frame"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.300, 1.600, -7.300)
+mesh = SubResource("b69")
+surface_material_override/0 = SubResource("m13")
+cast_shadow = 0
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="LampPole" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 2.100, -2.500)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 4.290, -2.500)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 3.900, -2.500)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole2" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 2.100, -2.500)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead2" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 4.290, -2.500)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight2" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 3.900, -2.500)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole3" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 2.100, 6.500)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead3" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 4.290, 6.500)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight3" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -7.000, 3.900, 6.500)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole4" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 2.100, 6.500)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead4" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 4.290, 6.500)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight4" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 7.000, 3.900, 6.500)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole5" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 2.100, -2.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead5" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 4.290, -2.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight5" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 3.900, -2.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole6" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 2.100, -2.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead6" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 4.290, -2.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight6" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 3.900, -2.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole7" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 2.100, 6.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead7" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 4.290, 6.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight7" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 26.000, 3.900, 6.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole8" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 2.100, 6.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead8" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 4.290, 6.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight8" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -26.000, 3.900, 6.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole9" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 52.000, 2.100, -2.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead9" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 52.000, 4.290, -2.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight9" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 52.000, 3.900, -2.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="LampPole10" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -52.000, 2.100, 6.200)
+mesh = SubResource("b79")
+surface_material_override/0 = SubResource("m10")
+
+[node name="LampHead10" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -52.000, 4.290, 6.200)
+mesh = SubResource("b80")
+surface_material_override/0 = SubResource("m14")
+cast_shadow = 0
+
+[node name="LampLight10" type="OmniLight3D" parent="Props"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -52.000, 3.900, 6.200)
+light_color = Color(1.0000, 0.8235, 0.6039, 1.000)
+light_energy = 2.4
+light_indirect_energy = 0.6
+light_specular = 0.4
+omni_range = 11.5
+omni_attenuation = 1.4
+
+[node name="Nature" parent="." instance=ExtResource("7_nature")]
+
+[node name="Dressing" parent="." instance=ExtResource("8_dressing")]
+
+[node name="Life" parent="." instance=ExtResource("9_life")]
+
+[node name="Spots" type="Node3D" parent="."]
+
+[node name="Plaza" type="Marker3D" parent="Spots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 2.500, 0.000, 4.200)
+metadata/action = "talk"
+metadata/door = Vector3(2.5, 0, 2)
+
+[node name="Bench" type="Marker3D" parent="Spots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, -3.500, 0.000, -0.600)
+metadata/action = "sit"
+metadata/door = Vector3(-3.5, 0, 2)
+
+[node name="Statue" type="Marker3D" parent="Spots"]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 1.600, 0.000, 0.400)
+metadata/action = "look_up"
+metadata/door = Vector3(1.6, 0, 2)
+
+[node name="Lookout" type="Marker3D" parent="Spots"]
+transform = Transform3D(-1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, -1.00000, -4.000, 0.000, -36.000)
+metadata/action = "look_up"
+metadata/door = Vector3(0, 0, -36)
+
+[node name="Crowd" type="Node3D" parent="."]
+
+[node name="Cometling1" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, 1.00000, 4.500, 0.000, 2.000)
+variant = 0
+role = "engineer"
+
+[node name="Cometling2" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(0.86603, 0, -0.50000, 0, 1.0, 0, 0.50000, 0, 0.86603, 3.897, 0.000, 3.750)
+variant = 1
+role = "scientist"
+
+[node name="Cometling3" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(0.50000, 0, -0.86603, 0, 1.0, 0, 0.86603, 0, 0.50000, 2.250, 0.000, 5.031)
+variant = 2
+role = "pilot"
+
+[node name="Cometling4" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(0.00000, 0, -1.00000, 0, 1.0, 0, 1.00000, 0, 0.00000, 0.000, 0.000, 5.500)
+variant = 3
+role = "ground"
+
+[node name="Cometling5" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-0.50000, 0, -0.86603, 0, 1.0, 0, 0.86603, 0, -0.50000, -2.250, 0.000, 5.031)
+variant = 4
+role = "engineer"
+
+[node name="Cometling6" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-0.86603, 0, -0.50000, 0, 1.0, 0, 0.50000, 0, -0.86603, -3.897, 0.000, 3.750)
+variant = 5
+role = "scientist"
+
+[node name="Cometling7" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-1.00000, 0, -0.00000, 0, 1.0, 0, 0.00000, 0, -1.00000, -4.500, 0.000, 2.000)
+variant = 6
+role = "pilot"
+
+[node name="Cometling8" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-0.86603, 0, 0.50000, 0, 1.0, 0, -0.50000, 0, -0.86603, -3.897, 0.000, 0.250)
+variant = 7
+role = "ground"
+
+[node name="Cometling9" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-0.50000, 0, 0.86603, 0, 1.0, 0, -0.86603, 0, -0.50000, -2.250, 0.000, -1.031)
+variant = 8
+role = "engineer"
+
+[node name="Cometling10" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(-0.00000, 0, 1.00000, 0, 1.0, 0, -1.00000, 0, -0.00000, -0.000, 0.000, -1.500)
+variant = 0
+role = "scientist"
+
+[node name="Cometling11" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(0.50000, 0, 0.86603, 0, 1.0, 0, -0.86603, 0, 0.50000, 2.250, 0.000, -1.031)
+variant = 1
+role = "pilot"
+
+[node name="Cometling12" parent="Crowd" instance=ExtResource("2_cl")]
+transform = Transform3D(0.86603, 0, 0.50000, 0, 1.0, 0, -0.50000, 0, 0.86603, 3.897, 0.000, 0.250)
+variant = 2
+role = "ground"

@@ -1,0 +1,351 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/main_menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://src/menu/menu_director.gd" id="2_director"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="3_theme"]
+[ext_resource type="Theme" path="res://ui/menu/menu_theme.tres" id="4_menu_theme"]
+[ext_resource type="PackedScene" path="res://scenes/menu/logo.tscn" id="5_logo"]
+[ext_resource type="PackedScene" path="res://scenes/menu/menu_item.tscn" id="6_item"]
+[ext_resource type="PackedScene" path="res://scenes/menu/options_panel.tscn" id="7_options"]
+[ext_resource type="PackedScene" path="res://scenes/menu/peek_cometling.tscn" id="8_peek"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="9_bar"]
+
+[sub_resource type="Gradient" id="shade_left_grad"]
+offsets = PackedFloat32Array(0, 0.42, 1)
+colors = PackedColorArray(0.0275, 0.0431, 0.0784, 0.88, 0.0275, 0.0431, 0.0784, 0.6, 0.0275, 0.0431, 0.0784, 0)
+
+[sub_resource type="GradientTexture2D" id="shade_left"]
+gradient = SubResource("shade_left_grad")
+width = 256
+height = 4
+
+[sub_resource type="Gradient" id="shade_bottom_grad"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.0275, 0.0431, 0.0784, 0, 0.0275, 0.0431, 0.0784, 0.75)
+
+[sub_resource type="GradientTexture2D" id="shade_bottom"]
+gradient = SubResource("shade_bottom_grad")
+width = 4
+height = 128
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="primary_focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.749, 0.9098, 1, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[node name="MainMenu" type="Node"]
+script = ExtResource("1_menu")
+
+[node name="Background" type="Node3D" parent="." node_paths=PackedStringArray("fade")]
+script = ExtResource("2_director")
+shots = PackedStringArray("res://scenes/menu/shots/shot_stargaze.tscn", "res://scenes/menu/shots/shot_workshop.tscn", "res://scenes/menu/shots/shot_earth.tscn", "res://scenes/menu/shots/shot_launch.tscn", "res://scenes/menu/shots/shot_comet.tscn", "res://scenes/menu/shots/shot_campus.tscn", "res://scenes/menu/shots/shot_saturn.tscn")
+fade = NodePath("../UI/Root/Fade")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Root" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_theme")
+
+[node name="Fade" type="ColorRect" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0275, 0.0431, 0.0784, 1)
+
+[node name="ShadeLeft" type="TextureRect" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 860.0
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("shade_left")
+expand_mode = 1
+
+[node name="ShadeBottom" type="TextureRect" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("shade_bottom")
+expand_mode = 1
+
+[node name="Logo" parent="UI/Root" instance=ExtResource("5_logo")]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 70.0
+offset_right = 802.0
+offset_bottom = 240.0
+
+[node name="Peek" parent="UI/Root" instance=ExtResource("8_peek")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 496.0
+offset_top = 222.0
+offset_right = 686.0
+offset_bottom = 482.0
+
+[node name="MenuPanel" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 0
+offset_left = 88.0
+offset_top = 300.0
+offset_right = 548.0
+offset_bottom = 640.0
+theme = ExtResource("4_menu_theme")
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/MenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="NewCampaign" type="Button" parent="UI/Root/MenuPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_type_variation = &"CwPrimary"
+theme_override_font_sizes/font_size = 17
+theme_override_styles/focus = SubResource("primary_focus")
+text = "MENU_NEW_CAMPAIGN"
+alignment = 0
+
+[node name="Hint" type="Label" parent="UI/Root/MenuPanel/VBox/NewCampaign"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -9.0
+offset_right = -18.0
+offset_bottom = 9.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.0275, 0.0431, 0.0784, 0.72)
+theme_override_font_sizes/font_size = 12
+text = "MENU_NEW_CAMPAIGN_HINT"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Gap" type="Control" parent="UI/Root/MenuPanel/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Continue" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "MENU_CONTINUE_TIP"
+disabled = true
+focus_mode = 0
+text = "MENU_CONTINUE"
+index_text = "02"
+hint_key = "MENU_CONTINUE_HINT"
+
+[node name="Fair" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "MENU_FAIR_TIP"
+text = "MENU_FAIR"
+index_text = "03"
+hint_key = "MENU_FAIR_HINT"
+
+[node name="Workshop" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_WORKSHOP"
+index_text = "04"
+hint_key = "MENU_WORKSHOP_HINT"
+
+[node name="Options" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_OPTIONS"
+index_text = "05"
+hint_key = "MENU_OPTIONS_HINT"
+
+[node name="Quit" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_QUIT"
+index_text = "06"
+hint_key = "MENU_QUIT_HINT"
+
+[node name="Keys" type="Label" parent="UI/Root/MenuPanel/VBox"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_type_variation = &"CwMenuMono"
+theme_override_font_sizes/font_size = 11
+text = "MENU_KEYS"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="OptionsPanel" parent="UI/Root" instance=ExtResource("7_options")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 572.0
+offset_top = 300.0
+offset_right = 992.0
+offset_bottom = 520.0
+
+[node name="Readout" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -420.0
+offset_top = -112.0
+offset_right = -48.0
+offset_bottom = -44.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme = ExtResource("4_menu_theme")
+theme_type_variation = &"CwStrip"
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/Readout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Top" type="HBoxContainer" parent="UI/Root/Readout/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="CamLabel" type="Label" parent="UI/Root/Readout/VBox/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.2471, 0.8784, 0.7725, 1)
+theme_override_font_sizes/font_size = 12
+text = "CAM 01"
+auto_translate_mode = 2
+
+[node name="Feed" type="Label" parent="UI/Root/Readout/VBox/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "MENU_FEED"
+
+[node name="Caption" type="Label" parent="UI/Root/Readout/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Mãe-Gelo"
+auto_translate_mode = 2
+text_overrun_behavior = 3
+
+[node name="ShotBar" type="Control" parent="UI/Root/Readout/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("9_bar")
+value = 0.3
+color = Color(0.2471, 0.8784, 0.7725, 1)
+segments = 30
+gap = 2.0
+
+[node name="Footer" type="HBoxContainer" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = -68.0
+offset_right = 640.0
+offset_bottom = -44.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Event" type="Label" parent="UI/Root/Footer"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.8)
+text = "MENU_EVENT"
+vertical_alignment = 1
+
+[node name="Dot" type="Label" parent="UI/Root/Footer"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "·"
+vertical_alignment = 1
+
+[node name="Version" type="Label" parent="UI/Root/Footer"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.549, 0.6039, 0.7098, 1)
+theme_override_font_sizes/font_size = 12
+text = "v0.1 · build 2026.11"
+vertical_alignment = 1
+auto_translate_mode = 2
+
+[node name="Transition" type="ColorRect" parent="UI/Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0275, 0.0431, 0.0784, 1)
+
+[node name="Loading" type="Label" parent="UI/Root/Transition"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -12.0
+offset_right = 300.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.749, 0.9098, 1, 0.9)
+theme_override_font_sizes/font_size = 13
+text = "MENU_LOADING_CAMPUS"
+horizontal_alignment = 1
+auto_translate_mode = 2

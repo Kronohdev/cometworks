@@ -10,6 +10,14 @@ shader_type sky;
 // directions into the texture frame of earth_albedo (lat/lon like tools/planet_gen.py).
 // Near the launch site the ground uses the launch-site scene's own coastline and colours
 // (shaders/outside_ground.gdshader) so the local scene and the planet join without a seam.
+//
+// Cost (integrated GPU): the single-scattering march (scatter_steps samples, each with two
+// Chapman sun columns) runs in Godot's half-resolution sky pass (in-scattered light is
+// smooth); the Milky Way / nebula fBm runs in the quarter-resolution pass; the full-
+// resolution pass only does what has sharp edges: the voxel ground, clouds, Sun, Moon and
+// stars, with the view transmittance from closed-form Chapman columns. The radiance
+// cubemap pass keeps the old all-in-one path (5 samples).
+render_mode use_half_res_pass, use_quarter_res_pass;
 
 uniform float planet_radius = 6371000.0;
 uniform float atmo_height = 100000.0;
@@ -56,6 +64,8 @@ uniform float h_mie = 1000.0;
 uniform float mie_g = 0.78;
 // 0 = normal; 1 = map view (stars only)
 uniform float map_mode = 0.0;
+// samples of the in-scattering march (FlightSky sets it from GraphicsQuality)
+uniform int scatter_steps = 9;
 
 
 // ------------------------------------------------------------ noise / stars (as solar_sky)
@@ -117,7 +127,8 @@ vec3 star_layer(vec3 dir, float scale, float keep, float size, float boost) {
 	return star_color(hash13(cell + 3.7)) * (core * core + halo) * b * boost;
 }
 
-vec3 space_background(vec3 dir) {
+// the smooth part of the background (quarter-resolution pass)
+vec3 galaxy(vec3 dir) {
 	vec3 col = vec3(0.0015, 0.002, 0.005);
 	vec3 gp = normalize(galactic_pole);
 	float g = dot(dir, gp);
@@ -130,11 +141,21 @@ vec3 space_background(vec3 dir) {
 	col += mix(vec3(0.16, 0.17, 0.27), vec3(0.34, 0.29, 0.25), n2) * mw * milky_way * 0.2;
 	float neb = smoothstep(0.55, 0.85, fbm3(dir * 2.2 + 21.0));
 	col += vec3(0.2, 0.06, 0.26) * neb * 0.04;
-	float dens = band * 0.04;
+	return col;
+}
+
+// the sharp part: three star layers (full resolution)
+vec3 stars(vec3 dir) {
+	float g = dot(dir, normalize(galactic_pole));
+	float dens = exp(-g * g / 0.035) * 0.04;
 	vec3 s = star_layer(dir, 70.0, 0.965 - dens, 0.16, 1.6);
 	s += star_layer(dir, 150.0, 0.95 - dens, 0.2, 0.9);
 	s += star_layer(dir, 320.0, 0.9 - dens * 2.0, 0.26, 0.45);
-	return col + s * star_brightness;
+	return s * star_brightness;
+}
+
+vec3 space_background(vec3 dir) {
+	return galaxy(dir) + stars(dir);
 }
 
 // ------------------------------------------------------------ atmosphere
@@ -171,6 +192,26 @@ vec3 sun_depth(float h, float r, float mu_s) {
 
 vec3 extinction(vec2 od) {
 	return exp(-(rayleigh * od.x + mie * 1.1 * od.y));
+}
+
+// air column (Rayleigh, Mie) from altitude hh / radius rr to space, zenith cosine m >= 0
+vec2 column_up(float hh, float rr, float m) {
+	return vec2(exp(-hh / h_rayleigh) * h_rayleigh * chapman(rr / h_rayleigh, m),
+			exp(-hh / h_mie) * h_mie * chapman(rr / h_mie, m));
+}
+
+// optical depth along the view ray (closed form): to the ground point, or through the
+// whole atmosphere (rays looking down past the limb cross the tangent point twice)
+vec2 view_depth(float h, float r0, float mu, bool ground, float mu_g) {
+	if (ground) {
+		return max(column_up(0.0, planet_radius, -mu_g) - column_up(h, r0, -mu), vec2(0.0));
+	}
+	if (mu >= 0.0) {
+		return column_up(h, r0, mu);
+	}
+	float rt = r0 * sqrt(max(1.0 - mu * mu, 0.0));
+	float ht = max(rt - planet_radius, 0.0);
+	return max(2.0 * column_up(ht, rt, 0.0) - column_up(h, r0, -mu), vec2(0.0));
 }
 
 // ------------------------------------------------------------ ground
@@ -242,6 +283,9 @@ void sky() {
 	vec3 dir = normalize(EYEDIR);
 	if (map_mode > 0.5) {
 		COLOR = AT_CUBEMAP_PASS ? vec3(0.002, 0.003, 0.006) : space_background(dir);
+	} else if (AT_QUARTER_RES_PASS) {
+		COLOR = galaxy(dir);
+		ALPHA = 1.0;
 	} else {
 	float R = planet_radius;
 	float h = max(cam_alt, 0.5);
@@ -262,12 +306,13 @@ void sky() {
 	vec3 inscatter = vec3(0.0);
 	vec3 trans = vec3(1.0);
 	float cos_sun = dot(dir, sun);
-	if (disc_a > 0.0) {
+	bool march = AT_CUBEMAP_PASS || AT_HALF_RES_PASS;
+	if (disc_a > 0.0 && march) {
 		float sq = sqrt(disc_a);
 		float t0 = h > ha ? max(-b - sq, 0.0) : 0.0;
 		float t1 = ground ? t_ground : -b + sq;
 		if (t1 > t0) {
-			int steps = AT_CUBEMAP_PASS ? 5 : 9;
+			int steps = AT_CUBEMAP_PASS ? 5 : max(scatter_steps, 3);
 			// sample densely near the camera (exponential air)
 			vec2 od = vec2(0.0);
 			vec3 sum_r = vec3(0.0);
@@ -296,6 +341,18 @@ void sky() {
 			trans = extinction(od);
 			inscatter = sun_intensity * sun_tint * (rayleigh * phase_r(cos_sun) * sum_r + mie * phase_m(cos_sun) * sum_m);
 		}
+	}
+	if (AT_HALF_RES_PASS) {
+		COLOR = inscatter;
+		ALPHA = 1.0;
+	} else {
+	if (!AT_CUBEMAP_PASS) {
+		inscatter = disc_a > 0.0 ? HALF_RES_COLOR.rgb : vec3(0.0);
+		float mu_g = 0.0;
+		if (ground) {
+			mu_g = dot(normalize(up * r0 + dir * t_ground), dir);
+		}
+		trans = disc_a > 0.0 ? extinction(view_depth(h, r0, mu, ground, mu_g)) : vec3(1.0);
 	}
 	vec3 col;
 	if (ground) {
@@ -337,7 +394,7 @@ void sky() {
 			float sky_l = dot(inscatter, vec3(0.3, 0.5, 0.2));
 			float star_k = exp(-sky_l * 18.0);
 			if (star_k > 0.004) {
-				bg = space_background(dir) * star_k;
+				bg = (QUARTER_RES_COLOR.rgb + stars(dir)) * star_k;
 			}
 			// moon (voxel texture, lit by the sun)
 			vec3 md = normalize(moon_dir);
@@ -402,5 +459,6 @@ void sky() {
 		}
 	}
 	COLOR = col * exposure;
+	}
 	}
 }

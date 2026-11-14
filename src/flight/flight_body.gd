@@ -27,6 +27,13 @@ var q := Quaternion.IDENTITY
 var w := Vector3.ZERO
 ## when false gravity is skipped (tests)
 var gravity_on := true
+## central body of the current sphere of influence (patched conics): gravitational
+## parameter, radius, whether its air is modelled and whether it is the launch planet
+## (pad contact). Position / velocity are relative to this body.
+var mu := FlightOrbit.MU
+var body_r := FlightOrbit.R
+var atmosphere := true
+var home := true
 
 
 func set_state(pos: PackedFloat64Array, vel: PackedFloat64Array) -> void:
@@ -56,6 +63,26 @@ func copy_from(o: FlightBody) -> void:
 	vz = o.vz
 	q = o.q
 	w = o.w
+	mu = o.mu
+	body_r = o.body_r
+	atmosphere = o.atmosphere
+	home = o.home
+	_g_valid = false
+
+
+## Moves the state into another body's frame: offset = [x, y, z, vx, vy, vz] of the old
+## central body relative to the new one.
+func rebase(offset: PackedFloat64Array, gm: float, r_body: float, air: bool, is_home: bool) -> void:
+	px += offset[0]
+	py += offset[1]
+	pz += offset[2]
+	vx += offset[3]
+	vy += offset[4]
+	vz += offset[5]
+	mu = gm
+	body_r = r_body
+	atmosphere = air
+	home = is_home
 	_g_valid = false
 
 
@@ -64,7 +91,7 @@ func radius() -> float:
 
 
 func altitude() -> float:
-	return radius() - FlightOrbit.R
+	return radius() - body_r
 
 
 func speed() -> float:
@@ -97,7 +124,7 @@ func _update_gravity() -> void:
 		gz = 0.0
 	else:
 		var r2 := px * px + py * py + pz * pz
-		var k := -FlightOrbit.MU / (r2 * sqrt(r2))
+		var k := -mu / (r2 * sqrt(r2))
 		gx = px * k
 		gy = py * k
 		gz = pz * k

@@ -2,7 +2,9 @@ class_name FlightOrbit
 extends RefCounted
 ## Earth model and two-body orbit math, all in GDScript floats (64-bit doubles).
 ## Vectors are PackedFloat64Array [x, y, z] in the planet-centred inertial frame (PCI):
-## origin = Earth's centre, +Y = straight up at the launch pad. Godot's Vector3 is 32-bit
+## origin = Earth's centre, +Y = straight up at the launch pad. Every function takes an
+## optional gravitational parameter / body radius, so the same math serves the Moon, the
+## Sun and the planets (patched conics, src/flight/flight_trajectory.gd). Godot's Vector3 is 32-bit
 ## (0.5 m steps at 6.4e6 m), so it is never used for the authoritative position.
 
 const MU := 3.986004418e14  # m^3/s^2
@@ -50,29 +52,29 @@ static func scaled(a: PackedFloat64Array, s: float) -> PackedFloat64Array:
 ## Orbit summary from a state vector: semi-major axis, eccentricity, apoapsis / periapsis
 ## radius and altitude, period, specific energy, angular momentum and the eccentricity
 ## vector (for drawing). Works for ellipses and hyperbolas.
-static func elements(r: PackedFloat64Array, v: PackedFloat64Array) -> Dictionary:
+static func elements(r: PackedFloat64Array, v: PackedFloat64Array, mu := MU, radius := R) -> Dictionary:
 	var rn := length(r)
 	var v2 := dot(v, v)
-	var energy := v2 * 0.5 - MU / rn
+	var energy := v2 * 0.5 - mu / rn
 	var h := cross(r, v)
 	var hn := length(h)
 	var rv := dot(r, v)
 	# e = ((v² - μ/r) r - (r·v) v) / μ
-	var k := v2 - MU / rn
-	var ev := vec((k * r[0] - rv * v[0]) / MU, (k * r[1] - rv * v[1]) / MU, (k * r[2] - rv * v[2]) / MU)
+	var k := v2 - mu / rn
+	var ev := vec((k * r[0] - rv * v[0]) / mu, (k * r[1] - rv * v[1]) / mu, (k * r[2] - rv * v[2]) / mu)
 	var e := length(ev)
-	var a := -MU / (2.0 * energy) if absf(energy) > 1e-9 else INF
-	var p := hn * hn / MU
+	var a := -mu / (2.0 * energy) if absf(energy) > 1e-9 else INF
+	var p := hn * hn / mu
 	var rp := p / (1.0 + e)
 	var ra := p / (1.0 - e) if e < 1.0 else INF
-	var period := TAU * sqrt(a * a * a / MU) if e < 1.0 and a > 0.0 else INF
-	return {"a": a, "e": e, "p": p, "rp": rp, "ra": ra, "pe_alt": rp - R, "ap_alt": ra - R,
+	var period := TAU * sqrt(a * a * a / mu) if e < 1.0 and a > 0.0 else INF
+	return {"a": a, "e": e, "p": p, "rp": rp, "ra": ra, "pe_alt": rp - radius, "ap_alt": ra - radius,
 		"period": period, "energy": energy, "h": h, "ev": ev, "r": rn}
 
 
 ## Time from the current state to the next apoapsis (s); INF for open orbits.
-static func time_to_apoapsis(r: PackedFloat64Array, v: PackedFloat64Array) -> float:
-	var el := elements(r, v)
+static func time_to_apoapsis(r: PackedFloat64Array, v: PackedFloat64Array, mu := MU) -> float:
+	var el := elements(r, v, mu)
 	var e: float = el["e"]
 	if e >= 1.0 or e < 1e-6:
 		return INF
@@ -83,7 +85,7 @@ static func time_to_apoapsis(r: PackedFloat64Array, v: PackedFloat64Array) -> fl
 	if dot(r, v) < 0.0:
 		big_e = TAU - big_e
 	var m := big_e - e * sin(big_e)
-	var n := sqrt(MU / (a * a * a))
+	var n := sqrt(mu / (a * a * a))
 	return (PI - m) / n if m <= PI else (PI + TAU - m) / n
 
 
@@ -109,17 +111,24 @@ static func _stumpff_s(z: float) -> float:
 ## Propagates (r0, v0) by dt seconds along the two-body conic (universal-variable
 ## formulation, Newton iteration). Returns [x, y, z, vx, vy, vz]. Exact for any dt: used
 ## by on-rails time warp and as the reference in the integrator tests.
-static func propagate(r0: PackedFloat64Array, v0: PackedFloat64Array, dt: float) -> PackedFloat64Array:
+static func propagate(r0: PackedFloat64Array, v0: PackedFloat64Array, dt: float, mu := MU) -> PackedFloat64Array:
 	var r0n := length(r0)
 	var v0n2 := dot(v0, v0)
 	var vr0 := dot(r0, v0) / r0n
-	var alpha := 2.0 / r0n - v0n2 / MU
-	var smu := sqrt(MU)
+	var alpha := 2.0 / r0n - v0n2 / mu
+	var smu := sqrt(mu)
 	# closed orbits: only the fraction of a period matters (keeps Newton well conditioned)
-	if alpha > 1e-12:
-		var period := TAU / sqrt(MU * alpha * alpha * alpha)
+	if alpha * r0n > 1e-10:
+		var period := TAU / sqrt(mu * alpha * alpha * alpha)
 		dt = fmod(dt, period)
-	var chi := smu * absf(alpha) * dt if alpha > 1e-12 else smu * dt / r0n
+	var chi := smu * absf(alpha) * dt if alpha * r0n > 1e-10 else smu * dt / r0n
+	if alpha * r0n < -1e-10 and dt != 0.0:
+		# hyperbola: Vallado's initial guess (the linear one overflows cosh for long dt)
+		var a := 1.0 / alpha
+		var sgn := signf(dt)
+		var arg := (-2.0 * mu * alpha * dt) / (dot(r0, v0) + sgn * sqrt(-mu * a) * (1.0 - r0n * alpha))
+		if arg > 0.0:
+			chi = sgn * sqrt(-a) * log(arg)
 	for i in 60:
 		var z := alpha * chi * chi
 		var c := _stumpff_c(z)
@@ -145,8 +154,8 @@ static func propagate(r0: PackedFloat64Array, v0: PackedFloat64Array, dt: float)
 
 ## Points of the osculating orbit (PCI, metres) for the map view: `n` samples of true
 ## anomaly. Open orbits are clipped to `max_r`.
-static func orbit_points(r: PackedFloat64Array, v: PackedFloat64Array, n := 180, max_r := 6.0e7) -> Array[PackedFloat64Array]:
-	var el := elements(r, v)
+static func orbit_points(r: PackedFloat64Array, v: PackedFloat64Array, n := 180, max_r := 6.0e7, mu := MU) -> Array[PackedFloat64Array]:
+	var el := elements(r, v, mu)
 	var out: Array[PackedFloat64Array] = []
 	var e: float = el["e"]
 	var p: float = el["p"]
@@ -176,8 +185,8 @@ static func orbit_points(r: PackedFloat64Array, v: PackedFloat64Array, n := 180,
 
 
 ## Apoapsis / periapsis positions (PCI) or empty arrays when undefined.
-static func apsides(r: PackedFloat64Array, v: PackedFloat64Array) -> Dictionary:
-	var el := elements(r, v)
+static func apsides(r: PackedFloat64Array, v: PackedFloat64Array, mu := MU) -> Dictionary:
+	var el := elements(r, v, mu)
 	var e: float = el["e"]
 	if e < 1e-5:
 		return {}

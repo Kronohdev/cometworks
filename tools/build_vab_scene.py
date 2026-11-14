@@ -159,10 +159,13 @@ class Scene:
         self.sub.append("\n".join(lines))
         return id_
 
-    def node(self, name, type_, parent=".", **props):
+    def node(self, name, type_, parent=".", groups=None, **props):
         if self.layers and type_ in ("MeshInstance3D", "MultiMeshInstance3D", "Label3D", "Decal") and "layers" not in props:
             props = {"layers": str(self.layers), **props}
-        head = f'[node name="{name}" type="{type_}"' + ("" if parent is None else f' parent="{parent}"') + "]"
+        head = f'[node name="{name}" type="{type_}"' + ("" if parent is None else f' parent="{parent}"')
+        if groups:
+            head += " groups=[" + ", ".join(f'"{g}"' for g in groups) + "]"
+        head += "]"
         lines = [head] + [f"{k} = {v}" for k, v in props.items()]
         self.nodes.append("\n".join(lines))
         return name if parent in (None, ".") else f"{parent}/{name}"
@@ -578,7 +581,9 @@ def build_vab():
     # ---------------- lights (interior lights only touch layer 1; the sun lives in the outside scene)
     s.node("Lights", "Node3D")
     for i, (x, z) in enumerate(((-30, -30), (30, -30), (-30, 15), (30, 15), (0, 45), (0, -45))):
-        s.node(f"HighBay{i}", "OmniLight3D", "Lights", transform=xform((x, 98.0, z)),
+        # GraphicsQuality turns "optional_light" lights off below HIGH and raises the ambient
+        s.node(f"HighBay{i}", "OmniLight3D", "Lights", groups=["optional_light"] if i not in (2, 3) else None,
+               transform=xform((x, 98.0, z)),
                light_color=pc("LAMP_WARM"), light_energy="1.3", light_indirect_energy="1.0", omni_range="120.0",
                omni_attenuation="0.55", light_specular="0.25", light_cull_mask=INTERIOR)
     # key + fill floods on the rocket (from the front, warm/cool balance; only the key casts shadows)
@@ -590,7 +595,7 @@ def build_vab():
                spot_attenuation="0.35", light_specular="0.4", shadow_enabled="true" if shadow else "false",
                shadow_blur="1.5", light_cull_mask=INTERIOR)
     for i, (x, z) in enumerate(((-48, -30), (-48, 30), (48, -30), (48, 30))):
-        s.node(f"WallWash{i}", "OmniLight3D", "Lights", transform=xform((x, 34, z)),
+        s.node(f"WallWash{i}", "OmniLight3D", "Lights", groups=["optional_light"], transform=xform((x, 34, z)),
                light_color=pc("LAMP_COOL"), light_energy="0.6", omni_range="55.0", omni_attenuation="0.8",
                light_specular="0.1", light_cull_mask=INTERIOR)
     s.node("PadUplight", "OmniLight3D", "Lights", transform=xform((0, 3.0, 12.0)),

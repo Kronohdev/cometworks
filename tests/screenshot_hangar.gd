@@ -71,6 +71,42 @@ func _initialize() -> void:
 	hangar.undo()
 	await _frames(4)
 
+	# loose subassembly: release a fin away from the rocket, then pick it up and attach it
+	hangar._on_part_chosen("fin_basic")
+	var away: Vector2 = get_root().get_visible_rect().size * Vector2(0.64, 0.3)
+	for i in 8:
+		Input.warp_mouse(away)
+		await process_frame
+	var vessel_parts := v.all_parts().size()
+	var snapped_away: bool = not hangar._snap.is_empty()
+	hangar._place_held()
+	await _frames(6)
+	var loose: Array[PartInstance] = hangar.loose_trees()
+	_shot("hangar_loose")
+	print("loose drop: snapped=%s loose=%d vessel parts %d -> %d" % [snapped_away, loose.size(), vessel_parts, v.all_parts().size()])
+	if not loose.is_empty():
+		var lp := loose[0]
+		hangar._pick_at(hangar.cam.camera.unproject_position(lp.center_global()))
+		var picked: bool = hangar.held == lp
+		core_bottom = _lowest(v, "tank_hydrolox_l8")
+		axis = core_bottom.global_transform * Vector3(0, 2.0, 0)
+		to_cam = hangar.cam.camera.global_position - axis
+		aim = axis + Vector3(to_cam.x, 0, to_cam.z).normalized() * core_bottom.radius() * 0.6
+		for i in 12:
+			Input.warp_mouse(hangar.cam.camera.unproject_position(aim))
+			await process_frame
+		var resnapped: bool = not hangar._snap.is_empty()
+		hangar._place_held()
+		await _frames(4)
+		print("loose re-attach: picked=%s snapped=%s fins=%d loose=%d" % [picked, resnapped,
+			_count(v, "fin_basic"), hangar.loose_trees().size()])
+		hangar.undo()  # back to holding it (picking up is its own undo step)
+		hangar.undo()
+		await _frames(2)
+		print("undo restores loose: loose=%d" % hangar.loose_trees().size())
+		hangar.undo()
+		await _frames(4)
+
 	# lean HUD: collapsed panels, help overlay, hidden HUD
 	hangar.ui.set_parts_collapsed(true)
 	hangar.ui.set_stages_collapsed(true)
@@ -101,6 +137,32 @@ func _initialize() -> void:
 	hangar.cam.snap_to(Vector3(0, 32, 0), deg_to_rad(28), deg_to_rad(18), 105.0)
 	await _frames(8)
 	_shot("hangar_wide")
+
+	# build in the air + junction blocks: an S tank on an S avionics core (pegs on top)
+	hangar.ui.new_pressed.emit()
+	await _frames(2)
+	hangar.cam.snap_to(Vector3(0, 6, 0), deg_to_rad(30), deg_to_rad(8), 16.0)
+	await _frames(2)
+	hangar._on_part_chosen("avionics_core_s")
+	for i in 4:
+		Input.warp_mouse(get_root().get_visible_rect().size * 0.5)
+		await process_frame
+	hangar._place_held()
+	await _frames(2)
+	print("first part in the air: root=%s bottom=%.2f m (pad %.2f)" % [v.root != null,
+		v.bounds().position.y, hangar.pad_top_y])
+	var tank := PartInstance.create("tank_kerolox_s4")
+	v.attach(v.root, tank, Vessel.local_for_node(v.root, "top", tank, "bottom"), "top", "bottom")
+	await _frames(3)
+	var blocks := 0
+	for c in hangar.joint_decor.get_children():
+		if c.scene_file_path == JointDecor.BLOCK_SCENE.resource_path and c.visible:
+			blocks += 1
+	print("junction blocks: %d" % blocks)
+	var vb := v.bounds()
+	hangar.cam.snap_to(vb.get_center(), deg_to_rad(30), deg_to_rad(6), vb.size.length() * 1.6)
+	await _frames(25)  # let the grow animation finish
+	_shot("hangar_joint_block")
 	hangar.queue_free()
 	var kit: Node = (load("res://scenes/ui/ui_kit.tscn") as PackedScene).instantiate()
 	get_root().add_child(kit)

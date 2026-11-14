@@ -1,0 +1,679 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/tycoon_hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="3_star"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/crew.svg" id="4_crew"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/research.svg" id="5_research"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/contracts.svg" id="6_contracts"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/build.svg" id="7_build"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/map.svg" id="8_map"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/race.svg" id="9_race"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/book.svg" id="10_book"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/finance.svg" id="11_finance"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="12_settings"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="13_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_aurora_line.gd" id="14_aurora"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_panel_motion.gd" id="15_motion"]
+
+[sub_resource type="ButtonGroup" id="speed_group"]
+
+[node name="TycoonHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_hud")
+
+[node name="TopStrip" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = 74.0
+grow_horizontal = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="HBox" type="HBoxContainer" parent="TopStrip"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="Logo" type="HBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Mark" type="TextureRect" parent="TopStrip/HBox/Logo"]
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="TopStrip/HBox/Logo"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 22
+text = "COMETWORKS"
+
+[node name="Sep" type="VSeparator" parent="TopStrip/HBox"]
+layout_mode = 2
+
+[node name="Date" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Date"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_DATE"
+uppercase = true
+
+[node name="DateValue" type="Label" parent="TopStrip/HBox/Date"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "01 · 01"
+
+[node name="Era" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Era"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_ERA"
+uppercase = true
+
+[node name="EraValue" type="Label" parent="TopStrip/HBox/Era"]
+unique_name_in_owner = true
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9137, 0.9333, 0.9686, 1)
+theme_override_font_sizes/font_size = 16
+text = "Galpão"
+
+[node name="Cash" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Cash"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CASH"
+uppercase = true
+
+[node name="CashValue" type="Label" parent="TopStrip/HBox/Cash"]
+unique_name_in_owner = true
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "300 000 cr"
+
+[node name="Rep" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Rep"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_REPUTATION"
+uppercase = true
+
+[node name="RepValue" type="Label" parent="TopStrip/HBox/Rep"]
+unique_name_in_owner = true
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "20"
+
+[node name="Hype" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Hype"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_HYPE"
+uppercase = true
+
+[node name="HypeValue" type="Label" parent="TopStrip/HBox/Hype"]
+unique_name_in_owner = true
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "5"
+
+[node name="Comet" type="VBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="TopStrip/HBox/Comet"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_COMET"
+uppercase = true
+
+[node name="CometValue" type="Label" parent="TopStrip/HBox/Comet"]
+unique_name_in_owner = true
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(1, 0.5412, 0.2392, 1)
+text = "T− 25a 00s"
+
+[node name="Spacer" type="Control" parent="TopStrip/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Speed" type="HBoxContainer" parent="TopStrip/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Pause" type="Button" parent="TopStrip/HBox/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 30)
+layout_mode = 2
+tooltip_text = "TY_PAUSE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "II"
+
+[node name="S1" type="Button" parent="TopStrip/HBox/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 30)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("speed_group")
+text = "1"
+
+[node name="S2" type="Button" parent="TopStrip/HBox/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 30)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "2"
+
+[node name="S3" type="Button" parent="TopStrip/HBox/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 30)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "3"
+
+[node name="WeekBar" type="Control" parent="TopStrip/HBox/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 4)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("13_seg")
+value = 0.0
+color = Color(0.2471, 0.8784, 0.7725, 1)
+segments = 7
+gap = 1.0
+
+[node name="TopAurora" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 17.0
+offset_top = 14.0
+offset_right = -27.0
+offset_bottom = 16.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("14_aurora")
+glint_period = 9.0
+glint_seconds = 2.8
+glint_strength = 0.5
+
+[node name="Rail" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -232.0
+offset_right = 70.0
+offset_bottom = 232.0
+grow_vertical = 2
+theme_type_variation = &"CwRail"
+
+[node name="VBox" type="VBoxContainer" parent="Rail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Crew" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_CREW"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("4_crew")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Research" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_RESEARCH"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("5_research")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Contracts" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_CONTRACTS"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("6_contracts")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Build" type="Button" parent="Rail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_BUILD"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+toggle_mode = true
+icon = ExtResource("7_build")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Sep" type="HSeparator" parent="Rail/VBox"]
+layout_mode = 2
+
+[node name="Map" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_MAP"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("8_map")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Race" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_RACE"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("9_race")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Book" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_BOOK"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("10_book")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Finance" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_FINANCE"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("11_finance")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Sep2" type="HSeparator" parent="Rail/VBox"]
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+tooltip_text = "TY_MENU_SETTINGS"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+icon = ExtResource("12_settings")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Race" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -318.0
+offset_top = 90.0
+offset_right = -16.0
+offset_bottom = 380.0
+grow_horizontal = 0
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Race"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Race/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RACE_TITLE"
+uppercase = true
+
+[node name="Rows" type="VBoxContainer" parent="Race/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="RaceRowTemplate" type="VBoxContainer" parent="Race/VBox/Rows"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Name" type="Label" parent="Race/VBox/Rows/RaceRowTemplate"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Cometworks"
+
+[node name="Bar" type="Control" parent="Race/VBox/Rows/RaceRowTemplate"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("13_seg")
+value = 0.2
+gap = 3.0
+
+[node name="Sep" type="HSeparator" parent="Race/VBox"]
+layout_mode = 2
+
+[node name="RadioTitle" type="Label" parent="Race/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RADIO_TITLE"
+uppercase = true
+
+[node name="News" type="VBoxContainer" parent="Race/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NewsTemplate" type="Label" parent="Race/VBox/News"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Bem-vindos à Cometworks!"
+autowrap_mode = 3
+
+[node name="Bottom" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 86.0
+offset_top = -78.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Strips" type="HBoxContainer" parent="Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="StripTemplate" type="PanelContainer" parent="Bottom/Strips"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="VBox" type="VBoxContainer" parent="Bottom/Strips/StripTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Bottom/Strips/StripTemplate/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "SAT-07 · Observação"
+
+[node name="Sub" type="Label" parent="Bottom/Strips/StripTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "fase 2/3"
+
+[node name="Bar" type="Control" parent="Bottom/Strips/StripTemplate/VBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("13_seg")
+segments = 20
+
+[node name="NewProject" type="Button" parent="Bottom"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+tooltip_text = "TY_NEW_PROJECT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_NEW_PROJECT"
+
+[node name="LotPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -318.0
+offset_top = -330.0
+offset_right = -16.0
+offset_bottom = -92.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_type_variation = &"CwPanel"
+
+[node name="Motion" type="Node" parent="LotPanel"]
+script = ExtResource("15_motion")
+from_side = 3
+
+[node name="VBox" type="VBoxContainer" parent="LotPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="LotPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="LotPanel/VBox/Head"]
+unique_name_in_owner = true
+self_modulate = Color(0.749, 0.9098, 1, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="LotPanel/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="LotName" type="Label" parent="LotPanel/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "Laboratório"
+
+[node name="LotLevel" type="Label" parent="LotPanel/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "LOTE VAZIO"
+uppercase = true
+
+[node name="Close" type="Button" parent="LotPanel/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 0
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="LevelBar" type="Control" parent="LotPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("13_seg")
+value = 0.333
+segments = 3
+gap = 4.0
+
+[node name="Desc" type="Label" parent="LotPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Pesquisa: pontos de P&D."
+autowrap_mode = 3
+
+[node name="Cost" type="HBoxContainer" parent="LotPanel/VBox"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="LotPanel/VBox/Cost"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "TY_NEXT_LEVEL"
+uppercase = true
+
+[node name="CostValue" type="Label" parent="LotPanel/VBox/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "120 000 cr · 6 sem"
+
+[node name="BuildButton" type="Button" parent="LotPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_BUILD"
+
+[node name="Hint" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -108.0
+offset_right = 300.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwDim"
+theme_override_colors/font_outline_color = Color(0.0275, 0.0431, 0.0784, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 12
+text = "TY_CAMPUS_HINT"
+horizontal_alignment = 1
+
+[node name="FollowTag" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 90.0
+offset_right = 170.0
+offset_bottom = 152.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Motion" type="Node" parent="FollowTag"]
+script = ExtResource("15_motion")
+from_side = 1
+
+[node name="VBox" type="VBoxContainer" parent="FollowTag"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="TagCaption" type="Label" parent="FollowTag/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CAM_FOLLOWING"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="TagTitle" type="Label" parent="FollowTag/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "Vega · Pilot"
+horizontal_alignment = 1
+
+[node name="TagHint" type="Label" parent="FollowTag/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_CAM_FOLLOW_HINT"
+horizontal_alignment = 1
+
+[node name="Screens" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

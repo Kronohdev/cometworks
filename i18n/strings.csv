@@ -71,6 +71,7 @@ QUALITY_LOW,Low,Baixa
 QUALITY_MEDIUM,Medium,Média
 QUALITY_HIGH,High,Alta
 UI_NO_SNAP,No attach point here. Bring the part close to a node.,Sem ponto de encaixe aqui. Aproxime a peça de um nó.
+UI_LOOSE_DROPPED,"Loose part: it floats here and does not count. Pick it up later and attach it to the rocket.","Peça solta: fica flutuando aqui e não conta no foguete. Pegue depois e encaixe no foguete."
 UI_LEGEND_COM,Center of Mass (wet),Centro de Massa (cheio)
 UI_LEGEND_COT,Center of Thrust (stage 1),Centro de Empuxo (estágio 1)
 UI_LEGEND_COL,Center of Lift / Pressure,Centro de Sustentação / Pressão

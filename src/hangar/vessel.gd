@@ -128,6 +128,7 @@ static func clone_tree(src: PartInstance) -> PartInstance:
 ## Attaches `held` and replicates it on every symmetry counterpart of `target`.
 ## For surface attachment, `symmetry` copies are placed around the target axis.
 func attach(target: PartInstance, held: PartInstance, xf: Transform3D, pnode: String, onode: String, symmetry := 1) -> void:
+	_retag(held, target)
 	var targets: Array = [target]
 	for t in target.sym_group:
 		if t != target and is_instance_valid(t):
@@ -143,7 +144,7 @@ func attach(target: PartInstance, held: PartInstance, xf: Transform3D, pnode: St
 			_adopt(t, p, rot * xf, pnode, onode)
 			placed.append(p)
 	if placed.size() > 1:
-		var tag := _next_sym_tag()
+		var tag := _next_sym_tag(target)
 		for p in placed:
 			p.sym_group = placed
 			p.sym_tag = tag
@@ -153,11 +154,35 @@ func attach(target: PartInstance, held: PartInstance, xf: Transform3D, pnode: St
 	changed.emit()
 
 
-func _next_sym_tag() -> int:
+## First symmetry tag not used by the vessel nor by the tree `target` belongs to (it may
+## be a loose subassembly in the hangar).
+func _next_sym_tag(target: PartInstance = null) -> int:
+	var parts := all_parts()
+	if target:
+		parts.append_array(tree_root(target).subtree())
 	var t := 0
-	for p in all_parts():
+	for p in parts:
 		t = maxi(t, p.sym_tag + 1)
 	return t
+
+
+## Renumbers the symmetry groups inside `held` above the tags of the tree it joins, so
+## a loose subassembly with its own numbering never merges groups by accident.
+func _retag(held: PartInstance, target: PartInstance) -> void:
+	var base := _next_sym_tag(target)
+	var remap := {}
+	for p in held.subtree():
+		if p.sym_tag >= 0:
+			if not remap.has(p.sym_tag):
+				remap[p.sym_tag] = base + remap.size()
+			p.sym_tag = remap[p.sym_tag]
+
+
+## Topmost part of the attach tree `p` belongs to.
+static func tree_root(p: PartInstance) -> PartInstance:
+	while p.part_parent():
+		p = p.part_parent()
+	return p
 
 
 ## Returns the attach node of `held` that the child currently on `target.tnode` would move
@@ -191,6 +216,7 @@ func insert(target: PartInstance, tnode: String, held: PartInstance, xf: Transfo
 	for c in target.part_children():
 		if c.parent_node_name == tnode:
 			child = c
+	_retag(held, target)
 	_adopt(target, held, xf, tnode, held_onode)
 	# keep the child's own rotation relative to the stack
 	var basis_rel := xf.basis.inverse() * child.transform.basis
@@ -400,25 +426,26 @@ func cost_musd() -> float:
 ## Vessels are saved as regular Godot scenes: the PartInstance tree with transforms,
 ## attach node names and symmetry tags. They open in the editor (PartInstance is @tool).
 func to_packed_scene() -> PackedScene:
-	if root == null:
-		return null
-	for p in all_parts():
-		if p != root:
-			p.owner = root
+	return pack_tree(root) if root else null
+
+
+## Packs any part tree (the vessel or a loose subassembly) with its root transform.
+static func pack_tree(r: PartInstance) -> PackedScene:
+	var parts := r.subtree()
+	for p in parts:
+		if p != r:
+			p.owner = r
 	var ps := PackedScene.new()
-	ps.pack(root)
-	for p in all_parts():
+	ps.pack(r)
+	for p in parts:
 		p.owner = null
 	return ps
 
 
-func load_root(r: PartInstance) -> void:
-	clear()
-	add_child(r)
-	r.transform = Transform3D.IDENTITY
-	root = r
+## Rebuilds the runtime symmetry groups of `parts` from their saved tags.
+static func relink_symmetry(parts: Array[PartInstance]) -> void:
 	var groups := {}
-	for p in all_parts():
+	for p in parts:
 		p.set_pickable(true)
 		if p.sym_tag >= 0:
 			if not groups.has(p.sym_tag):
@@ -427,6 +454,14 @@ func load_root(r: PartInstance) -> void:
 	for k in groups:
 		for p in groups[k]:
 			p.sym_group = groups[k]
+
+
+func load_root(r: PartInstance) -> void:
+	clear()
+	add_child(r)
+	r.transform = Transform3D.IDENTITY
+	root = r
+	relink_symmetry(all_parts())
 	changed.emit()
 
 

@@ -515,7 +515,7 @@ func physics_step(dt: float) -> Array[FlightVessel]:
 	if crashed:
 		return dropped
 	var alt := body.altitude()
-	var rho := FlightOrbit.density(alt)
+	var rho := FlightOrbit.density(alt) if body.atmosphere else 0.0
 	pressure = rho / FlightOrbit.RHO0
 	var b := Basis(body.q)
 	var f := Vector3.ZERO
@@ -655,8 +655,8 @@ func _ground_contact(dt: float) -> void:
 			bounds_local.position.z if i & 4 == 0 else bounds_local.end.z)
 		lowest = minf(lowest, (b * (c - com)).dot(up))
 	var alt := body.altitude()
-	var horiz := (up - pad_up).length() * FlightOrbit.R
-	ground_alt = pad_alt if horiz < pad_radius else 0.0
+	var horiz := (up - pad_up).length() * body.body_r
+	ground_alt = pad_alt if horiz < pad_radius and body.home else 0.0
 	var pen := ground_alt - (alt + lowest)
 	if pen <= 0.0:
 		landed = false
@@ -765,6 +765,35 @@ func set_sas(mode: int) -> void:
 
 
 # ------------------------------------------------------------ queries for the HUD
+## Vacuum thrust (N) and mass flow (kg/s) of the engines that would burn now: the active
+## stage, or the next stage with engines if the active one has nothing left.
+func burn_engines() -> Dictionary:
+	var first := maxi(current_stage, 0)
+	for s in range(first, stage_count):
+		var f := 0.0
+		var mdot := 0.0
+		for e in stage_engines(s):
+			if pool_prop(e["pool"]) <= 0.0:
+				continue
+			f += float(e["mdot"]) * PartDB.G0 * float(e["isp_vac"])
+			mdot += float(e["mdot"])
+		if f > 0.0:
+			return {"stage": s, "thrust": f, "mdot": mdot}
+	return {"stage": -1, "thrust": 0.0, "mdot": 0.0}
+
+
+## Estimated burn time (s) for a Δv with the engines that would burn now (full throttle,
+## vacuum, rocket equation from the current mass). INF if nothing can burn.
+func burn_time(dv: float) -> float:
+	var be := burn_engines()
+	var f: float = be["thrust"]
+	var mdot: float = be["mdot"]
+	if f <= 0.0 or mdot <= 0.0:
+		return INF
+	var ve := f / mdot
+	return mass * (1.0 - exp(-absf(dv) / ve)) / mdot
+
+
 func nose_world() -> Vector3:
 	return Basis(body.q) * Vector3.UP
 

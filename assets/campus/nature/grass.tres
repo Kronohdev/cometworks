@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://shaders/campus_foliage.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/jitter = 0.08
+shader_parameter/voxels_per_metre = 10.0
+shader_parameter/roughness_value = 0.92
+shader_parameter/glow_scale = 8.0
+shader_parameter/sway = 0.07
+shader_parameter/sway_speed = 1.7
+shader_parameter/sway_height = 0.5
+shader_parameter/wind_dir = Vector2(0.8, 0.6)
+shader_parameter/backlight = 0.35

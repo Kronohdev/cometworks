@@ -20,6 +20,14 @@ extends Node3D
 ## below moves down with its subtree. With symmetry > 1, an engine dropped on a thrust
 ## plate fills every free slot. Parts can be dragged straight from the palette.
 ## Ctrl+Z / Ctrl+Y undo and redo.
+##
+## Like the KSP VAB, the vessel is built in the air: the first part floats where it is
+## released and the rocket grows from it in any direction (it only rises when parts
+## would reach below the pad). A part released away from any node stays floating as a
+## loose subassembly (under the Loose node): it does not count for mass, staging or
+## launch, more parts can be attached to it, and it can be picked up later (with
+## everything attached) and joined to the rocket. Picking up the root carries the whole
+## rocket, so it can be moved around the hangar.
 
 const SNAP_FRACTION := 0.05
 const SNAP_MIN_PX := 28.0
@@ -52,6 +60,11 @@ const JOINT_FLASH := preload("res://scenes/hangar/joint_flash.tscn")
 const SNAP_GLIDE := 22.0
 ## How fast the vessel rises/settles so nothing goes through the floor (1/s).
 const LIFT_SPEED := 10.0
+## Overlay of loose subassemblies (not part of the vessel).
+const LOOSE_TINT := preload("res://scenes/hangar/loose_part.tres")
+## Height of the bottom of a loaded vessel (and of the first part) above the pad (m).
+const BUILD_CLEARANCE := 3.0
+const SAVE_LOOSE_PATH := "user://vessel_loose.tscn"
 
 ## Top of the launch pad in the hangar environment; the vessel stands on it.
 @export var pad_top_y := 0.62
@@ -75,6 +88,8 @@ func _tint_held() -> void:
 		mat = GHOST_INSERT if _snap.get("insert", false) else GHOST_VALID
 	elif vessel.root == null:
 		mat = GHOST_VALID  # first part becomes the root anywhere
+	else:
+		mat = LOOSE_TINT  # released here it stays floating as a loose part
 	for p in held.subtree():
 		p.set_highlight(mat)
 
@@ -85,8 +100,9 @@ var _hovered: PartInstance = null
 var _snap: Dictionary = {}
 var _dirty := true
 var _frame_pending := false
-var _undo: Array[PackedScene] = []
-var _redo: Array[PackedScene] = []
+## Undo states: {"vessel": PackedScene or null, "pos": Vector3, "loose": Array[PackedScene]}.
+var _undo: Array[Dictionary] = []
+var _redo: Array[Dictionary] = []
 ## Set when a part was picked from the palette with the button still down:
 ## releasing it over the 3D view places it (drag and drop).
 var _drag_from_palette := false
@@ -111,6 +127,8 @@ var _ghost_id := ""
 @onready var gizmo_root: Node3D = $Gizmos
 @onready var ghost_root: Node3D = $SymmetryGhosts
 @onready var joint_decor: JointDecor = $Vessel/JointDecor
+@onready var loose_root: Node3D = $Loose
+@onready var loose_decor: JointDecor = $Loose/JointDecor
 
 
 func _ready() -> void:
@@ -121,7 +139,8 @@ func _ready() -> void:
 	ui.new_pressed.connect(func() -> void:
 		_push_undo()
 		_drop_held()
-		vessel.clear())
+		vessel.clear()
+		_set_loose([]))
 	ui.save_pressed.connect(save_vessel)
 	ui.load_pressed.connect(load_vessel)
 	ui.undo_pressed.connect(undo)
@@ -156,6 +175,8 @@ func _ready() -> void:
 	ui.launch_pressed.connect(launch)
 	if FlightSession.has_vessel():
 		vessel.load_scene(FlightSession.vessel_scene)
+		_place_in_air()
+		_set_loose(FlightSession.hangar_loose)
 		_frame_pending = true
 
 
@@ -180,11 +201,16 @@ func _process(delta: float) -> void:
 
 func _refresh() -> void:
 	if vessel.root:
-		# keep the vessel standing on the launch pad as parts are added below it
-		vessel.position.y += pad_top_y - vessel.bounds().position.y
+		# the vessel floats where it is built; it only rises when parts reach below the pad
+		vessel.position.y += maxf(0.0, pad_top_y - vessel.bounds().position.y)
 		_rest_y = vessel.position.y
 		_lift = 0.0
 	joint_decor.rebuild()
+	var loose := _loose_parts()
+	loose_decor.rebuild_parts(loose)
+	for q in loose:
+		if q != _hovered:
+			q.set_highlight(LOOSE_TINT)
 	var a := vessel.analyze()
 	var m := vessel.markers()
 	var b := vessel.bounds()
@@ -282,7 +308,7 @@ func _mouse_ray() -> Dictionary:
 func _pick_ray(from: Vector3, dir: Vector3) -> Dictionary:
 	var best := {}
 	var best_t := INF
-	for p in vessel.all_parts():
+	for p in _editable_parts():
 		if not p.pickable:
 			continue
 		var h := p.ray_hit(from, dir)
@@ -309,6 +335,7 @@ func _on_part_chosen(id: String) -> void:
 
 func _drop_held() -> void:
 	_restore_insert_preview()
+	_hide_joint_previews()
 	_held_visual_valid = false
 	if held:
 		held.queue_free()
@@ -347,6 +374,25 @@ func _update_held(delta := 0.0) -> void:
 	_update_ghosts()
 	if _snap.get("insert", false):
 		_apply_insert_preview()
+	_update_joint_preview()
+
+
+## While a stack snap is active, the junction block the joint would get is shown
+## between the target and the gliding part, so the joint visibly forms.
+func _update_joint_preview() -> void:
+	var pnode: String = _snap.get("pnode", "")
+	if _snap.is_empty() or _snap.get("insert", false) or not (pnode in ["top", "bottom"]):
+		_hide_joint_previews()
+		return
+	var t: PartInstance = _snap["target"]
+	var decor := loose_decor if _is_loose(t) else joint_decor
+	(joint_decor if decor == loose_decor else loose_decor).hide_preview()
+	decor.preview(t, pnode, held, _snap["onode"])
+
+
+func _hide_joint_previews() -> void:
+	joint_decor.hide_preview()
+	loose_decor.hide_preview()
 
 
 ## World AABB of a part subtree (its own model bounds, transformed).
@@ -446,7 +492,7 @@ func _held_rotation(surface: bool) -> Transform3D:
 func _stack_candidates(mouse: Vector2) -> Array:
 	var out: Array = []
 	var fx := _float_transform(_mouse_ray())
-	for t in vessel.all_parts():
+	for t in _editable_parts():
 		var free := t.free_nodes()
 		for tn in t.node_names():
 			var insert := not free.has(tn)
@@ -467,7 +513,7 @@ func _stack_candidates(mouse: Vector2) -> Array:
 
 
 func _find_snap(r: Dictionary) -> Dictionary:
-	if vessel.root == null:
+	if vessel.root == null and loose_trees().is_empty():
 		return {}
 	var thr := _snap_threshold()
 	var best := {}
@@ -534,7 +580,7 @@ func _draw_gizmos(items: Array) -> void:
 
 func _update_gizmos() -> void:
 	var items: Array = []
-	if vessel.root:
+	if vessel.root or not loose_trees().is_empty():
 		for c in _stack_candidates(_mouse_ray()["mouse"]):
 			var active: bool = not _snap.is_empty() and _snap.get("target") == c["target"] and _snap.get("pnode") == c["pnode"]
 			var col: Color = GIZMO_ACTIVE if active else (GIZMO_INSERT if c["insert"] else GIZMO_IDLE)
@@ -545,7 +591,7 @@ func _update_gizmos() -> void:
 ## Node display mode (N): every free attach node on the vessel, sized and colored by class.
 func _show_all_nodes() -> void:
 	var items: Array = []
-	for p in vessel.all_parts():
+	for p in _editable_parts():
 		for n in p.free_nodes():
 			var cls := p.node_size(n)
 			var d: float = PartDB.size_classes.get(cls, 1.0)
@@ -613,17 +659,16 @@ func _update_ghosts() -> void:
 # ------------------------------------------------------------ placing / picking up
 func _place_held() -> void:
 	_restore_insert_preview()
-	if vessel.root == null:
+	_hide_joint_previews()
+	if _snap.is_empty():
 		_push_undo()
 		var p := held
 		held = null
-		vessel.set_root(p)
-		for q in p.subtree():
-			q.set_highlight(null)
-		_frame_pending = true
-		return
-	if _snap.is_empty():
-		ui.flash(tr("UI_NO_SNAP"))
+		_held_visual_valid = false
+		if vessel.root == null:
+			_make_root(p)
+		else:
+			_drop_loose(p)
 		return
 	_push_undo()
 	var p := held
@@ -651,6 +696,95 @@ func _place_held() -> void:
 	_snap = {}
 
 
+## The first part (or a picked-up root carrying the whole rocket) becomes the vessel
+## root where it was released, floating in the air like in the KSP VAB.
+func _make_root(p: PartInstance) -> void:
+	var first := p.subtree().size() == 1 and loose_trees().is_empty()
+	var at := p.global_position
+	vessel.set_root(p)
+	for q in p.subtree():
+		q.set_highlight(null)
+	vessel.position = at
+	if first:
+		vessel.position.y += maxf(0.0, pad_top_y + BUILD_CLEARANCE - vessel.bounds().position.y)
+	_rest_y = vessel.position.y
+	_lift = 0.0
+	p.pulse()
+	_frame_pending = true
+
+
+## Leaves `p` (with its subtree) floating where it was released as a loose subassembly.
+func _drop_loose(p: PartInstance) -> void:
+	var gx := p.global_transform
+	p.get_parent().remove_child(p)
+	loose_root.add_child(p)
+	p.global_transform = gx
+	var low := _world_bounds(p).position.y
+	if low < 0.05:
+		p.global_position.y += 0.05 - low
+	p.set_pickable(true)
+	p.set_ghost(false)
+	p.pulse()
+	ui.flash(tr("UI_LOOSE_DROPPED"), 2.5)
+	_dirty = true
+
+
+## Top-level loose subassemblies floating in the hangar.
+func loose_trees() -> Array[PartInstance]:
+	var out: Array[PartInstance] = []
+	for c in loose_root.get_children():
+		if c is PartInstance:
+			out.append(c)
+	return out
+
+
+func _loose_parts() -> Array[PartInstance]:
+	var out: Array[PartInstance] = []
+	for t in loose_trees():
+		out.append_array(t.subtree())
+	return out
+
+
+func _is_loose(p: PartInstance) -> bool:
+	return loose_root.is_ancestor_of(p)
+
+
+## Every part the player can pick or attach to: the vessel and the loose subassemblies.
+func _editable_parts() -> Array[PartInstance]:
+	var out := vessel.all_parts()
+	out.append_array(_loose_parts())
+	return out
+
+
+## Replaces the loose subassemblies with instances of `scenes` (packed part trees).
+func _set_loose(scenes: Array) -> void:
+	for t in loose_trees():
+		loose_root.remove_child(t)
+		t.free()
+	for ps in scenes:
+		var t := (ps as PackedScene).instantiate() as PartInstance
+		if t:
+			loose_root.add_child(t)
+			Vessel.relink_symmetry(t.subtree())
+	_dirty = true
+
+
+func _pack_loose() -> Array[PackedScene]:
+	var out: Array[PackedScene] = []
+	for t in loose_trees():
+		out.append(Vessel.pack_tree(t))
+	return out
+
+
+## Puts a freshly loaded vessel in the air above the pad, centred on it.
+func _place_in_air() -> void:
+	vessel.position = Vector3.ZERO
+	if vessel.root:
+		vessel.position.y = pad_top_y + BUILD_CLEARANCE - vessel.bounds().position.y
+	_rest_y = vessel.position.y
+	_lift = 0.0
+
+
 func _pick_at(pos: Vector2, copy := false) -> void:
 	var c := cam.camera
 	var hit := _pick_ray(c.project_ray_origin(pos), c.project_ray_normal(pos))
@@ -668,9 +802,14 @@ func _pick_at(pos: Vector2, copy := false) -> void:
 		ui.flash(tr("UI_COPIED") % PartDB.part_name(p.part_id), 1.5)
 	else:
 		_push_undo()
-		vessel.detach(p)
+		if p.get_parent() == loose_root:
+			loose_root.remove_child(p)  # a whole loose subassembly
+		else:
+			vessel.detach(p)
 		add_child(p)
 		p.global_transform = gx
+		for q in p.subtree():
+			q.set_highlight(null)
 		ui.flash(PartDB.part_name(p.part_id), 1.5)
 	p.set_pickable(false)
 	p.set_ghost(true)
@@ -705,7 +844,7 @@ func _set_hovered(p: PartInstance) -> void:
 	if p == _hovered:
 		return
 	if _hovered and is_instance_valid(_hovered):
-		_hovered.set_highlight(null)
+		_hovered.set_highlight(LOOSE_TINT if _is_loose(_hovered) else null)
 	_hovered = p
 	if _hovered:
 		_hovered.set_highlight(HIGHLIGHT)
@@ -715,24 +854,32 @@ func _set_hovered(p: PartInstance) -> void:
 
 # ------------------------------------------------------------ undo
 func _push_undo() -> void:
-	_undo.append(vessel.snapshot())  # null snapshot = empty vessel
+	_undo.append(_snapshot())
 	_redo.clear()
 	if _undo.size() > UNDO_LIMIT:
 		_undo.pop_front()
 
 
-func _restore(ps: PackedScene) -> void:
-	if ps:
-		vessel.load_scene(ps)
+func _snapshot() -> Dictionary:
+	return {"vessel": vessel.snapshot(), "pos": vessel.position, "loose": _pack_loose()}  # null vessel = empty
+
+
+func _restore(s: Dictionary) -> void:
+	if s["vessel"]:
+		vessel.load_scene(s["vessel"])
 	else:
 		vessel.clear()
+	vessel.position = s["pos"]
+	_rest_y = vessel.position.y
+	_lift = 0.0
+	_set_loose(s["loose"])
 
 
 func undo() -> void:
 	if _undo.is_empty():
 		return
 	_drop_held()
-	_redo.append(vessel.snapshot())
+	_redo.append(_snapshot())
 	_restore(_undo.pop_back())
 	ui.flash(tr("UI_UNDONE"), 1.5)
 
@@ -741,7 +888,7 @@ func redo() -> void:
 	if _redo.is_empty():
 		return
 	_drop_held()
-	_undo.append(vessel.snapshot())
+	_undo.append(_snapshot())
 	_restore(_redo.pop_back())
 	ui.flash(tr("UI_REDONE"), 1.5)
 
@@ -752,6 +899,7 @@ func launch() -> void:
 		return
 	_drop_held()
 	FlightSession.set_vessel(vessel.to_packed_scene(), "", vessel.analyze()["ascent_dv"])
+	FlightSession.hangar_loose = _pack_loose()  # loose parts stay in the hangar
 	get_tree().change_scene_to_file(FlightSession.FLIGHT_SCENE)
 
 
@@ -759,7 +907,34 @@ func launch() -> void:
 func save_vessel() -> void:
 	var ps := vessel.to_packed_scene()
 	if ps and ResourceSaver.save(ps, SAVE_PATH) == OK:
+		ResourceSaver.save(_loose_container(), SAVE_LOOSE_PATH)
 		ui.flash(tr("UI_SAVED"))
+
+
+## The loose subassemblies packed as one scene (a Node3D holding the part trees).
+func _loose_container() -> PackedScene:
+	var box := Node3D.new()
+	box.name = "Loose"
+	for ps in _pack_loose():
+		var t := ps.instantiate()
+		box.add_child(t)
+		for n in t.find_children("*", "", true, false) + [t]:
+			n.owner = box
+	var out := PackedScene.new()
+	out.pack(box)
+	box.free()
+	return out
+
+
+func _load_loose_container(path: String) -> void:
+	var scenes: Array[PackedScene] = []
+	if ResourceLoader.exists(path):
+		var box := (ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as PackedScene).instantiate()
+		for t in box.get_children():
+			if t is PartInstance:
+				scenes.append(Vessel.pack_tree(t))
+		box.free()
+	_set_loose(scenes)
 
 
 func load_vessel() -> void:
@@ -768,6 +943,8 @@ func load_vessel() -> void:
 	_push_undo()
 	_drop_held()
 	vessel.load_scene(ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE))
+	_place_in_air()
+	_load_loose_container(SAVE_LOOSE_PATH)
 	_frame_pending = true
 	ui.flash(tr("UI_LOADED"))
 
@@ -785,5 +962,6 @@ func load_example(id: String) -> void:
 	_push_undo()
 	_drop_held()
 	vessel.load_scene(load(EXAMPLES_DIR + id + ".tscn"))
+	_place_in_air()
 	_frame_pending = true
 	ui.flash(tr("UI_EXAMPLE_LOADED") % ExampleVessels.display_name(id))

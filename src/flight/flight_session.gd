@@ -16,6 +16,8 @@ static var predicted_dv := 0.0
 static var return_to_hangar := false
 ## Optional: start the flight with the auto-ascent engaged (screenshots / demo).
 static var auto_ascent := false
+## Loose subassemblies left floating in the hangar (packed part trees), restored on return.
+static var hangar_loose: Array = []
 
 
 static func has_vessel() -> bool:
@@ -33,3 +35,4 @@ static func clear() -> void:
 	vessel_name = ""
 	predicted_dv = 0.0
 	return_to_hangar = false
+	hangar_loose = []

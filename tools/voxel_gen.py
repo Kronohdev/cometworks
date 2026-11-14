@@ -1836,21 +1836,22 @@ def mesh(c):
     return pos, nrm, rgba8, idx
 
 
-def mesh_greedy(c):
+def mesh_greedy(c, with_cidx=False):
     """Like mesh(), but merges coplanar faces that share color and a uniform AO level
     into larger quads (greedy meshing), which cuts triangle counts several times over.
     The per-voxel color jitter moves to the shader (shaders/voxel_part.gdshader): each
     vertex gets UV = voxel coordinates on the face plane and UV2 = (slice, face id), so
     the shader can hash the voxel cell under every fragment. Returns
-    (pos, nrm, rgba8, idx, uv, uv2)."""
+    (pos, nrm, rgba8, idx, uv, uv2), plus a per-vertex palette index array when with_cidx."""
     occ = np.pad(c.a > 0, 1)
     col = np.pad(c.a, 1)
-    out_pos, out_nrm, out_col, out_uv, out_uv2, out_idx = [], [], [], [], [], []
+    out_pos, out_nrm, out_col, out_uv, out_uv2, out_idx, out_cid = [], [], [], [], [], [], []
     base_i = 0
 
-    def emit(axis, s, u_ax, v_ax, slab, u0, v0, du_len, dv_len, ao4, rgb_lin, face_id):
+    def emit(axis, s, u_ax, v_ax, slab, u0, v0, du_len, dv_len, ao4, ci, face_id):
         """One quad: slab = voxel-space plane coordinate along axis; (u0, v0) min corner."""
         nonlocal base_i
+        rgb_lin = lin_table[ci]
         n = [0.0, 0.0, 0.0]
         n[axis] = float(s)
         corners = [(0, 0), (1, 0), (1, 1), (0, 1)] if s > 0 else [(0, 0), (0, 1), (1, 1), (1, 0)]
@@ -1864,6 +1865,7 @@ def mesh_greedy(c):
             out_col.append(rgb_lin * AO_LEVEL[ao4[k]])
             out_uv.append([u0 + du * du_len, v0 + dv * dv_len])
             out_uv2.append([slab, face_id])
+            out_cid.append(ci)
         q = base_i
         if (ao4[0] + ao4[2]) < (ao4[1] + ao4[3]):
             out_idx.extend([q + 1, q + 2, q + 3, q + 1, q + 3, q + 0])
@@ -1930,13 +1932,13 @@ def mesh_greedy(c):
                     du_len = length if run_ax == u_ax else 1
                     dv_len = length if run_ax == v_ax else 1
                     emit(axis, s, u_ax, v_ax, slab, pv[u_ax], pv[v_ax], du_len, dv_len, a4,
-                         lin_table[cidx[src[i]]], face_id)
+                         int(cidx[src[i]]), face_id)
                     i = j
             for f in np.nonzero(single)[0]:
                 pv = p[f] - 1
                 slab = pv[axis] + (1 if s > 0 else 0)
                 a4 = ao[f] if s > 0 else ao[f][[0, 3, 2, 1]]
-                emit(axis, s, u_ax, v_ax, slab, pv[u_ax], pv[v_ax], 1, 1, a4, lin_table[cidx[f]], face_id)
+                emit(axis, s, u_ax, v_ax, slab, pv[u_ax], pv[v_ax], 1, 1, a4, int(cidx[f]), face_id)
             # ---- uniform faces: greedy rectangles per slice, keyed by (color, ao)
             pu = p[uniform]
             if len(pu) == 0:
@@ -1970,13 +1972,14 @@ def mesh_greedy(c):
                         aol = int(k % 4)
                         slab = (sl - 1) + (1 if s > 0 else 0)
                         emit(axis, s, u_ax, v_ax, slab, a + umin - 1, b + vmin - 1, h, w, [aol] * 4,
-                             lin_table[int(k // 4)], face_id)
+                             int(k // 4), face_id)
                         b += w
     pos = np.array(out_pos, np.float32)
     nrm = np.array(out_nrm, np.float32)
     colr = np.array(out_col)
     rgba8 = np.concatenate([np.round(np.clip(colr, 0, 1) * 255), np.full((len(colr), 1), 255)], 1).astype(np.uint8)
-    return (pos, nrm, rgba8, np.array(out_idx, np.uint32), np.array(out_uv, np.float32), np.array(out_uv2, np.float32))
+    out = (pos, nrm, rgba8, np.array(out_idx, np.uint32), np.array(out_uv, np.float32), np.array(out_uv2, np.float32))
+    return out + (np.array(out_cid, np.int32),) if with_cidx else out
 
 
 def write_glb_uv(path, name, m):

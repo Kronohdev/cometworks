@@ -1,0 +1,110 @@
+keys,en,pt
+TY_DATE,Year · week,Ano · semana
+TY_ERA,Era,Era
+TY_CASH,Cash,Caixa
+TY_REPUTATION,Reputation,Reputação
+TY_HYPE,Hype,Hype
+TY_COMET,Comet,Cometa
+TY_ERA_1,Workshop,Galpão
+TY_ERA_2,Orbit,Órbita
+TY_ERA_3,Robotic Moon,Lua robótica
+TY_ERA_4,Crewed Moon,Lua tripulada
+TY_ERA_5,Launch base,Base de partida
+TY_PAUSE_TIP,Pause (Space),Pausar (Espaço)
+TY_SPEED_TIP,Time speed (1 2 3),Velocidade do tempo (1 2 3)
+TY_MENU_CREW,Crew,Equipe
+TY_MENU_RESEARCH,Research,Pesquisa
+TY_MENU_CONTRACTS,Contracts,Contratos
+TY_MENU_BUILD,Build,Construir
+TY_MENU_MAP,Solar-system map,Mapa do sistema solar
+TY_MENU_RACE,Race to the Moon,Corrida à Lua
+TY_MENU_BOOK,Mission archive,Arquivo de missões
+TY_MENU_FINANCE,Finances,Finanças
+TY_MENU_SETTINGS,Settings,Ajustes
+TY_RACE_TITLE,Race to the Moon,Corrida à Lua
+TY_RADIO_TITLE,Tail Radio,Rádio da Cauda
+TY_NEW_PROJECT,New project,Novo projeto
+TY_NEW_PROJECT_TIP,Start a mission: a contract or your own idea,Começar uma missão: um contrato ou uma ideia própria
+TY_NEXT_LEVEL,Next level,Próximo nível
+TY_BUILD,Build,Construir
+TY_UPGRADE,Upgrade to level %d,Melhorar para nível %d
+TY_UNDER_CONSTRUCTION,Under construction,Em obra
+TY_MAX_LEVEL,Top level,Nível máximo
+TY_NO_CASH,Not enough cash,Caixa insuficiente
+TY_LOT_FOR_SALE,Lot for sale,Lote à venda
+TY_LEVEL,Level %d,Nível %d
+TY_WEEKS,%d wk,%d sem
+TY_WEEKS_LEFT,%d weeks left,faltam %d semanas
+TY_CAMPUS_HINT,"Click a Cometling to follow it or a building to see it · right-drag to move · wheel zooms to the cursor · Q / E to turn · Space pauses","Clique num Cometinho para segui-lo ou num prédio para vê-lo · arraste com o botão direito para mover · a roda dá zoom no cursor · Q / E para girar · Espaço pausa"
+TY_BUILD_HINT,Click an empty lot (glowing posts) to buy it and build,Clique num lote vazio (postes acesos) para comprar e construir
+TY_BUILD_STARTED,Construction started: %s,Obra iniciada: %s
+TY_BUILT_HINT,%s is ready,%s ficou pronto
+TY_SOON,%s: coming in the next build step,%s: chega na próxima etapa
+TY_SOON_PROJECT,Mission projects arrive in the next build step (E1),Projetos de missão chegam na próxima etapa (E1)
+TY_NO_PROJECTS,No projects running,Nenhum projeto em andamento
+TY_NO_PROJECTS_HINT,Start one with New project,Comece um em Novo projeto
+TY_STRIP_BUILD,WORKS · %s · level %d,OBRA · %s · nível %d
+TY_RIVAL_AURORA,Aurora Rubra,Aurora Rubra
+TY_RIVAL_NIMBO,Nimbo Consortium,Consórcio Nimbo
+TY_RIVAL_QUIETUDE,Quietude Institute,Instituto Quietude
+TY_NEWS_WELCOME,"Welcome to Cometworks! A shed, a pad and a dream: the Moon.","Bem-vindos à Cometworks! Um galpão, uma plataforma e um sonho: a Lua."
+TY_NEWS_BUILT,%s level %d is ready,%s nível %d ficou pronto
+TY_NEWS_ERA,Era %d begins: the campus gets a new look,Começa a era %d: o campus ganha cara nova
+TY_B_HQ,Headquarters,Sede
+TY_B_HQ_DESC,"Staff limit, contracts at the same time and hiring.","Limite de funcionários, contratos simultâneos e contratação."
+TY_B_WORKSHOP,Assembly workshop,Galpão de montagem
+TY_B_WORKSHOP_DESC,Rocket height and mass limits; projects in parallel.,Altura e massa máximas dos foguetes; projetos em paralelo.
+TY_B_PAD,Launch pad,Plataforma de lançamento
+TY_B_PAD_DESC,Launches per month and the biggest rocket family it can fly.,Lançamentos por mês e a maior família de foguete suportada.
+TY_B_LAB,R&D laboratory,Laboratório de P&D
+TY_B_LAB_DESC,Researcher seats and research points every week.,Vagas de pesquisadores e pontos de pesquisa por semana.
+TY_B_CONTROL,Mission control,Centro de controle
+TY_B_CONTROL_DESC,Active missions at the same time; better decisions in flight.,Missões ativas ao mesmo tempo; decisões melhores em voo.
+TY_B_ANTENNA,Antenna network,Rede de antenas
+TY_B_ANTENNA_DESC,Multiplies the downlink of every mission: data only counts on the ground.,Multiplica o downlink de todas as missões: dado só conta quando chega ao solo.
+TY_B_TRAINING,Training centre,Centro de treinamento
+TY_B_TRAINING_DESC,"Specialisations, faster experience and pilot training.","Especializações, experiência mais rápida e treino de pilotos."
+TY_B_FACTORY,Factory,Fábrica
+TY_B_FACTORY_DESC,Series production: cheaper and faster repeated units.,Produção em série: unidades repetidas mais baratas e rápidas.
+TY_CAM_FOLLOWING,Following,Seguindo
+TY_CAM_COMETLING,Cometling,Cometinho
+TY_CAM_FOLLOW_HINT,Esc or click the ground to let go · wheel zooms · Q / E turn,Esc ou clique no chão para soltar · a roda dá zoom · Q / E giram
+TY_CAM_TOUR,Cinematic tour,Passeio cinematográfico
+TY_CAM_TOUR_TITLE,A day at Cometworks,Um dia na Cometworks
+TY_CAM_TOUR_HINT,Move the mouse or press a key to take over,Mexa o mouse ou aperte uma tecla para assumir
+TY_PROF_SYSTEMS,Systems engineer,Engenheiro(a) de sistemas
+TY_PROF_PROPULSION,Propulsion engineer,Engenheiro(a) de propulsão
+TY_PROF_SCIENTIST,Scientist,Cientista
+TY_PROF_RESEARCHER,Researcher,Pesquisador(a)
+TY_PROF_CONTROLLER,Flight controller,Controlador(a) de voo
+TY_PROF_TESTER,Test technician,Técnico(a) de testes
+TY_PROF_PILOT,Pilot,Piloto
+TY_BAR_ENG,Engineering,Engenharia
+TY_BAR_SCI,Science,Ciência
+TY_BAR_OPS,Operations,Operações
+TY_BAR_REL,Reliability,Confiabilidade
+TY_TGT_SUBORBITAL,Suborbital,Suborbital
+TY_TGT_LEO,Low Earth orbit,Órbita baixa
+TY_TGT_SSO,Sun-synchronous orbit,Órbita heliossíncrona
+TY_TGT_GEO,Geostationary orbit,Órbita geoestacionária
+TY_TGT_LUNAR_FLYBY,Lunar flyby,Sobrevoo lunar
+TY_TGT_LUNAR_ORBIT,Lunar orbit,Órbita lunar
+TY_TGT_LUNAR_SURFACE,Lunar surface,Superfície lunar
+TY_TGT_LUNAR_POLE,Lunar pole,Polo lunar
+TY_TGT_COMET,Comet Mother-Ice,Cometa Mãe-Gelo
+TY_MT_SOUNDING,Sounding rocket,Sondagem
+TY_MT_DEMO_SAT,Demo satellite,Satélite de demonstração
+TY_MT_COMMS,Communications,Comunicação
+TY_MT_EARTH_OBS,Earth observation,Observação da Terra
+TY_MT_SPACE_WEATHER,Space weather,Clima espacial
+TY_MT_TELESCOPE,Telescope,Telescópio
+TY_MT_IMPACTOR,Impactor,Impacto
+TY_MT_ORBITER,Orbiter,Orbitador
+TY_MT_LANDER,Lander,Pousador
+TY_MT_ROVER,Rover,Rover
+TY_MT_CREWED,Crewed flight,Voo tripulado
+TY_MT_CREWED_LANDING,Crewed landing,Pouso tripulado
+TY_MT_SAMPLE_RETURN,Sample return,Retorno de amostra
+TY_MT_BASE_MODULE,Base module,Módulo de base
+TY_MT_ISRU,Propellant plant (ISRU),Planta de propelente (ISRU)
+TY_MT_COMET,Comet mission,Missão ao cometa

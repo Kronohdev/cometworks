@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "upkeep_month_fraction": 0.02,
+  "types": {
+    "hq":       {"name_key": "TY_B_HQ",       "icon": "hq",       "desc_key": "TY_B_HQ_DESC",
+                 "levels": [{"cost": 0, "weeks": 0}, {"cost": 120000, "weeks": 8}, {"cost": 400000, "weeks": 14}]},
+    "workshop": {"name_key": "TY_B_WORKSHOP", "icon": "hangar",   "desc_key": "TY_B_WORKSHOP_DESC",
+                 "levels": [{"cost": 0, "weeks": 0}, {"cost": 150000, "weeks": 10}, {"cost": 450000, "weeks": 16}]},
+    "pad":      {"name_key": "TY_B_PAD",      "icon": "pad",      "desc_key": "TY_B_PAD_DESC",
+                 "levels": [{"cost": 0, "weeks": 0}, {"cost": 200000, "weeks": 10}, {"cost": 600000, "weeks": 18}]},
+    "lab":      {"name_key": "TY_B_LAB",      "icon": "lab",      "desc_key": "TY_B_LAB_DESC",
+                 "levels": [{"cost": 90000, "weeks": 6}, {"cost": 250000, "weeks": 10}, {"cost": 600000, "weeks": 16}]},
+    "control":  {"name_key": "TY_B_CONTROL",  "icon": "control",  "desc_key": "TY_B_CONTROL_DESC",
+                 "levels": [{"cost": 110000, "weeks": 8}, {"cost": 280000, "weeks": 10}, {"cost": 650000, "weeks": 16}]},
+    "antenna":  {"name_key": "TY_B_ANTENNA",  "icon": "antenna",  "desc_key": "TY_B_ANTENNA_DESC",
+                 "levels": [{"cost": 80000, "weeks": 6}, {"cost": 220000, "weeks": 10}, {"cost": 520000, "weeks": 14}]},
+    "training": {"name_key": "TY_B_TRAINING", "icon": "training", "desc_key": "TY_B_TRAINING_DESC",
+                 "levels": [{"cost": 90000, "weeks": 6}, {"cost": 240000, "weeks": 10}, {"cost": 560000, "weeks": 14}]},
+    "factory":  {"name_key": "TY_B_FACTORY",  "icon": "factory",  "desc_key": "TY_B_FACTORY_DESC",
+                 "levels": [{"cost": 140000, "weeks": 8}, {"cost": 320000, "weeks": 12}, {"cost": 700000, "weeks": 18}]}
+  },
+  "lots": {
+    "hq":       {"kind": "hq",       "start": true},
+    "workshop": {"kind": "workshop", "start": true},
+    "pad":      {"kind": "pad",      "start": true},
+    "lab":      {"kind": "lab",      "price": 30000},
+    "control":  {"kind": "control",  "price": 30000},
+    "antenna":  {"kind": "antenna",  "price": 25000},
+    "factory":  {"kind": "factory",  "price": 40000},
+    "training": {"kind": "training", "price": 30000},
+    "pad2":     {"kind": "pad",      "price": 60000, "first_level_cost": 220000, "first_level_weeks": 12}
+  }
+}

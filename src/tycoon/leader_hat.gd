@@ -8,6 +8,7 @@ extends Node3D
 ##   "none"  bare head: no hat and no helmet or hard hat
 ##   other   the child named after it in PascalCase (crown -> Crown), helmet / hard hat hidden
 ## A hat child with the metadata `hides_antenna` (the beanies) also tucks the antenna away.
+## One with `hides_goggles` (the glasses) takes the scientist goggles off the forehead.
 ## The propeller spins with the scene's AnimationPlayer ("Anim", animation "spin").
 
 const SCENE := "res://scenes/tycoon/leader/leader_hat.tscn"
@@ -47,6 +48,14 @@ func hides_antenna() -> bool:
 	return false
 
 
+## True when the hat being worn sits where the scientist goggles do (metadata `hides_goggles`).
+func hides_goggles() -> bool:
+	for c in get_children():
+		if c is Node3D and String(c.name).to_snake_case() == hat:
+			return bool(c.get_meta("hides_goggles", false))
+	return false
+
+
 ## Puts hat `hat_id` on a Cometling (see the class notes for "role" and "none").
 static func wear(c: Cometling, hat_id: String) -> void:
 	if c == null:
@@ -76,3 +85,6 @@ static func wear(c: Cometling, hat_id: String) -> void:
 		var g := c.find_child(n, true, false) as Node3D
 		if g:
 			g.visible = false
+	var goggles := c.find_child("Goggles", true, false) as Node3D
+	if goggles:   # the scientist's goggles, unless the glasses take their place
+		goggles.visible = c.role == "scientist" and not node.hides_goggles()

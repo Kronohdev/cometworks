@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
 [ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="page_tabs"]
 
 [node name="Research" type="Control"]
 layout_mode = 3
@@ -63,6 +64,38 @@ subtitle = "TY_RS_SUB"
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
+
+[node name="Tabs" type="HBoxContainer" parent="Frame/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+script = ExtResource("page_tabs")
+stack = NodePath("../../Pages")
+
+[node name="TreeTab" type="Button" parent="Frame/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+text = "TY_RS_TAB_TREE"
+metadata/page = &"Tree"
+
+[node name="StudiesTab" type="Button" parent="Frame/VBox/Head/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+tooltip_text = "TY_ST_TAB_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_RS_TAB_STUDIES"
+metadata/page = &"Studies"
+
+[node name="TabSep" type="VSeparator" parent="Frame/VBox/Head"]
+layout_mode = 2
 
 [node name="Pool" type="VBoxContainer" parent="Frame/VBox/Head"]
 layout_mode = 2
@@ -372,7 +405,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/line_spacing = -2
 theme_override_font_sizes/font_size = 14
-text = "Estágio superior religável"
+text = "TY_TECH_UPPER_STAGE"
 autowrap_mode = 3
 max_lines_visible = 2
 
@@ -525,7 +558,7 @@ theme_override_constants/separation = 12
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "Propulsão"
+text = "TY_BR_PROP"
 
 [node name="DName" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
@@ -533,7 +566,7 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 34
-text = "Foguete orbital"
+text = "TY_TECH_ORBITAL_ROCKETRY"
 autowrap_mode = 3
 
 [node name="DState" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
@@ -658,14 +691,14 @@ layout_mode = 2
 tooltip_text = "TY_RS_OPEN_TECH_TIP"
 focus_mode = 0
 theme_type_variation = &"CwKey"
-text = "Foguete orbital"
+text = "TY_TECH_ORBITAL_ROCKETRY"
 
 [node name="Requires" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Needs"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwDim"
-text = "Nenhum"
+text = "TY_LEADER_HAT_NONE"
 autowrap_mode = 3
 
 [node name="Next" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Path"]
@@ -691,7 +724,7 @@ layout_mode = 2
 tooltip_text = "TY_RS_OPEN_TECH_TIP"
 focus_mode = 0
 theme_type_variation = &"CwKey"
-text = "Estágio translunar"
+text = "TY_TECH_LUNAR_STAGE"
 
 [node name="NextNone" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Next"]
 unique_name_in_owner = true
@@ -767,7 +800,7 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-text = "Satélite de demonstração"
+text = "TY_MT_DEMO_SAT"
 autowrap_mode = 3
 
 [node name="BenchSep" type="HSeparator" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
@@ -821,6 +854,401 @@ layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "TY_RS_BENCH_EMPTY"
+autowrap_mode = 3
+
+[node name="Studies" type="HBoxContainer" parent="Frame/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+metadata/title = "TY_RS_TAB_STUDIES"
+
+[node name="List" type="PanelContainer" parent="Frame/VBox/Pages/Studies"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/List"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Studies/List/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_ST_LIST"
+
+[node name="Intro" type="Label" parent="Frame/VBox/Pages/Studies/List/VBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_ST_INTRO"
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/Pages/Studies/List/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Types" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/List/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="StudyTemplate" type="Button" parent="Frame/VBox/Pages/Studies/List/VBox/Scroll/Types"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+toggle_mode = true
+alignment = 0
+text_overrun_behavior = 3
+text = "TY_MT_SOUNDING"
+
+[node name="Pips" type="Control" parent="Frame/VBox/Pages/Studies/List/VBox/Scroll/Types/StudyTemplate"]
+custom_minimum_size = Vector2(42, 7)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -3.5
+offset_right = -14.0
+offset_bottom = 3.5
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.333
+color = Color(0.4627, 0.3216, 0.9098, 1)
+segments = 3
+gap = 3.0
+
+[node name="Tag" type="Label" parent="Frame/VBox/Pages/Studies/List/VBox/Scroll/Types/StudyTemplate"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_right = -64.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "TY_ST_TAG_ACTIVE"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Main" type="PanelContainer" parent="Frame/VBox/Pages/Studies"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SCaption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_ST_CAPTION"
+
+[node name="SName" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 30
+text = "TY_MT_SOUNDING"
+
+[node name="SState" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "nível 1 de 3 · 1 voo"
+
+[node name="Bars" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SEng" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SEng"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_BAR_ENG"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SEng"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.5
+color = Color(1, 0.5608, 0.3137, 1)
+
+[node name="Mark" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SEng"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+text = "?"
+horizontal_alignment = 2
+
+[node name="SSci" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SSci"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_BAR_SCI"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SSci"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.5
+color = Color(0.3098, 0.6627, 0.9412, 1)
+
+[node name="Mark" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SSci"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+text = "?"
+horizontal_alignment = 2
+
+[node name="SOps" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SOps"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_BAR_OPS"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SOps"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.5
+color = Color(0.1843, 0.7686, 0.6275, 1)
+
+[node name="Mark" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SOps"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+text = "?"
+horizontal_alignment = 2
+
+[node name="SRel" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SRel"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_BAR_REL"
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SRel"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.5
+color = Color(0.6078, 0.4863, 1, 1)
+
+[node name="Mark" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Bars/SRel"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+text = "?"
+horizontal_alignment = 2
+
+[node name="SKnow" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Engenharia é o que mais pesa; Operações, o que menos."
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+layout_mode = 2
+
+[node name="Next" type="PanelContainer" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelLilac"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Next"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SNextCaption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Next/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Próximo nível: 2 de 3"
+
+[node name="SNextText" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Next/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_ST_REVEAL_2"
+autowrap_mode = 3
+
+[node name="Stats" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Cost" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Cost"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_COST"
+
+[node name="SCost" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "8 PP"
+
+[node name="Money" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Money"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_ST_MONEY"
+
+[node name="SMoney" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Money"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "6 000 cr"
+
+[node name="Time" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Time"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_MIN_TIME"
+
+[node name="STime" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Time"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "3 sem"
+
+[node name="Eta" type="VBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Eta"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_ETA"
+
+[node name="SEta" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Stats/Eta"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "4 sem"
+
+[node name="SBar" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.3
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 24
+gap = 2.0
+
+[node name="SProgress" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 13
+text = "3 / 8 PP"
+horizontal_alignment = 2
+
+[node name="SFlight" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_ST_FLIGHT"
+autowrap_mode = 3
+
+[node name="Fill" type="Control" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Actions" type="HBoxContainer" parent="Frame/VBox/Pages/Studies/Main/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SStudy" type="Button" parent="Frame/VBox/Pages/Studies/Main/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_ST_START"
+
+[node name="SError" type="Label" parent="Frame/VBox/Pages/Studies/Main/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
+text = ""
 autowrap_mode = 3
 
 [node name="CwTransition" type="Node" parent="."]

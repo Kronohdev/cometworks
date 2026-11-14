@@ -1,0 +1,62 @@
+keys,en,pt
+TY_TRK_ST_FLIGHT,In flight,Em voo
+TY_TRK_ST_ORBIT,In orbit,Em órbita
+TY_TRK_ST_ARRIVED,Arrived,Chegou
+TY_TRK_ST_LOST,Lost,Perdida
+TY_TRK_BACK_CAMPUS,Back to the campus,Voltar ao campus
+TY_TRK_BACK_MAP,Back to the map,Voltar ao mapa
+TY_TRK_MAP_TIP,Solar System map (M): your missions in space,Mapa do Sistema Solar (M): suas missões no espaço
+TY_TRK_MAP_CAPTION,MAP,MAPA
+TY_TRK_MAP_TITLE,Solar System,Sistema Solar
+TY_TRK_MAP_HINT,Click a mission to follow it · right drag turns · wheel zooms · 1 2 3 zoom levels · Space pauses · M or Esc goes back,Clique numa missão para segui-la · arraste com o botão direito para girar · roda dá zoom · 1 2 3 níveis de zoom · Espaço pausa · M ou Esc volta
+TY_TRK_LIST_TITLE,Missions in space,Missões no espaço
+TY_TRK_COUNT,%d in space,%d no espaço
+TY_TRK_FILTER_ALL,All,Todas
+TY_TRK_FILTER_MINE,Ours,Nossas
+TY_TRK_FILTER_RIVALS,Rivals,Rivais
+TY_TRK_EMPTY,Nothing in space yet. Launch a mission and it shows up here.,Nada no espaço ainda. Lance uma missão e ela aparece aqui.
+TY_TRK_WATCH,Watch up close,Acompanhar
+TY_TRK_WATCH_TIP,"See this craft up close, in 3D, where it is now","Veja esta nave de perto, em 3D, onde ela está agora"
+TY_TRK_RELEASE,Let go,Soltar
+TY_TRK_WATCH_NO,The close view only works around the Earth or the Moon.,A visão de perto só funciona em volta da Terra ou da Lua.
+TY_TRK_WATCH_LOST,"Lost: there is nothing left to watch.","Perdida: não sobrou nada para acompanhar."
+TY_TRK_LAUNCHED,Launched %s,Lançada em %s
+TY_TRK_DATE,Y%d · W%02d,A%d · S%02d
+TY_TRK_WHERE_ORBIT,In orbit · %s · %s up,Em órbita · %s · a %s de altitude
+TY_TRK_WHERE_TRANSFER,On the way · %s · arrives in %s,A caminho · %s · chega em %s
+TY_TRK_WHERE_ASCENT,Climbing to orbit,Subindo para a órbita
+TY_TRK_WHERE_SURFACE,Landed · %s,Pousada · %s
+TY_TRK_WHERE_COMET,With the comet Mother-Ice,Junto ao cometa Mãe-Gelo
+TY_TRK_WHERE_FLYBY,Passed the Moon · now looping round the Earth,Passou pela Lua · agora dá voltas na Terra
+TY_TRK_WHERE_HOME,Up and back: on the Earth again,Subiu e voltou: de novo na Terra
+TY_TRK_WHERE_LOST,Lost on %s,Perdida em %s
+TY_TRK_WATCH_CAPTION,WATCHING THE LAUNCH,ACOMPANHANDO O LANÇAMENTO
+TY_TRK_FOLLOW_CAPTION,UP CLOSE,DE PERTO
+TY_TRK_PH_COUNTDOWN,T−%d,T−%d
+TY_TRK_PH_ASCENT,Climbing · %s,Subindo · %s
+TY_TRK_PH_COAST,Coasting to the top · %s,Subindo no embalo · %s
+TY_TRK_PH_FALL,Coming back down,Voltando para baixo
+TY_TRK_PH_ORBIT,In orbit,Em órbita
+TY_TRK_PH_WAIT,Waiting for the departure burn · %s,Esperando a queima de partida · %s
+TY_TRK_PH_BURN,Departure burn!,Queima de partida!
+TY_TRK_PH_TRANSFER,On the way · %s,A caminho · %s
+TY_TRK_PH_LOST,Lost,Perdido
+TY_TRK_WARP_HINT,", and . speed time up · M map · Esc pause",", e . aceleram o tempo · M mapa · Esc pausa"
+TY_TRK_RES_ORBIT,In orbit!,Em órbita!
+TY_TRK_RES_ORBIT_TEXT,"%s is in orbit: apogee %s, perigee %s.","%s está em órbita: apogeu %s, perigeu %s."
+TY_TRK_RES_PARTIAL,Off the planned orbit,Fora da órbita planejada
+TY_TRK_RES_PARTIAL_TEXT,"It got to space, but not quite where it should: the mission goes on with less.","Chegou ao espaço, mas não bem onde devia: a missão segue com menos."
+TY_TRK_RES_TRANSFER,On its way!,A caminho!
+TY_TRK_RES_TRANSFER_TEXT,%s left the Earth's orbit · bound for: %s. Follow it on the Solar System map.,%s deixou a órbita da Terra · destino: %s. Acompanhe no mapa do Sistema Solar.
+TY_TRK_RES_SUBORBITAL,Up and back!,Subiu e voltou!
+TY_TRK_RES_SUBORBITAL_TEXT,%s touched space at %s and falls back to the sea.,%s tocou o espaço a %s e cai de volta no mar.
+TY_TRK_RES_LOST,Launch lost,Lançamento perdido
+TY_TRK_RES_LOST_TEXT,%s broke up %s after liftoff.,%s se partiu %s depois da decolagem.
+TY_TRK_RES_CAUSE,What broke: %s,O que quebrou: %s
+TY_TRK_KEEP_WATCHING,Keep watching,Continuar assistindo
+TY_TRK_SEE_MAP,See it on the map,Ver no mapa
+TY_TRK_WATCH_LAUNCH,Watch the launch,Acompanhar o lançamento
+TY_TRK_WATCH_LAUNCH_TIP,"See the rocket fly from the pad, in 3D, the way this launch went","Veja o foguete voar desde a plataforma, em 3D, do jeito que este lançamento foi"
+TY_TRK_CRASH_ENGINE,Broke up: an engine failed,Desintegrou: um motor falhou
+TY_TRK_CRASH_STAGE,Broke up at the stage separation,Desintegrou na separação de estágios
+TY_TRK_PAD_HINT,Countdown: the rocket lifts off by itself · you only watch,Contagem regressiva: o foguete decola sozinho · você só assiste

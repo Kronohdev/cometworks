@@ -70,7 +70,8 @@ static func max_active(s: TycoonState) -> int:
 static func can_accept(s: TycoonState, id: String) -> bool:
 	var c := find(s, id)
 	return not c.is_empty() and String(c["status"]) == "offer" and accepted(s).size() < max_active(s) \
-		and s.mission_type_available(String(c["type"])) and s.mission_target_available(String(c["target"]))
+		and s.mission_type_available(String(c["type"])) and s.mission_target_available(String(c["target"])) \
+		and TycoonResearch.pair_available(s, String(c["type"]), String(c["target"]))
 
 
 static func accept(s: TycoonState, id: String) -> bool:
@@ -234,7 +235,8 @@ static func _available_pairs(s: TycoonState, types: Array) -> Array[Dictionary]:
 		var compat: Dictionary = t.get("compat", {})
 		for tg: String in compat:
 			# (and some rocket of the agency gets there, E2)
-			if float(compat[tg]) >= 1.0 and s.mission_target_available(tg) and RocketDesigner.reachable(s, tid, tg):
+			if float(compat[tg]) >= 1.0 and s.mission_target_available(tg) and TycoonResearch.pair_available(s, tid, tg) \
+					and RocketDesigner.reachable(s, tid, tg):
 				# newer types are more wanted: weight 1 + 2 when the type is of the current era
 				out.append({"type": tid, "target": tg, "w": 1.0 + (2.0 if int(t.get("era", 1)) >= s.era() else 0.0)})
 	return out
@@ -262,7 +264,8 @@ static func _reward(s: TycoonState, type_id: String, mult: float) -> float:
 	var d := db()
 	var em: Array = d.get("era_mult", [1.0])
 	var r := float(d.get("reward_base", 140000)) * float(s.mission_type(type_id).get("size", 1.0)) \
-		* float(em[clampi(s.era() - 1, 0, em.size() - 1)]) * mult * s.rng.randf_range(0.9, 1.2)
+		* float(em[clampi(s.era() - 1, 0, em.size() - 1)]) * mult * s.rng.randf_range(0.9, 1.2) \
+		* TycoonDifficulty.factor(s, "income")
 	var step := float(d.get("round_to", 5000))
 	return maxf(roundf(r / step) * step, step)
 

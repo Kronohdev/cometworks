@@ -21,6 +21,8 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_tooltip_fade.gd" id="cwm_tipfade"]
 [ext_resource type="Script" path="res://src/audio/cw_music_cue.gd" id="audio_cue"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="16_star"]
+[ext_resource type="PackedScene" path="res://scenes/menu/demo_panel.tscn" id="17_demo"]
 
 [sub_resource type="Gradient" id="shade_left_grad"]
 offsets = PackedFloat32Array(0, 0.42, 1)
@@ -202,11 +204,20 @@ index_text = "03"
 hint_key = ""
 icon = ExtResource("12_tent")
 
+[node name="Demo" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "MENU_DEMO_TIP"
+text = "MENU_DEMO"
+index_text = "04"
+hint_key = "MENU_DEMO_HINT"
+icon = ExtResource("16_star")
+
 [node name="Workshop" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_WORKSHOP"
-index_text = "04"
+index_text = "05"
 hint_key = ""
 icon = ExtResource("13_build")
 
@@ -214,7 +225,7 @@ icon = ExtResource("13_build")
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_OPTIONS"
-index_text = "05"
+index_text = "06"
 hint_key = ""
 icon = ExtResource("14_settings")
 
@@ -222,7 +233,7 @@ icon = ExtResource("14_settings")
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_QUIT"
-index_text = "06"
+index_text = "07"
 hint_key = ""
 icon = ExtResource("15_door")
 
@@ -244,6 +255,15 @@ offset_left = 572.0
 offset_top = 300.0
 offset_right = 992.0
 offset_bottom = 520.0
+
+[node name="DemoPanel" parent="UI/Root" instance=ExtResource("17_demo")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 572.0
+offset_top = 290.0
+offset_right = 1072.0
+offset_bottom = 590.0
 
 [node name="Readout" type="PanelContainer" parent="UI/Root"]
 unique_name_in_owner = true

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="FlightMapStyle" format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_map_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+soi_colors = {
+"earth": Color(0.4863, 0.7843, 1, 1),
+"mars": Color(1, 0.5608, 0.7216, 1),
+"moon": Color(1, 0.8235, 0.3608, 1),
+"sun": Color(1, 0.6039, 0.3608, 1),
+"venus": Color(0.4353, 0.8784, 0.7451, 1)
+}
+soi_other = Color(0.702, 0.6118, 1, 1)
+node_color = Color(1, 0.5608, 0.7216, 1)
+plan_color = Color(1, 0.5608, 0.7216, 1)
+plan_color_2 = Color(1, 0.7608, 0.851, 1)
+apsis_icon = Color(1, 0.9647, 0.902, 1)
+closest_icon = Color(1, 0.8235, 0.3608, 1)
+impact_icon = Color(1, 0.4196, 0.5412, 1)
+line_icon = Color(0.902, 0.8706, 0.9882, 1)
+label_text = Color(0.1686, 0.1647, 0.3608, 1)
+label_dim = Color(0.3647, 0.3569, 0.549, 1)
+label_warning = Color(0.7608, 0.4549, 0, 1)
+label_danger = Color(0.851, 0.2275, 0.3608, 1)
+label_node = Color(0.8392, 0.251, 0.4941, 1)
+label_encounter = Color(0.0902, 0.5412, 0.3412, 1)
+body_name = Color(0.902, 0.8706, 0.9882, 1)
+body_name_focus = Color(1, 0.9647, 0.902, 1)
+body_name_target = Color(1, 0.8235, 0.3608, 1)

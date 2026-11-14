@@ -17,7 +17,14 @@ extends RefCounted
 ##   TycoonCrew.add_xp(state, id, xp)  XP for a Cometling (levels up, returns levels gained)
 ##   TycoonCrew.spec_effect(m, key)    summed effect of its specialisations ("points_eng",
 ##                                     "defects", "science", "downlink", "crew_risk", ...)
-##   TycoonCrew.points_mult(m, bar)    1 + spec bonus on a quality bar ("eng" | "sci" | "ops" | "rel")
+##   TycoonCrew.spec_effect_for(m, key, type, target)  the same with the forms that only count
+##                                     on some missions (key_<type>, key_<target>, key_lunar)
+##   TycoonCrew.points_mult(m, bar, type, target)  1 + spec bonus on a quality bar
+##   TycoonCrew.team_effect(s, ids, key, type, target)  an effect summed over a team
+## Who reads which effect: points_* / team_points / defects / defect_removal /
+## secondary_affinity (MissionProject), crew_risk / rocket_rel (DesignReview), science /
+## downlink (ProjectDesk -> MissionOps), research (TycoonResearch), team_xp / overwork_weeks /
+## failure_morale (here).
 ## Morale reacts by itself to state.mission_launched (success / failure of a project whose id
 ## is in the members' "assigned").
 
@@ -203,14 +210,46 @@ static func spec(spec_id: String) -> Dictionary:
 	return {}
 
 
-## Specs a Cometling can pick in a tier (1: level 3, by profession; 2: level 5, for anyone).
-static func spec_options(m: Dictionary, tier: int) -> Array[Dictionary]:
+## The tiers a specialisation can be learned in: "tiers" [1, 2] or the single "tier".
+static func spec_tiers(sp: Dictionary) -> Array[int]:
+	var out: Array[int] = []
+	if sp.has("tiers"):
+		for t in sp["tiers"]:
+			out.append(int(t))
+	else:
+		out.append(int(sp.get("tier", 1)))
+	return out
+
+
+## Has the research opened this specialisation? (The ones no tech lists are there from the start.)
+static func spec_researched(s: TycoonState, spec_id: String) -> bool:
+	var tech := TycoonResearch.tech_for_spec(spec_id)
+	return tech == "" or bool(s.unlocked.get("spec:" + spec_id, false)) or TycoonResearch.is_done(s, tech)
+
+
+## Specs a Cometling can pick in a tier (1: level 3, by profession; 2: level 5, for anyone, or
+## the professions it lists). With the state: only those the research has opened, and none it
+## already has.
+static func spec_options(m: Dictionary, tier: int, s: TycoonState = null) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for sp: Dictionary in data().get("specs", []):
-		if int(sp.get("tier", 1)) != tier:
+		if not (tier in spec_tiers(sp)):
 			continue
 		var profs: Array = sp.get("professions", [])
-		if profs.is_empty() or String(m.get("profession", "")) in profs:
+		if not profs.is_empty() and not (String(m.get("profession", "")) in profs):
+			continue
+		if s != null and (not spec_researched(s, String(sp["id"])) or String(sp["id"]) in m.get("specs", [])):
+			continue
+		out.append(sp)
+	return out
+
+
+## Specs of this tier the Cometling's profession could pick once research opens them (the
+## crew sheet names them under the choice).
+static func spec_locked(m: Dictionary, tier: int, s: TycoonState) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for sp in spec_options(m, tier):
+		if not spec_researched(s, String(sp["id"])):
 			out.append(sp)
 	return out
 
@@ -268,7 +307,7 @@ static func choose_spec(s: TycoonState, staff_id: String, spec_id: String) -> St
 	if not slot["can_choose"]:
 		return String(slot["reason"])
 	var ok := false
-	for sp in spec_options(m, int(slot["tier"])):
+	for sp in spec_options(m, int(slot["tier"]), s):
 		ok = ok or sp["id"] == spec_id
 	if not ok:
 		return "TY_CREW_ERR_NONE"
@@ -277,7 +316,7 @@ static func choose_spec(s: TycoonState, staff_id: String, spec_id: String) -> St
 		return "TY_CREW_ERR_CASH"
 	s.cash -= cost
 	specs.append(spec_id)
-	m["train_weeks"] = int(data().get("spec_weeks", 2))
+	m["train_weeks"] = maxi(int(data().get("spec_weeks", 2)) + int(TycoonLegends.mentor_effect(s, "spec_weeks")), 1)
 	s.news.push_front({"key": "TY_CREW_NEWS_SPEC", "args": [String(m["name"]), "TY_CREW_SPEC_" + spec_id.to_upper()]})
 	s.changed.emit()
 	return ""
@@ -288,11 +327,36 @@ static func spec_effect(m: Dictionary, key: String) -> float:
 	var t := 0.0
 	for spec_id in m.get("specs", []):
 		t += float(spec(String(spec_id)).get("effects", {}).get(key, 0.0))
+	return t + TycoonLegends.member_effect(m, key)   # a Lenda's unique specialisation
+
+
+## The effect on a mission of this type at this target: the plain key plus its narrower forms,
+## key_<type> (points_crewed_landing), key_<target> (points_comet, points_lunar_pole) and
+## key_lunar for every Moon target (points_sci_lunar).
+static func spec_effect_for(m: Dictionary, key: String, type_id := "", target_id := "") -> float:
+	var t := spec_effect(m, key)
+	if type_id != "":
+		t += spec_effect(m, key + "_" + type_id)
+	if target_id != "":
+		t += spec_effect(m, key + "_" + target_id)
+		if target_id.begins_with("lunar"):
+			t += spec_effect(m, key + "_lunar")
 	return t
 
 
-static func points_mult(m: Dictionary, bar: String) -> float:
-	return 1.0 + spec_effect(m, "points_" + bar)
+## 1 + the spec bonus on a quality bar ("eng" | "sci" | "ops" | "rel"), with the bonuses that
+## only count on some missions ("points" on every bar, "points_<bar>", their _type / _target forms).
+static func points_mult(m: Dictionary, bar: String, type_id := "", target_id := "") -> float:
+	return 1.0 + spec_effect_for(m, "points_" + bar, type_id, target_id) + spec_effect_for(m, "points", type_id, target_id)
+
+
+## Sum of an effect over a team (staff ids) on a mission of this type at this target.
+static func team_effect(s: TycoonState, staff_ids: Array, key: String, type_id := "", target_id := "") -> float:
+	var t := 0.0
+	for m in s.staff:
+		if String(m.get("id", "")) in staff_ids:
+			t += spec_effect_for(m, key, type_id, target_id)
+	return t
 
 
 # ------------------------------------------------------------ XP and levels
@@ -304,7 +368,10 @@ static func add_xp(s: TycoonState, staff_id: String, xp: float) -> int:
 	var m := find(s, staff_id)
 	if m.is_empty() or xp <= 0.0:
 		return 0
-	var mult := 1.0 + float(data().get("training_xp_bonus", 0.15)) * training_level(s)
+	var mult := 1.0 + float(data().get("training_xp_bonus", 0.15)) * training_level(s) \
+		+ TycoonLegends.mentor_effect(s, "agency_xp")   # a mentor teaching the whole campus
+	if String(m.get("profession", "")) == "pilot":
+		mult += TycoonLegends.mentor_effect(s, "pilot_xp")
 	var proj := String(m.get("assigned", ""))
 	if proj != "":
 		for o in s.staff:
@@ -334,6 +401,7 @@ static func dev_refresh_market(s: TycoonState) -> void:
 
 
 static func _new_market(s: TycoonState, r: RandomNumberGenerator) -> void:
+	var legends := TycoonLegends.kept_candidates(s)   # a Lenda stays a while
 	var profs: Array = []
 	for p: Dictionary in s.pdata.get("professions", []):
 		profs.append(String(p["id"]))
@@ -346,7 +414,11 @@ static func _new_market(s: TycoonState, r: RandomNumberGenerator) -> void:
 	var n := mini(int(data().get("candidates_per_month", 3)), profs.size())
 	for i in n:
 		out.append(_candidate(s, r, String(profs[i]), out))
-	s.crew["candidates"] = out
+	# a Lenda of this era comes once, on a golden card at the front (no draw from the crew RNG)
+	var lg := TycoonLegends.arrival(s)
+	if not lg.is_empty():
+		legends.append(lg)
+	s.crew["candidates"] = legends + out
 
 
 static func _candidate(s: TycoonState, r: RandomNumberGenerator, prof: String, others: Array) -> Dictionary:
@@ -431,6 +503,7 @@ static func hire(s: TycoonState, cand_id: String) -> String:
 		"busy_weeks": 0, "napping": false, "hidden": (c["hidden"] as Array).duplicate(), "seed": int(c["seed"]),
 		"hired_week": s.weeks}
 	s.crew["next_id"] = int(s.crew.get("next_id", 1)) + 1
+	TycoonLegends.on_hired(s, c, m)
 	m = s.normalize_staff(m, s.staff.size())
 	_fill(m)
 	s.staff.append(m)

@@ -1905,7 +1905,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwInk"
 theme_override_font_sizes/font_size = 15
-text = "Peça"
+text = "TY_RS_K_PART"
 
 [node name="HoverDetail" type="Label" parent="Root/HoverInfo/VBox"]
 unique_name_in_owner = true

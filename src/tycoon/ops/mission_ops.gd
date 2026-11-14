@@ -18,6 +18,7 @@ extends RefCounted
 ##   antenna_gain, health, gen_mult, gen_mult_weeks, data_gen, data_lost, last_gen,
 ##   last_down, last_lost, event, decision_week, decision ({} or {"event", "since"}),
 ##   choice, cause, log [{"age", "key"}], ops_ready.
+## Set at launch by ProjectDesk: spec_science / spec_downlink (the team's specialisations).
 
 const OPS_PATH := "res://data/tycoon/ops.json"
 const ENCYCLOPEDIA_PATH := "res://data/tycoon/encyclopedia.json"
@@ -70,7 +71,7 @@ static func downlink_rate_at(m: Dictionary, level: int) -> float:
 	var t := target_ops(target)
 	var gain := float(m.get("antenna_gain", type_ops(String(m.get("type", ""))).get("antenna", 1.0)))
 	return float(data().get("base_downlink", 40.0)) * network_gain(level) * float(t.get("link", 1.0)) \
-		* contact(target, level) * gain
+		* contact(target, level) * gain * (1.0 + float(m.get("spec_downlink", 0.0)))
 
 
 static func downlink_rate(state: TycoonState, m: Dictionary) -> float:
@@ -224,7 +225,8 @@ static func _step(state: TycoonState, m: Dictionary) -> void:
 		m["last_gen"] = g
 		m["last_down"] = down
 		m["last_lost"] = g - kept
-		_credit(state, m, down * float(m["value"]) * float(m["value_mult"]) * scientist_bonus(state))
+		_credit(state, m, down * float(m["value"]) * float(m["value_mult"]) * scientist_bonus(state)
+			* (1.0 + float(m.get("spec_science", 0.0))))
 	# random faults: rarer on a healthy spacecraft
 	var hz := float(target_ops(String(m["target"])).get("hazard", 0.0)) * (2.0 - float(m["health"]))
 	if hz > 0.0 and state.rng.randf() < hz:

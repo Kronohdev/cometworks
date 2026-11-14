@@ -1,0 +1,183 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/talk/cometling_dialogue.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/talk/cometling_portrait.tscn" id="3_portrait"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/halley_portrait.tscn" id="4_halley"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="5_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="6_buttons"]
+
+[sub_resource type="StyleBoxFlat" id="portrait_frame"]
+bg_color = Color(0.7255, 0.8471, 0.9804, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 70
+corner_radius_top_right = 70
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+corner_detail = 12
+anti_aliasing = true
+
+[node name="Dialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Box" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -110.0
+offset_right = 400.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwPanelTop"
+
+[node name="Appear" type="Node" parent="Box"]
+script = ExtResource("5_appear")
+on_ready = false
+on_visible = true
+on_poke = false
+offset = Vector2(0, 14)
+from_scale = Vector2(0.97, 0.97)
+pivot = Vector2(0.5, 1)
+seconds = 0.24
+curve = 2
+
+[node name="Margin" type="MarginContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="Box/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PortraitFrame" type="PanelContainer" parent="Box/Margin/HBox"]
+custom_minimum_size = Vector2(124, 124)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("portrait_frame")
+
+[node name="Portrait" parent="Box/Margin/HBox/PortraitFrame" instance=ExtResource("3_portrait")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(118, 118)
+layout_mode = 2
+
+[node name="HalleyPortrait" parent="Box/Margin/HBox/PortraitFrame" instance=ExtResource("4_halley")]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(118, 118)
+layout_mode = 2
+
+[node name="Body" type="VBoxContainer" parent="Box/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Box/Margin/HBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Box/Margin/HBox/Body/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 15
+text = "Pipoca"
+
+[node name="Role" type="Label" parent="Box/Margin/HBox/Body/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "TY_PROF_PILOT"
+text_overrun_behavior = 3
+
+[node name="Mood" type="PanelContainer" parent="Box/Margin/HBox/Body/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="MoodText" type="Label" parent="Box/Margin/HBox/Body/Head/Mood"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "Moral 72"
+
+[node name="Text" type="Label" parent="Box/Margin/HBox/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_filter = 0
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 18
+text = "TY_DLG_HI_1"
+autowrap_mode = 3
+
+[node name="Choices" type="HFlowContainer" parent="Box/Margin/HBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="ChoiceTemplate" type="Button" parent="Box/Margin/HBox/Body/Choices"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_DLG_ASK_FEEL"
+
+[node name="Foot" type="HBoxContainer" parent="Box/Margin/HBox/Body"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Note" type="Label" parent="Box/Margin/HBox/Body/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_DLG_NOTE_HINT"
+autowrap_mode = 3
+
+[node name="EscHint" type="Label" parent="Box/Margin/HBox/Body/Foot"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "ESC"
+
+[node name="CwButtons" type="Node" parent="Box"]
+script = ExtResource("6_buttons")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.04, 1.04)
+glow = 1.08

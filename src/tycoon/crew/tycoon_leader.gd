@@ -246,11 +246,12 @@ static func nearest_variant(body: Color) -> int:
 
 
 # ------------------------------------------------------------ looks
-## Dresses a Cometling as a staff member: the leader gets their own colours and hat, anyone
-## else their variant colours and no hat (a creature reused for another member loses it).
+## Dresses a Cometling as a staff member: the leader and the Lendas (TycoonLegends) get their
+## own colours and hat, anyone else their variant colours and no hat (a creature reused for
+## another member loses it).
 static func dress(c: Cometling, m: Dictionary) -> void:
 	var role := TycoonCrew.look_role(String(m.get("profession", "")))
-	if is_leader(m):
+	if is_leader(m) or TycoonLegends.is_legend(m):
 		apply_look(c, m, role)
 	else:
 		CometlingLooks.apply(c, int(m.get("variant", 0)), role)

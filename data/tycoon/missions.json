@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "_doc": "Shared mission vocabulary (GDD section 6). Ratios are eng/sci/ops/rel and sum to 1. compat: target id -> multiplier (1.15 great, 1.0 good, 0.75 poor); a target missing from compat is impossible for that type.",
+  "_doc": "Shared mission vocabulary (GDD section 6). Ratios are eng/sci/ops/rel and sum to 1. compat: target id -> multiplier (1.15 great, 1.0 good, 0.75 poor); a target missing from compat is impossible for that type. A target with approach_weeks (the comet) is only within reach in the campaign's last approach_weeks weeks, whatever the research.",
   "targets": [
     {"id": "suborbital", "name_key": "TY_TGT_SUBORBITAL", "era": 1},
     {"id": "leo", "name_key": "TY_TGT_LEO", "era": 1},
@@ -10,7 +10,7 @@
     {"id": "lunar_orbit", "name_key": "TY_TGT_LUNAR_ORBIT", "era": 3},
     {"id": "lunar_surface", "name_key": "TY_TGT_LUNAR_SURFACE", "era": 3},
     {"id": "lunar_pole", "name_key": "TY_TGT_LUNAR_POLE", "era": 3},
-    {"id": "comet", "name_key": "TY_TGT_COMET", "era": 5}
+    {"id": "comet", "name_key": "TY_TGT_COMET", "era": 5, "approach_weeks": 104}
   ],
   "types": [
     {"id": "sounding", "code": "SND", "name_key": "TY_MT_SOUNDING", "era": 1, "ratio": [0.40, 0.20, 0.15, 0.25], "weeks": 3, "size": 0.5,
@@ -33,7 +33,7 @@
      "compat": {"lunar_surface": 1.15, "lunar_pole": 1.0}},
     {"id": "rover", "code": "ROV", "name_key": "TY_MT_ROVER", "era": 3, "ratio": [0.35, 0.30, 0.20, 0.15], "weeks": 10, "size": 2.0,
      "compat": {"lunar_surface": 1.0, "lunar_pole": 1.15}},
-    {"id": "crewed_flight", "code": "CRW", "name_key": "TY_MT_CREWED", "era": 4, "ratio": [0.30, 0.05, 0.30, 0.35], "weeks": 10, "size": 2.0,
+    {"id": "crewed_flight", "code": "CRW", "name_key": "TY_MT_CREWED", "era": 3, "ratio": [0.30, 0.05, 0.30, 0.35], "weeks": 10, "size": 2.0,
      "compat": {"leo": 1.0, "lunar_flyby": 1.15, "lunar_orbit": 1.0}},
     {"id": "crewed_landing", "code": "CLN", "name_key": "TY_MT_CREWED_LANDING", "era": 4, "ratio": [0.30, 0.10, 0.25, 0.35], "weeks": 14, "size": 2.6,
      "compat": {"lunar_surface": 1.15, "lunar_pole": 1.0}},

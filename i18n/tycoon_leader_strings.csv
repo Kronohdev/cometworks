@@ -69,3 +69,15 @@ TY_LEADER_QUIRK_CALM_TIP,Nothing ruffles them,Nada tira do sério
 TY_LEADER_AGENCY_PREVIEW,How the rivals see you in the race,Assim os rivais veem você na corrida
 TY_LEADER_LOOK_HINT,Pick the colours and a hat,Escolha as cores e um chapéu
 TY_LEADER_WAY_HINT,"What your leader is best at, and how they act",No que seu líder é bom e como se comporta
+TY_LEADER_HAT_AVIATOR,Flight cap,Touca de aviador
+TY_LEADER_HAT_HEADSET,Headset,Fone de rádio
+TY_LEADER_HAT_GLASSES,Glasses,Óculos
+TY_LEADER_HAT_MORTARBOARD,Mortarboard,Capelo
+TY_LEADER_HAT_COIN,Coin antenna,Antena-moeda
+TY_DIFF_CAPTION,Difficulty,Dificuldade
+TY_DIFF_EASY,Easy,Fácil
+TY_DIFF_EASY_DESC,"More money, a gentler press, slower rivals.","Mais dinheiro, imprensa mais branda, rivais mais lentos."
+TY_DIFF_NORMAL,Normal,Normal
+TY_DIFF_NORMAL_DESC,The race as it was designed.,A corrida como foi pensada.
+TY_DIFF_HARD,Hard,Difícil
+TY_DIFF_HARD_DESC,"Less money, a demanding press, faster rivals.","Menos dinheiro, imprensa exigente, rivais mais rápidos."

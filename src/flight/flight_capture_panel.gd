@@ -67,13 +67,15 @@ func refresh(force := false, delta := 0.0) -> void:
 	if not has:
 		_body = -1
 		_target.visible = not _collapsed
-		_target.text = tr("FL_CAPT_NONE")
-		_target.add_theme_color_override("font_color", MarginPalette.TEXT_DIM)
+		_target.text = tr("FL_CW_CAPT_NONE")
+		_target.tooltip_text = tr("FL_CAPT_NONE")
+		_target.add_theme_color_override("font_color", CwPalette.TEXT_DIM)
 		return
 	_target.visible = true
+	_target.tooltip_text = ""
 	var b: int = tg["body"]
 	var sys := world.sys
-	_target.add_theme_color_override("font_color", FlightMap.SOI_COLORS.get(sys.ids[b], MarginPalette.DATA_5))
+	_target.add_theme_color_override("font_color", FlightMapStyle.on_paper(FlightMap.STYLE.soi_color(sys.ids[b])))
 	var eta := float(tg["t_enter"]) - world.time
 	if eta > 1.0:
 		_target.text = tr("FL_CAPT_TARGET") % [sys.display_name(b), FlightMap.fmt_eta(eta)]
@@ -119,7 +121,7 @@ func _plan() -> void:
 	var res := world.plan_capture(_pe.value * 1000.0, _ap.value * 1000.0, inc)
 	if not res["ok"]:
 		_result.text = tr(res["msg"])
-		_result.add_theme_color_override("font_color", MarginPalette.DANGER)
+		_result.add_theme_color_override("font_color", CwPalette.DANGER)
 	else:
 		var ap: float = res["ap"]
 		var txt := tr("FL_CAPT_RESULT") % [FlightHUD.fmt_speed(res["dv_corr"]), FlightHUD.fmt_speed(res["dv_capt"])]
@@ -128,7 +130,7 @@ func _plan() -> void:
 		if res["msg"] != "":
 			txt += "\n" + tr(res["msg"])
 		_result.text = txt
-		_result.add_theme_color_override("font_color", MarginPalette.SUCCESS if res["msg"] == "" else MarginPalette.WARNING)
+		_result.add_theme_color_override("font_color", CwPalette.SUCCESS if res["msg"] == "" else CwPalette.WARNING)
 		if res.get("first") != null and map_view != null:
 			map_view.select_node(res["first"])
 		world.hud.toast(tr("FL_CAPT_DONE") % res["nodes"].size(), MarginPalette.SUCCESS)

@@ -227,7 +227,7 @@ func _rivals_month() -> void:
 			push = float(rdata.get("push_last_year", 1.6))
 		var chance := float(rdata.get("attempt_base", 0.12)) * float(p.get("capacity", 1.0)) * float(p.get("pace", 1.0)) \
 			* (float(p.get("crewed_mult", 1.0)) if crewed else 1.0) / maxf(float(m.get("difficulty", 1.0)), 0.1) \
-			* (1.0 + float(rdata.get("elastic", 0.5)) * lag) * push
+			* (1.0 + float(rdata.get("elastic", 0.5)) * lag) * push * TycoonDifficulty.factor(s, "rival_speed")
 		if rng.randf() >= chance:
 			continue
 		var fail := float(rdata.get("fail_base", 0.5)) * (1.0 - float(p.get("reliability", 0.8))) * float(p.get("boldness", 1.0))
@@ -236,6 +236,7 @@ func _rivals_month() -> void:
 			var months := rng.randi_range(int(sb[0]), int(sb[1]))
 			st["cooldown"] = months
 			st["fails"] = int(st["fails"]) + 1
+			_leader_says(id, "FAIL")   # under the headline line (pushed first)
 			s.news.push_front({"key": "TY_RACE_NEWS_FAIL", "args": [agency_name(id), m["name_key"]]})
 			rival_failed.emit(id, String(m["id"]))
 			# a spectacular miss on a milestone nobody holds yet makes the front page (once a year at most)
@@ -305,7 +306,7 @@ func claim(milestone_id: String, by: String) -> bool:
 	var share := 1.0 if order == 0 else float(mdata.get("second_share", 0.3))
 	if by == PLAYER:
 		var half := 1.0 if order == 0 else 0.5
-		s.cash += float(m.get("prize", 0)) * share
+		s.cash += float(m.get("prize", 0)) * share * TycoonDifficulty.factor(s, "income")
 		s.reputation = clampf(s.reputation + float(m.get("rep", 0)) * half, 0.0, 100.0)
 		s.hype = clampf(s.hype + float(m.get("hype", 0)) * half, 0.0, 100.0)
 	else:
@@ -313,6 +314,11 @@ func claim(milestone_id: String, by: String) -> bool:
 			if String(r["id"]) == by:
 				r["capacity"] = float(r.get("capacity", 1.0)) * (1.0 + float(rdata.get("growth_first" if order == 0 else "growth_later", 0.03)))
 	if order == 0:
+		# a rival leader's word goes under the headline line (pushed first)
+		if by == PLAYER:
+			_leader_cheers(milestone_index(milestone_id))
+		else:
+			_leader_says(by, "FIRST")
 		s.news.push_front({"key": "TY_RACE_NEWS_FIRST", "args": [agency_name(by), m["name_key"]]})
 	else:
 		s.news.push_front({"key": "TY_RACE_NEWS_LATER", "args": [agency_name(by), m["name_key"], order + 1]})
@@ -323,6 +329,29 @@ func claim(milestone_id: String, by: String) -> bool:
 		_print_page({"kind": "first", "milestone": milestone_id, "by": by})
 	s.changed.emit()
 	return true
+
+
+## A rival's leader (TycoonLegends) has a word on the Tail Radio: "<leader>: <line>", where
+## `part` is FIRST (it took a first) or FAIL (an attempt went wrong).
+func _leader_says(rival_id: String, part: String) -> void:
+	var lid := TycoonLegends.rival_leader_id(rival_id)
+	if lid != "" and _s():
+		_s().news.push_front({"key": "TY_RACE_LEADER_SAYS", "args": [TycoonLegends.key(lid, "NAME"), TycoonLegends.key(lid, part)]})
+
+
+## The player took a first: one rival leader (in turn, by milestone) sends a word.
+func _leader_cheers(index: int) -> void:
+	var s := _s()
+	if s == null or s.rivals.is_empty():
+		return
+	var lid := TycoonLegends.rival_leader_id(String(s.rivals[posmod(index, s.rivals.size())]["id"]))
+	if lid != "":
+		s.news.push_front({"key": TycoonLegends.key(lid, "CHEER"), "args": [s.agency_name]})
+
+
+## The leader Lenda of an agency ({} for the player and rivals without one).
+func leader_of(id: String) -> Dictionary:
+	return TycoonLegends.rival_leader(id) if id != PLAYER else {}
 
 
 ## Keeps TycoonState's plain counters (state.milestones, rivals[].milestones) in step, so

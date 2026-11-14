@@ -9,11 +9,12 @@ extends Control
 ##   1 Look     body and tip colours (candy swatches), hat (icon tiles)
 ##   2 Job      profession tiles (icon, colour, favoured bar) + the founding bonus card
 ##   3 Way      strength cards and personality chips (with their emote)
-##   4 Agency   the agency's name, race colour and emblem
+##   4 Agency   the agency's name, race colour, emblem and the career's difficulty
+##              (TycoonDifficulty: Fácil / Normal / Difícil; a new career only)
 ## A summary card sums the leader up next to the big Start key. Rules and choices:
 ## TycoonLeader, data/tycoon/leader.json.
-##   mode "new"   standalone scene: Start opens the tycoon with TycoonMain.leader set (and the
-##                opening cutscene), Back returns to the main menu
+##   mode "new"   standalone scene: Start opens the tycoon with TycoonMain.leader and
+##                TycoonMain.difficulty set (and the opening cutscene), Back returns to the main menu
 ##   mode "edit"  a HUD screen (bind() is called): Save updates the campaign's leader
 ##                (profession and strength locked), Cancel goes back to the crew screen
 ## Everything visual is in the scene; swatches, tiles, cards and chips are copies of the hidden
@@ -47,6 +48,8 @@ const STAGE_ASPECT := 1.1
 var mode := "new"
 ## the leader being made (TycoonLeader.sanitize() format)
 var leader: Dictionary = {}
+## the career's difficulty (TycoonDifficulty level id); picked in mode "new" only
+var difficulty := TycoonDifficulty.NORMAL
 ## standalone: start loading the tycoon scene in the background while the player chooses
 var preload_campus := true
 ## the tab on show (0 look, 1 job, 2 way, 3 agency)
@@ -212,8 +215,16 @@ func _show_key(b: Button, on: bool) -> void:
 
 # ------------------------------------------------------------ choices
 ## Sets one option ("body", "spot", "hat", "profession", "strength", "quirk", "agency_color",
-## "emblem").
+## "emblem", or "difficulty" for the career).
 func pick(key: String, value: String) -> void:
+	if key == "difficulty":
+		if mode == "edit" or difficulty == value:
+			return
+		difficulty = TycoonDifficulty.sanitize(value)
+		if is_node_ready():
+			refresh()
+			_react("nod", "fire" if difficulty == "hard" else ("heart" if difficulty == "easy" else "star"), "content")
+		return
 	if mode == "edit" and key in ["profession", "strength"]:
 		return
 	if String(leader.get(key, "")) == value:
@@ -302,6 +313,7 @@ func _open_campus() -> void:
 		ps = load(TYCOON) as PackedScene
 	var scene := ps.instantiate()
 	scene.set("leader", leader)
+	scene.set("difficulty", difficulty)
 	scene.set("intro_cutscene", Cutscenes.OPENING)   # the story, then the campus
 	get_tree().change_scene_to_node(scene)
 
@@ -346,6 +358,8 @@ func refresh() -> void:
 	_fill_strengths(edit)
 	_fill_quirks()
 	_fill_professions(edit)
+	_fill_difficulty()
+	%Difficulty.visible = not edit   # chosen once, when the career starts
 	%JobLocked.visible = edit
 	%WayLocked.visible = edit
 	_refresh_texts()
@@ -499,6 +513,21 @@ func _fill_quirks() -> void:
 		(b.get_node("Box/Text/Tip") as Label).text = tr("TY_LEADER_QUIRK_" + id.to_upper() + "_TIP")
 		_select(b, String(leader.get("quirk", "")) == id)
 		_wire(b, "quirk")
+
+
+## The difficulty levels: copies of DiffTemplate, one per level of data/tycoon/difficulty.json.
+func _fill_difficulty() -> void:
+	var levels := TycoonDifficulty.levels()
+	var nodes := TycoonHUD._copies(%DiffTemplate, levels.size())
+	for i in levels.size():
+		var lv: Dictionary = levels[i]
+		var b := nodes[i] as Button
+		var id := String(lv["id"])
+		b.set_meta("value", id)
+		(b.get_node("Box/Name") as Label).text = tr(String(lv.get("name_key", id)))
+		(b.get_node("Box/Tip") as Label).text = tr(String(lv.get("desc_key", "")))
+		_select(b, id == difficulty)
+		_wire(b, "difficulty")
 
 
 ## One frame of the emote sheet (the bubble the Cometling pops for that emote).

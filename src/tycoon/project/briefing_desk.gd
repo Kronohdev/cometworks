@@ -98,7 +98,8 @@ static func eligible(state: TycoonState, b: Dictionary) -> bool:
 		return false
 	var ty := best_type(b)
 	var tg := best_target(b)
-	if not state.mission_type_available(ty) or not state.mission_target_available(tg):
+	if not state.mission_type_available(ty) or not state.mission_target_available(tg) \
+			or not TycoonResearch.pair_available(state, ty, tg):
 		return false
 	if ProjectRules.compat(state.mission_type(ty), tg) <= 0.0 or not RocketDesigner.reachable(state, ty, tg):
 		return false
@@ -208,7 +209,9 @@ static func make_offer(state: TycoonState, b: Dictionary, r: RandomNumberGenerat
 	var em: Array = d.get("era_mult", [1.0])
 	var step := float(d.get("round_to", 5000))
 	var reward := float(d.get("reward_base", 140000)) * float(state.mission_type(ty).get("size", 1.0)) \
-		* float(em[clampi(state.era() - 1, 0, em.size() - 1)]) * float(b.get("reward_mult", 1.0))
+		* float(em[clampi(state.era() - 1, 0, em.size() - 1)]) * float(b.get("reward_mult", 1.0)) 		* TycoonDifficulty.factor(state, "income")
+	if String(b.get("client", "")).begins_with("TY_SP_GOV"):   # a mentor's voice in the council (TycoonLegends)
+		reward *= 1.0 + TycoonLegends.mentor_effect(state, "gov_reward")
 	reward = maxf(roundf(reward / step) * step, step)
 	var est := ProjectDesk.estimate(state, ty, {}, tg)
 	var budget := float(d.get("budget_mult", 1.7)) * (float(est["total"]) + PayloadRules.cost(PayloadRules.default_payload(state, ty, tg)))
@@ -314,6 +317,6 @@ static func complete(state: TycoonState, p: MissionProject, grade: float, succes
 	out["hype"] = float(b.get("hype", 0.0)) * share
 	state.reputation = clampf(state.reputation + float(out["rep"]), 0.0, 100.0)
 	state.research_points += float(out["pp"])
-	state.hype += float(out["hype"])
+	state.hype = clampf(state.hype + float(out["hype"]), 0.0, 100.0)
 	state.news.push_front({"key": "TY_BF_NEWS_" + String(out["met"]).to_upper(), "args": [title_key(p.briefing_id)]})
 	return out

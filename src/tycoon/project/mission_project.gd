@@ -120,8 +120,10 @@ func team(state: TycoonState) -> Array[Dictionary]:
 # ------------------------------------------------------------ weekly points (GDD 6.5)
 ## Points one Cometling makes in a week on each bar with the given slider percents of phase k:
 ## 10 * (0.4 + 0.6 skill) * (0.6 + 0.4 morale) * (1 + 0.08 level) * affinity(prof, b)
-##    * focus(b, phase, sliders) * building bonus. A Cometling below 30 morale naps: 0.
-static func member_points(state: TycoonState, m: Dictionary, k: int, values: Array) -> Array[float]:
+##    * focus(b, phase, sliders) * building bonus * its specialisations' bonus on the bar (some
+## only count on this mission's type or target: pass them). A Cometling below 30 morale naps: 0.
+static func member_points(state: TycoonState, m: Dictionary, k: int, values: Array, p_type := "",
+		p_target := "") -> Array[float]:
 	var out: Array[float] = [0.0, 0.0, 0.0, 0.0]
 	var p := ProjectRules.section("points")
 	var morale := float(m.get("morale", 70.0))
@@ -138,9 +140,17 @@ static func member_points(state: TycoonState, m: Dictionary, k: int, values: Arr
 	var f := ProjectRules.focus(k, fractions_k)
 	var prof := state.profession(String(m.get("profession", "")))
 	for b in 4:
-		out[b] = base * ProjectRules.affinity(prof, ProjectRules.BARS[b], state.pdata) * f[b] \
-			* TycoonCrew.points_mult(m, ProjectRules.BARS[b])
+		var bar := ProjectRules.BARS[b]
+		var aff := ProjectRules.affinity(prof, bar, state.pdata)
+		if String(prof.get("secondary", "")) == bar:
+			aff += TycoonCrew.spec_effect(m, "secondary_affinity")  # the polymath
+		out[b] = base * aff * f[b] * TycoonCrew.points_mult(m, bar, p_type, p_target)
 	return out
+
+
+## The team's shared bonus on everyone's points (a mission director: "team_points").
+func team_mult(state: TycoonState) -> float:
+	return 1.0 + TycoonCrew.team_effect(state, staff_ids, "team_points", type_id, target_id)
 
 
 ## Ideal team size for this mission type: ceil(size * team_per_size), at least 1.
@@ -158,14 +168,24 @@ func team_efficiency(state: TycoonState) -> float:
 	return (ideal_n + (n - ideal_n) * ProjectRules.num("points", "overstaff_efficiency", 0.4)) / n
 
 
+## The boost a Cometling gets on bar b from teammates on this project (a Lenda's
+## team_points_<bar>, TycoonLegends): 1 + the sum of the others' effect.
+func member_team_mult(state: TycoonState, m: Dictionary, b: int) -> float:
+	var k := 1.0
+	for o in team(state):
+		if String(o.get("id", "")) != String(m.get("id", "")):
+			k += TycoonCrew.spec_effect(o, "team_points_" + ProjectRules.BARS[b])
+	return k
+
+
 ## Points the team would make in one week of phase k with these sliders (no side effects).
 func week_points(state: TycoonState, k: int, values: Array) -> Array[float]:
 	var out: Array[float] = [0.0, 0.0, 0.0, 0.0]
-	var eff := team_efficiency(state)
+	var eff := team_efficiency(state) * team_mult(state)
 	for m in team(state):
-		var mp := member_points(state, m, k, values)
+		var mp := member_points(state, m, k, values, type_id, target_id)
 		for b in 4:
-			out[b] += mp[b] * eff
+			out[b] += mp[b] * eff * member_team_mult(state, m, b)
 	return out
 
 
@@ -181,6 +201,18 @@ func simulate_phase(state: TycoonState, values: Array) -> MissionProject:
 	return sim
 
 
+## A copy of this project run to the end of development: the current phase with these sliders,
+## the later phases with the sliders they have now (the phase screen's work projection).
+func simulate_to_end(state: TycoonState, values: Array) -> MissionProject:
+	var sim := MissionProject.from_dict(to_dict())
+	sim.sliders[sim.phase] = [int(values[0]), int(values[1]), int(values[2])]
+	var guard := 0
+	while not sim.is_done() and guard < 1000:
+		sim.work_week(state)
+		guard += 1
+	return sim
+
+
 ## Weeks of the current phase not yet worked.
 func phase_weeks_left() -> int:
 	return maxi(ProjectRules.phase_end(weeks_total, phase) - weeks_done, 0)
@@ -193,21 +225,25 @@ func work_week(state: TycoonState) -> bool:
 	var d := ProjectRules.section("defects")
 	var week: Array[float] = [0.0, 0.0, 0.0, 0.0]
 	var removing := 0.0
+	# points that make defects: each Cometling's, less for an integration lead ("defects")
+	var defect_pts := 0.0
 	var tester := String(d.get("tester_profession", "test_technician"))
-	var eff := team_efficiency(state)
+	var eff := team_efficiency(state) * team_mult(state)
 	for m in team(state):
-		var mp := member_points(state, m, phase, values)
+		var mp := member_points(state, m, phase, values, type_id, target_id)
+		var mt := 0.0
 		for b in 4:
-			mp[b] *= eff
+			mp[b] *= eff * member_team_mult(state, m, b)
 			week[b] += mp[b]
+			mt += mp[b]
+		defect_pts += mt * maxf(1.0 + TycoonCrew.spec_effect(m, "defects"), 0.0)
 		removing += mp[ProjectRules.REL] * (float(d.get("tester_removal_mult", 2.0))
-			if String(m.get("profession", "")) == tester else 1.0)
-	var week_total := week[0] + week[1] + week[2] + week[3]
+			if String(m.get("profession", "")) == tester else 1.0) * (1.0 + TycoonCrew.spec_effect(m, "defect_removal"))
 	for b in 4:
 		pts[b] += week[b]
 	var rel_frac := fractions()[ProjectRules.REL]
 	# defeitos += 0.04 * soma(pts da semana) * (1 - 0.5 * fracao_conf)
-	defects += float(d.get("per_point", 0.04)) * week_total * (1.0 - float(d.get("rel_fraction_relief", 0.5)) * rel_frac)
+	defects += float(d.get("per_point", 0.04)) * defect_pts * (1.0 - float(d.get("rel_fraction_relief", 0.5)) * rel_frac)
 	# defeitos -= 0.10 * pts[Conf] da semana * (slider de testes ativo ? 1 : 0.3)
 	defects -= float(d.get("removal_per_rel_point", 0.10)) * removing \
 		* (1.0 if tests_active(phase, values) else float(d.get("removal_without_tests", 0.3)))
@@ -236,7 +272,8 @@ static func tests_active(k: int, values: Array) -> bool:
 # ------------------------------------------------------------ grade (GDD 6.5)
 ## Points the agency is expected to put into this kind of project now: E_era * size *
 ## (1 + 0.1 * recent projects of the same type) * (1 + 0.03 per grade point of the best
-## recent grade above 5). The expectation rises with the eras and with repeats.
+## recent grade above 5) * the difficulty's expectation factor. The expectation rises with the
+## eras and with repeats.
 static func expected_points(state: TycoonState, p_type_id: String, history: Array) -> float:
 	var g := ProjectRules.section("grade")
 	var window := int(g.get("repeat_window_weeks", 104))
@@ -250,7 +287,8 @@ static func expected_points(state: TycoonState, p_type_id: String, history: Arra
 		# the project grade, not the mission's: a rocket failure does not lower what is expected
 		best = maxf(best, ProjectDesk.project_grade(h))
 	var size := float(state.mission_type(p_type_id).get("size", 1.0))
-	return ProjectRules.expectation_era(state.era()) * size * (1.0 + float(g.get("repeat_step", 0.1)) * repeats) \
+	return ProjectRules.expectation_era(state.era()) * size * TycoonDifficulty.factor(state, "expectation") \
+		* (1.0 + float(g.get("repeat_step", 0.1)) * repeats) \
 		* (1.0 + float(g.get("best_grade_step", 0.03)) * maxf(best - float(g.get("best_grade_pivot", 5.0)), 0.0))
 
 

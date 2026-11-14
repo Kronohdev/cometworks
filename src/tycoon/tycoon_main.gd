@@ -4,8 +4,10 @@ extends Node3D
 ## camera and the HUD are authored in the scene; this script creates the campaign state and
 ## the clock, advances weeks, and routes input (speed keys, clicks on Cometlings and lots,
 ## building). The camera (src/tycoon/campus_camera.gd) does its own zoom / pan / turn.
-##   Space pause · 1 / 2 / 3 speed · click a Cometling to follow it · click a lot to see it
-##   (the camera frames it) · click empty ground or Esc to let go / close the panel
+##   Space pause · 1 / 2 / 3 speed · M the Solar System map · click a Cometling to follow it · click a lot to see it
+##   (the camera frames it) · click empty ground or Esc to let go / close the panel ·
+##   "Conversar" on the follow tag (or C) talks to the followed Cometling (TalkLayer/Dialogue);
+##   the Cometlings chat in speech bubbles on their own (ChatterLayer/Chatter)
 ## The crew comes from the existing crew roster (src/crew/), so the hangar's Cometlings are
 ## the agency's first employees.
 ## The hangar and the flight open inside this scene (Modes, TycoonModes): the campus sleeps,
@@ -19,6 +21,9 @@ extends Node3D
 ## the player's leader from the leader creator (TycoonLeader); set before the scene enters
 ## the tree, used by a new campaign only
 @export var leader: Dictionary = {}
+## the career's difficulty from the leader creator (TycoonDifficulty level id); a new campaign
+## only (a saved one keeps its own)
+@export var difficulty := "normal"
 ## the story cutscene that opens a new campaign (Cutscenes: "opening" after the leader
 ## creator, "opening_short" in fair mode; "" = none); set before the scene enters the tree
 @export var intro_cutscene := ""
@@ -35,12 +40,18 @@ var race_flow: TycoonRaceFlow
 @onready var hud: TycoonHUD = $UI/HUD
 ## the hangar and the flight inside the main mode (scenes/tycoon/integrated/tycoon_modes.tscn)
 @onready var modes: TycoonModes = get_node_or_null("Modes")
+## Vovô Edmundo's lessons (scenes/tycoon/ui/tutorial/tutorial.tscn, TycoonTutorial)
+@onready var tutorial: TycoonTutorial = get_node_or_null("TutorialLayer/Tutorial")
+## the Cometlings' speech bubbles (scenes/tycoon/talk/campus_chatter.tscn, CampusChatter)
+@onready var chatter: CampusChatter = get_node_or_null("ChatterLayer/Chatter")
+## "Conversar" with a Cometling (scenes/tycoon/talk/dialogue_box.tscn, CometlingDialogue)
+@onready var talk: CometlingDialogue = get_node_or_null("TalkLayer/Dialogue")
 
 
 func _ready() -> void:
 	state = TycoonSave.load_state(load_slot) if load_slot != "" else null
 	if state == null:
-		state = TycoonState.new_campaign(campaign_seed, _roster_staff())
+		state = TycoonState.new_campaign(campaign_seed, _roster_staff(), difficulty)
 		if not leader.is_empty():
 			TycoonLeader.found(state, leader)
 	clock = TycoonClock.new(state.rules)
@@ -55,9 +66,16 @@ func _ready() -> void:
 		hud.hangar_requested.connect(func(_lot: String) -> void:
 			hud.close_lot()
 			modes.open_project_hangar())
+		hud.solar_map_requested.connect(open_space_map)
 	var flow := ProjectFlow.new()  # mission projects: phase and review screens (E1)
 	add_child(flow)
 	flow.bind(state, clock, hud)
+	if tutorial:
+		tutorial.bind(self)
+	if chatter:
+		chatter.bind(self)
+	if talk:
+		talk.bind(self)
 	camera.tour_source = _tour_shots
 	# no camera input under a screen or while the hangar / the flight is open
 	camera.input_gate = func() -> bool: return hud.current_screen() == "" and not (modes and modes.is_open())
@@ -88,6 +106,16 @@ func _play_ending(done: Callable) -> bool:
 		return false
 	c.finished.connect(func(_skipped: bool) -> void: done.call(), CONNECT_ONE_SHOT)
 	return true
+
+
+## The Solar System map with the missions in space (M, the HUD's planet key): TycoonModes.
+func open_space_map() -> void:
+	if modes == null or modes.is_open():
+		return
+	if hud.current_screen() != "":
+		hud.close_screen()
+	hud.close_lot()
+	modes.open_space_map()
 
 
 ## The agency's first employees: the crew roster (pilots, engineers, scientists).
@@ -121,6 +149,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				clock.set_speed(2)
 			KEY_3:
 				clock.set_speed(3)
+			KEY_M:
+				open_space_map()
 			KEY_ESCAPE:
 				# Esc steps back one layer: the open screen's page (a Cometling's sheet back
 				# to the roster), the screen, the lot panel, the followed Cometling or the
@@ -143,7 +173,7 @@ func _unhandled_input(event: InputEvent) -> void:
 ## it), else empty ground (let go of the Cometling, close the panel; a double-click glides
 ## the camera there).
 func click(screen: Vector2, double := false) -> void:
-	var who := camera.pick(screen, campus.cometlings())
+	var who := camera.pick(screen, campus.cometlings() + talkers())
 	if who:
 		hud.close_lot()
 		camera.follow(who)
@@ -159,6 +189,15 @@ func click(screen: Vector2, double := false) -> void:
 			camera.glide_to_screen(screen)
 
 
+## Other nodes the player can click and talk to (group "talkers": Vovô on his bench...).
+func talkers() -> Array[Node3D]:
+	var out: Array[Node3D] = []
+	for n in get_tree().get_nodes_in_group(&"talkers"):
+		if n is Node3D and (n as Node3D).is_visible_in_tree():
+			out.append(n)
+	return out
+
+
 func _lot_size(lot_id: String) -> Vector2:
 	var n := campus.lots.get_node_or_null(lot_id)
 	return n.get_meta("size", Vector2(16, 16)) if n else Vector2(16, 16)
@@ -170,6 +209,8 @@ func _on_follow_changed(who: Node3D) -> void:
 		return
 	var m := campus.cometling_member(who)
 	var title := String(m.get("name", tr("TY_CAM_COMETLING")))
+	if m.is_empty() and who.has_meta("talk_name"):
+		title = tr(String(who.get_meta("talk_name")))
 	if TycoonLeader.is_leader(m):
 		title = tr("TY_LEADER_TAG") % title
 	var role := String(who.get("role")) if who.get("role") != null else ""
@@ -178,7 +219,7 @@ func _on_follow_changed(who: Node3D) -> void:
 		title += " · " + tr(prof_key)
 	elif role != "":
 		title += " · " + tr("ROLE_" + role.to_upper())
-	hud.show_camera_tag(tr("TY_CAM_FOLLOWING"), title, tr("TY_CAM_FOLLOW_HINT"))
+	hud.show_camera_tag(tr("TY_CAM_FOLLOWING"), title, tr("TY_CAM_FOLLOW_HINT"), talk != null and talk.can_talk(who))
 
 
 ## Footprints of the lots with something on them: follow shots keep the camera out of them.

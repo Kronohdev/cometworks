@@ -29,6 +29,11 @@ const END := ["", "", "", "n", "p", "li", "bo", "ti", "x", "mi"]
 const SUR_A := ["Star", "Moon", "Puff", "Zoom", "Glim", "Bloop", "Twink", "Pop", "Fizz", "Nova", "Orbi",
 	"Coma", "Boop", "Comet", "Luma", "Dusty"]
 const SUR_B := ["kin", "bean", "dot", "wick", "loo", "pip", "ster", "ling", "mo", "zoo", "puff", "nub"]
+## The surname parts in Portuguese (a Cometling hired while the game is in Portuguese gets a
+## Portuguese surname: "Pipocamel", "Estrelaflor"); the first name syllables fit both languages.
+const SUR_A_PT := ["Estrela", "Lua", "Pipoca", "Poeira", "Nuvem", "Bolha", "Faísca", "Pingo", "Cometa", "Órbita",
+	"Aurora", "Brilho", "Cauda", "Gelo", "Luzia", "Fagulha"]
+const SUR_B_PT := ["mel", "flor", "doce", "lume", "bela", "fofa", "zinho", "zinha", "pé", "sol", "lindo", "riso"]
 
 static var _shared: CrewRoster
 
@@ -98,9 +103,14 @@ func seed_default(n := DEFAULT_SIZE, rng_seed := 2026) -> void:
 	autosave = was
 
 
-static func generate_name(rng: RandomNumberGenerator) -> String:
+## A Cometling name: two or three syllables and a surname in the game's language ("pt" / "en";
+## empty: the current one). Both languages draw the same random numbers.
+static func generate_name(rng: RandomNumberGenerator, language := "") -> String:
+	var pt := (language if language != "" else TranslationServer.get_locale()).begins_with("pt")
 	var first := String(SYL[rng.randi() % SYL.size()]) + String(SYL[rng.randi() % SYL.size()]) + String(END[rng.randi() % END.size()])
-	var last := String(SUR_A[rng.randi() % SUR_A.size()]) + String(SUR_B[rng.randi() % SUR_B.size()])
+	var sa: Array = SUR_A_PT if pt else SUR_A
+	var sb: Array = SUR_B_PT if pt else SUR_B
+	var last := String(sa[rng.randi() % sa.size()]) + String(sb[rng.randi() % sb.size()])
 	return first.capitalize() + " " + last
 
 

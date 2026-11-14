@@ -52,6 +52,10 @@ var _side := 1.0
 var _rng := RandomNumberGenerator.new()
 var _roles := ["ground", "pilot", "engineer", "scientist"]
 var _leader_key := ""
+## held still by a conversation with the player (hold())
+var _held := false
+## spot actions that count as working (activity())
+const _WORK_ACTIONS := ["work_hammer", "work_scan", "work_type", "work_wrench", "clipboard", "carry", "think", "look_up"]
 
 
 func _ready() -> void:
@@ -89,8 +93,8 @@ func set_leader(m: Dictionary) -> void:
 	var was := _leader_key != ""
 	_leader_key = key
 	var mark := get_node_or_null("LeaderMark") as Node3D
-	if mark:
-		mark.visible = key != ""
+	if mark:   # the star is the leader's only (a Lenda wears its own look without it)
+		mark.visible = key != "" and TycoonLeader.is_leader(m)
 	var bubble := creature.get_node_or_null("Emote") as Sprite3D
 	if bubble:
 		bubble.offset = leader_emote_offset if key != "" else Vector2.ZERO
@@ -98,6 +102,41 @@ func set_leader(m: Dictionary) -> void:
 		TycoonLeader.apply_look(creature as Cometling, m)
 	elif was:
 		LeaderHat.wear(creature as Cometling, "role")
+
+
+## What it is up to (the speech bubbles and the dialogue read it, ChatterBook):
+## {"doing": "walking" | "working" | "idle" | "napping", "place": the building kind of the spot it
+## walks to or stands at ("lab", "pad"...) or the campus spot ("bench", "plaza"...), "" if none,
+## "action": the spot's action}
+func activity() -> Dictionary:
+	var place := ""
+	var key := String(_target.get("key", ""))
+	if key != "":
+		var lot := key.get_slice("/", 0)
+		if lot == "campus":
+			place = key.get_slice("/", 1).to_lower()
+		elif campus and campus.get("state") != null:
+			place = (campus.get("state") as TycoonState).lot_kind(lot)
+	var action := String(_target.get("action", ""))
+	var doing := "idle"
+	if napping:
+		doing = "napping"
+	elif not _path.is_empty():
+		doing = "walking"
+	elif action in _WORK_ACTIONS:
+		doing = "working"
+	return {"doing": doing, "place": place, "action": action}
+
+
+## Holds it where it is (on: the player talks to it) or lets it walk on.
+func hold(on: bool) -> void:
+	_held = on
+	if on and creature:
+		creature.call("set_move_velocity", Vector3.ZERO)
+
+
+func is_held() -> bool:
+	return _held
 
 
 func set_napping(on: bool) -> void:
@@ -148,6 +187,9 @@ func _process(delta: float) -> void:
 ## One simulation step (the campus runs it every frame; tests call it directly).
 func step(delta: float) -> void:
 	if creature == null or campus == null:
+		return
+	if _held:
+		creature.call("set_move_velocity", Vector3.ZERO)
 		return
 	if napping:
 		_zzz -= delta

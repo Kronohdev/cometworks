@@ -9,6 +9,7 @@ extends RefCounted
 ##   env {target: true}               the hidden environment (night, cold, low sun) is known
 ##   teams {type: {"grade", "profs" {profession: n}}}   the team of the best grade
 ##   notes [{"week", "key", "args"}]   the journal's feed, newest first
+##   study {type: tier}               mission studies of the lab (FocusStudy): tier 3 = the balance
 ##   all (bool)                       dev: everything revealed
 ##   board / taken / done             the briefing board (BriefingDesk)
 ## Techs reveal some facts early (payload.json reveal_by_tech) and Cometlings of the staff give
@@ -90,7 +91,8 @@ static func attempts(state: TycoonState, type_id: String) -> int:
 static func ratio_known(state: TycoonState, type_id: String) -> bool:
 	var j := d(state)
 	return j["all"] or attempts(state, type_id) >= int(cfg().get("reveal_ratio_after", 2)) \
-		or _tech_reveals(state, "ratio", type_id)
+		or _tech_reveals(state, "ratio", type_id) \
+		or int((j.get("study", {}) as Dictionary).get(type_id, 0)) >= FocusStudy.MAX_TIER
 
 
 ## Rating of a module flown on a type at a target: "great" | "good" | "useless" | "bad", "" unknown.
@@ -234,10 +236,14 @@ static func record(state: TycoonState, p: MissionProject, report: Dictionary, gr
 	var gname := String(state.mission_target(p.target_id).get("name_key", ""))
 	# the ideal balance of the type
 	var knew_ratio := ratio_known(state, p.type_id)
+	var focus_before := FocusStudy.tier(state, p.type_id)
 	var att: Dictionary = j["attempts"]
 	att[p.type_id] = int(att.get(p.type_id, 0)) + 1
 	if not knew_ratio and ratio_known(state, p.type_id):
 		added.append({"key": "TY_JN_NOTE_RATIO", "args": [tname]})
+	elif focus_before == 0 and FocusStudy.tier(state, p.type_id) >= 1:
+		# the first flight of a type tells which bar mattered most (FocusStudy tier 1)
+		added.append({"key": "TY_JN_NOTE_FOCUS_FLIGHT", "args": [tname]})
 	# the combo
 	var ck := key(p.type_id, p.target_id)
 	var combos: Dictionary = j["combos"]

@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="1_theme"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
 [ext_resource type="Texture2D" path="res://scenes/flight/ui/map_body.svg" id="2_icon"]
+
+[sub_resource type="StyleBoxFlat" id="label_pill"]
+content_margin_left = 7.0
+content_margin_top = 1.0
+content_margin_right = 7.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.9765, 0.9373, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+anti_aliasing = true
 
 [node name="MapMarker" type="Control"]
 layout_mode = 3
@@ -22,13 +39,13 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 12.0
+offset_left = 14.0
 offset_top = -10.0
-offset_right = 320.0
-offset_bottom = 8.0
-theme_type_variation = &"MonoLabel"
-theme_override_colors/font_outline_color = Color(0.0392, 0.0549, 0.0745, 0.9)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 12
+offset_right = 120.0
+offset_bottom = 12.0
+mouse_filter = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("label_pill")
 text = "Ap 412 km"
 vertical_alignment = 1

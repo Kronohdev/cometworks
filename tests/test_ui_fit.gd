@@ -23,11 +23,12 @@ const DOCK: Array[String] = ["crew", "research", "contracts", "finance", "race",
 ## screens that may cover the HUD (full-screen views, modals over a scrim)
 const COVER: Array[String] = ["book", "map", "newspaper", "new_project", "rocket_designer", "project_phase",
 	"design_review", "project_review", "final_score", "finale", "briefings", "payload_planner", "project_team", "journal",
-	"launch_choice"]
+	"launch_choice", "library"]
 ## screens whose detail page is checked too (open_detail(): the first item's page)
 const DETAILS: Array[String] = ["contracts", "research", "final_score", "book", "race", "map"]
 ## [screen, page] of the tabs past the first one
-const TABS: Array = [["contracts", "Signed"], ["finance", "Flow"], ["finance", "Budget"], ["settings", "Save"], ["settings", "Image"], ["settings", "Sound"]]
+const TABS: Array = [["contracts", "Signed"], ["finance", "Flow"], ["finance", "Budget"], ["settings", "Save"], ["settings", "Image"], ["settings", "Sound"],
+	["research", "Studies"]]
 ## nodes that are backdrops (they may span the whole screen, under the HUD too)
 const BACKDROPS: Array[String] = ["Scrim", "Shade", "Backdrop", "Sky", "Comet", "View"]
 
@@ -77,6 +78,7 @@ func _initialize() -> void:
 			_set_logical(logical)
 			await _frames(4)
 			await _check_hud(logical)
+			await _check_tutorial(logical)
 			for c: Dictionary in cases():
 				if _only.is_empty() or String(c["key"]) in _only:
 					await _check_screen(c, logical)
@@ -213,6 +215,11 @@ func _prepare_state() -> void:
 	var cands := TycoonCrew.candidates(s)
 	if not cands.is_empty():
 		_args["crew@cand"] = {"cand_id": String(cands[0]["id"])}
+	# a Lenda on the market (the golden card and its sheet) and a briefing a mentor comments on
+	var lg := TycoonLegends.dev_spawn(s, "mariazinha")
+	_args["crew@legend"] = {"cand_id": String(lg.get("id", ""))}
+	BriefingDesk.spawn(s, "crop_health")
+	_args["briefings@mentor"] = {"briefing_id": "crop_health"}
 	var page := {"kind": "first", "milestone": "robotic_landing", "by": "aurora", "week": s.weeks, "issue": 9}
 	_args["newspaper"] = {"page": page}
 	s.race.pending_pages.clear()
@@ -344,6 +351,16 @@ func cases() -> Array[Dictionary]:
 	out.append({"key": "race@agency", "screen": "race", "call": ["open_agency", "aurora"]})
 	out.append({"key": "race@you", "screen": "race", "call": ["open_agency", RaceDirector.PLAYER]})
 	out.append({"key": "book@card", "screen": "book", "call": ["open_first_card"]})
+	# As Lendas: the golden card's sheet, a mentor on the board, the Quem inspirou pages
+	out.append({"key": "crew@legend", "screen": "crew", "args": _args.get("crew@legend", {"tab": "hire"})})
+	out.append({"key": "briefings@mentor", "screen": "briefings", "args": _args.get("briefings@mentor", {})})
+	out.append({"key": "book@legends", "screen": "book", "page": "legends"})
+	out.append({"key": "book@legend", "screen": "book", "call": ["open_first_legend"]})
+	out.append({"key": "book@legend_rival", "screen": "book", "args": {"legend": "herschelinha"}})
+	# the phase screen with what a mission study tells (FocusStudy): arrows, the suggestion and
+	# two advice lines at tier 2, the ideal ticks and lever bands at tier 3
+	out.append({"key": "project_phase@study2", "screen": "project_phase", "args": _args.get("project_phase", {}), "study": ["demo_sat", 2]})
+	out.append({"key": "project_phase@study3", "screen": "project_phase", "args": _args.get("project_phase", {}), "study": ["demo_sat", 3]})
 	# the other tabs
 	for t: Array in TABS:
 		out.append({"key": "%s@%s" % [t[0], String(t[1]).to_lower()], "screen": t[0], "page": t[1]})
@@ -355,6 +372,9 @@ func cases() -> Array[Dictionary]:
 
 ## Opens a case's screen and waits for its transition.
 func open_case(c: Dictionary) -> bool:
+	if c.has("study"):
+		FocusStudy.studied(main.state, String(c["study"][0]))
+		(Discovery.d(main.state)["study"] as Dictionary)[String(c["study"][0])] = int(c["study"][1])
 	if not hud.open_screen(String(c["screen"]), c.get("args", {})):
 		return false
 	await _frames(2)
@@ -416,6 +436,8 @@ func _check_screen(c: Dictionary, vp: Vector2i) -> void:
 	if screen_name == "project_review":
 		_check_review(scr, tag, view)
 	hud.close_screen()
+	if c.has("study"):
+		(Discovery.d(main.state)["study"] as Dictionary).erase(String(c["study"][0]))
 	await _frames(2)
 
 
@@ -433,6 +455,36 @@ func _inside(root: Node, view: Rect2, tag: String, skip: Array = []) -> void:
 				break
 	_check(bad.is_empty(), "%s: inside the %dx%d view %s" % [tag, view.size.x, view.size.y,
 		"" if bad.is_empty() else str(bad)])
+
+
+## Vovô Edmundo's lesson bubble (src/tycoon/tutorial/tycoon_tutorial.gd) stays inside the view
+## with its longest lines, at the bottom (no target) and at the top (a target low on screen).
+func _check_tutorial(logical: Vector2i) -> void:
+	var tut := main.tutorial
+	if tut == null or (not _only.is_empty() and not "tutorial" in _only):
+		return
+	var view := Rect2(Vector2.ZERO, Vector2(logical))
+	var longest := ["", 0, 0]
+	for l: Dictionary in TutorialBook.lessons():
+		var st: Array = l.get("steps", [])
+		for i in st.size():
+			var n := tr(String(st[i].get("line", ""))).length()
+			if n > int(longest[2]):
+				longest = [String(l["id"]), i, n]
+	for case in [["campus", 0], ["campus", 7], [longest[0], longest[1]]]:
+		tut.start(String(case[0]), true)
+		while tut.is_showing() and tut.current_step() < int(case[1]):
+			if tut._typing:
+				tut.next()      # the typewriter first (off with reduced motion)
+			tut.next()
+		tut._finish_typing()
+		await _frames(3)
+		var tag := "%dx%d lesson %s step %d" % [logical.x, logical.y, case[0], int(case[1]) + 1]
+		_inside(tut.bubble, view, tag)
+		var top := (hud.get_node("TopStrip") as Control).get_global_rect()
+		_check(not top.intersects(tut.bubble.get_global_rect().grow(-2.0)), "%s: bubble clear of the top bar" % tag)
+		tut.skip()
+	await _frames(2)
 
 
 ## The review (worst-case entry, _worst_review): it really is the busy one, the panel stays

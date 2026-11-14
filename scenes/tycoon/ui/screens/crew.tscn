@@ -21,6 +21,52 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 [ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_normal.tres" id="17_gold"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_hover.tres" id="18_gold_hover"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_pressed.tres" id="19_gold_on"]
+
+[sub_resource type="StyleBoxFlat" id="gold_ring"]
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+corner_detail = 20
+shadow_color = Color(0.78, 0.55, 0.16, 1)
+shadow_offset = Vector2(0, 3)
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="gold_ribbon"]
+content_margin_left = 12.0
+content_margin_top = 2.0
+content_margin_right = 12.0
+content_margin_bottom = 3.0
+bg_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="gold_panel"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.945, 0.78, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.62, 0.18, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
 
 [sub_resource type="StyleBoxFlat" id="visor_ring"]
 bg_color = Color(0.8667, 0.8275, 1, 1)
@@ -542,7 +588,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 13
-text = "Engenheiro(a) de sistemas"
+text = "TY_PROF_SYSTEMS"
 text_overrun_behavior = 3
 
 [node name="Mood" type="HBoxContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
@@ -721,7 +767,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 16
-text = "Engenheiro(a) de sistemas"
+text = "TY_PROF_SYSTEMS"
 
 [node name="LeaderRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
 unique_name_in_owner = true
@@ -753,6 +799,38 @@ layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "TY_LEADER_EDIT"
+
+[node name="LegendRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Star" type="TextureRect" parent="Layout/Pages/Sheet/Left/VBox/LegendRow"]
+self_modulate = Color(0.85, 0.62, 0.18, 1)
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Badge" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LegendRow"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+text = "TY_LEG_RIBBON"
+
+[node name="WhoInspired" type="Button" parent="Layout/Pages/Sheet/Left/VBox/LegendRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+tooltip_text = "TY_LEG_WHO_OPEN_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_LEG_WHO_OPEN"
 
 [node name="CardLook" type="Label" parent="Layout/Pages/Sheet/Left/VBox"]
 unique_name_in_owner = true
@@ -1019,7 +1097,7 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
-text = "Livre para entrar num projeto."
+text = "TY_CREW_LINE_IDLE"
 autowrap_mode = 3
 
 [node name="Sep2" type="HSeparator" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
@@ -1066,7 +1144,47 @@ text = "TY_CREW_HIRED"
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
-text = "Equipe fundadora"
+text = "TY_CREW_FOUNDER"
+
+[node name="LegendSpec" type="PanelContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("gold_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/LegendSpec"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/LegendSpec/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+text = "TY_LEG_SPEC_CAPTION"
+
+[node name="LegendSpecName" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/LegendSpec/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 20
+text = "Asas do 14-Bis"
+autowrap_mode = 3
+
+[node name="LegendSpecDesc" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/LegendSpec/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "30% menos risco em voos tripulados."
+autowrap_mode = 3
+
+[node name="LegendWay" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/LegendSpec/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Elegante até de macacão."
+autowrap_mode = 3
 
 [node name="SpecSection" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 unique_name_in_owner = true
@@ -1107,7 +1225,7 @@ text = "Grau I · nível 3"
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
-text = "Ainda não escolhida"
+text = "TY_CREW_SPEC_EMPTY"
 
 [node name="Desc" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 custom_minimum_size = Vector2(300, 0)
@@ -1127,7 +1245,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme_override_font_sizes/font_size = 13
-text = "Garimpeiro(a) de dados"
+text = "TY_CREW_SPEC_DATA_MINER"
 clip_text = true
 
 [node name="History" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
@@ -1334,7 +1452,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 13
-text = "Piloto"
+text = "ROLE_PILOT"
 
 [node name="Level" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
 layout_mode = 2
@@ -1361,6 +1479,166 @@ layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "2 traços escondidos"
+horizontal_alignment = 1
+
+[node name="LegendCandTemplate" type="Button" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(250, 360)
+layout_mode = 2
+tooltip_text = "TY_CREW_CAND_OPEN_TIP"
+focus_mode = 0
+theme_override_styles/normal = ExtResource("17_gold")
+theme_override_styles/hover = ExtResource("18_gold_hover")
+theme_override_styles/pressed = ExtResource("19_gold_on")
+theme_override_styles/hover_pressed = ExtResource("19_gold_on")
+theme_override_styles/focus = ExtResource("18_gold_hover")
+
+[node name="Box" type="VBoxContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = -14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Ribbon" type="PanelContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("gold_ribbon")
+
+[node name="Text" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Ribbon"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.8235, 0.3608, 1)
+theme_override_font_sizes/font_size = 12
+text = "TY_LEG_RIBBON"
+horizontal_alignment = 1
+
+[node name="Visor" type="Control" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+custom_minimum_size = Vector2(112, 112)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("gold_ring")
+
+[node name="Fallback" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Visor"]
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Name" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "Kotimi Starnub"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Prof" type="HBoxContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Bulb" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Prof"]
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+custom_minimum_size = Vector2(13, 13)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box/Prof"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 13
+text = "Piloto"
+
+[node name="Spec" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+theme_override_font_sizes/font_size = 15
+text = "★ Asas do 14-Bis"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Level" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "Nível 2 · 140 XP"
+horizontal_alignment = 1
+
+[node name="Ask" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "5 200 cr / mês"
+horizontal_alignment = 1
+
+[node name="Fee" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Taxa de contratação 12 000 cr"
+horizontal_alignment = 1
+
+[node name="Once" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/LegendCandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+text = "Só uma vez · sai em 6 sem"
 horizontal_alignment = 1
 
 [node name="EmptyMarket" type="Label" parent="Layout/Pages/Hire/VBox"]

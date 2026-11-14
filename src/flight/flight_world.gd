@@ -23,6 +23,15 @@ extends Node3D
 ## menu's and the report's hangar keys become "End and back to the campus" / "Finish the
 ## mission" (exit_requested "done" with the last report, or "cancel" before liftoff). A
 ## mission in FlightSession.mission puts its payload_kg on the rocket.
+##
+## Two more embedded modes for the tycoon's missions in space (SpaceTracking, src/tycoon/tracking/):
+##   `spectator`  the player watches: no steering, no staging, no report screen; whoever hosts it
+##                drives the flight (set_autopilot, force_failure, kick, assist_orbit) and the
+##                camera, the map and time warp stay free. The pause menu's hangar key leads out
+##                (exit_requested "done").
+##   `map_only`   the solar-system map alone: the rocket stays still on the pad (hidden on the
+##                map), the map is always on, the HUD panels are off, `clock_source` gives the
+##                time (the campus calendar) and Esc (or M) leads out (exit_requested "done").
 
 signal flight_ended(report: Dictionary)
 ## Embedded only: "restart" (fly again), "hangar" (back to the hangar), "done" (a mission
@@ -65,6 +74,12 @@ const DEBRIS_RANGE := 40000.0
 @export var embedded := false
 ## A piloted mission launch (embedded): no reverts; the way out finishes the mission.
 @export var mission_mode := false
+## Embedded: the player only watches (the launch watch, following a craft); see the class notes.
+@export var spectator := false
+## Embedded: only the map, driven by `clock_source`; see the class notes.
+@export var map_only := false
+## map_only: returns the mission time (s) to show each frame (the campus clock)
+var clock_source := Callable()
 ## prints per-frame timings of the main loop (debug)
 @export var profile := false
 var _prof := [0, 0, 0, 0, 0]
@@ -201,6 +216,10 @@ func _ready() -> void:
 		set_autopilot(true)
 	if embedded and mission_mode:
 		_setup_mission_hud()
+	if spectator:
+		_setup_spectator_hud()
+	if map_only:
+		_setup_map_only()
 	_place_world()
 	var goal := String(FlightSession.mission.get("goal", ""))
 	if mission_mode and goal != "":
@@ -227,8 +246,37 @@ func _reset_stats() -> void:
 	events.clear()
 
 
+## Spectator: nothing to fly; the pause menu's hangar key goes back to whoever hosts it.
+func _setup_spectator_hud() -> void:
+	for n in ["%BtnRevertLaunch", "%BtnRLaunch"]:
+		var b := hud.get_node_or_null(n) as Control
+		if b:
+			b.visible = false
+	var out := hud.get_node_or_null("%BtnRevertHangar") as Button
+	if out:
+		out.text = tr("TY_TRK_BACK_CAMPUS")
+	var hint := hud.get_node_or_null("%Hint") as Label
+	if hint:
+		hint.text = tr("TY_TRK_PAD_HINT")
+
+
+## Map only: the map on, the flight panels off, the rocket off the map.
+func _setup_map_only() -> void:
+	map.show_vessel = false
+	set_map(true)
+	if hud.hud_visible:
+		hud.toggle_hud()
+
+
 # ------------------------------------------------------------ input
 func _unhandled_input(event: InputEvent) -> void:
+	if map_only:
+		if map.handle_input(event):
+			return
+		var key := event as InputEventKey
+		if key and key.pressed and not key.echo and key.keycode in [KEY_ESCAPE, KEY_BACKSPACE, KEY_M]:
+			exit_requested.emit("done", {})
+		return
 	if ended and not (event is InputEventKey):
 		return
 	if not map_view and cam.handle_input(event):
@@ -238,6 +286,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
 	var k := event as InputEventKey
+	if spectator and ended and k.keycode in [KEY_ESCAPE, KEY_BACKSPACE]:
+		exit_requested.emit("done", _last_report)   # nothing left to watch: out
+		return
 	match k.keycode:
 		KEY_ESCAPE, KEY_BACKSPACE:
 			toggle_pause()
@@ -246,6 +297,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_F1:
 			hud.toggle_help()
 	if paused or ended:
+		return
+	if spectator and not k.keycode in [KEY_M, KEY_PERIOD, KEY_COMMA]:
 		return
 	match k.keycode:
 		KEY_SPACE:
@@ -288,6 +341,9 @@ func _read_flight_keys(delta: float) -> void:
 		return
 	if scripted_input != Vector3.ZERO:
 		active.input = scripted_input
+		return
+	if spectator:
+		active.input = Vector3.ZERO
 		return
 	var u := Vector3.ZERO
 	if Input.is_physical_key_pressed(KEY_W):
@@ -523,7 +579,9 @@ func revert_to_launch() -> void:
 
 func revert_to_hangar() -> void:
 	if embedded:
-		if mission_mode:
+		if spectator or map_only:
+			exit_requested.emit("done", _last_report)
+		elif mission_mode:
 			finish_mission()
 		else:
 			exit_requested.emit("hangar", _last_report)
@@ -544,6 +602,8 @@ func finish_mission() -> void:
 
 
 func _on_hud_action(what: String) -> void:
+	if spectator and what in ["stage", "sas", "prograde", "retrograde", "auto", "end", "revert_launch", "continue"]:
+		return
 	match what:
 		"resume":
 			if paused:
@@ -585,7 +645,10 @@ func _process(delta: float) -> void:
 	delta = minf(delta, 0.1)
 	var t0 := Time.get_ticks_usec()
 	_read_flight_keys(delta)
-	if not paused and not ended:
+	if map_only:
+		if clock_source.is_valid():
+			time = float(clock_source.call())
+	elif not paused and not ended:
 		_update_warp_to(delta)
 		_simulate(delta)
 		_update_nodes()
@@ -727,9 +790,10 @@ func _track_stats(dt: float) -> void:
 		if float(el["pe_alt"]) > ORBIT_PE:
 			_orbit_announced = true
 			_log("EV_ORBIT", {"ap": el["ap_alt"], "pe": el["pe_alt"]})
-			get_tree().create_timer(5.0).timeout.connect(func() -> void:
-				if not ended and _orbit_announced:
-					end_flight("orbit"))
+			if not spectator:
+				get_tree().create_timer(5.0).timeout.connect(func() -> void:
+					if not ended and _orbit_announced:
+						end_flight("orbit"))
 	_sample_timer -= dt if dt > 0.0 else 0.5
 	if launched and _sample_timer <= 0.0:
 		_sample_timer = 1.0
@@ -789,7 +853,8 @@ func end_flight(result: String) -> void:
 	report["dv_left"] = dv_left
 	report["reached_moon"] = _visited.has(sys.moon)
 	_last_report = report
-	hud.show_report(report)
+	if not spectator:
+		hud.show_report(report)
 	flight_ended.emit(report)
 
 
@@ -1234,6 +1299,43 @@ func _update_sky_bodies(cam_earth: PackedFloat64Array) -> void:
 	var mag := clampf(1.0 + 2.5 * (dist - 3.0e7) / 3.5e8, 1.0, 3.5)
 	var ang := asin(clampf(sys.radius[sys.moon] / maxf(dist, sys.radius[sys.moon] * 1.0001), 0.0, 1.0)) * mag
 	sky.set_bodies(sd, md / dist, minf(ang, 1.5))
+
+
+# ------------------------------------------------------------ spectator hooks
+## Spectator: the scripted failure of a watched launch (the vessel breaks up as in a crash).
+func force_failure(reason := "CRASH_AERO") -> void:
+	if active.crashed or not launched:
+		return
+	active._crash(reason)
+
+
+## True once the vessel is in a stable orbit around the Earth (the "orbit reached" event).
+func in_orbit() -> bool:
+	return _orbit_announced
+
+
+## Spectator: an impulsive burn of `dv` (m/s, PCI axes) on the active vessel (a departure burn).
+func kick(dv: Vector3) -> void:
+	var r := active.body.pos()
+	var v := active.body.vel()
+	active.body.set_state(r, PackedFloat64Array([v[0] + dv.x, v[1] + dv.y, v[2] + dv.z]))
+	active.prev.copy_from(active.body)
+	_traj_dirty = true
+
+
+## Spectator: a vessel that cannot make orbit by itself (out of propellant) is put on a circular
+## orbit where it is, at least `min_alt` high, so a watched success still ends in orbit.
+func assist_orbit(min_alt := 160000.0) -> void:
+	var r := active.body.pos()
+	var rn := FlightOrbit.length(r)
+	var up := Vector3(r[0], r[1], r[2]) / rn
+	var rr := maxf(rn, sys.radius[soi] + min_alt)
+	var n := (_pad_up.cross(_east)).normalized()
+	var vdir := n.cross(up).normalized()
+	var vc := sqrt(sys.mu[soi] / rr)
+	set_orbit_state(soi, FlightOrbit.scaled(PackedFloat64Array([up.x, up.y, up.z]), rr),
+		PackedFloat64Array([vdir.x * vc, vdir.y * vc, vdir.z * vc]))
+	active.throttle = 0.0
 
 
 ## Test / tool hook: puts the active vessel on a given state around a body (no launch).

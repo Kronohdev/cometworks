@@ -375,7 +375,8 @@ func _sync_crowd() -> void:
 		w.visible = true
 		w.set_process(true)
 		w.call("set_napping", bool(by_id[id].get("napping", false)))
-		w.call("set_leader", by_id[id] if TycoonLeader.is_leader(by_id[id]) else {})   # look + star
+		# the leader's look + star; a Lenda's own look (no star)
+		w.call("set_leader", by_id[id] if TycoonLeader.is_leader(by_id[id]) or TycoonLegends.is_legend(by_id[id]) else {})
 	_crowd_synced = true
 
 

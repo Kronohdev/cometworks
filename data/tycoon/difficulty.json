@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "_doc": "Difficulty levels (GDD section 16.4), chosen in the leader creator when a career starts and kept in the save (old saves: normal). One table scales the campaign: start_cash (the starting capital), income (the government's yearly budget, contract and briefing rewards, race prizes), expectation (the points the press expects of a project, MissionProject.expected_points) and rival_speed (the rivals' monthly attempt chance, RaceDirector; the GDD appendix C: x0.8 on the easy level, x1.2 on the hard one). Read by src/tycoon/tycoon_difficulty.gd. Texts: name_key and desc_key in i18n/tycoon_leader_strings.csv.",
+  "default": "normal",
+  "levels": [
+    {"id": "easy", "name_key": "TY_DIFF_EASY", "desc_key": "TY_DIFF_EASY_DESC",
+     "start_cash": 1.4, "income": 1.15, "expectation": 0.8, "rival_speed": 0.8},
+    {"id": "normal", "name_key": "TY_DIFF_NORMAL", "desc_key": "TY_DIFF_NORMAL_DESC",
+     "start_cash": 1.0, "income": 1.0, "expectation": 1.0, "rival_speed": 1.0},
+    {"id": "hard", "name_key": "TY_DIFF_HARD", "desc_key": "TY_DIFF_HARD_DESC",
+     "start_cash": 0.8, "income": 0.9, "expectation": 1.15, "rival_speed": 1.2}
+  ]
+}

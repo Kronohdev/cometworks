@@ -10,15 +10,20 @@ extends Control
 ##             to unlock them)
 ##   Card      one card: year, mission type, title, fact and its NASA source (cards without a
 ##             checked source never appear)
+##   Legends   "Quem inspirou": one golden card per Lenda (TycoonLegends), the ones not met yet
+##             locked with the era they come in
+##   Legend    one Lenda: portrait, name, role and way of being, and the box with the real person
+##             it homages, one or two plain facts and the sources; then what it does in the game
 ## Visuals live in the scene; rows and cards are copies of its hidden templates.
 
 var state: TycoonState
 var clock: TycoonClock
 var hud: TycoonHUD
-## the page last asked for with show_page() ("missions" | "cards")
+## the page last asked for with show_page() ("missions" | "cards" | "legends")
 var page := "missions"
 var _mission := {}
 var _card := {}
+var _legend := ""
 
 @onready var pages: CwPageStack = %Pages
 
@@ -27,6 +32,8 @@ func _ready() -> void:
 	%Back.pressed.connect(close)
 	%MissionsTile.pressed.connect(func() -> void: show_page("missions"))
 	%CardsTile.pressed.connect(func() -> void: show_page("cards"))
+	%LegendsTile.pressed.connect(func() -> void: show_page("legends"))
+	%Studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_portraits())
 	pages.page_changed.connect(func(_p: StringName, _d: int) -> void: refresh())
 
 
@@ -45,12 +52,20 @@ func close() -> void:
 		queue_free()
 
 
-## Opens a category's list: "missions" (the archive) or "cards" (the encyclopedia).
+## args: {"legend": id} opens that Lenda's "Quem inspirou" card (the crew sheet, the board).
+func open_with(args: Dictionary) -> void:
+	if args.has("legend"):
+		show_page("legends")
+		open_legend(String(args["legend"]))
+
+
+## Opens a category's list: "missions" (the archive), "cards" (the encyclopedia) or "legends"
+## (Quem inspirou).
 func show_page(p: String) -> void:
 	page = p
 	if pages.depth() > 0:
 		pages.back_to(0)
-	pages.push(&"Cards" if p == "cards" else &"Missions")
+	pages.push({"cards": &"Cards", "legends": &"Legends"}.get(p, &"Missions"))
 	refresh()
 
 
@@ -78,6 +93,25 @@ func open_mission(a: Dictionary) -> void:
 	refresh()
 
 
+## The first Lenda's card the agency has met (tests, dev menu).
+func open_first_legend() -> void:
+	if state == null:
+		return
+	for c in TycoonLegends.cards(state):
+		if c["unlocked"]:
+			show_page("legends")
+			open_legend(String(c["id"]))
+			return
+
+
+func open_legend(id: String) -> void:
+	if TycoonLegends.legend(id).is_empty():
+		return
+	_legend = id
+	pages.push(&"Legend", TycoonLegends.name_text(id))
+	refresh()
+
+
 func open_card(c: Dictionary) -> void:
 	_card = c
 	pages.push(&"Card", tr("TY_ENC_%s_TITLE" % String(c["id"]).to_upper()))
@@ -97,6 +131,10 @@ func refresh() -> void:
 			_fill_cards()
 		&"Card":
 			_fill_card_page(_card)
+		&"Legends":
+			_fill_legends()
+		&"Legend":
+			_fill_legend_page(_legend)
 
 
 # ------------------------------------------------------------ shelf
@@ -122,6 +160,11 @@ func _fill_shelf() -> void:
 	for c in cards:
 		on += 1 if c["unlocked"] else 0
 	%CardsCount.text = tr("TY_BOOK_CARDS_COUNT") % [on, cards.size()]
+	var met := 0
+	var legends := TycoonLegends.cards(state)
+	for c in legends:
+		met += 1 if c["unlocked"] else 0
+	%LegendsCount.text = tr("TY_BOOK_LEGENDS_COUNT") % [met, legends.size()]
 
 
 # ------------------------------------------------------------ archive
@@ -283,3 +326,85 @@ func _fill_card_page(c: Dictionary) -> void:
 	%CSource.uri = url
 	%CSource.tooltip_text = url
 	%CSource.visible = url != ""
+
+
+# ------------------------------------------------------------ Quem inspirou (TycoonLegends)
+func _fill_legends() -> void:
+	var list := TycoonLegends.cards(state)
+	var met := 0
+	for c in list:
+		met += 1 if c["unlocked"] else 0
+	%LegendCount.text = tr("TY_BOOK_LEGENDS_COUNT") % [met, list.size()]
+	# the ones met first, in the data's order (hires, mentors, rival leaders)
+	var shown: Array = list.filter(func(c: Dictionary) -> bool: return c["unlocked"])
+	shown.append_array(list.filter(func(c: Dictionary) -> bool: return not c["unlocked"]))
+	var nodes := TycoonHUD._copies(%LegendTemplate, shown.size())
+	for i in shown.size():
+		_fill_legend_card(nodes[i] as Button, shown[i])
+	_fill_portraits()
+
+
+func _fill_legend_card(n: Button, c: Dictionary) -> void:
+	var id := String(c["id"])
+	var on: bool = c["unlocked"]
+	var v := n.get_node("VBox")
+	(v.get_node("Top/Kind") as Label).text = tr("TY_LEG_KIND_" + String(c["kind"]).to_upper())
+	(v.get_node("Top/Era") as Label).text = "E%d" % int(c["era"])
+	(v.get_node("Name") as Label).text = TycoonLegends.name_text(id) if on else tr("TY_LEG_LOCKED")
+	(v.get_node("Real") as Label).text = tr(TycoonLegends.key(id, "REAL")) if on else tr("TY_LEG_ARRIVES") % int(c["era"])
+	n.disabled = not on
+	n.tooltip_text = tr("TY_BOOK_OPEN_LEGEND_TIP") if on else tr("TY_LEG_LOCKED_TIP")
+	n.modulate = Color.WHITE if on else Color(1, 1, 1, 0.55)
+	n.set_meta("legend", id)
+	n.set_meta("look", TycoonLegends.look(id) if on else {})
+	if not n.has_meta("wired"):
+		n.set_meta("wired", true)
+		n.pressed.connect(func() -> void: open_legend(String(n.get_meta("legend"))))
+
+
+## Portraits from the scene's studio: the cards of the Lendas met, and the open card's.
+func _fill_portraits() -> void:
+	if state == null:
+		return
+	for n in %LegendTemplate.get_parent().get_children():
+		if not n.has_meta("from_template"):
+			continue
+		var lk: Dictionary = n.get_meta("look", {})
+		var tex := %Studio.portrait(lk) as Texture2D if not lk.is_empty() else null
+		(n.get_node("VBox/Visor/Portrait") as TextureRect).texture = tex
+		(n.get_node("VBox/Visor/Fallback") as Control).visible = tex == null
+	if _legend != "":
+		var big := %Studio.portrait(TycoonLegends.look(_legend)) as Texture2D
+		%LPortrait.texture = big
+		%LFallback.visible = big == null
+
+
+func _fill_legend_page(id: String) -> void:
+	if id == "":
+		return
+	var l := TycoonLegends.legend(id)
+	var real: Dictionary = l.get("real", {})
+	%LName.text = TycoonLegends.name_text(id)
+	%LRole.text = tr(TycoonLegends.key(id, "ROLE"))
+	%LWay.text = tr(TycoonLegends.key(id, "WAY"))
+	%LReal.text = tr(TycoonLegends.key(id, "REAL"))
+	%LYears.text = String(real.get("years", ""))
+	%LYears.visible = %LYears.text != ""
+	%LFact.text = tr(TycoonLegends.key(id, "FACT"))
+	if TycoonLegends.is_original(id):
+		%LNote.text = tr("TY_LEG_ORIGINAL")
+	elif TycoonLegends.is_living(id):
+		%LNote.text = tr("TY_LEG_LIVING")
+	else:
+		%LNote.text = tr("TY_LEG_HOMAGE")
+	var urls := TycoonLegends.sources(id)
+	var links := TycoonHUD._copies(%LSourceTemplate, urls.size())
+	for i in urls.size():
+		var b := links[i] as LinkButton
+		var url := String(urls[i])
+		b.text = tr("TY_LEG_SOURCE") % url.get_slice("//", 1).get_slice("/", 0).trim_prefix("www.")
+		b.uri = url
+		b.tooltip_text = url
+	%LSpec.text = tr(TycoonLegends.key(id, "SPEC"))
+	%LSpecDesc.text = tr(TycoonLegends.key(id, "SPEC_DESC"))
+	_fill_portraits()

@@ -3,6 +3,7 @@
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/payload_planner_screen.gd" id="1_scr"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_project_steps.tscn" id="steps"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
@@ -97,7 +98,7 @@ theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 3
 horizontal_alignment = 2
-text = "Prove there is water in the Moon's dark craters."
+text = "TY_BF_LUNAR_ICE_GOAL"
 
 [node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
 unique_name_in_owner = true
@@ -108,6 +109,11 @@ theme_type_variation = &"CwKey"
 size_flags_vertical = 0
 tooltip_text = "TY_PJ_CANCEL"
 text = "×"
+
+[node name="StepBar" parent="Panel/Margin/VBox" instance=ExtResource("steps")]
+layout_mode = 2
+size_flags_horizontal = 0
+current = 2
 
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -202,7 +208,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 15
 text_overrun_behavior = 3
-text = "Spectrometer"
+text = "TY_PL_M_SPECTROMETER"
 
 [node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row/Names"]
 layout_mode = 2
@@ -295,7 +301,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 15
 text_overrun_behavior = 3
-text = "Spectrometer"
+text = "TY_PL_M_SPECTROMETER"
 
 [node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row/Names"]
 layout_mode = 2
@@ -388,7 +394,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 15
 text_overrun_behavior = 3
-text = "Spectrometer"
+text = "TY_PL_M_SPECTROMETER"
 
 [node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row/Names"]
 layout_mode = 2
@@ -481,7 +487,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 15
 text_overrun_behavior = 3
-text = "Spectrometer"
+text = "TY_PL_M_SPECTROMETER"
 
 [node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row/Names"]
 layout_mode = 2

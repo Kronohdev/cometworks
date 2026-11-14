@@ -42,8 +42,7 @@ static func _store(key: String, value: Variant) -> void:
 ## Applies the saved options (first run: the system language if it is Portuguese, else English).
 static func apply() -> void:
 	var cfg := _cfg()
-	var sys := "pt" if OS.get_locale_language() == "pt" else "en"
-	TranslationServer.set_locale(String(cfg.get_value(SECTION, "locale", sys)))
+	TranslationServer.set_locale(saved_locale())
 	if bool(cfg.get_value(SECTION, "fullscreen", false)) != is_fullscreen():
 		_set_window_fullscreen(bool(cfg.get_value(SECTION, "fullscreen", false)))
 	apply_audio()
@@ -56,6 +55,13 @@ static func apply_audio() -> void:
 	for bus: String in BUS_KEYS:
 		var key: String = BUS_KEYS[bus]
 		_set_bus(bus, float(cfg.get_value(SECTION, key, VOLUME_DEFAULTS[key])))
+
+
+## The language chosen in the options ("pt" / "en"); first run: the system language if it is
+## Portuguese, else English. The hangar and the flight opened on their own use it too.
+static func saved_locale() -> String:
+	var sys := "pt" if OS.get_locale_language() == "pt" else "en"
+	return String(_cfg().get_value(SECTION, "locale", sys))
 
 
 static func locale() -> String:

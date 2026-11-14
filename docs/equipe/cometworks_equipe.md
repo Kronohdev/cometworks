@@ -303,7 +303,7 @@ Uma barra de 25% ou mais na proporção da missão pede alguém da profissão de
 
 ## Especializações
 
-No **nível 3** e no **nível 5** o Cometinho escolhe uma especialização, passando 2 semanas no centro de treinamento (nível 1 do centro para a primeira, nível 2 para a segunda) e custando um salário.
+No **nível 3** e no **nível 5** o Cometinho escolhe uma especialização, passando 2 semanas no centro de treinamento (nível 1 do centro para a primeira, nível 2 para a segunda) e custando um salário. As especializações que uma pesquisa abre só aparecem depois dela (a ficha avisa: "A pesquisa abre mais: ..."), e as da pesquisa tardia servem nos dois graus, para os veteranos também poderem aprender.
 
 | Grau | Especialização | Para quem | Efeito |
 | --- | --- | --- | --- |
@@ -325,6 +325,13 @@ No **nível 3** e no **nível 5** o Cometinho escolhe uma especialização, pass
 | 2 | Incansável | qualquer | o excesso de trabalho começa 4 semanas depois |
 | 2 | Otimista incorrigível | qualquer | falhas abalam a moral pela metade |
 | 2 | Polímata | qualquer | afinidade da barra secundária de 0,4 para 0,7 |
+| 1 ou 2 | Médico(a) de voo | Cientista, Controlador(a) | 40% menos risco para a tripulação nos voos tripulados em que trabalha (pesquisa Suporte de vida) |
+| 1 ou 2 | Caminhante lunar | Piloto | nos pousos tripulados: +25% de pontos e 30% menos risco para a tripulação (pesquisa Módulo de pouso tripulado) |
+| 1 ou 2 | Navegador(a) de cometas | Controlador(a), Piloto | nas missões ao cometa: +25% de pontos e +30% de downlink (pesquisa Encontro com cometa) |
+| 1 ou 2 | Minerador(a) de gelo | Cientista, Eng. de sistemas | +25% de pontos nas missões ISRU, +15% em qualquer missão ao polo lunar (pesquisa Extração de gelo) |
+| 2 | Diretor(a) de missão | qualquer | +10% de pontos para todos no mesmo projeto (pesquisa Automação de missões) |
+
+Os efeitos moram em `data/tycoon/crew.json` e cada um chega a uma regra de verdade: pontos e defeitos no projeto, risco da tripulação e confiabilidade na Revisão de projeto, downlink e ciência na operação. Um efeito pode valer só num tipo de missão (`points_crewed_landing`), num destino (`points_comet`) ou em qualquer alvo lunar (`points_sci_lunar`).
 
 ## As Lendas
 
@@ -850,7 +857,7 @@ O bloco **O que este voo ensinou** lista até cinco lições, sempre concretas: 
 
 | Entra | Como |
 | --- | --- |
-| Orçamento do governo | todo começo de ano, a partir do ano 2: base da era (400 mil, 900 mil, 1,8 mi, 3,2 mi, 5 mi) × (0,5 + reputação/100) × (1 + 5% por marco conquistado) |
+| Orçamento do governo | todo começo de ano, a partir do ano 2: base da era (400 mil, 900 mil, 1,6 mi, 2,4 mi, 3,2 mi; × a receita da dificuldade) × (0,5 + reputação/100) × (1 + 5% por marco conquistado) |
 | Contratos e pedidos | pagamento na entrega, bônus por nota |
 | Doações do público | todo mês, hype × 400 cr (o hype cai 3% ao mês) |
 | Licenças de tecnologia | venda de tecnologia às rivais |
@@ -1336,7 +1343,7 @@ fonte: Ficha "Rosetta e Philae" · jpl.nasa.gov (pouso do Philae)
 destino: Cometa Mãe-Gelo (ideal)
 missao: Missão ao cometa (ideal)
 leva: Câmera, Espectrômetro e Broca ("ver, entender e tocar")
-cuidado: O pedido ensina o ambiente do cometa: Sol fraco, frio e escuro, como o Philae descobriu. Leve RTG ou aquecimento, e o refletor grande: o cometa está a 4,5 milhões de km. Precisa da pesquisa Encontro com cometa e tem que dar certo antes do fim do ano 25.
+cuidado: O pedido ensina o ambiente do cometa: Sol fraco, frio e escuro, como o Philae descobriu. Leve RTG ou aquecimento, e o refletor grande: o cometa está a 4,5 milhões de km. Precisa da pesquisa Encontro com cometa, só abre nos dois últimos anos (quando a Mãe-Gelo chega perto) e tem que dar certo antes do fim do ano 25.
 :::
 
 ### Um pedido novo para discutir
@@ -1391,10 +1398,10 @@ Seis tecnologias por era, em nove ramos. Dá para pesquisar uma era à frente da
 | 3 | Rede de espaço profundo | Comunicação | 360 PP · 8 sem | refletor grande, retransmissor; Mestre de antenas; downlink +25% |
 | 3 | Radar de gelo | Instrumentos | 380 PP · 8 sem | polo lunar (e o ambiente dele); radar; altímetro a laser |
 | 3 | Mobilidade de rovers | Estruturas | 440 PP · 9 sem | Rover; Especialista lunar |
-| 3 | Complexo de pesquisa | Operações | 340 PP · 8 sem | pesquisa +15%; +1 contrato simultâneo; revela Orbitador e Pousador |
+| 3 | Cápsula tripulada | Tripulação | 380 PP · 8 sem | Voo tripulado (órbita baixa; para ir além, Suporte de vida) |
 | 4 | Motores a hidrogênio | Propulsão | 620 PP · 10 sem | Hidra-68 e Hidra-5 |
-| 4 | Cápsula tripulada | Tripulação | 650 PP · 10 sem | Voo tripulado |
-| 4 | Suporte de vida | Tripulação | 580 PP · 10 sem | especialização Médico(a) de voo |
+| 4 | Complexo de pesquisa | Operações | 520 PP · 9 sem | pesquisa +15%; +1 contrato simultâneo; revela Orbitador e Pousador |
+| 4 | Suporte de vida | Tripulação | 580 PP · 10 sem | voos tripulados à Lua; especialização Médico(a) de voo |
 | 4 | Cápsula de retorno | Estruturas | 600 PP · 10 sem | Retorno de amostra |
 | 4 | Energia de radioisótopos | Energia | 560 PP · 10 sem | RTG; revela o ambiente da superfície lunar |
 | 4 | Módulo de pouso tripulado | Tripulação | 720 PP · 11 sem | Pouso tripulado; Caminhante lunar |
@@ -1726,10 +1733,10 @@ No fim, o apêndice com os atalhos do menu de dev, que salva vidas na hora de te
 | Prioridade | Item | O que significa |
 | --- | --- | --- |
 | 1 | Build jogável | exportar para Windows, testar em máquinas que não são as nossas, salvamentos prontos no começo de cada era para a apresentação |
-| 2 | Balanceamento | uma campanha inteira jogada de ponta a ponta, no modo feira e no normal |
+| 2 | Balanceamento | primeira rodada feita com a simulação (abaixo); falta jogar à mão e decidir as perguntas |
 | 3 | Lendas no jogo | contratações lendárias, mentores e líderes rivais (abaixo) |
 | 4 | Hangar e voo | passar o hangar e o voo para o visual de adesivo e ligar com o tycoon |
-| 5 | Ideias do GDD | multijogador no mesmo computador, níveis de dificuldade e mais pedidos Space Apps |
+| 5 | Ideias do GDD | multijogador no mesmo computador e mais pedidos Space Apps (os níveis de dificuldade já entraram) |
 
 ## As Lendas no jogo
 
@@ -1745,18 +1752,46 @@ Um caminho possível, que aproveita o que já existe:
 
 ## Balanceamento
 
-O que a gente já sabe que precisa olhar:
+A primeira rodada foi feita com `tests/sim_campaign.gd`: um robô joga campanhas inteiras de 25 anos pelos mesmos comandos das telas (pesquisa, prédios, contratação, especializações, contratos, pedidos, projetos com sliders, empréstimos) e imprime dinheiro por era, expectativa da imprensa contra os pontos das equipes, os marcos das rivais e o tempo do modo feira. São quatro jogadores: **bom** (até 3 projetos, os melhores sliders), **mediano** (até 2, sliders razoáveis), **feira** (um projeto por vez, só age quando o jogo pausaria) e **moedor** (pega todo contrato que paga, para achar exploits). Roda com `godot --headless --path . --script res://tests/sim_campaign.gd -- seeds=4 bots=average,fair diff=normal`.
 
-- **Ritmo das eras.** As eras andam pelo calendário (uma a cada cinco anos). Os marcos "Primeiro Cometinho no espaço" e "em órbita" são da era 2, mas a Cápsula tripulada é pesquisa da era 4: hoje o jogador só alcança esses marcos bem depois das rivais. Decidir se isso é intencional (as rivais ousadas chegam antes) ou se a cápsula desce para a era 2 ou 3.
-- **Dinheiro.** Os pedidos pagam 1,5× mais desde a última rodada, para os primeiros cobrirem o próprio custo. Conferir se a era 1 continua apertada sem virar sufoco.
-- **Expectativa da imprensa.** A curva por era (60, 140, 260, 420, 600 pontos) contra o tamanho das equipes que dá para ter.
-- **Rivais.** A Aurora falha em 37,5% das tentativas: divertido ou frustrante? O Quietude chega ao cometa antes de jogadores medianos?
-- **Modo feira.** Uma campanha inteira cabe numa apresentação? Cronometrar.
-- **Especializações sem efeito.** Médico(a) de voo, Caminhante lunar, Navegador(a) de cometas, Minerador(a) de gelo e Diretor(a) de missão já têm nome e pesquisa, mas ainda não têm efeito em `crew.json`.
+O que mudou, e por quê:
+
+- **Ritmo das eras.** A Cápsula tripulada desceu para a era 3 (pesquisável a partir da era 2, depois do Estágio superior): o jogador mediano agora pega "Primeiro Cometinho no espaço" e "em órbita" no ano 8 a 10, perto das rivais (ano 8), e não mais no ano 12 a 15. Voos tripulados à Lua pedem Suporte de vida (era 4), então o sobrevoo tripulado continua sendo coisa da era 4. O Complexo de pesquisa foi para a era 4 para manter seis tecnologias por era. O código conta cinco anos por era (1 a 5, 6 a 10, ...); o GDD fala em 1 a 4, 5 a 9, ... com seis anos na última. Mantivemos cinco: 25 anos fecham certinho.
+- **A Mãe-Gelo.** Antes, o jogador encontrava o cometa no ano 17 a 19, sem corrida nenhuma. Agora o cometa só fica ao alcance nos últimos dois anos (`approach_weeks` em `missions.json`), com uma notícia quando chega perto. O jogador mediano chega no ano 24; o Quietude chega no ano 25 em 1 a 3 de cada 4 campanhas, mas não passou na frente de um jogador mediano.
+- **Expectativa da imprensa.** A curva era 60, 140, 260, 420, 600: uma equipe ideal fazia só 25% a 35% do esperado nas eras 4 e 5, as notas caíam para 4 e a reputação ia a zero. Agora é **60, 140, 200, 260, 320**: a equipe ideal fica perto de 65% a 85% do esperado em todas as eras.
+- **Hype.** O hype não tinha teto nos lançamentos e passava de 300, e as doações (400 cr por ponto por mês) viravam uma máquina de dinheiro para quem lançava sondagens sem parar. Agora fica entre 0 e 100, como a corrida já fazia. O moedor, que antes terminava a era 1 com 2,8 mi, agora quebra: lançar 90 sondagens por era não paga mais.
+- **Orçamento do governo nas eras finais.** Com a reputação saudável, o dinheiro sobrava demais no fim (100 mi no ano 25). O orçamento das eras 3 a 5 baixou de 1,8 / 3,2 / 5 mi para 1,6 / 2,4 / 3,2 mi por ano. Ainda sobra (o mediano termina com 60 a 70 mi): fica como pergunta abaixo.
+- **Especializações sem efeito.** Médico(a) de voo, Caminhante lunar, Navegador(a) de cometas, Minerador(a) de gelo e Diretor(a) de missão ganharam efeito (tabela do capítulo 3). E várias especializações antigas que só tinham texto (Mãos firmes, Líder de integração, Caçador(a) de defeitos, Especialista lunar, Garimpeiro(a) de dados, Mestre de antenas, Especialista em criogenia, Polímata) agora mexem nas regras de verdade.
+- **Dificuldade.** Fácil, Normal e Difícil na aba Agência do criador de líder (só numa carreira nova; o modo feira joga no Normal). Uma tabela, `data/tycoon/difficulty.json`, escala caixa inicial, receitas, expectativa da imprensa e velocidade das rivais (×0,8 e ×1,2, como no apêndice do GDD). Fica no salvamento; salvamentos antigos jogam no Normal.
+
+Números da simulação (4 campanhas por jogador, mediana):
+
+| | Antes | Depois |
+| --- | --- | --- |
+| Caixa do mediano no fim de cada era | 1,5 / 3,3 / 5,9 / 4,9 / 13,8 mi | 1,4 / 3,5 / 13,4 / 34,8 / 66,6 mi |
+| Reputação do mediano no fim das eras 3, 4 e 5 | 48 / 0 / 1 | 97 / 86 / 47 |
+| Pontos ÷ esperado (mediano), eras 1 a 5 | 0,77 / 0,65 / 0,33 / 0,20 / 0,15 | 0,79 / 0,75 / 0,65 / 0,47 / 0,39 |
+| Primeiro Cometinho no espaço (mediano) | ano 12 | ano 8 |
+| Encontro com a Mãe-Gelo (mediano) | ano 17 | ano 24 |
+| Falhas da Aurora | 40% das tentativas | 34% a 45% (o mesmo 37,5% de projeto) |
+| Pontuação final (mediano, Fácil / Normal / Difícil) | 917 (Normal) | 1115 / 1116 / 1017 |
+
+**Modo feira.** O relógio sozinho já dá 1.300 s (21,7 min). O robô da feira faz uns 65 projetos, e cada projeto custa umas 4 a 5 paradas (escolher, três fases, revisão, lançamento): a estimativa fica em 2 h 15. Para caber em 40 a 60 minutos, quem apresenta pode fazer uns 20 projetos, ou começar de um salvamento de era.
+
+Perguntas para o time:
+
+- A Aurora falha em 37,5% das tentativas (na prática 34% a 45%, porque o elástico a faz tentar mais quando está atrás). Divertido nas manchetes; frustrante nunca, porque a falha só atrasa ela.
+- As rivais parecem lentas contra um jogador competente: o mediano termina em primeiro em todas as campanhas no Normal e o robô bom pega 12 a 15 marcos. O Difícil (rivais ×1,2) aperta, mas talvez o Normal mereça rivais um pouco mais rápidas.
+- O dinheiro do fim ainda sobra muito (o placar só conta até 5 mi). Baixar mais o orçamento das eras 4 e 5, ou dar onde gastar (prédios de nível 4, megaprojetos)?
+- A equipe sobe de nível rápido: média de nível 5 já na era 2. Talvez 150 de XP por nível depois do 3.
+- Uma agência no vermelho pode ficar anos assim, emprestando de novo. O GDD fala em falência possível no Difícil.
+- O modo feira não corta nada do jogo: dá para reduzir as paradas (manter os sliders da fase anterior, revisão automática) se a apresentação precisar.
 
 ## Hangar e voo
 
-O hangar de montagem e o voo com mapa e cônicas vêm do MARGIN, o projeto de onde o Cometworks nasceu. O tycoon já usa a matemática deles (Δv, catálogo de peças, mapa do sistema solar), mas a visita ao hangar e o "assumir o voo" ainda são separados do tycoon e usam o visual antigo, escuro. O passe de interface leva os dois para o papel creme com bolinhas, e o próximo passo é poder abrir uma família no hangar e pilotar uma inserção a partir de uma missão.
+O hangar de montagem e o voo com mapa e cônicas vêm do MARGIN, o projeto de onde o Cometworks nasceu. O tycoon usa a matemática deles (Δv, catálogo de peças, mapa do sistema solar), e os dois agora abrem dentro do campus: o hangar monta o foguete de uma missão e "Pilotar o lançamento" leva esse foguete à plataforma.
+
+O voo pilotado também ganhou o papel creme com bolinhas. À esquerda fica o cartão da missão (o que alcançar, uma barrinha de progresso e um "Faça agora" com uma instrução simples para cada momento do voo) e o painel de voo com números grandes: altitude, velocidade, o Δv que sobra nos tanques contra o que a missão ainda pede, e os pontos mais alto e mais baixo da órbita. Os estágios são adesivos coloridos com o combustível de cada um, e a tecla de estágio diz o que vai acontecer ("Ignição!", "Soltar estágio"). Na primeira vez, balõezinhos de dica mostram a alavanca do motor, a ignição, a curva para o leste, a hora de soltar um estágio vazio e o mapa; o jogo lembra quais já foram vistas (dá para revê-las pelo F1). O mapa tem cônicas em cores de bala num céu azul-marinho macio, com etiquetas de papel em linguagem simples ("Mais alto", "Encontra a Lua"), e o fim do voo é um cartão calmo que, numa missão, devolve o jogador para a avaliação no campus.
 
 ## Build jogável
 
@@ -1765,6 +1800,14 @@ O hangar de montagem e o voo com mapa e cônicas vêm do MARGIN, o projeto de on
 - Salvamentos de demonstração no começo de cada era.
 - Português e inglês conferidos tela por tela.
 - Um roteiro de apresentação de cinco minutos, com os atalhos abaixo à mão.
+
+Como está hoje:
+
+- **Exportar.** O `export_presets.cfg` já tem o preset "Windows Desktop" (release, nome Cometworks, ícone do projeto, sem `tests/`, `docs/`, `tools/` e o addon do editor). Falta só instalar os modelos de exportação do Godot 4.6.3 (no editor: Editor › Gerenciar modelos de exportação › Baixar e instalar; o editor .NET procura em `export_templates/4.6.3.stable.mono`). Depois: `godot --headless --path . --export-release "Windows Desktop" ../MARGIN-build/Cometworks.exe`.
+- **Menu de dev.** Só existe no editor e em builds de debug (`OS.is_debug_build()`); a exportação release sai sem ele. O `tests/test_dev_menu.gd` confere.
+- **Demonstração.** O menu principal tem a entrada **Demonstração**, com uma campanha pronta no começo de cada era e um começo no modo feira (`data/demo_saves/`). Elas saem de uma campanha jogada de verdade por um piloto automático; depois de mudar regras, dados ou o formato do save, gere de novo com `godot --headless --path . --script res://tools/make_demo_saves.gd` e confira com `tests/test_demo_saves.gd`.
+- **Português e inglês.** O `tests/test_i18n.gd` confere todas as chaves dos CSVs, das cenas, dos scripts e dos dados, e abre o menu, o criador de líder, todas as telas do campus e o hangar nas duas línguas procurando chave crua, texto em inglês na tela em português (e o contrário) e sobrenome de Cometinho em inglês.
+- **Roteiro.** Em `docs/roteiro_apresentacao.md`.
 
 ## Apêndice: menu de dev
 

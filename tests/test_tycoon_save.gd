@@ -84,7 +84,30 @@ func _initialize() -> void:
 	_check(TycoonSave.list().size() >= 1 and TycoonSave.has_any(), "list() sees the save")
 	_check(TycoonSave.latest_slot() != "", "latest_slot() for Continue")
 	_check(TycoonSave.load_state("nope") == null, "a missing slot loads null")
+	_difficulty()
 	_end()
+
+
+## The career's difficulty (TycoonDifficulty): saved, loaded, and Normal for saves without it.
+func _difficulty() -> void:
+	var staff: Array[Dictionary] = [{"name": "A", "role": "engineer", "level": 1}]
+	var n := TycoonState.new_campaign(7, staff)
+	var h := TycoonState.new_campaign(7, staff, "hard")
+	var e := TycoonState.new_campaign(7, staff, "easy")
+	_check(n.difficulty == "normal" and h.difficulty == "hard" and e.difficulty == "easy", "a campaign keeps its difficulty")
+	_check(h.cash < n.cash and e.cash > n.cash, "the difficulty scales the starting cash (%d / %d / %d)" % [e.cash, n.cash, h.cash])
+	TycoonSave.save(h, SLOT)
+	var l := TycoonSave.load_state(SLOT)
+	_check(l != null and l.difficulty == "hard", "the difficulty survives save and load")
+	var old := n.to_dict()
+	old.erase("difficulty")
+	_check(TycoonState.from_dict(old).difficulty == "normal", "an old save without a difficulty plays on Normal")
+	var odd := n.to_dict()
+	odd["difficulty"] = "impossible"
+	_check(TycoonState.from_dict(odd).difficulty == "normal", "an unknown difficulty falls back to Normal")
+	var main := (load("res://scenes/tycoon/tycoon_main.tscn") as PackedScene).instantiate()
+	_check("difficulty" in main, "the tycoon scene takes the difficulty from the leader creator")
+	main.free()
 
 
 func _end() -> void:

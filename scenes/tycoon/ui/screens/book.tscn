@@ -12,8 +12,49 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="10_planet"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_right.svg" id="11_right"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="12_star"]
+[ext_resource type="Shader" path="res://ui/cometworks/visor_mask.gdshader" id="13_mask"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_portrait_studio.tscn" id="14_studio"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_normal.tres" id="15_gold"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_hover.tres" id="16_gold_hover"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_gold_pressed.tres" id="17_gold_on"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+
+[sub_resource type="ShaderMaterial" id="visor_mat"]
+shader = ExtResource("13_mask")
+
+[sub_resource type="StyleBoxFlat" id="gold_ring"]
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 24
+shadow_color = Color(0.78, 0.55, 0.16, 1)
+shadow_offset = Vector2(0, 4)
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="who_box"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+bg_color = Color(1, 0.945, 0.78, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.62, 0.18, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
 
 [node name="OpsBook" type="Control"]
 layout_mode = 3
@@ -98,11 +139,11 @@ metadata/title = "TY_BOOK_SHELF"
 
 [node name="Tiles" type="HBoxContainer" parent="Frame/VBox/Pages/Shelf"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 28
 
 [node name="MissionsTile" type="Button" parent="Frame/VBox/Pages/Shelf/Tiles"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(420, 300)
+custom_minimum_size = Vector2(380, 300)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = ExtResource("6_tile")
@@ -160,7 +201,7 @@ autowrap_mode = 3
 
 [node name="CardsTile" type="Button" parent="Frame/VBox/Pages/Shelf/Tiles"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(420, 300)
+custom_minimum_size = Vector2(380, 300)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = ExtResource("6_tile")
@@ -213,6 +254,64 @@ layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 14
 text = "TY_BOOK_CARDS_NOTE"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LegendsTile" type="Button" parent="Frame/VBox/Pages/Shelf/Tiles"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 300)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("15_gold")
+theme_override_styles/hover = ExtResource("16_gold_hover")
+theme_override_styles/pressed = ExtResource("17_gold_on")
+theme_override_styles/hover_pressed = ExtResource("17_gold_on")
+theme_override_styles/focus = ExtResource("16_gold_hover")
+
+[node name="Box" type="VBoxContainer" parent="Frame/VBox/Pages/Shelf/Tiles/LegendsTile"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Frame/VBox/Pages/Shelf/Tiles/LegendsTile/Box"]
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("12_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Frame/VBox/Pages/Shelf/Tiles/LegendsTile/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_BOOK_LEGENDS"
+horizontal_alignment = 1
+
+[node name="LegendsCount" type="Label" parent="Frame/VBox/Pages/Shelf/Tiles/LegendsTile/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "4 de 19 Lendas"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Frame/VBox/Pages/Shelf/Tiles/LegendsTile/Box"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "TY_BOOK_LEGENDS_HINT"
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -665,6 +764,363 @@ theme_override_font_sizes/font_size = 15
 text = "Fonte: nasa.gov"
 underline = 1
 
+[node name="Legends" type="VBoxContainer" parent="Frame/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+metadata/title = "TY_BOOK_LEGENDS"
+
+[node name="Info" type="HBoxContainer" parent="Frame/VBox/Pages/Legends"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LegendCount" type="Label" parent="Frame/VBox/Pages/Legends/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "4 de 19 Lendas"
+
+[node name="Note" type="Label" parent="Frame/VBox/Pages/Legends/Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"CwDim"
+text = "TY_BOOK_LEGENDS_HINT"
+text_overrun_behavior = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/Pages/Legends"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Pad" type="MarginContainer" parent="Frame/VBox/Pages/Legends/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Grid" type="HFlowContainer" parent="Frame/VBox/Pages/Legends/Scroll/Pad"]
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+
+[node name="LegendTemplate" type="Button" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(230, 196)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("15_gold")
+theme_override_styles/hover = ExtResource("16_gold_hover")
+theme_override_styles/pressed = ExtResource("17_gold_on")
+theme_override_styles/hover_pressed = ExtResource("17_gold_on")
+theme_override_styles/focus = ExtResource("16_gold_hover")
+theme_override_styles/disabled = ExtResource("6_tile")
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = -14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Top" type="HBoxContainer" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Kind" type="Label" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+theme_override_font_sizes/font_size = 12
+text = "CONTRATAÇÃO LENDÁRIA"
+text_overrun_behavior = 3
+
+[node name="Era" type="Label" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox/Top"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "E2"
+
+[node name="Visor" type="Control" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("gold_ring")
+
+[node name="Fallback" type="TextureRect" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox/Visor"]
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -22.0
+offset_right = 22.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 17
+text = "Albertinho Dumontinho"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Real" type="Label" parent="Frame/VBox/Pages/Legends/Scroll/Pad/Grid/LegendTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Alberto Santos-Dumont"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Legend" type="CenterContainer" parent="Frame/VBox/Pages"]
+visible = false
+layout_mode = 2
+metadata/title = "TY_BOOK_LEGEND"
+
+[node name="LSheet" type="PanelContainer" parent="Frame/VBox/Pages/Legend"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(980, 0)
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="HBox" type="HBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="Who" type="VBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Visor" type="Control" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who"]
+custom_minimum_size = Vector2(190, 190)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("gold_ring")
+
+[node name="LFallback" type="TextureRect" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who/Visor"]
+unique_name_in_owner = true
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LPortrait" type="TextureRect" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who/Visor"]
+unique_name_in_owner = true
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="LName" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "Albertinho Dumontinho"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LRole" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+text = "Piloto lendário"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="LWay" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Who"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "Elegante até de macacão."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Facts" type="VBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="WhoBox" type="PanelContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("who_box")
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+text = "TY_LEG_WHO"
+
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LReal" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "Alberto Santos-Dumont"
+autowrap_mode = 3
+
+[node name="LYears" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 18
+text = "1873–1932"
+
+[node name="LFact" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Fato"
+autowrap_mode = 3
+
+[node name="LNote" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_LEG_HOMAGE"
+autowrap_mode = 3
+
+[node name="LSources" type="VBoxContainer" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="LSourceTemplate" type="LinkButton" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts/WhoBox/VBox/LSources"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_colors/font_hover_color = Color(0.1843, 0.4706, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "Fonte: nasa.gov"
+underline = 1
+
+[node name="EffectCaption" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_LEG_EFFECT"
+
+[node name="LSpec" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "Asas do 14-Bis"
+autowrap_mode = 3
+
+[node name="LSpecDesc" type="Label" parent="Frame/VBox/Pages/Legend/LSheet/HBox/Facts"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+text = "30% menos risco em voos tripulados."
+autowrap_mode = 3
+
+[node name="Studio" parent="." instance=ExtResource("14_studio")]
+unique_name_in_owner = true
+
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
 backdrop = NodePath("../Backdrop")
@@ -704,6 +1160,17 @@ on_visible = true
 [node name="CwCards" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
 target = NodePath("../Frame/VBox/Pages/Cards/Scroll/Pad/Grid")
+offset = Vector2(0, 8)
+from_scale = Vector2(0.96, 0.96)
+delay = 0.12
+step = 0.03
+seconds = 0.26
+max_delay = 0.45
+on_visible = true
+
+[node name="CwLegends" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Frame/VBox/Pages/Legends/Scroll/Pad/Grid")
 offset = Vector2(0, 8)
 from_scale = Vector2(0.96, 0.96)
 delay = 0.12

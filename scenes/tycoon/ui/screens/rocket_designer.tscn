@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_project_steps.tscn" id="steps"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/rocket_designer_screen.gd" id="1_scr"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
@@ -108,11 +109,19 @@ theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "SND-02 · Sounding rocket → Suborbital"
 
-[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+[node name="TitleRow" type="HBoxContainer" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles/TitleRow"]
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 28
 text = "TY_RK_DESIGNER_TITLE"
+
+[node name="StepBar" parent="Panel/Margin/VBox/Header/Titles/TitleRow" instance=ExtResource("steps")]
+layout_mode = 2
+current = 4
 
 [node name="Hint" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
 layout_mode = 2
@@ -250,7 +259,7 @@ layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 theme_override_font_sizes/font_size = 13
-text = "It can get there"
+text = "TY_RK_REACHES"
 horizontal_alignment = 2
 
 [node name="SepL" type="HSeparator" parent="Panel/Margin/VBox/Body/Left"]
@@ -301,7 +310,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 17
-text = "Balanced"
+text = "TY_RK_PROP_BALANCED"
 
 [node name="Meta" type="Label" parent="Panel/Margin/VBox/Body/Left/Proposals/ProposalTemplate/Row/Names"]
 layout_mode = 2
@@ -415,14 +424,14 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 16
-text = "Main stage"
+text = "TY_RK_SLOT_CORE"
 custom_minimum_size = Vector2(150, 0)
 
 [node name="Desc" type="Label" parent="Panel/Margin/VBox/Body/Mid/Slots/SlotTemplate/Head"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
-text = "A small kerosene engine for sounding rockets"
+text = "TY_RK_D_CORE_KESTREL"
 size_flags_horizontal = 3
 clip_text = true
 text_overrun_behavior = 3
@@ -538,7 +547,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 theme_override_font_sizes/font_size = 18
-text = "It can get there"
+text = "TY_RK_REACHES"
 horizontal_alignment = 1
 
 [node name="Pulse" type="Node" parent="Panel/Margin/VBox/Body/Right/VerdictRow/VerdictPill/Verdict"]
@@ -720,7 +729,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
-text = "New family · first flight"
+text = "TY_RK_HERITAGE_NEW"
 
 [node name="NameRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
 layout_mode = 2

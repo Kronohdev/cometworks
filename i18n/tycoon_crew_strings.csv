@@ -124,3 +124,14 @@ TY_CREW_SPEC_OPTIMIST,Eternal optimist,Otimista incorrigível
 TY_CREW_SPEC_OPTIMIST_DESC,Failures hurt their morale half as much.,Falhas abalam a moral pela metade.
 TY_CREW_SPEC_POLYMATH,Polymath,Polímata
 TY_CREW_SPEC_POLYMATH_DESC,Better at their secondary bar (affinity 0.4 → 0.7).,"Melhor na barra secundária (afinidade 0,4 → 0,7)."
+TY_CREW_SPEC_FLIGHT_SURGEON,Flight surgeon,Médico(a) de voo
+TY_CREW_SPEC_FLIGHT_SURGEON_DESC,40% less risk to the crew on the crewed flights they work on.,40% menos risco para a tripulação nos voos tripulados em que trabalha.
+TY_CREW_SPEC_MOONWALKER,Moonwalker,Caminhante lunar
+TY_CREW_SPEC_MOONWALKER_DESC,On crewed landings: +25% points and 30% less risk to the crew.,Nos pousos tripulados: +25% de pontos e 30% menos risco para a tripulação.
+TY_CREW_SPEC_COMET_NAVIGATOR,Comet navigator,Navegador(a) de cometas
+TY_CREW_SPEC_COMET_NAVIGATOR_DESC,On missions to the comet: +25% points and +30% downlink.,Nas missões ao cometa: +25% de pontos e +30% de downlink.
+TY_CREW_SPEC_ICE_MINER,Ice miner,Minerador(a) de gelo
+TY_CREW_SPEC_ICE_MINER_DESC,"+25% points on ISRU missions, +15% on any mission to the lunar pole.","+25% de pontos nas missões ISRU, +15% em qualquer missão ao polo lunar."
+TY_CREW_SPEC_MISSION_DIRECTOR,Mission director,Diretor(a) de missão
+TY_CREW_SPEC_MISSION_DIRECTOR_DESC,+10% points for everyone on the same project.,+10% de pontos para todos no mesmo projeto.
+TY_CREW_SPEC_MORE,Research opens more: %s.,A pesquisa abre mais: %s.

@@ -1,0 +1,196 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/project/cw_project_steps.gd" id="1_steps"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+
+[node name="ProjectSteps" type="HBoxContainer"]
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("2_theme")
+theme_override_constants/separation = 8
+script = ExtResource("1_steps")
+
+[node name="Step0" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step0"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step0/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step0"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_BRIEF"
+
+[node name="Line0" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(18, 2)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 1)
+
+[node name="Step1" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step1"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step1/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step1"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_GOAL"
+
+[node name="Line1" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(18, 2)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 1)
+
+[node name="Step2" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step2"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step2/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step2"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_PAYLOAD"
+
+[node name="Line2" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(18, 2)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 1)
+
+[node name="Step3" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step3"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step3/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step3"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_TEAM"
+
+[node name="Line3" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(18, 2)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 1)
+
+[node name="Step4" type="HBoxContainer" parent="."]
+layout_mode = 2
+tooltip_text = "TY_STEP_ROCKET_TIP"
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step4"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step4/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step4"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_ROCKET"
+
+[node name="Line4" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(18, 2)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 1)
+
+[node name="Step5" type="HBoxContainer" parent="."]
+layout_mode = 2
+tooltip_text = "TY_STEP_LAUNCH_TIP"
+theme_override_constants/separation = 6
+
+[node name="Bubble" type="PanelContainer" parent="Step5"]
+custom_minimum_size = Vector2(24, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Num" type="Label" parent="Step5/Bubble"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Step5"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_STEP_LAUNCH"

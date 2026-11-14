@@ -204,7 +204,7 @@ theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
 theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 21
-text = "Seus Cometinhos encontraram a Mãe-Gelo. Eles voltaram para casa."
+text = "TY_FIN_MET"
 autowrap_mode = 3
 
 [node name="Results" type="VBoxContainer" parent="Text"]
@@ -241,7 +241,7 @@ theme_type_variation = &"CwDim"
 theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 16
-text = "encontrou o cometa"
+text = "TY_FIN_ROW_MET"
 
 [node name="When" type="Label" parent="Text/Results/ResultTemplate"]
 layout_mode = 2

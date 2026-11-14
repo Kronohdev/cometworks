@@ -192,7 +192,7 @@ theme_override_colors/font_color = Color(0.6157, 0.9412, 0.8314, 1)
 theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 0.8)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 22
-text = "Uma história dos Cometinhos"
+text = "CS_OPEN_KICKER"
 horizontal_alignment = 1
 
 [node name="CardTitle" type="Label" parent="Frame/Card"]
@@ -202,7 +202,7 @@ theme_type_variation = &"CwDisplay"
 theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 0.85)
 theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 72
-text = "A Mãe-Gelo"
+text = "CS_OPEN_TITLE"
 horizontal_alignment = 1
 autowrap_mode = 3
 

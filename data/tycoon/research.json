@@ -10,6 +10,22 @@
   "license_cr_per_pp": 500,
   "license_fraction": 0.45,
   "license_rival_capacity": 0.03,
+  "studies": {
+    "_doc": "Mission studies (src/tycoon/project/focus_study.gd): the lab learns which quality bars a mission type leans on. Tier 1: the bar that matters most and least; tier 2: each bar in words and the lever arrows of each phase; tier 3: the exact ideal (markers, lever ranges, match). A tier costs pp (x era_mult of the type's era) drawn from the PP pool before the tech (at most pp / weeks a week) and cash (x cash_era_mult) paid when it starts. One launch of a type gives tier 1 (flight_tier1); the journal's reveal (2 launches, reveal_by_tech) gives tier 3. high_at / low_at: shares called a lot / a little at tier 2; level_share: the balance tier 2 assumes for its lever arrows; arrow_up / arrow_down: best lever % that shows an up / down arrow.",
+    "tiers": [
+      {"pp": 8, "weeks": 3, "cash": 6000},
+      {"pp": 16, "weeks": 4, "cash": 12000},
+      {"pp": 28, "weeks": 6, "cash": 20000}
+    ],
+    "era_mult": [1.0, 2.5, 5.0, 8.0, 11.0],
+    "cash_era_mult": [1.0, 1.6, 2.4, 3.4, 4.5],
+    "flight_tier1": 1,
+    "high_at": 0.3,
+    "low_at": 0.15,
+    "level_share": {"high": 0.36, "mid": 0.24, "low": 0.12},
+    "arrow_up": 45,
+    "arrow_down": 20
+  },
   "branches": {
     "prop": {"name_key": "TY_BR_PROP", "color": "#ff8a3d"},
     "struct": {"name_key": "TY_BR_STRUCT", "color": "#ffc547"},
@@ -62,20 +78,20 @@
     {"id": "rover_mobility", "era": 3, "row": 4, "branch": "struct", "cost": 440, "weeks": 9, "prereq": ["space_physics", "precision_pointing"],
      "unlocks": {"types": ["rover"], "parts": ["bus_medium", "solar_wing", "battery_m"], "options": ["bus_medium"],
                  "specs": ["lunar_specialist"]}},
-    {"id": "lab_complex", "era": 3, "row": 5, "branch": "ops", "cost": 340, "weeks": 8, "prereq": ["precision_pointing"],
-     "effects": {"pp_mult": 0.15, "contract_slots": 1}},
+    {"id": "crew_capsule", "era": 3, "row": 5, "branch": "crew", "cost": 380, "weeks": 8, "prereq": ["upper_stage", "cometling_selection"],
+     "unlocks": {"types": ["crewed_flight"], "parts": ["crew_capsule", "parachute"], "options": ["capsule_1", "capsule_2"]}},
 
     {"id": "hydrolox_engines", "era": 4, "row": 0, "branch": "prop", "cost": 620, "weeks": 10, "prereq": ["lunar_stage"],
      "unlocks": {"rockets": ["core_hidra", "upper_hidra_5"], "parts": ["eng_hidra_25", "tank_hydrolox_m4", "tank_hydrolox_l8", "interstage_l", "fairing_l"], "options": ["prop_biprop"]}},
-    {"id": "crew_capsule", "era": 4, "row": 1, "branch": "crew", "cost": 650, "weeks": 10, "prereq": ["lunar_stage", "guided_descent"],
-     "unlocks": {"types": ["crewed_flight"], "parts": ["crew_capsule", "parachute"], "options": ["capsule_1", "capsule_2"]}},
+    {"id": "lab_complex", "era": 4, "row": 1, "branch": "ops", "cost": 520, "weeks": 9, "prereq": ["precision_pointing"],
+     "effects": {"pp_mult": 0.15, "contract_slots": 1}},
     {"id": "life_support", "era": 4, "row": 2, "branch": "crew", "cost": 580, "weeks": 10, "prereq": ["deep_space_network", "guided_descent"],
      "unlocks": {"options": ["life_support", "capsule_3"], "specs": ["flight_surgeon"]}},
     {"id": "sample_return_capsule", "era": 4, "row": 3, "branch": "struct", "cost": 600, "weeks": 10, "prereq": ["ice_radar", "guided_descent"],
      "unlocks": {"types": ["sample_return"], "options": ["return_capsule"]}},
     {"id": "rtg_power", "era": 4, "row": 4, "branch": "power", "cost": 560, "weeks": 10, "prereq": ["rover_mobility"],
      "unlocks": {"parts": ["rtg", "radiator", "mli_heaters"], "options": ["power_rtg", "power_lunar_night"]}},
-    {"id": "crewed_lander", "era": 4, "row": 5, "branch": "crew", "cost": 720, "weeks": 11, "prereq": ["rover_mobility", "lab_complex"],
+    {"id": "crewed_lander", "era": 4, "row": 5, "branch": "crew", "cost": 720, "weeks": 11, "prereq": ["rover_mobility", "crew_capsule"],
      "unlocks": {"types": ["crewed_landing"], "specs": ["moonwalker"]}},
 
     {"id": "vacuum_engines", "era": 5, "row": 0, "branch": "prop", "cost": 900, "weeks": 12, "prereq": ["hydrolox_engines"],

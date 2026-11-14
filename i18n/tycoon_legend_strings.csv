@@ -1,0 +1,166 @@
+keys,en,pt
+TY_LEG_NEWS_MARKET,A Legend is on the hiring market: %s! Only for a short while.,Uma Lenda chegou ao mercado de contratação: %s! Só por pouco tempo.
+TY_LEG_NEWS_HIRED,%s joins the agency with a specialisation nobody else has: %s.,%s entra na agência com uma especialização que ninguém mais tem: %s.
+TY_LEG_RIBBON,Legend,Lenda
+TY_LEG_ONCE,Only once · leaves in %d wk,Só uma vez · sai em %d sem
+TY_LEG_SPEC_CAPTION,Unique specialisation,Especialização única
+TY_LEG_WHO,Who inspired,Quem inspirou
+TY_LEG_WHO_OPEN,Who inspired ›,Quem inspirou ›
+TY_LEG_WHO_OPEN_TIP,The real person behind this Legend,A pessoa de verdade por trás desta Lenda
+TY_LEG_KIND_HIRE,Legendary hire,Contratação lendária
+TY_LEG_KIND_MENTOR,Mentor,Mentor(a)
+TY_LEG_KIND_RIVAL_LEADER,Rival leader,Líder rival
+TY_LEG_ARRIVES,Comes in era %d,Chega na era %d
+TY_LEG_LOCKED,Not met yet,Ainda não conhecida
+TY_LEG_LOCKED_TIP,Meet this Legend in the campaign to read the card,Conheça esta Lenda na campanha para ler a ficha
+TY_LEG_LIVING,"A living person: a respectful homage, facts limited to public record.","Pessoa viva: uma homenagem com respeito, só com fatos públicos e conhecidos."
+TY_LEG_HOMAGE,"A homage with respect: the Cometling is fiction, the facts on this card are real.","Uma homenagem com respeito: o Cometinho é ficção, os fatos desta ficha são reais."
+TY_LEG_ORIGINAL,An original character of the team.,Uma personagem original da equipe.
+TY_LEG_SOURCE,Source: %s,Fonte: %s
+TY_LEG_EFFECT,In the game,No jogo
+TY_LEG_MENTOR_TAG,Mentor,Mentoria
+TY_BOOK_LEGENDS,Who inspired,Quem inspirou
+TY_BOOK_LEGENDS_COUNT,%d of %d Legends,%d de %d Lendas
+TY_BOOK_LEGENDS_HINT,"The real people behind the Legends: hires, mentors and rival leaders.","As pessoas de verdade por trás das Lendas: contratações, mentores e líderes rivais."
+TY_BOOK_LEGEND,Legend,Lenda
+TY_BOOK_OPEN_LEGEND_TIP,Read who inspired this Legend,Ler quem inspirou esta Lenda
+TY_LEG_KATIA_NAME,Kátia Jonsom,Kátia Jonsom
+TY_LEG_KATIA_ROLE,Legendary flight controller,Controladora de voo lendária
+TY_LEG_KATIA_WAY,"Checks the computer's sums by hand, just in case. And her sums always match.","Confere a conta do computador à mão, só por garantia. E a conta dela sempre bate."
+TY_LEG_KATIA_SPEC,Check the numbers,Confira os números
+TY_LEG_KATIA_SPEC_DESC,+15% Operations; in the Design Review the Δv margin risk is halved on her projects.,"+15% de Operações; na Revisão de projeto, o risco de margem de Δv cai pela metade nos projetos dela."
+TY_LEG_KATIA_REAL,Katherine Johnson,Katherine Johnson
+TY_LEG_KATIA_FACT,NASA mathematician. She calculated the trajectory of Alan Shepard's 1961 flight and checked by hand the electronic computer's numbers for John Glenn's orbital flight in 1962. She also did calculations for the Apollo missions.,"Matemática da NASA, calculou a trajetória do voo de Alan Shepard, em 1961, e conferiu à mão os números do computador eletrônico para o voo orbital de John Glenn, em 1962. Também fez cálculos para as missões Apollo."
+TY_LEG_ALBERTINHO_NAME,Albertinho Dumontinho,Albertinho Dumontinho
+TY_LEG_ALBERTINHO_ROLE,Legendary pilot,Piloto lendário
+TY_LEG_ALBERTINHO_WAY,Elegant even in overalls. Invents a new hat every week and is sure everything flies: you just have to find out how.,"Elegante até de macacão. Inventa um chapéu novo por semana e tem certeza de que tudo voa, só falta descobrir como."
+TY_LEG_ALBERTINHO_SPEC,Wings of the 14-Bis,Asas do 14-Bis
+TY_LEG_ALBERTINHO_SPEC_DESC,30% less risk on crewed flights and +10% Operations for everyone on the same project.,30% menos risco em voos tripulados e +10% de Operações para quem trabalha no mesmo projeto.
+TY_LEG_ALBERTINHO_REAL,Alberto Santos-Dumont,Alberto Santos-Dumont
+TY_LEG_ALBERTINHO_FACT,"Brazilian inventor born in Minas Gerais. He first became famous flying his airships over Paris; in 1906 he flew the 14-Bis there before the public and an official commission of the Aéro-Club de France, one of the first aeroplane flights witnessed that way.","Inventor brasileiro nascido em Minas Gerais. Ficou famoso primeiro pilotando seus dirigíveis sobre Paris; em 1906, voou lá com o 14-Bis diante do público e de uma comissão oficial do Aeroclube da França, um dos primeiros voos de avião registrados assim."
+TY_LEG_CESINHA_NAME,Cesinha Latte,Cesinha Latte
+TY_LEG_CESINHA_ROLE,Legendary researcher,Pesquisador lendário
+TY_LEG_CESINHA_WAY,Spends hours over photographic plates with a magnifying glass and cheers every tiny track like a goal.,Passa horas olhando chapas fotográficas com uma lupa e comemora cada risquinho como gol.
+TY_LEG_CESINHA_SPEC,Cosmic rays,Raios cósmicos
+TY_LEG_CESINHA_SPEC_DESC,+25% research points and +20% science per data downlinked.,+25% de pontos de pesquisa e +20% de ciência por dado baixado.
+TY_LEG_CESINHA_REAL,César Lattes,César Lattes
+TY_LEG_CESINHA_FACT,"Physicist born in Curitiba. In 1947 he was part of the team that discovered the pi meson (pion), using photographic plates exposed to cosmic rays on Mount Chacaltaya, in the Bolivian Andes. He was one of the founders of the Brazilian Center for Physics Research (CBPF), and the Lattes Platform used by Brazilian researchers bears his name.","Físico nascido em Curitiba. Em 1947 fez parte da equipe que descobriu o méson pi (píon), com chapas fotográficas expostas aos raios cósmicos no monte Chacaltaya, nos Andes bolivianos. Foi um dos fundadores do Centro Brasileiro de Pesquisas Físicas, e a Plataforma Lattes, usada por pesquisadores de todo o Brasil, leva o nome dele."
+TY_LEG_VALENTINA_NAME,Valentina Tereskinha,Valentina Tereskinha
+TY_LEG_VALENTINA_ROLE,Legendary pilot · call sign “Seagull”,Piloto lendária · indicativo “Gaivota”
+TY_LEG_VALENTINA_WAY,Calls everyone by their radio call sign and hums during the countdown.,Chama todo mundo pelo indicativo de rádio e cantarola na contagem regressiva.
+TY_LEG_VALENTINA_SPEC,Seagull,Gaivota
+TY_LEG_VALENTINA_SPEC_DESC,Overwork starts 4 weeks later and crewed risk drops 20%.,O excesso de trabalho começa 4 semanas depois e o risco tripulado cai 20%.
+TY_LEG_VALENTINA_REAL,Valentina Tereshkova,Valentina Tereshkova
+TY_LEG_VALENTINA_FACT,"On 16 June 1963, aboard Vostok 6, she became the first woman in space: almost three days in orbit and 48 trips around the Earth. Her call sign was “Chaika”, seagull in Russian.","Em 16 de junho de 1963, a bordo da Vostok 6, tornou-se a primeira mulher no espaço: quase três dias em órbita e 48 voltas na Terra. O indicativo de chamada dela era “Chaika”, gaivota em russo."
+TY_LEG_PONTINHA_NAME,Marquinhos Pontinha,Marquinhos Pontinha
+TY_LEG_PONTINHA_ROLE,Legendary pilot,Piloto lendário
+TY_LEG_PONTINHA_WAY,"Disciplined, smiling and always with a little flag in his overalls pocket.","Disciplinado, sorridente e sempre com uma bandeirinha no bolso do macacão."
+TY_LEG_PONTINHA_SPEC,Centenary Mission,Missão Centenário
+TY_LEG_PONTINHA_SPEC_DESC,+15% Operations and 10% less risk on crewed flights.,+15% de Operações e 10% menos risco em voos tripulados.
+TY_LEG_PONTINHA_REAL,Marcos Pontes,Marcos Pontes
+TY_LEG_PONTINHA_FACT,"Brazilian Air Force pilot and engineer, he became the first Brazilian astronaut when he flew to the International Space Station in March 2006. The trip was named the Centenary Mission, for the 100 years of the 14-Bis flight.","Piloto da Força Aérea Brasileira e engenheiro, tornou-se o primeiro astronauta brasileiro ao voar até a Estação Espacial Internacional em março de 2006. A viagem se chamou Missão Centenário, pelos 100 anos do voo do 14-Bis."
+TY_LEG_MARIAZINHA_NAME,Mariazinha Jequi,Mariazinha Jequi
+TY_LEG_MARIAZINHA_ROLE,Legendary engineer,Engenheira lendária
+TY_LEG_MARIAZINHA_WAY,Blows her fringe up and says exactly where the air will get turbulent.,Sopra a franja para cima e diz exatamente onde o ar vai fazer turbulência.
+TY_LEG_MARIAZINHA_SPEC,Wind tunnel,Túnel de vento
+TY_LEG_MARIAZINHA_SPEC_DESC,+15% Engineering; in the Design Review the fairing and booster risks are halved on her projects.,"+15% de Engenharia; na Revisão de projeto, os riscos de coifa e de propulsores laterais caem pela metade nos projetos dela."
+TY_LEG_MARIAZINHA_REAL,Mary Jackson,Mary Jackson
+TY_LEG_MARIAZINHA_FACT,"She started as a mathematician at the Langley centre and in 1958 became NASA's first Black female engineer, studying airflow in wind tunnels. Since 2020 NASA's headquarters in Washington bears her name.","Começou como matemática no centro de Langley e, em 1958, tornou-se a primeira engenheira negra da NASA, estudando o fluxo de ar em túneis de vento. Desde 2020, a sede da NASA em Washington leva o nome dela."
+TY_LEG_MARGO_NAME,Margô Hamiltinha,Margô Hamiltinha
+TY_LEG_MARGO_ROLE,Legendary systems engineer,Engenheira de sistemas lendária
+TY_LEG_MARGO_WAY,Writes “what if it goes wrong?” lists longer than the rocket. She almost never needs them.,Escreve listas de “e se der errado?” maiores que o próprio foguete. Quase nunca precisa delas.
+TY_LEG_MARGO_SPEC,Foolproof software,Software à prova de tudo
+TY_LEG_MARGO_SPEC_DESC,30% fewer defects in her work and +10% Engineering.,30% menos defeitos no trabalho dela e +10% de Engenharia.
+TY_LEG_MARGO_REAL,Margaret Hamilton,Margaret Hamilton
+TY_LEG_MARGO_FACT,"At the MIT Instrumentation Laboratory she led the team that wrote the on-board flight software for the Apollo missions, and she helped establish the term “software engineering”. She received the Presidential Medal of Freedom in 2016.","Liderou, no Laboratório de Instrumentação do MIT, a equipe que fez o software de bordo das missões Apollo, e ajudou a firmar o termo “engenharia de software”. Recebeu a Medalha Presidencial da Liberdade em 2016."
+TY_LEG_NILO_NAME,Nilo Braçoforte,Nilo Braçoforte
+TY_LEG_NILO_ROLE,Legendary pilot,Piloto lendário
+TY_LEG_NILO_WAY,Says little and lands well. Rehearses his first step on the shed's rug.,Fala pouco e pousa bem. Ensaia o primeiro passo no tapete do galpão.
+TY_LEG_NILO_SPEC,Small step,Pequeno passo
+TY_LEG_NILO_SPEC_DESC,25% less risk on crewed flights and +10% Operations.,25% menos risco em voos tripulados e +10% de Operações.
+TY_LEG_NILO_REAL,Neil Armstrong,Neil Armstrong
+TY_LEG_NILO_FACT,"A test pilot before becoming an astronaut, he commanded Gemini 8, which made the first docking of two vehicles in space, in 1966. In July 1969, as commander of Apollo 11, he became the first person to walk on the Moon.","Piloto de testes antes de virar astronauta, comandou a Gemini 8, que fez a primeira acoplagem entre duas naves no espaço, em 1966. Em julho de 1969, como comandante da Apollo 11, foi a primeira pessoa a caminhar na Lua."
+TY_LEG_MAE_NAME,Maê Jeminha,Maê Jeminha
+TY_LEG_MAE_ROLE,Legendary scientist,Cientista lendária
+TY_LEG_MAE_WAY,"Doctor, dancer and engineer in her spare time. Takes everyone's blood pressure before launch.","Médica, dançarina e engenheira nas horas vagas. Mede a pressão de todo mundo antes do lançamento."
+TY_LEG_MAE_SPEC,Health on board,Saúde a bordo
+TY_LEG_MAE_SPEC_DESC,"Failures never shake her morale, and +10% Science.","Falhas não abalam a moral dela, e +10% de Ciência."
+TY_LEG_MAE_REAL,Mae Jemison,Mae Jemison
+TY_LEG_MAE_FACT,"Physician and engineer, she served as a Peace Corps medical officer in Sierra Leone and Liberia. In September 1992 she flew on the Space Shuttle Endeavour and became the first African-American woman in space.","Médica e engenheira, trabalhou como médica do Corpo da Paz em Serra Leoa e na Libéria. Em setembro de 1992 voou no ônibus espacial Endeavour e foi a primeira mulher afro-americana no espaço."
+TY_LEG_DORA_NAME,Dora Vonzinha,Dora Vonzinha
+TY_LEG_DORA_ROLE,Campus mentor,Mentora do campus
+TY_LEG_DORA_WAY,"When a new machine arrives she is the first to read the manual, and then she teaches the whole class.","Quando chega uma máquina nova, ela é a primeira a ler o manual, e depois dá aula para a turma toda."
+TY_LEG_DORA_SPEC,Everyone learns,Todo mundo aprende
+TY_LEG_DORA_SPEC_DESC,"+15% XP for every Cometling and specialisations take 1 week less at the training centre. When nobody has a hunch, she says which profession the job needs.","+15% de XP para todos os Cometinhos e especializações com 1 semana a menos no centro de treinamento. Quando ninguém tem palpite, ela diz que profissão o pedido pede."
+TY_LEG_DORA_HINT,Dora Vonzinha reminds you: this job wants a %s on the team; its strong point is %s.,Dora Vonzinha lembra: este pedido pede um(a) %s na equipe; o forte dele é %s.
+TY_LEG_DORA_REAL,Dorothy Vaughan,Dorothy Vaughan
+TY_LEG_DORA_FACT,"She led the West Area Computing unit at Langley and was the first Black supervisor at NACA, the agency NASA grew out of. When electronic computers arrived she learned the FORTRAN language and taught it to her colleagues.","Chefiou a unidade de cálculo West Area Computing, em Langley, e foi a primeira supervisora negra da NACA, a agência que deu origem à NASA. Quando chegaram os computadores eletrônicos, aprendeu a linguagem FORTRAN e ensinou as colegas."
+TY_LEG_BERTA_NAME,Berta Luzinha,Berta Luzinha
+TY_LEG_BERTA_ROLE,Briefing mentor,Mentora de briefing
+TY_LEG_BERTA_WAY,"Speaks softly and firmly, writes everything down and leaves nobody out of the meeting.","Fala baixo e firme, anota tudo e não deixa ninguém ficar de fora da reunião."
+TY_LEG_BERTA_SPEC,A voice in the council,Voz no conselho
+TY_LEG_BERTA_SPEC_DESC,Government contracts pay +10%; on government and Space Apps briefings she points out the bar the client values most.,"Contratos do governo pagam +10%; nos pedidos do governo e do Space Apps, ela aponta a barra que o cliente mais valoriza."
+TY_LEG_BERTA_HINT,Berta Luzinha takes notes: what this client values most is %s.,Berta Luzinha anota: o que este cliente mais valoriza é %s.
+TY_LEG_BERTA_REAL,Bertha Lutz,Bertha Lutz
+TY_LEG_BERTA_FACT,"A biologist at the Museu Nacional and a specialist in frogs, she was a central figure in the fight for women's vote in Brazil, won in 1932. In 1945, at the conference that founded the UN, she and other Latin American delegates got the equal rights of men and women written into the UN Charter.","Bióloga do Museu Nacional, especialista em anfíbios, foi uma figura central na luta pelo voto feminino no Brasil, conquistado em 1932. Em 1945, na conferência que criou a ONU, ela e outras delegadas latino-americanas puseram a igualdade de direitos entre mulheres e homens na Carta das Nações Unidas."
+TY_LEG_HALLEYZINHO_NAME,Grandpa Edmundo Halleyzinho,Vovô Edmundo Halleyzinho
+TY_LEG_HALLEYZINHO_ROLE,Story mentor,Mentor da história
+TY_LEG_HALLEYZINHO_WAY,Loses his glasses on his forehead and calls every comet “my girl”.,Perde os óculos na testa e chama todo cometa de “minha filha”.
+TY_LEG_HALLEYZINHO_SPEC,The observatory notebooks,Os cadernos do observatório
+TY_LEG_HALLEYZINHO_SPEC_DESC,On the Mother-Ice briefing he suggests the mission type.,"No pedido da Mãe-Gelo, ele sugere o tipo de missão."
+TY_LEG_HALLEYZINHO_HINT,Grandpa Halleyzinho leafs through the observatory notebooks and suggests: %s.,Vovô Halleyzinho folheia os cadernos do observatório e sugere: %s.
+TY_LEG_HALLEYZINHO_REAL,Edmond Halley,Edmond Halley
+TY_LEG_HALLEYZINHO_FACT,"He realised that the comet seen in 1531, 1607 and 1682 was the same one and predicted it would return in 1758. He died in 1742, before seeing it; the comet came back and was named after him.","Percebeu que o cometa visto em 1531, 1607 e 1682 era o mesmo e previu que ele voltaria em 1758. Morreu em 1742, antes de ver; o cometa voltou e ganhou o nome dele."
+TY_LEG_KEPLERINO_NAME,Joãozinho Keplerino,Joãozinho Keplerino
+TY_LEG_KEPLERINO_ROLE,Orbit mentor,Mentor de órbitas
+TY_LEG_KEPLERINO_WAY,Draws ellipses on any napkin and gets offended when someone calls an orbit a “circle”.,Desenha elipses em qualquer guardanapo e fica ofendido quando alguém chama órbita de “círculo”.
+TY_LEG_KEPLERINO_SPEC,Laws of the sky,Leis do céu
+TY_LEG_KEPLERINO_SPEC_DESC,On Earth orbit briefings he says which orbit suits the job.,"Nos pedidos de órbita da Terra, ele diz qual órbita combina com o pedido."
+TY_LEG_KEPLERINO_HINT,Joãozinho Keplerino draws an ellipse on a napkin: the orbit that suits this job is %s.,Joãozinho Keplerino desenha uma elipse no guardanapo: a órbita que combina com este pedido é %s.
+TY_LEG_KEPLERINO_REAL,Johannes Kepler,Johannes Kepler
+TY_LEG_KEPLERINO_FACT,"Using Tycho Brahe's measurements, he found that planets move in ellipses and sweep equal areas in equal times. He published these laws of planetary motion between 1609 and 1619.","Com as medições de Tycho Brahe, descobriu que os planetas andam em elipses e varrem áreas iguais em tempos iguais. Publicou essas leis do movimento planetário entre 1609 e 1619."
+TY_LEG_DULINHA_NAME,Dulinha da Estrela,Dulinha da Estrela
+TY_LEG_DULINHA_ROLE,Deep-sky mentor,Mentora de céu profundo
+TY_LEG_DULINHA_WAY,Points at the sky mid-sentence and forgets what she was saying. Has a nickname for every galaxy.,Aponta para o céu no meio da frase e esquece o que estava dizendo. Tem um apelido para cada galáxia.
+TY_LEG_DULINHA_SPEC,Eyes on the deep sky,Olhos no céu profundo
+TY_LEG_DULINHA_SPEC_DESC,On telescope and space weather briefings she points out the bar that matters most.,"Nos pedidos de telescópio e de clima espacial, ela aponta a barra que mais importa."
+TY_LEG_DULINHA_HINT,Dulinha da Estrela points at the sky: what rules here is %s.,Dulinha da Estrela aponta para o céu: aqui quem manda é %s.
+TY_LEG_DULINHA_REAL,Duília de Mello,Duília de Mello
+TY_LEG_DULINHA_FACT,"Brazilian astronomer, a researcher with NASA's Goddard centre and a professor at the Catholic University of America. She studies galaxies with Hubble images and has spent decades sharing astronomy in Portuguese.","Astrônoma brasileira, pesquisadora ligada ao Centro Goddard da NASA e professora da Universidade Católica da América. Estuda galáxias com imagens do telescópio Hubble e divulga astronomia em português há décadas."
+TY_LEG_SAGAO_NAME,Carlito Sagão,Carlito Sagão
+TY_LEG_SAGAO_ROLE,Science mentor,Mentor de ciência
+TY_LEG_SAGAO_WAY,Talks about billions of stars in the same voice he uses for lunch. His eyes get misty looking at the Earth.,Fala de bilhões de estrelas com a mesma voz com que fala do lanche. Fica com os olhos marejados olhando a Terra.
+TY_LEG_SAGAO_SPEC,Pale Blue Dot,Pálido Ponto Azul
+TY_LEG_SAGAO_SPEC_DESC,On science briefings he bets on a module the job needs.,"Nos pedidos de ciência, ele aposta num módulo de que o trabalho precisa."
+TY_LEG_SAGAO_HINT,Carlito Sagão bets on a module: %s.,Carlito Sagão aposta num módulo: %s.
+TY_LEG_SAGAO_REAL,Carl Sagan,Carl Sagan
+TY_LEG_SAGAO_FACT,"Astronomer and science communicator, he presented the series Cosmos (1980). Turning Voyager 1's camera back towards the Earth was his idea: the 1990 photo, the Pale Blue Dot, shows the planet as a speck in a ray of sunlight.","Astrônomo e divulgador de ciência, apresentou a série Cosmos, de 1980. Foi dele a ideia de virar a câmera da Voyager 1 para a Terra: a foto de 1990, o Pálido Ponto Azul, mostra o planeta como um pontinho num raio de sol."
+TY_LEG_SALI_NAME,Sali Carona,Sali Carona
+TY_LEG_SALI_ROLE,Crewed missions mentor,Mentora de missões tripuladas
+TY_LEG_SALI_WAY,Explains physics with a football and never leaves a question unanswered.,Explica física com uma bola de futebol e não deixa nenhuma pergunta sem resposta.
+TY_LEG_SALI_SPEC,Go ahead and ask,Pode perguntar
+TY_LEG_SALI_SPEC_DESC,On crewed briefings she tells the two bars the client values most; pilots get +25% XP.,"Nos pedidos tripulados, ela conta as duas barras que o cliente mais valoriza; pilotos ganham +25% de XP."
+TY_LEG_SALI_HINT,"Sali Carona explains: this client values %s first, then %s.","Sali Carona explica: este cliente valoriza primeiro %s, depois %s."
+TY_LEG_SALI_REAL,Sally Ride,Sally Ride
+TY_LEG_SALI_FACT,"A physicist, she flew on the Space Shuttle Challenger in June 1983 and became the first American woman in space. She later founded Sally Ride Science to bring girls and young women to science and maths.","Física, voou em junho de 1983 no ônibus espacial Challenger e foi a primeira mulher americana no espaço. Depois fundou a Sally Ride Science, para levar meninas e jovens à ciência e à matemática."
+TY_LEG_GAGARINHO_NAME,Commander Iúri Gagarinho,Comandante Iúri Gagarinho
+TY_LEG_GAGARINHO_ROLE,Rival leader · Aurora Rubra,Líder rival · Aurora Rubra
+TY_LEG_GAGARINHO_WAY,A huge smile and even bigger courage. Always the first to press the button.,"Sorriso enorme, coragem maior ainda. Sempre o primeiro a apertar o botão."
+TY_LEG_GAGARINHO_SPEC,“Let's go!”,“Vamos lá!”
+TY_LEG_GAGARINHO_SPEC_DESC,Aurora Rubra goes for the crewed milestones with extra eagerness.,A Aurora Rubra tenta os marcos tripulados com mais vontade.
+TY_LEG_GAGARINHO_REAL,Yuri Gagarin,Yuri Gagarin
+TY_LEG_GAGARINHO_FACT,"On 12 April 1961, aboard Vostok 1, he became the first human in space, on a flight of about 108 minutes with one trip around the Earth. At lift-off he said “Poyekhali!”, something like “Let's go!”.","Em 12 de abril de 1961, a bordo da Vostok 1, tornou-se o primeiro ser humano no espaço, num voo de cerca de 108 minutos com uma volta na Terra. Na decolagem, disse “Poyekhali!”, algo como “Vamos lá!”."
+TY_LEG_CIFRINHA_NAME,Dona Cifrinha,Dona Cifrinha
+TY_LEG_CIFRINHA_ROLE,Rival leader · Consórcio Nimbo,Líder rival · Consórcio Nimbo
+TY_LEG_CIFRINHA_WAY,"A coin-shaped antenna, a calculator in her pocket and the politest smile. Budgets even her birthday party.","Antena em forma de moedinha, calculadora no bolso e um sorriso educadíssimo. Faz orçamento até da festa de aniversário."
+TY_LEG_CIFRINHA_SPEC,Every orbit has a price,Toda órbita tem seu preço
+TY_LEG_CIFRINHA_SPEC_DESC,Consórcio Nimbo wins contracts and licenses technology.,O Consórcio Nimbo ganha contratos e licencia tecnologia.
+TY_LEG_CIFRINHA_REAL,Nobody: an original character,Ninguém: personagem original
+TY_LEG_CIFRINHA_FACT,"Dona Cifrinha pays homage to nobody: she is a Cometling the team made up, the only “executive” of the tail. She is no villain; she just thinks a dream looks better with the spreadsheet in order.","Dona Cifrinha não homenageia ninguém: é uma Cometinha inventada pela equipe, a única “executiva” da cauda. Ela não é vilã; só acha que um sonho fica mais bonito com a planilha em dia."
+TY_LEG_HERSCHELINHA_NAME,Carolina Herschelinha,Carolina Herschelinha
+TY_LEG_HERSCHELINHA_ROLE,Rival leader · Instituto Quietude,Líder rival · Instituto Quietude
+TY_LEG_HERSCHELINHA_WAY,"Sweeps the sky every night with a telescope as tall as she is. Measures twice, then measures again.","Varre o céu toda noite com uma luneta do tamanho dela. Mede duas vezes, depois mede de novo."
+TY_LEG_HERSCHELINHA_SPEC,Comet hunter,Caçadora de cometas
+TY_LEG_HERSCHELINHA_SPEC_DESC,Instituto Quietude almost never fails and is the most dangerous rival on the home stretch.,O Instituto Quietude quase não falha e é a rival mais perigosa na reta final.
+TY_LEG_HERSCHELINHA_REAL,Caroline Herschel,Caroline Herschel
+TY_LEG_HERSCHELINHA_FACT,"Born in Hanover and settled in England, she discovered eight comets and was the first woman credited with discovering one. King George III paid her a salary for her work, and in 1828 she received the gold medal of the Royal Astronomical Society.","Nascida em Hanôver e radicada na Inglaterra, descobriu oito cometas e foi a primeira mulher reconhecida pela descoberta de um. O rei Jorge III lhe pagava um salário pelo trabalho, e em 1828 ela recebeu a medalha de ouro da Royal Astronomical Society."

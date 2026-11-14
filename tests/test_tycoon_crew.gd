@@ -189,8 +189,90 @@ func _initialize() -> void:
 		s2.advance_week()
 	_check(JSON.stringify(TycoonCrew.candidates(s)) == JSON.stringify(TycoonCrew.candidates(s2)),
 		"after load the market goes on exactly the same")
+	_research_specs()
 	print("RESULT: %s" % ("PASS" if _failures == 0 else "FAIL (%d)" % _failures))
 	quit(1 if _failures else 0)
+
+
+## The five specialisations research opens (flight surgeon, moonwalker, comet navigator, ice
+## miner, mission director): gated by their tech, learnable in either slot, and each one moves
+## the system it promises; plus the older effects that used to be only text.
+func _research_specs() -> void:
+	print("research specialisations")
+	var s := TycoonState.new_campaign(42, _staff())
+	s.cash = 1.0e7
+	s.buildings["training"] = {"kind": "training", "level": 2, "target": 2, "weeks_left": 0}
+	var sci := TycoonCrew.find(s, "b")
+	TycoonCrew.add_xp(s, "b", 200.0)   # level 3: the first slot
+	var ids := _ids(TycoonCrew.spec_options(sci, 1, s))
+	_check(not ("flight_surgeon" in ids) and "data_miner" in ids, "before Life support the flight surgeon is not on offer")
+	_check(TycoonCrew.choose_spec(s, "b", "flight_surgeon") != "", "and cannot be learned")
+	var later := _ids(TycoonCrew.spec_locked(sci, 1, s))
+	_check("flight_surgeon" in later and "ice_miner" in later, "the crew sheet can name the ones research will open")
+	for tech in ["life_support", "crewed_lander", "comet_rendezvous", "ice_extraction", "mission_automation"]:
+		TycoonResearch.complete(s, tech)
+	_check("flight_surgeon" in _ids(TycoonCrew.spec_options(sci, 1, s)), "Life support opens the flight surgeon")
+	_check(TycoonCrew.choose_spec(s, "b", "flight_surgeon") == "", "a scientist learns it in the first slot")
+	sci["train_weeks"] = 0
+	TycoonCrew.add_xp(s, "b", 200.0)   # level 5: the second slot
+	var t2 := _ids(TycoonCrew.spec_options(sci, 2, s))
+	_check("ice_miner" in t2 and "mission_director" in t2 and not ("flight_surgeon" in t2),
+		"the second slot offers the research specs too, not the one it already has")
+	for id in ["flight_surgeon", "moonwalker", "comet_navigator", "ice_miner", "mission_director"]:
+		_check(not (TycoonCrew.spec(id).get("effects", {}) as Dictionary).is_empty()
+			and tr("TY_CREW_SPEC_" + id.to_upper() + "_DESC") != "TY_CREW_SPEC_" + id.to_upper() + "_DESC",
+			"%s has an effect and a description for the crew sheet" % id)
+	# crew risk: a flight surgeon on a crewed flight
+	var p := MissionProject.new()
+	p.type_id = "crewed_flight"
+	p.target_id = "leo"
+	p.staff_ids.assign(["c", "d"])
+	var base := 1.0 - DesignReview.crew_factor(s, p)
+	TycoonCrew.find(s, "d")["specs"] = ["flight_surgeon"]
+	var with_doc := 1.0 - DesignReview.crew_factor(s, p)
+	_check(base > 0.0 and absf(with_doc - base * 0.6) < 1e-6, "a flight surgeon cuts the crew risk by 40%% (%.3f -> %.3f)" % [base, with_doc])
+	# moonwalker: points on crewed landings only
+	var pilot := TycoonCrew.find(s, "c")
+	pilot["specs"] = ["moonwalker"]
+	var vals := [40, 30, 30]
+	var land := MissionProject.member_points(s, pilot, 0, vals, "crewed_landing", "lunar_surface")
+	var fly := MissionProject.member_points(s, pilot, 0, vals, "crewed_flight", "leo")
+	_check(absf(land[2] / fly[2] - 1.25) < 1e-6, "a moonwalker makes 25% more points on a crewed landing")
+	# comet navigator and ice miner: their targets and types
+	pilot["specs"] = ["comet_navigator"]
+	var comet := MissionProject.member_points(s, pilot, 0, vals, "comet_mission", "comet")
+	var moon := MissionProject.member_points(s, pilot, 0, vals, "lander", "lunar_surface")
+	_check(absf(comet[2] / moon[2] - 1.25) < 1e-6, "a comet navigator makes 25% more points on the comet")
+	var eng := TycoonCrew.find(s, "a")
+	eng["specs"] = ["ice_miner"]
+	var isru := MissionProject.member_points(s, eng, 0, vals, "isru", "lunar_surface")
+	var pole := MissionProject.member_points(s, eng, 0, vals, "lander", "lunar_pole")
+	var plain := MissionProject.member_points(s, eng, 0, vals, "lander", "lunar_surface")
+	_check(absf(isru[0] / plain[0] - 1.25) < 1e-6 and absf(pole[0] / plain[0] - 1.15) < 1e-6,
+		"an ice miner: +25% on ISRU, +15% at the lunar pole")
+	# mission director: everyone on the project
+	p.type_id = "demo_sat"
+	p.staff_ids.assign(["a", "c", "d"])
+	eng["specs"] = []
+	var m0 := p.team_mult(s)
+	eng["specs"] = ["mission_director"]
+	_check(absf(m0 - 1.0) < 1e-6 and absf(p.team_mult(s) - 1.1) < 1e-6, "a mission director: +10% points for the whole team")
+	# the older effects that were only text before
+	pilot["specs"] = ["steady_hands"]
+	TycoonCrew.find(s, "d")["specs"] = []
+	p.type_id = "crewed_flight"
+	p.staff_ids.assign(["c", "d"])
+	_check(absf((1.0 - DesignReview.crew_factor(s, p)) - base * 0.8) < 1e-6, "steady hands: 20% less crew risk")
+	var mo := {"target": "leo", "type": "demo_sat", "antenna_gain": 1.0}
+	var d0 := MissionOps.downlink_rate_at(mo, 1)
+	mo["spec_downlink"] = 0.2
+	_check(absf(MissionOps.downlink_rate_at(mo, 1) / d0 - 1.2) < 1e-6, "an antenna master's downlink bonus reaches mission ops")
+	pilot["specs"] = []
+	var sc := TycoonCrew.find(s, "b")
+	sc["specs"] = ["lunar_specialist"]
+	var sl := MissionProject.member_points(s, sc, 0, [0, 100, 0], "orbiter", "lunar_orbit")
+	var sg := MissionProject.member_points(s, sc, 0, [0, 100, 0], "telescope", "geo")
+	_check(absf(sl[1] / sg[1] - 1.2) < 1e-6, "a lunar specialist: +20% Science on Moon targets")
 
 
 func _ids(cs: Array) -> Array:

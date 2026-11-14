@@ -821,7 +821,7 @@ layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 13
-text = "Próximo nível"
+text = "TY_NEXT_LEVEL"
 autowrap_mode = 3
 
 [node name="Sep2" type="HSeparator" parent="Network/VBox"]
@@ -1043,7 +1043,7 @@ text = "ORB-01"
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 14
-text = "Orbitador"
+text = "TY_MT_ORBITER"
 clip_text = true
 
 [node name="Status" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Head"]
@@ -1123,7 +1123,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 16
-text = "Orbitador"
+text = "TY_MT_ORBITER"
 clip_text = true
 
 [node name="Status" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Head"]
@@ -1308,7 +1308,7 @@ text = "DECISÃO DE OPERAÇÃO · ORB-01"
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
-text = "Gravador quase cheio"
+text = "TY_OPS_EV_STORAGE_TITLE"
 
 [node name="DecText" type="Label" parent="Decision/VBox"]
 unique_name_in_owner = true
@@ -1360,7 +1360,7 @@ theme_override_constants/separation = 0
 [node name="Name" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox/Text"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "Comprimir os dados"
+text = "TY_OPS_EV_STORAGE_A"
 
 [node name="Fx" type="Label" parent="Decision/VBox/Choices/ChoiceTemplate/HBox/Text"]
 layout_mode = 2

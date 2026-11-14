@@ -19,6 +19,8 @@ func _initialize() -> void:
 	if args.size() > 1:
 		only = args[1]
 	DirAccess.make_dir_recursive_absolute(out_dir)
+	# the first-flight tips may show, but a scripted run never marks them as seen
+	FlightTips.persist = false
 	if only == "" or only == "ascent":
 		await _ascent()
 	if only == "" or only == "crash":

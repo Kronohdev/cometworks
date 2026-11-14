@@ -21,6 +21,7 @@ extends CanvasLayer
 ## cometworks/dev/enabled on). Hooks it uses in the game are named dev_*:
 ## ProjectDesk.dev_force_outcome / dev_finish_phase(), Discovery.reveal_all(), BriefingDesk.spawn(),
 ## TycoonModes.open_project_hangar() / open_project_flight() (the hangar and the flight in the campus),
+## TycoonModes.open_watch_track() / TycoonMain.open_space_map() (the missions in space, SpaceTracking),
 ## TycoonClock.dev_turbo, TycoonCrew
 ## .dev_ignore_limit / dev_refresh_market(), Campus.dev_spawn_walkers() / dev_show_nav().
 
@@ -98,9 +99,19 @@ class DevLogger:
 		return out
 
 
+## Tests only: behave as a release export (OS.is_debug_build() false) for menus made after it.
+static var simulate_release := false
+
+
 ## Is the menu available in this build? Debug builds and the editor, or the project setting.
+## A release export (export_presets.cfg, "Windows Desktop", debug off) has no dev menu: the
+## node stays in the tree but hidden, disabled and deaf to F1 / F12 / '.
 static func enabled() -> bool:
-	return OS.is_debug_build() or bool(ProjectSettings.get_setting(SETTING, false))
+	return allowed(OS.is_debug_build() and not simulate_release, bool(ProjectSettings.get_setting(SETTING, false)))
+
+
+static func allowed(debug_build: bool, forced_on: bool) -> bool:
+	return debug_build or forced_on
 
 
 ## True when a mouse event lands on the dev menu (the launch sequence lets those through).
@@ -572,6 +583,10 @@ func _state() -> TycoonState:
 
 
 const NO_CAMPAIGN := "abra uma campanha primeiro"
+## the dev menu's test missions in space, in turn: [type, target, outcome]
+const SPACE_TESTS := [["demo_sat", "leo", "full"], ["orbiter", "lunar_orbit", "full"], ["comms", "geo", "full"],
+	["lander", "lunar_surface", "full"], ["demo_sat", "leo", "fail"], ["comet_mission", "comet", "full"]]
+var _space_test := 0
 
 
 func _a_cash(v: Variant) -> String:
@@ -766,6 +781,55 @@ func _a_market(_arg: Variant) -> String:
 		return NO_CAMPAIGN
 	TycoonCrew.dev_refresh_market(s)
 	return "%d candidatos novos" % TycoonCrew.candidates(s).size()
+
+
+## A legendary hire (TycoonLegends) on the market now, and the hiring market on screen.
+func _a_legend_hire(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	var c := TycoonLegends.dev_spawn(s)
+	if c.is_empty():
+		return "todas as Lendas já estão na equipe"
+	var m := main()
+	if m:
+		m.hud.open_screen("crew", {"tab": "hire"})
+	return "Lenda no mercado: %s" % String(c["name"])
+
+
+## Every Lenda met (their cards readable) and the encyclopedia on "Quem inspirou".
+func _a_legend_cards(_arg: Variant) -> String:
+	var s := _state()
+	var m := main()
+	if s == null or m == null:
+		return NO_CAMPAIGN
+	TycoonLegends.dev_mentors = true
+	for l in TycoonLegends.of_kind("hire"):
+		var seen: Dictionary = TycoonLegends.st(s)["seen"]
+		if not seen.has(String(l["id"])):
+			seen[String(l["id"])] = s.weeks
+	m.hud.open_screen("book")
+	var scr := m.hud.get_node("%Screens").get_child(0) if m.hud.get_node("%Screens").get_child_count() > 0 else null
+	if scr and scr.has_method("show_page"):
+		scr.call("show_page", "legends")
+	return "fichas das Lendas abertas"
+
+
+## The mentors all arrive and a briefing one of them comments on goes to the top of the board.
+func _a_mentor_hint(_arg: Variant) -> String:
+	var s := _state()
+	var m := main()
+	if s == null or m == null:
+		return NO_CAMPAIGN
+	TycoonLegends.dev_mentors = true
+	for b: Dictionary in BriefingDesk.briefings():
+		var hints := TycoonLegends.mentor_hints(s, b, false)
+		if hints.is_empty() or not BriefingDesk.spawn(s, String(b["id"])):
+			continue
+		m.hud.open_screen("briefings", {"briefing_id": String(b["id"])})
+		return "%s comenta: %s" % [TycoonLegends.name_text(String(hints[0]["legend"])),
+			TranslationServer.translate(BriefingDesk.title_key(String(b["id"])))]
+	return "nenhum pedido com palpite de mentor"
 
 
 func _a_contract(_arg: Variant) -> String:
@@ -1037,6 +1101,53 @@ func _a_mission_flight(_arg: Variant) -> String:
 	return "%s na plataforma: voo pilotado" % p.code if ok else "o voo não abriu"
 
 
+## A test mission in space (a track with no project behind it) and its launch watch; each press
+## flies somewhere else: low orbit, the Moon, GEO, a landing, a failure, the comet.
+func _a_space_test(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	if m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	var s := m.state
+	var pick: Array = SPACE_TESTS[_space_test % SPACE_TESTS.size()]
+	_space_test += 1
+	var id := "p:dev%d" % SpaceTracking.missions(s).size()
+	var trk := SpaceTracking.build(SpaceTracking.PLAYER, id, "DEV-%02d" % _space_test, String(pick[0]), String(pick[1]),
+		String(pick[2]), SpaceTracking.now(s))
+	trk["project_id"] = ""
+	SpaceTracking.missions(s).append(trk)
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	if not m.modes.open_watch_track(id):
+		return "o lançamento acompanhado não abriu"
+	return "%s → %s (%s): lançamento acompanhado" % [trk["code"], pick[1], pick[2]]
+
+
+func _a_space_map(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	if m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	m.open_space_map()
+	return "mapa do Sistema Solar: %d missões" % SpaceTracking.missions(m.state).size() if m.modes.kind == "map" else "o mapa não abriu"
+
+
+func _a_watch_last(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	if m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	if m.state.project_history.is_empty():
+		return "nenhum projeto lançado ainda (use Lançar teste agora)"
+	var h: Dictionary = m.state.project_history[-1]
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	return "acompanhando %s" % h.get("code", "?") if m.modes.open_watch(String(h.get("id", ""))) else "não abriu"
+
+
 func _a_rocket_parts(_arg: Variant) -> String:
 	var s := _state()
 	if s == null:
@@ -1136,6 +1247,73 @@ func _a_reveal_discoveries(_arg: Variant) -> String:
 		return NO_CAMPAIGN
 	Discovery.reveal_all(s)
 	return "caderno: tudo revelado (%d descobertas)" % Discovery.count(s)
+
+
+# ------------------------------------------------------------ mission studies (FocusStudy)
+## The type a study action works on: the project in development, the study under way, or the
+## first type the lab can study.
+func _study_type(s: TycoonState) -> String:
+	var p := _project(s)
+	if p and FocusStudy.tier(s, p.type_id) < FocusStudy.MAX_TIER:
+		return p.type_id
+	if FocusStudy.active(s) != "":
+		return FocusStudy.active(s)
+	for t: Dictionary in s.mdata.get("types", []):
+		if FocusStudy.can_study(s, String(t["id"])):
+			return String(t["id"])
+	return ""
+
+
+## Every mission type fully studied (all three levels), even the ones not unlocked yet.
+func _a_study_reveal(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	return "estudos: %d níveis revelados" % FocusStudy.reveal_all(s, true)
+
+
+## One more level of the project's type (or the study under way).
+func _a_study_tier(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	var ty := _study_type(s)
+	if ty == "":
+		return "nada para estudar"
+	FocusStudy.complete_tier(s, ty)
+	return "estudo: %s no nível %d" % [ty, FocusStudy.tier(s, ty)]
+
+
+## The study under way reaches its level now.
+func _a_study_finish(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	var ty := FocusStudy.active(s)
+	if ty == "":
+		return "nenhum estudo em andamento"
+	FocusStudy.complete_tier(s, ty)
+	return "estudo concluído: %s no nível %d" % [ty, FocusStudy.tier(s, ty)]
+
+
+## Forgets every study (the flights and the journal stay).
+func _a_study_reset(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	Discovery.d(s)["study"] = {}
+	TycoonResearch.rs(s)["study"] = {"active": "", "progress": {}}
+	s.changed.emit()
+	return "estudos esquecidos"
+
+
+## The lab's mission studies page.
+func _a_study_screen(_arg: Variant) -> String:
+	var m := main()
+	if m == null:
+		return NO_CAMPAIGN
+	m.hud.open_screen("research", {"study": _study_type(m.state)})
+	return "tela: estudos de missão"
 
 
 ## Puts a briefing on the board (any era, even solved) and opens the board on it.

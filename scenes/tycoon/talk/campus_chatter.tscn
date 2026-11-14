@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/tycoon/talk/campus_chatter.gd" id="2_script"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_panel_style.gd" id="3_style"]
+
+[sub_resource type="StyleBox" id="bubble_style"]
+resource_local_to_scene = true
+script = ExtResource("3_style")
+bg_color = Color(1, 0.9765, 0.9373, 1)
+bg_color_bottom = Color(0.9922, 0.9412, 0.8627, 1)
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 3.0
+tick_color = Color(0.1686, 0.1647, 0.3608, 0)
+chamfer = 0.0
+corner_radius = 14.0
+tick_length = 0.0
+shadow_offset = 4.0
+shadow_blur = 0
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.28)
+lip = 3.0
+lip_color = Color(0.1686, 0.1647, 0.3608, 1)
+tail_side = 2
+tail_size = 13.0
+tail_offset = 40.0
+grain = 0.0
+bevel_color = Color(1, 1, 1, 0.9)
+padding = Vector4(13, 7, 13, 9)
+
+[node name="CampusChatter" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Bubbles" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BubbleTemplate" type="Control" parent="Bubbles"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 800.0
+offset_top = 450.0
+offset_right = 800.0
+offset_bottom = 450.0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Bubbles/BubbleTemplate"]
+layout_mode = 0
+offset_left = -66.0
+offset_top = -52.0
+offset_right = 66.0
+offset_bottom = -13.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("bubble_style")
+
+[node name="Text" type="Label" parent="Bubbles/BubbleTemplate/Panel"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+theme_override_constants/line_spacing = 0
+text = "Café?"
+horizontal_alignment = 1
+vertical_alignment = 1

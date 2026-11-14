@@ -1,0 +1,102 @@
+keys,en,pt
+FL_CW_GOAL_MISSION,MISSION,MISSÃO
+FL_CW_GOAL_TEST,TEST FLIGHT,VOO DE TESTE
+FL_CW_GOAL_TEST_LINE,Goal: reach a stable orbit (lowest point above 140 km),Objetivo: entrar numa órbita estável (ponto mais baixo acima de 140 km)
+FL_CW_GOAL_LINE,Goal: %s · to %s,Objetivo: %s · destino: %s
+FL_CW_GOAL_ALT,Highest so far: %s of 100 km,Mais alto até agora: %s de 100 km
+FL_CW_GOAL_AP,Highest point (Ap): %s of 140 km,Ponto mais alto (Ap): %s de 140 km
+FL_CW_GOAL_PE,Lowest point (Pe): %s of 140 km,Ponto mais baixo (Pe): %s de 140 km
+FL_CW_GOAL_TRIP,In orbit! Δv for the trip: %s of %s,Em órbita! Δv para a viagem: %s de %s
+FL_CW_GOAL_DONE,Goal reached!,Objetivo alcançado!
+FL_CW_NOW,DO THIS NOW,FAÇA AGORA
+FL_CW_NOW_IGNITE,Press SPACE to light the engines and lift off.,Aperte ESPAÇO para acender os motores e decolar.
+FL_CW_NOW_AUTO,The autopilot is flying to orbit. Sit back and watch (P gives you the controls).,O piloto automático está levando o foguete à órbita. Relaxe e assista (P devolve o controle).
+FL_CW_NOW_THROTTLE,The engine is off: hold SHIFT to throttle up (Z = full power).,O motor está desligado: segure SHIFT para acelerar (Z = potência total).
+FL_CW_NOW_CLIMB,"Climbing straight up. At %s, start turning east.","Subindo reto. Em %s, comece a virar para o leste."
+FL_CW_NOW_TURN,Lean east: tap W until the nose is about 75° up (the ball tilts towards 90°).,Incline para o leste: toque W até o nariz ficar uns 75° (a bola inclina para o 90°).
+FL_CW_NOW_STAGE,This stage is empty: press SPACE to drop it and light the next one.,Este estágio acabou: aperte ESPAÇO para soltá-lo e acender o próximo.
+FL_CW_NOW_RAISE_AP,Keep the engines on until the highest point (Ap) passes 150 km.,Mantenha o motor ligado até o ponto mais alto (Ap) passar de 150 km.
+FL_CW_NOW_CUT,High enough! Press X to cut the engine and coast up.,Alto o bastante! Aperte X para cortar o motor e subir no embalo.
+FL_CW_NOW_COAST,"Coast to the highest point (speed up time with the . key). There, press G and throttle up.","Espere chegar ao ponto mais alto (acelere o tempo com a tecla . ). Lá, aperte G e acelere."
+FL_CW_NOW_CIRCLE,Almost at the top: press G (follow) and throttle up until the lowest point passes 140 km.,Quase no topo: aperte G (na rota) e acelere até o ponto mais baixo passar de 140 km.
+FL_CW_NOW_ORBIT,You are in orbit! Press M to open the map and see your path.,Você está em órbita! Aperte M para abrir o mapa e ver sua rota.
+FL_CW_NOW_SPACE,Space reached: mission done! Press Esc to finish.,Espaço alcançado: missão cumprida! Aperte Esc para concluir.
+FL_CW_NOW_TRIP,"In orbit. On the map (M), click your orbit to plan the burn to your target.","Em órbita. No mapa (M), clique na sua órbita para planejar a queima até o destino."
+FL_CW_NOW_FALLING,The rocket is coming back down. Press Esc to end the flight.,O foguete está voltando para baixo. Aperte Esc para encerrar o voo.
+FL_CW_NOW_LOST,"The rocket broke apart. The team is sad, but every failure teaches something.","O foguete se desfez. A equipe está triste, mas toda falha ensina algo."
+FL_CW_NOW_MAP,Map: drag with the right mouse to look around. Click your orbit to add a maneuver.,Mapa: arraste com o botão direito para olhar em volta. Clique na sua órbita para criar uma manobra.
+FL_CW_PANEL,FLIGHT GAUGES,PAINEL DE VOO
+FL_CW_ALT,ALTITUDE,ALTITUDE
+FL_CW_ALT_AT,ALTITUDE · %s,ALTITUDE · %s
+FL_CW_SPEED_SURFACE,SPEED,VELOCIDADE
+FL_CW_SPEED_ORBIT,ORBIT SPEED,VELOCIDADE NA ÓRBITA
+FL_CW_DV_LEFT,Δv in the tanks,Δv nos tanques
+FL_CW_DV_TIP,How much more speed the fuel left can give. The tick marks what the goal still needs.,Quanta velocidade o combustível que sobra ainda consegue dar. A marquinha mostra o que o objetivo ainda pede.
+FL_CW_DV_OK,Enough! About %s m/s to spare,Dá e sobra: uns %s m/s a mais
+FL_CW_DV_SHORT,About %s m/s short: fly gently,Faltam uns %s m/s: voe com jeitinho
+FL_CW_DV_DONE,Goal reached: the rest is spare,Objetivo alcançado: o resto é reserva
+FL_CW_AP,Highest point (Ap),Ponto mais alto (Ap)
+FL_CW_PE,Lowest point (Pe),Ponto mais baixo (Pe)
+FL_CW_TAP,Time to the highest point,Tempo até o ponto mais alto
+FL_CW_MORE,More data,Mais dados
+FL_CW_THROTTLE,ENGINE,MOTOR
+FL_CW_THROTTLE_KEYS,Shift ▲  Ctrl ▼,Shift ▲  Ctrl ▼
+FL_CW_HDG_LINE,Heading %03d° · nose %+d°,Rumo %03d° · nariz %+d°
+FL_CW_BTN_SAS,Hold · T,Manter · T
+FL_CW_BTN_PRO,Follow · G,Na rota · G
+FL_CW_BTN_RETRO,Reverse · H,Contra · H
+FL_CW_BTN_AUTO,Autopilot · P,Automático · P
+FL_CW_BTN_MAP,Map · M,Mapa · M
+FL_CW_STAGE_IGNITE,Ignition!  [Space],Ignição!  [Espaço]
+FL_CW_STAGE_NEXT,Drop stage  [Space],Soltar estágio  [Espaço]
+FL_CW_STAGE_LAST,Last stage,Último estágio
+FL_CW_STAGE_BURNING,BURNING,QUEIMANDO
+FL_CW_STAGE_EMPTY,EMPTY,VAZIO
+FL_CW_STAGE_WAITING,WAITING,ESPERANDO
+FL_CW_STAGE_READY,READY,PRONTO
+FL_CW_WARP,TIME,TEMPO
+FL_CW_HELP_TIPS,Show the flight tips again,Ver as dicas de voo de novo
+FL_CW_TIP_STEP,TIP %d OF %d,DICA %d DE %d
+FL_CW_TIP_OK,Got it,Entendi
+FL_CW_TIP_SKIP,Skip tips,Pular dicas
+FL_CW_TIP_THROTTLE_T,The engine lever,A alavanca do motor
+FL_CW_TIP_THROTTLE,"This bar is the engine power. SHIFT raises it, CTRL lowers it, Z is full power and X cuts it. It starts at full for the liftoff.","Esta barra é a força do motor. SHIFT aumenta, CTRL diminui, Z é potência total e X desliga. Ela já começa no máximo para a decolagem."
+FL_CW_TIP_IGNITE_T,Light it up!,Acenda!
+FL_CW_TIP_IGNITE,Press SPACE (or this button) to light the first stage. The rocket leaves the pad when the engines push harder than it weighs.,Aperte ESPAÇO (ou este botão) para acender o primeiro estágio. O foguete sai da plataforma quando os motores empurram mais do que ele pesa.
+FL_CW_TIP_TURN_T,Turn east,Vire para o leste
+FL_CW_TIP_TURN,"To stay up you need sideways speed, not only height. Tap W until the nose is about 75° up, leaning east (90°). Then wait for the yellow circle on the ball to reach the nose and press G (Follow): the rocket bends its path by itself.","Para ficar lá em cima é preciso velocidade de lado, não só altura. Toque W até o nariz ficar uns 75°, deitando para o leste (90°). Depois espere o círculo amarelo da bola chegar ao nariz e aperte G (Na rota): o foguete faz a curva sozinho."
+FL_CW_TIP_STAGE_T,Drop the empty stage,Solte o estágio vazio
+FL_CW_TIP_STAGE,This stage ran out of fuel. Press SPACE to drop it: the rocket gets lighter and the next engine lights.,Este estágio ficou sem combustível. Aperte ESPAÇO para soltá-lo: o foguete fica mais leve e o próximo motor acende.
+FL_CW_TIP_MAP_T,Open the map,Abra o mapa
+FL_CW_TIP_MAP,"Press M (or this button) to see your orbit from above: where it goes highest, lowest, and whether it hits the ground.","Aperte M (ou este botão) para ver sua órbita de cima: onde ela fica mais alta, mais baixa e se bate no chão."
+FL_CW_RP_TITLE_TEST,TEST FLIGHT OVER,FIM DO VOO DE TESTE
+FL_CW_RP_TITLE_MISSION,MISSION FLIGHT OVER,FIM DO VOO DA MISSÃO
+FL_CW_RP_ORBIT,Orbit reached!,Órbita alcançada!
+FL_CW_RP_SPACE,Space reached!,Espaço alcançado!
+FL_CW_RP_SUBORBITAL,Up and back down,Subiu e voltou
+FL_CW_RP_LOST,The rocket was lost,O foguete se perdeu
+FL_CW_RP_SUM_ORBIT,"The rocket stayed up: its lowest point is %s high, above the air. Nicely flown!","O foguete ficou lá em cima: o ponto mais baixo está a %s, acima do ar. Belo voo!"
+FL_CW_RP_SUM_SPACE,"It climbed to %s, past the edge of space (100 km), and came back down as planned.","Subiu até %s, passou da fronteira do espaço (100 km) e desceu como planejado."
+FL_CW_RP_SUM_SUB,It climbed to %s but did not have enough sideways speed to stay in orbit.,"Subiu até %s, mas faltou velocidade de lado para ficar em órbita."
+FL_CW_RP_SUM_LOST,"%s The team is sad, but every failure teaches something.","%s A equipe está triste, mas toda falha ensina algo."
+FL_CW_RP_NEXT,The team will review this flight back on the campus. Press Finish the mission to see how it went.,A equipe vai avaliar este voo no campus. Aperte Concluir a missão para ver como foi.
+FL_CW_RP_ORBIT_ROW,Orbit (lowest point above 140 km),Órbita (ponto mais baixo acima de 140 km)
+FL_CW_RP_DV,Δv used / planned,Δv usado / planejado
+FL_CW_MAP_HINT,Right mouse: look around · wheel: zoom · click your orbit: add a maneuver · Tab: next body · 1 2 3: zoom level · M: back,Botão direito: olhar em volta · roda: zoom · clique na órbita: criar manobra · Tab: próximo corpo · 1 2 3: escala · M: voltar
+FL_CW_MAP_TARGET,Target: %s · the closest pass shows on your path,Alvo: %s · a passagem mais perto aparece na rota
+FL_CW_MAP_TARGET_NONE,Right-click a planet or moon to pick it as your target,Clique com o botão direito num planeta ou lua para escolher o alvo
+FL_CW_MAP_AP,Highest %s · %s,Mais alto %s · %s
+FL_CW_MAP_PE,Lowest %s · %s,Mais baixo %s · %s
+FL_CW_MAP_PE_LOW,Lowest %s · hits the ground · %s,Mais baixo %s · bate no chão · %s
+FL_CW_MAP_CROSS,Crosses the target's plane · %.1f°,Cruza o plano do alvo · %.1f°
+FL_CW_MAP_ENCOUNTER,Meets %s · %s,Encontra %s · %s
+FL_CW_MAP_ESCAPE,Leaves %s · %s,Sai de %s · %s
+FL_CW_MAP_IMPACT,Hits the ground · %s,Bate no chão · %s
+FL_CW_MAP_CLOSEST,Closest to the target %s · %s,Mais perto do alvo %s · %s
+FL_CW_MAP_GHOST,%s when you get there,%s quando você chegar
+FL_CW_MAP_NODE,Burn Δv %s · %s,Queima Δv %s · %s
+FL_CW_NOW_COAST_UP,Coasting up to space. Speed up time with the . key.,Subindo no embalo até o espaço. Acelere o tempo com a tecla . (ponto).
+FL_CW_CAPT_NONE,No meeting with another body yet: plan a transfer on the map first.,Ainda sem encontro com outro corpo: planeje uma transferência no mapa primeiro.
+FL_CW_GOAL_PE_UNDER,Lowest point (Pe): still underground,Ponto mais baixo (Pe): ainda abaixo do chão
+FL_CW_NOW_WAIT_G,"Good! Now wait: when the yellow circle on the ball reaches the nose, press G.","Isso! Agora espere: quando o círculo amarelo da bola chegar ao nariz, aperte G."
+FL_CW_NOW_PRESS_G,The circle reached the nose: press G (Follow) and the rocket bends its path by itself.,O círculo chegou ao nariz: aperte G (Na rota) e o foguete faz a curva sozinho.

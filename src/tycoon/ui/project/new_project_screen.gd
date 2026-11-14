@@ -1,7 +1,8 @@
 extends Control
 ## New project, the objective step (scenes/tycoon/ui/screens/new_project.tscn, GDD 6.2): the
-## target, then the mission type, with the compatibility once the agency has flown it and the
-## ideal balance of the 4 bars once the journal has revealed it ("?" before: Discovery). It
+## target, then the mission type, with the compatibility once the agency has flown it and what
+## the agency knows of the type's 4 bars (FocusStudy tiers: "?", most / least, levels, the exact
+## balance), how to learn more and a button that asks the lab to study it. It
 ## comes after the briefing board (briefings.tscn) with the briefing's goal on the right, or as
 ## a free project; accepted contracts are quick picks. Next: the payload planner
 ## (payload_planner.tscn), then the team (project_team.tscn) and the rocket designer, which
@@ -27,6 +28,7 @@ func _ready() -> void:
 	%Close.pressed.connect(_close)
 	%Cancel.pressed.connect(_close)
 	%Start.pressed.connect(_start)
+	%Study.pressed.connect(_study)
 
 
 func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
@@ -96,6 +98,9 @@ func objective_error() -> String:
 		return "TY_PJ_ERR_TYPE"
 	if ProjectRules.compat(state.mission_type(type_id), target_id) <= 0.0:
 		return "TY_PJ_ERR_IMPOSSIBLE"
+	var pe := TycoonResearch.pair_error(state, type_id, target_id)
+	if pe != "":
+		return pe
 	if RocketDesigner.default_design(state, type_id, target_id).is_empty():
 		return "TY_PJ_ERR_NO_ROCKET"
 	return ""
@@ -225,19 +230,32 @@ func _fill_types() -> void:
 
 func _fill_ideal() -> void:
 	var mt := state.mission_type(type_id)
-	var ratio: Array = mt.get("ratio", [0.0, 0.0, 0.0, 0.0])
 	var client := BriefingDesk.ratio(BriefingDesk.briefing(briefing_id)).size() == 4
-	var known := not mt.is_empty() and Discovery.ratio_known(state, type_id) and not client
+	var t := 0 if mt.is_empty() or client else FocusStudy.tier(state, type_id)
+	var marks: Array = FocusStudy.bar_marks(state, type_id) if not mt.is_empty() else []
+	var coarse: Array = FocusStudy.coarse_ideal(state, type_id) if t == 2 else []
 	var rows: Array[Node] = [%IdealEng, %IdealSci, %IdealOps, %IdealRel]
 	for b in 4:
-		var v := float(ratio[b]) if known else 0.0
+		var m: Dictionary = marks[b] if t > 0 else {"tier": 0, "mark": "", "ideal": -1.0}
+		var v := float(m["ideal"]) if t >= FocusStudy.MAX_TIER else (float(coarse[b]) if t == 2 else 0.0)
 		(rows[b].get_node("Bar") as CwSegmentBar).value = v / 0.5  # 50% fills the meter
-		(rows[b].get_node("Value") as Label).text = "%d%%" % roundi(v * 100.0) if known else "?"
-	%IdealHint.visible = not mt.is_empty() and not known
-	if client:
-		%IdealHint.text = tr("TY_PJ_IDEAL_CLIENT")
-	elif not known and not mt.is_empty():
-		%IdealHint.text = tr("TY_PJ_IDEAL_HIDDEN") % [Discovery.attempts(state, type_id), int(BriefingDesk.disc().get("reveal_ratio_after", 2))]
+		var vl := rows[b].get_node("Value") as Label
+		vl.text = FocusView.mark_text(m)
+		vl.add_theme_color_override("font_color", FocusView.mark_color(m))
+	%Know.visible = not mt.is_empty()
+	(%TierPips as CwSegmentBar).value = float(t) / 3.0
+	%TierName.text = FocusView.tier_text(t)
+	if mt.is_empty():
+		%KnowLine.text = ""
+		%IdealHint.text = ""
+	elif client:
+		%KnowLine.text = tr("TY_PJ_IDEAL_CLIENT")
+		%IdealHint.text = tr("TY_FS_CLIENT_NOTE")
+	else:
+		%KnowLine.text = FocusView.know_text(state, type_id)
+		%IdealHint.text = FocusView.how_text(state, type_id)
+	%IdealHint.visible = %IdealHint.text != ""
+	_fill_study()
 	var cv := %CompatValue as Label
 	if mt.is_empty() or target_id == "":
 		cv.text = "—"
@@ -255,6 +273,28 @@ func _fill_ideal() -> void:
 	else:
 		cv.text = "%s  ×%.2f" % [tr("TY_PJ_COMPAT_" + tier.to_upper()), mult]
 		cv.add_theme_color_override("font_color", TIER_COLORS[tier])
+
+
+## The study button: ask the lab for the type's next level (FocusStudy), without leaving.
+func _fill_study() -> void:
+	var b := %Study as Button
+	b.visible = type_id != "" and FocusStudy.tier(state, type_id) < FocusStudy.MAX_TIER
+	if not b.visible:
+		return
+	if FocusStudy.active(state) == type_id:
+		var w := FocusStudy.weeks_left(state, type_id)
+		b.text = tr("TY_FS_STUDYING_BTN") % (tr("TY_RS_NO_PP") if w < 0 else tr("TY_WEEKS") % w)
+		b.disabled = true
+		return
+	var nt := FocusStudy.next_tier(state, type_id)
+	var c := FocusStudy.cost(state, type_id, nt)
+	b.text = tr("TY_FS_STUDY_BTN") % [nt, int(c["pp"]), TycoonHUD.fmt_cr(0.0 if FocusStudy.paid(state, type_id) else float(c["cash"]))]
+	b.disabled = FocusStudy.start_error(state, type_id) != ""
+
+
+func _study() -> void:
+	if FocusStudy.start(state, type_id):
+		refresh()
 
 
 func _fill_brief() -> void:

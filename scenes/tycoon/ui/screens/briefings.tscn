@@ -3,10 +3,47 @@
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/briefings_screen.gd" id="1_scr"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_project_steps.tscn" id="steps"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/crew.svg" id="3_crew"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="4_star"]
+[ext_resource type="Shader" path="res://ui/cometworks/visor_mask.gdshader" id="5_mask"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_portrait_studio.tscn" id="6_studio"]
+
+[sub_resource type="ShaderMaterial" id="visor_mat"]
+shader = ExtResource("5_mask")
+
+[sub_resource type="StyleBoxFlat" id="mentor_bubble"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.945, 0.78, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.62, 0.18, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="mentor_ring"]
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 16
+anti_aliasing = true
 
 [node name="Briefings" type="Control"]
 layout_mode = 3
@@ -124,6 +161,11 @@ size_flags_vertical = 0
 tooltip_text = "TY_PJ_CANCEL"
 text = "×"
 
+[node name="StepBar" parent="Panel/Margin/VBox" instance=ExtResource("steps")]
+layout_mode = 2
+size_flags_horizontal = 0
+current = 0
+
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
 
@@ -207,7 +249,7 @@ layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 size_flags_horizontal = 3
-text = "Science question"
+text = "TY_BF_KIND_SCIENCE"
 
 [node name="Reward" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox/Top"]
 layout_mode = 2
@@ -221,14 +263,14 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 17
 text_overrun_behavior = 3
-text = "Ice in the eternal shadow"
+text = "TY_BF_LUNAR_ICE_TITLE"
 
 [node name="Client" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text_overrun_behavior = 3
-text = "Cometling Science Council"
+text = "TY_BF_CL_SCIENCE"
 
 [node name="Empty" type="Label" parent="Panel/Margin/VBox/Body/ListCol"]
 unique_name_in_owner = true
@@ -287,7 +329,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
-text = "Science question"
+text = "TY_BF_KIND_SCIENCE"
 
 [node name="Client" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow"]
 unique_name_in_owner = true
@@ -296,7 +338,7 @@ theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 14
 size_flags_horizontal = 3
 horizontal_alignment = 2
-text = "Cometling Science Council"
+text = "TY_BF_CL_SCIENCE"
 
 [node name="BTitle" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
 unique_name_in_owner = true
@@ -304,7 +346,7 @@ layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 26
 autowrap_mode = 3
-text = "Ice in the eternal shadow"
+text = "TY_BF_LUNAR_ICE_TITLE"
 
 [node name="Story" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
 unique_name_in_owner = true
@@ -334,7 +376,7 @@ layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 17
 autowrap_mode = 3
-text = "Prove there is water in the Moon's dark craters."
+text = "TY_BF_LUNAR_ICE_GOAL"
 
 [node name="Terms" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
 layout_mode = 2
@@ -448,6 +490,110 @@ size_flags_horizontal = 3
 autowrap_mode = 3
 text = "Bel acha que..."
 
+[node name="MentorTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("mentor_bubble")
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Visor" type="Control" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("mentor_ring")
+
+[node name="Fallback" type="TextureRect" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/Visor"]
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 15
+text = "Berta Luzinha"
+
+[node name="Tag" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.6, 0.38, 0.02, 1)
+theme_override_font_sizes/font_size = 11
+text = "TY_LEG_MENTOR_TAG"
+text_overrun_behavior = 3
+
+[node name="Who" type="LinkButton" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_LEG_WHO_OPEN_TIP"
+focus_mode = 0
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_colors/font_hover_color = Color(0.1843, 0.4706, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "TY_LEG_WHO_OPEN"
+underline = 1
+
+[node name="Text" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/MentorTemplate/Row/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+text = "Berta Luzinha anota..."
+
 [node name="NoHints" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -498,6 +644,9 @@ layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
 text = "TY_BF_ACCEPT"
+
+[node name="Studio" parent="." instance=ExtResource("6_studio")]
+unique_name_in_owner = true
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")

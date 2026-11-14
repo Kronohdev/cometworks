@@ -47,6 +47,7 @@ func _ready() -> void:
 	%EditLeader.pressed.connect(func() -> void:   # the leader creator, in edit mode
 		if hud and hud.has_method("open_screen"):
 			hud.call("open_screen", "leader_creator"))
+	%WhoInspired.pressed.connect(_open_legend_card)
 	%FilterAll.pressed.connect(func() -> void: set_filter("", ""))
 	%FilterFree.pressed.connect(func() -> void: set_filter(filter_prof, "" if filter_state == "free" else "free"))
 	%FilterNap.pressed.connect(func() -> void: set_filter(filter_prof, "" if filter_state == "nap" else "nap"))
@@ -283,9 +284,9 @@ func _fill_roster() -> void:
 
 ## Card portraits: the studio's stills (cards keep their profession badge until theirs is ready).
 func _fill_portraits() -> void:
-	for tmpl: Control in [%CardTemplate, %CandTemplate]:
-		for card in tmpl.get_parent().get_children():
-			if card == tmpl or not card.has_meta("from_template") or not card.has_meta("member"):
+	for parent: Node in [%CardTemplate.get_parent(), %CandTemplate.get_parent()]:
+		for card in parent.get_children():
+			if not card.has_meta("from_template") or not card.has_meta("member"):
 				continue
 			var m: Dictionary = card.get_meta("member")
 			var tex := studio.portrait(m, TycoonCrew.profession_color(state, String(m.get("profession", ""))))
@@ -301,33 +302,54 @@ func _fill_market(cands: Array) -> void:
 	%MarketLimit.add_theme_color_override("font_color",
 		CwPalette.WARNING if state.staff.size() >= TycoonCrew.staff_limit(state) else CwPalette.TEXT_DIM)
 	%EmptyMarket.visible = cands.is_empty()
-	var cards := TycoonHUD._copies(%CandTemplate, cands.size())
-	for i in cands.size():
-		var c: Dictionary = cands[i]
-		var card := cards[i] as Button
-		card.set_meta("id", String(c["id"]))
-		card.set_meta("member", c)
-		if not card.has_meta("wired"):
-			card.set_meta("wired", true)
-			card.pressed.connect(func() -> void: select_candidate(String(card.get_meta("id"))))
-		var col := TycoonCrew.profession_color(state, String(c["profession"]))
-		var box := card.get_node("Box")
-		(box.get_node("Name") as Label).text = String(c["name"])
-		(box.get_node("Prof/Bulb") as TextureRect).self_modulate = col
-		(box.get_node("Visor/Fallback") as TextureRect).self_modulate = col
-		var prof := box.get_node("Prof/Name") as Label
-		prof.text = _prof_name(c)
-		prof.add_theme_color_override("font_color", CwPalette.ink(col))
-		(box.get_node("Level") as Label).text = "%s %d · %d XP" % [tr("TY_CREW_LEVEL"), int(c["level"]), roundi(float(c["xp"]))]
-		(box.get_node("Ask") as Label).text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, c))
-		var fee := TycoonCrew.hire_fee(state, c)
-		var fee_l := box.get_node("Fee") as Label
-		fee_l.text = tr("TY_CREW_FEE_LINE") % TycoonHUD.fmt_cr(fee)
-		fee_l.add_theme_color_override("font_color", CwPalette.DANGER if state.cash < fee else CwPalette.TEXT_DIM)
-		var hidden: Array = c.get("hidden", [])
-		(box.get_node("Reveal") as Label).text = tr("TY_CREW_ALL_KNOWN") if hidden.is_empty() \
-			else tr("TY_CREW_HIDDEN_LEFT") % hidden.size()
+	# the Lendas on golden cards first, then the usual candidates
+	var legends: Array = cands.filter(func(c: Dictionary) -> bool: return TycoonLegends.is_legend(c))
+	var normal: Array = cands.filter(func(c: Dictionary) -> bool: return not TycoonLegends.is_legend(c))
+	var gold := TycoonHUD._copies(%LegendCandTemplate, legends.size())
+	for i in gold.size():
+		%Cands.move_child(gold[i], i)
+		_fill_cand_card(gold[i] as Button, legends[i])
+		_fill_legend_card(gold[i] as Button, legends[i])
+	var cards := TycoonHUD._copies(%CandTemplate, normal.size())
+	for i in normal.size():
+		_fill_cand_card(cards[i] as Button, normal[i])
 	_fill_portraits()
+
+
+## What a candidate card shares with the golden one: name, profession, level, salary, fee.
+func _fill_cand_card(card: Button, c: Dictionary) -> void:
+	card.set_meta("id", String(c["id"]))
+	card.set_meta("member", c)
+	if not card.has_meta("wired"):
+		card.set_meta("wired", true)
+		card.pressed.connect(func() -> void: select_candidate(String(card.get_meta("id"))))
+	var col := TycoonCrew.profession_color(state, String(c["profession"]))
+	var box := card.get_node("Box")
+	(box.get_node("Name") as Label).text = String(c["name"])
+	(box.get_node("Prof/Bulb") as TextureRect).self_modulate = col
+	(box.get_node("Visor/Fallback") as TextureRect).self_modulate = col
+	var prof := box.get_node("Prof/Name") as Label
+	prof.text = _prof_name(c)
+	prof.add_theme_color_override("font_color", CwPalette.ink(col))
+	(box.get_node("Level") as Label).text = "%s %d · %d XP" % [tr("TY_CREW_LEVEL"), int(c["level"]), roundi(float(c["xp"]))]
+	(box.get_node("Ask") as Label).text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, c))
+	var fee := TycoonCrew.hire_fee(state, c)
+	var fee_l := box.get_node("Fee") as Label
+	fee_l.text = tr("TY_CREW_FEE_LINE") % TycoonHUD.fmt_cr(fee)
+	fee_l.add_theme_color_override("font_color", CwPalette.DANGER if state.cash < fee else CwPalette.TEXT_DIM)
+	var reveal := box.get_node_or_null("Reveal") as Label
+	if reveal:
+		var hidden: Array = c.get("hidden", [])
+		reveal.text = tr("TY_CREW_ALL_KNOWN") if hidden.is_empty() else tr("TY_CREW_HIDDEN_LEFT") % hidden.size()
+
+
+## The golden card's own lines: the unique specialisation and how long the Lenda stays.
+func _fill_legend_card(card: Button, c: Dictionary) -> void:
+	var id := String(c["legend"])
+	var box := card.get_node("Box")
+	(box.get_node("Spec") as Label).text = "★ " + tr(TycoonLegends.key(id, "SPEC"))
+	card.tooltip_text = tr(TycoonLegends.key(id, "SPEC_DESC"))
+	(box.get_node("Once") as Label).text = tr("TY_LEG_ONCE") % TycoonLegends.weeks_left(state, id)
 
 
 # ------------------------------------------------------------ sheet
@@ -417,7 +439,16 @@ func _card_common(m: Dictionary) -> void:
 	%Glow.self_modulate = col
 	%CardLook.text = "%s: %s" % [tr("TY_CREW_LOOK"), CometlingLooks.variant_name(int(m["variant"]))]
 	%LeaderRow.visible = TycoonLeader.is_leader(m)
-	%CardLook.visible = not TycoonLeader.is_leader(m)   # the leader has their own colours
+	var legend := TycoonLegends.is_legend(m)
+	%CardLook.visible = not TycoonLeader.is_leader(m) and not legend   # they have their own colours
+	%LegendRow.visible = legend
+	%LegendSpec.visible = legend
+	if legend:   # the unique specialisation, its effect and the Lenda's way of being
+		var id := String(m["legend"])
+		%LegendSpecName.text = tr(TycoonLegends.key(id, "SPEC"))
+		%LegendSpecDesc.text = tr(TycoonLegends.key(id, "SPEC_DESC"))
+		%LegendWay.text = tr(TycoonLegends.key(id, "WAY"))
+		%WhoInspired.set_meta("legend", id)
 	var lv := int(m["level"])
 	%CardLevel.text = str(lv)
 	%CardXPBar.value = TycoonCrew.level_progress(m)
@@ -466,7 +497,13 @@ func _fill_specs(m: Dictionary) -> void:
 				"":
 					desc.text = tr("TY_CREW_SPEC_CHOOSE") % [TycoonHUD.fmt_cr(TycoonCrew.spec_cost(state, m)),
 						int(TycoonCrew.data().get("spec_weeks", 2))]
-					options = TycoonCrew.spec_options(m, int(slot["tier"]))
+					options = TycoonCrew.spec_options(m, int(slot["tier"]), state)
+					# the ones research has not opened yet, by name ("A pesquisa abre mais: ...")
+					var later: Array[String] = []
+					for sp in TycoonCrew.spec_locked(m, int(slot["tier"]), state):
+						later.append(tr("TY_CREW_SPEC_" + String(sp["id"]).to_upper()))
+					if not later.is_empty():
+						desc.text += " " + tr("TY_CREW_SPEC_MORE") % ", ".join(later)
 				_:
 					desc.text = tr(String(slot["reason"]))
 		var opts := TycoonHUD._copies(n.get_node("Options/OptionTemplate"), options.size())
@@ -507,6 +544,13 @@ func _fill_history(m: Dictionary) -> void:
 
 
 # ------------------------------------------------------------ actions
+## The encyclopedia's "Quem inspirou" card of the Lenda on the sheet.
+func _open_legend_card() -> void:
+	var id := String(%WhoInspired.get_meta("legend", ""))
+	if id != "" and hud and hud.has_method("open_screen"):
+		hud.call("open_screen", "book", {"legend": id})
+
+
 func _on_hire() -> void:
 	var err := TycoonCrew.hire(state, selected_cand)
 	_note = tr(err) if err != "" else ""

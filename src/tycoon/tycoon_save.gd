@@ -7,18 +7,40 @@ extends RefCounted
 ## JSON numbers are doubles: integers beyond 2^53 (RNG states) are written as tagged strings
 ## ("#i64:"), and the rare float whose JSON text does not read back bit-exact as its hex bits
 ## ("#f64:"), so a loaded campaign continues exactly as the saved one would have.
+## Demonstration saves (slots "demo_*") ship with the game under res://data/demo_saves/: the
+## start of each era and a fair-mode start, made from a real campaign by
+## tools/make_demo_saves.gd and opened from the main menu's Demonstração panel. They are
+## read-only in an export and never show up in list() / Continue.
 
 const DIR := "user://saves/"
 const VERSION := 1
 const SLOTS: Array[String] = ["1", "2", "3"]
 const AUTO := "auto"
+const DEMO_DIR := "res://data/demo_saves/"
+const DEMO_PREFIX := "demo_"
+## The demonstration slots, in the order the menu lists them.
+const DEMOS: Array[String] = ["demo_fair", "demo_era1", "demo_era2", "demo_era3", "demo_era4", "demo_era5"]
 const TYCOON_SCENE := "res://scenes/tycoon/tycoon_main.tscn"
 const _BIG := "#i64:"
 const _F64 := "#f64:"
 
 
 static func path(slot: String) -> String:
-	return DIR + "tycoon_%s.json" % slot
+	return (DEMO_DIR if is_demo(slot) else DIR) + "tycoon_%s.json" % slot
+
+
+static func is_demo(slot: String) -> bool:
+	return slot.begins_with(DEMO_PREFIX)
+
+
+## The demonstration saves that are there: [{"slot", "summary", "extra"}] in DEMOS order.
+static func demos() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for slot in DEMOS:
+		var d := read(slot)
+		if not d.is_empty():
+			out.append({"slot": slot, "summary": d.get("summary", {}), "extra": d.get("extra", {})})
+	return out
 
 
 static func exists(slot: String) -> bool:
@@ -27,7 +49,7 @@ static func exists(slot: String) -> bool:
 
 ## Writes the campaign to a slot. `extra` lands next to the state (e.g. {"fair_mode": true}).
 static func save(state: TycoonState, slot: String, extra: Dictionary = {}) -> Error:
-	DirAccess.make_dir_recursive_absolute(DIR)
+	DirAccess.make_dir_recursive_absolute(path(slot).get_base_dir())
 	var data := {"version": VERSION, "saved_at": int(Time.get_unix_time_from_system()), "slot": slot,
 		"summary": {"agency": state.agency_name, "year": state.year(), "week": state.week(), "era": state.era(),
 			"cash": state.cash, "milestones": state.milestones},

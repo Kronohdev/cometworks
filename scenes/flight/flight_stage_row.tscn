@@ -1,25 +1,34 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/flight/flight_stage_row.gd" id="1_row"]
-[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_engine.svg" id="2_engine"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_engine.svg" id="2_engine"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
 
 [node name="StageRow" type="PanelContainer"]
-custom_minimum_size = Vector2(232, 0)
-theme_type_variation = &"CardPanel"
+custom_minimum_size = Vector2(250, 0)
+theme_type_variation = &"CwPanelInset"
 script = ExtResource("1_row")
 
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 10
 
+[node name="Stripe" type="ColorRect" parent="HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.6039, 0.3608, 1)
+
 [node name="Num" type="Label" parent="HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(22, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
-theme_type_variation = &"ValueLabel"
-theme_override_font_sizes/font_size = 26
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 28
 text = "1"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VBox" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
@@ -28,21 +37,23 @@ theme_override_constants/separation = 3
 
 [node name="Head" type="HBoxContainer" parent="HBox/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Title" type="Label" parent="HBox/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"SectionLabel"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
 text = "UI_STAGE_N"
 
-[node name="Dv" type="Label" parent="HBox/VBox/Head"]
+[node name="State" type="Label" parent="HBox/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 13
-text = "0 m/s"
-horizontal_alignment = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 11
+text = "FL_CW_STAGE_WAITING"
 
 [node name="EngineRow" type="HBoxContainer" parent="HBox/VBox"]
 layout_mode = 2
@@ -50,8 +61,10 @@ theme_override_constants/separation = 6
 
 [node name="EngineIcon" type="TextureRect" parent="HBox/VBox/EngineRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
 texture = ExtResource("2_engine")
 expand_mode = 1
 stretch_mode = 5
@@ -59,17 +72,30 @@ stretch_mode = 5
 [node name="Engines" type="Label" parent="HBox/VBox/EngineRow"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
 text = "× 1"
 
-[node name="Fuel" type="ProgressBar" parent="HBox/VBox/EngineRow"]
+[node name="Fuel" type="Control" parent="HBox/VBox/EngineRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 7)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-value = 100.0
-show_percentage = false
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 1.0
+color = Color(1, 0.6039, 0.3608, 1)
+pill = true
+
+[node name="Dv" type="Label" parent="HBox/VBox/EngineRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(74, 0)
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 13
+text = "0 m/s"
+horizontal_alignment = 2
 
 [node name="BoosterRow" type="HBoxContainer" parent="HBox/VBox"]
 unique_name_in_owner = true
@@ -78,16 +104,18 @@ theme_override_constants/separation = 6
 
 [node name="Caption" type="Label" parent="HBox/VBox/BoosterRow"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
 text = "FL_BOOSTERS"
 
-[node name="Booster" type="ProgressBar" parent="HBox/VBox/BoosterRow"]
+[node name="Booster" type="Control" parent="HBox/VBox/BoosterRow"]
 unique_name_in_owner = true
-modulate = Color(1, 0.8, 0.333333, 1)
-custom_minimum_size = Vector2(0, 5)
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-value = 100.0
-show_percentage = false
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 1.0
+color = Color(1, 0.8235, 0.3608, 1)
+pill = true

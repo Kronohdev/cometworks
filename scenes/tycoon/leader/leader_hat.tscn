@@ -184,6 +184,130 @@ size = Vector3(0.07, 0.08, 0.065)
 [sub_resource type="BoxMesh" id="bow_tail"]
 size = Vector3(0.045, 0.1, 0.035)
 
+[sub_resource type="ShaderMaterial" id="leather"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.69, 0.45, 0.28, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="leather_dark"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.48, 0.3, 0.19, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="ink"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.2, 0.2, 0.38, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="glass"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.66, 0.92, 1, 1)
+shader_parameter/roughness = 0.2
+shader_parameter/emission = Color(0.66, 0.92, 1, 1)
+shader_parameter/emission_energy = 0.3
+
+[sub_resource type="ShaderMaterial" id="coin_dark"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.86, 0.6, 0.16, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.3
+
+[sub_resource type="BoxMesh" id="av_l0"]
+size = Vector3(0.66, 0.1, 0.64)
+
+[sub_resource type="BoxMesh" id="av_l1"]
+size = Vector3(0.62, 0.08, 0.6)
+
+[sub_resource type="BoxMesh" id="av_l2"]
+size = Vector3(0.52, 0.06, 0.5)
+
+[sub_resource type="BoxMesh" id="av_l3"]
+size = Vector3(0.36, 0.05, 0.34)
+
+[sub_resource type="BoxMesh" id="av_seam"]
+size = Vector3(0.035, 0.04, 0.48)
+
+[sub_resource type="BoxMesh" id="av_flap"]
+size = Vector3(0.06, 0.22, 0.18)
+
+[sub_resource type="BoxMesh" id="av_rim"]
+size = Vector3(0.68, 0.04, 0.66)
+
+[sub_resource type="BoxMesh" id="av_band"]
+size = Vector3(0.46, 0.04, 0.04)
+
+[sub_resource type="BoxMesh" id="av_frame"]
+size = Vector3(0.13, 0.11, 0.05)
+
+[sub_resource type="BoxMesh" id="av_lens"]
+size = Vector3(0.095, 0.075, 0.05)
+
+[sub_resource type="BoxMesh" id="hs_top"]
+size = Vector3(0.66, 0.045, 0.07)
+
+[sub_resource type="BoxMesh" id="hs_side"]
+size = Vector3(0.045, 0.24, 0.07)
+
+[sub_resource type="BoxMesh" id="hs_cup"]
+size = Vector3(0.08, 0.15, 0.15)
+
+[sub_resource type="BoxMesh" id="hs_pad"]
+size = Vector3(0.03, 0.11, 0.11)
+
+[sub_resource type="BoxMesh" id="hs_boom"]
+size = Vector3(0.03, 0.03, 0.2)
+
+[sub_resource type="BoxMesh" id="hs_mic"]
+size = Vector3(0.06, 0.05, 0.06)
+
+[sub_resource type="BoxMesh" id="gl_frame"]
+size = Vector3(0.14, 0.11, 0.03)
+
+[sub_resource type="BoxMesh" id="gl_lens"]
+size = Vector3(0.1, 0.07, 0.035)
+
+[sub_resource type="BoxMesh" id="gl_bridge"]
+size = Vector3(0.05, 0.025, 0.03)
+
+[sub_resource type="BoxMesh" id="gl_arm"]
+size = Vector3(0.025, 0.025, 0.3)
+
+[sub_resource type="BoxMesh" id="mb_cap"]
+size = Vector3(0.5, 0.14, 0.48)
+
+[sub_resource type="BoxMesh" id="mb_board"]
+size = Vector3(0.62, 0.035, 0.62)
+
+[sub_resource type="BoxMesh" id="mb_button"]
+size = Vector3(0.06, 0.03, 0.06)
+
+[sub_resource type="BoxMesh" id="mb_cord"]
+size = Vector3(0.26, 0.02, 0.02)
+
+[sub_resource type="BoxMesh" id="mb_string"]
+size = Vector3(0.02, 0.12, 0.02)
+
+[sub_resource type="BoxMesh" id="mb_tassel"]
+size = Vector3(0.05, 0.08, 0.05)
+
+[sub_resource type="BoxMesh" id="cn_stalk"]
+size = Vector3(0.04, 0.18, 0.04)
+
+[sub_resource type="BoxMesh" id="cn_a"]
+size = Vector3(0.22, 0.14, 0.05)
+
+[sub_resource type="BoxMesh" id="cn_b"]
+size = Vector3(0.14, 0.22, 0.05)
+
+[sub_resource type="BoxMesh" id="cn_c"]
+size = Vector3(0.19, 0.19, 0.05)
+
+[sub_resource type="BoxMesh" id="cn_face"]
+size = Vector3(0.12, 0.12, 0.06)
+
+[sub_resource type="BoxMesh" id="cn_mark"]
+size = Vector3(0.03, 0.15, 0.07)
+
 [sub_resource type="Animation" id="anim_reset"]
 length = 0.001
 tracks/0/type = "value"
@@ -659,6 +783,272 @@ transform = Transform3D(0.939373, 0.342898, 0, -0.342898, 0.939373, 0, 0, 0, 1, 
 cast_shadow = 0
 mesh = SubResource("bow_tail")
 surface_material_override/0 = SubResource("ruby_dark")
+
+[node name="Aviator" type="Node3D" parent="."]
+visible = false
+metadata/hides_antenna = true
+
+[node name="Rim" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_rim")
+surface_material_override/0 = SubResource("cream")
+
+[node name="L0" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_l0")
+surface_material_override/0 = SubResource("leather")
+
+[node name="L1" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_l1")
+surface_material_override/0 = SubResource("leather")
+
+[node name="L2" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_l2")
+surface_material_override/0 = SubResource("leather")
+
+[node name="L3" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_l3")
+surface_material_override/0 = SubResource("leather")
+
+[node name="Seam" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61, -0.01)
+cast_shadow = 0
+mesh = SubResource("av_seam")
+surface_material_override/0 = SubResource("leather_dark")
+
+[node name="FlapL" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33, 0.3, 0)
+cast_shadow = 0
+mesh = SubResource("av_flap")
+surface_material_override/0 = SubResource("leather")
+
+[node name="FlapR" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.33, 0.3, 0)
+cast_shadow = 0
+mesh = SubResource("av_flap")
+surface_material_override/0 = SubResource("leather")
+
+[node name="Band" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0.315)
+cast_shadow = 0
+mesh = SubResource("av_band")
+surface_material_override/0 = SubResource("leather_dark")
+
+[node name="FrameL" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0.48, 0.325)
+cast_shadow = 0
+mesh = SubResource("av_frame")
+surface_material_override/0 = SubResource("gold")
+
+[node name="FrameR" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.48, 0.325)
+cast_shadow = 0
+mesh = SubResource("av_frame")
+surface_material_override/0 = SubResource("gold")
+
+[node name="LensL" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0.48, 0.34)
+cast_shadow = 0
+mesh = SubResource("av_lens")
+surface_material_override/0 = SubResource("glass")
+
+[node name="LensR" type="MeshInstance3D" parent="Aviator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.48, 0.34)
+cast_shadow = 0
+mesh = SubResource("av_lens")
+surface_material_override/0 = SubResource("glass")
+
+[node name="Headset" type="Node3D" parent="."]
+visible = false
+
+[node name="Top" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, -0.09)
+cast_shadow = 0
+mesh = SubResource("hs_top")
+surface_material_override/0 = SubResource("ink")
+
+[node name="SideL" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37, 0.5, -0.09)
+cast_shadow = 0
+mesh = SubResource("hs_side")
+surface_material_override/0 = SubResource("ink")
+
+[node name="SideR" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.37, 0.5, -0.09)
+cast_shadow = 0
+mesh = SubResource("hs_side")
+surface_material_override/0 = SubResource("ink")
+
+[node name="CupL" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.36, -0.04)
+cast_shadow = 0
+mesh = SubResource("hs_cup")
+surface_material_override/0 = SubResource("ink")
+
+[node name="CupR" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.36, -0.04)
+cast_shadow = 0
+mesh = SubResource("hs_cup")
+surface_material_override/0 = SubResource("ink")
+
+[node name="PadL" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.455, 0.36, -0.04)
+cast_shadow = 0
+mesh = SubResource("hs_pad")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="PadR" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.455, 0.36, -0.04)
+cast_shadow = 0
+mesh = SubResource("hs_pad")
+surface_material_override/0 = SubResource("gore_blue")
+
+[node name="Boom" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(0.94, 0, 0.342, 0, 1, 0, -0.342, 0, 0.94, 0.36, 0.28, 0.12)
+cast_shadow = 0
+mesh = SubResource("hs_boom")
+surface_material_override/0 = SubResource("ink")
+
+[node name="Mic" type="MeshInstance3D" parent="Headset"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.27, 0.23)
+cast_shadow = 0
+mesh = SubResource("hs_mic")
+surface_material_override/0 = SubResource("ruby")
+
+[node name="Glasses" type="Node3D" parent="."]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 0.9848, -0.1736, 0, 0.1736, 0.9848, 0, 0.4, 0.31)
+metadata/hides_goggles = true
+
+[node name="FrameL" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0, 0)
+cast_shadow = 0
+mesh = SubResource("gl_frame")
+surface_material_override/0 = SubResource("ink")
+
+[node name="FrameR" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0, 0)
+cast_shadow = 0
+mesh = SubResource("gl_frame")
+surface_material_override/0 = SubResource("ink")
+
+[node name="LensL" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0, 0.006)
+cast_shadow = 0
+mesh = SubResource("gl_lens")
+surface_material_override/0 = SubResource("glass")
+
+[node name="LensR" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0, 0.006)
+cast_shadow = 0
+mesh = SubResource("gl_lens")
+surface_material_override/0 = SubResource("glass")
+
+[node name="Bridge" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0)
+cast_shadow = 0
+mesh = SubResource("gl_bridge")
+surface_material_override/0 = SubResource("ink")
+
+[node name="ArmL" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0, -0.15)
+cast_shadow = 0
+mesh = SubResource("gl_arm")
+surface_material_override/0 = SubResource("ink")
+
+[node name="ArmR" type="MeshInstance3D" parent="Glasses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0, -0.15)
+cast_shadow = 0
+mesh = SubResource("gl_arm")
+surface_material_override/0 = SubResource("ink")
+
+[node name="Mortarboard" type="Node3D" parent="."]
+visible = false
+metadata/hides_antenna = true
+
+[node name="Cap" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57, 0)
+cast_shadow = 0
+mesh = SubResource("mb_cap")
+surface_material_override/0 = SubResource("ink")
+
+[node name="Board" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66, 0)
+cast_shadow = 0
+mesh = SubResource("mb_board")
+surface_material_override/0 = SubResource("ink")
+
+[node name="Button" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69, 0)
+cast_shadow = 0
+mesh = SubResource("mb_button")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Cord" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.685, 0)
+cast_shadow = 0
+mesh = SubResource("mb_cord")
+surface_material_override/0 = SubResource("gold")
+
+[node name="String" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29, 0.62, 0)
+cast_shadow = 0
+mesh = SubResource("mb_string")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Tassel" type="MeshInstance3D" parent="Mortarboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29, 0.54, 0)
+cast_shadow = 0
+mesh = SubResource("mb_tassel")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Coin" type="Node3D" parent="."]
+visible = false
+metadata/hides_antenna = true
+
+[node name="Stalk" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
+cast_shadow = 0
+mesh = SubResource("cn_stalk")
+surface_material_override/0 = SubResource("coin_dark")
+
+[node name="A" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+cast_shadow = 0
+mesh = SubResource("cn_a")
+surface_material_override/0 = SubResource("gold")
+
+[node name="B" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+cast_shadow = 0
+mesh = SubResource("cn_b")
+surface_material_override/0 = SubResource("gold")
+
+[node name="C" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+cast_shadow = 0
+mesh = SubResource("cn_c")
+surface_material_override/0 = SubResource("gold")
+
+[node name="Face" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+cast_shadow = 0
+mesh = SubResource("cn_face")
+surface_material_override/0 = SubResource("coin_dark")
+
+[node name="Mark" type="MeshInstance3D" parent="Coin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0.002)
+cast_shadow = 0
+mesh = SubResource("cn_mark")
+surface_material_override/0 = SubResource("gold")
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,0 +1,625 @@
+{
+	"_doc": "Vovô Edmundo Halleyzinho's lessons (TutorialBook, src/tycoon/tutorial/tutorial_book.gd). Lines are i18n keys in i18n/tycoon_tutorial_strings.csv.",
+	"lessons": [
+		{
+			"id": "campus",
+			"title": "TUT_CAMPUS_TITLE",
+			"desc": "TUT_CAMPUS_DESC",
+			"icon": "hq",
+			"trigger": {
+				"on": "campus"
+			},
+			"steps": [
+				{
+					"line": "TUT_CAMPUS_1",
+					"pose": "wave"
+				},
+				{
+					"line": "TUT_CAMPUS_2",
+					"target": "hud:TopStrip/HBox/CometCard",
+					"pose": "nod"
+				},
+				{
+					"line": "TUT_CAMPUS_3",
+					"target": "hud:TopStrip/HBox/SpeedCard"
+				},
+				{
+					"line": "TUT_CAMPUS_4",
+					"target": "hud:TopStrip/HBox/StatsCard"
+				},
+				{
+					"line": "TUT_CAMPUS_5",
+					"pose": "specs"
+				},
+				{
+					"line": "TUT_CAMPUS_6"
+				},
+				{
+					"line": "TUT_CAMPUS_7",
+					"target": "hud:Rail"
+				},
+				{
+					"line": "TUT_CAMPUS_8",
+					"target": "hud:%NewProject",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "lot",
+			"title": "TUT_LOT_TITLE",
+			"desc": "TUT_LOT_DESC",
+			"icon": "build",
+			"trigger": {
+				"on": "lot"
+			},
+			"requires": [
+				"campus"
+			],
+			"steps": [
+				{
+					"line": "TUT_LOT_1",
+					"target": "hud:%LotPanel"
+				},
+				{
+					"line": "TUT_LOT_2",
+					"target": "hud:%BuildButton"
+				},
+				{
+					"line": "TUT_LOT_3",
+					"pose": "stargaze"
+				}
+			]
+		},
+		{
+			"id": "crew",
+			"title": "TUT_CREW_TITLE",
+			"desc": "TUT_CREW_DESC",
+			"icon": "crew",
+			"trigger": {
+				"on": "screen",
+				"screen": "crew"
+			},
+			"replay": "crew",
+			"steps": [
+				{
+					"line": "TUT_CREW_1",
+					"target": "%Grid"
+				},
+				{
+					"line": "TUT_CREW_2",
+					"target": "%HireTab"
+				},
+				{
+					"line": "TUT_CREW_3"
+				},
+				{
+					"line": "TUT_CREW_4",
+					"pose": "doze"
+				},
+				{
+					"line": "TUT_CREW_5"
+				}
+			]
+		},
+		{
+			"id": "briefings",
+			"title": "TUT_BRIEFINGS_TITLE",
+			"desc": "TUT_BRIEFINGS_DESC",
+			"icon": "journal",
+			"trigger": {
+				"on": "screen",
+				"screen": "briefings"
+			},
+			"replay": "briefings",
+			"steps": [
+				{
+					"line": "TUT_BRIEFINGS_1",
+					"target": "screen:Panel/Margin/VBox/Body/ListCol"
+				},
+				{
+					"line": "TUT_BRIEFINGS_2",
+					"target": "%Story"
+				},
+				{
+					"line": "TUT_BRIEFINGS_3",
+					"target": "%Goal",
+					"pose": "specs"
+				},
+				{
+					"line": "TUT_BRIEFINGS_4",
+					"target": "%Hints"
+				},
+				{
+					"line": "TUT_BRIEFINGS_5",
+					"target": "%Free"
+				},
+				{
+					"line": "TUT_BRIEFINGS_6",
+					"target": "%Next",
+					"advance": {
+						"on": "click"
+					}
+				}
+			]
+		},
+		{
+			"id": "objective",
+			"title": "TUT_OBJECTIVE_TITLE",
+			"desc": "TUT_OBJECTIVE_DESC",
+			"icon": "planet",
+			"trigger": {
+				"on": "screen",
+				"screen": "new_project"
+			},
+			"steps": [
+				{
+					"line": "TUT_OBJECTIVE_1",
+					"target": "screen:Panel/Margin/VBox/Body/TargetCol"
+				},
+				{
+					"line": "TUT_OBJECTIVE_2",
+					"target": "%CompatValue"
+				},
+				{
+					"line": "TUT_OBJECTIVE_3",
+					"target": "%Know",
+					"pose": "nod"
+				},
+				{
+					"line": "TUT_OBJECTIVE_4",
+					"target": "%Start",
+					"advance": {
+						"on": "click"
+					}
+				}
+			]
+		},
+		{
+			"id": "payload",
+			"title": "TUT_PAYLOAD_TITLE",
+			"desc": "TUT_PAYLOAD_DESC",
+			"icon": "research",
+			"trigger": {
+				"on": "screen",
+				"screen": "payload_planner"
+			},
+			"steps": [
+				{
+					"line": "TUT_PAYLOAD_1"
+				},
+				{
+					"line": "TUT_PAYLOAD_2",
+					"target": "screen:Panel/Margin/VBox/Body/Right/Gauges"
+				},
+				{
+					"line": "TUT_PAYLOAD_3",
+					"target": "%GaugeData",
+					"pose": "point"
+				},
+				{
+					"line": "TUT_PAYLOAD_4",
+					"target": "%GaugeComms"
+				},
+				{
+					"line": "TUT_PAYLOAD_5",
+					"target": "%EnvLine",
+					"pose": "stargaze"
+				},
+				{
+					"line": "TUT_PAYLOAD_6",
+					"pose": "cane_rest"
+				}
+			]
+		},
+		{
+			"id": "team",
+			"title": "TUT_TEAM_TITLE",
+			"desc": "TUT_TEAM_DESC",
+			"icon": "crew",
+			"trigger": {
+				"on": "screen",
+				"screen": "project_team"
+			},
+			"steps": [
+				{
+					"line": "TUT_TEAM_1",
+					"target": "%NeedEng"
+				},
+				{
+					"line": "TUT_TEAM_2",
+					"target": "%TeamIdeal"
+				},
+				{
+					"line": "TUT_TEAM_3",
+					"target": "%Hints",
+					"pose": "specs"
+				}
+			]
+		},
+		{
+			"id": "rocket",
+			"title": "TUT_ROCKET_TITLE",
+			"desc": "TUT_ROCKET_DESC",
+			"icon": "rocket",
+			"trigger": {
+				"on": "screen",
+				"screen": "rocket_designer"
+			},
+			"steps": [
+				{
+					"line": "TUT_ROCKET_1",
+					"pose": "wave"
+				},
+				{
+					"line": "TUT_ROCKET_2",
+					"target": "%MeterDv"
+				},
+				{
+					"line": "TUT_ROCKET_3",
+					"target": "%FamilyName"
+				},
+				{
+					"line": "TUT_ROCKET_4",
+					"target": "%HangarCard",
+					"pose": "nod"
+				}
+			]
+		},
+		{
+			"id": "phases",
+			"title": "TUT_PHASES_TITLE",
+			"desc": "TUT_PHASES_DESC",
+			"icon": "build",
+			"trigger": {
+				"on": "screen",
+				"screen": "project_phase"
+			},
+			"steps": [
+				{
+					"line": "TUT_PHASES_1",
+					"target": "%Pips"
+				},
+				{
+					"line": "TUT_PHASES_2",
+					"target": "%Lever0"
+				},
+				{
+					"line": "TUT_PHASES_3",
+					"target": "%PrevEng"
+				},
+				{
+					"line": "TUT_PHASES_4",
+					"target": "%Know",
+					"pose": "specs"
+				},
+				{
+					"line": "TUT_PHASES_5",
+					"target": "%DefectsValue"
+				}
+			]
+		},
+		{
+			"id": "review",
+			"title": "TUT_REVIEW_TITLE",
+			"desc": "TUT_REVIEW_DESC",
+			"icon": "shield",
+			"trigger": {
+				"on": "screen",
+				"screen": "design_review"
+			},
+			"steps": [
+				{
+					"line": "TUT_REVIEW_1"
+				},
+				{
+					"line": "TUT_REVIEW_2",
+					"target": "%OddsValue"
+				},
+				{
+					"line": "TUT_REVIEW_3",
+					"target": "%Scrub",
+					"pose": "cane_rest"
+				}
+			]
+		},
+		{
+			"id": "pad",
+			"title": "TUT_PAD_TITLE",
+			"desc": "TUT_PAD_DESC",
+			"icon": "pad",
+			"trigger": {
+				"on": "screen",
+				"screen": "launch_choice"
+			},
+			"steps": [
+				{
+					"line": "TUT_PAD_1",
+					"target": "%Pilot",
+					"pose": "point"
+				},
+				{
+					"line": "TUT_PAD_2",
+					"target": "%Auto",
+					"pose": "laugh"
+				}
+			]
+		},
+		{
+			"id": "results",
+			"title": "TUT_RESULTS_TITLE",
+			"desc": "TUT_RESULTS_DESC",
+			"icon": "star",
+			"trigger": {
+				"on": "screen",
+				"screen": "project_review"
+			},
+			"steps": [
+				{
+					"line": "TUT_RESULTS_1",
+					"target": "%Grade",
+					"pose": "wave"
+				},
+				{
+					"line": "TUT_RESULTS_2",
+					"target": "%Paper0"
+				},
+				{
+					"line": "TUT_RESULTS_3",
+					"target": "%Feedback",
+					"pose": "specs"
+				},
+				{
+					"line": "TUT_RESULTS_4",
+					"target": "%OpenJournal"
+				}
+			]
+		},
+		{
+			"id": "newspaper",
+			"title": "TUT_NEWSPAPER_TITLE",
+			"desc": "TUT_NEWSPAPER_DESC",
+			"icon": "journal",
+			"trigger": {
+				"on": "screen",
+				"screen": "newspaper"
+			},
+			"steps": [
+				{
+					"line": "TUT_NEWSPAPER_1",
+					"pose": "nod"
+				},
+				{
+					"line": "TUT_NEWSPAPER_2",
+					"target": "%Fact",
+					"pose": "specs"
+				}
+			]
+		},
+		{
+			"id": "journal",
+			"title": "TUT_JOURNAL_TITLE",
+			"desc": "TUT_JOURNAL_DESC",
+			"icon": "journal",
+			"trigger": {
+				"on": "screen",
+				"screen": "journal"
+			},
+			"replay": "journal",
+			"steps": [
+				{
+					"line": "TUT_JOURNAL_1",
+					"target": "%Types"
+				},
+				{
+					"line": "TUT_JOURNAL_2",
+					"target": "%RatioEng"
+				},
+				{
+					"line": "TUT_JOURNAL_3",
+					"target": "%Instr"
+				},
+				{
+					"line": "TUT_JOURNAL_4",
+					"target": "%EnvLine",
+					"pose": "forehead"
+				}
+			]
+		},
+		{
+			"id": "research",
+			"title": "TUT_RESEARCH_TITLE",
+			"desc": "TUT_RESEARCH_DESC",
+			"icon": "research",
+			"trigger": {
+				"on": "screen",
+				"screen": "research"
+			},
+			"replay": "research",
+			"steps": [
+				{
+					"line": "TUT_RESEARCH_1",
+					"target": "%Canvas"
+				},
+				{
+					"line": "TUT_RESEARCH_2",
+					"target": "%PoolValue"
+				},
+				{
+					"line": "TUT_RESEARCH_3",
+					"target": "%StudiesTab",
+					"pose": "specs"
+				},
+				{
+					"line": "TUT_RESEARCH_4",
+					"target": "%License"
+				}
+			]
+		},
+		{
+			"id": "contracts",
+			"title": "TUT_CONTRACTS_TITLE",
+			"desc": "TUT_CONTRACTS_DESC",
+			"icon": "contracts",
+			"trigger": {
+				"on": "screen",
+				"screen": "contracts"
+			},
+			"replay": "contracts",
+			"steps": [
+				{
+					"line": "TUT_CONTRACTS_1"
+				},
+				{
+					"line": "TUT_CONTRACTS_2",
+					"target": "%DReward"
+				},
+				{
+					"line": "TUT_CONTRACTS_3",
+					"target": "%Sign",
+					"pose": "laugh"
+				}
+			]
+		},
+		{
+			"id": "finance",
+			"title": "TUT_FINANCE_TITLE",
+			"desc": "TUT_FINANCE_DESC",
+			"icon": "finance",
+			"trigger": {
+				"on": "screen",
+				"screen": "finance"
+			},
+			"replay": "finance",
+			"steps": [
+				{
+					"line": "TUT_FINANCE_1",
+					"target": "%CashValue"
+				},
+				{
+					"line": "TUT_FINANCE_2",
+					"target": "%GrantValue"
+				},
+				{
+					"line": "TUT_FINANCE_3",
+					"pose": "nod"
+				}
+			]
+		},
+		{
+			"id": "race",
+			"title": "TUT_RACE_TITLE",
+			"desc": "TUT_RACE_DESC",
+			"icon": "race",
+			"trigger": {
+				"on": "screen",
+				"screen": "race"
+			},
+			"replay": "race",
+			"steps": [
+				{
+					"line": "TUT_RACE_1",
+					"target": "%Track"
+				},
+				{
+					"line": "TUT_RACE_2",
+					"target": "%Agencies"
+				},
+				{
+					"line": "TUT_RACE_3",
+					"pose": "stargaze"
+				}
+			]
+		},
+		{
+			"id": "map",
+			"title": "TUT_MAP_TITLE",
+			"desc": "TUT_MAP_DESC",
+			"icon": "map",
+			"trigger": {
+				"on": "screen",
+				"screen": "map"
+			},
+			"replay": "map",
+			"steps": [
+				{
+					"line": "TUT_MAP_1"
+				},
+				{
+					"line": "TUT_MAP_2",
+					"target": "%NetLevel"
+				},
+				{
+					"line": "TUT_MAP_3",
+					"pose": "specs"
+				}
+			]
+		},
+		{
+			"id": "book",
+			"title": "TUT_BOOK_TITLE",
+			"desc": "TUT_BOOK_DESC",
+			"icon": "book",
+			"trigger": {
+				"on": "screen",
+				"screen": "book"
+			},
+			"replay": "book",
+			"steps": [
+				{
+					"line": "TUT_BOOK_1"
+				},
+				{
+					"line": "TUT_BOOK_2",
+					"pose": "specs"
+				}
+			]
+		},
+		{
+			"id": "eras",
+			"title": "TUT_ERAS_TITLE",
+			"desc": "TUT_ERAS_DESC",
+			"icon": "calendar",
+			"trigger": {
+				"on": "signal",
+				"signal": "era_changed",
+				"min": 2
+			},
+			"steps": [
+				{
+					"line": "TUT_ERAS_1",
+					"target": "hud:TopStrip/HBox/TimeCard",
+					"pose": "wave"
+				},
+				{
+					"line": "TUT_ERAS_2"
+				},
+				{
+					"line": "TUT_ERAS_3",
+					"target": "hud:TopStrip/HBox/CometCard",
+					"pose": "nod"
+				}
+			]
+		},
+		{
+			"id": "library",
+			"title": "TUT_LIBRARY_TITLE",
+			"desc": "TUT_LIBRARY_DESC",
+			"icon": "book",
+			"trigger": {
+				"on": "screen",
+				"screen": "library"
+			},
+			"steps": [
+				{
+					"line": "TUT_LIBRARY_1",
+					"target": "%List",
+					"pose": "forehead"
+				}
+			]
+		}
+	]
+}

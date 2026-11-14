@@ -6,7 +6,7 @@ extends RefCounted
 ## being funded (and a queue), and what a finished tech unlocks. Pure rules on a TycoonState,
 ## headless. Sub-state lives in `TycoonState.research`:
 ##   {"active": tech id or "", "queue": [ids], "progress": {id: PP spent}, "pp_week": last
-##    week's output, "licensed": {id: rival id}}
+##    week's output, "licensed": {id: rival id}, "study": the mission study, FocusStudy}
 ## A finished tech sets `unlocked[id] = true` and one `unlocked["<kind>:<id>"] = true` per
 ## unlock (type:, target:, rocket:, part:, option:, spec:), so other systems only read `unlocked`.
 
@@ -215,13 +215,16 @@ static func pp_per_week(s: TycoonState) -> float:
 
 
 # ------------------------------------------------------------ weekly
-## One week: the lab makes PP into the pool; the funded research draws from the pool (at most
-## cost / weeks per week) and finishes when it has drawn its cost.
+## One week: the lab makes PP into the pool; the mission study being made (FocusStudy) draws
+## first, then the funded research draws from the pool (at most cost / weeks per week) and
+## finishes when it has drawn its cost.
 static func weekly(s: TycoonState) -> void:
 	var r := rs(s)
 	var made := pp_per_week(s)
 	r["pp_week"] = made
 	s.research_points += made
+	# a mission study (FocusStudy) draws from the pool first: it is small and quick
+	FocusStudy.weekly(s)
 	_next_from_queue(s)
 	var id := String(r["active"])
 	if id == "":
@@ -320,6 +323,11 @@ static func tech_for_target(id: String) -> String:
 	return String(_gated("targets").get(id, ""))
 
 
+## The tech that opens a specialisation ("" for those there from the start).
+static func tech_for_spec(id: String) -> String:
+	return String(_gated("specs").get(id, ""))
+
+
 ## A mission type is available once the tech that unlocks it is done (types no tech unlocks,
 ## like the sounding rocket, only need their era).
 static func mission_type_available(s: TycoonState, id: String) -> bool:
@@ -330,12 +338,32 @@ static func mission_type_available(s: TycoonState, id: String) -> bool:
 	return is_done(s, by) if by != "" else s.era() >= int(t.get("era", 1))
 
 
+## A target with "approach_weeks" (the comet) is only within reach in the campaign's last weeks.
 static func mission_target_available(s: TycoonState, id: String) -> bool:
 	var t := s.mission_target(id)
 	if t.is_empty():
 		return false
+	if int(t.get("approach_weeks", 0)) > 0 and s.comet_weeks_left() > int(t["approach_weeks"]):
+		return false
 	var by := tech_for_target(id)
 	return is_done(s, by) if by != "" else s.era() >= int(t.get("era", 1))
+
+
+## Can this type fly to this target, beyond each one being open? Crewed flights to the targets
+## of projects.json launch.crewed_target_tech also need that tech. Returns "" or the reason
+## (a translation key).
+static func pair_error(s: TycoonState, type_id: String, target_id: String) -> String:
+	if not ProjectRules.is_crewed(type_id):
+		return ""
+	var l := ProjectRules.section("launch")
+	var need := String((l.get("crewed_target_tech", {}) as Dictionary).get(target_id, ""))
+	if need != "" and not is_done(s, need):
+		return String(l.get("crewed_target_error", "TY_PJ_ERR_TARGET"))
+	return ""
+
+
+static func pair_available(s: TycoonState, type_id: String, target_id: String) -> bool:
+	return pair_error(s, type_id, target_id) == ""
 
 
 # ------------------------------------------------------------ licensing (GDD 10 / 12)

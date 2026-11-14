@@ -40,19 +40,19 @@ theme_override_constants/separation = 0
 [node name="Title" type="Label" parent="Margin/VBox/Header/Titles"]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "Crew"
+text = "CREW_TITLE"
 
 [node name="Subtitle" type="Label" parent="Margin/VBox/Header/Titles"]
 layout_mode = 2
 theme_type_variation = &"DimLabel"
-text = "Cometlings ready to fly"
+text = "CREW_SUBTITLE"
 
 [node name="HireBtn" type="Button" parent="Margin/VBox/Header"]
 custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-text = "Hire"
+text = "CREW_HIRE"
 theme_override_constants/icon_max_width = 20
 icon = ExtResource("3_hire")
 
@@ -67,7 +67,7 @@ text = "×"
 [node name="SeatsTitle" type="Label" parent="Margin/VBox"]
 layout_mode = 2
 theme_type_variation = &"SectionLabel"
-text = "CREW SEATS"
+text = "CREW_SEATS"
 
 [node name="Seats" type="HFlowContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -114,7 +114,7 @@ layout_mode = 2
 [node name="RosterTitle" type="Label" parent="Margin/VBox"]
 layout_mode = 2
 theme_type_variation = &"SectionLabel"
-text = "ROSTER"
+text = "CREW_ROSTER"
 
 [node name="Scroll" type="ScrollContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -130,5 +130,5 @@ theme_override_constants/separation = 6
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 11
-text = "Drag a card onto a seat, or select it and click a seat."
+text = "CREW_DRAG_HINT"
 autowrap_mode = 3

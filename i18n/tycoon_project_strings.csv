@@ -441,3 +441,82 @@ TY_PJ_BRIEF_OVER,"over budget","acima do orçamento"
 TY_PJ_JOURNAL_NEW,"Journal: +%d discoveries","Caderno: +%d descobertas"
 TY_PJ_JOURNAL_NONE,"Journal: nothing new this time.","Caderno: nada de novo desta vez."
 TY_FB_LAUNCH_FAIL,"The rocket failed: the plan never got its chance.","O foguete falhou: o plano nem teve chance."
+TY_JN_NOTE_STUDY_1,"Lab study of %s: the bar that matters most and least","Estudo de %s: a barra que mais e a que menos pesa"
+TY_JN_NOTE_STUDY_2,"Lab study of %s: every bar's weight and the levers of each phase","Estudo de %s: o peso de cada barra e as alavancas de cada fase"
+TY_JN_NOTE_STUDY_3,"Lab study of %s: the exact ideal balance","Estudo de %s: a proporção ideal exata"
+TY_NEWS_STUDY,"Mission study done: %s, level %d of 3","Estudo de missão pronto: %s, nível %d de 3"
+TY_ST_ERR_KNOWN,"The agency already knows everything about this mission.","A agência já sabe tudo sobre esta missão."
+TY_ST_ERR_LOCKED,"Research this mission type first.","Pesquise este tipo de missão primeiro."
+TY_ST_ERR_CASH,"Not enough money to start the study.","Falta dinheiro para começar o estudo."
+TY_FS_FOCUS_CAPTION,Focus,Foco
+TY_FS_KNOW,What we know,O que sabemos
+TY_FS_TIER,"level %d of 3","nível %d de 3"
+TY_FS_MARK_TOP,★ most,★ mais
+TY_FS_MARK_BOTTOM,↓ least,↓ menos
+TY_FS_MARK_HIGH,▲ a lot,▲ muito
+TY_FS_MARK_MID,● some,● médio
+TY_FS_MARK_LOW,▼ a little,▼ pouco
+TY_FS_AND,"%s and %s","%s e %s"
+TY_FS_KNOW_0,"Nobody knows yet which bars this mission leans on.","Ninguém sabe ainda em quais barras esta missão se apoia."
+TY_FS_KNOW_1,"%s matters most; %s, least.","%s é o que mais pesa; %s, o que menos."
+TY_FS_KNOW_2,"Weighs a lot: %s. Weighs little: %s. The arrows on the levers show where the time goes.","Pesa muito: %s. Pesa pouco: %s. As setas nas alavancas mostram onde pôr o tempo."
+TY_FS_KNOW_3,"The exact balance is known: the ink tick on each bar is the ideal, the green band on each lever hits it.","A proporção exata é conhecida: o risco de tinta em cada barra é o ideal, a faixa verde em cada alavanca acerta nele."
+TY_FS_HOW,"Learn more: study it in the lab (Research › Mission studies) or fly it (%d/%d flights).","Para saber mais: estude no laboratório (Pesquisa › Estudos de missão) ou voe (%d/%d voos)."
+TY_FS_HOW_STUDYING,"The lab is studying it: level %d in %s.","O laboratório está estudando: nível %d em %s."
+TY_FS_CLIENT_NOTE,"The lab's studies are about the mission type; this client wants its own mix.","Os estudos do laboratório falam do tipo de missão; este cliente quer a mistura dele."
+TY_FS_PHASE_FOCUS,"Focus of this phase: %s (it feeds %s, what matters most).","Foco desta fase: %s (alimenta %s, o que mais pesa)."
+TY_FS_PHASE_NOFOCUS,"No lever of this phase feeds %s: just go easy on %s.","Nenhuma alavanca desta fase alimenta %s: só não exagere em %s."
+TY_FS_ARROW_UP,▲ more time,▲ mais tempo
+TY_FS_ARROW_DOWN,▼ less time,▼ menos tempo
+TY_FS_ARROW_EVEN,● about a third,● um terço
+TY_FS_FOCUS_LEVER,★ focus here,★ foque aqui
+TY_FS_RANGE,"ideal %d-%d%%","ideal %d-%d%%"
+TY_FS_BAND_TIP,"The range that hits the ideal balance best with this team (mission study)","A faixa que mais acerta a proporção ideal com esta equipe (estudo de missão)"
+TY_FS_FEED,"%d%% %s","%d%% %s"
+TY_FS_WORK,Work at launch,Trabalho no lançamento
+TY_FS_WORK_TIP,"Points the whole project will have at launch with these levers (the next phases as they are) against what the press expects. More is better, up to 1.5x.","Pontos que o projeto inteiro terá no lançamento com estas alavancas (as próximas fases como estão) contra o que a imprensa espera. Mais é melhor, até 1,5x."
+TY_FS_MATCH_APPROX,"≈%d%%","≈%d%%"
+TY_FS_SUGGEST,Use the study's split,Usar sugestão do estudo
+TY_FS_SUGGEST_TIP,"Sets the levers to the split that hits what the study knows best, for this team and what the project already has.","Põe as alavancas na divisão que mais acerta o que o estudo sabe, para esta equipe e o que o projeto já tem."
+TY_FS_ADV_ORPHAN,"No one on the team works in %s: that bar comes out weak.","Ninguém da equipe é de %s: essa barra rende pouco."
+TY_FS_ADV_RAISE,"%s is below what the mission asks: give more time to %s.","%s está abaixo do que a missão pede: dê mais tempo a %s."
+TY_FS_ADV_LOWER,"%s is above what the mission asks: take time from %s.","%s passou do que a missão pede: tire tempo de %s."
+TY_FS_ADV_TOP,"%s matters most but is not your biggest bar: give more time to %s.","%s é o que mais pesa, mas não é a maior barra: dê mais tempo a %s."
+TY_FS_ADV_DEFECTS,"Many defects: give time to %s, it removes them.","Muitos defeitos: dê tempo a %s, que remove defeitos."
+TY_FS_ADV_GOOD,"The balance is on track.","O equilíbrio está no caminho certo."
+TY_FS_ADV_SHORT,"Little work for what the press expects: a bigger or more skilled team helps.","Pouco trabalho para o que a imprensa espera: uma equipe maior ou mais experiente ajuda."
+TY_STEP_BRIEF,Briefing,Pedido
+TY_STEP_GOAL,Objective,Objetivo
+TY_STEP_PAYLOAD,Payload,Carga
+TY_STEP_TEAM,Team,Equipe
+TY_STEP_ROCKET,Rocket,Foguete
+TY_FS_STUDY_BTN,"Study it in the lab: level %d · %d PP · %s","Estudar no laboratório: nível %d · %d PP · %s"
+TY_FS_STUDYING_BTN,"The lab is studying it (%s)","O laboratório está estudando (%s)"
+TY_FS_STUDY_TIP,"The lab's researchers study this mission type with research points (shared with the tech being researched). Each level tells more about which bars to focus on.","Os pesquisadores do laboratório estudam este tipo de missão com pontos de pesquisa (divididos com a tecnologia em pesquisa). Cada nível conta mais sobre em quais barras focar."
+TY_RS_TAB_TREE,Tech tree,Árvore
+TY_RS_TAB_STUDIES,Mission studies,Estudos de missão
+TY_ST_TAB_TIP,"Study a mission type to learn which quality bars to focus on","Estude um tipo de missão para saber em quais barras de qualidade focar"
+TY_ST_LIST,Mission types,Tipos de missão
+TY_ST_INTRO,"Each mission type leans on some bars more than others. A study tells which, in three levels; flying it teaches too.","Cada tipo de missão se apoia mais em umas barras do que em outras. Um estudo conta quais, em três níveis; voar também ensina."
+TY_ST_CAPTION,Mission study,Estudo de missão
+TY_ST_TAG_ACTIVE,studying,estudando
+TY_ST_TAG_KNOWN,known,conhecido
+TY_ST_NEXT,"Next level: %d of 3","Próximo nível: %d de 3"
+TY_ST_REVEAL_1,"Which bar matters most and which matters least, and the lever to focus on in each phase.","Qual barra mais pesa e qual menos pesa, e a alavanca para focar em cada fase."
+TY_ST_REVEAL_2,"How much each bar weighs (a lot, some, a little), arrows on the levers of every phase and a suggested split.","Quanto pesa cada barra (muito, médio, pouco), setas nas alavancas de cada fase e uma divisão sugerida."
+TY_ST_REVEAL_3,"The exact ideal balance: the marker on each bar, the lever ranges that hit it and the balance match.","A proporção ideal exata: a marca em cada barra, as faixas de alavanca que acertam nela e o acerto da proporção."
+TY_ST_MONEY,Money,Dinheiro
+TY_ST_PAID,paid,pago
+TY_ST_FLIGHT,"Flying also teaches: the first launch gives level 1 and the journal reveals everything after %d flights (flown: %d).","Voar também ensina: o primeiro lançamento dá o nível 1 e o caderno revela tudo depois de %d voos (já voados: %d)."
+TY_ST_START,Study,Estudar
+TY_ST_RESUME,Resume the study,Retomar o estudo
+TY_ST_STOP,Pause the study,Pausar o estudo
+TY_ST_ALL_KNOWN,Everything known,Tudo conhecido
+TY_ST_PAUSES,"Pauses the study of %s (its progress stays).","Pausa o estudo de %s (o progresso fica)."
+TY_FS_ADV_BEST,"This is the best split for this team; the rest depends on who is on it.","Esta é a melhor divisão para esta equipe; o resto depende de quem está nela."
+TY_ST_SUB,"Which bars each mission leans on","Em quais barras cada missão se apoia"
+TY_JN_NOTE_FOCUS_FLIGHT,"First flight of %s: now we know which bar matters most and least","Primeiro voo de %s: agora sabemos qual barra mais e qual menos pesa"
+TY_STEP_LAUNCH,Launch,Lançamento
+TY_STEP_ROCKET_TIP,"The rocket: pick one in the designer or build it in the hangar (Montar no hangar)","O foguete: escolha no projetista ou monte no hangar (Montar no hangar)"
+TY_STEP_LAUNCH_TIP,"A rocket built in the hangar waits on the pad: pilot the launch or let the team fly it","Um foguete montado no hangar espera na plataforma: pilote o lançamento ou deixe a equipe voar"
+TY_PJ_ERR_LIFE_SUPPORT,Crewed flights beyond low orbit need the Life support research.,Voos tripulados além da órbita baixa precisam da pesquisa Suporte de vida.

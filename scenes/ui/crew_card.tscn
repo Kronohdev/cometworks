@@ -175,7 +175,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_color = Color(0.051, 0.067, 0.09, 1)
 theme_override_font_sizes/font_size = 12
-text = "Pilot"
+text = "ROLE_PILOT"
 
 [node name="Level" type="Label" parent="HBox/Info/BadgeRow"]
 layout_mode = 2
@@ -206,7 +206,7 @@ custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 11
-text = "Courage"
+text = "STAT_COURAGE"
 
 [node name="Courage" type="ProgressBar" parent="HBox/Info/Stats"]
 custom_minimum_size = Vector2(0, 7)
@@ -224,7 +224,7 @@ show_percentage = false
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 11
-text = "Skill"
+text = "STAT_SKILL"
 
 [node name="Skill" type="ProgressBar" parent="HBox/Info/Stats"]
 custom_minimum_size = Vector2(0, 7)
@@ -242,7 +242,7 @@ show_percentage = false
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 11
-text = "Curiosity"
+text = "STAT_CURIOSITY"
 
 [node name="Curiosity" type="ProgressBar" parent="HBox/Info/Stats"]
 custom_minimum_size = Vector2(0, 7)
@@ -260,7 +260,7 @@ show_percentage = false
 layout_mode = 2
 theme_type_variation = &"DimLabel"
 theme_override_font_sizes/font_size = 11
-text = "Available"
+text = "CREW_STATUS_AVAILABLE"
 text_overrun_behavior = 3
 
 [node name="SeatBtn" type="Button" parent="HBox"]

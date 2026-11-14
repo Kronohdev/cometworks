@@ -39,6 +39,11 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_beanie.svg" id="h_beanie"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_flower.svg" id="h_flower"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_bow.svg" id="h_bow"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_aviator.svg" id="h_aviator"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_headset.svg" id="h_headset"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_glasses.svg" id="h_glasses"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_mortarboard.svg" id="h_mortarboard"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_coin.svg" id="h_coin"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/emblems/comet.svg" id="e_comet"]
 [ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/emotes.png" id="emote_sheet"]
 
@@ -308,6 +313,8 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="ButtonGroup" id="emblem_group"]
 
+[sub_resource type="ButtonGroup" id="diff_group"]
+
 [sub_resource type="Environment" id="stage_env"]
 background_mode = 1
 background_color = Color(0, 0, 0, 0)
@@ -455,10 +462,15 @@ profession_icons = Dictionary[String, Texture2D]({
 "test_technician": ExtResource("i_contracts")
 })
 hat_icons = Dictionary[String, Texture2D]({
+"aviator": ExtResource("h_aviator"),
 "beanie": ExtResource("h_beanie"),
 "bow": ExtResource("h_bow"),
+"coin": ExtResource("h_coin"),
 "crown": ExtResource("h_crown"),
 "flower": ExtResource("h_flower"),
+"glasses": ExtResource("h_glasses"),
+"headset": ExtResource("h_headset"),
+"mortarboard": ExtResource("h_mortarboard"),
 "none": ExtResource("h_none"),
 "propeller": ExtResource("h_propeller"),
 "role": ExtResource("h_role")
@@ -803,7 +815,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 15
-text = "Engenheiro(a) de sistemas"
+text = "TY_PROF_SYSTEMS"
 
 [node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox"]
 layout_mode = 2
@@ -1299,7 +1311,7 @@ layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_constants/line_spacing = -3
 theme_override_font_sizes/font_size = 15
-text = "Engenheiro(a) de propulsão"
+text = "TY_PROF_PROPULSION"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -1481,7 +1493,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 20
-text = "Engenheiro(a) de sistemas"
+text = "TY_PROF_SYSTEMS"
 text_overrun_behavior = 3
 
 [node name="DetailSpec" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text"]
@@ -1497,7 +1509,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 14
-text = "15% menos defeitos no seu trabalho."
+text = "TY_CREW_SPEC_INTEGRATION_LEAD_DESC"
 autowrap_mode = 3
 max_lines_visible = 2
 
@@ -1738,7 +1750,7 @@ stretch_mode = 5
 [node name="AgencyPage" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages"]
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 22
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
@@ -1905,6 +1917,85 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem/Emblems/EmblemTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Difficulty" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_DIFF_CAPTION"
+
+[node name="Levels" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DiffTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty/Levels"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/disabled = SubResource("tile_normal")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("diff_group")
+
+[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty/Levels/DiffTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Name" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty/Levels/DiffTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 18
+text = "TY_DIFF_NORMAL"
+horizontal_alignment = 1
+
+[node name="Tip" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty/Levels/DiffTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 13
+text = "TY_DIFF_NORMAL_DESC"
+horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Difficulty/Levels/DiffTemplate"]
 visible = false
 layout_mode = 1
 anchors_preset = 1

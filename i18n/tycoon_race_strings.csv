@@ -181,3 +181,15 @@ TY_SET_OPTIONS,Options,Opções
 TY_SAVE_CONTINUE_HINT,Year %02d · week %02d,Ano %02d · semana %02d
 TY_SAVE_CONTINUE_TIP,Continue the last saved campaign,Continuar a última campanha salva
 TY_SAVE_LOADING,Loading the campaign,Carregando a campanha
+TY_RACE_LEADER_SAYS,%s: %s,%s: %s
+TY_RACE_LEADER,Leader,Líder
+TY_PAPER_QUOTE_BY_LEADER,"— %s, %s","— %s, %s"
+TY_LEG_GAGARINHO_FIRST,“Let's go! Anyone who wants can follow us.”,"“Vamos lá! Quem quiser, vem atrás.”"
+TY_LEG_GAGARINHO_FAIL,“We tripped. Tomorrow: let's go again!”,"“Tropeçamos. Amanhã, vamos lá de novo!”"
+TY_LEG_GAGARINHO_CHEER,Commander Iúri Gagarinho sends flowers to %s: “What a beautiful flight!”,O Comandante Iúri Gagarinho manda flores para %s: “Que voo bonito!”
+TY_LEG_CIFRINHA_FIRST,"“Launched, invoiced and under budget.”","“Lançado, faturado e dentro do orçamento.”"
+TY_LEG_CIFRINHA_FAIL,“A small tweak to the spreadsheet and we are back.”,“Um pequeno ajuste na planilha e voltamos.”
+TY_LEG_CIFRINHA_CHEER,Dona Cifrinha sends %s a card: “Congratulations! Shall we talk about licences?”,Dona Cifrinha manda um cartão para %s: “Parabéns! Vamos conversar sobre licenças?”
+TY_LEG_HERSCHELINHA_FIRST,“We measured twice. Then we measured again. And it worked.”,“Medimos duas vezes. Depois medimos de novo. E deu certo.”
+TY_LEG_HERSCHELINHA_FAIL,“Noted. The next measurement will be better.”,“Anotado. A próxima medida sai melhor.”
+TY_LEG_HERSCHELINHA_CHEER,Carolina Herschelinha writes in her notebook: “%s got there first. Well done.”,Carolina Herschelinha anota no caderno: “%s chegou antes. Muito bem.”

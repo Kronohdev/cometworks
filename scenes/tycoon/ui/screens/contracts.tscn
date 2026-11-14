@@ -262,7 +262,7 @@ text_overrun_behavior = 3
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 21
-text = "Observação da Terra"
+text = "TY_MT_EARTH_OBS"
 
 [node name="Target" type="Label" parent="Frame/VBox/Pages/Offers/Scroll/OfferList/OfferTemplate/Row/Who"]
 layout_mode = 2
@@ -348,7 +348,7 @@ theme_override_constants/separation = 1
 [node name="Sponsor" type="Label" parent="Frame/VBox/Pages/Signed/Scroll/SignedList/SignedTemplate/Row/Who"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "Programa Espacial Nacional"
+text = "TY_SP_GOV_SPACE"
 
 [node name="Mission" type="Label" parent="Frame/VBox/Pages/Signed/Scroll/SignedList/SignedTemplate/Row/Who"]
 layout_mode = 2
@@ -464,7 +464,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 32
-text = "Observação da Terra"
+text = "TY_MT_EARTH_OBS"
 
 [node name="DTarget" type="Label" parent="Frame/VBox/Pages/Offer/Main/Scroll/VBox"]
 unique_name_in_owner = true

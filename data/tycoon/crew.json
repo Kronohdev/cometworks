@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "_doc_specs": "Specialisations (GDD section 9): learned at the training centre at level 3 (tier 1, by profession) and level 5 (tier 2, anyone or the listed professions); 'tiers' [1, 2] fits either slot. A spec a research.json tech lists under unlocks.specs waits for that tech. Effects add up over a Cometling's specs (TycoonCrew.spec_effect) and, for team-wide ones, over the project's team; a key can be narrowed to a mission type (points_crewed_landing), a target (points_comet, points_lunar_pole) or every Moon target (points_sci_lunar). Keys: points / points_<bar> (x points), team_points (x everyone's points on the project), defects (x defects made), defect_removal (x defects removed), secondary_affinity (+ affinity on the secondary bar), crew_risk (x the crew risk of a crewed flight), rocket_rel (+ reliability of each rocket component), science / downlink (x the mission's science / downlink in operations), research (x lab PP), team_xp (+ XP share for project mates), overwork_weeks (+ weeks before overwork), failure_morale (x morale lost to failures).",
   "xp_per_level": 100,
   "max_level": 6,
   "staff_limit_by_hq": [0, 8, 12, 16],
@@ -51,6 +52,11 @@
     {"id": "mentor",           "tier": 2, "professions": [],                      "effects": {"team_xp": 0.25}},
     {"id": "workhorse",        "tier": 2, "professions": [],                      "effects": {"overwork_weeks": 4}},
     {"id": "optimist",         "tier": 2, "professions": [],                      "effects": {"failure_morale": -0.5}},
-    {"id": "polymath",         "tier": 2, "professions": [],                      "effects": {"secondary_affinity": 0.3}}
+    {"id": "polymath",         "tier": 2, "professions": [],                      "effects": {"secondary_affinity": 0.3}},
+    {"id": "flight_surgeon",   "tiers": [1, 2], "professions": ["scientist", "flight_controller"], "effects": {"crew_risk": -0.4}},
+    {"id": "moonwalker",       "tiers": [1, 2], "professions": ["pilot"],         "effects": {"points_crewed_landing": 0.25, "crew_risk_crewed_landing": -0.3}},
+    {"id": "comet_navigator",  "tiers": [1, 2], "professions": ["flight_controller", "pilot"], "effects": {"points_comet": 0.25, "downlink_comet": 0.3}},
+    {"id": "ice_miner",        "tiers": [1, 2], "professions": ["scientist", "systems_engineer"], "effects": {"points_isru": 0.25, "points_lunar_pole": 0.15}},
+    {"id": "mission_director", "tier": 2, "professions": [],                      "effects": {"team_points": 0.1}}
   ]
 }

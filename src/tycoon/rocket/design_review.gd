@@ -36,7 +36,8 @@ static func risks(state: TycoonState, p: MissionProject, fixes: Variant = null) 
 	var factor := float(r.get("fix_factor", 0.5))
 	var unit := RocketDesigner.unit_cost(state, parts, RocketFamilies.flights(RocketFamilies.find(state, String(p.rocket.get("family", "")))))
 	var out: Array[Dictionary] = []
-	# the rocket's components
+	# the rocket's components (a cryogenics specialist on the team adds "rocket_rel" to each)
+	var rel_bonus := TycoonCrew.team_effect(state, p.staff_ids, "rocket_rel", p.type_id, p.target_id)
 	var tank_rel := float(RocketDesigner.component(String(parts["tank"])).get("rel", 1.0))
 	for sd: Dictionary in RocketDesigner.slots():
 		var rk: Dictionary = sd.get("risk", {})
@@ -47,6 +48,8 @@ static func risks(state: TycoonState, p: MissionProject, fixes: Variant = null) 
 		var rel := float(c.get("rel", 1.0))
 		if String(sd["id"]) == "core":
 			rel *= tank_rel
+		if rel_bonus > 0.0 and rel < 1.0:
+			rel = minf(rel + rel_bonus, maxf(rel, 0.999))
 		var p0 := 1.0 - rel
 		if p0 <= 1e-6:
 			continue
@@ -93,6 +96,19 @@ static func risks(state: TycoonState, p: MissionProject, fixes: Variant = null) 
 	if crew < 1.0 - 1e-6:
 		out.append(_risk("crew", "crew", {"name_key": "TY_RK_RISK_CREW", "cause_key": "TY_RK_CAUSE_CREW"}, "",
 			1.0 - crew, 1.0, [], 0, 0.0))
+	# a Lenda on the team makes some risks smaller (review_<risk id>, TycoonLegends)
+	var team := p.team(state)
+	for e in out:
+		if bool(e["blocking"]):
+			continue
+		var k := 1.0
+		for m in team:
+			k += TycoonCrew.spec_effect(m, "review_" + String(e["id"]))
+		if not is_equal_approx(k, 1.0):
+			k = maxf(k, 0.0)
+			e["p0"] = float(e["p0"]) * k
+			e["p"] = float(e["p"]) * k
+			e["severity"] = severity(float(e["p"]))
 	# most likely first, before any fix (the rows keep their places while fixes are toggled)
 	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["p0"]) > float(b["p0"]))
 	return out
@@ -137,7 +153,9 @@ static func payload_chance(state: TycoonState, p: MissionProject, fixed := false
 		- float(l.get("payload_defect", 0.03)) * defects, float(l.get("payload_min", 0.3)), float(l.get("payload_max", 0.99)))
 
 
-## Crewed flights: lerp(crewed_courage_floor, 1, the team's mean courage); 1 otherwise.
+## Crewed flights: lerp(crewed_courage_floor, 1, the team's mean courage); 1 otherwise. The
+## team's specialisations scale the crew risk ("crew_risk": steady hands -20%, a flight surgeon
+## -40%, a moonwalker on a landing -30%), never below crew_risk_floor of it.
 static func crew_factor(state: TycoonState, p: MissionProject) -> float:
 	if not ProjectRules.is_crewed(p.type_id):
 		return 1.0
@@ -147,7 +165,10 @@ static func crew_factor(state: TycoonState, p: MissionProject) -> float:
 	for m in team:
 		courage += float(m.get("courage", 0.5))
 	courage /= maxf(team.size(), 1)
-	return lerpf(float(l.get("crewed_courage_floor", 0.85)), 1.0, courage)
+	var risk := 1.0 - lerpf(float(l.get("crewed_courage_floor", 0.85)), 1.0, courage)
+	var spec := TycoonCrew.team_effect(state, p.staff_ids, "crew_risk", p.type_id, p.target_id)
+	risk *= maxf(1.0 + spec, float(l.get("crew_risk_floor", 0.25)))
+	return 1.0 - risk
 
 
 ## The odds of the launch: {"total", "rocket" (components x heritage x margins), "payload",

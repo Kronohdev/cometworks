@@ -1,0 +1,151 @@
+keys,en,pt
+TUT_CAMPUS_TITLE,Welcome to the hill,Bem-vindo ao morro
+TUT_CAMPUS_DESC,"The campus, the comet clock, time and the camera.","O campus, o relógio do cometa, o tempo e a câmera."
+TUT_CAMPUS_1,"Well, well, someone new on the hill! I'm Edmundo. Call me Grandpa, everybody does.","Ora, ora, gente nova no morro! Eu sou o Edmundo. Pode me chamar de Vovô, todo mundo chama."
+TUT_CAMPUS_2,This clock matters most: it counts down to the Mother-Ice's return. I did the math. Twice.,Este relógio é o mais importante: conta quanto falta para a Mãe-Gelo voltar. Eu fiz a conta. Duas vezes.
+TUT_CAMPUS_3,"Here you stop or speed up time. Space pauses; 1, 2 and 3 pick the pace. At my age, I use 1.","Aqui você para ou acelera o tempo. Espaço pausa; 1, 2 e 3 escolhem a pressa. Na minha idade, eu uso o 1."
+TUT_CAMPUS_4,"Money, reputation and hype. All three go up with good missions and down with... well, the opposite.","Dinheiro, reputação e hype. Os três sobem com missão bem-feita e descem com... bom, com o contrário."
+TUT_CAMPUS_5,"To look around: drag with the mouse, turn with the middle button and use the wheel to get closer.","Para passear: arraste com o mouse, gire com o botão do meio e use a rodinha para chegar mais perto."
+TUT_CAMPUS_6,"Click a lot to see its building, or a Cometling to follow the poor thing around. They love an audience.","Clique num lote para ver o prédio, ou num Cometinho para seguir o coitado. Eles adoram plateia."
+TUT_CAMPUS_7,"This column holds the crew, research, contracts, the map, the race and my notebook. I mean, yours.","Nesta coluna ficam a equipe, a pesquisa, os contratos, o mapa, a corrida e o meu caderno. Digo, o seu."
+TUT_CAMPUS_8,"When you're ready, start here: the mission board. Someone always needs a rocket!","Quando estiver pronto, comece por aqui: o quadro de missões. Sempre tem alguém precisando de foguete!"
+TUT_LOT_TITLE,Lots and buildings,Lotes e prédios
+TUT_LOT_DESC,"Building, levelling up and the shed that opens the hangar.","Construir, subir de nível e o galpão que abre o hangar."
+TUT_LOT_1,"Every lot holds a building, and every building has three levels. The bigger, the more it does.","Cada lote guarda um prédio, e cada prédio tem três níveis. Quanto maior, mais coisa ele faz."
+TUT_LOT_2,Building costs money and a few weeks. Upkeep too: two percent a month. I learned that the hard way.,Construir custa dinheiro e algumas semanas. Manter também: dois por cento ao mês. Aprendi do jeito difícil.
+TUT_LOT_3,"The assembly shed opens the hangar, where rockets come together part by part. Grandkid stuff; I just watch.","O galpão de montagem abre o hangar, onde o foguete sai peça por peça. Coisa de neto; eu só fico olhando."
+TUT_CREW_TITLE,The crew,A turma
+TUT_CREW_DESC,"Hiring, traits, morale, naps and specializations.","Contratar, traços, moral, cochilos e especializações."
+TUT_CREW_1,"This is your crew. Every Cometling has a profession, a level, morale and a huge longing for home.","Esta é a sua turma. Cada Cometinho tem profissão, nível, moral e uma saudade enorme de casa."
+TUT_CREW_2,"Under Hire, three candidates show up each month. Two traits stay hidden until you hire them. Surprise!",Na aba Contratar chegam três candidatos por mês. Dois traços ficam escondidos até a contratação. Surpresa!
+TUT_CREW_3,"Skill makes points, curiosity brings ideas and courage steadies the nerves on crewed flights.","Habilidade rende pontos, curiosidade traz ideias e coragem segura o nervosismo nos voos tripulados."
+TUT_CREW_4,Low morale ends in a nap in the middle of campus. I understand perfectly. Pay on time and celebrate the wins.,Moral baixa vira cochilo no meio do campus. Eu entendo perfeitamente. Pague em dia e comemore os acertos.
+TUT_CREW_5,Click a Cometling to open their sheet. At levels 3 and 5 they pick a specialization.,Clique num Cometinho para abrir a ficha. Nos níveis 3 e 5 ele escolhe uma especialização.
+TUT_BRIEFINGS_TITLE,The mission board,O quadro de missões
+TUT_BRIEFINGS_DESC,"Requests, the hidden solution, hints and the free project.","Pedidos, a solução escondida, palpites e o projeto livre."
+TUT_BRIEFINGS_1,"The mission board! Always three requests at a time, with new ones every four weeks.","O quadro de missões! São sempre três pedidos por vez, e chegam novos a cada quatro semanas."
+TUT_BRIEFINGS_2,"Each request tells a story, but never says how to solve it. That part is up to you.","Cada pedido conta uma história, mas nunca diz como resolver. Essa parte fica com você."
+TUT_BRIEFINGS_3,The client hides an ideal destination and mission type. Hit the ideal and you get full marks.,"O cliente esconde um destino e um tipo de missão ideais. Acertou o ideal, leva a nota cheia."
+TUT_BRIEFINGS_4,Curious Cometlings drop hints here. Sometimes they're right. Sometimes... not so much.,Os Cometinhos curiosos dão palpites aqui. Às vezes acertam. Às vezes... nem tanto.
+TUT_BRIEFINGS_5,"With no client at all, you can run a free project, paid out of pocket. Great for practice.","Sem cliente nenhum, dá para fazer um projeto livre, pago do próprio bolso. Ótimo para treinar."
+TUT_BRIEFINGS_6,"Picked a request? Then go on ahead. I'll follow, nice and slow.","Escolheu um pedido? Então pode seguir. Eu vou atrás, devagarinho."
+TUT_OBJECTIVE_TITLE,Destination and mission type,Destino e tipo de missão
+TUT_OBJECTIVE_DESC,"Fit, the hidden ideal and what the agency already knows.","Compatibilidade, o ideal escondido e o que a agência já sabe."
+TUT_OBJECTIVE_1,"First the destination, then the mission type. The request names neither, remember?","Primeiro o destino, depois o tipo de missão. O pedido não diz nenhum dos dois, lembra?"
+TUT_OBJECTIVE_2,"Every destination and type pair has a fit: great, good, poor or impossible. Great earns a better grade.","Cada par de destino e tipo tem uma compatibilidade: ótima, boa, ruim ou impossível. Ótima rende mais nota."
+TUT_OBJECTIVE_3,"Here's what the agency already knows: which bars to focus on. At first, almost nothing. That's normal!","Aqui fica o que a agência já sabe: em que barras focar. No começo, quase nada. É normal!"
+TUT_OBJECTIVE_4,"Check the deadline and the cost, then move on. The notebook writes everything down along the way.","Confira o prazo e o custo, e siga em frente. O caderno vai anotando tudo pelo caminho."
+TUT_PAYLOAD_TITLE,The payload and the six gauges,A carga e os seis medidores
+TUT_PAYLOAD_DESC,"Instruments, power, data that reaches the ground and hidden environments.","Instrumentos, energia, dados que chegam ao solo e ambientes escondidos."
+TUT_PAYLOAD_1,"What goes on board? Pick instruments, power, an antenna, heating and a recorder.","O que vai a bordo? Escolha instrumentos, energia, antena, aquecimento e gravador."
+TUT_PAYLOAD_2,"Six gauges react right away: mass, power, data, comms, budget and time.","Seis medidores reagem na hora: massa, energia, dados, comunicação, orçamento e tempo."
+TUT_PAYLOAD_3,The most important rule in the game: science only counts once the data reaches the ground!,A regra mais importante do jogo: ciência só conta quando o dado chega ao solo!
+TUT_PAYLOAD_4,A good camera with a weak antenna fills the recorder and loses the rest. I lost a whole night of photos that way.,Câmera boa com antena fraca enche o gravador e perde o resto. Já perdi uma noite inteira de fotos assim.
+TUT_PAYLOAD_5,"Every destination hides its sun, night and cold. A lunar night lasts two weeks. Bring a battery. Bring another.","Cada destino esconde sol, noite e frio. A noite da Lua dura duas semanas. Leve bateria. Leve outra."
+TUT_PAYLOAD_6,"Green is room to spare, yellow is tight and red... red locks up. Just like my back.","Verde é folga, amarelo é aperto e vermelho... vermelho trava. Igualzinho à minha coluna."
+TUT_TEAM_TITLE,The mission team,A equipe da missão
+TUT_TEAM_DESC,The four bars and who pulls each one.,As quatro barras e quem puxa cada uma.
+TUT_TEAM_1,"Every mission leans on four bars: engineering, science, operations and reliability.","Toda missão se apoia em quatro barras: engenharia, ciência, operações e confiabilidade."
+TUT_TEAM_2,"Each Cometling does best in their own profession's bar. Past the ideal size, extra hands help less.","Cada Cometinho rende mais na barra da própria profissão. Passou do tamanho ideal, gente a mais ajuda menos."
+TUT_TEAM_3,"The crew's hints show up here. Listen, but check the notebook. Trusting is good; writing it down is better.","Os palpites da turma aparecem aqui. Escute, mas confira no caderno. Confiar é bom; anotar é melhor."
+TUT_ROCKET_TITLE,The rocket designer,O projetista de foguetes
+TUT_ROCKET_DESC,"Slots, Δv, thrust, families and the hangar.","Encaixes, Δv, força, famílias e o hangar."
+TUT_ROCKET_1,"Now the rocket! Seven slots: stages, tanks, boosters, fairing, avionics and recovery.","Agora o foguete! Sete encaixes: estágios, tanques, propulsores, coifa, aviônica e recuperação."
+TUT_ROCKET_2,Δv says whether it reaches the destination; thrust says whether it lifts the payload. Thin margins mean risk.,O Δv diz se ele chega ao destino; a força diz se ele levanta a carga. Margem fina é risco.
+TUT_ROCKET_3,Each saved design becomes a family named after a bird. A family that flies well earns trust.,Cada desenho salvo vira uma família com nome de passarinho. Família que voa bem ganha confiança.
+TUT_ROCKET_4,"Rather do it by hand? Build it in the hangar, part by part, and then fly the launch yourself.","Prefere fazer com as próprias mãos? Monte no hangar, peça por peça, e depois pilote o lançamento."
+TUT_PHASES_TITLE,"Three phases, nine levers","Três fases, nove alavancas"
+TUT_PHASES_DESC,"Project phases, levers, the bar balance and defects.","Fases do projeto, alavancas, a proporção das barras e os defeitos."
+TUT_PHASES_1,"The project goes through three phases: concept, construction and flight prep.","O projeto passa por três fases: concepção, construção e preparação do voo."
+TUT_PHASES_2,In each phase the crew's time splits across three levers. It always adds up to one hundred percent.,"Em cada fase, o tempo da equipe se divide entre três alavancas. A soma é sempre cem por cento."
+TUT_PHASES_3,Each lever fills different bars. The secret is the right balance for that mission type.,Cada alavanca enche barras diferentes. O segredo é a proporção certa para aquele tipo de missão.
+TUT_PHASES_4,Don't know the balance? Fly that type more or order a lab study. I kept it all in a blue notebook.,Não sabe a proporção? Voe mais desse tipo ou peça um estudo no laboratório. Eu anotava tudo num caderno azul.
+TUT_PHASES_5,Work creates defects too. The testing and review levers clean up the mess.,Trabalho também cria defeitos. As alavancas de testes e de revisão limpam a bagunça.
+TUT_REVIEW_TITLE,Design review,Revisão de projeto
+TUT_REVIEW_DESC,"Risks, fixes and when to launch or scrub.","Riscos, correções e a hora de lançar ou cancelar."
+TUT_REVIEW_1,Design review: the Cometlings listed everything that could go wrong. What a careful bunch!,Revisão de projeto: os Cometinhos listaram tudo o que pode dar errado. Que turma prevenida!
+TUT_REVIEW_2,"Fixing a risk halves its chance, in exchange for weeks and money.","Corrigir um risco corta a chance dele pela metade, em troca de semanas e dinheiro."
+TUT_REVIEW_3,Scrubbing costs a little reputation. Launching without looking costs a lot more. Speaking from experience.,Cancelar custa um pouquinho de reputação. Lançar sem olhar custa bem mais. Falo por experiência.
+TUT_PAD_TITLE,Fly the launch,Pilotar o lançamento
+TUT_PAD_DESC,The hangar rocket on the pad: fly it or simulate it.,O foguete do hangar na plataforma: pilotar ou simular.
+TUT_PAD_1,The rocket you built in the hangar is on the pad! You can fly the launch with your own hands...,O foguete que você montou no hangar está na plataforma! Dá para pilotar o lançamento com as próprias mãos...
+TUT_PAD_2,...or let the crew simulate it. I always do. My hands shake a little.,...ou deixar a equipe simular. Eu sempre deixo. Minhas mãos tremem um pouquinho.
+TUT_RESULTS_TITLE,The review and the newspapers,A avaliação e os jornais
+TUT_RESULTS_DESC,"The grade, the four papers and what the flight taught.","A nota, os quatro jornais e o que o voo ensinou."
+TUT_RESULTS_1,The review is in! The grade runs from zero to ten: it rates the project and how well it fit the request.,Saiu a avaliação! A nota vai de zero a dez: mede o projeto e o quanto ele acertou o pedido.
+TUT_RESULTS_2,"Four papers weigh in, each with its own taste: novelty, engineering, science and public money.","Quatro jornais comentam, cada um com seu gosto: novidade, engenharia, ciência e dinheiro público."
+TUT_RESULTS_3,And here's what this flight taught. Read it closely: it's gold for the next mission.,"E aqui, o que este voo ensinou. Leia com carinho: é ouro para a próxima missão."
+TUT_RESULTS_4,All of it goes into the discovery journal. Newspapers forget; the journal never does.,"Tudo isso vai para o Caderno de descobertas. Os jornais esquecem; o caderno, nunca."
+TUT_NEWSPAPER_TITLE,The Tail Echo,O Eco da Cauda
+TUT_NEWSPAPER_DESC,The paper of the race milestones.,O jornal dos marcos da corrida.
+TUT_NEWSPAPER_1,The Tail Echo! It comes out whenever someone claims a race milestone. Or trips trying.,O Eco da Cauda! Sai sempre que alguém conquista um marco da corrida. Ou tropeça tentando.
+TUT_NEWSPAPER_2,"There's even real science at the bottom. I read the forecast first: icy, with a chance of launches.","No rodapé tem até ciência de verdade. Eu leio primeiro a previsão: gelado, com chance de lançamentos."
+TUT_JOURNAL_TITLE,The discovery journal,O Caderno de descobertas
+TUT_JOURNAL_DESC,"What the agency learned: balances, instruments and environments.","O que a agência aprendeu: proporções, instrumentos e ambientes."
+TUT_JOURNAL_1,"The discovery journal keeps what the agency learned by flying, mission type by mission type.","O Caderno de descobertas guarda o que a agência aprendeu voando, tipo por tipo de missão."
+TUT_JOURNAL_2,After a few flights it reveals the ideal bar balance. Then hitting it gets a lot easier.,"Depois de alguns voos, ele revela a proporção ideal das barras. Aí fica bem mais fácil acertar."
+TUT_JOURNAL_3,"Each instrument gets a rating at each place: great, good, dead weight or useless.","Cada instrumento ganha uma nota em cada lugar: ótimo, bom, peso morto ou não serve."
+TUT_JOURNAL_4,"And each destination's environment: sun, night and cold. This journal is my pride and joy. I mean, yours.","E o ambiente de cada destino: sol, noite e frio. Este caderno é o meu orgulho. Digo, o seu."
+TUT_RESEARCH_TITLE,Research and mission studies,Pesquisa e estudos de missão
+TUT_RESEARCH_DESC,"The tree, points, the studies that reveal the bars and licences.","A árvore, os pontos, os estudos que revelam as barras e as licenças."
+TUT_RESEARCH_1,"The research tree: one column per era. New tech opens modules, destinations and rockets.","A árvore de pesquisa: uma coluna por era. Tecnologia nova abre módulos, destinos e foguetes."
+TUT_RESEARCH_2,Lab researchers earn points every week. Half the science your missions bring home turns into points too.,Pesquisadores no laboratório rendem pontos toda semana. Metade da ciência das missões também vira ponto.
+TUT_RESEARCH_3,"In mission studies, the lab works out which bars to focus on, no flight needed first.","Nos estudos de missão, o laboratório descobre em que barras focar, sem precisar voar antes."
+TUT_RESEARCH_4,"You can license a finished tech to a rival. Money comes in, but she runs a little faster.","Dá para licenciar uma tecnologia pronta para uma rival. Entra dinheiro, mas ela corre um pouco mais."
+TUT_CONTRACTS_TITLE,Contracts,Contratos
+TUT_CONTRACTS_DESC,"Offers from government and companies, minimum grades, bonuses and penalties.","Ofertas do governo e de empresas, notas mínimas, bônus e multas."
+TUT_CONTRACTS_1,"Besides the mission board there are contracts: three to six offers a month, from government and companies.","Além do quadro de missões, existem os contratos: de três a seis ofertas por mês, do governo e de empresas."
+TUT_CONTRACTS_2,"Each contract asks for minimum grades in certain bars. A grade of eight earns a bonus; failure or delay, a fine.","Cada contrato pede notas mínimas em certas barras. Nota oito rende bônus; falha ou atraso, multa."
+TUT_CONTRACTS_3,The rivals sign commercial offers too. Blink and you miss it!,As rivais também assinam as ofertas comerciais. Quem pisca perde!
+TUT_FINANCE_TITLE,Money,Dinheiro
+TUT_FINANCE_DESC,"Cash, the government budget, donations and loans.","O caixa, o orçamento do governo, doações e empréstimos."
+TUT_FINANCE_1,"The agency starts with three hundred thousand credits. Sounds like a lot, until payroll comes around.","A agência começa com trezentos mil créditos. Parece muito, até chegar a folha de pagamento."
+TUT_FINANCE_2,"Every year the government sends a budget, bigger with good reputation and milestones won.","Todo ano o governo manda um orçamento, maior com boa reputação e com marcos conquistados."
+TUT_FINANCE_3,"Hype turns into public donations every month. If it gets tight, a loan shows up. Money alone never ends the game.","O hype vira doações do público todo mês. E se apertar, aparece um empréstimo. Dinheiro sozinho não acaba o jogo."
+TUT_RACE_TITLE,The race and the rivals,A corrida e as rivais
+TUT_RACE_DESC,"The fifteen milestones, the prizes and the other agencies.","Os quinze marcos, os prêmios e as outras agências."
+TUT_RACE_1,"The race: fifteen milestones, from the first sounding rocket to meeting the Mother-Ice.","A corrida: quinze marcos, da primeira sondagem até o encontro com a Mãe-Gelo."
+TUT_RACE_2,"The rivals are Cometlings too and want the same home. They tease, but never play dirty.","As rivais também são Cometinhos e querem a mesma casa. Provocam, mas nunca fazem maldade."
+TUT_RACE_3,"First one there takes the whole prize; the others, thirty percent. First the Moon, then the comet!","Quem chega primeiro leva o prêmio inteiro; as outras, trinta por cento. Primeiro a Lua, depois o cometa!"
+TUT_MAP_TITLE,Missions in flight,Missões em voo
+TUT_MAP_DESC,"The map, the antenna network and operations decisions.","O mapa, a rede de antenas e as decisões de operação."
+TUT_MAP_1,"On the map you follow missions in flight: weeks of data coming down, until the end of their service life.","No mapa você acompanha as missões em voo: semanas de dados descendo, até o fim da vida útil."
+TUT_MAP_2,"The campus antenna network multiplies everything that comes down. Good antennas, plenty of science.","A rede de antenas do campus multiplica tudo o que desce. Antena boa, ciência farta."
+TUT_MAP_3,"Now and then a decision comes up: a solar storm, a full recorder... Each choice says what it costs.","De vez em quando surge uma decisão: tempestade solar, gravador cheio... Cada escolha diz quanto custa."
+TUT_BOOK_TITLE,The logbook,O livro de bordo
+TUT_BOOK_DESC,The missions flown and the science cards.,As missões voadas e as fichas de ciência.
+TUT_BOOK_1,"The logbook keeps every mission flown, with its grade, its science and the lesson it left behind.","O livro de bordo guarda cada missão voada, com a nota, a ciência e a lição que ela deixou."
+TUT_BOOK_2,And every milestone earns a card with real science. I've collected them since I was a little flake.,E cada marco rende uma ficha com ciência de verdade. Coleciono desde floquinho.
+TUT_ERAS_TITLE,The five eras,As cinco eras
+TUT_ERAS_DESC,"The campus changes, the press expects more and research moves on.","O campus muda, a imprensa cobra mais e a pesquisa avança."
+TUT_ERAS_1,"A new era has begun! The buildings get new clothes, the streets get paved and I get another year older.","Começou uma nova era! Os prédios trocam de roupa, as ruas ganham asfalto e eu ganho mais um ano."
+TUT_ERAS_2,The press expects more from every mission now. Flying the same thing again earns less and less.,A imprensa agora espera mais de cada missão. Repetir o mesmo voo rende cada vez menos.
+TUT_ERAS_3,"And research opens a new column. Five eras, twenty-five years, not a day more.","E a pesquisa abre uma coluna nova. Cinco eras, vinte e cinco anos, nem um dia a mais."
+TUT_LIBRARY_TITLE,Grandpa's library,A biblioteca do Vovô
+TUT_LIBRARY_DESC,Where every lesson waits to be heard again.,Onde ficam todas as lições para rever.
+TUT_LIBRARY_1,"Welcome to my library! Every lesson I've told is kept here, in case I forget. Or you do.","Bem-vindo à minha biblioteca! Toda lição que eu já contei fica aqui, caso eu esqueça. Ou você."
+TUT_HALLEY_NAME,Grandpa Edmundo,Vovô Edmundo
+TUT_NEXT,Next,Próximo
+TUT_DONE,Got it!,Entendi!
+TUT_SKIP,Skip,Pular
+TUT_NEVER,Don't show again,Não mostrar mais
+TUT_NEVER_TIP,Turns Grandpa's lessons off. Turn them back on in Settings > Game.,Desliga as lições do Vovô. Dá para religar em Configurações > Jogo.
+TUT_STEP,%d of %d,%d de %d
+TUT_OFF_HINT,"Lessons off. Grandpa is still in the library, in Settings.","Lições desligadas. O Vovô continua na biblioteca, em Configurações."
+TUT_LIB_TITLE,Grandpa's library,Biblioteca do Vovô
+TUT_LIB_SUB,"Every one of Grandpa Edmundo's lessons, to hear again.","Cada lição do Vovô Edmundo, para ouvir de novo."
+TUT_LIB_COUNT,%d of %d lessons heard,%d de %d lições ouvidas
+TUT_LIB_REPLAY,Hear again,Ouvir de novo
+TUT_LIB_LISTEN,Listen,Ouvir
+TUT_LIB_SEEN,Heard,Ouvida
+TUT_LIB_NEW,Not yet,Ainda não
+TUT_LIB_RESET,Start the lessons over,Recomeçar as lições
+TUT_LIB_RESET_TIP,"In this campaign, Grandpa tells each lesson again the first time you get there.","Nesta campanha, o Vovô volta a contar cada lição na primeira vez que você chegar lá."
+TUT_LIB_RESET_DONE,Done! Grandpa will tell it all again. He loves that.,Pronto! O Vovô vai contar tudo de novo. Ele adora.
+TUT_LIB_QUOTE,"“A good prediction is one that comes true, even if someone else gets to see it.”","“Previsão boa é a que se cumpre, mesmo que seja outro alguém a ver.”"
+TUT_LIB_TOGGLE,Grandpa's lessons,Lições do Vovô
+TY_SET_TUTORIALS,Grandpa Edmundo's lessons,Lições do Vovô Edmundo
+TY_SET_TUTORIALS_TIP,Grandpa explains each part of the game the first time you get there.,O Vovô explica cada parte do jogo na primeira vez que você chega lá.
+TY_SET_LIBRARY,Grandpa's library,Biblioteca do Vovô
+TY_SET_LIBRARY_TIP,Replay any of Grandpa Edmundo's lessons.,Rever qualquer lição do Vovô Edmundo.
+TY_JN_LIBRARY_TIP,Grandpa's library: replay the lessons.,Biblioteca do Vovô: rever as lições.

@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="1_creature"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="2_outline"]
+
+[sub_resource type="Environment" id="portrait_env"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.82, 0.86, 0.94, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 3
+tonemap_white = 8.0
+
+[sub_resource type="World3D" id="portrait_world"]
+environment = SubResource("portrait_env")
+
+[node name="CometlingPortrait" type="SubViewportContainer"]
+custom_minimum_size = Vector2(136, 136)
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("portrait_world")
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(136, 136)
+render_target_update_mode = 3
+
+[node name="Key" type="DirectionalLight3D" parent="Viewport"]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 2, 2)
+light_color = Color(1, 0.886, 0.749, 1)
+light_energy = 1.2
+
+[node name="Rim" type="OmniLight3D" parent="Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.2, -0.8)
+light_color = Color(0.749, 0.914, 1, 1)
+light_energy = 1.6
+omni_range = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="Viewport"]
+transform = Transform3D(1, 0, 0, 0, 0.994522, 0.104528, 0, -0.104528, 0.994522, 0, 0.66, 1.42)
+fov = 34.0
+near = 0.05
+far = 10.0
+
+[node name="CwOutline" parent="Viewport/Camera3D" instance=ExtResource("2_outline")]
+
+[node name="Creature" parent="Viewport" instance=ExtResource("1_creature")]
+transform = Transform3D(0.968912, 0, 0.247404, 0, 1, 0, -0.247404, 0, 0.968912, 0, 0, 0)
+listen_to_events = false
+cull_distance = 20.0

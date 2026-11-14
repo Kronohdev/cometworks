@@ -1,0 +1,3880 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="base"]
+[ext_resource type="Script" path="res://src/npc/halleyzinho.gd" id="script"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="toon"]
+
+[sub_resource type="ShaderMaterial" id="m_wig"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9569, 0.9451, 0.9176, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="m_wig_shade"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.8471, 0.8314, 0.8118, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="m_wig_deep"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.7412, 0.7216, 0.7059, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="m_brow"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(1.0000, 1.0000, 1.0000, 1)
+shader_parameter/roughness = 0.9
+shader_parameter/emission = Color(1.0000, 0.9804, 0.9412, 1)
+shader_parameter/emission_energy = 0.18
+
+[sub_resource type="ShaderMaterial" id="m_wrinkle"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.6588, 0.6431, 0.7216, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_brass"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.8627, 0.6667, 0.2706, 1)
+shader_parameter/roughness = 0.4
+shader_parameter/metallic = 0.45
+shader_parameter/emission = Color(1.0000, 0.7020, 0.2784, 1)
+shader_parameter/emission_energy = 0.12
+
+[sub_resource type="ShaderMaterial" id="m_glint"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(1.0000, 1.0000, 1.0000, 1)
+shader_parameter/roughness = 0.2
+shader_parameter/emission = Color(1.0000, 1.0000, 1.0000, 1)
+shader_parameter/emission_energy = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_coat"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.2471, 0.2353, 0.4549, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="m_coat_dark"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1804, 0.1686, 0.3451, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="m_lapel"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.3176, 0.3020, 0.5608, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_vest"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.8471, 0.6353, 0.2902, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_button"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9490, 0.7569, 0.3059, 1)
+shader_parameter/roughness = 0.4
+shader_parameter/metallic = 0.4
+shader_parameter/emission = Color(1.0000, 0.7020, 0.2784, 1)
+shader_parameter/emission_energy = 0.15
+
+[sub_resource type="ShaderMaterial" id="m_cravat"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9922, 0.9882, 0.9725, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_cravat_shade"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.8863, 0.8745, 0.8471, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_cuff"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9529, 0.9373, 0.9020, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_wood"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.4824, 0.2902, 0.1686, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="m_wood_light"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.6196, 0.4196, 0.2588, 1)
+shader_parameter/roughness = 0.75
+
+[sub_resource type="ShaderMaterial" id="m_leather"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.4196, 0.2588, 0.1490, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_lens"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.4863, 0.7843, 1.0000, 1)
+shader_parameter/roughness = 0.2
+shader_parameter/emission = Color(0.4863, 0.7843, 1.0000, 1)
+shader_parameter/emission_energy = 0.35
+
+[sub_resource type="BoxMesh" id="b0"]
+size = Vector3(0.064, 0.032, 0.128)
+
+[sub_resource type="BoxMesh" id="b1"]
+size = Vector3(0.064, 0.032, 0.192)
+
+[sub_resource type="BoxMesh" id="b2"]
+size = Vector3(0.032, 0.128, 0.064)
+
+[sub_resource type="BoxMesh" id="b3"]
+size = Vector3(0.064, 0.032, 0.064)
+
+[sub_resource type="BoxMesh" id="b4"]
+size = Vector3(0.064, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b5"]
+size = Vector3(0.096, 0.032, 0.064)
+
+[sub_resource type="BoxMesh" id="b6"]
+size = Vector3(0.032, 0.032, 0.128)
+
+[sub_resource type="BoxMesh" id="b7"]
+size = Vector3(0.032, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b8"]
+size = Vector3(0.032, 0.032, 0.064)
+
+[sub_resource type="BoxMesh" id="b9"]
+size = Vector3(0.032, 0.032, 0.096)
+
+[sub_resource type="BoxMesh" id="b10"]
+size = Vector3(0.032, 0.064, 0.064)
+
+[sub_resource type="BoxMesh" id="b11"]
+size = Vector3(0.128, 0.032, 0.064)
+
+[sub_resource type="BoxMesh" id="b12"]
+size = Vector3(0.064, 0.032, 0.096)
+
+[sub_resource type="BoxMesh" id="b13"]
+size = Vector3(0.064, 0.064, 0.032)
+
+[sub_resource type="BoxMesh" id="b14"]
+size = Vector3(0.032, 0.064, 0.032)
+
+[sub_resource type="BoxMesh" id="b15"]
+size = Vector3(0.032, 0.096, 0.032)
+
+[sub_resource type="BoxMesh" id="b16"]
+size = Vector3(0.096, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b17"]
+size = Vector3(0.544, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b18"]
+size = Vector3(0.064, 0.128, 0.032)
+
+[sub_resource type="BoxMesh" id="b19"]
+size = Vector3(0.032, 0.192, 0.032)
+
+[sub_resource type="BoxMesh" id="b20"]
+size = Vector3(0.064, 0.16, 0.032)
+
+[sub_resource type="BoxMesh" id="b21"]
+size = Vector3(0.064, 0.032, 0.16)
+
+[sub_resource type="BoxMesh" id="b22"]
+size = Vector3(0.48, 0.032, 0.096)
+
+[sub_resource type="BoxMesh" id="b23"]
+size = Vector3(0.48, 0.064, 0.064)
+
+[sub_resource type="BoxMesh" id="b24"]
+size = Vector3(0.48, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b25"]
+size = Vector3(0.096, 0.064, 0.032)
+
+[sub_resource type="BoxMesh" id="b26"]
+size = Vector3(0.032, 0.128, 0.032)
+
+[sub_resource type="BoxMesh" id="b27"]
+size = Vector3(0.416, 0.032, 0.096)
+
+[sub_resource type="BoxMesh" id="b28"]
+size = Vector3(0.416, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b29"]
+size = Vector3(0.416, 0.096, 0.032)
+
+[sub_resource type="BoxMesh" id="b30"]
+size = Vector3(0.352, 0.032, 0.096)
+
+[sub_resource type="BoxMesh" id="b31"]
+size = Vector3(0.352, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b32"]
+size = Vector3(0.352, 0.064, 0.032)
+
+[sub_resource type="BoxMesh" id="b33"]
+size = Vector3(0.128, 0.064, 0.032)
+
+[sub_resource type="BoxMesh" id="b34"]
+size = Vector3(0.288, 0.032, 0.064)
+
+[sub_resource type="BoxMesh" id="b35"]
+size = Vector3(0.288, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b36"]
+size = Vector3(0.288, 0.16, 0.032)
+
+[sub_resource type="BoxMesh" id="b37"]
+size = Vector3(0.096, 0.096, 0.032)
+
+[sub_resource type="BoxMesh" id="b38"]
+size = Vector3(0.224, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b39"]
+size = Vector3(0.384, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b40"]
+size = Vector3(0.16, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b41"]
+size = Vector3(0.32, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b42"]
+size = Vector3(0.192, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b43"]
+size = Vector3(0.128, 0.032, 0.032)
+
+[sub_resource type="BoxMesh" id="b44"]
+size = Vector3(0.032, 0.032, 0.192)
+
+[sub_resource type="BoxMesh" id="b45"]
+size = Vector3(0.032, 0.032, 0.16)
+
+[sub_resource type="BoxMesh" id="b46"]
+size = Vector3(0.032, 0.032, 0.256)
+
+[sub_resource type="BoxMesh" id="b47"]
+size = Vector3(0.032, 0.096, 0.064)
+
+[sub_resource type="BoxMesh" id="b48"]
+size = Vector3(0.032, 0.064, 0.192)
+
+[sub_resource type="BoxMesh" id="b49"]
+size = Vector3(0.032, 0.032, 0.224)
+
+[sub_resource type="BoxMesh" id="b50"]
+size = Vector3(0.032, 0.16, 0.032)
+
+[sub_resource type="BoxMesh" id="b51"]
+size = Vector3(0.032, 0.064, 0.096)
+
+[sub_resource type="BoxMesh" id="b52"]
+size = Vector3(0.046, 0.034, 0.036)
+
+[sub_resource type="BoxMesh" id="b53"]
+size = Vector3(0.05, 0.04, 0.036)
+
+[sub_resource type="BoxMesh" id="b54"]
+size = Vector3(0.05, 0.042, 0.036)
+
+[sub_resource type="BoxMesh" id="b55"]
+size = Vector3(0.046, 0.04, 0.036)
+
+[sub_resource type="BoxMesh" id="b56"]
+size = Vector3(0.036, 0.042, 0.036)
+
+[sub_resource type="BoxMesh" id="b57"]
+size = Vector3(0.028, 0.036, 0.036)
+
+[sub_resource type="BoxMesh" id="b58"]
+size = Vector3(0.03, 0.007, 0.006)
+
+[sub_resource type="BoxMesh" id="b59"]
+size = Vector3(0.08, 0.007, 0.006)
+
+[sub_resource type="BoxMesh" id="b60"]
+size = Vector3(0.05, 0.007, 0.006)
+
+[sub_resource type="BoxMesh" id="b61"]
+size = Vector3(0.0374, 0.013, 0.013)
+
+[sub_resource type="BoxMesh" id="b62"]
+size = Vector3(0.02, 0.02, 0.004)
+
+[sub_resource type="BoxMesh" id="b63"]
+size = Vector3(0.3048, 0.011, 0.011)
+
+[sub_resource type="BoxMesh" id="b64"]
+size = Vector3(0.05, 0.012, 0.012)
+
+[sub_resource type="BoxMesh" id="b65"]
+size = Vector3(0.022, 0.012, 0.012)
+
+[sub_resource type="BoxMesh" id="b66"]
+size = Vector3(0.468, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b67"]
+size = Vector3(0.416, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b68"]
+size = Vector3(0.416, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b69"]
+size = Vector3(0.13, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b70"]
+size = Vector3(0.026, 0.078, 0.078)
+
+[sub_resource type="BoxMesh" id="b71"]
+size = Vector3(0.026, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b72"]
+size = Vector3(0.364, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b73"]
+size = Vector3(0.156, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b74"]
+size = Vector3(0.104, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b75"]
+size = Vector3(0.026, 0.13, 0.13)
+
+[sub_resource type="BoxMesh" id="b76"]
+size = Vector3(0.026, 0.182, 0.026)
+
+[sub_resource type="BoxMesh" id="b77"]
+size = Vector3(0.052, 0.078, 0.026)
+
+[sub_resource type="BoxMesh" id="b78"]
+size = Vector3(0.026, 0.156, 0.026)
+
+[sub_resource type="BoxMesh" id="b79"]
+size = Vector3(0.026, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b80"]
+size = Vector3(0.026, 0.13, 0.026)
+
+[sub_resource type="BoxMesh" id="b81"]
+size = Vector3(0.026, 0.104, 0.026)
+
+[sub_resource type="BoxMesh" id="b82"]
+size = Vector3(0.026, 0.078, 0.026)
+
+[sub_resource type="BoxMesh" id="b83"]
+size = Vector3(0.312, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b84"]
+size = Vector3(0.078, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b85"]
+size = Vector3(0.026, 0.052, 0.234)
+
+[sub_resource type="BoxMesh" id="b86"]
+size = Vector3(0.026, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b87"]
+size = Vector3(0.052, 0.104, 0.026)
+
+[sub_resource type="BoxMesh" id="b88"]
+size = Vector3(0.026, 0.052, 0.026)
+
+[sub_resource type="BoxMesh" id="b89"]
+size = Vector3(0.026, 0.052, 0.13)
+
+[sub_resource type="BoxMesh" id="b90"]
+size = Vector3(0.26, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b91"]
+size = Vector3(0.026, 0.026, 0.286)
+
+[sub_resource type="BoxMesh" id="b92"]
+size = Vector3(0.078, 0.052, 0.026)
+
+[sub_resource type="BoxMesh" id="b93"]
+size = Vector3(0.052, 0.052, 0.026)
+
+[sub_resource type="BoxMesh" id="b94"]
+size = Vector3(0.208, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b95"]
+size = Vector3(0.078, 0.078, 0.026)
+
+[sub_resource type="BoxMesh" id="b96"]
+size = Vector3(0.052, 0.156, 0.026)
+
+[sub_resource type="BoxMesh" id="b97"]
+size = Vector3(0.052, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b98"]
+size = Vector3(0.156, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b99"]
+size = Vector3(0.026, 0.052, 0.052)
+
+[sub_resource type="BoxMesh" id="b100"]
+size = Vector3(0.104, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b101"]
+size = Vector3(0.13, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b102"]
+size = Vector3(0.13, 0.026, 0.026)
+
+[sub_resource type="BoxMesh" id="b103"]
+size = Vector3(0.104, 0.078, 0.026)
+
+[sub_resource type="BoxMesh" id="b104"]
+size = Vector3(0.208, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b105"]
+size = Vector3(0.13, 0.052, 0.026)
+
+[sub_resource type="BoxMesh" id="b106"]
+size = Vector3(0.156, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b107"]
+size = Vector3(0.026, 0.208, 0.026)
+
+[sub_resource type="BoxMesh" id="b108"]
+size = Vector3(0.026, 0.026, 0.156)
+
+[sub_resource type="BoxMesh" id="b109"]
+size = Vector3(0.052, 0.026, 0.078)
+
+[sub_resource type="BoxMesh" id="b110"]
+size = Vector3(0.052, 0.026, 0.052)
+
+[sub_resource type="BoxMesh" id="b111"]
+size = Vector3(0.052, 0.026, 0.13)
+
+[sub_resource type="BoxMesh" id="b112"]
+size = Vector3(0.078, 0.026, 0.13)
+
+[sub_resource type="BoxMesh" id="b113"]
+size = Vector3(0.026, 0.13, 0.052)
+
+[sub_resource type="BoxMesh" id="b114"]
+size = Vector3(0.026, 0.026, 0.104)
+
+[sub_resource type="BoxMesh" id="b115"]
+size = Vector3(0.026, 0.078, 0.13)
+
+[sub_resource type="BoxMesh" id="b116"]
+size = Vector3(0.02, 0.02, 0.012)
+
+[sub_resource type="BoxMesh" id="b117"]
+size = Vector3(0.07, 0.02, 0.05)
+
+[sub_resource type="BoxMesh" id="b118"]
+size = Vector3(0.07, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="b119"]
+size = Vector3(0.16, 0.04, 0.12)
+
+[sub_resource type="BoxMesh" id="b120"]
+size = Vector3(0.034, 0.075, 0.016)
+
+[sub_resource type="BoxMesh" id="b121"]
+size = Vector3(0.04, 0.02, 0.016)
+
+[sub_resource type="BoxMesh" id="b122"]
+size = Vector3(0.032, 0.11, 0.032)
+
+[sub_resource type="BoxMesh" id="b123"]
+size = Vector3(0.038, 0.02, 0.038)
+
+[sub_resource type="BoxMesh" id="b124"]
+size = Vector3(0.024, 0.03, 0.024)
+
+[sub_resource type="BoxMesh" id="b125"]
+size = Vector3(0.11, 0.0568, 0.11)
+
+[sub_resource type="BoxMesh" id="b126"]
+size = Vector3(0.105, 0.0568, 0.105)
+
+[sub_resource type="BoxMesh" id="b127"]
+size = Vector3(0.1, 0.0568, 0.1)
+
+[sub_resource type="BoxMesh" id="b128"]
+size = Vector3(0.122, 0.05, 0.122)
+
+[sub_resource type="BoxMesh" id="b129"]
+size = Vector3(0.128, 0.018, 0.128)
+
+[sub_resource type="BoxMesh" id="b130"]
+size = Vector3(0.026, 0.27, 0.026)
+
+[sub_resource type="BoxMesh" id="b131"]
+size = Vector3(0.03, 0.024, 0.03)
+
+[sub_resource type="BoxMesh" id="b132"]
+size = Vector3(0.032, 0.016, 0.032)
+
+[sub_resource type="BoxMesh" id="b133"]
+size = Vector3(0.026, 0.03, 0.026)
+
+[sub_resource type="BoxMesh" id="b134"]
+size = Vector3(0.026, 0.026, 0.03)
+
+[sub_resource type="BoxMesh" id="b135"]
+size = Vector3(0.026, 0.024, 0.03)
+
+[sub_resource type="BoxMesh" id="b136"]
+size = Vector3(0.026, 0.026, 0.028)
+
+[sub_resource type="BoxMesh" id="b137"]
+size = Vector3(0.03, 0.03, 0.05)
+
+[sub_resource type="BoxMesh" id="b138"]
+size = Vector3(0.036, 0.036, 0.05)
+
+[sub_resource type="BoxMesh" id="b139"]
+size = Vector3(0.042, 0.042, 0.05)
+
+[sub_resource type="BoxMesh" id="b140"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="BoxMesh" id="b141"]
+size = Vector3(0.036, 0.036, 0.006)
+
+[node name="Halleyzinho" instance=ExtResource("base")]
+script = ExtResource("script")
+body_color = Color(0.78, 0.808, 0.863, 1)
+spot_color = Color(0.949, 0.757, 0.306, 1)
+glow_color = Color(1, 0.84, 0.45, 1)
+personality_seed = 1656
+mood = 0.2
+blink_interval = Vector2(2.4, 6.0)
+breath_rate = 0.22
+auto_emotes = true
+walk_bounce = 0.3
+arm_swing = 0.25
+stride = 0.075
+run_speed = Vector2(6, 8)
+turn_lean = 0.02
+head_lead = 0.06
+
+[node name="Wig" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="BrowL" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.375, 0.24254)
+
+[node name="BrowR" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.375, 0.24254)
+
+[node name="Wrinkles" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Spectacles" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.214, 0.3101)
+
+[node name="Coat" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Cravat" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.12)
+
+[node name="SpyglassPocket" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(0.97014, 0.24001, 0.034926, -0.24254, 0.96003, 0.1397, 0, -0.144, 0.98958, 0.13, 0.08, 0.06)
+
+[node name="Sleeve" type="Node3D" parent="Rig/Hips/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Sleeve" type="Node3D" parent="Rig/Hips/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Cane" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Spyglass" type="Node3D" parent="Rig/Hips/ArmL/HandL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.02)
+visible = false
+
+[node name="Lock" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.144, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig")
+
+[node name="Lock2" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.208, -0.008)
+cast_shadow = 0
+mesh = SubResource("b1")
+material_override = SubResource("m_wig")
+
+[node name="Lock3" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.352, 0.288, -0.008)
+cast_shadow = 0
+mesh = SubResource("b2")
+material_override = SubResource("m_wig")
+
+[node name="Lock4" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.272, -0.072)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock5" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.272, 0.056)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock6" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.336, -0.072)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock7" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.336, 0.336, 0.04)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock8" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.08, -0.008)
+cast_shadow = 0
+mesh = SubResource("b5")
+material_override = SubResource("m_wig")
+
+[node name="Lock9" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.112, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock10" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.144, -0.104)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock11" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.144, 0.088)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock12" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.176, -0.008)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock13" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.208, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock14" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.24, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock15" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.24, -0.008)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock16" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.272, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock17" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.272, -0.008)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock18" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.272, 0.104)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock19" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.304, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock20" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.304, -0.024)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock21" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.304, 0.056)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock22" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.336, -0.12)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock23" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.352, -0.008)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock24" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.336, 0.072)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock25" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.368, -0.072)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock26" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304, 0.368, 0.04)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock27" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, -0.112, -0.008)
+cast_shadow = 0
+mesh = SubResource("b11")
+material_override = SubResource("m_wig")
+
+[node name="Lock28" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272, 0.048, -0.024)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock29" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272, 0.08, -0.088)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock30" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272, 0.08, 0.056)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock31" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272, 0.128, -0.152)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_wig")
+
+[node name="Lock32" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.144, -0.04)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock33" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.144, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock34" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.304, -0.136)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock35" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.32, 0.152)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock36" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.352, -0.152)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock37" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.368, 0.104)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock38" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.384, -0.12)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock39" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.384, -0.008)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock40" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.384, 0.072)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock41" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.368, 0.136)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock42" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.4, -0.072)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock43" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288, 0.4, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock44" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.272, 0.432, 0.008)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock45" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, -0.144, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock46" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, -0.112, -0.088)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock47" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, -0.112, 0.072)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock48" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, -0.064, -0.056)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock49" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, -0.08, -0.024)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock50" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, -0.064, 0.024)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock51" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.048, -0.088)
+cast_shadow = 0
+mesh = SubResource("b17")
+material_override = SubResource("m_wig")
+
+[node name="Lock52" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, -0.048, -0.024)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock53" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.032, -0.152)
+cast_shadow = 0
+mesh = SubResource("b18")
+material_override = SubResource("m_wig")
+
+[node name="Lock54" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.096, -0.184)
+cast_shadow = 0
+mesh = SubResource("b19")
+material_override = SubResource("m_wig")
+
+[node name="Lock55" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.032, -0.12)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_wig")
+
+[node name="Lock56" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.112, -0.216)
+cast_shadow = 0
+mesh = SubResource("b20")
+material_override = SubResource("m_wig")
+
+[node name="Lock57" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.048, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock58" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.112, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock59" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.208, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock60" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.24, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock61" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.304, -0.2)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock62" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.352, -0.184)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock63" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.352, 0.184)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock64" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.384, -0.152)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock65" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.416, -0.12)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock66" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.4, 0.152)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock67" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.432, -0.056)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig")
+
+[node name="Lock68" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256, 0.432, 0.088)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig")
+
+[node name="Lock69" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.464, 0.008)
+cast_shadow = 0
+mesh = SubResource("b21")
+material_override = SubResource("m_wig")
+
+[node name="Lock70" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, -0.08, -0.072)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock71" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, -0.08, 0.024)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock72" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.048, -0.152)
+cast_shadow = 0
+mesh = SubResource("b22")
+material_override = SubResource("m_wig")
+
+[node name="Lock73" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.208, -0.048, -0.056)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock74" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.208, -0.048, 0.04)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock75" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_wig")
+
+[node name="Lock76" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.016, -0.12)
+cast_shadow = 0
+mesh = SubResource("b24")
+material_override = SubResource("m_wig")
+
+[node name="Lock77" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.208, -0.016, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock78" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.208, 0.016, -0.008)
+cast_shadow = 0
+mesh = SubResource("b1")
+material_override = SubResource("m_wig")
+
+[node name="Lock79" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.08, -0.184)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock80" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.048, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock81" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.048, -0.008)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock82" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.128, -0.248)
+cast_shadow = 0
+mesh = SubResource("b25")
+material_override = SubResource("m_wig")
+
+[node name="Lock83" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.208, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock84" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.24, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock85" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.272, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock86" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.352, -0.216)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_wig")
+
+[node name="Lock87" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.416, -0.184)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock88" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.4, 0.184)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock89" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.432, -0.152)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock90" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.432, 0.152)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock91" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.464, -0.104)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock92" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224, 0.464, 0.12)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock93" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.208, 0.496, -0.008)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock94" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.152)
+cast_shadow = 0
+mesh = SubResource("b27")
+material_override = SubResource("m_wig")
+
+[node name="Lock95" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, -0.08, -0.056)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock96" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, -0.08, 0.008)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock97" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.048, -0.216)
+cast_shadow = 0
+mesh = SubResource("b28")
+material_override = SubResource("m_wig")
+
+[node name="Lock98" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.016, -0.152)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock99" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.016, -0.088)
+cast_shadow = 0
+mesh = SubResource("b28")
+material_override = SubResource("m_wig")
+
+[node name="Lock100" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.048, -0.248)
+cast_shadow = 0
+mesh = SubResource("b29")
+material_override = SubResource("m_wig")
+
+[node name="Lock101" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.016, -0.12)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock102" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.016, 0.104)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock103" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.064, -0.2)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock104" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.112, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock105" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.176, 0.176, -0.248)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock106" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.208, -0.248)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock107" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.24, -0.248)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock108" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.336, -0.248)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock109" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.416, -0.216)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock110" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.448, -0.184)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock111" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.432, 0.2)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock112" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.464, -0.136)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock113" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.464, 0.152)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock114" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.176, 0.496, -0.088)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock115" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.192, 0.496, 0.072)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig")
+
+[node name="Lock116" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.112, -0.152)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_wig")
+
+[node name="Lock117" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.216)
+cast_shadow = 0
+mesh = SubResource("b31")
+material_override = SubResource("m_wig")
+
+[node name="Lock118" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.088)
+cast_shadow = 0
+mesh = SubResource("b31")
+material_override = SubResource("m_wig")
+
+[node name="Lock119" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.032, -0.248)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_wig")
+
+[node name="Lock120" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112, 0, -0.152)
+cast_shadow = 0
+mesh = SubResource("b33")
+material_override = SubResource("m_wig")
+
+[node name="Lock121" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.016, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock122" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.144, 0.048, -0.2)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock123" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.144, 0.08, -0.216)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock124" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.304, -0.28)
+cast_shadow = 0
+mesh = SubResource("b31")
+material_override = SubResource("m_wig")
+
+[node name="Lock125" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.368, -0.248)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock126" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.144, 0.432, -0.216)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock127" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.432, 0.216)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock128" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.144, 0.464, -0.184)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock129" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.464, 0.2)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig")
+
+[node name="Lock130" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.496, -0.152)
+cast_shadow = 0
+mesh = SubResource("b31")
+material_override = SubResource("m_wig")
+
+[node name="Lock131" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.496, 0.104)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig")
+
+[node name="Lock132" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528, 0.008)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_wig")
+
+[node name="Lock133" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.144, -0.168)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_wig")
+
+[node name="Lock134" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.112, -0.216)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_wig")
+
+[node name="Lock135" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.016, -0.056)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_wig")
+
+[node name="Lock136" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.112, -0.28)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_wig")
+
+[node name="Lock137" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112, 0.112, -0.248)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock138" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.336, -0.28)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_wig")
+
+[node name="Lock139" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128, 0.4, -0.248)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock140" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.096, 0.464, 0.232)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_wig")
+
+[node name="Lock141" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112, 0.432, 0.264)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock142" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.464, -0.216)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_wig")
+
+[node name="Lock143" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.096, 0.48, 0.2)
+cast_shadow = 0
+mesh = SubResource("b25")
+material_override = SubResource("m_wig")
+
+[node name="Lock144" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.096, 0.464, 0.264)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock145" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.496, -0.184)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_wig")
+
+[node name="Lock146" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128, 0.496, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock147" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112, 0.496, 0.152)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock148" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528, -0.072)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_wig")
+
+[node name="Lock149" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528, 0.088)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_wig")
+
+[node name="Lock150" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.144, -0.216)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock151" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.144, -0.12)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock152" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.112, -0.088)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock153" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.248)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock154" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.048, -0.056)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock155" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.016, -0.28)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock156" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.048, -0.216)
+cast_shadow = 0
+mesh = SubResource("b39")
+material_override = SubResource("m_wig")
+
+[node name="Lock157" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.208, -0.28)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock158" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, -0.28)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock159" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.368, -0.28)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock160" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.416, -0.248)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_wig")
+
+[node name="Lock161" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528, -0.12)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock162" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.016, -0.28)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock163" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.28)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock164" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0.496, 0.168)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock165" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.528, 0.136)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock166" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.112, -0.248)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock167" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.056)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock168" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112, -0.016, -0.152)
+cast_shadow = 0
+mesh = SubResource("b41")
+material_override = SubResource("m_wig")
+
+[node name="Lock169" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.272, -0.28)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock170" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048, 0.432, -0.248)
+cast_shadow = 0
+mesh = SubResource("b42")
+material_override = SubResource("m_wig")
+
+[node name="Lock171" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.032, 0.432, 0.232)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock172" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.064, 0.464, 0.232)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock173" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048, 0.496, 0.2)
+cast_shadow = 0
+mesh = SubResource("b42")
+material_override = SubResource("m_wig")
+
+[node name="Lock174" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.144, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock175" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032, 0.432, 0.232)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock176" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.016, -0.152)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_wig")
+
+[node name="Lock177" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112, 0.4, -0.248)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_wig")
+
+[node name="Lock178" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096, 0.432, 0.232)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock179" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112, 0.464, 0.2)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_wig")
+
+[node name="Lock180" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096, 0.464, 0.264)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock181" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096, 0.496, 0.232)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock182" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.112, -0.248)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock183" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112, 0.432, 0.264)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock184" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.128, 0.496, 0.136)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock185" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.016, -0.12)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock186" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.048, -0.184)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock187" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.08, -0.216)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_wig")
+
+[node name="Lock188" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.368, -0.248)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock189" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.432, -0.216)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock190" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.464, -0.184)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock191" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.496, -0.12)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock192" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.016, -0.088)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock193" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.176, 0.16, -0.248)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_wig")
+
+[node name="Lock194" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.176, 0.336, -0.248)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock195" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.432, 0.216)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock196" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.176, 0.464, 0.168)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock197" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.176, 0.496, -0.072)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock198" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.176, 0.496, 0.088)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_wig")
+
+[node name="Lock199" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, -0.112, -0.008)
+cast_shadow = 0
+mesh = SubResource("b11")
+material_override = SubResource("m_wig")
+
+[node name="Lock200" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, -0.08, -0.024)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock201" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, -0.048, 0.008)
+cast_shadow = 0
+mesh = SubResource("b21")
+material_override = SubResource("m_wig")
+
+[node name="Lock202" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, -0.016, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock203" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.016, 0.024)
+cast_shadow = 0
+mesh = SubResource("b44")
+material_override = SubResource("m_wig")
+
+[node name="Lock204" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.048, -0.152)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock205" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.08, -0.184)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock206" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.112, -0.216)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_wig")
+
+[node name="Lock207" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.208, -0.248)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock208" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.24, -0.248)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock209" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.304, -0.248)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock210" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, 0.4, -0.216)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock211" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, 0.432, -0.184)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock212" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.432, 0.2)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock213" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.464, -0.136)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock214" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.208, 0.464, 0.136)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock215" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.192, 0.496, 0.008)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig")
+
+[node name="Lock216" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, -0.144, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock217" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, -0.112, -0.088)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock218" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, -0.112, 0.072)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock219" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, -0.08, -0.088)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock220" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, -0.08, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock221" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.016, 0.008)
+cast_shadow = 0
+mesh = SubResource("b45")
+material_override = SubResource("m_wig")
+
+[node name="Lock222" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.048, -0.104)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock223" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.048, -0.008)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock224" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 0.08, -0.152)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock225" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 0.112, -0.184)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock226" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.144, -0.232)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock227" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 0.176, -0.216)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock228" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.208, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock229" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.24, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock230" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.272, -0.216)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock231" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.336, -0.216)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock232" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.4, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock233" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.4, 0.184)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock234" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.432, -0.152)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock235" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.432, 0.152)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock236" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.464, -0.008)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_wig")
+
+[node name="Lock237" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.224, 0.496, -0.008)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock238" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, -0.064, -0.056)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock239" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, -0.08, -0.024)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock240" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, -0.064, 0.024)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock241" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, -0.048, -0.024)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock242" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.016, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock243" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.08, -0.12)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock244" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.048, -0.008)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock245" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.272, 0.08, -0.008)
+cast_shadow = 0
+mesh = SubResource("b1")
+material_override = SubResource("m_wig")
+
+[node name="Lock246" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.272, 0.128, -0.152)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_wig")
+
+[node name="Lock247" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.144, -0.2)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock248" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.176, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock249" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.208, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock250" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.24, -0.184)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock251" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.304, -0.2)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock252" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.352, -0.184)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock253" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.352, 0.184)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock254" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.384, -0.152)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock255" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.416, -0.12)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_wig")
+
+[node name="Lock256" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.4, 0.152)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock257" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.432, 0.024)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_wig")
+
+[node name="Lock258" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.256, 0.464, 0.008)
+cast_shadow = 0
+mesh = SubResource("b45")
+material_override = SubResource("m_wig")
+
+[node name="Lock259" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.048, -0.024)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock260" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.08, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock261" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.304, 0.112, -0.008)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock262" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.304, 0.144, -0.072)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_wig")
+
+[node name="Lock263" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.304, 0.144, 0.072)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_wig")
+
+[node name="Lock264" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.336, -0.136)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_wig")
+
+[node name="Lock265" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.32, 0.152)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock266" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.368, 0.104)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_wig")
+
+[node name="Lock267" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.384, -0.008)
+cast_shadow = 0
+mesh = SubResource("b48")
+material_override = SubResource("m_wig")
+
+[node name="Lock268" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.368, 0.136)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock269" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.4, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock270" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.288, 0.432, 0.008)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock271" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.08, -0.008)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock272" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.336, 0.144, 0.008)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_wig")
+
+[node name="Lock273" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.176, -0.008)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock274" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.208, -0.024)
+cast_shadow = 0
+mesh = SubResource("b49")
+material_override = SubResource("m_wig")
+
+[node name="Lock275" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.304, -0.088)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_wig")
+
+[node name="Lock276" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.24, -0.008)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock277" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.272, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock278" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.272, 0.024)
+cast_shadow = 0
+mesh = SubResource("b44")
+material_override = SubResource("m_wig")
+
+[node name="Lock279" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.304, -0.024)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_wig_shade")
+
+[node name="Lock280" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.32, 0.056)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_wig")
+
+[node name="Lock281" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.336, -0.12)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock282" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.352, -0.024)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_wig")
+
+[node name="Lock283" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.368, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock284" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.144, -0.04)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock285" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.144, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Lock286" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.208, -0.008)
+cast_shadow = 0
+mesh = SubResource("b44")
+material_override = SubResource("m_wig")
+
+[node name="Lock287" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.288, -0.008)
+cast_shadow = 0
+mesh = SubResource("b2")
+material_override = SubResource("m_wig")
+
+[node name="Lock288" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.272, -0.072)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock289" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.272, 0.056)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock290" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.336, -0.072)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_wig")
+
+[node name="Lock291" type="MeshInstance3D" parent="Rig/Hips/Neck/Wig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.352, 0.336, 0.04)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_wig")
+
+[node name="Tuft" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.99663, -0.0088765, 0.081504, 0, 0.99412, 0.10827, -0.081986, -0.1079, 0.99077, -0.07, -0.003, 0.025936)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_brow")
+
+[node name="Tuft2" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.97962, -0.025946, 0.19918, 0, 0.99162, 0.12918, -0.20086, -0.12654, 0.97141, -0.028, 0.009, 0.015245)
+cast_shadow = 0
+mesh = SubResource("b53")
+material_override = SubResource("m_brow")
+
+[node name="Tuft3" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.93192, -0.046907, 0.35961, 0, 0.9916, 0.12934, -0.36265, -0.12054, 0.9241, 0.018, 0.007, 0.0027414)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_brow")
+
+[node name="Tuft4" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.85202, -0.055954, 0.5205, 0, 0.99427, 0.10688, -0.5235, -0.091069, 0.84714, 0.06, -0.009, -0.010961)
+cast_shadow = 0
+mesh = SubResource("b55")
+material_override = SubResource("m_brow")
+
+[node name="Tuft5" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.77035, -0.047703, 0.63583, 0, 0.9972, 0.074814, -0.63762, -0.057633, 0.7682, 0.09, -0.033, -0.023475)
+cast_shadow = 0
+mesh = SubResource("b56")
+material_override = SubResource("m_brow")
+
+[node name="Tuft6" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowL"]
+transform = Transform3D(0.72144, -0.028142, 0.69191, 0, 0.99917, 0.040639, -0.69248, -0.029319, 0.72084, 0.106, -0.063, -0.030075)
+cast_shadow = 0
+mesh = SubResource("b57")
+material_override = SubResource("m_brow")
+
+[node name="Tuft" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.99663, 0.0088765, -0.081504, 0, 0.99412, 0.10827, 0.081986, -0.1079, 0.99077, 0.07, -0.003, 0.025936)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_brow")
+
+[node name="Tuft2" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.97962, 0.025946, -0.19918, 0, 0.99162, 0.12918, 0.20086, -0.12654, 0.97141, 0.028, 0.009, 0.015245)
+cast_shadow = 0
+mesh = SubResource("b53")
+material_override = SubResource("m_brow")
+
+[node name="Tuft3" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.93192, 0.046907, -0.35961, 0, 0.9916, 0.12934, 0.36265, -0.12054, 0.9241, -0.018, 0.007, 0.0027414)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_brow")
+
+[node name="Tuft4" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.85202, 0.055954, -0.5205, 0, 0.99427, 0.10688, 0.5235, -0.091069, 0.84714, -0.06, -0.009, -0.010961)
+cast_shadow = 0
+mesh = SubResource("b55")
+material_override = SubResource("m_brow")
+
+[node name="Tuft5" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.77035, 0.047703, -0.63583, 0, 0.9972, 0.074814, 0.63762, -0.057633, 0.7682, -0.09, -0.033, -0.023475)
+cast_shadow = 0
+mesh = SubResource("b56")
+material_override = SubResource("m_brow")
+
+[node name="Tuft6" type="MeshInstance3D" parent="Rig/Hips/Neck/BrowR"]
+transform = Transform3D(0.72144, 0.028142, -0.69191, 0, 0.99917, 0.040639, 0.69248, -0.029319, 0.72084, -0.106, -0.063, -0.030075)
+cast_shadow = 0
+mesh = SubResource("b57")
+material_override = SubResource("m_brow")
+
+[node name="Crow" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.82309, -0.30045, 0.48192, 0.3429, 0.93937, 0, -0.4527, 0.16525, 0.87622, 0.205, 0.255, 0.22613)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Crow2" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.87622, 0, 0.48192, 0, 1, 0, -0.48192, 0, 0.87622, 0.205, 0.235, 0.22581)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Crow3" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.82309, 0.30045, 0.48192, -0.3429, 0.93937, 0, -0.4527, -0.16525, 0.87622, 0.205, 0.215, 0.22447)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Crow4" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.82309, 0.30045, -0.48192, -0.3429, 0.93937, 0, 0.4527, 0.16525, 0.87622, -0.205, 0.255, 0.22613)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Crow5" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.87622, 0, -0.48192, 0, 1, 0, 0.48192, 0, 0.87622, -0.205, 0.235, 0.22581)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Crow6" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.82309, -0.30045, -0.48192, 0.3429, 0.93937, 0, 0.4527, -0.16525, 0.87622, -0.205, 0.215, 0.22447)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Forehead" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.404, 0.24679)
+cast_shadow = 0
+mesh = SubResource("b59")
+material_override = SubResource("m_wrinkle")
+
+[node name="ForeheadEnd" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.92898, -0.3391, 0.14834, 0.3429, 0.93937, 0, -0.13935, 0.050866, 0.98894, 0.052, 0.398, 0.24375)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="ForeheadEnd2" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.92898, 0.3391, -0.14834, -0.3429, 0.93937, 0, 0.13935, 0.050866, 0.98894, -0.052, 0.398, 0.24375)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Forehead2" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.424, 0.23432)
+cast_shadow = 0
+mesh = SubResource("b60")
+material_override = SubResource("m_wrinkle")
+
+[node name="ForeheadEnd3" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.92898, -0.3391, 0.14834, 0.3429, 0.93937, 0, -0.13935, 0.050866, 0.98894, 0.037, 0.418, 0.23236)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="ForeheadEnd4" type="MeshInstance3D" parent="Rig/Hips/Neck/Wrinkles"]
+transform = Transform3D(0.92898, 0.3391, -0.14834, -0.3429, 0.93937, 0, 0.13935, 0.050866, 0.98894, -0.037, 0.418, 0.23236)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_wrinkle")
+
+[node name="Rim" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0, -0.9794, 0.20193, 1, 0, 0, 0, 0.20193, 0.9794, 0.18356, -0.009, -0.029302)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim2" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.42495, -0.88241, 0.20193, 0.90097, -0.43388, 0, 0.087613, 0.18193, 0.9794, 0.17677, 0.018942, -0.027903)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim3" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.76573, -0.61065, 0.20193, 0.62349, -0.78183, 0, 0.15787, 0.1259, 0.9794, 0.15775, 0.04135, -0.02398)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim4" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.95484, -0.21794, 0.20193, 0.22252, -0.97493, 0, 0.19686, 0.044933, 0.9794, 0.13026, 0.053785, -0.018313)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim5" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.95484, 0.21794, 0.20193, -0.22252, -0.97493, 0, 0.19686, -0.044933, 0.9794, 0.099744, 0.053785, -0.012022)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim6" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.76573, 0.61065, 0.20193, -0.62349, -0.78183, 0, 0.15787, -0.1259, 0.9794, 0.072255, 0.04135, -0.0063545)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim7" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.42495, 0.88241, 0.20193, -0.90097, -0.43388, 0, 0.087613, -0.18193, 0.9794, 0.053231, 0.018942, -0.0024323)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim8" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0, 0.9794, 0.20193, -1, 0, 0, 0, -0.20193, 0.9794, 0.046442, -0.009, -0.0010325)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim9" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.42495, 0.88241, 0.20193, -0.90097, 0.43388, 0, -0.087613, -0.18193, 0.9794, 0.053231, -0.036942, -0.0024323)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim10" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.76573, 0.61065, 0.20193, -0.62349, 0.78183, 0, -0.15787, -0.1259, 0.9794, 0.072255, -0.05935, -0.0063545)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim11" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.95484, 0.21794, 0.20193, -0.22252, 0.97493, 0, -0.19686, -0.044933, 0.9794, 0.099744, -0.071785, -0.012022)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim12" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.95484, -0.21794, 0.20193, 0.22252, 0.97493, 0, -0.19686, 0.044933, 0.9794, 0.13026, -0.071785, -0.018313)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim13" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.76573, -0.61065, 0.20193, 0.62349, 0.78183, 0, -0.15787, 0.1259, 0.9794, 0.15775, -0.05935, -0.02398)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim14" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.42495, -0.88241, 0.20193, 0.90097, 0.43388, 0, -0.087613, 0.18193, 0.9794, 0.17677, -0.036942, -0.027903)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Glint" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.9794, 0, 0.20193, 0, 1, 0, -0.20193, 0, 0.9794, 0.087577, 0.021, -0.0095135)
+cast_shadow = 0
+mesh = SubResource("b62")
+material_override = SubResource("m_glint")
+
+[node name="Arm" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.34907, -0.022954, 0.93681, 0.065615, 0.99784, 0, -0.9348, 0.061469, 0.34983, 0.2368, 0.011, -0.16763)
+cast_shadow = 0
+mesh = SubResource("b63")
+material_override = SubResource("m_brass")
+
+[node name="Rim15" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0, -0.9794, -0.20193, 1, 0, 0, 0, -0.20193, 0.9794, -0.046442, -0.009, -0.0010325)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim16" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.42495, -0.88241, -0.20193, 0.90097, -0.43388, 0, -0.087613, -0.18193, 0.9794, -0.053231, 0.018942, -0.0024323)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim17" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.76573, -0.61065, -0.20193, 0.62349, -0.78183, 0, -0.15787, -0.1259, 0.9794, -0.072255, 0.04135, -0.0063545)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim18" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.95484, -0.21794, -0.20193, 0.22252, -0.97493, 0, -0.19686, -0.044933, 0.9794, -0.099744, 0.053785, -0.012022)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim19" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.95484, 0.21794, -0.20193, -0.22252, -0.97493, 0, -0.19686, 0.044933, 0.9794, -0.13026, 0.053785, -0.018313)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim20" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.76573, 0.61065, -0.20193, -0.62349, -0.78183, 0, -0.15787, 0.1259, 0.9794, -0.15775, 0.04135, -0.02398)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim21" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(-0.42495, 0.88241, -0.20193, -0.90097, -0.43388, 0, -0.087613, 0.18193, 0.9794, -0.17677, 0.018942, -0.027903)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim22" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0, 0.9794, -0.20193, -1, 0, 0, 0, 0.20193, 0.9794, -0.18356, -0.009, -0.029302)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim23" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.42495, 0.88241, -0.20193, -0.90097, 0.43388, 0, 0.087613, 0.18193, 0.9794, -0.17677, -0.036942, -0.027903)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim24" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.76573, 0.61065, -0.20193, -0.62349, 0.78183, 0, 0.15787, 0.1259, 0.9794, -0.15775, -0.05935, -0.02398)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim25" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.95484, 0.21794, -0.20193, -0.22252, 0.97493, 0, 0.19686, 0.044933, 0.9794, -0.13026, -0.071785, -0.018313)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim26" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.95484, -0.21794, -0.20193, 0.22252, 0.97493, 0, 0.19686, -0.044933, 0.9794, -0.099744, -0.071785, -0.012022)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim27" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.76573, -0.61065, -0.20193, 0.62349, 0.78183, 0, 0.15787, -0.1259, 0.9794, -0.072255, -0.05935, -0.0063545)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Rim28" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.42495, -0.88241, -0.20193, 0.90097, 0.43388, 0, 0.087613, -0.18193, 0.9794, -0.053231, -0.036942, -0.0024323)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_brass")
+
+[node name="Glint2" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.9794, 0, -0.20193, 0, 1, 0, 0.20193, 0, 0.9794, -0.087577, 0.021, -0.0095135)
+cast_shadow = 0
+mesh = SubResource("b62")
+material_override = SubResource("m_glint")
+
+[node name="Arm2" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.34907, 0.022954, -0.93681, -0.065615, 0.99784, 0, 0.9348, 0.061469, 0.34983, -0.2368, 0.011, -0.16763)
+cast_shadow = 0
+mesh = SubResource("b63")
+material_override = SubResource("m_brass")
+
+[node name="Bridge" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008, 8.5832e-06)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_brass")
+
+[node name="Bridge2" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.87758, -0.47943, 0, 0.47943, 0.87758, 0, 0, 0, 1, 0.035, 0, -0.0039914)
+cast_shadow = 0
+mesh = SubResource("b65")
+material_override = SubResource("m_brass")
+
+[node name="Bridge3" type="MeshInstance3D" parent="Rig/Hips/Neck/Spectacles"]
+transform = Transform3D(0.87758, 0.47943, 0, -0.47943, 0.87758, 0, 0, 0, 1, -0.035, 0, -0.0039914)
+cast_shadow = 0
+mesh = SubResource("b65")
+material_override = SubResource("m_brass")
+
+[node name="Cloth" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.067, -0.042)
+cast_shadow = 0
+mesh = SubResource("b66")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth2" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.067, -0.094)
+cast_shadow = 0
+mesh = SubResource("b67")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth3" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.041, -0.055)
+cast_shadow = 0
+mesh = SubResource("b68")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth4" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, -0.015, -0.003)
+cast_shadow = 0
+mesh = SubResource("b69")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth5" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.195, 0.167, -0.003)
+cast_shadow = 0
+mesh = SubResource("b70")
+material_override = SubResource("m_coat")
+
+[node name="Cloth6" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.195, 0.219, -0.003)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth7" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.067, -0.146)
+cast_shadow = 0
+mesh = SubResource("b72")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth8" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.041, -0.12)
+cast_shadow = 0
+mesh = SubResource("b72")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth9" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104, -0.015, -0.081)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth10" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, -0.015, 0.075)
+cast_shadow = 0
+mesh = SubResource("b74")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth11" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.063, -0.003)
+cast_shadow = 0
+mesh = SubResource("b75")
+material_override = SubResource("m_coat")
+
+[node name="Cloth12" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.167, -0.081)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth13" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.167, 0.075)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth14" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.156, 0.167, -0.107)
+cast_shadow = 0
+mesh = SubResource("b77")
+material_override = SubResource("m_coat")
+
+[node name="Cloth15" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.206, -0.055)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_coat")
+
+[node name="Cloth16" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.141, 0.036)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth17" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.219, 0.049)
+cast_shadow = 0
+mesh = SubResource("b80")
+material_override = SubResource("m_coat")
+
+[node name="Cloth18" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.258, -0.029)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_coat")
+
+[node name="Cloth19" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.258, 0.023)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_coat")
+
+[node name="Cloth20" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.169, 0.271, -0.003)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth21" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.041, -0.159)
+cast_shadow = 0
+mesh = SubResource("b83")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth22" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.015, -0.133)
+cast_shadow = 0
+mesh = SubResource("b83")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth23" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, -0.015, 0.127)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth24" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.024, -0.003)
+cast_shadow = 0
+mesh = SubResource("b85")
+material_override = SubResource("m_coat")
+
+[node name="Cloth25" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.063, -0.081)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_coat")
+
+[node name="Cloth26" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.063, 0.075)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_coat")
+
+[node name="Cloth27" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.089, -0.094)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth28" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.089, 0.088)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth29" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.115, -0.12)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth30" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.193, 0.101)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth31" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, 0.18, -0.133)
+cast_shadow = 0
+mesh = SubResource("b87")
+material_override = SubResource("m_coat")
+
+[node name="Cloth32" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13, 0.18, 0.127)
+cast_shadow = 0
+mesh = SubResource("b87")
+material_override = SubResource("m_coat")
+
+[node name="Cloth33" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.245, -0.107)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth34" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.284, -0.081)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth35" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.284, 0.075)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth36" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143, 0.31, -0.003)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_coat")
+
+[node name="Cloth37" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.067, -0.185)
+cast_shadow = 0
+mesh = SubResource("b90")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth38" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.015, -0.159)
+cast_shadow = 0
+mesh = SubResource("b90")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth39" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.011, -0.003)
+cast_shadow = 0
+mesh = SubResource("b91")
+material_override = SubResource("m_coat")
+
+[node name="Cloth40" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.037, -0.107)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_coat")
+
+[node name="Cloth41" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.037, 0.088)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth42" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.063, -0.12)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth43" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.076, 0.101)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth44" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.102, -0.133)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth45" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.102, 0.127)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth46" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.18, -0.159)
+cast_shadow = 0
+mesh = SubResource("b92")
+material_override = SubResource("m_coat")
+
+[node name="Cloth47" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.258, -0.133)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth48" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104, 0.258, 0.127)
+cast_shadow = 0
+mesh = SubResource("b93")
+material_override = SubResource("m_coat")
+
+[node name="Cloth49" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.297, -0.107)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth50" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.284, 0.101)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth51" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.323, -0.068)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth52" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117, 0.323, 0.062)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth53" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.041, -0.185)
+cast_shadow = 0
+mesh = SubResource("b94")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth54" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, -0.015, 0.153)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth55" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.011, -0.107)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_coat")
+
+[node name="Cloth56" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.011, 0.101)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_coat")
+
+[node name="Cloth57" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.037, -0.12)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth58" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.037, 0.114)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth59" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.076, -0.133)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth60" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.076, 0.127)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth61" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.115, -0.159)
+cast_shadow = 0
+mesh = SubResource("b95")
+material_override = SubResource("m_coat")
+
+[node name="Cloth62" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078, 0.18, 0.153)
+cast_shadow = 0
+mesh = SubResource("b96")
+material_override = SubResource("m_coat")
+
+[node name="Cloth63" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.232, -0.159)
+cast_shadow = 0
+mesh = SubResource("b92")
+material_override = SubResource("m_coat")
+
+[node name="Cloth64" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.091, 0.284, -0.133)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth65" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078, 0.297, 0.127)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth66" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078, 0.323, -0.107)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth67" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.078, 0.323, 0.101)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth68" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.067, -0.211)
+cast_shadow = 0
+mesh = SubResource("b98")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth69" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, -0.015, -0.016)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth70" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, -0.133)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_coat")
+
+[node name="Cloth71" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011, 0.101)
+cast_shadow = 0
+mesh = SubResource("b98")
+material_override = SubResource("m_vest")
+
+[node name="Cloth72" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.05, -0.146)
+cast_shadow = 0
+mesh = SubResource("b99")
+material_override = SubResource("m_coat")
+
+[node name="Cloth73" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.063, 0.127)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth74" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.089, 0.153)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth75" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.271, -0.159)
+cast_shadow = 0
+mesh = SubResource("b98")
+material_override = SubResource("m_coat")
+
+[node name="Cloth76" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.271, 0.153)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth77" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.052, 0.31, -0.133)
+cast_shadow = 0
+mesh = SubResource("b93")
+material_override = SubResource("m_coat")
+
+[node name="Cloth78" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065, 0.323, 0.127)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth79" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.015, -0.185)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth80" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013, 0.037, -0.146)
+cast_shadow = 0
+mesh = SubResource("b101")
+material_override = SubResource("m_coat")
+
+[node name="Cloth81" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.037, 0.127)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_vest")
+
+[node name="Cloth82" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013, 0.063, -0.159)
+cast_shadow = 0
+mesh = SubResource("b102")
+material_override = SubResource("m_coat")
+
+[node name="Cloth83" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115, 0.153)
+cast_shadow = 0
+mesh = SubResource("b103")
+material_override = SubResource("m_vest")
+
+[node name="Cloth84" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167, -0.185)
+cast_shadow = 0
+mesh = SubResource("b103")
+material_override = SubResource("m_coat")
+
+[node name="Cloth85" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039, 0.219, 0.153)
+cast_shadow = 0
+mesh = SubResource("b80")
+material_override = SubResource("m_lapel")
+
+[node name="Cloth86" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.297, -0.159)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_coat")
+
+[node name="Cloth87" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039, 0.31, 0.127)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_lapel")
+
+[node name="Cloth88" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.078, -0.015, -0.094)
+cast_shadow = 0
+mesh = SubResource("b104")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth89" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039, 0.102, -0.159)
+cast_shadow = 0
+mesh = SubResource("b105")
+material_override = SubResource("m_coat")
+
+[node name="Cloth90" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.206, 0.153)
+cast_shadow = 0
+mesh = SubResource("b87")
+material_override = SubResource("m_vest")
+
+[node name="Cloth91" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.219, -0.185)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth92" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039, 0.245, -0.159)
+cast_shadow = 0
+mesh = SubResource("b102")
+material_override = SubResource("m_coat")
+
+[node name="Cloth93" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026, 0.323, -0.133)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_coat")
+
+[node name="Cloth94" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, -0.015, -0.055)
+cast_shadow = 0
+mesh = SubResource("b98")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth95" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.141, -0.159)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat")
+
+[node name="Cloth96" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039, 0.219, 0.153)
+cast_shadow = 0
+mesh = SubResource("b80")
+material_override = SubResource("m_lapel")
+
+[node name="Cloth97" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.219, -0.159)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat")
+
+[node name="Cloth98" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.297, -0.133)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat")
+
+[node name="Cloth99" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039, 0.31, 0.127)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_lapel")
+
+[node name="Cloth100" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.015, -0.016)
+cast_shadow = 0
+mesh = SubResource("b106")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth101" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.063, -0.133)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat")
+
+[node name="Cloth102" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.078, 0.063, 0.127)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth103" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.18, 0.153)
+cast_shadow = 0
+mesh = SubResource("b107")
+material_override = SubResource("m_coat")
+
+[node name="Cloth104" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.18, -0.159)
+cast_shadow = 0
+mesh = SubResource("b92")
+material_override = SubResource("m_coat")
+
+[node name="Cloth105" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.065, 0.31, 0.127)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth106" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.323, -0.107)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_coat")
+
+[node name="Cloth107" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.078, 0.323, 0.101)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth108" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, -0.015, 0.088)
+cast_shadow = 0
+mesh = SubResource("b108")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth109" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.011, -0.107)
+cast_shadow = 0
+mesh = SubResource("b109")
+material_override = SubResource("m_coat")
+
+[node name="Cloth110" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.011, 0.101)
+cast_shadow = 0
+mesh = SubResource("b109")
+material_override = SubResource("m_coat")
+
+[node name="Cloth111" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.037, -0.12)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_coat")
+
+[node name="Cloth112" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.037, 0.114)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth113" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.089, -0.133)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth114" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.089, 0.127)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth115" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.18, 0.153)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_coat")
+
+[node name="Cloth116" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.091, 0.271, 0.127)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth117" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.271, -0.133)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth118" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.015, 0.075)
+cast_shadow = 0
+mesh = SubResource("b111")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth119" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.011, -0.003)
+cast_shadow = 0
+mesh = SubResource("b112")
+material_override = SubResource("m_coat")
+
+[node name="Cloth120" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.037, -0.081)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth121" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.037, 0.088)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_coat")
+
+[node name="Cloth122" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.063, -0.107)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth123" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, 0.076, 0.101)
+cast_shadow = 0
+mesh = SubResource("b93")
+material_override = SubResource("m_coat")
+
+[node name="Cloth124" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.18, -0.133)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_coat")
+
+[node name="Cloth125" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.193, 0.127)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth126" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.284, -0.107)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth127" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.284, 0.101)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth128" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.323, -0.068)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth129" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.323, 0.062)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth130" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.011, -0.094)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth131" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.011, 0.088)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth132" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.037, -0.107)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="Cloth133" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156, 0.037, -0.003)
+cast_shadow = 0
+mesh = SubResource("b111")
+material_override = SubResource("m_coat")
+
+[node name="Cloth134" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.063, -0.068)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth135" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.063, 0.062)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth136" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.089, -0.094)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth137" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156, 0.089, 0.075)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_coat")
+
+[node name="Cloth138" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.167, -0.12)
+cast_shadow = 0
+mesh = SubResource("b113")
+material_override = SubResource("m_coat")
+
+[node name="Cloth139" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.193, 0.101)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth140" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.18, 0.127)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_coat")
+
+[node name="Cloth141" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.258, -0.107)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth142" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.284, -0.081)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth143" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.284, 0.075)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_coat")
+
+[node name="Cloth144" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143, 0.31, -0.003)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_coat")
+
+[node name="Cloth145" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, -0.015, 0.062)
+cast_shadow = 0
+mesh = SubResource("b114")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth146" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.089, -0.003)
+cast_shadow = 0
+mesh = SubResource("b115")
+material_override = SubResource("m_coat")
+
+[node name="Cloth147" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.167, -0.081)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_coat")
+
+[node name="Cloth148" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.18, 0.075)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_coat")
+
+[node name="Cloth149" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.167, -0.107)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth150" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.206, -0.055)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_coat")
+
+[node name="Cloth151" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.141, 0.036)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_coat")
+
+[node name="Cloth152" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.219, 0.049)
+cast_shadow = 0
+mesh = SubResource("b80")
+material_override = SubResource("m_coat")
+
+[node name="Cloth153" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.258, -0.029)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_coat")
+
+[node name="Cloth154" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.258, 0.023)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_coat")
+
+[node name="Cloth155" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.169, 0.271, -0.003)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_coat")
+
+[node name="Cloth156" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195, -0.015, 0.023)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth157" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195, 0.167, -0.003)
+cast_shadow = 0
+mesh = SubResource("b70")
+material_override = SubResource("m_coat")
+
+[node name="Cloth158" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195, 0.219, -0.003)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_coat")
+
+[node name="CoatButton" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1038, 0.08, 0.18327)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="CoatButton2" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0846, 0.14, 0.19464)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="CoatButton3" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.075, 0.2, 0.19535)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="CoatButton4" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1038, 0.08, 0.18327)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="CoatButton5" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0846, 0.14, 0.19464)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="CoatButton6" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.075, 0.2, 0.19535)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_button")
+
+[node name="Pocket" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(0.85749, 0, 0.5145, 0, 1, 0, -0.5145, 0, 0.85749, 0.15068, 0.06, 0.11771)
+cast_shadow = 0
+mesh = SubResource("b117")
+material_override = SubResource("m_lapel")
+
+[node name="Pocket2" type="MeshInstance3D" parent="Rig/Hips/Coat"]
+transform = Transform3D(0.85749, 0, -0.5145, 0, 1, 0, 0.5145, 0, 0.85749, -0.15068, 0.06, 0.11771)
+cast_shadow = 0
+mesh = SubResource("b117")
+material_override = SubResource("m_lapel")
+
+[node name="Knot" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
+cast_shadow = 0
+mesh = SubResource("b118")
+material_override = SubResource("m_cravat")
+
+[node name="Band" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -0.01)
+cast_shadow = 0
+mesh = SubResource("b119")
+material_override = SubResource("m_cravat_shade")
+
+[node name="Tab" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(0.99281, -0.11971, 0, 0.11971, 0.99281, 0, 0, 0, 1, 0.016, -0.05, 0.035)
+cast_shadow = 0
+mesh = SubResource("b120")
+material_override = SubResource("m_cravat")
+
+[node name="Frill" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(0.98007, 0.19867, 0, -0.19867, 0.98007, 0, 0, 0, 1, 0.028, -0.085, 0.04)
+cast_shadow = 0
+mesh = SubResource("b121")
+material_override = SubResource("m_cravat_shade")
+
+[node name="Tab2" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(0.99281, 0.11971, 0, -0.11971, 0.99281, 0, 0, 0, 1, -0.016, -0.05, 0.035)
+cast_shadow = 0
+mesh = SubResource("b120")
+material_override = SubResource("m_cravat")
+
+[node name="Frill2" type="MeshInstance3D" parent="Rig/Hips/Cravat"]
+transform = Transform3D(0.98007, -0.19867, 0, 0.19867, 0.98007, 0, 0, 0, 1, -0.028, -0.085, 0.04)
+cast_shadow = 0
+mesh = SubResource("b121")
+material_override = SubResource("m_cravat_shade")
+
+[node name="Tube" type="MeshInstance3D" parent="Rig/Hips/SpyglassPocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+cast_shadow = 0
+mesh = SubResource("b122")
+material_override = SubResource("m_brass")
+
+[node name="Band" type="MeshInstance3D" parent="Rig/Hips/SpyglassPocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("b123")
+material_override = SubResource("m_leather")
+
+[node name="Eyepiece" type="MeshInstance3D" parent="Rig/Hips/SpyglassPocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0)
+cast_shadow = 0
+mesh = SubResource("b124")
+material_override = SubResource("m_brass")
+
+[node name="Cloth" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(0.91867, -0.39368, -0.03255, 0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, 0.01032, -0.024, 0.00216)
+cast_shadow = 0
+mesh = SubResource("b125")
+material_override = SubResource("m_coat")
+
+[node name="Cloth2" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(0.91867, -0.39368, -0.03255, 0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, 0.03268, -0.076, 0.00684)
+cast_shadow = 0
+mesh = SubResource("b126")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth3" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(0.91867, -0.39368, -0.03255, 0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, 0.0516, -0.12, 0.0108)
+cast_shadow = 0
+mesh = SubResource("b127")
+material_override = SubResource("m_coat")
+
+[node name="Cuff" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(0.91867, -0.39368, -0.03255, 0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, 0.06708, -0.156, 0.01404)
+cast_shadow = 0
+mesh = SubResource("b128")
+material_override = SubResource("m_cuff")
+
+[node name="CuffFold" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(0.91867, -0.39368, -0.03255, 0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, 0.06192, -0.144, 0.01296)
+cast_shadow = 0
+mesh = SubResource("b129")
+material_override = SubResource("m_cravat_shade")
+
+[node name="Cloth" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(0.91867, 0.39368, 0.03255, -0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, -0.01032, -0.024, 0.00216)
+cast_shadow = 0
+mesh = SubResource("b125")
+material_override = SubResource("m_coat")
+
+[node name="Cloth2" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(0.91867, 0.39368, 0.03255, -0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, -0.03268, -0.076, 0.00684)
+cast_shadow = 0
+mesh = SubResource("b126")
+material_override = SubResource("m_coat_dark")
+
+[node name="Cloth3" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(0.91867, 0.39368, 0.03255, -0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, -0.0516, -0.12, 0.0108)
+cast_shadow = 0
+mesh = SubResource("b127")
+material_override = SubResource("m_coat")
+
+[node name="Cuff" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(0.91867, 0.39368, 0.03255, -0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, -0.06708, -0.156, 0.01404)
+cast_shadow = 0
+mesh = SubResource("b128")
+material_override = SubResource("m_cuff")
+
+[node name="CuffFold" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(0.91867, 0.39368, 0.03255, -0.39503, 0.91555, 0.075697, 0, -0.082399, 0.9966, -0.06192, -0.144, 0.01296)
+cast_shadow = 0
+mesh = SubResource("b129")
+material_override = SubResource("m_cravat_shade")
+
+[node name="Shaft" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.135, 0)
+cast_shadow = 0
+mesh = SubResource("b130")
+material_override = SubResource("m_wood")
+
+[node name="Ferrule" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.258, 0)
+cast_shadow = 0
+mesh = SubResource("b131")
+material_override = SubResource("m_brass")
+
+[node name="Collar" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
+cast_shadow = 0
+mesh = SubResource("b132")
+material_override = SubResource("m_brass")
+
+[node name="Crook" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+cast_shadow = 0
+mesh = SubResource("b133")
+material_override = SubResource("m_wood_light")
+
+[node name="Crook2" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.032, 0.012)
+cast_shadow = 0
+mesh = SubResource("b134")
+material_override = SubResource("m_wood_light")
+
+[node name="Crook3" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.035)
+cast_shadow = 0
+mesh = SubResource("b135")
+material_override = SubResource("m_wood_light")
+
+[node name="Crook4" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.032, 0.058)
+cast_shadow = 0
+mesh = SubResource("b136")
+material_override = SubResource("m_wood_light")
+
+[node name="Crook5" type="MeshInstance3D" parent="Cane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0.066)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_wood_light")
+
+[node name="Tube" type="MeshInstance3D" parent="Rig/Hips/ArmL/HandL/Spyglass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.02)
+cast_shadow = 0
+mesh = SubResource("b137")
+material_override = SubResource("m_brass")
+
+[node name="Tube2" type="MeshInstance3D" parent="Rig/Hips/ArmL/HandL/Spyglass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
+cast_shadow = 0
+mesh = SubResource("b138")
+material_override = SubResource("m_leather")
+
+[node name="Tube3" type="MeshInstance3D" parent="Rig/Hips/ArmL/HandL/Spyglass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.08)
+cast_shadow = 0
+mesh = SubResource("b139")
+material_override = SubResource("m_brass")
+
+[node name="Tube4" type="MeshInstance3D" parent="Rig/Hips/ArmL/HandL/Spyglass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.13)
+cast_shadow = 0
+mesh = SubResource("b140")
+material_override = SubResource("m_brass")
+
+[node name="Lens" type="MeshInstance3D" parent="Rig/Hips/ArmL/HandL/Spyglass"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.157)
+cast_shadow = 0
+mesh = SubResource("b141")
+material_override = SubResource("m_lens")

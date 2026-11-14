@@ -24,6 +24,20 @@ var entry: Dictionary = {}
 func _ready() -> void:
 	%Back.pressed.connect(_close)
 	%OpenJournal.pressed.connect(_open_journal)
+	%Watch.pressed.connect(_watch)
+
+
+## "Acompanhar o lançamento": the launch in the 3D flight, as it went (TycoonModes.open_watch); this
+## screen stays underneath and is here again after.
+func _watch() -> void:
+	var m := _modes()
+	if m and not entry.is_empty():
+		m.open_watch(String(entry.get("id", "")))
+
+
+func _modes() -> TycoonModes:
+	var main := hud.owner as TycoonMain if hud else null
+	return main.modes if main else null
 
 
 func _open_journal() -> void:
@@ -43,6 +57,7 @@ func open_with(args: Dictionary) -> void:
 	if entry.is_empty():
 		_close()
 		return
+	%Watch.visible = _modes() != null
 	_fill()
 
 

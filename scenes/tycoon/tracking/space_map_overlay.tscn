@@ -1,0 +1,411 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/tracking/space_map_overlay.gd" id="1_map"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ops/ui/ops_marker.gd" id="3_marker"]
+
+[sub_resource type="ButtonGroup" id="speed_group"]
+
+[sub_resource type="ButtonGroup" id="filter_group"]
+
+[node name="SpaceMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_map")
+
+[node name="Markers" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarkerTemplate" type="Control" parent="Markers"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 22.0
+offset_bottom = 22.0
+mouse_default_cursor_shape = 2
+script = ExtResource("3_marker")
+radius = 7.0
+
+[node name="Code" type="Label" parent="Markers/MarkerTemplate"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = -9.0
+offset_right = 111.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "ORB-01"
+
+[node name="Header" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 760.0
+offset_bottom = 124.0
+theme_type_variation = &"CwPanelTop"
+
+[node name="VBox" type="VBoxContainer" parent="Header"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Top" type="HBoxContainer" parent="Header/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Caption" type="Label" parent="Header/VBox/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 1)
+text = "TY_TRK_MAP_CAPTION"
+
+[node name="Title" type="Label" parent="Header/VBox/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "TY_TRK_MAP_TITLE"
+
+[node name="Row" type="HBoxContainer" parent="Header/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="DateValue" type="Label" parent="Header/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+tooltip_text = "TY_DATE"
+mouse_filter = 0
+theme_type_variation = &"CwMono"
+text = "01 · 01"
+
+[node name="Speed" type="HBoxContainer" parent="Header/VBox/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Pause" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_PAUSE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "II"
+
+[node name="S1" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("speed_group")
+text = "1"
+
+[node name="S2" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "2"
+
+[node name="S3" type="Button" parent="Header/VBox/Row/Speed"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "TY_SPEED_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("speed_group")
+text = "3"
+
+[node name="Spacer" type="Control" parent="Header/VBox/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Back" type="Button" parent="Header/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Esc"
+focus_mode = 0
+text = "TY_TRK_BACK_CAMPUS"
+
+[node name="MapHint" type="Label" parent="Header/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_TRK_MAP_HINT"
+autowrap_mode = 3
+
+[node name="Missions" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -392.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Missions"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Missions/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ListTitle" type="Label" parent="Missions/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwHeading"
+text = "TY_TRK_LIST_TITLE"
+
+[node name="Count" type="Label" parent="Missions/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwMonoSmall"
+text = "3 no espaço"
+
+[node name="Filters" type="HBoxContainer" parent="Missions/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="FilterAll" type="Button" parent="Missions/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("filter_group")
+text = "TY_TRK_FILTER_ALL"
+
+[node name="FilterMine" type="Button" parent="Missions/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("filter_group")
+text = "TY_TRK_FILTER_MINE"
+
+[node name="FilterRivals" type="Button" parent="Missions/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("filter_group")
+text = "TY_TRK_FILTER_RIVALS"
+
+[node name="Sep" type="HSeparator" parent="Missions/VBox"]
+layout_mode = 2
+
+[node name="Empty" type="Label" parent="Missions/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_TRK_EMPTY"
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Missions/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Rows" type="VBoxContainer" parent="Missions/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="RowTemplate" type="Button" parent="Missions/VBox/Scroll/Rows"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+toggle_mode = true
+
+[node name="HBox" type="HBoxContainer" parent="Missions/VBox/Scroll/Rows/RowTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = -12.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Dot" type="ColorRect" parent="Missions/VBox/Scroll/Rows/RowTemplate/HBox"]
+custom_minimum_size = Vector2(6, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.898, 0.396, 0.11, 1)
+
+[node name="Text" type="VBoxContainer" parent="Missions/VBox/Scroll/Rows/RowTemplate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Code" type="Label" parent="Missions/VBox/Scroll/Rows/RowTemplate/HBox/Text"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "ORB-01"
+
+[node name="What" type="Label" parent="Missions/VBox/Scroll/Rows/RowTemplate/HBox/Text"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "Satélite · Órbita baixa"
+text_overrun_behavior = 3
+
+[node name="Status" type="Label" parent="Missions/VBox/Scroll/Rows/RowTemplate/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_TRK_ST_ORBIT"
+horizontal_alignment = 2
+
+[node name="Detail" type="PanelContainer" parent="Missions/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Missions/VBox/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Head" type="HBoxContainer" parent="Missions/VBox/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DCode" type="Label" parent="Missions/VBox/Detail/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "ORB-01"
+
+[node name="DOwner" type="Label" parent="Missions/VBox/Detail/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "Cometworks"
+text_overrun_behavior = 3
+
+[node name="DStatus" type="Label" parent="Missions/VBox/Detail/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_TRK_ST_ORBIT"
+
+[node name="DWhat" type="Label" parent="Missions/VBox/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Satélite · Órbita baixa"
+text_overrun_behavior = 3
+
+[node name="DWhere" type="Label" parent="Missions/VBox/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "Em órbita da Terra · 420 km"
+autowrap_mode = 3
+
+[node name="DLaunched" type="Label" parent="Missions/VBox/Detail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "Lançada em A1 · S12"
+
+[node name="Buttons" type="HBoxContainer" parent="Missions/VBox/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Watch" type="Button" parent="Missions/VBox/Detail/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "TY_TRK_WATCH_TIP"
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_TRK_WATCH"
+
+[node name="Release" type="Button" parent="Missions/VBox/Detail/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+tooltip_text = "Esc"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_TRK_RELEASE"
+
+[node name="WatchNote" type="Label" parent="Missions/VBox/Detail/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_TRK_WATCH_NO"
+autowrap_mode = 3

@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/new_project_screen.gd" id="1_scr"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_project_steps.tscn" id="steps"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
@@ -88,7 +89,7 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Free project"
+text = "TY_PJ_FREE_PROJECT"
 horizontal_alignment = 2
 
 [node name="SepK" type="VSeparator" parent="Panel/Margin/VBox/Header"]
@@ -121,6 +122,11 @@ tooltip_text = "TY_PJ_CANCEL"
 focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "×"
+
+[node name="StepBar" parent="Panel/Margin/VBox" instance=ExtResource("steps")]
+layout_mode = 2
+size_flags_horizontal = 0
+current = 1
 
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -235,7 +241,7 @@ layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwRow"
 toggle_mode = true
-text = "Sounding rocket"
+text = "TY_MT_SOUNDING"
 alignment = 0
 
 [node name="Tag" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/TypeScroll/TypesBox/Types/TypeTemplate"]
@@ -250,7 +256,7 @@ grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwCaps"
-text = "Great fit"
+text = "TY_PJ_COMPAT_GREAT"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -283,122 +289,6 @@ theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "SND · 3 wk"
 
-[node name="IdealCaption" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_PJ_IDEAL"
-
-[node name="IdealEng" type="HBoxContainer" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealEng"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_BAR_ENG"
-
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealEng"]
-custom_minimum_size = Vector2(0, 7)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("2_seg")
-value = 0.8
-
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealEng"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "40%"
-horizontal_alignment = 2
-
-[node name="IdealSci" type="HBoxContainer" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealSci"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_BAR_SCI"
-
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealSci"]
-custom_minimum_size = Vector2(0, 7)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("2_seg")
-value = 0.4
-color = Color(0.3098, 0.6627, 0.9412, 1)
-
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealSci"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "20%"
-horizontal_alignment = 2
-
-[node name="IdealOps" type="HBoxContainer" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealOps"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_BAR_OPS"
-
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealOps"]
-custom_minimum_size = Vector2(0, 7)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("2_seg")
-value = 0.3
-color = Color(0.1843, 0.7686, 0.6275, 1)
-
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealOps"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "15%"
-horizontal_alignment = 2
-
-[node name="IdealRel" type="HBoxContainer" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealRel"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_BAR_REL"
-
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealRel"]
-custom_minimum_size = Vector2(0, 7)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("2_seg")
-value = 0.5
-color = Color(0.6078, 0.4863, 1, 1)
-
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox/IdealRel"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "25%"
-horizontal_alignment = 2
-
 [node name="Compat" type="HBoxContainer" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
@@ -414,15 +304,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-text = "Unknown until you fly it"
-autowrap_mode = 3
-
-[node name="IdealHint" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
-text = "TY_PJ_IDEAL_HIDDEN"
+text = "TY_PJ_COMPAT_UNKNOWN"
 autowrap_mode = 3
 
 [node name="SepB" type="VSeparator" parent="Panel/Margin/VBox/Body"]
@@ -453,7 +335,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 16
-text = "Prove there is water in the Moon's dark craters."
+text = "TY_BF_LUNAR_ICE_GOAL"
 autowrap_mode = 3
 
 [node name="BriefTerms" type="Label" parent="Panel/Margin/VBox/Body/RightCol/BriefBox/VBox"]
@@ -517,13 +399,183 @@ autowrap_mode = 3
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2
 
-[node name="Steps" type="Label" parent="Panel/Margin/VBox/Body/RightCol"]
+[node name="Know" type="PanelContainer" parent="Panel/Margin/VBox/Body/RightCol"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 10
-theme_type_variation = &"CwDim"
+theme_type_variation = &"CwPanelLilac"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="KnowHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/KnowHead"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "TY_FS_KNOW"
+
+[node name="TierPips" type="Control" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/KnowHead"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 7)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.333
+color = Color(0.4627, 0.3216, 0.9098, 1)
+segments = 3
+gap = 4.0
+
+[node name="TierName" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/KnowHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "nível 1 de 3"
+
+[node name="IdealEng" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealEng"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
 theme_override_font_sizes/font_size = 13
-text = "TY_PJ_STEPS"
+text = "TY_BAR_ENG"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealEng"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.8
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealEng"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "40%"
+horizontal_alignment = 2
+
+[node name="IdealSci" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealSci"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_SCI"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealSci"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.4
+color = Color(0.3098, 0.6627, 0.9412, 1)
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealSci"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "20%"
+horizontal_alignment = 2
+
+[node name="IdealOps" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealOps"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_OPS"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealOps"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.3
+color = Color(0.1843, 0.7686, 0.6275, 1)
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealOps"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "15%"
+horizontal_alignment = 2
+
+[node name="IdealRel" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealRel"]
+custom_minimum_size = Vector2(118, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_BAR_REL"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealRel"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.5
+color = Color(0.6078, 0.4863, 1, 1)
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox/IdealRel"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "25%"
+horizontal_alignment = 2
+
+[node name="KnowLine" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Engenharia é o que mais pesa; Ciência, o que menos."
 autowrap_mode = 3
+
+[node name="IdealHint" type="Label" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_IDEAL_HIDDEN"
+autowrap_mode = 3
+
+[node name="Study" type="Button" parent="Panel/Margin/VBox/Body/RightCol/Know/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+tooltip_text = "TY_FS_STUDY_TIP"
+focus_mode = 0
+text = "TY_FS_STUDY_BTN"
+autowrap_mode = 3
+
+[node name="Push" type="Control" parent="Panel/Margin/VBox/Body/RightCol"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="Estimate" type="PanelContainer" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2

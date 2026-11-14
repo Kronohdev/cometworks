@@ -1,7 +1,8 @@
 class_name TycoonSettingsScreen
 extends Control
 ## In-game settings (scenes/tycoon/ui/screens/settings.tscn), four tabs (CwPageStack):
-##   Game   language, motion, the launch cinematic, story scenes, replay the opening
+##   Game   language, motion, the launch cinematic, story scenes, replay the opening,
+##          Vovô Edmundo's lessons on / off and his library (library.tscn)
 ##   Save   the save slots (save, load, the monthly autosave)
 ##   Image  window / fullscreen, style, outlines
 ##   Sound  the three volumes
@@ -35,6 +36,10 @@ func _ready() -> void:
 	%Cutscenes.button_pressed = Cutscenes.enabled()
 	%Cutscenes.toggled.connect(Cutscenes.set_enabled)
 	%ReplayOpening.pressed.connect(replay_opening)
+	# Vovô Edmundo's lessons on/off, and the library to hear any of them again
+	%Tutorials.button_pressed = TutorialBook.enabled()
+	%Tutorials.toggled.connect(TutorialBook.set_enabled)
+	%Library.pressed.connect(open_library)
 	%Status.text = ""
 
 
@@ -77,6 +82,14 @@ func replay_opening() -> void:
 	close()
 	if h:
 		Cutscenes.play(h.owner if h.owner else h, Cutscenes.OPENING, s, true)
+
+
+## Closes the menu and opens Vovô Edmundo's library.
+func open_library() -> void:
+	var h := hud
+	close()
+	if h:
+		h.open_screen("library")
 
 
 func refresh() -> void:

@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="1_theme"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
 [ext_resource type="Texture2D" path="res://scenes/flight/ui/map_node.svg" id="2_node"]
 [ext_resource type="Texture2D" path="res://scenes/flight/ui/map_prograde.svg" id="3_pro"]
 [ext_resource type="Texture2D" path="res://scenes/flight/ui/map_retrograde.svg" id="4_retro"]
@@ -11,20 +11,21 @@
 [ext_resource type="Texture2D" path="res://scenes/flight/ui/map_delete.svg" id="9_del"]
 
 [sub_resource type="StyleBoxFlat" id="tag"]
-content_margin_left = 8.0
-content_margin_top = 3.0
-content_margin_right = 8.0
-content_margin_bottom = 3.0
-bg_color = Color(0.0549, 0.0784, 0.1059, 0.86)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.6039, 0.2392, 0.6)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+content_margin_left = 9.0
+content_margin_top = 4.0
+content_margin_right = 9.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 0.9765, 0.9373, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = true
 
 [node name="NodeGizmo" type="Control"]
 layout_mode = 3
@@ -33,7 +34,7 @@ mouse_filter = 2
 theme = ExtResource("1_theme")
 
 [node name="Pro" type="TextureRect" parent="."]
-self_modulate = Color(0.7882, 0.8275, 0.4157, 1)
+self_modulate = Color(1, 0.8235, 0.3608, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -45,7 +46,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Retro" type="TextureRect" parent="."]
-self_modulate = Color(0.7882, 0.8275, 0.4157, 1)
+self_modulate = Color(1, 0.8235, 0.3608, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -57,7 +58,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Normal" type="TextureRect" parent="."]
-self_modulate = Color(0.7098, 0.5647, 1, 1)
+self_modulate = Color(0.702, 0.6118, 1, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -69,7 +70,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Anti" type="TextureRect" parent="."]
-self_modulate = Color(0.7098, 0.5647, 1, 1)
+self_modulate = Color(0.702, 0.6118, 1, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -81,7 +82,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="RadOut" type="TextureRect" parent="."]
-self_modulate = Color(0.3098, 0.8392, 0.6902, 1)
+self_modulate = Color(0.4353, 0.8784, 0.7451, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -93,7 +94,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="RadIn" type="TextureRect" parent="."]
-self_modulate = Color(0.3098, 0.8392, 0.6902, 1)
+self_modulate = Color(0.4353, 0.8784, 0.7451, 1)
 layout_mode = 0
 offset_left = -16.0
 offset_top = -16.0
@@ -105,7 +106,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Center" type="TextureRect" parent="."]
-self_modulate = Color(1, 0.6039, 0.2392, 1)
+self_modulate = Color(1, 0.5608, 0.7216, 1)
 layout_mode = 0
 offset_left = -18.0
 offset_top = -18.0
@@ -117,7 +118,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Delete" type="TextureRect" parent="."]
-self_modulate = Color(1, 0.3725, 0.4275, 1)
+self_modulate = Color(1, 0.4196, 0.5412, 1)
 layout_mode = 0
 offset_left = 18.0
 offset_top = -34.0
@@ -139,6 +140,6 @@ theme_override_styles/panel = SubResource("tag")
 
 [node name="Text" type="Label" parent="Tag"]
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 12
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 13
 text = "Δv 845.2 m/s"

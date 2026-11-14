@@ -76,11 +76,18 @@ func fill() -> void:
 			%Deck.text = tr("TY_PAPER_DECK_PLAYER") % prize
 		else:
 			%Deck.text = tr("TY_PAPER_DECK_RIVAL") % [who, prize]
+	var lead := r.leader_of(by)   # a rival's leader Lenda speaks for it (TycoonLegends)
 	if by == RaceDirector.PLAYER:
 		%Quote.text = tr("TY_PAPER_PLAYER_QUOTE")
+	elif not lead.is_empty():
+		var part := "FAIL" if String(page.get("kind", "")) == "fail" else "FIRST"
+		%Quote.text = tr(TycoonLegends.key(String(lead["id"]), part))
 	else:
 		%Quote.text = tr(String(r.rival(by).get("taunt_key", "")))
-	%QuoteBy.text = tr("TY_PAPER_QUOTE_BY") % who
+	if lead.is_empty():
+		%QuoteBy.text = tr("TY_PAPER_QUOTE_BY") % who
+	else:
+		%QuoteBy.text = tr("TY_PAPER_QUOTE_BY_LEADER") % [TycoonLegends.name_text(String(lead["id"])), who]
 	%Fact.text = tr(String(m.get("name_key", "")) + "_FACT")
 	%PhotoCaption.text = "%s · %s" % [who, tr(String(m.get("name_key", "")))]
 	var mk := %PhotoMarker as CwMarker

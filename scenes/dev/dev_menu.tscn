@@ -786,6 +786,22 @@ theme_type_variation = &"DevKey"
 text = "Novos candidatos"
 metadata/action = "market"
 
+[node name="LegendHire" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Lenda no mercado"
+tooltip_text = "A próxima contratação lendária aparece agora no mercado, num cartão dourado"
+metadata/action = "legend_hire"
+
+[node name="LegendCards" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Quem inspirou"
+tooltip_text = "Abre as fichas das Lendas na enciclopédia (todas conhecidas)"
+metadata/action = "legend_cards"
+
 [node name="Race" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
 layout_mode = 2
 
@@ -1092,6 +1108,41 @@ text = "Pilotar a missão"
 tooltip_text = "Põe o projeto na plataforma com um foguete do hangar (um exemplo, se não tiver) e abre o voo pilotado"
 metadata/action = "mission_flight"
 
+[node name="Space" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Missões no espaço"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space"]
+layout_mode = 2
+
+[node name="SpaceTest" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Lançar missão de teste"
+tooltip_text = "Uma missão de teste no espaço e o lançamento acompanhado; cada clique vai para outro lugar: órbita baixa, Lua, GEO, pouso, falha, cometa"
+metadata/action = "space_test"
+
+[node name="SpaceMap" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Mapa do Sistema Solar"
+tooltip_text = "Abre o mapa com todas as missões no espaço (tecla M no campus)"
+metadata/action = "space_map"
+
+[node name="WatchLast" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Acompanhar o último lançamento"
+tooltip_text = "Abre o lançamento acompanhado do projeto lançado por último"
+metadata/action = "watch_last"
+
 [node name="Missions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
 layout_mode = 2
 
@@ -1127,6 +1178,14 @@ text = "Caderno"
 metadata/action = "screen"
 metadata/arg = "journal"
 
+[node name="MentorHint" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Palpite de mentor"
+tooltip_text = "Todos os mentores lendários chegam e um pedido que eles comentam vai para o topo do quadro"
+metadata/action = "mentor_hint"
+
 [node name="SpawnCaption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
 layout_mode = 2
 theme_type_variation = &"DevCaption"
@@ -1135,6 +1194,57 @@ text = "Gerar pedido (qualquer era)"
 [node name="Briefings" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
 layout_mode = 2
 metadata/fill = "briefings"
+
+[node name="Studies" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Estudos de missão (foco das barras)"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies"]
+layout_mode = 2
+
+[node name="StudyTier" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Estudo +1 nível"
+tooltip_text = "O tipo do projeto em andamento (ou o estudo em curso) sobe um nível"
+metadata/action = "study_tier"
+
+[node name="StudyFinish" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Concluir estudo"
+tooltip_text = "O estudo em andamento chega ao nível agora"
+metadata/action = "study_finish"
+
+[node name="StudyReveal" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Revelar todos os estudos"
+tooltip_text = "Todos os tipos de missão no nível 3: marcas, faixas e acerto"
+metadata/action = "study_reveal"
+
+[node name="StudyReset" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevDanger"
+text = "Esquecer estudos"
+tooltip_text = "Zera os estudos (voos e caderno ficam)"
+metadata/action = "study_reset"
+
+[node name="StudyScreen" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Studies/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Tela de estudos"
+tooltip_text = "Abre Pesquisa › Estudos de missão"
+metadata/action = "study_screen"
 
 [node name="Replay" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
 layout_mode = 2

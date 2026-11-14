@@ -8,6 +8,8 @@ extends PanelContainer
 ## The Camera page (the header tabs; Grid rows with metadata page = "camera") holds the campus
 ## camera's turn and zoom sensitivity, invert turn / tilt / zoom, which mouse button turns
 ## (the other pans) and edge scrolling (MenuSettings.set_camera_value, applied live).
+## Rows with metadata page = "tycoon" (the Cometlings' speech bubbles and their frequency)
+## only show in the in-game settings, which list them in `rows`.
 
 signal closed
 
@@ -50,6 +52,11 @@ signal closed
 @onready var aa_smaa: Button = %AASmaa
 @onready var aa_msaa4: Button = %AAMsaa4
 @onready var aa_off: Button = %AAOff
+## the in-game rows (metadata page = "tycoon", shown only where `rows` lists them): the
+## Cometlings' speech bubbles on / off and how chatty they are (ChatterBook)
+@onready var bubbles_on: Button = %BubblesOn
+@onready var bubbles_off: Button = %BubblesOff
+@onready var rate_buttons := {"few": %RateFew, "normal": %RateNormal, "many": %RateMany}
 
 
 func _ready() -> void:
@@ -96,6 +103,14 @@ func _ready() -> void:
 	aa_smaa.pressed.connect(MenuSettings.set_antialiasing.bind("smaa"))
 	aa_msaa4.pressed.connect(MenuSettings.set_antialiasing.bind("msaa4"))
 	aa_off.pressed.connect(MenuSettings.set_antialiasing.bind("off"))
+	bubbles_on.pressed.connect(func() -> void:
+		ChatterBook.set_enabled(true)
+		sync())
+	bubbles_off.pressed.connect(func() -> void:
+		ChatterBook.set_enabled(false)
+		sync())
+	for r: String in rate_buttons:
+		(rate_buttons[r] as Button).pressed.connect(ChatterBook.set_rate.bind(r))
 	back.pressed.connect(func() -> void: closed.emit())
 	sync()
 
@@ -138,6 +153,13 @@ func sync() -> void:
 	aa_smaa.set_pressed_no_signal(aa == "smaa")
 	aa_msaa4.set_pressed_no_signal(aa == "msaa4")
 	aa_off.set_pressed_no_signal(aa == "off")
+	var talk := ChatterBook.enabled()
+	bubbles_on.set_pressed_no_signal(talk)
+	bubbles_off.set_pressed_no_signal(not talk)
+	for r: String in rate_buttons:
+		var b := rate_buttons[r] as Button
+		b.set_pressed_no_signal(ChatterBook.rate() == r)
+		b.disabled = not talk
 	_show_volume()
 	_show_camera()
 

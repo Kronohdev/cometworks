@@ -26,6 +26,8 @@ func _initialize() -> void:
 	if args.size() > 1:
 		only = args[1]
 	DirAccess.make_dir_recursive_absolute(out_dir)
+	# the first-flight tips may show, but a scripted run never marks them as seen
+	FlightTips.persist = false
 	FlightSession.set_vessel(load("res://scenes/examples/garca.tscn"), ExampleVessels.display_name("garca"), 0.0)
 	world = (load(FlightSession.FLIGHT_SCENE) as PackedScene).instantiate()
 	get_root().add_child(world)

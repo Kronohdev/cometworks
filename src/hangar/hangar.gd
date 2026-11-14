@@ -149,9 +149,8 @@ var _focus_id := ""
 
 
 func _ready() -> void:
-	if not embedded:  # inside the tycoon the game's language stays
-		var lang := OS.get_locale_language()
-		TranslationServer.set_locale("pt" if lang == "pt" else "en")
+	if not embedded:  # the language chosen in the options (inside the tycoon it is already set)
+		TranslationServer.set_locale(MenuSettings.saved_locale())
 	vessel.changed.connect(func() -> void: _dirty = true)
 	ui.part_chosen.connect(_on_part_chosen)
 	ui.part_quick_add.connect(quick_add)
@@ -325,7 +324,7 @@ func _toggle_angle_snap() -> void:
 
 
 func _toggle_language() -> void:
-	TranslationServer.set_locale("en" if TranslationServer.get_locale().begins_with("pt") else "pt")
+	MenuSettings.set_locale("en" if TranslationServer.get_locale().begins_with("pt") else "pt")
 	ui.refresh_texts()
 	_dirty = true
 

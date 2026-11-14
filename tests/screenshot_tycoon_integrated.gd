@@ -21,6 +21,8 @@ func _initialize() -> void:
 		out_dir = args[0]
 	if args.size() > 1:
 		TranslationServer.set_locale(args[1])
+	# the flight's first-flight tips may show, but a scripted run never marks them as seen
+	FlightTips.persist = false
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	main = (load("res://scenes/tycoon/tycoon_main.tscn") as PackedScene).instantiate()
 	main.cutscenes = false

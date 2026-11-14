@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/book.svg" id="3_book"]
 
 [node name="Journal" type="Control"]
 layout_mode = 3
@@ -92,6 +93,18 @@ theme_type_variation = &"CwMonoLarge"
 horizontal_alignment = 2
 text = "0"
 
+[node name="Library" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 40)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_JN_LIBRARY_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+icon = ExtResource("3_book")
+icon_alignment = 1
+expand_icon = true
+
 [node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
@@ -142,7 +155,7 @@ visible = false
 toggle_mode = true
 alignment = 0
 text_overrun_behavior = 3
-text = "Orbiter"
+text = "TY_MT_ORBITER"
 
 [node name="Tag" type="Label" parent="Panel/Margin/VBox/Body/TypesCol/Scroll/Types/TypeTemplate"]
 layout_mode = 1
@@ -179,7 +192,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 24
-text = "Orbiter"
+text = "TY_MT_ORBITER"
 
 [node name="TypeFacts" type="Label" parent="Panel/Margin/VBox/Body/MidScroll/Mid"]
 unique_name_in_owner = true
@@ -374,7 +387,7 @@ theme_type_variation = &"CwRow"
 visible = false
 toggle_mode = true
 alignment = 0
-text = "Lunar orbit"
+text = "TY_TGT_LUNAR_ORBIT"
 
 [node name="Tag" type="Label" parent="Panel/Margin/VBox/Body/MidScroll/Mid/Targets/TargetTemplate"]
 layout_mode = 1
@@ -443,14 +456,14 @@ theme_override_constants/separation = 8
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 size_flags_horizontal = 3
-text = "Spectrometer"
+text = "TY_PL_M_SPECTROMETER"
 
 [node name="Rating" type="Label" parent="Panel/Margin/VBox/Body/Right/InstrBox/Instr/InstrTemplate"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 horizontal_alignment = 2
-text = "★ great"
+text = "TY_JN_RATE_GREAT"
 
 [node name="NoInstr" type="Label" parent="Panel/Margin/VBox/Body/Right/InstrBox/Instr"]
 unique_name_in_owner = true

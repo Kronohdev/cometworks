@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "_doc": "Dialogue trees of 'Conversar' (DialogueRun, src/tycoon/talk/dialogue_run.gd; the box: CometlingDialogue). trees: {id: {start, nodes, menus}}. node: {lines: [{text_key, if, weight, pose, face}], choices: [...] or a menu id, effects: [...]}. choice: {text_key, goto, if, end, once, effects}. effects: {morale: n} (once a week per speaker), {flag: name}, {hint: true} (the tip goes into the Journal), {lesson: id} (Vovô replays a lesson), {say: key} (a bubble after the box closes). Which tree: the speaker node's metadata talk_tree, else by_legend[the Lenda's id], else legend for a Lenda, leader for the player's leader, else default. Conditions and placeholders: ChatterBook (src/tycoon/talk/chatter_book.gd).",
+  "default": "cometling",
+  "leader": "leader",
+  "legend": "legend",
+  "by_legend": {"halleyzinho": "halleyzinho"},
+  "trees": {
+    "cometling": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_ASK_WORK", "goto": "work", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_COMET", "goto": "comet"},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_1"}]}
+        ],
+        "comet": [
+          {"text_key": "TY_DLG_ASK_MORE", "goto": "comet"},
+          {"text_key": "TY_DLG_BACK", "goto": "again"},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_2"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_DLG_HI_NEW", "if": {"status": "adapting"}, "face": "happy", "pose": "wave"},
+            {"text_key": "TY_DLG_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried"},
+            {"text_key": "TY_DLG_HI_OK", "if": {"events": "launch_success"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_DLG_HI_LOW", "if": {"mood": "low"}, "face": "sad", "pose": "sigh"},
+            {"text_key": "TY_DLG_HI_HAPPY", "if": {"mood": "happy"}, "face": "joy", "pose": "hop"},
+            {"text_key": "TY_DLG_HI_NIGHT", "if": {"time": "night"}, "face": "content"},
+            {"text_key": "TY_DLG_HI_1", "pose": "wave"},
+            {"text_key": "TY_DLG_HI_2", "pose": "nod"},
+            {"text_key": "TY_DLG_HI_3", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "again": {
+          "lines": [
+            {"text_key": "TY_DLG_AGAIN_1"},
+            {"text_key": "TY_DLG_AGAIN_2", "pose": "laugh"}
+          ],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_NAP", "if": {"doing": "napping"}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_BROKE", "if": {"money": "broke"}, "face": "worried"},
+            {"text_key": "TY_DLG_FEEL_FAIL", "if": {"events": "launch_failure"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_OK_LAUNCH", "if": {"events": "launch_success", "mood": ["happy", "ok"]}, "face": "joy", "pose": "spin"},
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_LOW_2", "if": {"mood": "low"}, "face": "worried"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy", "pose": "hop"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_2", "if": {"mood": "happy"}, "face": "content"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"},
+            {"text_key": "TY_DLG_FEEL_OK_2", "face": "happy", "pose": "shrug"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        },
+        "work": {
+          "lines": [
+            {"text_key": "TY_DLG_WORK_NAP", "if": {"doing": "napping"}, "face": "sleepy"},
+            {"text_key": "TY_DLG_WORK_ADAPTING", "if": {"status": "adapting"}, "face": "happy"},
+            {"text_key": "TY_DLG_WORK_TRAINING", "if": {"status": "training"}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_DLG_WORK_PROJECT_1", "if": {"project": true, "not_doing": "napping"}, "weight": 2, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_DLG_WORK_PROJECT_2", "if": {"project": true, "not_doing": "napping"}, "weight": 2, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_WORK_IDLE", "if": {"status": "idle", "mood": ["happy", "ok"]}, "face": "happy", "pose": "shrug"},
+            {"text_key": "TY_DLG_WORK_REST", "if": {"status": "idle", "mood": "low"}, "face": "content"},
+            {"text_key": "TY_DLG_WORK_LAB", "if": {"place": "lab", "not_doing": "walking"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_DLG_WORK_PAD", "if": {"place": "pad", "not_doing": "walking"}, "face": "content"},
+            {"text_key": "TY_DLG_WORK_PILOT", "if": {"profession": "pilot"}, "face": "happy", "pose": "salute"},
+            {"text_key": "TY_DLG_WORK_SYSTEMS", "if": {"profession": "systems_engineer"}, "face": "content"},
+            {"text_key": "TY_DLG_WORK_PROPULSION", "if": {"profession": "propulsion_engineer"}, "face": "joy"},
+            {"text_key": "TY_DLG_WORK_SCIENTIST", "if": {"profession": "scientist"}, "face": "content"},
+            {"text_key": "TY_DLG_WORK_RESEARCHER", "if": {"profession": "researcher"}, "face": "content", "pose": "think"},
+            {"text_key": "TY_DLG_WORK_CONTROLLER", "if": {"profession": "flight_controller"}, "face": "content"},
+            {"text_key": "TY_DLG_WORK_TESTER", "if": {"profession": "test_technician"}, "face": "joy"},
+            {"text_key": "TY_DLG_WORK_IDLE", "face": "happy"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_SAY_2", "if": {"has_hint": true}, "face": "happy"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "comet": {
+          "lines": [
+            {"text_key": "TY_DLG_COMET_NEAR", "if": {"comet_years_max": 2}, "face": "joy"},
+            {"text_key": "TY_DLG_COMET_1", "face": "content"},
+            {"text_key": "TY_DLG_COMET_2", "face": "happy"},
+            {"text_key": "TY_DLG_COMET_3", "face": "happy", "pose": "point"},
+            {"text_key": "TY_DLG_COMET_4", "face": "content", "pose": "nod"},
+            {"text_key": "TY_DLG_COMET_5", "face": "joy"},
+            {"text_key": "TY_DLG_COMET_6", "face": "joy"},
+            {"text_key": "TY_DLG_COMET_7", "face": "content"},
+            {"text_key": "TY_DLG_COMET_8", "face": "content"}
+          ],
+          "choices": "comet"
+        }
+      }
+    },
+    "leader": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_SELF_ASK_PEP", "goto": "pep", "once": true},
+          {"text_key": "TY_DLG_SELF_ASK_PLAN", "goto": "plan", "once": true},
+          {"text_key": "TY_DLG_SELF_ASK_TEAM", "goto": "team", "once": true},
+          {"text_key": "TY_DLG_SELF_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_SELF"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_SELF_HI_LOW", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_SELF_HI", "face": "happy", "pose": "shrug"}
+          ],
+          "choices": "main"
+        },
+        "pep": {
+          "lines": [{"text_key": "TY_DLG_SELF_PEP", "face": "content", "pose": "nod"}],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        },
+        "plan": {
+          "lines": [{"text_key": "TY_DLG_SELF_PLAN", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "team": {
+          "lines": [
+            {"text_key": "TY_DLG_SELF_TEAM_BROKE", "if": {"money": "broke"}, "face": "worried"},
+            {"text_key": "TY_DLG_SELF_TEAM_LOW", "if": {"team_mood": "low"}, "face": "worried"},
+            {"text_key": "TY_DLG_SELF_TEAM_OK", "face": "happy"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "legend": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_DLG_ASK_WAY", "goto": "way", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_2"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_DLG_LEG_HI", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_DLG_LEG_HI_2", "face": "content", "pose": "bow"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_DLG_LEG_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "told_who"}],
+          "choices": "main"
+        },
+        "way": {
+          "lines": [{"text_key": "TY_DLG_LEG_WAY", "face": "happy", "pose": "laugh"}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        }
+      }
+    },
+    "halleyzinho": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_H_ASK_MATH", "goto": "math", "once": true},
+          {"text_key": "TY_DLG_H_ASK_SKY", "goto": "sky", "once": true},
+          {"text_key": "TY_DLG_H_ASK_HALLEY", "goto": "halley", "once": true},
+          {"text_key": "TY_DLG_H_ASK_LESSON", "goto": "lesson"},
+          {"text_key": "TY_DLG_H_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_H"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_H_HI_NIGHT", "if": {"time": "night"}, "pose": "stargaze"},
+            {"text_key": "TY_DLG_H_HI", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "again": {
+          "lines": [{"text_key": "TY_DLG_H_AGAIN", "pose": "specs"}],
+          "choices": "main"
+        },
+        "math": {
+          "lines": [{"text_key": "TY_DLG_H_MATH", "pose": "nod"}],
+          "effects": [{"flag": "math"}],
+          "choices": "main"
+        },
+        "sky": {
+          "lines": [{"text_key": "TY_DLG_H_SKY", "pose": "stargaze"}],
+          "choices": "main"
+        },
+        "halley": {
+          "lines": [{"text_key": "TY_DLG_H_HALLEY", "pose": "forehead"}],
+          "choices": "main"
+        },
+        "lesson": {
+          "lines": [{"text_key": "TY_DLG_H_LESSON", "pose": "wave"}],
+          "choices": [
+            {"text_key": "TY_DLG_H_BYE", "end": true, "effects": [{"lesson": "campus"}]}
+          ]
+        }
+      }
+    }
+  }
+}

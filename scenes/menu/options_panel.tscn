@@ -23,6 +23,10 @@
 [sub_resource type="ButtonGroup" id="page_group"]
 [sub_resource type="ButtonGroup" id="aa_group"]
 
+[sub_resource type="ButtonGroup" id="bubbles_group"]
+
+[sub_resource type="ButtonGroup" id="bubble_rate_group"]
+
 [node name="OptionsPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(420, 0)
 offset_right = 420.0
@@ -571,3 +575,72 @@ theme_type_variation = &"CwMenuKey"
 toggle_mode = true
 button_group = SubResource("aa_group")
 text = "MENU_OPT_AA_OFF"
+
+[node name="BubblesLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_CHAT_SET_BUBBLES"
+metadata/page = "tycoon"
+
+[node name="Bubbles" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+metadata/page = "tycoon"
+
+[node name="BubblesOn" type="Button" parent="Margin/VBox/Grid/Bubbles"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("bubbles_group")
+text = "MENU_OPT_ON"
+
+[node name="BubblesOff" type="Button" parent="Margin/VBox/Grid/Bubbles"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("bubbles_group")
+text = "MENU_OPT_OFF"
+
+[node name="BubbleRateLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_CHAT_SET_RATE"
+metadata/page = "tycoon"
+
+[node name="BubbleRate" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+metadata/page = "tycoon"
+
+[node name="RateFew" type="Button" parent="Margin/VBox/Grid/BubbleRate"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("bubble_rate_group")
+text = "TY_CHAT_RATE_FEW"
+
+[node name="RateNormal" type="Button" parent="Margin/VBox/Grid/BubbleRate"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("bubble_rate_group")
+text = "TY_CHAT_RATE_NORMAL"
+
+[node name="RateMany" type="Button" parent="Margin/VBox/Grid/BubbleRate"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("bubble_rate_group")
+text = "TY_CHAT_RATE_MANY"

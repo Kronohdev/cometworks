@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_project_steps.tscn" id="steps"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/launch_choice_screen.gd" id="1_scr"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/control.svg" id="2_pilot"]
@@ -92,6 +93,11 @@ tooltip_text = "TY_HG_CHOICE_LATER"
 focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "×"
+
+[node name="StepBar" parent="Panel/Margin/VBox" instance=ExtResource("steps")]
+layout_mode = 2
+size_flags_horizontal = 0
+current = 5
 
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2

@@ -1,0 +1,21 @@
+[gd_resource type="StyleBox" script_class="CwButtonStyle" format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_button_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+face_top = Color(1, 0.975, 0.85, 1)
+face_bottom = Color(1, 0.9, 0.56, 1)
+lip_color = Color(0.78, 0.55, 0.16, 1)
+lip = 4
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 3.0
+outline_body = true
+shine_color = Color(1, 1, 1, 0.35)
+gloss_color = Color(1, 1, 1, 0)
+lift = 2
+corner_radius = 20
+shadow_color = Color(0.55, 0.36, 0.05, 0.3)
+shadow_offset = Vector2(0, 6)
+shadow_size = 7
+padding = Vector4(12, 8, 12, 16)

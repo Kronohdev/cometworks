@@ -11,6 +11,8 @@ extends Node
 ##   Continue      -> the newest save (TycoonSave), the same scene with TycoonMain.load_slot set
 ##   Fair mode     -> the same scene with TycoonMain.fair_mode = true (set before it enters the tree)
 ##                    and the 15 s opening
+##   Demonstration -> the Demonstração panel (MenuDemoPanel): a ready save at the start of
+##                    each era and a fair-mode start (TycoonSave.DEMOS), opened like Continue
 ##   Rocket workshop -> scenes/hangar.tscn
 ##   Options       -> language, fullscreen, master volume (MenuSettings)
 
@@ -29,6 +31,7 @@ var _caption_key := ""
 var _shot_index := 0
 var _menu_focus: Dictionary = {}   # Button -> focus_mode, while the options panel is open
 var _options_home := Vector2.ZERO
+var _demo_home := Vector2.ZERO
 
 @onready var director: MenuDirector = $Background
 @onready var logo_anim: AnimationPlayer = $UI/Root/Logo/AnimationPlayer
@@ -36,10 +39,12 @@ var _options_home := Vector2.ZERO
 @onready var new_campaign: Button = %NewCampaign
 @onready var continue_button: Button = %Continue
 @onready var fair: Button = %Fair
+@onready var demo: Button = %Demo
 @onready var workshop: Button = %Workshop
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %Quit
 @onready var options: MenuOptionsPanel = %OptionsPanel
+@onready var demo_panel: MenuDemoPanel = %DemoPanel
 @onready var peek: PeekCometling = %Peek
 @onready var cam_label: Label = %CamLabel
 @onready var caption: Label = %Caption
@@ -56,6 +61,12 @@ func _ready() -> void:
 	fair.pressed.connect(_go.bind(TYCOON, true, "MENU_LOADING_FAIR"))
 	workshop.pressed.connect(_go.bind(HANGAR, false, "MENU_LOADING_HANGAR"))
 	options_button.pressed.connect(open_options)
+	demo.pressed.connect(open_demos)
+	demo_panel.closed.connect(close_demos)
+	demo_panel.chosen.connect(open_demo)
+	demo_panel.visible = false
+	_demo_home = demo_panel.position
+	demo.disabled = TycoonSave.demos().is_empty()
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
 	_setup_continue()
 	new_campaign.mouse_entered.connect(new_campaign.grab_focus)
@@ -117,6 +128,8 @@ func _fill_readout() -> void:
 func open_options() -> void:
 	if options.visible:
 		return
+	if demo_panel.visible:
+		close_demos()
 	options.sync()
 	CwSfx.play(&"ui_open")
 	options.visible = true
@@ -126,23 +139,71 @@ func open_options() -> void:
 	tw.tween_property(options, "modulate:a", 1.0, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tw.tween_property(options, "position", _options_home, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	# keep the keyboard inside the options while they are open
-	for b: Button in [new_campaign, fair, workshop, options_button, quit_button]:
+	_lock_menu()
+	options.focus_first()
+
+
+## Keeps the keyboard inside an open side panel (options, demonstration).
+func _lock_menu() -> void:
+	if not _menu_focus.is_empty():
+		return
+	for b: Button in [new_campaign, continue_button, fair, demo, workshop, options_button, quit_button]:
 		_menu_focus[b] = b.focus_mode
 		b.focus_mode = Control.FOCUS_NONE
-	options.focus_first()
 
 
 func close_options() -> void:
 	if not options.visible:
 		return
 	CwSfx.play(&"ui_close")
-	for b: Button in _menu_focus:
-		b.focus_mode = _menu_focus[b]
-	_menu_focus.clear()
+	_unlock_menu()
 	var tw := create_tween()
 	tw.tween_property(options, "modulate:a", 0.0, 0.1)
 	tw.tween_callback(func() -> void: options.visible = false)
 	options_button.grab_focus()
+
+
+func _unlock_menu() -> void:
+	for b: Button in _menu_focus:
+		b.focus_mode = _menu_focus[b]
+	_menu_focus.clear()
+
+
+# ------------------------------------------------------------------ demonstration saves
+func open_demos() -> void:
+	if demo_panel.visible:
+		return
+	if options.visible:
+		close_options()
+	demo_panel.fill()
+	CwSfx.play(&"ui_open")
+	demo_panel.visible = true
+	demo_panel.modulate.a = 0.0
+	demo_panel.position = _demo_home + Vector2(0, PANEL_SLIDE)
+	var tw := create_tween().set_parallel()
+	tw.tween_property(demo_panel, "modulate:a", 1.0, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(demo_panel, "position", _demo_home, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_lock_menu()
+	demo_panel.focus_first()
+
+
+func close_demos() -> void:
+	if not demo_panel.visible:
+		return
+	CwSfx.play(&"ui_close")
+	_unlock_menu()
+	var tw := create_tween()
+	tw.tween_property(demo_panel, "modulate:a", 0.0, 0.1)
+	tw.tween_callback(func() -> void: demo_panel.visible = false)
+	demo.grab_focus()
+
+
+## Opens a demonstration save (a TycoonSave slot "demo_*"), the same way as Continue.
+func open_demo(slot: String) -> void:
+	if not TycoonSave.exists(slot):
+		return
+	_pending_slot = slot
+	_go(TYCOON, false, "MENU_LOADING_DEMO")
 
 
 # ------------------------------------------------------------------ leaving

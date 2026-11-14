@@ -37,7 +37,7 @@
     "tester_removal_mult": 2.0
   },
   "grade": {
-    "expectation_era": [60, 140, 260, 420, 600],
+    "expectation_era": [60, 140, 200, 260, 320],
     "repeat_step": 0.1,
     "repeat_window_weeks": 104,
     "best_grade_step": 0.03,
@@ -71,7 +71,11 @@
     "rocket_step": 0.03,
     "rocket_max": 0.98,
     "crewed_types": ["crewed_flight", "crewed_landing"],
+    "_crewed_target_tech": "Crewed flights to these targets also need this tech (days away from Earth need life support); crewed_target_error is the reason the screens give.",
+    "crewed_target_tech": {"lunar_flyby": "life_support", "lunar_orbit": "life_support", "lunar_surface": "life_support", "lunar_pole": "life_support"},
+    "crewed_target_error": "TY_PJ_ERR_LIFE_SUPPORT",
     "crewed_courage_floor": 0.85,
+    "crew_risk_floor": 0.25,
     "exceptional_grade": 8.5,
     "full_grade": 5.5,
     "science_mult": {"fail": 0.0, "partial": 0.5, "full": 1.0, "exceptional": 1.3},

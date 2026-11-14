@@ -1,0 +1,403 @@
+{
+	"version": 1,
+	"saved_at": 1794609915,
+	"slot": "demo_era1",
+	"summary": {
+		"agency": "Cometworks",
+		"year": 1,
+		"week": 1,
+		"era": 1,
+		"cash": 300000.0,
+		"milestones": 0
+	},
+	"extra": {
+		"fair_mode": false,
+		"demo": "demo_era1"
+	},
+	"state": {
+		"version": 1,
+		"seed": 2026,
+		"rng_state": "-8864703851619757132",
+		"weeks": 0,
+		"cash": 300000.0,
+		"difficulty": "normal",
+		"reputation": 23.0,
+		"hype": 5.0,
+		"agency_name": "Cometworks",
+		"staff": [
+			{
+				"id": "leader",
+				"leader": true,
+				"name": "Cocada",
+				"profession": "systems_engineer",
+				"level": 2,
+				"xp": 100.0,
+				"morale": 90.0,
+				"variant": 0,
+				"assigned": "",
+				"hidden": [],
+				"specs": [
+					"integration_lead"
+				],
+				"seed": 65039,
+				"hired_week": 0,
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"skill": 0.6,
+				"curiosity": 0.85,
+				"courage": 0.6,
+				"body": "#bfe9ff",
+				"spot": "#f59a36",
+				"hat": "role",
+				"quirk": "dreamer",
+				"busy_weeks": 0,
+				"napping": false
+			},
+			{
+				"id": "cm001",
+				"name": "Mibup Poeiradoce",
+				"role": "pilot",
+				"variant": 2,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.81,
+				"curiosity": 0.27,
+				"courage": 0.67,
+				"profession": "pilot",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29446,
+				"hired_week": 0
+			},
+			{
+				"id": "cm002",
+				"name": "Lumo Luapé",
+				"role": "engineer",
+				"variant": 7,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.93,
+				"curiosity": 0.76,
+				"courage": 0.63,
+				"profession": "systems_engineer",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29447,
+				"hired_week": 0
+			},
+			{
+				"id": "cm003",
+				"name": "Pokami Gelolume",
+				"role": "scientist",
+				"variant": 5,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.53,
+				"curiosity": "#f64:676666666666ee3f",
+				"courage": 0.65,
+				"profession": "scientist",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29448,
+				"hired_week": 0
+			},
+			{
+				"id": "cm004",
+				"name": "Kotimi Estrelariso",
+				"role": "pilot",
+				"variant": 4,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.91,
+				"curiosity": 0.43,
+				"courage": "#f64:15ae47e17a14de3f",
+				"profession": "pilot",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29449,
+				"hired_week": 0
+			},
+			{
+				"id": "cm005",
+				"name": "Noron Poeiralume",
+				"role": "engineer",
+				"variant": 3,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.87,
+				"curiosity": 0.8200000000000001,
+				"courage": 0.65,
+				"profession": "systems_engineer",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29450,
+				"hired_week": 0
+			},
+			{
+				"id": "cm006",
+				"name": "Muruli Fagulhadoce",
+				"role": "scientist",
+				"variant": 8,
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.42,
+				"curiosity": 0.79,
+				"courage": 0.78,
+				"profession": "scientist",
+				"morale": 70.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29451,
+				"hired_week": 0
+			}
+		],
+		"rivals": [
+			{
+				"id": "aurora",
+				"name_key": "TY_RIVAL_AURORA",
+				"color": "#ff5c6c",
+				"capacity": 1.1,
+				"milestones": 0
+			},
+			{
+				"id": "nimbo",
+				"name_key": "TY_RIVAL_NIMBO",
+				"color": "#bfe8ff",
+				"capacity": 0.9,
+				"milestones": 0
+			},
+			{
+				"id": "quietude",
+				"name_key": "TY_RIVAL_QUIETUDE",
+				"color": "#8e7cff",
+				"capacity": 1.0,
+				"milestones": 0
+			}
+		],
+		"milestones": 0,
+		"projects": [],
+		"news": [
+			{
+				"key": "TY_LEADER_NEWS_FOUNDED",
+				"args": [
+					"Cocada",
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_NEWS_WELCOME",
+				"args": []
+			}
+		],
+		"buildings": {
+			"hq": {
+				"kind": "hq",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0
+			},
+			"workshop": {
+				"kind": "workshop",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0
+			},
+			"pad": {
+				"kind": "pad",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0
+			}
+		},
+		"contracts": [],
+		"active_missions": [],
+		"research_points": 0.0,
+		"unlocked": {
+
+		},
+		"crew": {
+			"rng_state": "-6188214008747637706",
+			"next_id": 4,
+			"candidates": [
+				{
+					"id": "c001",
+					"profession": "scientist",
+					"seed": 60890,
+					"skill": 0.6,
+					"curiosity": 0.79,
+					"courage": 0.76,
+					"level": 1,
+					"xp": 0.0,
+					"name": "Lulimi Poeirazinho",
+					"variant": 1,
+					"hidden": [
+						"skill",
+						"courage"
+					]
+				},
+				{
+					"id": "c002",
+					"profession": "test_technician",
+					"seed": 69608,
+					"skill": 0.92,
+					"curiosity": 0.78,
+					"courage": 0.53,
+					"level": 1,
+					"xp": 0.0,
+					"name": "Nosali Estrelabela",
+					"variant": 6,
+					"hidden": [
+						"skill",
+						"courage"
+					]
+				},
+				{
+					"id": "c003",
+					"profession": "flight_controller",
+					"seed": 65071,
+					"skill": 0.8200000000000001,
+					"curiosity": 0.48,
+					"courage": 0.42,
+					"level": 1,
+					"xp": 0.0,
+					"name": "Bolux Auroralindo",
+					"variant": 4,
+					"hidden": [
+						"skill",
+						"courage"
+					]
+				}
+			],
+			"legends": {
+				"seen": {
+
+				},
+				"hired": {
+
+				}
+			}
+		},
+		"mission_projects": [],
+		"project_history": [],
+		"mission_archive": [],
+		"research": {
+
+		},
+		"contract_board": {
+
+		},
+		"finance": {
+
+		},
+		"race": {
+			"rng_seed": "16148623",
+			"rng_state": "-3394249144104866891",
+			"claims": {
+				"suborbital": [],
+				"first_satellite": [],
+				"long_signal": [],
+				"cometling_space": [],
+				"cometling_orbit": [],
+				"probe_moon": [],
+				"far_side": [],
+				"robotic_landing": [],
+				"polar_ice": [],
+				"crewed_flyby": [],
+				"crewed_landing": [],
+				"base_module": [],
+				"lunar_propellant": [],
+				"launch_base": [],
+				"comet_rendezvous": []
+			},
+			"ai": {
+				"aurora": {
+					"next": 0,
+					"cooldown": 0,
+					"fails": 0,
+					"dropped": []
+				},
+				"nimbo": {
+					"next": 0,
+					"cooldown": 0,
+					"fails": 0,
+					"dropped": []
+				},
+				"quietude": {
+					"next": 0,
+					"cooldown": 0,
+					"fails": 0,
+					"dropped": []
+				}
+			},
+			"science_total": 0.0,
+			"rep_samples": [],
+			"pages": [],
+			"pending_pages": [],
+			"finished": false,
+			"last_fail_page": -100000
+		},
+		"leader": {
+			"name": "Cocada",
+			"profession": "systems_engineer",
+			"body": "#bfe9ff",
+			"spot": "#f59a36",
+			"hat": "role",
+			"strength": "curiosity",
+			"quirk": "dreamer",
+			"agency_name": "Cometworks",
+			"agency_color": "#ff8a3d",
+			"emblem": "comet",
+			"seed": 65039
+		},
+		"rockets": {
+
+		},
+		"story": {
+
+		},
+		"discovery": {
+
+		},
+		"tracking": {
+
+		},
+		"tutorials": {
+
+		}
+	}
+}

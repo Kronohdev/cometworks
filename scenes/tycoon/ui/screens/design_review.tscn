@@ -152,7 +152,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 17
-text = "Main stage"
+text = "TY_RK_SLOT_CORE"
 
 [node name="Detail" type="Label" parent="Panel/Margin/VBox/Body/Left/RiskScroll/Risks/RiskTemplate/HBox/Names"]
 layout_mode = 2
@@ -215,7 +215,7 @@ text = "Fix  +1 wk · 3 000 cr"
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
-text = "Static fire of stage 1"
+text = "TY_RK_FIX_STAGE1"
 text_overrun_behavior = 3
 
 [node name="NoFix" type="Label" parent="Panel/Margin/VBox/Body/Left/RiskScroll/Risks/RiskTemplate/HBox"]
@@ -453,7 +453,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
-text = "New family · first flight · 30 000 cr per flight"
+text = "TY_RK_HERITAGE_NEW"
 autowrap_mode = 3
 
 [node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Right"]

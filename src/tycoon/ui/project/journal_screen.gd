@@ -1,8 +1,9 @@
 extends CwScreen
 ## Discovery journal ("Caderno de descobertas", scenes/tycoon/ui/screens/journal.tscn, opened
 ## from the rail and from the review): what the agency has learned by flying (Discovery).
-## Left: the mission types (flights, a star for a great combo). Middle: the chosen type's ideal
-## balance and the lever split that hits it (once revealed: after a few flights or a tech), the
+## Left: the mission types (flights, a star for a great combo). Middle: what the agency knows of
+## the chosen type's bars (FocusStudy tiers: most / least, levels, the exact balance) and the
+## lever split that hits it (once revealed: after a few flights, a tech or a lab study), the
 ## targets tried with their compat tier, best grade and stars, the best team. Right: the
 ## instruments rated on that type at the chosen target, the target's environment, and the
 ## latest discoveries. Everything visual is in the scene; rows are copies of hidden templates.
@@ -17,6 +18,10 @@ var target_id := ""
 
 
 func _bound() -> void:
+	# Vovô Edmundo's library, to hear his lessons again
+	var lib := get_node_or_null("%Library") as Button
+	if lib and not lib.pressed.is_connected(_open_library):
+		lib.pressed.connect(_open_library)
 	var types := _types()
 	for t: Dictionary in types:
 		if Discovery.attempts(state, String(t["id"])) > 0:
@@ -114,13 +119,22 @@ func _fill_type() -> void:
 	%TypeFacts.text = tr("TY_JN_FACTS") % [n, "%.1f" % best] if n > 0 else tr("TY_JN_NEVER")
 	var known := Discovery.ratio_known(state, type_id)
 	var ratio: Array = mt.get("ratio", [0.25, 0.25, 0.25, 0.25])
+	# what the agency knows of the bars: flights, techs and the lab's studies (FocusStudy)
+	var t := FocusStudy.tier(state, type_id)
+	var marks := FocusStudy.bar_marks(state, type_id)
+	var coarse := FocusStudy.coarse_ideal(state, type_id)
 	var rows: Array[Node] = [%RatioEng, %RatioSci, %RatioOps, %RatioRel]
 	for b in 4:
 		var bar := rows[b].get_node("Bar") as CwSegmentBar
 		bar.color = CwPalette.BARS[ProjectRules.BARS[b]]
-		bar.value = float(ratio[b]) / 0.5 if known else 0.0
-		(rows[b].get_node("Value") as Label).text = "%d%%" % roundi(float(ratio[b]) * 100.0) if known else "?"
-	%RatioNote.text = tr("TY_JN_RATIO_KNOWN") if known else tr("TY_JN_RATIO_HIDDEN") % [n, int(BriefingDesk.disc().get("reveal_ratio_after", 2))]
+		bar.value = float(ratio[b]) / 0.5 if known else (float(coarse[b]) / 0.5 if t == 2 else 0.0)
+		var vl := rows[b].get_node("Value") as Label
+		vl.text = FocusView.mark_text(marks[b])
+		vl.add_theme_color_override("font_color", FocusView.mark_color(marks[b]))
+	if known:
+		%RatioNote.text = tr("TY_JN_RATIO_KNOWN")
+	else:
+		%RatioNote.text = "%s · %s\n%s" % [FocusView.tier_text(t), FocusView.know_text(state, type_id), FocusView.how_text(state, type_id)]
 	var levers: Array[Node] = [%Lever0, %Lever1, %Lever2]
 	var ranges := Discovery.lever_ranges(ratio) if known else []
 	for k in 3:
@@ -198,3 +212,8 @@ func _fill_notes() -> void:
 	for i in n:
 		(rows[i] as Label).text = "• " + TycoonHUD.news_text(notes[i])
 	%NoNotes.visible = notes.is_empty()
+
+
+func _open_library() -> void:
+	if hud:
+		hud.open_screen("library")

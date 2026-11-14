@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/screens/settings_screen.gd" id="2_script"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="3_icon"]
 [ext_resource type="PackedScene" path="res://scenes/menu/options_panel.tscn" id="4_options"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/book.svg" id="5_book"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
@@ -227,6 +228,24 @@ tooltip_text = "TY_SET_REPLAY_OPENING_TIP"
 focus_mode = 0
 text = "TY_SET_REPLAY_OPENING"
 
+[node name="Tutorials" type="CheckButton" parent="Panel/Margin/VBox/Pages/Game"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_TUTORIALS_TIP"
+focus_mode = 0
+button_pressed = true
+text = "TY_SET_TUTORIALS"
+
+[node name="Library" type="Button" parent="Panel/Margin/VBox/Pages/Game"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "TY_SET_LIBRARY_TIP"
+focus_mode = 0
+icon = ExtResource("5_book")
+text = "TY_SET_LIBRARY"
+expand_icon = true
+
 [node name="Save" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
 visible = false
 layout_mode = 2
@@ -312,7 +331,7 @@ metadata/title = "TY_SET_TAB_IMAGE"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA")
+rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA", "BubblesLabel", "Bubbles", "BubbleRateLabel", "BubbleRate")
 
 [node name="Head" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="0"]
 visible = false

@@ -1,6 +1,8 @@
 """Writes scenes/flight/flight_map.tscn (the flight's solar-system map view) from
 data/solar_system.json. The scene is ordinary editor data: hand edits are fine, re-running
-overwrites them.
+overwrites them. Since the Cometworks pass the scene's overlay (map bar, hint pill, the paper
+label pill of the hover marker), the cometworks theme and the soft navy sky tint are edited
+by hand in the scene: re-running this brings back the old dark overlay.
 
 Map space: 1 unit = 1 km, the focus (vessel or body) at the origin, real sizes and
 distances. Every body reuses the voxel planets of the solar-system scene

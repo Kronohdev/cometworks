@@ -134,7 +134,7 @@ static func default_target(state: TycoonState, type_id: String) -> String:
 	var best_c := 0.0
 	var cmp: Dictionary = state.mission_type(type_id).get("compat", {})
 	for t: String in cmp:
-		if state.mission_target_available(t) and float(cmp[t]) > best_c:
+		if state.mission_target_available(t) and TycoonResearch.pair_available(state, type_id, t) and float(cmp[t]) > best_c:
 			best_c = float(cmp[t])
 			best = t
 	return best
@@ -160,6 +160,9 @@ static func start_error(state: TycoonState, type_id: String, target_id: String, 
 		return "TY_PJ_ERR_TYPE"
 	if ProjectRules.compat(state.mission_type(type_id), target_id) <= 0.0:
 		return "TY_PJ_ERR_IMPOSSIBLE"
+	var pe := TycoonResearch.pair_error(state, type_id, target_id)
+	if pe != "":
+		return pe
 	if staff_ids.is_empty():
 		return "TY_PJ_ERR_TEAM"
 	for sid in staff_ids:
@@ -594,11 +597,12 @@ static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dicti
 		state.complete_contract(p.contract_id, avg, success)
 	var rep := clampf(avg - float(rw.get("reputation_pivot", 5.0)), -float(rw.get("reputation_cap", 5.0)),
 		float(rw.get("reputation_cap", 5.0)))
-	state.reputation = maxf(state.reputation + rep, 0.0)
+	state.reputation = clampf(state.reputation + rep, 0.0, 100.0)
 	var hype := avg * avg / float(rw.get("hype_div", 5.0))
 	if report.get("great", false) and success:
 		hype += float((BriefingDesk.disc().get("great", {}) as Dictionary).get("hype", 6.0))
-	state.hype += hype
+	# hype lives on 0..100 like the race keeps it: donations (400 cr per point a month) stay bounded
+	state.hype = clampf(state.hype + hype, 0.0, 100.0)
 	# the briefing's client pays by the result; the journal writes down what this flight taught
 	var brief := {}
 	if p.briefing_id != "":
@@ -662,6 +666,9 @@ static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dicti
 			"contract_id": p.contract_id, "outcome": outcome, "success": success, "project_id": p.id}
 		# the payload drives the operations: its data, storage, antenna, science value, night and cold
 		am.merge(MissionFit.ops_fields(state, p.type_id, p.payload_or_default(state), report), true)
+		# the team's specialisations fly along: data miners ("science"), antenna masters ("downlink")
+		am["spec_science"] = TycoonCrew.team_effect(state, p.staff_ids, "science", p.type_id, p.target_id)
+		am["spec_downlink"] = TycoonCrew.team_effect(state, p.staff_ids, "downlink", p.type_id, p.target_id)
 		state.active_missions.append(am)
 	state.mission_launching.emit(result)
 	state.mission_launched.emit(result)

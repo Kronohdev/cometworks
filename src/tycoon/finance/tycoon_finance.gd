@@ -113,10 +113,11 @@ static func monthly(s: TycoonState) -> void:
 			s.news.push_front({"key": "TY_NEWS_LOAN_PAID", "args": []})
 
 
-## Government budget for a year: G_era * (0.5 + reputation/100) * (1 + step * milestones).
+## Government budget for a year: G_era * (0.5 + reputation/100) * (1 + step * milestones),
+## times the difficulty's income factor (TycoonDifficulty).
 static func grant_amount(s: TycoonState) -> float:
 	var g: Array = db().get("gov_budget", [400000])
-	var base := float(g[clampi(s.era() - 1, 0, g.size() - 1)])
+	var base := float(g[clampi(s.era() - 1, 0, g.size() - 1)]) * TycoonDifficulty.factor(s, "income")
 	return base * (0.5 + clampf(s.reputation, 0.0, 100.0) / 100.0) \
 		* (1.0 + float(db().get("gov_milestone_step", 0.05)) * s.milestones)
 

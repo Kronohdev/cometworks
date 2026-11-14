@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="1_theme"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
 [ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/earth.png" id="2_icon"]
 
 [node name="MapBodyLabel" type="Control"]
@@ -10,7 +10,7 @@ mouse_filter = 2
 theme = ExtResource("1_theme")
 
 [node name="Halo" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.5)
+modulate = Color(1, 1, 1, 0.6)
 layout_mode = 0
 offset_left = -15.0
 offset_top = -15.0
@@ -36,10 +36,10 @@ layout_mode = 0
 offset_left = -90.0
 offset_top = 11.0
 offset_right = 90.0
-offset_bottom = 29.0
-theme_type_variation = &"DimLabel"
-theme_override_colors/font_outline_color = Color(0.0392, 0.0549, 0.0745, 0.92)
+offset_bottom = 31.0
+mouse_filter = 2
+theme_type_variation = &"CwOnDark"
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 13
-text = "Earth"
+theme_override_font_sizes/font_size = 14
+text = "SS_NAME_EARTH"
 horizontal_alignment = 1

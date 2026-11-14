@@ -52,6 +52,9 @@ var cash := 0.0
 var reputation := 0.0
 var hype := 0.0
 var agency_name := "Cometworks"
+## the career's difficulty level (TycoonDifficulty: "easy" | "normal" | "hard"), chosen in the
+## leader creator; old saves read as "normal"
+var difficulty := TycoonDifficulty.NORMAL
 ## staff: [{"id", "name", "profession", "level" 1..6, "xp", "skill" 0..1, "curiosity" 0..1,
 ## "courage" 0..1, "morale" 0..100, "variant", "assigned" (project id or "")}], see normalize_staff()
 var staff: Array[Dictionary] = []
@@ -113,6 +116,11 @@ var pilot_gate := false
 var story: Dictionary = {}
 ## the discovery journal and the briefing board (Discovery.d, BriefingDesk)
 var discovery: Dictionary = {}
+## every launch as a tracked object in space, the player's and the rivals' (owned by
+## SpaceTracking, src/tycoon/tracking/space_tracking.gd): {"missions": [...]}
+var tracking: Dictionary = {}
+## Vovô Edmundo's lessons this campaign has seen (TutorialBook): {"seen": {lesson_id: true}}
+var tutorials: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -135,13 +143,14 @@ func _load_data() -> void:
 	mdata = load_json(MISSIONS_PATH)
 
 
-static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = []) -> TycoonState:
+static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = [], p_difficulty := "") -> TycoonState:
 	var s := TycoonState.new()
 	s._load_data()
 	s.campaign_seed = p_seed
 	s.rng.seed = p_seed
+	s.difficulty = TycoonDifficulty.sanitize(p_difficulty)
 	var st: Dictionary = s.rules.get("start", {})
-	s.cash = float(st.get("cash", 300000))
+	s.cash = float(st.get("cash", 300000)) * TycoonDifficulty.factor(s, "start_cash")
 	s.reputation = float(st.get("reputation", 20))
 	s.hype = float(st.get("hype", 5))
 	s.agency_name = String(st.get("agency_name", "Cometworks"))
@@ -158,6 +167,7 @@ static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = []) -> T
 			s.buildings[lot_id] = {"kind": lot["kind"], "level": 1, "target": 1, "weeks_left": 0}
 	s.news.append({"key": "TY_NEWS_WELCOME", "args": []})
 	s.race = RaceDirector.new(s)
+	SpaceTracking.attach(s)
 	return s
 
 
@@ -370,9 +380,14 @@ func advance_week() -> void:
 	if era() != era0:
 		news.push_front({"key": "TY_NEWS_ERA", "args": [era()]})
 		era_changed.emit(era())
+	# Mother-Ice comes within reach (missions.json: the comet's approach_weeks)
+	var near := int(mission_target("comet").get("approach_weeks", 0))
+	if near > 0 and comet_weeks_left() == near:
+		news.push_front({"key": "TY_NEWS_COMET_NEAR", "args": []})
 	TycoonCrew.on_week(self)
 	TycoonAgency.week(self)  # research, contract board, ledger and government budget (E3)
 	race.advance_week()
+	SpaceTracking.advance_week(self)  # launches in space: new tracks, statuses
 	changed.emit()
 
 
@@ -394,13 +409,15 @@ func race_board() -> Array[Dictionary]:
 # ------------------------------------------------------------ save / load
 func to_dict() -> Dictionary:
 	return {"version": 1, "seed": campaign_seed, "rng_state": str(rng.state), "weeks": weeks, "cash": cash,
+		"difficulty": difficulty,
 		"reputation": reputation, "hype": hype, "agency_name": agency_name, "staff": staff, "rivals": rivals,
 		"milestones": milestones, "projects": projects, "news": news, "buildings": buildings,
 		"contracts": contracts, "active_missions": active_missions, "research_points": research_points,
 		"unlocked": unlocked, "crew": crew, "mission_projects": ProjectDesk.save(self),
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
-		"rockets": rockets, "story": story, "discovery": discovery}
+		"rockets": rockets, "story": story, "discovery": discovery, "tracking": tracking,
+		"tutorials": tutorials}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -415,6 +432,7 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s.reputation = float(d.get("reputation", 0.0))
 	s.hype = float(d.get("hype", 0.0))
 	s.agency_name = String(d.get("agency_name", "Cometworks"))
+	s.difficulty = TycoonDifficulty.sanitize(String(d.get("difficulty", "")))
 	s.staff.assign(d.get("staff", []))
 	for i in s.staff.size():
 		s.staff[i] = s.normalize_staff(s.staff[i], i)
@@ -438,9 +456,13 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s.leader = TycoonLeader.sanitize(ld) if not ld.is_empty() else {}
 	s.story = d.get("story", {})
 	s.discovery = d.get("discovery", {})
+	# saves from before the lessons: a campaign already under way skips the welcome
+	s.tutorials = d.get("tutorials", {"seen": {"campus": true}} if s.weeks > 8 else {})
 	for lot_id: String in s.buildings:  # JSON numbers come back as floats
 		var b: Dictionary = s.buildings[lot_id]
 		for k in ["level", "target", "weeks_left"]:
 			b[k] = int(b.get(k, 0))
 	s.race = RaceDirector.new(s, d.get("race", {}))
+	s.tracking = d.get("tracking", {})
+	SpaceTracking.attach(s)
 	return s

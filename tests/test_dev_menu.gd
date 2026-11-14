@@ -27,6 +27,7 @@ func _initialize() -> void:
 	await _campus()
 	await _menu()
 	await _hangar()
+	await _release()
 	_finish()
 
 
@@ -203,6 +204,25 @@ func _campus() -> void:
 	_check(seq != null and seq.kind == "partial", "the launch cinematic replays a partial launch")
 	await _close_all(main)
 
+	# mission studies (FocusStudy)
+	var st_type := dev._study_type(s)
+	_check(st_type != "", "a type to study (%s)" % st_type)
+	var st_tier := FocusStudy.tier(s, st_type)
+	_run("study_tier")
+	_check(FocusStudy.tier(s, st_type) == st_tier + 1, "study +1 level (%s: %d)" % [st_type, FocusStudy.tier(s, st_type)])
+	s.cash = maxf(s.cash, 1.0e6)
+	FocusStudy.start(s, st_type)
+	_run("study_finish")
+	_check(FocusStudy.tier(s, st_type) == mini(st_tier + 2, 3) and FocusStudy.active(s) == "", "finish the study under way")
+	_run("study_reveal")
+	_check(FocusStudy.tier(s, "comet_mission") == 3 and FocusStudy.tier(s, "sounding") == 3, "reveal every study")
+	_run("study_screen")
+	await _frames(3)
+	_check(main.hud.current_screen() == "research", "the studies page opens (%s)" % main.hud.current_screen())
+	await _close_all(main)
+	_run("study_reset")
+	_check(FocusStudy.studied(s, "comet_mission") == 0, "forget the studies")
+
 	# cutscenes
 	_run("cutscene", "opening_short")
 	await _frames(2)
@@ -320,6 +340,33 @@ func _hangar() -> void:
 	_run("goto", "menu")
 	await _frames(6)
 	_check(current_scene != null and current_scene is MainMenu, "go to: main menu")
+
+
+# ------------------------------------------------------------------ release export
+## A release export has no dev menu: OS.is_debug_build() is false there (simulated here), so a
+## fresh menu stays hidden, disabled and deaf to F1 / F12 / ', unless cometworks/dev/enabled.
+func _release() -> void:
+	print("release build")
+	_check(not CwDevMenu.allowed(false, false) and CwDevMenu.allowed(true, false) and CwDevMenu.allowed(false, true),
+		"only debug builds, the editor or the project setting have the menu")
+	_check(not bool(ProjectSettings.get_setting(CwDevMenu.SETTING, false)), "the project ships with cometworks/dev/enabled off")
+	dev.set_open(false)
+	CwDevMenu.simulate_release = true
+	var rel := (load("res://scenes/dev/dev_menu.tscn") as PackedScene).instantiate() as CwDevMenu
+	root.add_child(rel)
+	await _frames(1)
+	_check(not CwDevMenu.enabled(), "a release build says the menu is off")
+	_check(not rel.visible and not rel.panel.visible and rel.process_mode == Node.PROCESS_MODE_DISABLED,
+		"in a release build the menu is hidden and disabled")
+	dev.process_mode = Node.PROCESS_MODE_DISABLED   # only the release copy listens now
+	for key: Key in [KEY_F12, KEY_F1]:
+		_press(key)
+		await _frames(1)
+	_check(not rel.is_open and not rel.panel.visible, "F12 and F1 do not open it in a release build")
+	CwDevMenu.simulate_release = false
+	dev.process_mode = Node.PROCESS_MODE_ALWAYS
+	rel.queue_free()
+	await _frames(1)
 
 
 # ------------------------------------------------------------------ helpers

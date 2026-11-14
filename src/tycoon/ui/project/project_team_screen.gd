@@ -1,9 +1,9 @@
 extends CwScreen
 ## Team step (scenes/tycoon/ui/screens/project_team.tscn), after the payload: who builds the
 ## mission. The Cometlings as toggle rows (busy ones dimmed), the ideal team size, and what the
-## mission leans on: the ideal share of each bar once the journal knows it ("?" before, and
-## always for a client with priorities of its own), with how many on the team have that bar
-## as their profession's. The journal's best team so far, the staff's hints on the briefing,
+## mission leans on: what the agency knows of each bar (FocusStudy tiers: "?", most / least,
+## levels, the exact share; always "?" for a client with priorities of its own), with how many
+## on the team have that bar as their profession's. The journal's best team so far, the staff's hints on the briefing,
 ## the cost and weeks. Next: the rocket designer, which starts the project.
 ## Everything visual is in the scene; staff and hint rows are copies of its hidden templates.
 
@@ -71,8 +71,9 @@ func error() -> String:
 	return ProjectDesk.start_error(state, type_id, target_id, team_ids(), {}, {"payload": payload, "briefing_id": briefing_id})
 
 
-## The Cometlings' suggestion: the ideal number of free Cometlings, the most skilled first.
-## (It does not know the hidden balance: that is the player's call.)
+## The Cometlings' suggestion: the ideal number of free Cometlings, a pilot for a crewed flight,
+## one of each profession whose bar the agency knows the mission leans on (FocusStudy), then
+## the most skilled. (Without that knowledge the hidden balance is the player's call.)
 func _auto_team() -> void:
 	picked.clear()
 	var probe := MissionProject.new()
@@ -84,6 +85,16 @@ func _auto_team() -> void:
 	if crewed:
 		for m in free:
 			if String(m.get("profession", "")) == "pilot":
+				picked[String(m["id"])] = true
+				break
+	# what the agency knows the mission leans on: one of each of those professions first
+	var client := BriefingDesk.ratio(BriefingDesk.briefing(briefing_id)).size() == 4
+	for bi in 4:
+		if client or picked.size() >= n or not FocusStudy.known_important(state, type_id, bi):
+			continue
+		for m in free:
+			var primary := String(state.profession(String(m.get("profession", ""))).get("primary", ""))
+			if not picked.has(String(m["id"])) and primary == ProjectRules.BARS[bi]:
 				picked[String(m["id"])] = true
 				break
 	for m in free:
@@ -141,10 +152,8 @@ func _fill_staff() -> void:
 
 func _fill_needs() -> void:
 	var client := BriefingDesk.ratio(BriefingDesk.briefing(briefing_id)).size() == 4
-	var known := Discovery.ratio_known(state, type_id) and not client
-	var probe := MissionProject.new()
-	probe.type_id = type_id
-	var ideal := probe.ideal(state)
+	var t := 0 if client else FocusStudy.tier(state, type_id)
+	var marks := FocusStudy.bar_marks(state, type_id)
 	var team: Array[Dictionary] = []
 	for m in state.staff:
 		if String(m["id"]) in team_ids():
@@ -157,13 +166,22 @@ func _fill_needs() -> void:
 			if String(state.profession(String(m.get("profession", ""))).get("primary", "")) == bar:
 				n += 1
 		(rows[bi].get_node("Chip") as ColorRect).color = CwPalette.BARS[bar]
-		(rows[bi].get_node("Ideal") as Label).text = "%d%%" % roundi(ideal[bi] * 100.0) if known else "?"
+		var mk: Dictionary = marks[bi] if t > 0 else {"tier": 0, "mark": "", "ideal": -1.0}
+		var il := rows[bi].get_node("Ideal") as Label
+		il.text = FocusView.mark_text(mk)
+		il.add_theme_color_override("font_color", FocusView.mark_color(mk))
 		var hl := rows[bi].get_node("Have") as Label
 		hl.text = tr("TY_TM_HAVE_N") % n
-		var short := known and ideal[bi] >= 0.25 and n == 0
+		var short := t > 0 and n == 0 and FocusStudy.known_important(state, type_id, bi)
 		hl.add_theme_color_override("font_color", CwPalette.DANGER if short else CwPalette.TEXT)
-	%NeedsNote.text = tr("TY_TM_NEEDS_CLIENT") if client else (tr("TY_TM_NEEDS_KNOWN") if known
-		else tr("TY_TM_NEEDS_HIDDEN") % [Discovery.attempts(state, type_id), int(BriefingDesk.disc().get("reveal_ratio_after", 2))])
+	if client:
+		%NeedsNote.text = tr("TY_TM_NEEDS_CLIENT")
+	elif t >= FocusStudy.MAX_TIER:
+		%NeedsNote.text = tr("TY_TM_NEEDS_KNOWN")
+	elif t > 0:
+		%NeedsNote.text = "%s %s" % [FocusView.know_text(state, type_id), FocusView.how_text(state, type_id)]
+	else:
+		%NeedsNote.text = "%s %s" % [tr("TY_FS_KNOW_0"), FocusView.how_text(state, type_id)]
 	var tn := Discovery.team_note(state, type_id)
 	%BestTeam.visible = not tn.is_empty()
 	if not tn.is_empty():

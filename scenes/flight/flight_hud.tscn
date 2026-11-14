@@ -1,25 +1,49 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/flight/flight_hud.gd" id="1_hud"]
-[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="2_theme"]
-[ext_resource type="PackedScene" path="res://scenes/flight/flight_map.tscn" id="3_map"]
-[ext_resource type="Shader" path="res://shaders/flight_navball.gdshader" id="4_navball"]
-[ext_resource type="Texture2D" path="res://scenes/flight/textures/navball.png" id="5_navtex"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/navball_bezel.svg" id="6_bezel"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_prograde.svg" id="7_pro"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_retrograde.svg" id="8_retro"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="9_chevron"]
-[ext_resource type="Texture2D" path="res://ui/kit/icon_collapse.svg" id="10_collapse"]
-[ext_resource type="Texture2D" path="res://ui/kit/icon_expand.svg" id="11_expand"]
-[ext_resource type="Script" path="res://src/flight/flight_plot.gd" id="12_plot"]
-[ext_resource type="Texture2D" path="res://ui/kit/emblem_margin.svg" id="13_emblem"]
-[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_maneuver.svg" id="14_node"]
-[ext_resource type="PackedScene" path="res://scenes/flight/flight_capture_panel.tscn" id="15_capture"]
+[ext_resource type="Script" path="res://src/flight/flight_hud.gd" id="hud"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="theme"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_map.tscn" id="map"]
+[ext_resource type="Shader" path="res://shaders/flight_navball.gdshader" id="navball"]
+[ext_resource type="Texture2D" path="res://scenes/flight/textures/navball.png" id="navtex"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/navball_bezel.svg" id="bezel"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_prograde.svg" id="pro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_retrograde.svg" id="retro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="chevron"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_maneuver.svg" id="mnode"]
+[ext_resource type="Script" path="res://src/flight/flight_plot.gd" id="plot"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_capture_panel.tscn" id="capture"]
+[ext_resource type="Script" path="res://src/flight/flight_tips.gd" id="tips"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="m_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="m_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="m_pulse"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="m_ticker"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_collapse.svg" id="collapse"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_expand.svg" id="expand"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_close.svg" id="close"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/reach.svg" id="reach"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/stages.svg" id="stages"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ok.svg" id="ok"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/warn.svg" id="warn"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/danger.svg" id="danger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/theme/chevron_left.svg" id="chev_l"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/theme/chevron_right.svg" id="chev_r"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="i_planet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="i_rocket"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="i_star"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/flame.svg" id="i_flame"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/map.svg" id="i_map"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/pause.svg" id="i_pause"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/play.svg" id="i_play"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/twinkle.svg" id="i_twinkle"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/check.svg" id="i_check"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="i_back"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/calendar.svg" id="i_clock"]
 
 [sub_resource type="ShaderMaterial" id="m_ball"]
-shader = ExtResource("4_navball")
-shader_parameter/navball_tex = ExtResource("5_navtex")
-shader_parameter/rim_dark = 0.55
+shader = ExtResource("navball")
+shader_parameter/navball_tex = ExtResource("navtex")
+shader_parameter/rim_dark = 0.45
 
 [sub_resource type="SphereMesh" id="ball"]
 radius = 1.0
@@ -27,94 +51,11 @@ height = 2.0
 radial_segments = 96
 rings = 48
 
-[sub_resource type="StyleBoxFlat" id="toast_box"]
-content_margin_left = 22.0
-content_margin_top = 8.0
-content_margin_right = 22.0
-content_margin_bottom = 8.0
-bg_color = Color(0.051, 0.067, 0.09, 0.82)
-border_width_bottom = 2
-border_color = Color(0.961, 0.604, 0.212, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="nav_box"]
-content_margin_left = 16.0
-content_margin_top = 10.0
-content_margin_right = 16.0
-content_margin_bottom = 10.0
-bg_color = Color(0.051, 0.067, 0.09, 0.78)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 0
-border_color = Color(0.231, 0.29, 0.361, 0.85)
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
-corner_detail = 16
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 14
-
-[sub_resource type="StyleBoxFlat" id="dim_bg"]
-bg_color = Color(0.051, 0.067, 0.09, 0.55)
-
-[sub_resource type="StyleBoxFlat" id="throttle_fill"]
-bg_color = Color(0.961, 0.604, 0.212, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="throttle_bg"]
-bg_color = Color(0.133, 0.173, 0.22, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.231, 0.29, 0.361, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="bar_fill_g"]
-bg_color = Color(0.494, 0.878, 0.541, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="burn_box"]
-content_margin_left = 16.0
-content_margin_top = 5.0
-content_margin_right = 16.0
-content_margin_bottom = 5.0
-bg_color = Color(0.051, 0.067, 0.09, 0.82)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 2
-border_color = Color(0.4157, 0.6627, 1, 0.8)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="bar_fill_q"]
-bg_color = Color(0.373, 0.69, 0.847, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
 [node name="HUD" type="CanvasLayer"]
-script = ExtResource("1_hud")
+script = ExtResource("hud")
+stage_colors = [Color(1, 0.6039, 0.3608, 1), Color(0.4863, 0.7843, 1, 1), Color(0.702, 0.6118, 1, 1), Color(0.4353, 0.8784, 0.7451, 1), Color(1, 0.5608, 0.7216, 1), Color(1, 0.8235, 0.3608, 1)]
 
-[node name="MapView" parent="." instance=ExtResource("3_map")]
+[node name="MapView" parent="." instance=ExtResource("map")]
 visible = false
 
 [node name="Root" type="Control" parent="."]
@@ -126,380 +67,655 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("2_theme")
+theme = ExtResource("theme")
+
+[node name="ButtonMotion" type="Node" parent="Root"]
+script = ExtResource("m_btn")
+scope = 1
+
+[node name="LeftColumn" type="VBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 392.0
+offset_bottom = 560.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="GoalCard" type="PanelContainer" parent="Root/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/LeftColumn/GoalCard"]
+script = ExtResource("m_appear")
+offset = Vector2(-20, 0)
+seconds = 0.3
+
+[node name="VBox" type="VBoxContainer" parent="Root/LeftColumn/GoalCard"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Row" type="HBoxContainer" parent="Root/LeftColumn/GoalCard/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="GoalIcon" type="TextureRect" parent="Root/LeftColumn/GoalCard/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_planet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/LeftColumn/GoalCard/VBox/Row"]
+layout_mode = 2
+theme_override_constants/separation = 0
+size_flags_horizontal = 3
+
+[node name="GoalCaption" type="Label" parent="Root/LeftColumn/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "FL_CW_GOAL_TEST"
+
+[node name="GoalTitle" type="Label" parent="Root/LeftColumn/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 20
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(250, 0)
+text = "Garça"
+
+[node name="GoalLine" type="Label" parent="Root/LeftColumn/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+custom_minimum_size = Vector2(250, 0)
+text = "FL_CW_GOAL_TEST_LINE"
+
+[node name="Progress" type="VBoxContainer" parent="Root/LeftColumn/GoalCard/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="GoalBar" type="Control" parent="Root/LeftColumn/GoalCard/VBox/Progress"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.0
+color = Color(0.4353, 0.8784, 0.7451, 1)
+pill = true
+pill_ticks = true
+segments = 4
+
+[node name="GoalProgress" type="Label" parent="Root/LeftColumn/GoalCard/VBox/Progress"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+custom_minimum_size = Vector2(300, 0)
+text = "FL_CW_GOAL_PE"
+
+[node name="NowCard" type="PanelContainer" parent="Root/LeftColumn/GoalCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="Pulse" type="Node" parent="Root/LeftColumn/GoalCard/VBox/NowCard"]
+script = ExtResource("m_pulse")
+peak_scale = Vector2(1.03, 1.03)
+glow = 1.12
+
+[node name="Row" type="HBoxContainer" parent="Root/LeftColumn/GoalCard/VBox/NowCard"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NowIcon" type="TextureRect" parent="Root/LeftColumn/GoalCard/VBox/NowCard/Row"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_twinkle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/LeftColumn/GoalCard/VBox/NowCard/Row"]
+layout_mode = 2
+theme_override_constants/separation = 0
+size_flags_horizontal = 3
+
+[node name="NowCaption" type="Label" parent="Root/LeftColumn/GoalCard/VBox/NowCard/Row/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "FL_CW_NOW"
+
+[node name="Hint" type="Label" parent="Root/LeftColumn/GoalCard/VBox/NowCard/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+custom_minimum_size = Vector2(250, 0)
+text = "FL_CW_NOW_IGNITE"
+
+[node name="Telemetry" type="PanelContainer" parent="Root/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/LeftColumn/Telemetry"]
+script = ExtResource("m_appear")
+offset = Vector2(-20, 0)
+seconds = 0.3
+delay = 0.06
+
+[node name="VBox" type="VBoxContainer" parent="Root/LeftColumn/Telemetry"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/LeftColumn/Telemetry/VBox/Head"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_rocket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Root/LeftColumn/Telemetry/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+size_flags_horizontal = 3
+text = "FL_CW_PANEL"
+
+[node name="BtnTeleCollapse" type="Button" parent="Root/LeftColumn/Telemetry/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_COLLAPSE_TIP"
+icon = ExtResource("expand")
+theme_override_font_sizes/font_size = 13
+theme_override_constants/icon_max_width = 16
+text = "FL_CW_MORE"
+
+[node name="Tiles" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AltTile" type="PanelContainer" parent="Root/LeftColumn/Telemetry/VBox/Tiles"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/Tiles/AltTile"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="AltCaption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/Tiles/AltTile/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "FL_CW_ALT"
+
+[node name="AltValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/Tiles/AltTile/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 26
+text = "0 m"
+
+[node name="SpeedTile" type="PanelContainer" parent="Root/LeftColumn/Telemetry/VBox/Tiles"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/Tiles/SpeedTile"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SpeedMode" type="Label" parent="Root/LeftColumn/Telemetry/VBox/Tiles/SpeedTile/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "FL_CW_SPEED_SURFACE"
+
+[node name="SpeedValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/Tiles/SpeedTile/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 26
+text = "0 m/s"
+
+[node name="DvGauge" type="VBoxContainer" parent="Root/LeftColumn/Telemetry/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+tooltip_text = "FL_CW_DV_TIP"
+mouse_filter = 0
+
+[node name="Top" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/DvGauge"]
+layout_mode = 2
+theme_override_constants/separation = 8
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Root/LeftColumn/Telemetry/VBox/DvGauge/Top"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("reach")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/DvGauge/Top"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+mouse_filter = 2
+text = "FL_CW_DV_LEFT"
+
+[node name="DvTotalValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/DvGauge/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 18
+mouse_filter = 2
+text = "0 m/s"
+
+[node name="DvBar" type="Control" parent="Root/LeftColumn/Telemetry/VBox/DvGauge"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.6
+color = Color(0.4863, 0.7843, 1, 1)
+pill = true
+marker = 0.5
+
+[node name="DvNote" type="Label" parent="Root/LeftColumn/Telemetry/VBox/DvGauge"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+custom_minimum_size = Vector2(300, 0)
+mouse_filter = 2
+text = "FL_CW_DV_OK"
+
+[node name="OrbitBox" type="VBoxContainer" parent="Root/LeftColumn/Telemetry/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ApRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/ApRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_CW_AP"
+
+[node name="ApValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/ApRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="PeRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/PeRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_CW_PE"
+
+[node name="PeValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/PeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="TapRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/TapRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_CW_TAP"
+
+[node name="TapValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/OrbitBox/TapRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="TeleBody" type="VBoxContainer" parent="Root/LeftColumn/Telemetry/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sep0" type="HSeparator" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="VsRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/VsRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_VERTICAL_SPEED"
+
+[node name="VsValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/VsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="HsRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/HsRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_HORIZONTAL_SPEED"
+
+[node name="HsValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/HsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="MachRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/MachRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_MACH"
+
+[node name="MachValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/MachRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="GRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/GRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_G_FORCE"
+
+[node name="GValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/GRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
+
+[node name="GBar" type="ProgressBar" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+max_value = 10.0
+show_percentage = false
+
+[node name="QRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/QRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_DYN_PRESSURE"
+
+[node name="MaxQTag" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/QRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 11
+visible = false
+text = "FL_MAXQ_TAG"
+
+[node name="QValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/QRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "0 kPa"
+
+[node name="QBar" type="ProgressBar" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+max_value = 60.0
+show_percentage = false
+
+[node name="DvStageRow" type="HBoxContainer" parent="Root/LeftColumn/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/DvStageRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_DV_STAGE"
+
+[node name="DvStageValue" type="Label" parent="Root/LeftColumn/Telemetry/VBox/TeleBody/DvStageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 2
+text = "—"
 
 [node name="TopStrip" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -250.0
-offset_top = 12.0
-offset_right = 250.0
-offset_bottom = 70.0
+offset_left = -200.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 90.0
 grow_horizontal = 2
 mouse_filter = 2
-theme_type_variation = &"TopBarPanel"
+theme_type_variation = &"CwPanelTop"
+
+[node name="Appear" type="Node" parent="Root/TopStrip"]
+script = ExtResource("m_appear")
+offset = Vector2(0, -16)
+seconds = 0.3
 
 [node name="HBox" type="HBoxContainer" parent="Root/TopStrip"]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Emblem" type="TextureRect" parent="Root/TopStrip/HBox"]
-custom_minimum_size = Vector2(34, 34)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("13_emblem")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="AltBox" type="VBoxContainer" parent="Root/TopStrip/HBox"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-theme_override_constants/separation = -2
-
-[node name="Caption" type="Label" parent="Root/TopStrip/HBox/AltBox"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
-text = "FL_ALTITUDE"
-horizontal_alignment = 1
-
-[node name="AltValue" type="Label" parent="Root/TopStrip/HBox/AltBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"ValueLabel"
-theme_override_font_sizes/font_size = 24
-text = "0 m"
-horizontal_alignment = 1
-
-[node name="Sep1" type="VSeparator" parent="Root/TopStrip/HBox"]
-layout_mode = 2
-
 [node name="ClockBox" type="VBoxContainer" parent="Root/TopStrip/HBox"]
-custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_override_constants/separation = -2
+size_flags_vertical = 4
 
 [node name="Caption" type="Label" parent="Root/TopStrip/HBox/ClockBox"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
-text = "FL_MISSION_TIME"
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
+text = "FL_MISSION_TIME"
 
 [node name="Clock" type="Label" parent="Root/TopStrip/HBox/ClockBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 19
-text = "T+ 00:00"
+theme_type_variation = &"CwMonoLarge"
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
+custom_minimum_size = Vector2(150, 0)
+text = "T+ 00:00"
 
-[node name="Sep2" type="VSeparator" parent="Root/TopStrip/HBox"]
+[node name="Sep" type="VSeparator" parent="Root/TopStrip/HBox"]
 layout_mode = 2
 
 [node name="WarpBox" type="HBoxContainer" parent="Root/TopStrip/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 6
+size_flags_vertical = 4
 
 [node name="BtnWarpDown" type="Button" parent="Root/TopStrip/HBox/WarpBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-size_flags_vertical = 4
-tooltip_text = "FL_WARP_DOWN_TIP"
 focus_mode = 0
-text = "‹"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_WARP_DOWN_TIP"
+icon = ExtResource("chev_l")
+custom_minimum_size = Vector2(38, 38)
+icon_alignment = 1
 
-[node name="Warp" type="Label" parent="Root/TopStrip/HBox/WarpBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
+[node name="WarpTexts" type="VBoxContainer" parent="Root/TopStrip/HBox/WarpBox"]
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 18
-text = "1×"
+theme_override_constants/separation = -2
+size_flags_vertical = 4
+
+[node name="Caption" type="Label" parent="Root/TopStrip/HBox/WarpBox/WarpTexts"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
+text = "FL_CW_WARP"
+
+[node name="Warp" type="Label" parent="Root/TopStrip/HBox/WarpBox/WarpTexts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+custom_minimum_size = Vector2(86, 0)
+text = "1×"
 
 [node name="BtnWarpUp" type="Button" parent="Root/TopStrip/HBox/WarpBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
 tooltip_text = "FL_WARP_UP_TIP"
-focus_mode = 0
-text = "›"
-
-[node name="Telemetry" type="PanelContainer" parent="Root"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 276.0
-offset_bottom = 60.0
-mouse_filter = 2
-
-[node name="VBox" type="VBoxContainer" parent="Root/Telemetry"]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Head" type="HBoxContainer" parent="Root/Telemetry/VBox"]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="Root/Telemetry/VBox/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SectionLabel"
-text = "FL_FLIGHT_DATA"
-
-[node name="BtnTeleCollapse" type="Button" parent="Root/Telemetry/VBox/Head"]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "FL_COLLAPSE_TIP"
-focus_mode = 0
-icon = ExtResource("10_collapse")
-flat = true
-
-[node name="TeleBody" type="VBoxContainer" parent="Root/Telemetry/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 3
-
-[node name="ApRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/ApRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_APOAPSIS"
-
-[node name="ApValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/ApRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
-horizontal_alignment = 2
-
-[node name="PeRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/PeRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_PERIAPSIS"
-
-[node name="PeValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/PeRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
-horizontal_alignment = 2
-
-[node name="TapRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/TapRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_TIME_TO_AP"
-
-[node name="TapValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/TapRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
-horizontal_alignment = 2
-
-[node name="Sep1" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="VsRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/VsRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_VERTICAL_SPEED"
-
-[node name="VsValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/VsRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "0 m/s"
-horizontal_alignment = 2
-
-[node name="HsRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/HsRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_HORIZONTAL_SPEED"
-
-[node name="HsValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/HsRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "0 m/s"
-horizontal_alignment = 2
-
-[node name="MachRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/MachRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_MACH"
-
-[node name="MachValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/MachRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "0.00"
-horizontal_alignment = 2
-
-[node name="Sep2" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="GRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/GRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_G_FORCE"
-
-[node name="GValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/GRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "1.00 g"
-horizontal_alignment = 2
-
-[node name="GBar" type="ProgressBar" parent="Root/Telemetry/VBox/TeleBody"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
-theme_override_styles/fill = SubResource("bar_fill_g")
-max_value = 10.0
-step = 0.01
-value = 1.0
-show_percentage = false
-
-[node name="QRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_DYN_PRESSURE"
-
-[node name="MaxQTag" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0.333333, 1)
-theme_override_font_sizes/font_size = 11
-text = "FL_MAXQ_TAG"
-
-[node name="QValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "0.0 kPa"
-horizontal_alignment = 2
-
-[node name="QBar" type="ProgressBar" parent="Root/Telemetry/VBox/TeleBody"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
-theme_override_styles/fill = SubResource("bar_fill_q")
-max_value = 60.0
-step = 0.01
-show_percentage = false
-
-[node name="Sep3" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="DvStageRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvStageRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_DV_STAGE"
-
-[node name="DvStageValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvStageRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "0 m/s"
-horizontal_alignment = 2
-
-[node name="DvTotalRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvTotalRow"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "FL_DV_TOTAL"
-
-[node name="DvTotalValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvTotalRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-theme_override_colors/font_color = Color(0.961, 0.604, 0.212, 1)
-text = "0 m/s"
-horizontal_alignment = 2
+icon = ExtResource("chev_r")
+custom_minimum_size = Vector2(38, 38)
+icon_alignment = 1
 
 [node name="StagesPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -284.0
+offset_left = -324.0
 offset_top = 16.0
 offset_right = -16.0
-offset_bottom = 60.0
+offset_bottom = 200.0
 grow_horizontal = 0
-mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/StagesPanel"]
+script = ExtResource("m_appear")
+offset = Vector2(20, 0)
+seconds = 0.3
 
 [node name="VBox" type="VBoxContainer" parent="Root/StagesPanel"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
 [node name="Head" type="HBoxContainer" parent="Root/StagesPanel/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/StagesPanel/VBox/Head"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("stages")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Root/StagesPanel/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+size_flags_horizontal = 3
+text = "FL_STAGES"
 
 [node name="BtnStagesCollapse" type="Button" parent="Root/StagesPanel/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_COLLAPSE_TIP"
 focus_mode = 0
-icon = ExtResource("11_expand")
-flat = true
-
-[node name="Title" type="Label" parent="Root/StagesPanel/VBox/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"SectionLabel"
-text = "FL_STAGES"
-horizontal_alignment = 2
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_COLLAPSE_TIP"
+icon = ExtResource("collapse")
+theme_override_constants/icon_max_width = 16
 
 [node name="StagesBody" type="VBoxContainer" parent="Root/StagesPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
 [node name="StageList" type="VBoxContainer" parent="Root/StagesPanel/VBox/StagesBody"]
 unique_name_in_owner = true
@@ -509,49 +725,69 @@ theme_override_constants/separation = 6
 [node name="BtnStage" type="Button" parent="Root/StagesPanel/VBox/StagesBody"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_STAGE_TIP"
 focus_mode = 0
-text = "FL_STAGE_BUTTON"
+theme_type_variation = &"CwPrimary"
+tooltip_text = "FL_STAGE_TIP"
+icon = ExtResource("i_flame")
+custom_minimum_size = Vector2(0, 48)
+theme_override_font_sizes/font_size = 17
+theme_override_constants/icon_max_width = 24
+text = "FL_CW_STAGE_IGNITE"
+
+[node name="Pulse" type="Node" parent="Root/StagesPanel/VBox/StagesBody/BtnStage"]
+script = ExtResource("m_pulse")
+peak_scale = Vector2(1.04, 1.04)
 
 [node name="NavCluster" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -238.0
-offset_top = -292.0
-offset_right = 238.0
+offset_left = -250.0
+offset_top = -280.0
+offset_right = 250.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("nav_box")
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/NavCluster"]
+script = ExtResource("m_appear")
+offset = Vector2(0, 20)
+seconds = 0.3
 
 [node name="HBox" type="HBoxContainer" parent="Root/NavCluster"]
 layout_mode = 2
 theme_override_constants/separation = 14
 
 [node name="ThrottleBox" type="VBoxContainer" parent="Root/NavCluster/HBox"]
-custom_minimum_size = Vector2(58, 0)
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 8
 theme_override_constants/separation = 4
+custom_minimum_size = Vector2(70, 0)
+tooltip_text = "FL_CW_TIP_THROTTLE"
+mouse_filter = 0
 
 [node name="Caption" type="Label" parent="Root/NavCluster/HBox/ThrottleBox"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
-text = "FL_THROTTLE"
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
+mouse_filter = 2
+text = "FL_CW_THROTTLE"
 
 [node name="ThrottleBar" type="ProgressBar" parent="Root/NavCluster/HBox/ThrottleBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(18, 150)
+custom_minimum_size = Vector2(26, 150)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_styles/background = SubResource("throttle_bg")
-theme_override_styles/fill = SubResource("throttle_fill")
+size_flags_vertical = 3
+mouse_filter = 2
+theme_type_variation = &"CwBarEng"
 fill_mode = 3
 value = 100.0
 show_percentage = false
@@ -559,28 +795,23 @@ show_percentage = false
 [node name="ThrottleLabel" type="Label" parent="Root/NavCluster/HBox/ThrottleBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-text = "100%"
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
+mouse_filter = 2
+text = "100%"
+
+[node name="Keys" type="Label" parent="Root/NavCluster/HBox/ThrottleBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+mouse_filter = 2
+text = "FL_CW_THROTTLE_KEYS"
 
 [node name="Center" type="VBoxContainer" parent="Root/NavCluster/HBox"]
 layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="SpeedMode" type="Label" parent="Root/NavCluster/HBox/Center"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
-text = "FL_SURFACE_SPEED"
-horizontal_alignment = 1
-
-[node name="SpeedValue" type="Label" parent="Root/NavCluster/HBox/Center"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"ValueLabel"
-text = "0 m/s"
-horizontal_alignment = 1
+theme_override_constants/separation = 4
 
 [node name="NavballBox" type="Control" parent="Root/NavCluster/HBox/Center"]
 unique_name_in_owner = true
@@ -631,7 +862,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("6_bezel")
+texture = ExtResource("bezel")
 expand_mode = 1
 stretch_mode = 5
 
@@ -641,7 +872,7 @@ layout_mode = 0
 offset_right = 30.0
 offset_bottom = 30.0
 mouse_filter = 2
-texture = ExtResource("8_retro")
+texture = ExtResource("retro")
 expand_mode = 1
 stretch_mode = 5
 
@@ -651,7 +882,7 @@ layout_mode = 0
 offset_right = 30.0
 offset_bottom = 30.0
 mouse_filter = 2
-texture = ExtResource("7_pro")
+texture = ExtResource("pro")
 expand_mode = 1
 stretch_mode = 5
 
@@ -662,7 +893,7 @@ layout_mode = 0
 offset_right = 32.0
 offset_bottom = 32.0
 mouse_filter = 2
-texture = ExtResource("14_node")
+texture = ExtResource("mnode")
 expand_mode = 1
 stretch_mode = 5
 
@@ -680,62 +911,80 @@ offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("9_chevron")
+texture = ExtResource("chevron")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="HdgLabel" type="Label" parent="Root/NavCluster/HBox/Center"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "HDG 090°  ·  PIT +90°"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
 horizontal_alignment = 1
+text = "FL_CW_HDG_LINE"
 
 [node name="Modes" type="VBoxContainer" parent="Root/NavCluster/HBox"]
-custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
-size_flags_vertical = 8
-theme_override_constants/separation = 5
+theme_override_constants/separation = 6
+custom_minimum_size = Vector2(132, 0)
+size_flags_vertical = 4
 
 [node name="BtnSas" type="Button" parent="Root/NavCluster/HBox/Modes"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_SAS_TIP"
 focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_SAS_TIP"
 toggle_mode = true
-text = "FL_SAS"
+custom_minimum_size = Vector2(0, 36)
+theme_override_font_sizes/font_size = 14
+text = "FL_CW_BTN_SAS"
 
 [node name="BtnPro" type="Button" parent="Root/NavCluster/HBox/Modes"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_PRO_TIP"
 focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_PRO_TIP"
 toggle_mode = true
-text = "FL_PRO"
+custom_minimum_size = Vector2(0, 36)
+theme_override_font_sizes/font_size = 14
+text = "FL_CW_BTN_PRO"
 
 [node name="BtnRetro" type="Button" parent="Root/NavCluster/HBox/Modes"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_RETRO_TIP"
 focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_RETRO_TIP"
 toggle_mode = true
-text = "FL_RETRO"
+custom_minimum_size = Vector2(0, 36)
+theme_override_font_sizes/font_size = 14
+text = "FL_CW_BTN_RETRO"
 
 [node name="BtnAuto" type="Button" parent="Root/NavCluster/HBox/Modes"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_AUTO_TIP"
 focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_AUTO_TIP"
 toggle_mode = true
-text = "FL_AUTO"
+custom_minimum_size = Vector2(0, 36)
+theme_override_font_sizes/font_size = 14
+text = "FL_CW_BTN_AUTO"
 
 [node name="BtnMap" type="Button" parent="Root/NavCluster/HBox/Modes"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_MAP_TIP"
 focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_MAP_TIP"
 toggle_mode = true
-text = "FL_MAP"
+icon = ExtResource("i_map")
+custom_minimum_size = Vector2(0, 38)
+theme_override_font_sizes/font_size = 14
+theme_override_constants/icon_max_width = 20
+text = "FL_CW_BTN_MAP"
 
 [node name="BurnStrip" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -746,32 +995,43 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -336.0
-offset_right = 200.0
-offset_bottom = -300.0
+offset_left = -230.0
+offset_top = -352.0
+offset_right = 230.0
+offset_bottom = -296.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("burn_box")
+theme_type_variation = &"CwPanelButter"
 
 [node name="HBox" type="HBoxContainer" parent="Root/BurnStrip"]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
+[node name="Icon" type="TextureRect" parent="Root/BurnStrip/HBox"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_flame")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Caption" type="Label" parent="Root/BurnStrip/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"SectionLabel"
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+size_flags_vertical = 4
 text = "FL_BURN_IN"
 
 [node name="BurnCountdown" type="Label" parent="Root/BurnStrip/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 17
-text = "T- 00:42"
+theme_type_variation = &"CwMonoLarge"
+theme_override_font_sizes/font_size = 22
+text = "T- 00:00"
 
 [node name="Sep" type="VSeparator" parent="Root/BurnStrip/HBox"]
 layout_mode = 2
@@ -779,9 +1039,10 @@ layout_mode = 2
 [node name="BurnDv" type="Label" parent="Root/BurnStrip/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_colors/font_color = Color(0.6392, 0.7882, 1, 1)
-text = "Δv 845 m/s"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+size_flags_vertical = 4
+text = "Δv 0 m/s"
 
 [node name="Sep2" type="VSeparator" parent="Root/BurnStrip/HBox"]
 layout_mode = 2
@@ -789,8 +1050,10 @@ layout_mode = 2
 [node name="BurnTime" type="Label" parent="Root/BurnStrip/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "1:23"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+size_flags_vertical = 4
+text = "FL_BURN"
 
 [node name="Maneuver" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -801,12 +1064,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -316.0
-offset_top = -420.0
+offset_left = -348.0
+offset_top = -150.0
 offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_type_variation = &"CwPanel"
 
 [node name="VBox" type="VBoxContainer" parent="Root/Maneuver"]
 layout_mode = 2
@@ -814,50 +1078,69 @@ theme_override_constants/separation = 6
 
 [node name="Head" type="HBoxContainer" parent="Root/Maneuver/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="Root/Maneuver/VBox/Head"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("mnode")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Title" type="Label" parent="Root/Maneuver/VBox/Head"]
 layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
 size_flags_horizontal = 3
-theme_type_variation = &"SectionLabel"
 text = "FL_MANEUVER"
 
 [node name="NodeIndex" type="Label" parent="Root/Maneuver/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwMonoSmall"
+size_flags_vertical = 4
 text = "1/1"
 
 [node name="BtnNodePrev" type="Button" parent="Root/Maneuver/VBox/Head"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-tooltip_text = "FL_NODE_PREV_TIP"
 focus_mode = 0
-text = "‹"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_PREV_TIP"
+icon = ExtResource("chev_l")
+custom_minimum_size = Vector2(34, 34)
+icon_alignment = 1
 
 [node name="BtnNodeNext" type="Button" parent="Root/Maneuver/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_NEXT_TIP"
 focus_mode = 0
-text = "›"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_NEXT_TIP"
+icon = ExtResource("chev_r")
+custom_minimum_size = Vector2(34, 34)
+icon_alignment = 1
 
 [node name="BtnNodeDelete" type="Button" parent="Root/Maneuver/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_DELETE_TIP"
 focus_mode = 0
-text = "✕"
-theme_type_variation = &"FlatButton"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_DELETE_TIP"
+icon = ExtResource("close")
+custom_minimum_size = Vector2(34, 34)
+icon_alignment = 1
+theme_override_constants/icon_max_width = 16
 
 [node name="Empty" type="Label" parent="Root/Maneuver/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(268, 0)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 13
-text = "FL_NODE_EMPTY"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(290, 0)
 autowrap_mode = 3
+text = "FL_NODE_EMPTY"
 
 [node name="Body" type="VBoxContainer" parent="Root/Maneuver/VBox"]
 unique_name_in_owner = true
@@ -866,51 +1149,60 @@ theme_override_constants/separation = 4
 
 [node name="NodeDvRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeDvRow"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
 text = "FL_NODE_DV"
 
 [node name="NodeDvValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeDvRow"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
 horizontal_alignment = 2
+text = "—"
 
 [node name="NodeBurnRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeBurnRow"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
 text = "FL_BURN_TIME"
 
 [node name="NodeBurnValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeBurnRow"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
 horizontal_alignment = 2
+text = "—"
 
 [node name="NodeEtaRow" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NodeEtaRow"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
 text = "FL_NODE_ETA"
 
 [node name="NodeEtaValue" type="Label" parent="Root/Maneuver/VBox/Body/NodeEtaRow"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
 horizontal_alignment = 2
+text = "—"
 
 [node name="Sep1" type="HSeparator" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
@@ -920,14 +1212,15 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/ProRow"]
-custom_minimum_size = Vector2(4, 0)
+custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
-color = Color(0.7882, 0.8275, 0.4157, 1)
+color = Color(1, 0.8235, 0.3608, 1)
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/ProRow"]
-custom_minimum_size = Vector2(86, 0)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(86, 0)
 text = "FL_PROGRADE"
 
 [node name="ProSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/ProRow"]
@@ -949,14 +1242,15 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/NorRow"]
-custom_minimum_size = Vector2(4, 0)
+custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
-color = Color(0.7098, 0.5647, 1, 1)
+color = Color(0.702, 0.6118, 1, 1)
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/NorRow"]
-custom_minimum_size = Vector2(86, 0)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(86, 0)
 text = "FL_NORMAL"
 
 [node name="NorSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/NorRow"]
@@ -978,14 +1272,15 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="Swatch" type="ColorRect" parent="Root/Maneuver/VBox/Body/RadRow"]
-custom_minimum_size = Vector2(4, 0)
+custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
-color = Color(0.3098, 0.8392, 0.6902, 1)
+color = Color(0.4353, 0.8784, 0.7451, 1)
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/RadRow"]
-custom_minimum_size = Vector2(86, 0)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(86, 0)
 text = "FL_RADIAL"
 
 [node name="RadSpin" type="SpinBox" parent="Root/Maneuver/VBox/Body/RadRow"]
@@ -1007,42 +1302,47 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Caption" type="Label" parent="Root/Maneuver/VBox/Body/TimeRow"]
-custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(70, 0)
 text = "FL_NODE_TIME"
 
 [node name="BtnOrbitBack" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_ORBIT_BACK_TIP"
 focus_mode = 0
-text = "«"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_ORBIT_BACK_TIP"
 size_flags_horizontal = 3
+text = "«"
 
 [node name="BtnTimeBack" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_TIME_BACK_TIP"
 focus_mode = 0
-text = "‹"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_TIME_BACK_TIP"
 size_flags_horizontal = 3
+text = "‹"
 
 [node name="BtnTimeFwd" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_TIME_FWD_TIP"
 focus_mode = 0
-text = "›"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_TIME_FWD_TIP"
 size_flags_horizontal = 3
+text = "›"
 
 [node name="BtnOrbitFwd" type="Button" parent="Root/Maneuver/VBox/Body/TimeRow"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_NODE_ORBIT_FWD_TIP"
 focus_mode = 0
-text = "»"
+theme_type_variation = &"CwKey"
+tooltip_text = "FL_NODE_ORBIT_FWD_TIP"
 size_flags_horizontal = 3
+text = "»"
 
 [node name="Sep2" type="HSeparator" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
@@ -1050,18 +1350,21 @@ layout_mode = 2
 [node name="After" type="Label" parent="Root/Maneuver/VBox/Body"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_font_sizes/font_size = 13
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+custom_minimum_size = Vector2(290, 0)
 text = "Ap 384 400 km · Pe 210 km"
 
 [node name="Encounter" type="Label" parent="Root/Maneuver/VBox/Body"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-theme_override_colors/font_color = Color(0.3098, 0.8392, 0.6902, 1)
-theme_override_font_sizes/font_size = 13
-text = "Moon · Pe 120 km"
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
 autowrap_mode = 3
+custom_minimum_size = Vector2(290, 0)
+text = "Moon · Pe 120 km"
 
 [node name="Buttons" type="HBoxContainer" parent="Root/Maneuver/VBox/Body"]
 layout_mode = 2
@@ -1070,22 +1373,25 @@ theme_override_constants/separation = 6
 [node name="BtnWarpNode" type="Button" parent="Root/Maneuver/VBox/Body/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_WARP_TO_NODE_TIP"
 focus_mode = 0
-text = "FL_WARP_TO_NODE"
+theme_type_variation = &"CwSecondary"
+tooltip_text = "FL_WARP_TO_NODE_TIP"
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "FL_WARP_TO_NODE"
 
 [node name="BtnExecute" type="Button" parent="Root/Maneuver/VBox/Body/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "FL_EXECUTE_TIP"
 focus_mode = 0
-text = "FL_EXECUTE"
+theme_type_variation = &"CwPrimary"
+tooltip_text = "FL_EXECUTE_TIP"
 size_flags_horizontal = 3
-theme_type_variation = &"PrimaryButton"
 toggle_mode = true
+theme_override_font_sizes/font_size = 15
+text = "FL_EXECUTE"
 
-[node name="Capture" parent="Root" instance=ExtResource("15_capture")]
+[node name="Capture" parent="Root" instance=ExtResource("capture")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -1097,35 +1403,135 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -200.0
-offset_top = 88.0
+offset_top = 104.0
 offset_right = 200.0
-offset_bottom = 128.0
+offset_bottom = 148.0
 grow_horizontal = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("toast_box")
+theme_type_variation = &"CwHintPill"
 
-[node name="ToastLabel" type="Label" parent="Root/Toast"]
+[node name="Appear" type="Node" parent="Root/Toast"]
+script = ExtResource("m_appear")
+on_ready = false
+on_poke = true
+offset = Vector2(0, -8)
+from_scale = Vector2(0.92, 0.92)
+seconds = 0.25
+
+[node name="HBox" type="HBoxContainer" parent="Root/Toast"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ToastDot" type="Panel" parent="Root/Toast/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwDot"
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+
+[node name="ToastLabel" type="Label" parent="Root/Toast/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"ValueLabel"
+theme_type_variation = &"CwInk"
 theme_override_font_sizes/font_size = 18
-text = "MSG_LIFTOFF"
 horizontal_alignment = 1
+text = "MSG_LIFTOFF"
 
-[node name="Hint" type="Label" parent="Root"]
+[node name="Tip" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -44.0
-offset_right = 560.0
-offset_bottom = -18.0
-grow_vertical = 0
-theme_type_variation = &"DimLabel"
+visible = false
+layout_mode = 0
+offset_right = 340.0
+offset_bottom = 160.0
+theme_type_variation = &"CwBubble"
+script = ExtResource("tips")
+anchors = {
+"ignite": NodePath("../StagesPanel/VBox/StagesBody/BtnStage"),
+"map": NodePath("../NavCluster/HBox/Modes/BtnMap"),
+"stage": NodePath("../StagesPanel/VBox/StagesBody/BtnStage"),
+"throttle": NodePath("../NavCluster/HBox/ThrottleBox"),
+"turn": NodePath("../NavCluster/HBox/Center/NavballBox")
+}
+
+[node name="Appear" type="Node" parent="Root/Tip"]
+script = ExtResource("m_appear")
+on_ready = false
+on_poke = true
+offset = Vector2(0, 10)
+from_scale = Vector2(0.9, 0.9)
+pivot = Vector2(0.1, 1)
+seconds = 0.28
+
+[node name="VBox" type="VBoxContainer" parent="Root/Tip"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Root/Tip/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/Tip/VBox/Head"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TipStep" type="Label" parent="Root/Tip/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 3
+text = "FL_CW_TIP_STEP"
+
+[node name="TipTitle" type="Label" parent="Root/Tip/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "FL_CW_TIP_IGNITE_T"
+
+[node name="TipText" type="Label" parent="Root/Tip/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+custom_minimum_size = Vector2(300, 0)
+text = "FL_CW_TIP_IGNITE"
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Tip/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnTipSkip" type="Button" parent="Root/Tip/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwLink"
 theme_override_font_sizes/font_size = 14
-text = "FL_PAD_HINT"
+text = "FL_CW_TIP_SKIP"
+
+[node name="Spacer" type="Control" parent="Root/Tip/VBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="BtnTipOk" type="Button" parent="Root/Tip/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+icon = ExtResource("i_check")
+theme_override_font_sizes/font_size = 15
+theme_override_constants/icon_max_width = 18
+text = "FL_CW_TIP_OK"
 
 [node name="Help" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -1136,27 +1542,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -230.0
-offset_right = 250.0
-offset_bottom = 200.0
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+theme_type_variation = &"CwPanel"
 
 [node name="VBox" type="VBoxContainer" parent="Root/Help"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="Root/Help/VBox"]
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 22
 text = "FL_HELP_TITLE"
 
 [node name="Text" type="Label" parent="Root/Help/VBox"]
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 14
 text = "FL_HELP_TEXT"
+
+[node name="BtnTipsAgain" type="Button" parent="Root/Help/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+icon = ExtResource("i_star")
+theme_override_font_sizes/font_size = 15
+theme_override_constants/icon_max_width = 20
+text = "FL_CW_HELP_TIPS"
 
 [node name="Pause" type="Control" parent="Root"]
 unique_name_in_owner = true
@@ -1168,14 +1586,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="Panel" parent="Root/Pause"]
+[node name="Dim" type="ColorRect" parent="Root/Pause"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("dim_bg")
+color = Color(0.1, 0.09, 0.27, 0.42)
 
 [node name="Center" type="CenterContainer" parent="Root/Pause"]
 layout_mode = 1
@@ -1184,49 +1602,84 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="Root/Pause/Center"]
-custom_minimum_size = Vector2(340, 0)
+custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/Pause/Center/Panel"]
+script = ExtResource("m_appear")
+on_visible = true
+from_scale = Vector2(0.94, 0.94)
+seconds = 0.22
 
 [node name="VBox" type="VBoxContainer" parent="Root/Pause/Center/Panel"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="Root/Pause/Center/Panel/VBox"]
+[node name="Head" type="HBoxContainer" parent="Root/Pause/Center/Panel/VBox"]
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "FL_PAUSED"
-horizontal_alignment = 1
+theme_override_constants/separation = 10
 
-[node name="Sub" type="Label" parent="Root/Pause/Center/Panel/VBox"]
+[node name="Icon" type="TextureRect" parent="Root/Pause/Center/Panel/VBox/Head"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_pause")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/Pause/Center/Panel/VBox/Head"]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="Title" type="Label" parent="Root/Pause/Center/Panel/VBox/Head/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 28
+text = "FL_PAUSED"
+
+[node name="Sub" type="Label" parent="Root/Pause/Center/Panel/VBox/Head/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
 text = "FL_PAUSED_SUB"
-horizontal_alignment = 1
 
 [node name="BtnResume" type="Button" parent="Root/Pause/Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwPrimary"
+icon = ExtResource("i_play")
+custom_minimum_size = Vector2(0, 46)
+theme_override_constants/icon_max_width = 22
 text = "FL_RESUME"
 
 [node name="BtnRevertLaunch" type="Button" parent="Root/Pause/Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwSecondary"
+custom_minimum_size = Vector2(0, 42)
 text = "FL_REVERT_LAUNCH"
 
 [node name="BtnRevertHangar" type="Button" parent="Root/Pause/Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwSecondary"
+custom_minimum_size = Vector2(0, 42)
 text = "FL_REVERT_HANGAR"
 
 [node name="BtnEndFlight" type="Button" parent="Root/Pause/Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwSecondary"
+custom_minimum_size = Vector2(0, 42)
 text = "FL_END_FLIGHT"
 
 [node name="Report" type="Control" parent="Root"]
@@ -1239,14 +1692,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="Panel" parent="Root/Report"]
+[node name="Dim" type="ColorRect" parent="Root/Report"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("dim_bg")
+color = Color(0.1, 0.09, 0.27, 0.42)
 
 [node name="Center" type="CenterContainer" parent="Root/Report"]
 layout_mode = 1
@@ -1255,10 +1708,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="Root/Report/Center"]
-custom_minimum_size = Vector2(1000, 0)
+custom_minimum_size = Vector2(940, 0)
 layout_mode = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/Report/Center/Panel"]
+script = ExtResource("m_appear")
+on_visible = true
+offset = Vector2(0, 18)
+from_scale = Vector2(0.96, 0.96)
+seconds = 0.32
 
 [node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel"]
 layout_mode = 2
@@ -1268,176 +1730,305 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Emblem" type="TextureRect" parent="Root/Report/Center/Panel/VBox/Head"]
-custom_minimum_size = Vector2(52, 52)
+[node name="ReportIcon" type="TextureRect" parent="Root/Report/Center/Panel/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
-texture = ExtResource("13_emblem")
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ok")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Titles" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Head"]
 layout_mode = 2
+theme_override_constants/separation = -2
 size_flags_horizontal = 3
-theme_override_constants/separation = 0
 
-[node name="Title" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
+[node name="ReportTitle" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"TitleLabel"
-text = "RP_TITLE"
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 13
+text = "FL_CW_RP_TITLE_TEST"
+
+[node name="ReportBadge" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 32
+text = "FL_CW_RP_ORBIT"
 
 [node name="ReportVessel" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
 text = "Garça"
 
-[node name="ReportBadge" type="Label" parent="Root/Report/Center/Panel/VBox/Head"]
+[node name="ReportSummary" type="Label" parent="Root/Report/Center/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"ValueLabel"
-theme_override_font_sizes/font_size = 26
-text = "RP_ORBIT"
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+custom_minimum_size = Vector2(880, 0)
+text = "FL_CW_RP_SUM_ORBIT"
 
-[node name="Sep" type="HSeparator" parent="Root/Report/Center/Panel/VBox"]
+[node name="ReportNext" type="PanelContainer" parent="Root/Report/Center/Panel/VBox"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="Row" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/ReportNext"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Root/Report/Center/Panel/VBox/ReportNext/Row"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_twinkle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Root/Report/Center/Panel/VBox/ReportNext/Row"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(760, 0)
+text = "FL_CW_RP_NEXT"
 
 [node name="Body" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 18
 
 [node name="Stats" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body"]
-custom_minimum_size = Vector2(430, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
-
-[node name="Section" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
-layout_mode = 2
-theme_type_variation = &"SectionLabel"
-text = "RP_RESULTS"
+custom_minimum_size = Vector2(470, 0)
 
 [node name="Grid" type="GridContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
 layout_mode = 2
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 7
-columns = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
 
-[node name="L1" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "RP_ORBIT_REACHED"
-
-[node name="ROrbit" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
-unique_name_in_owner = true
+[node name="TileAlt" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"MonoLabel"
-text = "—"
+theme_type_variation = &"CwPanelInset"
 
-[node name="L2" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileAlt"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileAlt/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "RP_MAX_ALT"
 
-[node name="RMaxAlt" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="RMaxAlt" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileAlt/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "—"
 
-[node name="L3" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="TileSpeed" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileSpeed"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileSpeed/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "RP_MAX_SPEED"
 
-[node name="RMaxSpeed" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="RMaxSpeed" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileSpeed/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "—"
 
-[node name="L4" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="TileTime" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "RP_MAX_Q"
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
 
-[node name="RMaxQ" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
-unique_name_in_owner = true
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileTime"]
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
-text = "—"
+theme_override_constants/separation = 0
 
-[node name="L5" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileTime/VBox"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "RP_MAX_G"
-
-[node name="RMaxG" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"MonoLabel"
-text = "—"
-
-[node name="L6" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
-layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "RP_FLIGHT_TIME"
 
-[node name="RTime" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="RTime" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileTime/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "—"
 
-[node name="L7" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="TileG" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-text = "RP_DV"
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
 
-[node name="RDv" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileG"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileG/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "RP_MAX_G"
+
+[node name="RMaxG" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileG/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"MonoLabel"
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
 text = "—"
 
-[node name="DvCaption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+[node name="TileQ" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
-theme_override_font_sizes/font_size = 11
-text = "RP_DV_NOTE"
-autowrap_mode = 3
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileQ"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileQ/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "RP_MAX_Q"
+
+[node name="RMaxQ" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileQ/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 19
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "—"
+
+[node name="TileDv" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileDv"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileDv/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "FL_CW_RP_DV"
+
+[node name="RDv" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid/TileDv/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(120, 0)
+text = "—"
+
+[node name="OrbitRow" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/OrbitRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+text = "FL_CW_RP_ORBIT_ROW"
+
+[node name="ROrbit" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/OrbitRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+text = "—"
 
 [node name="RDvBar" type="ProgressBar" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
-value = 50.0
+theme_type_variation = &"CwBarSci"
+tooltip_text = "RP_DV_NOTE"
 show_percentage = false
 
 [node name="RReasonRow" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/RReasonRow"]
 layout_mode = 2
-theme_type_variation = &"DimLabel"
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
 text = "RP_CAUSE"
 
 [node name="RReason" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/RReasonRow"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0.419608, 0.419608, 1)
-text = "—"
 autowrap_mode = 3
+text = "—"
 
 [node name="Section2" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
 layout_mode = 2
-theme_type_variation = &"SectionLabel"
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 12
 text = "RP_TIMELINE"
 
 [node name="TimelineScroll" type="ScrollContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
-custom_minimum_size = Vector2(0, 170)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
@@ -1445,23 +2036,34 @@ horizontal_scroll_mode = 0
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 3
+theme_override_constants/separation = 2
 
 [node name="PlotBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body"]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/separation = 6
+size_flags_horizontal = 3
 
 [node name="Section" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
 layout_mode = 2
-theme_type_variation = &"SectionLabel"
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 12
 text = "RP_PROFILE"
 
-[node name="Plot" type="Control" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(480, 330)
+[node name="PlotWell" type="PanelContainer" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
 layout_mode = 2
-script = ExtResource("12_plot")
+size_flags_vertical = 3
+theme_type_variation = &"CwPanelInset"
+
+[node name="Plot" type="Control" parent="Root/Report/Center/Panel/VBox/Body/PlotBox/PlotWell"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 230)
+layout_mode = 2
+script = ExtResource("plot")
+alt_color = Color(0.898, 0.3961, 0.1098, 1)
+speed_color = Color(0.1843, 0.4706, 0.8, 1)
+grid_color = Color(0.902, 0.8275, 0.702, 1)
+text_color = Color(0.3647, 0.3569, 0.549, 1)
+line_width = 3.0
 
 [node name="Legend" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
 layout_mode = 2
@@ -1470,12 +2072,16 @@ alignment = 1
 
 [node name="AltKey" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox/Legend"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.961, 0.604, 0.212, 1)
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 text = "RP_KEY_ALT"
 
 [node name="SpeedKey" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox/Legend"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.373, 0.69, 0.847, 1)
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 1)
 text = "RP_KEY_SPEED"
 
 [node name="Buttons" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox"]
@@ -1487,16 +2093,22 @@ alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwSecondary"
+custom_minimum_size = Vector2(0, 44)
 text = "RP_CONTINUE"
 
 [node name="BtnRLaunch" type="Button" parent="Root/Report/Center/Panel/VBox/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwSecondary"
+custom_minimum_size = Vector2(0, 44)
 text = "FL_REVERT_LAUNCH"
 
 [node name="BtnRHangar" type="Button" parent="Root/Report/Center/Panel/VBox/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
+theme_type_variation = &"CwPrimary"
+custom_minimum_size = Vector2(0, 46)
 text = "FL_REVERT_HANGAR"

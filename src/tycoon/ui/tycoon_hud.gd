@@ -10,6 +10,10 @@ extends Control
 signal build_requested(lot_id: String)
 ## the lot panel's "Abrir o hangar" (the workshop): TycoonMain opens the hangar (TycoonModes)
 signal hangar_requested(lot_id: String)
+## the bottom row's planet key: TycoonMain opens the Solar System map (TycoonModes.open_space_map)
+signal solar_map_requested
+## the follow tag's "Conversar": TycoonMain's dialogue box talks to the followed Cometling
+signal talk_requested
 signal screen_opened(screen_name: String)
 signal screen_closed(screen_name: String)
 
@@ -35,6 +39,8 @@ func _ready() -> void:
 	%HangarButton.pressed.connect(func() -> void:
 		if lot_id != "":
 			hangar_requested.emit(lot_id))
+	%SolarMap.pressed.connect(func() -> void: solar_map_requested.emit())
+	%TagTalk.pressed.connect(func() -> void: talk_requested.emit())
 	%NewProject.pressed.connect(func() -> void:
 		if not open_screen("briefings"):  # the mission board, then New project
 			flash_hint(tr("TY_SOON_PROJECT")))
@@ -120,12 +126,14 @@ func refresh() -> void:
 static func _copies(template: Control, count: int) -> Array[Control]:
 	var parent := template.get_parent()
 	var out: Array[Control] = []
+	# a parent may hold several templates (a golden card next to the usual one): each keeps its own
 	for c in parent.get_children():
-		if c != template and c.has_meta("from_template"):
+		if c != template and c.has_meta("from_template") and c.get_meta("template_of", template.name) == template.name:
 			out.append(c)
 	while out.size() < count:
 		var c := template.duplicate() as Control
 		c.set_meta("from_template", true)
+		c.set_meta("template_of", template.name)
 		c.visible = true
 		parent.add_child(c)
 		out.append(c)
@@ -323,17 +331,26 @@ func current_screen() -> String:
 
 
 # ------------------------------------------------------------ camera tag
-## Shows what the camera is on (the followed Cometling, the idle tour) in the FollowTag panel.
-func show_camera_tag(caption: String, title: String, hint := "") -> void:
+## Shows what the camera is on (the followed Cometling, the idle tour) in the FollowTag panel;
+## `can_talk` shows its "Conversar" button (talk_requested).
+func show_camera_tag(caption: String, title: String, hint := "", can_talk := false) -> void:
 	var tag: Control = %FollowTag
 	%TagCaption.text = caption
 	%TagTitle.text = title
 	%TagHint.text = hint
 	%TagHint.visible = hint != ""
+	%TagTalk.visible = can_talk
 	if not tag.visible:
 		tag.modulate.a = 0.0
 		tag.visible = true
 		create_tween().tween_property(tag, "modulate:a", 1.0, 0.35)
+
+
+## While a conversation is up (CometlingDialogue) the follow tag's Conversar button and the
+## bottom hint step aside for the dialogue box; `can_talk` puts the button back after.
+func set_talking(on: bool, can_talk := true) -> void:
+	$HintBox.visible = not on
+	%TagTalk.visible = not on and can_talk
 
 
 func hide_camera_tag() -> void:

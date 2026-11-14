@@ -4,7 +4,7 @@ MENU_NEW_CAMPAIGN,New campaign,Nova campanha
 MENU_NEW_CAMPAIGN_HINT,25 years until Mãe-Gelo returns,25 anos até a Mãe-Gelo voltar
 MENU_CONTINUE,Continue,Continuar
 MENU_CONTINUE_HINT,No saved campaign yet,Nenhuma campanha salva
-MENU_CONTINUE_TIP,Saving is not in the game yet. Start a new campaign!,Ainda não dá para salvar. Comece uma nova campanha!
+MENU_CONTINUE_TIP,No saved campaign yet: start a new one or open a demonstration.,Nenhuma campanha salva ainda: comece uma nova ou abra uma demonstração.
 MENU_FAIR,Fair mode,Modo feira
 MENU_FAIR_HINT,Quick campaign · 1 s per week,Campanha rápida · 1 s por semana
 MENU_FAIR_TIP,"The hackathon demo: the full campaign, one week per second.","A demonstração do hackathon: a campanha inteira, uma semana por segundo."
@@ -64,3 +64,15 @@ MENU_OPT_AA,Anti-aliasing,Antisserrilhado
 MENU_OPT_AA_SMAA,SMAA,SMAA
 MENU_OPT_AA_MSAA4,MSAA 4x,MSAA 4x
 MENU_OPT_AA_OFF,Off,Desligado
+MENU_DEMO,Demonstration,Demonstração
+MENU_DEMO_HINT,Ready campaigns for each era,Campanhas prontas de cada era
+MENU_DEMO_TIP,"Jump straight to the start of any era, or to a fair-mode start, without playing up to it.","Pule direto para o começo de qualquer era, ou para um começo no modo feira, sem precisar jogar até lá."
+MENU_DEMO_TITLE,Demonstration,Demonstração
+MENU_DEMO_LEAD,"Ready campaigns, played up to the start of each era. Pick one to show that part of the game.","Campanhas prontas, jogadas até o começo de cada era. Escolha uma para mostrar aquela parte do jogo."
+MENU_DEMO_FAIR,Fair mode · start,Modo feira · começo
+MENU_DEMO_ERA,Era %d · %s,Era %d · %s
+MENU_DEMO_DETAIL,Year %d · %d milestones,Ano %d · %d marcos
+MENU_DEMO_FAIR_TIP,"A new agency in fair mode: one week per second, the whole race in one sitting.","Uma agência nova no modo feira: uma semana por segundo, a corrida inteira de uma vez."
+MENU_DEMO_ERA_TIP,"An agency that played up to here: buildings, crew, research and milestones of the eras before.","Uma agência que jogou até aqui: prédios, equipe, pesquisa e marcos das eras anteriores."
+MENU_DEMO_EMPTY,No demonstration campaigns in this build.,Nenhuma campanha de demonstração nesta versão.
+MENU_LOADING_DEMO,Opening the demonstration,Abrindo a demonstração

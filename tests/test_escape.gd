@@ -3,6 +3,10 @@ extends SceneTree
 ##   campus (src/tycoon/tycoon_main.gd): an open screen closes, then the lot panel, then the
 ##   followed Cometling is let go; with nothing open Esc brings up the pause menu (the
 ##   settings screen), which holds the clock still and gives its speed back when it closes
+##   a conversation with a Cometling (src/tycoon/talk/cometling_dialogue.gd): Esc closes the
+##   box first, and only it (the camera keeps following the Cometling)
+##   a lesson bubble of Vovô Edmundo (src/tycoon/tutorial/tycoon_tutorial.gd) on show: Esc
+##   skips it first, and only it (on the campus and over a screen); the chain goes on after
 ##   hangar (src/hangar/hangar.gd): Esc with empty hands, or the Menu button, goes back to
 ##   the main menu
 ## Run: godot --headless --path . --script res://tests/test_escape.gd
@@ -25,6 +29,27 @@ func _campus() -> void:
 	await _frames(3)
 	main.race_flow.autosave = false
 	main.clock.set_speed(2)
+
+	# a lesson bubble takes the first Esc, and only that one
+	main.tutorial.start("campus", true)
+	await _frames(2)
+	_check(main.tutorial.is_showing(), "a lesson bubble is on show")
+	_press(KEY_ESCAPE)
+	await _frames(2)
+	_check(not main.tutorial.is_showing(), "Esc skips the lesson bubble")
+	_check(main.hud.current_screen() == "", "...without opening the pause menu")
+	_check(main.clock.speed == 2, "...and the clock gets its speed back (got %d)" % main.clock.speed)
+	main.hud.open_screen("crew")
+	await _frames(2)
+	main.tutorial.start("crew", true)
+	await _frames(2)
+	_press(KEY_ESCAPE)
+	await _frames(2)
+	_check(not main.tutorial.is_showing() and main.hud.current_screen() == "crew",
+		"over a screen, Esc skips the bubble and leaves the screen open")
+	_press(KEY_ESCAPE)
+	await _frames(2)
+	_check(main.hud.current_screen() == "", "the next Esc closes the screen")
 
 	_press(KEY_ESCAPE)
 	await _frames(2)
@@ -49,6 +74,16 @@ func _campus() -> void:
 	_check(main.hud.current_screen() == "", "...without opening the pause menu")
 
 	var who: Array = main.campus.cometlings()
+	if not who.is_empty() and main.talk:
+		# a conversation takes the first Esc, and only that one
+		main.camera.follow(who[0])
+		await _frames(2)
+		_check(main.talk.open(who[0]), "a conversation opens on a Cometling")
+		_press(KEY_ESCAPE)
+		await _frames(2)
+		_check(not main.talk.is_open(), "Esc closes the conversation")
+		_check(main.camera.mode == CampusCamera.Mode.FOLLOW and main.hud.current_screen() == "",
+			"...and only it (the camera still follows, no pause menu)")
 	if not who.is_empty():
 		main.camera.follow(who[0])
 		await _frames(2)

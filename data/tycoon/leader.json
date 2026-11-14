@@ -11,7 +11,7 @@
     {"id": "tinkerer", "emote": "idea", "shot": "jump"},
     {"id": "calm", "emote": "note", "shot": "nod"}
   ],
-  "hats": ["role", "none", "crown", "propeller", "beanie", "flower", "bow"],
+  "hats": ["role", "none", "crown", "propeller", "beanie", "flower", "bow", "aviator", "headset", "glasses", "mortarboard", "coin"],
   "body_colors": ["#bfe9ff", "#aeeeb6", "#ffe08f", "#ffa3a3", "#c9b8ff", "#ffcaa8", "#eef1f4", "#a6eadb",
     "#ffbd7a", "#d6f5a0", "#f5b8e8", "#b8c4ff"],
   "spot_colors": ["#f59a36", "#5fb0d8", "#ff6b6b", "#ffcc55", "#ff8fb8", "#8e7cff", "#3fe0c5", "#7ee08a",

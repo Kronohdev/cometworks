@@ -2,7 +2,9 @@ extends CwScreen
 ## Mission board (scenes/tycoon/ui/screens/briefings.tscn), the first step of a new project:
 ## the briefings on offer (BriefingDesk) as cards on the left; the chosen one on the right in
 ## story form, its goal, deadline, budget, reward and era, and what the staff can tell about
-## it (curious scientists, seasoned engineers, veterans, the journal: Discovery.briefing_hints).
+## it (curious scientists, seasoned engineers, veterans, the journal: Discovery.briefing_hints)
+## and the Lendas who mentor the agency (TycoonLegends.mentor_hints: portrait, name, line and a
+## key to their "Quem inspirou" card).
 ## The briefing never says how to solve it. "Accept and plan" goes to New project (target and
 ## type) with the briefing; "Free project" goes there without one. Everything visual is in the
 ## scene; cards and hint rows are copies of its hidden templates.
@@ -17,6 +19,7 @@ func _ready() -> void:
 	super._ready()
 	%Next.pressed.connect(_accept)
 	%Free.pressed.connect(_free)
+	%Studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_mentor_portraits())
 
 
 func _bound() -> void:
@@ -108,9 +111,40 @@ func _fill_detail() -> void:
 	var rows := copies(%HintTemplate, hints.size())
 	for i in hints.size():
 		(rows[i].get_node("Row/Text") as Label).text = TycoonHUD.news_text(hints[i])
-	%NoHints.visible = hints.is_empty()
+	# the mentors' voices after the team's
+	var mentors := TycoonLegends.mentor_hints(state, b, hints.is_empty())
+	var mrows := copies(%MentorTemplate, mentors.size())
+	for i in mentors.size():
+		var id := String(mentors[i]["legend"])
+		var row := mrows[i]
+		%Hints.move_child(row, -1)
+		row.set_meta("legend", id)
+		(row.get_node("Row/VBox/Head/Name") as Label).text = TycoonLegends.name_text(id)
+		(row.get_node("Row/VBox/Head/Tag") as Label).text = tr(TycoonLegends.key(id, "ROLE"))
+		(row.get_node("Row/VBox/Text") as Label).text = TycoonHUD.news_text(mentors[i])
+		var who := row.get_node("Row/VBox/Head/Who") as LinkButton
+		if not who.has_meta("wired"):
+			who.set_meta("wired", true)
+			who.pressed.connect(func() -> void: _open_legend(String(row.get_meta("legend"))))
+	_fill_mentor_portraits()
+	%NoHints.visible = hints.is_empty() and mentors.is_empty()
 	var card := String(b.get("card", ""))
 	%Source.visible = card != ""
 	if card != "":
 		%Source.text = tr("TY_BF_SOURCE") % tr("TY_ENC_%s_TITLE" % card.to_upper())
 	%Note.text = tr("TY_BF_NOTE")
+
+
+func _fill_mentor_portraits() -> void:
+	for row in %Hints.get_children():
+		if not row.has_meta("from_template") or not row.has_meta("legend"):
+			continue
+		var tex := %Studio.portrait(TycoonLegends.look(String(row.get_meta("legend")))) as Texture2D
+		(row.get_node("Row/Visor/Portrait") as TextureRect).texture = tex
+		(row.get_node("Row/Visor/Fallback") as Control).visible = tex == null
+
+
+## A mentor's "Quem inspirou" card in the encyclopedia.
+func _open_legend(id: String) -> void:
+	if hud and id != "":
+		hud.open_screen("book", {"legend": id})

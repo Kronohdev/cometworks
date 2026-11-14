@@ -5,6 +5,9 @@ extends CwScreen
 ##         double-click an open one to fund it
 ##   Tech  one tech: branch, era, state, description, cost / time / ETA, progress, what it
 ##         unlocks and needs, who sits in the lab; fund / queue / stop and license here
+##   Studies  the mission studies (FocusStudy, a tab): the mission types with their tier pips on
+##         the left; on the right what the agency knows of the chosen type's bars, what the next
+##         level reveals, its cost (PP, money, weeks), ETA and progress, and study / pause
 ## The lab readouts stay in the header. The scene holds every visual; this script places
 ## copies of %NodeTemplate on the era grid and fills the texts.
 
@@ -15,6 +18,8 @@ const KIND_COLOR := {"type": CwPalette.IGNITION, "target": CwPalette.COMET_ICE, 
 	"rocket": CwPalette.IGNITION}
 
 var selected := ""
+## the mission type on the studies page
+var study_type := ""
 
 @onready var pages: CwPageStack = %Pages
 
@@ -22,6 +27,8 @@ var selected := ""
 func _ready() -> void:
 	super()
 	%Fund.pressed.connect(_on_fund)
+	%SStudy.pressed.connect(_on_study)
+	pages.page_changed.connect(func(_p: StringName, _d: int) -> void: _sync_subtitle())
 	%License.pressed.connect(func() -> void:
 		if state and selected != "":
 			TycoonResearch.license(state, selected))
@@ -46,10 +53,21 @@ func _bound() -> void:
 		selected = String(TycoonResearch.techs()[0]["id"])
 
 
-## Opens a tech's page: open_screen("research", {"tech": id}).
+## Opens a tech's page: open_screen("research", {"tech": id}); the mission studies on a type:
+## {"study": type id} ("" picks one).
 func open_with(args: Dictionary) -> void:
 	if args.has("tech"):
 		open_tech(String(args["tech"]))
+	elif args.has("study"):
+		open_studies(String(args["study"]))
+
+
+## The mission studies tab, on a type.
+func open_studies(type_id := "") -> void:
+	if type_id != "":
+		study_type = type_id
+	pages.switch_to(&"Studies")
+	refresh()
 
 
 ## The selected tech's page (tests, dev menu).
@@ -86,6 +104,7 @@ func refresh() -> void:
 	_layout()
 	_fill_queue()
 	_fill_detail()
+	_fill_studies()
 
 
 func _fill_eras() -> void:
@@ -346,3 +365,125 @@ func _fill_bench() -> void:
 		(rows[i].get_node("Prof") as Label).text = tr(String(prof.get("name_key", "")))
 		(rows[i].get_node("PP") as Label).text = "+%.1f PP" % (float(seated[i]["pp"]) * mult)
 	%BenchEmpty.visible = seated.is_empty()
+
+
+# ------------------------------------------------------------ mission studies
+## The title block's subtitle follows the tab (the tree's facts, or what studies are for).
+func _sync_subtitle() -> void:
+	var nb := %NavBar as CwNavBar
+	var sub := "TY_ST_SUB" if pages.current() == &"Studies" else "TY_RS_SUB"
+	if nb.subtitle != sub:
+		nb.subtitle = sub
+		nb.refresh()
+
+
+## The types the lab can tell about: the ones the agency can fly or has flown.
+func study_types() -> Array[String]:
+	var out: Array[String] = []
+	for t: Dictionary in state.mdata.get("types", []):
+		var id := String(t["id"])
+		if state.mission_type_available(id) or Discovery.attempts(state, id) > 0:
+			out.append(id)
+	return out
+
+
+func _fill_studies() -> void:
+	var types := study_types()
+	if not study_type in types:
+		study_type = FocusStudy.active(state)
+		if not study_type in types:
+			study_type = ""
+			for id in types:
+				if FocusStudy.tier(state, id) < FocusStudy.MAX_TIER:
+					study_type = id
+					break
+			if study_type == "" and not types.is_empty():
+				study_type = types[0]
+	var rows := copies(%StudyTemplate, types.size())
+	for i in types.size():
+		var id := types[i]
+		var b := rows[i] as Button
+		b.set_meta("id", id)
+		if not b.has_meta("wired"):
+			b.set_meta("wired", true)
+			b.pressed.connect(func() -> void:
+				study_type = String(b.get_meta("id", ""))
+				refresh())
+		b.text = FocusView.type_name(state, id)
+		b.set_pressed_no_signal(id == study_type)
+		var t := FocusStudy.tier(state, id)
+		(b.get_node("Pips") as CwSegmentBar).value = float(t) / 3.0
+		var tag := b.get_node("Tag") as Label
+		if FocusStudy.active(state) == id:
+			tag.text = tr("TY_ST_TAG_ACTIVE")
+			tag.add_theme_color_override("font_color", CwPalette.AURORA_VIOLET)
+		elif t >= FocusStudy.MAX_TIER:
+			tag.text = tr("TY_ST_TAG_KNOWN")
+			tag.add_theme_color_override("font_color", CwPalette.AURORA_TEAL)
+		else:
+			tag.text = ""
+	if study_type == "":
+		return
+	_fill_study_detail()
+
+
+func _fill_study_detail() -> void:
+	var id := study_type
+	var t := FocusStudy.tier(state, id)
+	var active := FocusStudy.active(state) == id
+	%SName.text = FocusView.type_name(state, id)
+	var n := Discovery.attempts(state, id)
+	%SState.text = "%s · %s" % [FocusView.tier_text(t), tr("TY_JN_FLIGHTS") % n if n > 0 else tr("TY_JN_NEVER")]
+	var marks := FocusStudy.bar_marks(state, id)
+	var coarse := FocusStudy.coarse_ideal(state, id)
+	var rows: Array[Node] = [%SEng, %SSci, %SOps, %SRel]
+	for b in 4:
+		var m: Dictionary = marks[b]
+		var v := float(m["ideal"]) if t >= FocusStudy.MAX_TIER else (float(coarse[b]) if t == 2 else 0.0)
+		(rows[b].get_node("Bar") as CwSegmentBar).value = v / 0.5
+		var ml := rows[b].get_node("Mark") as Label
+		ml.text = FocusView.mark_text(m)
+		ml.add_theme_color_override("font_color", FocusView.mark_color(m))
+	%SKnow.text = FocusView.know_text(state, id)
+	var done := t >= FocusStudy.MAX_TIER
+	%Next.visible = not done
+	%Stats.visible = not done
+	%SBar.visible = not done
+	%SProgress.visible = not done
+	%SFlight.text = tr("TY_ST_FLIGHT") % [int(BriefingDesk.disc().get("reveal_ratio_after", 2)), n]
+	var sb: Button = %SStudy
+	%SError.text = ""
+	if done:
+		sb.text = tr("TY_ST_ALL_KNOWN")
+		sb.disabled = true
+		return
+	var nt := t + 1
+	var c := FocusStudy.cost(state, id, nt)
+	%SNextCaption.text = tr("TY_ST_NEXT") % nt
+	%SNextText.text = tr("TY_ST_REVEAL_%d" % nt)
+	%SCost.text = "%d PP" % int(c["pp"])
+	%SMoney.text = tr("TY_ST_PAID") if FocusStudy.paid(state, id) else cr(float(c["cash"]))
+	%STime.text = tr("TY_WEEKS") % int(c["weeks"])
+	%SEta.text = _eta_text(FocusStudy.weeks_left(state, id))
+	(%SBar as CwSegmentBar).value = FocusStudy.fraction(state, id)
+	%SProgress.text = "%d / %d PP" % [floori(FocusStudy.progress(state, id)), int(c["pp"])]
+	sb.disabled = false
+	if active:
+		sb.text = tr("TY_ST_STOP")
+		return
+	sb.text = tr("TY_ST_RESUME") if FocusStudy.paid(state, id) else tr("TY_ST_START")
+	var err := FocusStudy.start_error(state, id)
+	sb.disabled = err != ""
+	if err != "":
+		%SError.text = tr(err)
+	elif FocusStudy.active(state) != "":
+		%SError.text = tr("TY_ST_PAUSES") % FocusView.type_name(state, FocusStudy.active(state))
+
+
+func _on_study() -> void:
+	if state == null or study_type == "":
+		return
+	if FocusStudy.active(state) == study_type:
+		FocusStudy.stop(state)
+	else:
+		FocusStudy.start(state, study_type)

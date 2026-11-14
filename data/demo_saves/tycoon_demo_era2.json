@@ -1,0 +1,5021 @@
+{
+	"version": 1,
+	"saved_at": 1794609915,
+	"slot": "demo_era2",
+	"summary": {
+		"agency": "Cometworks",
+		"year": 6,
+		"week": 1,
+		"era": 2,
+		"cash": 641050.720267937,
+		"milestones": 2
+	},
+	"extra": {
+		"fair_mode": false,
+		"demo": "demo_era2"
+	},
+	"state": {
+		"version": 1,
+		"seed": 2026,
+		"rng_state": "7191821246308092144",
+		"weeks": 260,
+		"cash": 641050.720267937,
+		"difficulty": "normal",
+		"reputation": 70.5,
+		"hype": "#f64:2c03ef77d2734940",
+		"agency_name": "Cometworks",
+		"staff": [
+			{
+				"id": "leader",
+				"leader": true,
+				"name": "Cocada",
+				"profession": "systems_engineer",
+				"level": 6,
+				"xp": 648.644132051315,
+				"morale": 63.0,
+				"variant": 0,
+				"assigned": "",
+				"hidden": [],
+				"specs": [
+					"integration_lead"
+				],
+				"seed": 65039,
+				"hired_week": 0,
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"skill": 0.6,
+				"curiosity": 0.85,
+				"courage": 0.6,
+				"body": "#bfe9ff",
+				"spot": "#f59a36",
+				"hat": "role",
+				"quirk": "dreamer",
+				"busy_weeks": 0,
+				"napping": false
+			},
+			{
+				"id": "cm001",
+				"name": "Mibup Poeiradoce",
+				"role": "pilot",
+				"variant": 2,
+				"level": 6,
+				"xp": 548.644132051315,
+				"skill": 0.81,
+				"curiosity": 0.27,
+				"courage": 0.67,
+				"profession": "pilot",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29446,
+				"hired_week": 0
+			},
+			{
+				"id": "cm002",
+				"name": "Lumo Luapé",
+				"role": "engineer",
+				"variant": 7,
+				"level": 6,
+				"xp": 548.644132051315,
+				"skill": 0.93,
+				"curiosity": 0.76,
+				"courage": 0.63,
+				"profession": "systems_engineer",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29447,
+				"hired_week": 0
+			},
+			{
+				"id": "cm003",
+				"name": "Pokami Gelolume",
+				"role": "scientist",
+				"variant": 5,
+				"level": 6,
+				"xp": 548.644132051315,
+				"skill": 0.53,
+				"curiosity": "#f64:676666666666ee3f",
+				"courage": 0.65,
+				"profession": "scientist",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29448,
+				"hired_week": 0
+			},
+			{
+				"id": "cm004",
+				"name": "Kotimi Estrelariso",
+				"role": "pilot",
+				"variant": 4,
+				"level": 1,
+				"xp": "#f64:479ab9ee19005840",
+				"skill": 0.91,
+				"curiosity": 0.43,
+				"courage": "#f64:15ae47e17a14de3f",
+				"profession": "pilot",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29449,
+				"hired_week": 0
+			},
+			{
+				"id": "cm005",
+				"name": "Noron Poeiralume",
+				"role": "engineer",
+				"variant": 3,
+				"level": 1,
+				"xp": "#f64:479ab9ee19005840",
+				"skill": 0.87,
+				"curiosity": 0.8200000000000001,
+				"courage": 0.65,
+				"profession": "systems_engineer",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29450,
+				"hired_week": 0
+			},
+			{
+				"id": "cm006",
+				"name": "Muruli Fagulhadoce",
+				"role": "scientist",
+				"variant": 8,
+				"level": 1,
+				"xp": "#f64:479ab9ee19005840",
+				"skill": 0.42,
+				"curiosity": 0.79,
+				"courage": 0.78,
+				"profession": "scientist",
+				"morale": 63.0,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 29451,
+				"hired_week": 0
+			},
+			{
+				"id": "h007",
+				"name": "Pili Poeiralindo",
+				"profession": "pilot",
+				"level": 2,
+				"xp": 151.35657867123334,
+				"skill": 0.56,
+				"curiosity": 0.88,
+				"courage": 0.86,
+				"morale": 63.0,
+				"variant": 6,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 60425,
+				"hired_week": 8
+			},
+			{
+				"id": "h120",
+				"name": "Zulimi Luziaflor",
+				"profession": "researcher",
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.62,
+				"curiosity": 0.77,
+				"courage": 0.8300000000000001,
+				"morale": 63.0,
+				"variant": 1,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 72899,
+				"hired_week": 168
+			},
+			{
+				"id": "h121",
+				"name": "Nita Poeiralindo",
+				"profession": "scientist",
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.5700000000000001,
+				"curiosity": 0.81,
+				"courage": 0.71,
+				"morale": 63.0,
+				"variant": 4,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 77481,
+				"hired_week": 168
+			},
+			{
+				"id": "h152",
+				"name": "Tasa Faíscabela",
+				"profession": "systems_engineer",
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.76,
+				"curiosity": 0.32,
+				"courage": 0.45,
+				"morale": 63.0,
+				"variant": 2,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 2352,
+				"hired_week": 208
+			},
+			{
+				"id": "h153",
+				"name": "Morop Faíscasol",
+				"profession": "test_technician",
+				"level": 1,
+				"xp": 0.0,
+				"skill": 0.77,
+				"curiosity": 0.78,
+				"courage": 0.87,
+				"morale": 63.0,
+				"variant": 3,
+				"assigned": "",
+				"adapt_weeks": 0,
+				"train_weeks": 0,
+				"specs": [],
+				"busy_weeks": 0,
+				"napping": false,
+				"hidden": [],
+				"seed": 25732,
+				"hired_week": 208
+			}
+		],
+		"rivals": [
+			{
+				"id": "aurora",
+				"name_key": "TY_RIVAL_AURORA",
+				"color": "#ff5c6c",
+				"capacity": 1.122,
+				"milestones": 1
+			},
+			{
+				"id": "nimbo",
+				"name_key": "TY_RIVAL_NIMBO",
+				"color": "#bfe8ff",
+				"capacity": "#f64:bc0a293fa9f6ed3f",
+				"milestones": 2
+			},
+			{
+				"id": "quietude",
+				"name_key": "TY_RIVAL_QUIETUDE",
+				"color": "#8e7cff",
+				"capacity": 1.09242,
+				"milestones": 3
+			}
+		],
+		"milestones": 2,
+		"projects": [],
+		"news": [
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"1 192 950 cr"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_LAB_METHODS"
+				]
+			},
+			{
+				"key": "TY_LEG_NEWS_MARKET",
+				"args": [
+					"Albertinho Dumontinho"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_ERA",
+				"args": [
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_SPACE_PHYSICS"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_RACE_NEWS_FIRST",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_MS_LONG_SIGNAL"
+				]
+			},
+			{
+				"key": "TY_RACE_LEADER_SAYS",
+				"args": [
+					"TY_LEG_HERSCHELINHA_NAME",
+					"TY_LEG_HERSCHELINHA_FIRST"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_COMETLING_SELECTION"
+				]
+			},
+			{
+				"key": "TY_NEWS_INTERVENTION",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"EOB-01",
+					101
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_UPPER_STAGE"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"EOB-01",
+					"TY_OPS_EV_STORAGE_B"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"EOB-01",
+					"TY_OPS_EV_STORAGE_TITLE"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"EOB-01",
+					"10.0"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pokami Gelolume"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pokami Gelolume",
+					6
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Lumo Luapé"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Lumo Luapé",
+					6
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Mibup Poeiradoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Mibup Poeiradoce",
+					6
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SETTLED",
+				"args": [
+					"Morop Faíscasol"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SETTLED",
+				"args": [
+					"Tasa Faíscabela"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"EOB-01",
+					"TY_MT_EARTH_OBS"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_HIRED",
+				"args": [
+					"Morop Faíscasol",
+					"TY_PROF_TESTER"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_HIRED",
+				"args": [
+					"Tasa Faíscabela",
+					"TY_PROF_SYSTEMS"
+				]
+			},
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"508 200 cr"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_INTERVENTION",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_HIGH_GAIN_ANTENNA"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_RADIO_TRACKING"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_SUN_SYNC_ORBITS"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SETTLED",
+				"args": [
+					"Nita Poeiralindo"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SETTLED",
+				"args": [
+					"Zulimi Luziaflor"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_HIRED",
+				"args": [
+					"Nita Poeiralindo",
+					"TY_PROF_SCIENTIST"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_HIRED",
+				"args": [
+					"Zulimi Luziaflor",
+					"TY_PROF_RESEARCHER"
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_HQ",
+					2
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_MS_FIRST_SATELLITE",
+					3
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_ANTENNA",
+					1
+				]
+			},
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"508 200 cr"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_MS_FIRST_SATELLITE",
+					2
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_MS_SUBORBITAL",
+					4
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_MULTISPECTRAL_IMAGING"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"DEM-03",
+					11
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"DEM-03",
+					"TY_OPS_EV_WHEEL_A"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"DEM-03",
+					"TY_OPS_EV_WHEEL_TITLE"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"DEM-02",
+					11
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"DEM-01",
+					11
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"DEM-03",
+					"9.8"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pokami Gelolume"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pokami Gelolume",
+					5
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Lumo Luapé"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Lumo Luapé",
+					5
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Mibup Poeiradoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Mibup Poeiradoce",
+					5
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Cocada"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Cocada",
+					6
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_FULL",
+				"args": [
+					"TY_BF_FIRST_BEEP_TITLE"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"DEM-02",
+					"TY_OPS_EV_STORAGE_B"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"DEM-02",
+					"TY_OPS_EV_STORAGE_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"DEM-03",
+					"TY_MT_DEMO_SAT"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"DEM-02",
+					"10.0"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pokami Gelolume"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pokami Gelolume",
+					4
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Lumo Luapé"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Lumo Luapé",
+					4
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Mibup Poeiradoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Mibup Poeiradoce",
+					4
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Cocada"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Cocada",
+					5
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_FULL",
+				"args": [
+					"TY_BF_EARTH_PORTRAIT_TITLE"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_CONTROL",
+					1
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"DEM-01",
+					"TY_OPS_EV_STORAGE_B"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"DEM-01",
+					"TY_OPS_EV_STORAGE_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"DEM-02",
+					"TY_MT_DEMO_SAT"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_FIRST",
+				"args": [
+					"Cometworks",
+					"TY_MS_FIRST_SATELLITE"
+				]
+			},
+			{
+				"key": "TY_LEG_CIFRINHA_CHEER",
+				"args": [
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"DEM-01",
+					"10.0"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pokami Gelolume"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pokami Gelolume",
+					3
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Lumo Luapé"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Lumo Luapé",
+					3
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Mibup Poeiradoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Mibup Poeiradoce",
+					3
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Cocada",
+					4
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"SND-04",
+					"6.8"
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_FULL",
+				"args": [
+					"TY_BF_AURORA_DANCE_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"SND-04",
+					"TY_MT_SOUNDING"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"DEM-01",
+					"TY_MT_DEMO_SAT"
+				]
+			},
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"371 700 cr"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_FAIL",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_MS_FIRST_SATELLITE"
+				]
+			},
+			{
+				"key": "TY_RACE_LEADER_SAYS",
+				"args": [
+					"TY_LEG_GAGARINHO_NAME",
+					"TY_LEG_GAGARINHO_FAIL"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_BASIC_INSTRUMENTS"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_IMAGING"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_ORBITAL_ROCKETRY"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_MS_SUBORBITAL",
+					3
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_LAB",
+					1
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_FAIL",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_MS_SUBORBITAL"
+				]
+			},
+			{
+				"key": "TY_RACE_LEADER_SAYS",
+				"args": [
+					"TY_LEG_GAGARINHO_NAME",
+					"TY_LEG_GAGARINHO_FAIL"
+				]
+			},
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"371 700 cr"
+				]
+			},
+			{
+				"key": "TY_LEG_NEWS_MARKET",
+				"args": [
+					"Kátia Jonsom"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_SMALL_SAT_BUS"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_MS_SUBORBITAL",
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SETTLED",
+				"args": [
+					"Pili Poeiralindo"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_HIRED",
+				"args": [
+					"Pili Poeiralindo",
+					"TY_PROF_PILOT"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"SND-03",
+					"9.0"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pokami Gelolume",
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Lumo Luapé",
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Mibup Poeiradoce",
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Cocada",
+					3
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_FULL",
+				"args": [
+					"TY_BF_EDGE_PHOTO_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"SND-02",
+					"6.5"
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_FULL",
+				"args": [
+					"TY_BF_FIRST_HOP_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"SND-03",
+					"TY_MT_SOUNDING"
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_FIRST",
+				"args": [
+					"Cometworks",
+					"TY_MS_SUBORBITAL"
+				]
+			},
+			{
+				"key": "TY_LEG_GAGARINHO_CHEER",
+				"args": [
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"SND-01",
+					"10.0"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"SND-02",
+					"TY_MT_SOUNDING"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"SND-01",
+					"TY_MT_SOUNDING"
+				]
+			},
+			{
+				"key": "TY_LEADER_NEWS_FOUNDED",
+				"args": [
+					"Cocada",
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_NEWS_WELCOME",
+				"args": []
+			}
+		],
+		"buildings": {
+			"hq": {
+				"kind": "hq",
+				"level": 2,
+				"target": 2,
+				"weeks_left": 0,
+				"total_weeks": 8
+			},
+			"workshop": {
+				"kind": "workshop",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0
+			},
+			"pad": {
+				"kind": "pad",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0,
+				"last_launch": 214,
+				"launch_order": 8,
+				"rocket_weeks": 0,
+				"rocket_total": 6,
+				"last_rocket": {
+					"core": "core_falcao",
+					"upper": "upper_kestrel_v",
+					"tank": "tank_m",
+					"boosters": "boost_none",
+					"fairing": "fairing_s",
+					"avionics": "avionics_redundant",
+					"recovery": "recovery_none"
+				}
+			},
+			"lab": {
+				"kind": "lab",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0,
+				"total_weeks": 6
+			},
+			"control": {
+				"kind": "control",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0,
+				"total_weeks": 8
+			},
+			"antenna": {
+				"kind": "antenna",
+				"level": 1,
+				"target": 1,
+				"weeks_left": 0,
+				"total_weeks": 6
+			}
+		},
+		"contracts": [
+			{
+				"id": "c270",
+				"type": "earth_obs",
+				"target": "sso",
+				"reward": 360000.0,
+				"bonus": 90000.0,
+				"penalty": 108000.0,
+				"weeks_allowed": 26,
+				"offered_week": 260,
+				"deadline_week": 286,
+				"status": "offer",
+				"sponsor": "comm_imaging",
+				"sponsor_key": "TY_SP_COMM_IMAGING",
+				"kind": "commercial",
+				"min_bars": {
+					"sci": 6.0
+				}
+			},
+			{
+				"id": "c271",
+				"type": "comms",
+				"target": "geo",
+				"reward": 360000.0,
+				"bonus": 90000.0,
+				"penalty": 108000.0,
+				"weeks_allowed": 27,
+				"offered_week": 260,
+				"deadline_week": 287,
+				"status": "offer",
+				"sponsor": "comm_telecom",
+				"sponsor_key": "TY_SP_COMM_TELECOM",
+				"kind": "commercial",
+				"min_bars": {
+					"ops": 5.0
+				}
+			},
+			{
+				"id": "c272",
+				"type": "sounding",
+				"target": "suborbital",
+				"reward": 175000.0,
+				"bonus": 43750.0,
+				"penalty": 52500.0,
+				"weeks_allowed": 20,
+				"offered_week": 260,
+				"deadline_week": 280,
+				"status": "offer",
+				"sponsor": "comm_media",
+				"sponsor_key": "TY_SP_COMM_MEDIA",
+				"kind": "commercial",
+				"min_bars": {
+					"ops": 5.0
+				}
+			},
+			{
+				"id": "c273",
+				"type": "comms",
+				"target": "leo",
+				"reward": 245000.0,
+				"bonus": 61250.0,
+				"penalty": 73500.0,
+				"weeks_allowed": 29,
+				"offered_week": 260,
+				"deadline_week": 289,
+				"status": "offer",
+				"sponsor": "gov_space",
+				"sponsor_key": "TY_SP_GOV_SPACE",
+				"kind": "government",
+				"min_bars": {
+					"eng": 5.0
+				}
+			},
+			{
+				"id": "c274",
+				"type": "earth_obs",
+				"target": "leo",
+				"reward": 220000.0,
+				"bonus": 55000.0,
+				"penalty": 66000.0,
+				"weeks_allowed": 30,
+				"offered_week": 260,
+				"deadline_week": 290,
+				"status": "offer",
+				"sponsor": "gov_weather",
+				"sponsor_key": "TY_SP_GOV_WEATHER",
+				"kind": "government",
+				"min_bars": {
+					"sci": 5.5
+				}
+			}
+		],
+		"active_missions": [],
+		"research_points": 1.879734372632452,
+		"unlocked": {
+			"small_sat_bus": true,
+			"type:demo_sat": true,
+			"part:bus_cubesat": true,
+			"part:bus_small": true,
+			"part:solar_body": true,
+			"part:battery_s": true,
+			"part:payload_adapter": true,
+			"option:bus_cubesat": true,
+			"option:bus_small": true,
+			"option:power_body_panels": true,
+			"option:power_battery_l": true,
+			"orbital_rocketry": true,
+			"target:leo": true,
+			"rocket:core_falcao": true,
+			"rocket:upper_kestrel_v": true,
+			"rocket:boost_srb2": true,
+			"rocket:fairing_s": true,
+			"part:eng_kestrel": true,
+			"part:tank_kerolox_s4": true,
+			"part:tank_kerolox_m4": true,
+			"part:fairing_s": true,
+			"basic_instruments": true,
+			"part:inst_wac": true,
+			"part:inst_mag": true,
+			"option:instr_camera": true,
+			"option:instr_magnetometer": true,
+			"multispectral_imaging": true,
+			"type:earth_obs": true,
+			"part:inst_multispectral": true,
+			"part:inst_ir": true,
+			"part:inst_thermal": true,
+			"option:instr_multispectral": true,
+			"option:instr_infrared": true,
+			"option:instr_spectrometer": true,
+			"sun_sync_orbits": true,
+			"target:sso": true,
+			"rocket:avionics_smart": true,
+			"part:reaction_wheels": true,
+			"option:adcs_wheels": true,
+			"option:power_articulated": true,
+			"radio_tracking": true,
+			"part:antenna_omni": true,
+			"option:comms_omni": true,
+			"high_gain_antenna": true,
+			"type:comms": true,
+			"part:antenna_mga": true,
+			"part:antenna_hga": true,
+			"option:comms_medium": true,
+			"upper_stage": true,
+			"target:geo": true,
+			"rocket:core_harpia": true,
+			"rocket:upper_falcao_v": true,
+			"rocket:tank_l": true,
+			"rocket:boost_srb4": true,
+			"rocket:fairing_m": true,
+			"part:eng_falcao_v": true,
+			"part:tank_hypergolic_06": true,
+			"part:interstage_m": true,
+			"part:decoupler_m": true,
+			"cometling_selection": true,
+			"spec:test_pilot": true,
+			"space_physics": true,
+			"type:space_weather": true,
+			"part:inst_neutron": true,
+			"option:instr_particle": true,
+			"lab_methods": true
+		},
+		"crew": {
+			"rng_state": "3175481115972030978",
+			"next_id": 191,
+			"candidates": [
+				{
+					"id": "c190",
+					"legend": "albertinho",
+					"name": "Albertinho Dumontinho",
+					"profession": "pilot",
+					"level": 3,
+					"xp": 200.0,
+					"hidden": [],
+					"seed": 10382,
+					"body": "#eef1f4",
+					"spot": "#f59a36",
+					"hat": "propeller",
+					"skill": 0.8,
+					"curiosity": 0.9,
+					"courage": 0.92,
+					"variant": 6
+				},
+				{
+					"id": "c187",
+					"profession": "test_technician",
+					"seed": 21544,
+					"skill": 0.64,
+					"curiosity": 0.53,
+					"courage": 0.85,
+					"level": 1,
+					"xp": 0.0,
+					"name": "Mutimi Estrelaflor",
+					"variant": 8,
+					"hidden": [
+						"skill",
+						"courage"
+					]
+				},
+				{
+					"id": "c188",
+					"profession": "systems_engineer",
+					"seed": 85394,
+					"skill": 0.62,
+					"curiosity": 0.49,
+					"courage": 0.43,
+					"level": 2,
+					"xp": 100.0,
+					"name": "Kilu Auroradoce",
+					"variant": 1,
+					"hidden": [
+						"skill",
+						"curiosity"
+					]
+				},
+				{
+					"id": "c189",
+					"profession": "flight_controller",
+					"seed": 66400,
+					"skill": 0.66,
+					"curiosity": 0.4,
+					"courage": 0.46,
+					"level": 2,
+					"xp": 100.0,
+					"name": "Liyobo Estrelalume",
+					"variant": 5,
+					"hidden": [
+						"skill",
+						"courage"
+					]
+				}
+			],
+			"legends": {
+				"seen": {
+					"katia": 52,
+					"albertinho": 260
+				},
+				"hired": {
+
+				}
+			}
+		},
+		"mission_projects": [],
+		"project_history": [
+			{
+				"id": "SND-01",
+				"code": "SND-01",
+				"type": "sounding",
+				"target": "suborbital",
+				"contract_id": "",
+				"week": 3,
+				"start_week": 0,
+				"weeks": 3,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 9.565876412389914,
+				"bars": [
+					8.1537268736,
+					6.935107576319999,
+					10.0,
+					5.363006731264
+				],
+				"pts": [
+					12.2305903104,
+					5.20133068224,
+					7.70048064576,
+					5.02781881056
+				],
+				"defects": 0.6216829985569965,
+				"expected": 30.0,
+				"compat": 1.15,
+				"novelty": true,
+				"p_success": 0.714938843124833,
+				"p_payload": 0.8314160786654724,
+				"p_rocket": 0.859905,
+				"p_crew": 1.0,
+				"launch_class": "sounding",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 10.0,
+				"science": "#f64:1de517f59c1a1f40",
+				"suborbital": true,
+				"rocket": {
+					"family": "fam1",
+					"name": "Andorinha",
+					"parts": {
+						"core": "core_kestrel",
+						"upper": "upper_none",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_none",
+						"avionics": "avionics_basic",
+						"recovery": "recovery_none"
+					},
+					"class": "sounding",
+					"flights": 0
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.1685839213345276,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.09999999999999998,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:c01e85eb51b88e3f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 8.46758130750474,
+				"grade_project": 9.565876412389914,
+				"payload": [
+					"sensor_pack",
+					"beacon",
+					"battery"
+				],
+				"fit": {
+					"fit": "#f64:2d2d2d2d2d2ded3f",
+					"mult": "#f64:706f6f6f6f6fef3f",
+					"great": true,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.5,
+					"objective": 1.0,
+					"match": 0.8891603025618047
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_GREAT",
+						"args": [],
+						"tone": "star",
+						"topic": "combo"
+					},
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_OPS"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_SENSOR_PACK"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_SOUNDING"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_SOUNDING",
+							"TY_TGT_SUBORBITAL"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_GREAT",
+						"args": [
+							"TY_MT_SOUNDING",
+							"TY_TGT_SUBORBITAL"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_SENSOR_PACK",
+							"TY_MT_SOUNDING",
+							"TY_TGT_SUBORBITAL"
+						]
+					}
+				],
+				"briefing": {
+
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": 5.0,
+					"hype": 26.0,
+					"research": "#f64:1de517f59c1a0f40",
+					"xp": 55.07715508460369,
+					"dev_cost": 15000.0,
+					"launch_cost": 30000.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "SND-02",
+				"code": "SND-02",
+				"type": "sounding",
+				"target": "suborbital",
+				"contract_id": "",
+				"week": 4,
+				"start_week": 1,
+				"weeks": 3,
+				"staff": [
+					"cm004",
+					"cm005",
+					"cm006"
+				],
+				"grade": 6.668056701152962,
+				"bars": [
+					4.229600067674183,
+					5.336374713882322,
+					10.0,
+					3.5365978398638753
+				],
+				"pts": [
+					7.934775755212801,
+					5.0055485179392,
+					8.339650302412801,
+					4.146685021440001
+				],
+				"defects": 0.5697585617938323,
+				"expected": 37.52021764826601,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.7264687701751074,
+				"p_payload": 0.8264587027909764,
+				"p_rocket": 0.879014,
+				"p_crew": 1.0,
+				"launch_class": "sounding",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_ECHO_MID"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_ORBITA_MID"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_COMA_MID"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 6.5,
+				"science": 5.756380795630079,
+				"suborbital": true,
+				"rocket": {
+					"family": "fam1",
+					"name": "Andorinha",
+					"parts": {
+						"core": "core_kestrel",
+						"upper": "upper_none",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_none",
+						"avionics": "avionics_basic",
+						"recovery": "recovery_none"
+					},
+					"class": "sounding",
+					"flights": 1
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.17354129720902356,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.07999999999999996,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:c01e85eb51b88e3f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 6.769600711830418,
+				"grade_project": 6.668056701152962,
+				"payload": [
+					"sensor_pack",
+					"beacon",
+					"battery"
+				],
+				"fit": {
+					"fit": 0.925,
+					"mult": "#f64:86eb51b81e85ef3f",
+					"great": false,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.5,
+					"objective": 1.0,
+					"match": 0.8220115644528001
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_OPS"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_SENSOR_PACK"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_RATIO",
+						"args": [
+							"TY_MT_SOUNDING"
+						]
+					}
+				],
+				"briefing": {
+					"met": "full",
+					"reward": 50000.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.0,
+					"pp": 15.0,
+					"hype": 3.0,
+					"id": "first_hop"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 50000.0,
+					"reputation": 1.5,
+					"hype": 8.45,
+					"research": 2.8781903978150396,
+					"xp": 44.64500412415067,
+					"dev_cost": 15000.0,
+					"launch_cost": 28800.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "SND-03",
+				"code": "SND-03",
+				"type": "sounding",
+				"target": "suborbital",
+				"contract_id": "",
+				"week": 6,
+				"start_week": 3,
+				"weeks": 3,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 8.519885644265015,
+				"bars": [
+					6.344152826955344,
+					5.450280311137872,
+					10.0,
+					4.19048564131253
+				],
+				"pts": [
+					12.983672446976,
+					5.5771555504896,
+					8.2639121693184,
+					5.3600431811583995
+				],
+				"defects": 0.6650947077284599,
+				"expected": 40.9311465253811,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.7452791380099762,
+				"p_payload": 0.8298185638381116,
+				"p_rocket": 0.898123,
+				"p_crew": 1.0,
+				"launch_class": "sounding",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 8,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 9,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 9,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 9.0,
+				"science": 8.337847547981951,
+				"suborbital": true,
+				"rocket": {
+					"family": "fam1",
+					"name": "Andorinha",
+					"parts": {
+						"core": "core_kestrel",
+						"upper": "upper_none",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_none",
+						"avionics": "avionics_basic",
+						"recovery": "recovery_none"
+					},
+					"class": "sounding",
+					"flights": 2
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.1701814361618884,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.05999999999999994,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:c01e85eb51b88e3f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 7.521417474522194,
+				"grade_project": 8.519885644265015,
+				"payload": [
+					"sensor_pack",
+					"beacon",
+					"battery",
+					"camera"
+				],
+				"fit": {
+					"fit": 0.925,
+					"mult": "#f64:86eb51b81e85ef3f",
+					"great": true,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.5,
+					"objective": 1.0,
+					"match": 0.8898251469773284
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_GREAT",
+						"args": [],
+						"tone": "star",
+						"topic": "combo"
+					},
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_OPS"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_SENSOR_PACK"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_SOUNDING",
+							"TY_TGT_SUBORBITAL"
+						]
+					}
+				],
+				"briefing": {
+					"met": "full",
+					"reward": 93750.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.0,
+					"pp": 10.0,
+					"hype": 4.0,
+					"id": "edge_photo"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 93750.0,
+					"reputation": 4.0,
+					"hype": 22.2,
+					"research": 4.168923773990976,
+					"xp": 51.31158831935406,
+					"dev_cost": 25000.0,
+					"launch_cost": 27600.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "SND-04",
+				"code": "SND-04",
+				"type": "sounding",
+				"target": "suborbital",
+				"contract_id": "",
+				"week": 108,
+				"start_week": 105,
+				"weeks": 3,
+				"staff": [
+					"cm004",
+					"cm005",
+					"cm006",
+					"h007"
+				],
+				"grade": 6.6716373602012915,
+				"bars": [
+					4.088404032561604,
+					5.283071679484757,
+					10.0,
+					4.227393809271593
+				],
+				"pts": [
+					8.136225850368001,
+					5.2568513319168,
+					12.2472235248384,
+					5.25801610432
+				],
+				"defects": 0.6670560700842698,
+				"expected": 39.80147649580621,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.7670785565093257,
+				"p_payload": 0.8362972034439767,
+				"p_rocket": 0.917232,
+				"p_crew": 1.0,
+				"launch_class": "sounding",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_ECHO_MID"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_ORBITA_MID"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_COMA_MID"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 6.75,
+				"science": 6.04537903170432,
+				"suborbital": true,
+				"rocket": {
+					"family": "fam1",
+					"name": "Andorinha",
+					"parts": {
+						"core": "core_kestrel",
+						"upper": "upper_none",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_none",
+						"avionics": "avionics_basic",
+						"recovery": "recovery_none"
+					},
+					"class": "sounding",
+					"flights": 3
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.16370279655602327,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": "#f64:7014ae47e17aa43f",
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:c01e85eb51b88e3f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 6.773235898681514,
+				"grade_project": 6.6716373602012915,
+				"payload": [
+					"sensor_pack",
+					"beacon",
+					"battery",
+					"magnetometer"
+				],
+				"fit": {
+					"fit": 0.925,
+					"mult": "#f64:86eb51b81e85ef3f",
+					"great": false,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.5,
+					"objective": 1.0,
+					"match": 0.7536281328987268
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_OPS"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_SENSOR_PACK"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_MAGNETOMETER"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_MAGNETOMETER",
+							"TY_MT_SOUNDING",
+							"TY_TGT_SUBORBITAL"
+						]
+					}
+				],
+				"briefing": {
+					"met": "full",
+					"reward": 65000.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.5,
+					"pp": 30.0,
+					"hype": 1.0,
+					"id": "aurora_dance"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 65000.0,
+					"reputation": 1.75,
+					"hype": 9.1125,
+					"research": 3.02268951585216,
+					"xp": 44.65789449672465,
+					"dev_cost": 21000.0,
+					"launch_cost": 26400.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "DEM-01",
+				"code": "DEM-01",
+				"type": "demo_sat",
+				"target": "leo",
+				"contract_id": "",
+				"week": 109,
+				"start_week": 104,
+				"weeks": 5,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 10.0,
+				"bars": [
+					10.0,
+					10.0,
+					10.0,
+					7.596305674535902
+				],
+				"pts": [
+					31.58578704,
+					14.53097712,
+					"#f64:1e4b9b81fca23a40",
+					12.597674240000002
+				],
+				"defects": 1.9958608268405276,
+				"expected": 53.06863532774162,
+				"compat": 1.15,
+				"novelty": true,
+				"p_success": 0.604372210840259,
+				"p_payload": 0.7558010394859398,
+				"p_rocket": 0.7996445880139627,
+				"p_crew": 1.0,
+				"launch_class": "light",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 10.0,
+				"science": 21.7238107944,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "light",
+					"flights": 0
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.2441989605140602,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.09999999999999998,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": 0.04500000000000004,
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:b39ad6f1e684a23f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 9.617660920612266,
+				"grade_project": 10.0,
+				"payload": [
+					"camera",
+					"beacon",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.8264705882352941,
+					"mult": "#f64:e4164a7db0e3ee3f",
+					"great": true,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 0.35,
+					"team": 0.6666666666666666,
+					"objective": 1.0,
+					"match": 0.8676671336650401
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_GREAT",
+						"args": [],
+						"tone": "star",
+						"topic": "combo"
+					},
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_DATA_STUCK",
+						"args": [],
+						"tone": "bad",
+						"topic": "data"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_REL"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_CAMERA"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_DEMO_SAT"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_DEMO_SAT",
+							"TY_TGT_LEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_GREAT",
+						"args": [
+							"TY_MT_DEMO_SAT",
+							"TY_TGT_LEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_DEMO_SAT",
+							"TY_TGT_LEO"
+						]
+					}
+				],
+				"briefing": {
+
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": 5.0,
+					"hype": 26.0,
+					"research": 0.0,
+					"xp": 95.28,
+					"dev_cost": 42000.0,
+					"launch_cost": 142000.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "DEM-02",
+				"code": "DEM-02",
+				"type": "demo_sat",
+				"target": "leo",
+				"contract_id": "",
+				"week": 114,
+				"start_week": 109,
+				"weeks": 5,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 10.0,
+				"bars": [
+					10.0,
+					10.0,
+					10.0,
+					7.088756026350461
+				],
+				"pts": [
+					33.70734256000001,
+					15.52605648,
+					28.46363856,
+					"#f64:00fbf045dee62a40"
+				],
+				"defects": 2.132033854175704,
+				"expected": 60.72,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.6144252433650189,
+				"p_payload": 0.7516691563559839,
+				"p_rocket": 0.8174144677476064,
+				"p_crew": 1.0,
+				"launch_class": "light",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 10.0,
+				"science": 23.2114544376,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "light",
+					"flights": 1
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": "#f64:8002051a4ec9cf3f",
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.07999999999999996,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": 0.04500000000000004,
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:b39ad6f1e684a23f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 9.534478547427362,
+				"grade_project": 10.0,
+				"payload": [
+					"camera",
+					"beacon",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.8525,
+					"mult": 0.9705,
+					"great": true,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 0.35,
+					"team": 0.6666666666666666,
+					"objective": 1.0,
+					"match": 0.8673814222092338
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_GREAT",
+						"args": [],
+						"tone": "star",
+						"topic": "combo"
+					},
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_DATA_STUCK",
+						"args": [],
+						"tone": "bad",
+						"topic": "data"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_REL"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_RATIO",
+						"args": [
+							"TY_MT_DEMO_SAT"
+						]
+					}
+				],
+				"briefing": {
+					"met": "full",
+					"reward": 187500.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.0,
+					"pp": 10.0,
+					"hype": 2.0,
+					"id": "earth_portrait"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 187500.0,
+					"reputation": 5.0,
+					"hype": 26.0,
+					"research": 0.0,
+					"xp": 95.28,
+					"dev_cost": 42000.0,
+					"launch_cost": 136320.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "DEM-03",
+				"code": "DEM-03",
+				"type": "demo_sat",
+				"target": "leo",
+				"contract_id": "",
+				"week": 119,
+				"start_week": 114,
+				"weeks": 5,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 8.67398843557321,
+				"bars": [
+					10.0,
+					10.0,
+					10.0,
+					4.935871249137337
+				],
+				"pts": [
+					35.82889808,
+					16.52113584,
+					30.290611680000005,
+					14.30415488
+				],
+				"defects": 2.268206891008683,
+				"expected": 66.24,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.5609601420710846,
+				"p_payload": 0.6716602672964703,
+				"p_rocket": 0.83518434748125,
+				"p_crew": 1.0,
+				"launch_class": "light",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 9,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 9.75,
+				"science": 24.699098080799995,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "light",
+					"flights": 2
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.3283397327035297,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.05999999999999994,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": 0.04500000000000004,
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:b39ad6f1e684a23f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 8.937649083537568,
+				"grade_project": 8.67398843557321,
+				"payload": [
+					"camera",
+					"beacon",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.8525,
+					"mult": 0.9705,
+					"great": false,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 0.35,
+					"team": 0.6666666666666666,
+					"objective": 1.0,
+					"match": 0.7975494797985683
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_DATA_STUCK",
+						"args": [],
+						"tone": "bad",
+						"topic": "data"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_REL"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_CAMERA"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					}
+				],
+				"learned": [],
+				"briefing": {
+					"met": "full",
+					"reward": 168750.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 2.0,
+					"pp": 15.0,
+					"hype": 6.0,
+					"id": "first_beep"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 168750.0,
+					"reputation": 4.75,
+					"hype": 19.0125,
+					"research": 0.0,
+					"xp": 87.32393061343926,
+					"dev_cost": 42000.0,
+					"launch_cost": 130640.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "EOB-01",
+				"code": "EOB-01",
+				"type": "earth_obs",
+				"target": "sso",
+				"contract_id": "",
+				"week": 214,
+				"start_week": 208,
+				"weeks": 6,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 9.084162855302187,
+				"bars": [
+					10.0,
+					6.393642540521738,
+					10.0,
+					10.0
+				],
+				"pts": [
+					44.002345727999995,
+					19.3008084192,
+					28.648885641599996,
+					18.328296142399996
+				],
+				"defects": 2.304650269707809,
+				"expected": 69.0,
+				"compat": 1.15,
+				"novelty": true,
+				"p_success": 0.7127189324099987,
+				"p_payload": "#f64:345f3cf19bc9ed3f",
+				"p_rocket": 0.7656560124799591,
+				"p_crew": 1.0,
+				"launch_class": "light",
+				"pad": "pad",
+				"success": true,
+				"outcome": "exceptional",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_ORBITA_HIGH"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 10,
+						"quote_key": "TY_PJ_Q_FOLHA_HIGH"
+					}
+				],
+				"review_avg": 10.0,
+				"science": 28.854708586703996,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "light",
+					"flights": 3
+				},
+				"risks": [
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": 0.07959183673469386,
+						"fixed": false
+					},
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.06913950809123426,
+						"fixed": false
+					},
+					{
+						"id": "lift",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_LIFT",
+						"p": 0.06,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": 0.04500000000000004,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": "#f64:7014ae47e17aa43f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": "#f64:3585a6475fae2240",
+				"grade_project": 9.084162855302187,
+				"payload": [
+					"camera",
+					"omni",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.8627450980392156,
+					"mult": 0.9725490196078432,
+					"great": false,
+					"instrument": 0.6666666666666666,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 1.0,
+					"objective": 1.0,
+					"match": 0.8250158653056796
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_CAMERA"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_POWER_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "power"
+					},
+					{
+						"key": "TY_FB_TEAM_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "team"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_EARTH_OBS"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_EARTH_OBS",
+							"TY_TGT_SSO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_EARTH_OBS",
+							"TY_TGT_SSO"
+						]
+					}
+				],
+				"briefing": {
+
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": 5.0,
+					"hype": 20.0,
+					"research": 0.0,
+					"xp": "#f64:5fd471f9e6ab5a40",
+					"dev_cost": 57000.0,
+					"launch_cost": 124960.0,
+					"refund": 0.0
+				}
+			}
+		],
+		"mission_archive": [
+			{
+				"id": "DEM-01",
+				"code": "DEM-01",
+				"type": "demo_sat",
+				"target": "leo",
+				"project_id": "DEM-01",
+				"contract_id": "",
+				"start_week": 109,
+				"end_week": 119,
+				"status": "done",
+				"outcome": "exceptional",
+				"grade": 10.0,
+				"ops_grade": 4.539999999999999,
+				"science": 10.560000000000002,
+				"data_gen": 62.5,
+				"data_down": 10.0,
+				"data_lost": 52.5,
+				"return": 0.16,
+				"event": "storage",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 0,
+				"lesson": {
+					"key": "TY_OPS_LIM_LINK",
+					"args": [
+						84,
+						1,
+						"3.2"
+					]
+				}
+			},
+			{
+				"id": "DEM-02",
+				"code": "DEM-02",
+				"type": "demo_sat",
+				"target": "leo",
+				"project_id": "DEM-02",
+				"contract_id": "",
+				"start_week": 114,
+				"end_week": 124,
+				"status": "done",
+				"outcome": "exceptional",
+				"grade": 10.0,
+				"ops_grade": 4.539999999999999,
+				"science": 10.560000000000002,
+				"data_gen": 62.5,
+				"data_down": 10.0,
+				"data_lost": 52.5,
+				"return": 0.16,
+				"event": "storage",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 0,
+				"lesson": {
+					"key": "TY_OPS_LIM_LINK",
+					"args": [
+						84,
+						1,
+						"3.2"
+					]
+				}
+			},
+			{
+				"id": "DEM-03",
+				"code": "DEM-03",
+				"type": "demo_sat",
+				"target": "leo",
+				"project_id": "DEM-03",
+				"contract_id": "",
+				"start_week": 119,
+				"end_week": 129,
+				"status": "done",
+				"outcome": "exceptional",
+				"grade": 8.67398843557321,
+				"ops_grade": 4.8,
+				"science": 10.560000000000002,
+				"data_gen": 50.0,
+				"data_down": 10.0,
+				"data_lost": 40.0,
+				"return": 0.2,
+				"event": "wheel",
+				"choice": 0,
+				"cause": "",
+				"antenna_level": 0,
+				"lesson": {
+					"key": "TY_OPS_LIM_LINK",
+					"args": [
+						80,
+						1,
+						"3.2"
+					]
+				}
+			},
+			{
+				"id": "EOB-01",
+				"code": "EOB-01",
+				"type": "earth_obs",
+				"target": "sso",
+				"project_id": "EOB-01",
+				"contract_id": "",
+				"start_week": 214,
+				"end_week": 230,
+				"status": "done",
+				"outcome": "exceptional",
+				"grade": 9.084162855302187,
+				"ops_grade": 8.61457142857143,
+				"science": 101.34719999999996,
+				"data_gen": 124.4444444444444,
+				"data_down": 97.92000000000002,
+				"data_lost": "#f64:2675b9fd41863a40",
+				"return": 0.7868571428571433,
+				"event": "storage",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 1,
+				"lesson": {
+					"key": "TY_OPS_LIM_LINK",
+					"args": [
+						21,
+						2,
+						"4.4"
+					]
+				}
+			}
+		],
+		"research": {
+			"active": "",
+			"queue": [],
+			"progress": {
+				"small_sat_bus": 80.0,
+				"orbital_rocketry": 90.0,
+				"basic_instruments": 80.0,
+				"multispectral_imaging": 200.0,
+				"sun_sync_orbits": 180.0,
+				"radio_tracking": 70.0,
+				"high_gain_antenna": 200.0,
+				"upper_stage": 220.0,
+				"cometling_selection": 90.0,
+				"space_physics": 190.0,
+				"lab_methods": 70.0
+			},
+			"pp_week": 8.990559999999999,
+			"licensed": {
+
+			},
+			"study": {
+				"active": "",
+				"progress": {
+
+				}
+			}
+		},
+		"contract_board": {
+			"seq": 274,
+			"month": 60
+		},
+		"finance": {
+			"open": {
+				"key": 60,
+				"y": 6,
+				"m": 1,
+				"cash_start": -572261.2239275072,
+				"cash_end": -572261.2239275072,
+				"in": {
+					"donations": 20361.944195444208,
+					"grant": 1192950.0
+				},
+				"out": {
+
+				}
+			},
+			"ledger": [
+				{
+					"key": 36,
+					"y": 4,
+					"m": 1,
+					"cash_start": 67422.17104788001,
+					"cash_end": 321931.41339406266,
+					"in": {
+						"donations": 30409.2423461826,
+						"grant": 508200.00000000006
+					},
+					"out": {
+						"salaries": 55100.0,
+						"upkeep": 4000.0,
+						"projects": "#f64:0200000040770b41"
+					}
+				},
+				{
+					"key": 37,
+					"y": 4,
+					"m": 2,
+					"cash_start": 321931.41339406266,
+					"cash_end": 290728.3784698598,
+					"in": {
+						"donations": 29496.965075797125
+					},
+					"out": {
+						"salaries": 55100.0,
+						"upkeep": 5600.0
+					}
+				},
+				{
+					"key": 38,
+					"y": 4,
+					"m": 3,
+					"cash_start": 290728.3784698598,
+					"cash_end": 232240.434593383,
+					"in": {
+						"donations": 28612.056123523213
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0,
+						"projects": 16000.0
+					}
+				},
+				{
+					"key": 39,
+					"y": 4,
+					"m": 4,
+					"cash_start": 232240.434593383,
+					"cash_end": 188894.1290332005,
+					"in": {
+						"donations": 27753.694439817515
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 40,
+					"y": 4,
+					"m": 5,
+					"cash_start": 188894.1290332005,
+					"cash_end": 144715.2126398235,
+					"in": {
+						"donations": 26921.08360662299
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 41,
+					"y": 4,
+					"m": 6,
+					"cash_start": 144715.2126398235,
+					"cash_end": 99728.6637382478,
+					"in": {
+						"donations": 26113.4510984243
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 42,
+					"y": 4,
+					"m": 7,
+					"cash_start": 99728.6637382478,
+					"cash_end": 53958.71130371936,
+					"in": {
+						"donations": 25330.04756547157
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 43,
+					"y": 4,
+					"m": 8,
+					"cash_start": 53958.71130371936,
+					"cash_end": 7428.857442226785,
+					"in": {
+						"donations": "#f64:8353555a89fed740"
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 44,
+					"y": 4,
+					"m": 9,
+					"cash_start": 7428.857442226785,
+					"cash_end": -39838.10080342102,
+					"in": {
+						"donations": "#f64:4a721aac4246d740"
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 45,
+					"y": 4,
+					"m": 10,
+					"cash_start": -39838.10080342102,
+					"cash_end": -87820.05030169939,
+					"in": {
+						"donations": 23118.05050172163
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 46,
+					"y": 4,
+					"m": 11,
+					"cash_start": -87820.05030169939,
+					"cash_end": -136495.5413150294,
+					"in": {
+						"donations": "#f64:6bd33c9320e6d540"
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 47,
+					"y": 4,
+					"m": 12,
+					"cash_start": -136495.5413150294,
+					"cash_end": -185843.76759795952,
+					"in": {
+						"donations": "#f64:e0999484f13dd540"
+					},
+					"out": {
+						"salaries": 63100.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 48,
+					"y": 5,
+					"m": 1,
+					"cash_start": -185843.76759795952,
+					"cash_end": "#f64:d8048e9fdb3c0841",
+					"in": {
+						"donations": 21099.220505557787,
+						"grant": 508200.00000000006
+					},
+					"out": {
+						"salaries": 70700.0,
+						"upkeep": 8000.0,
+						"projects": 66200.0
+					}
+				},
+				{
+					"key": 49,
+					"y": 5,
+					"m": 2,
+					"cash_start": "#f64:d8048e9fdb3c0841",
+					"cash_end": 6061.696797989396,
+					"in": {
+						"donations": 20466.24389039105
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0,
+						"projects": 130960.0
+					}
+				},
+				{
+					"key": 50,
+					"y": 5,
+					"m": 3,
+					"cash_start": 6061.696797989396,
+					"cash_end": -48326.046628331285,
+					"in": {
+						"donations": "#f64:6d02b46b10f7da40"
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 51,
+					"y": 5,
+					"m": 4,
+					"cash_start": -48326.046628331285,
+					"cash_end": -103542.15775186234,
+					"in": {
+						"donations": 26783.88887646894
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 52,
+					"y": 5,
+					"m": 5,
+					"cash_start": -103542.15775186234,
+					"cash_end": -159561.78554168745,
+					"in": {
+						"donations": 25980.372210174868
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 53,
+					"y": 5,
+					"m": 6,
+					"cash_start": -159561.78554168745,
+					"cash_end": -216360.82449781784,
+					"in": {
+						"donations": 25200.96104386962
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 54,
+					"y": 5,
+					"m": 7,
+					"cash_start": -216360.82449781784,
+					"cash_end": -273915.89228526433,
+					"in": {
+						"donations": 24444.932212553533
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 55,
+					"y": 5,
+					"m": 8,
+					"cash_start": -273915.89228526433,
+					"cash_end": -332204.3080390874,
+					"in": {
+						"donations": 23711.584246176928
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 56,
+					"y": 5,
+					"m": 9,
+					"cash_start": -332204.3080390874,
+					"cash_end": -391204.0713202958,
+					"in": {
+						"donations": 23000.236718791617
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 57,
+					"y": 5,
+					"m": 10,
+					"cash_start": -391204.0713202958,
+					"cash_end": -450893.84170306794,
+					"in": {
+						"donations": 22310.22961722787
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 58,
+					"y": 5,
+					"m": 11,
+					"cash_start": -450893.84170306794,
+					"cash_end": -511252.9189743569,
+					"in": {
+						"donations": 21640.922728711033
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				},
+				{
+					"key": 59,
+					"y": 5,
+					"m": 12,
+					"cash_start": -511252.9189743569,
+					"cash_end": -572261.2239275072,
+					"in": {
+						"donations": 20991.6950468497
+					},
+					"out": {
+						"salaries": 74000.0,
+						"upkeep": 8000.0
+					}
+				}
+			],
+			"neg_months": 10,
+			"intervention": true,
+			"loan": {
+
+			}
+		},
+		"race": {
+			"rng_seed": "16148623",
+			"rng_state": "-5759725010054764219",
+			"claims": {
+				"suborbital": [
+					{
+						"by": "player",
+						"week": 3
+					},
+					{
+						"by": "nimbo",
+						"week": 13
+					},
+					{
+						"by": "aurora",
+						"week": 74
+					},
+					{
+						"by": "quietude",
+						"week": 139
+					}
+				],
+				"first_satellite": [
+					{
+						"by": "player",
+						"week": 109
+					},
+					{
+						"by": "nimbo",
+						"week": 152
+					},
+					{
+						"by": "quietude",
+						"week": 165
+					}
+				],
+				"long_signal": [
+					{
+						"by": "quietude",
+						"week": 234
+					}
+				],
+				"cometling_space": [],
+				"cometling_orbit": [],
+				"probe_moon": [],
+				"far_side": [],
+				"robotic_landing": [],
+				"polar_ice": [],
+				"crewed_flyby": [],
+				"crewed_landing": [],
+				"base_module": [],
+				"lunar_propellant": [],
+				"launch_base": [],
+				"comet_rendezvous": []
+			},
+			"ai": {
+				"aurora": {
+					"next": 1,
+					"cooldown": 0,
+					"fails": 2,
+					"dropped": []
+				},
+				"nimbo": {
+					"next": 2,
+					"cooldown": 0,
+					"fails": 0,
+					"dropped": []
+				},
+				"quietude": {
+					"next": 3,
+					"cooldown": 0,
+					"fails": 0,
+					"dropped": []
+				}
+			},
+			"science_total": 160.94279674526513,
+			"rep_samples": [
+				33.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				38.5,
+				52.75,
+				52.75,
+				58.75,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				65.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5,
+				70.5
+			],
+			"pages": [
+				{
+					"kind": "first",
+					"milestone": "first_satellite",
+					"by": "player",
+					"week": 109,
+					"issue": 3
+				},
+				{
+					"kind": "fail",
+					"milestone": "first_satellite",
+					"by": "aurora",
+					"months": 4,
+					"week": 100,
+					"issue": 2
+				},
+				{
+					"kind": "first",
+					"milestone": "suborbital",
+					"by": "player",
+					"week": 3,
+					"issue": 1
+				}
+			],
+			"pending_pages": [],
+			"finished": false,
+			"last_fail_page": 100
+		},
+		"leader": {
+			"name": "Cocada",
+			"profession": "systems_engineer",
+			"body": "#bfe9ff",
+			"spot": "#f59a36",
+			"hat": "role",
+			"strength": "curiosity",
+			"quirk": "dreamer",
+			"agency_name": "Cometworks",
+			"agency_color": "#ff8a3d",
+			"emblem": "comet",
+			"seed": 65039
+		},
+		"rockets": {
+			"families": [
+				{
+					"id": "fam1",
+					"name": "Andorinha",
+					"parts": {
+						"core": "core_kestrel",
+						"upper": "upper_none",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_none",
+						"avionics": "avionics_basic",
+						"recovery": "recovery_none"
+					},
+					"flights": 4,
+					"successes": 4,
+					"failures": 0,
+					"trust": "#f64:5d8fc2f5285cef3f",
+					"created_week": 0,
+					"last_week": 108
+				},
+				{
+					"id": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"flights": 4,
+					"successes": 4,
+					"failures": 0,
+					"trust": "#f64:5d8fc2f5285cef3f",
+					"created_week": 104,
+					"last_week": 214
+				}
+			],
+			"next": 3
+		},
+		"story": {
+			"opening": true
+		},
+		"discovery": {
+			"attempts": {
+				"sounding": 4,
+				"demo_sat": 3,
+				"earth_obs": 1
+			},
+			"combos": {
+				"sounding|suborbital": {
+					"n": 4,
+					"best": 9.565876412389914,
+					"tier": "great",
+					"great": true
+				},
+				"demo_sat|leo": {
+					"n": 3,
+					"best": 10.0,
+					"tier": "great",
+					"great": true
+				},
+				"earth_obs|sso": {
+					"n": 1,
+					"best": 9.084162855302187,
+					"tier": "great",
+					"great": false
+				}
+			},
+			"instr": {
+				"sounding|suborbital": {
+					"sensor_pack": "great",
+					"camera": "great",
+					"magnetometer": "great"
+				},
+				"demo_sat|leo": {
+					"camera": "great"
+				},
+				"earth_obs|sso": {
+					"camera": "great"
+				}
+			},
+			"env": {
+				"suborbital": true,
+				"leo": true,
+				"sso": true
+			},
+			"teams": {
+				"sounding": {
+					"grade": 9.565876412389914,
+					"profs": {
+						"systems_engineer": 2,
+						"pilot": 1,
+						"scientist": 1
+					},
+					"target": "suborbital"
+				},
+				"demo_sat": {
+					"grade": 10.0,
+					"profs": {
+						"systems_engineer": 2,
+						"pilot": 1,
+						"scientist": 1
+					},
+					"target": "leo"
+				},
+				"earth_obs": {
+					"grade": 9.084162855302187,
+					"profs": {
+						"systems_engineer": 2,
+						"pilot": 1,
+						"scientist": 1
+					},
+					"target": "sso"
+				}
+			},
+			"taken": {
+
+			},
+			"done": {
+				"first_hop": 6.668056701152962,
+				"edge_photo": 8.519885644265015,
+				"aurora_dance": 6.6716373602012915,
+				"earth_portrait": 10.0,
+				"first_beep": 8.67398843557321
+			},
+			"notes": [
+				{
+					"week": 214,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_EARTH_OBS",
+						"TY_TGT_SSO"
+					]
+				},
+				{
+					"week": 214,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_EARTH_OBS",
+						"TY_TGT_SSO"
+					]
+				},
+				{
+					"week": 214,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_EARTH_OBS"
+					]
+				},
+				{
+					"week": 114,
+					"key": "TY_JN_NOTE_RATIO",
+					"args": [
+						"TY_MT_DEMO_SAT"
+					]
+				},
+				{
+					"week": 109,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_DEMO_SAT",
+						"TY_TGT_LEO"
+					]
+				},
+				{
+					"week": 109,
+					"key": "TY_JN_NOTE_GREAT",
+					"args": [
+						"TY_MT_DEMO_SAT",
+						"TY_TGT_LEO"
+					]
+				},
+				{
+					"week": 109,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_DEMO_SAT",
+						"TY_TGT_LEO"
+					]
+				},
+				{
+					"week": 109,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_DEMO_SAT"
+					]
+				},
+				{
+					"week": 108,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_MAGNETOMETER",
+						"TY_MT_SOUNDING",
+						"TY_TGT_SUBORBITAL"
+					]
+				},
+				{
+					"week": 6,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_SOUNDING",
+						"TY_TGT_SUBORBITAL"
+					]
+				},
+				{
+					"week": 4,
+					"key": "TY_JN_NOTE_RATIO",
+					"args": [
+						"TY_MT_SOUNDING"
+					]
+				},
+				{
+					"week": 3,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_SENSOR_PACK",
+						"TY_MT_SOUNDING",
+						"TY_TGT_SUBORBITAL"
+					]
+				},
+				{
+					"week": 3,
+					"key": "TY_JN_NOTE_GREAT",
+					"args": [
+						"TY_MT_SOUNDING",
+						"TY_TGT_SUBORBITAL"
+					]
+				},
+				{
+					"week": 3,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_SOUNDING",
+						"TY_TGT_SUBORBITAL"
+					]
+				},
+				{
+					"week": 3,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_SOUNDING"
+					]
+				}
+			],
+			"board": [
+				{
+					"id": "tv_everywhere",
+					"offered_week": 260,
+					"expires_week": 281,
+					"reward": 455000.0,
+					"budget": 880000.0,
+					"deadline": 34,
+					"client": ""
+				},
+				{
+					"id": "wildfire_watch",
+					"offered_week": 260,
+					"expires_week": 286,
+					"reward": 380000.0,
+					"budget": 335000.0,
+					"deadline": 34,
+					"client": ""
+				},
+				{
+					"id": "radiation_belts",
+					"offered_week": 260,
+					"expires_week": 283,
+					"reward": 240000.0,
+					"budget": 305000.0,
+					"deadline": 32,
+					"client": ""
+				}
+			],
+			"all": false,
+			"study": {
+
+			}
+		},
+		"tracking": {
+			"missions": [
+				{
+					"id": "p:SND-01",
+					"owner": "player",
+					"code": "SND-01",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "exceptional",
+					"launch_t": 1814400.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 1814400.0,
+							"t1": "#f64:2ee1feb0c5b03b41",
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": "#f64:2ee1feb0c5b03b41",
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"project_id": "SND-01"
+				},
+				{
+					"id": "p:SND-02",
+					"owner": "player",
+					"code": "SND-02",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "full",
+					"launch_t": 2419200.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 2419200.0,
+							"t1": 2419525.691389154,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 2419525.691389154,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"project_id": "SND-02"
+				},
+				{
+					"id": "p:SND-03",
+					"owner": "player",
+					"code": "SND-03",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "exceptional",
+					"launch_t": 3628800.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 3628800.0,
+							"t1": 3629125.691389154,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 3629125.691389154,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"project_id": "SND-03"
+				},
+				{
+					"id": "r:nimbo:suborbital",
+					"owner": "nimbo",
+					"code": "CON-01",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "full",
+					"launch_t": 7862400.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 7862400.0,
+							"t1": 7862725.691389155,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 7862725.691389155,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"milestone": "suborbital"
+				},
+				{
+					"id": "rf:aurora:suborbital:52",
+					"owner": "aurora",
+					"code": "AUR-01",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "fail",
+					"launch_t": 31449600.0,
+					"lost_t": 31449669.324800257,
+					"status": "lost",
+					"legs": [
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 31449600.0,
+							"t1": -1.0,
+							"r": [
+								1860.179443359375,
+								6370999.5,
+								"#f64:000000c0b7108dc0"
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "flight"
+						}
+					],
+					"milestone": "suborbital"
+				},
+				{
+					"id": "r:aurora:suborbital",
+					"owner": "aurora",
+					"code": "AUR-01",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "full",
+					"launch_t": 44755200.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 44755200.0,
+							"t1": 44755525.69138916,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 44755525.69138916,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"milestone": "suborbital"
+				},
+				{
+					"id": "rf:aurora:first_satellite:100",
+					"owner": "aurora",
+					"code": "AUR-02",
+					"type": "orbiter",
+					"target": "leo",
+					"outcome": "fail",
+					"launch_t": 60480000.0,
+					"lost_t": 60480145.25768227,
+					"status": "lost",
+					"legs": [
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 60480000.0,
+							"t1": -1.0,
+							"r": [
+								3897.6708984375,
+								6370998.0,
+								-1948.83544921875
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "flight"
+						}
+					],
+					"milestone": "first_satellite"
+				},
+				{
+					"id": "p:SND-04",
+					"owner": "player",
+					"code": "SND-04",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "full",
+					"launch_t": 65318400.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 65318400.0,
+							"t1": 65318725.69138916,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 65318725.69138916,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"project_id": "SND-04"
+				},
+				{
+					"id": "p:DEM-01",
+					"owner": "player",
+					"code": "DEM-01",
+					"type": "demo_sat",
+					"target": "leo",
+					"outcome": "exceptional",
+					"launch_t": 65923200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 65923200.0,
+							"t1": -1.0,
+							"r": [
+								-1780747.206063418,
+								6470660.61856119,
+								882727.2238844845
+							],
+							"v": [
+								6572.29758123331,
+								2253.1641858682115,
+								"#f64:a3579826db73a9c0"
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "DEM-01"
+				},
+				{
+					"id": "p:DEM-02",
+					"owner": "player",
+					"code": "DEM-02",
+					"type": "demo_sat",
+					"target": "leo",
+					"outcome": "exceptional",
+					"launch_t": 68947200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 68947200.0,
+							"t1": -1.0,
+							"r": [
+								-1775337.3109221875,
+								6473863.197718063,
+								890156.6709866757
+							],
+							"v": [
+								6556.815620948176,
+								2250.1299050682255,
+								-3287.5963766595555
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "DEM-02"
+				},
+				{
+					"id": "p:DEM-03",
+					"owner": "player",
+					"code": "DEM-03",
+					"type": "demo_sat",
+					"target": "leo",
+					"outcome": "exceptional",
+					"launch_t": 71971200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 71971200.0,
+							"t1": -1.0,
+							"r": [
+								"#f64:c866fe92a9013bc1",
+								6477064.373364368,
+								897555.1217379973
+							],
+							"v": [
+								6541.1997332923875,
+								2247.10008297565,
+								-3317.1909057087537
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "DEM-03"
+				},
+				{
+					"id": "r:quietude:suborbital",
+					"owner": "quietude",
+					"code": "INS-01",
+					"type": "sounding",
+					"target": "suborbital",
+					"outcome": "full",
+					"launch_t": 84067200.0,
+					"lost_t": -1.0,
+					"status": "arrived",
+					"legs": [
+						{
+							"kind": "ballistic",
+							"body": "earth",
+							"t0": 84067200.0,
+							"t1": 84067525.69138916,
+							"r": [
+								0.0,
+								6373000.0,
+								0.0
+							],
+							"v": [
+								196.77398681640625,
+								1550.0,
+								-98.38699340820313
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "fixed",
+							"body": "earth",
+							"t0": 84067525.69138916,
+							"t1": -1.0,
+							"r": [
+								62435.10546875,
+								6370617.5,
+								-31217.552734375
+							],
+							"v": [
+								0.0,
+								0.0,
+								0.0
+							],
+							"status": "arrived"
+						}
+					],
+					"milestone": "suborbital"
+				},
+				{
+					"id": "r:nimbo:first_satellite",
+					"owner": "nimbo",
+					"code": "CON-02",
+					"type": "orbiter",
+					"target": "leo",
+					"outcome": "full",
+					"launch_t": 91929600.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 91929600.0,
+							"t1": -1.0,
+							"r": [
+								1945634.8053419113,
+								6494825.565723536,
+								345095.6663955065
+							],
+							"v": [
+								-7218.117842457834,
+								2230.334576835802,
+								-1280.2716757422766
+							],
+							"status": "orbit"
+						}
+					],
+					"milestone": "first_satellite"
+				},
+				{
+					"id": "r:quietude:first_satellite",
+					"owner": "quietude",
+					"code": "INS-02",
+					"type": "orbiter",
+					"target": "leo",
+					"outcome": "full",
+					"launch_t": 99792000.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 99792000.0,
+							"t1": -1.0,
+							"r": [
+								901330.036008038,
+								6449215.331863255,
+								1782859.015552889
+							],
+							"v": [
+								-3311.4254309615035,
+								2273.5475687947073,
+								-6550.103051363445
+							],
+							"status": "orbit"
+						}
+					],
+					"milestone": "first_satellite"
+				},
+				{
+					"id": "p:EOB-01",
+					"owner": "player",
+					"code": "EOB-01",
+					"type": "earth_obs",
+					"target": "sso",
+					"outcome": "exceptional",
+					"launch_t": 129427200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 129427200.0,
+							"t1": -1.0,
+							"r": [
+								-819526.491147174,
+								6793366.99475751,
+								-1639052.982294348
+							],
+							"v": [
+								3249.845983418629,
+								1960.245785130797,
+								6499.691966837258
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "EOB-01"
+				},
+				{
+					"id": "r:quietude:long_signal",
+					"owner": "quietude",
+					"code": "INS-03",
+					"type": "comms",
+					"target": "geo",
+					"outcome": "full",
+					"launch_t": 141523200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 141523200.0,
+							"t1": 141525860.4021599,
+							"r": [
+								1012334.2921896236,
+								6225137.08716423,
+								1844150.9182706233
+							],
+							"v": [
+								"#f64:c0459bf037bdabc0",
+								2493.522188300464,
+								-6468.080583664456
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 141525860.4021599,
+							"t1": 141544784.007312,
+							"r": [
+								-977115.75,
+								-6249393.5,
+								-1779993.875
+							],
+							"v": [
+								4688.69873046875,
+								-3165.890625,
+								8541.3173828125
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 141544784.007312,
+							"t1": -1.0,
+							"r": [
+								6268814.0,
+								40093708.0,
+								11419784.0
+							],
+							"v": [
+								-1407.2530517578125,
+								950.2091674804688,
+								-2563.567138671875
+							],
+							"status": "orbit"
+						}
+					],
+					"milestone": "long_signal"
+				}
+			]
+		},
+		"tutorials": {
+
+		}
+	}
+}

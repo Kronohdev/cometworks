@@ -6,8 +6,9 @@ extends Control
 ##              one row per agency with what it took when, a plain-words legend, the milestone
 ##              under the cursor in one line and the agencies as tiles
 ##   Milestone  one milestone: era, reward, how to get it, when rivals are expected, who took it
-##   Agency     one agency: personality, strength / weakness, what it chases now, its motto and
-##              setbacks, and the milestones it took
+##   Agency     one agency: its leader (a Lenda, TycoonLegends: portrait, name, way, a line and
+##              a key to its "Quem inspirou" card), personality, strength / weakness, what it
+##              chases now, its motto and setbacks, and the milestones it took
 ## Click a station (or the line's key) for its milestone, a lane head or a tile for its agency.
 ## All the look is in the scene; this script fills data, places the station / lane templates
 ## on the track (CwRaceTrack.station_pos) and follows the hover.
@@ -28,6 +29,11 @@ func _ready() -> void:
 	%PeekOpen.pressed.connect(open_detail)
 	track.resized.connect(refresh)
 	pages.page_changed.connect(func(_p: StringName, _d: int) -> void: refresh())
+	%Studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_faces())
+	%LeaderWho.pressed.connect(func() -> void:
+		var lid := TycoonLegends.rival_leader_id(agency)
+		if hud and lid != "":
+			hud.open_screen("book", {"legend": lid}))
 
 
 ## The selected milestone's page (the line's key, tests, dev menu).
@@ -216,6 +222,16 @@ func _fill_agencies() -> void:
 		nl.text = _agency_label(id)
 		nl.add_theme_color_override("font_color", CwPalette.ink(col))
 		(box.get_node("Count") as Label).text = "%d/%d · %d★" % [r.claims_of(id).size(), r.milestones.size(), r.firsts_of(id)]
+		# the face on the tile: a rival's leader Lenda, the player's own leader Cometling
+		var lead := r.leader_of(id)
+		var look: Dictionary = TycoonLeader.member(state) if id == RaceDirector.PLAYER else {}
+		if not lead.is_empty():
+			look = TycoonLegends.look(String(lead["id"]))
+		b.set_meta("look", look)
+		(box.get_node("Head/Face") as Control).visible = not look.is_empty()
+		(box.get_node("Head/Marker") as Control).visible = look.is_empty()
+		var ll := box.get_node("Leader") as Label
+		ll.text = String(look.get("name", "")) if not look.is_empty() else tr("TY_RACE_YOU")
 		var next := r.next_of(id)
 		(box.get_node("Now") as Label).text = "%s %s" % [tr("TY_RACE_NOW"), tr(String(r.milestones[next].get("short_key", ""))) \
 			if next < r.milestones.size() else tr("TY_RACE_ALL_DONE")]
@@ -223,6 +239,26 @@ func _fill_agencies() -> void:
 		if not b.has_meta("wired"):
 			b.set_meta("wired", true)
 			b.pressed.connect(func() -> void: open_agency(String(b.get_meta("agency"))))
+	_fill_faces()
+
+
+## The leaders' portraits from the scene's studio (tiles and the agency page).
+func _fill_faces() -> void:
+	if state == null:
+		return
+	for b in %AgencyTemplate.get_parent().get_children():
+		var look: Dictionary = b.get_meta("look", {}) if b.has_meta("from_template") else {}
+		if not look.is_empty():
+			_face(b.get_node("Box/Head/Face"), look)
+	var lid := TycoonLegends.rival_leader_id(agency)
+	if lid != "":
+		_face(%LeaderFace, TycoonLegends.look(lid))
+
+
+func _face(f: Node, look: Dictionary) -> void:
+	var tex := %Studio.portrait(look, CwPalette.BUTTER) as Texture2D
+	(f.get_node("Portrait") as TextureRect).texture = tex
+	(f.get_node("Fallback") as Control).visible = tex == null
 
 
 # ------------------------------------------------------------ lanes
@@ -331,6 +367,14 @@ func _fill_agency(id: String) -> void:
 	name_l.add_theme_color_override("font_color", CwPalette.ink(col))
 	(v.get_node("Head/Initials") as Label).text = _agency_initials(id)
 	(v.get_node("Pers") as Label).text = tr("TY_RACE_YOU") if you else tr(String(p.get("personality_key", "")))
+	var lead := r.leader_of(id)
+	%LeaderBox.visible = not lead.is_empty()
+	if not lead.is_empty():
+		var lid := String(lead["id"])
+		%LeaderName.text = TycoonLegends.name_text(lid)
+		%LeaderWay.text = tr(TycoonLegends.key(lid, "WAY"))
+		%LeaderQuote.text = tr(TycoonLegends.key(lid, "FIRST"))
+		_face(%LeaderFace, TycoonLegends.look(lid))
 	(v.get_node("Grid") as Control).visible = not you
 	(v.get_node("Foot") as Control).visible = not you
 	(v.get_node("Grid/Str") as Label).text = tr(String(p.get("strength_key", "")))

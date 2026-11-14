@@ -551,7 +551,7 @@ custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-text = "Contratos"
+text = "TY_FN_C_CONTRACTS"
 clip_text = true
 text_overrun_behavior = 3
 
@@ -619,7 +619,7 @@ custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-text = "Salários"
+text = "TY_FN_C_SALARIES"
 clip_text = true
 text_overrun_behavior = 3
 

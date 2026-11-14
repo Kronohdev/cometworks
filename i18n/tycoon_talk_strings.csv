@@ -1,0 +1,272 @@
+keys,en,pt
+TY_DLG_TALK,Talk,Conversar
+TY_DLG_TALK_TIP,Have a chat with this Cometling (C),Bater um papo com este Cometinho (C)
+TY_DLG_TAG_LEADER,Agency leader,Líder da agência
+TY_DLG_TAG_GRANDPA,Astronomer of the hill,Astrônomo do morro
+TY_DLG_MORALE,Morale %d,Moral %d
+TY_DLG_NOTE_MORALE,The chat cheered {name} up: +{n} morale.,A conversa animou {name}: +{n} de moral.
+TY_DLG_NOTE_AGAIN,{name} enjoyed chatting again (morale only goes up once a week).,{name} gostou de conversar de novo (a moral só sobe uma vez por semana).
+TY_DLG_NOTE_HINT,Tip written down in the Journal.,Palpite anotado no Caderno.
+TY_DLG_LEFT_LT1,less than a year,menos de um ano
+TY_DLG_LEFT_ONE,a year,um ano
+TY_DLG_LEFT_MANY,{n} years,{n} anos
+TY_CHAT_SET_BUBBLES,Speech bubbles,Balões de fala
+TY_CHAT_SET_RATE,How chatty,Frequência
+TY_CHAT_RATE_FEW,Few,Poucos
+TY_CHAT_RATE_NORMAL,Normal,Normal
+TY_CHAT_RATE_MANY,Lots,Muitos
+TY_DLG_ASK_FEEL,How are you doing?,Como você tá?
+TY_DLG_ASK_WORK,What are you working on?,No que você tá trabalhando?
+TY_DLG_ASK_HINT,Any tips for the mission?,Algum palpite pra missão?
+TY_DLG_ASK_COMET,Tell me about the Mother-Ice?,Me conta da Mãe-Gelo?
+TY_DLG_ASK_MORE,Tell me more!,Conta mais!
+TY_DLG_ASK_WHO,Who inspired you?,Quem inspirou você?
+TY_DLG_ASK_WAY,What are you like to work with?,Como é trabalhar com você?
+TY_DLG_BACK,Something else...,Outra coisa...
+TY_DLG_BYE,Bye! Keep it up.,Tchau! Bom trabalho.
+TY_DLG_SELF_ASK_PEP,Take a deep breath.,Respira fundo.
+TY_DLG_SELF_ASK_PLAN,What's the plan again?,Qual é o plano mesmo?
+TY_DLG_SELF_ASK_TEAM,How's the team?,"E a equipe, como vai?"
+TY_DLG_SELF_BYE,Back to work.,De volta ao trabalho.
+TY_DLG_H_ASK_MATH,How did you work out the 25 years?,Como o senhor fez a conta dos 25 anos?
+TY_DLG_H_ASK_SKY,What are you looking at?,O que o senhor tá olhando?
+TY_DLG_H_ASK_HALLEY,Who was Halley?,Quem foi Halley?
+TY_DLG_H_ASK_LESSON,Explain the campus to me again?,Me explica o campus de novo?
+TY_DLG_H_BYE,"See you, Grandpa!","Até mais, Vovô!"
+TY_DLG_HI_1,"Hi, boss! Need me?","Oi, chefe! Precisa de mim?"
+TY_DLG_HI_2,Oh! I was just thinking about rockets. Go ahead!,Opa! Tava pensando em foguete. Fala!
+TY_DLG_HI_3,Boss! Nice to see you around here.,Chefe! Que bom te ver por aqui.
+TY_DLG_HI_HAPPY,Boss! My antenna's buzzing today!,Chefe! Hoje minha antena tá a mil!
+TY_DLG_HI_LOW,"Oh... hi, boss. You okay? Me, so-so.","Ah... oi, chefe. Tudo bem? Comigo, mais ou menos."
+TY_DLG_HI_NAP,Huh? Me? Asleep? Never. Just resting my eyes.,Hã? Eu? Dormindo? Imagina. Só descansando os olhos.
+TY_DLG_HI_NEW,"Hi! I'm {name}, brand new to the gang!","Oi! Sou {name}, chegando agora na turma!"
+TY_DLG_HI_FAIL,Boss... did you see the launch? We'll do better next time.,Chefe... você viu o lançamento? A gente vai melhorar.
+TY_DLG_HI_OK,Boss!! Did you see that?! What a launch!,Chefe!! Você viu?! Subiu lindo!
+TY_DLG_HI_NIGHT,"Still up, boss? The sky is lovely tonight.","Acordado a essa hora, chefe? O céu tá lindo hoje."
+TY_DLG_AGAIN_1,"So, anything else?","E aí, mais alguma coisa?"
+TY_DLG_AGAIN_2,"I'm all ears. Literally, look at them.","Sou todo orelhas. Literalmente, olha só."
+TY_DLG_FEEL_HAPPY_1,Really good! Antenna lit and everything.,Tô muito bem! Com a antena acesa e tudo.
+TY_DLG_FEEL_HAPPY_2,Happy! This place is turning into home. Almost as cosy as her tail.,Feliz! Esse lugar tá virando casa. Quase tão aconchegante quanto a cauda dela.
+TY_DLG_FEEL_OK_1,"Fine, you know? One day at a time, one bolt at a time.","Bem, sabe? Um dia de cada vez, um parafuso de cada vez."
+TY_DLG_FEEL_OK_2,Alright. Though a compliment now and then wouldn't hurt.,Tranquilo. Mas um elogio de vez em quando não faz mal.
+TY_DLG_FEEL_LOW_1,Honestly? My battery's low. But thanks for asking.,Sinceramente? Tô sem bateria. Mas valeu por perguntar.
+TY_DLG_FEEL_LOW_2,"A bit down. Some time off projects would help, I think.",Meio pra baixo. Acho que um tempinho longe dos projetos ajudaria.
+TY_DLG_FEEL_TIRED,I haven't stopped in weeks. My antenna blinks on its own now.,Faz semanas que eu não paro. Minha antena já pisca sozinha.
+TY_DLG_FEEL_BROKE,I keep an eye on the safe. Late pay hurts the antenna.,Tô de olho no cofre. Salário atrasado dói na antena.
+TY_DLG_FEEL_NAP,I was napping. Now I'm a little better. A little.,Eu tava cochilando. Agora tô um pouquinho melhor. Pouquinho.
+TY_DLG_FEEL_FAIL,Still thinking about the launch. But every failure teaches something.,Ainda pensando no lançamento. Mas toda falha ensina alguma coisa.
+TY_DLG_FEEL_OK_LAUNCH,"Over the Moon! Well, not yet. But soon.","Nas nuvens! Bom, ainda não na Lua. Mas logo."
+TY_DLG_WORK_PROJECT_1,"I'm on project {project}. Every week, one bit closer to the sky.","Tô no projeto {project}. Cada semana, um pedacinho mais perto do céu."
+TY_DLG_WORK_PROJECT_2,"On {project}! If you need me, I'm there with my antenna sweating.","No {project}! Se precisar de mim, tô lá suando a antena."
+TY_DLG_WORK_IDLE,Nothing right now! Put me on a project. I promise not to press the wrong button.,"Agora nada! Me põe num projeto, vai. Prometo não apertar botão errado."
+TY_DLG_WORK_REST,"Resting between projects. It's good for morale, you know?","Descansando entre projetos. Faz bem pra moral, sabia?"
+TY_DLG_WORK_TRAINING,Training for my specialisation. I'll come back shining!,Treinando pra especialização. Vou voltar tinindo!
+TY_DLG_WORK_ADAPTING,Still settling in. A few more days and I'll find my rhythm.,Ainda me ajeitando por aqui. Mais uns dias e eu entro no ritmo.
+TY_DLG_WORK_NAP,Working? Now? I was... reviewing my dreams.,Trabalhando? Agora? Eu tava... revisando os sonhos.
+TY_DLG_WORK_LAB,"I'm in the lab, turning curiosity into research points.","Tô no laboratório, transformando curiosidade em pontos de pesquisa."
+TY_DLG_WORK_PAD,Looking after the pad. She likes a bit of care before every launch.,Cuidando da plataforma. Ela gosta de um carinho antes de cada lançamento.
+TY_DLG_WORK_PILOT,Practising waves and landings. In that order.,Treinando aceno e pouso. Nessa ordem.
+TY_DLG_WORK_SYSTEMS,Getting the parts to talk to each other. They argue sometimes.,Fazendo as peças conversarem entre si. Às vezes elas brigam.
+TY_DLG_WORK_PROPULSION,Tuning engines. The secret is listening to the roar.,Afinando motor. O segredo é ouvir o ronco.
+TY_DLG_WORK_SCIENTIST,Picking instruments. Each one sees the sky its own way.,Escolhendo instrumentos. Cada um enxerga o céu de um jeito.
+TY_DLG_WORK_RESEARCHER,"Reading, thinking, scribbling. That's research, plus coffee.","Lendo, pensando, rabiscando. Pesquisa é isso, com mais café."
+TY_DLG_WORK_CONTROLLER,Rehearsing what to do if it goes wrong. So we never need to.,Ensaiando o que fazer se der errado. Pra nunca precisar.
+TY_DLG_WORK_TESTER,Shaking things until they confess their defects.,Sacudindo as coisas até elas confessarem os defeitos.
+TY_DLG_HINT_SAY,"Hmm, let me think... {hint}","Hmm, deixa eu pensar... {hint}"
+TY_DLG_HINT_SAY_2,Between you and me... {hint},Cá entre nós... {hint}
+TY_DLG_HINT_NONE,"No idea yet, boss. Ask a veteran, or fly it and write it in the Journal!","Ainda não sei, chefe. Pergunta pra alguém experiente, ou voa e anota no Caderno!"
+TY_DLG_HINT_MODULE,I'd pack this module: %s.,Eu levaria este módulo: %s.
+TY_DLG_HINT_ENV_NIGHT,Careful: the night at %s is far longer than in orbit.,Cuidado: a noite em %s é bem mais longa do que em órbita.
+TY_DLG_HINT_ENV_COLD,Careful: at %s it gets cold enough to freeze instruments.,Cuidado: em %s faz um frio de congelar instrumentos.
+TY_DLG_HINT_ENV_SUN,Watch out: at %s the Sun shines weak and low on the panels.,Repara: em %s o Sol bate fraco e baixo nos painéis.
+TY_DLG_HINT_TYPE,I've seen a lot. I'd bet on: %s.,Já vi muita coisa. Eu apostaria em: %s.
+TY_DLG_HINT_JOURNAL,"The Journal says %s at %s has flown, best grade %s.","O Caderno diz que %s em %s já voou, melhor nota %s."
+TY_DLG_COMET_1,"The Mother-Ice is old, icy and bright. And very kind. We were born from the dust of her tail.","A Mãe-Gelo é velha, gelada e brilhante. E muito carinhosa. A gente nasceu da poeira da cauda dela."
+TY_DLG_COMET_2,A comet is a ball of ice and dust. Near the Sun the ice turns to gas and makes the coma and the tail.,"Cometa é uma bola de gelo e poeira. Perto do Sol, o gelo vira gás e forma a cabeleira e a cauda."
+TY_DLG_COMET_3,Did you know a comet's tail points away from the Sun? That's the solar wind blowing it.,Sabia que a cauda do cometa aponta pro lado contrário do Sol? É o vento solar soprando.
+TY_DLG_COMET_4,"She comes back in 25 years. Not a day more, not a day less. Grandpa Edmundo did the math.","Ela volta em 25 anos. Nem um dia a mais, nem um dia a menos. O Vovô Edmundo fez a conta."
+TY_DLG_COMET_5,Halley's Comet comes by about every 76 years. Ours is more punctual. And prettier.,O cometa Halley passa por aqui mais ou menos a cada 76 anos. O nosso é mais pontual. E mais bonito.
+TY_DLG_COMET_6,"In 2014 the Rosetta probe set a little lander, Philae, down on a real comet. Total inspiration.","Em 2014, a sonda Rosetta pousou um robozinho, o Philae, num cometa de verdade. Inspiração total."
+TY_DLG_COMET_7,From down here she's too far. That's why the Moon comes first: low gravity and ice at the poles to make fuel.,Daqui de baixo ela fica longe demais. Por isso primeiro a Lua: pouca gravidade e gelo nos polos pra virar combustível.
+TY_DLG_COMET_8,When I close my eyes I can still feel the cosy cold of her tail.,"Quando eu fecho os olhos, ainda sinto o friozinho gostoso da cauda dela."
+TY_DLG_COMET_NEAR,"Not long now, boss: {left}. I can feel it in my antenna, she's coming.","Falta pouco, chefe: {left}. Dá pra sentir na antena, ela tá vindo."
+TY_DLG_SELF_HI,"Talking to the mirror again? That's fine, every leader does it.","Conversando com o espelho de novo? Tudo bem, todo líder faz isso."
+TY_DLG_SELF_HI_LOW,"Rough week, huh? Even leaders get a droopy antenna.","Semana difícil, né? Até líder fica de antena murcha."
+TY_DLG_SELF_PEP,Breathe. {agency} is in good hands. Yours. Which are also mine.,Respira. A {agency} tá em boas mãos. Nas suas. Que são as minhas.
+TY_DLG_SELF_PLAN,"The plan: first the Moon, then the comet, then a snack. The Mother-Ice arrives in {left}.","O plano: primeiro a Lua, depois o cometa, depois um lanchinho. A Mãe-Gelo chega em {left}."
+TY_DLG_SELF_TEAM_OK,The gang looks happy. Keep the projects coming and the naps short.,A turma parece feliz. É manter os projetos andando e os cochilos curtos.
+TY_DLG_SELF_TEAM_LOW,Some of them look tired. Maybe give them a week off projects.,Tem gente com cara de cansaço. Talvez uma semana longe dos projetos.
+TY_DLG_SELF_TEAM_BROKE,They're worried about pay. A contract would cheer everyone up.,A turma tá preocupada com o salário. Um contrato animaria todo mundo.
+TY_DLG_LEG_HI,Boss! Even a legend needs a chat now and then.,Chefe! Até lenda precisa de uma conversa de vez em quando.
+TY_DLG_LEG_HI_2,"Hello, boss. Sit down, I've got stories.","Olá, chefe. Senta aí, eu tenho histórias."
+TY_DLG_LEG_WHO,A real person: {legend_real}. {legend_fact},Uma pessoa de verdade: {legend_real}. {legend_fact}
+TY_DLG_LEG_WAY,Word around campus: {legend_way},Dizem por aí: {legend_way}
+TY_DLG_H_HI,"Well, well! Come to visit old Edmundo? Sit down, there's room on the bench.","Ora, ora! Veio visitar o velho Edmundo? Senta aqui, tem lugar no banco."
+TY_DLG_H_HI_NIGHT,"Ah, a clear night. Perfect for counting comets. I've counted one. Many times.","Ah, noite limpa. Perfeita pra contar cometas. Eu contei um. Muitas vezes."
+TY_DLG_H_MATH,"I wrote down every pass of hers in my blue notebooks. Added, checked, added again. Twenty-five years. Twice.","Anotei cada passagem dela nos meus cadernos de capa azul. Somei, conferi, somei de novo. Vinte e cinco anos. Duas vezes."
+TY_DLG_H_SKY,"The Mother-Ice. You can't see her from here, I know. But I know exactly where she is.","A Mãe-Gelo. Daqui não dá pra ver, eu sei. Mas eu sei direitinho onde ela está."
+TY_DLG_H_HALLEY,"A real astronomer, Edmond Halley, realised one comet kept coming back. He predicted its return and got it right. I just borrowed the idea.","Um astrônomo de verdade, Edmond Halley, percebeu que um cometa voltava sempre. Previu a volta e acertou. Eu só peguei a ideia emprestada."
+TY_DLG_H_LESSON,"Of course! Come along, I'll explain it all again. Slowly.","Claro! Vem comigo, explico tudo de novo. Devagarinho."
+TY_DLG_H_AGAIN,Any more questions? Questions are free.,Mais alguma pergunta? Pergunta não gasta.
+TY_CHAT_BYE_1,"See you, boss!","Até mais, chefe!"
+TY_CHAT_BYE_2,Thanks for the chat!,Valeu pela conversa!
+TY_CHAT_BYE_H,"Go on, the sky is waiting.","Vai lá, o céu tá esperando."
+TY_CHAT_BYE_SELF,Right. Let's go.,Certo. Vamos nessa.
+TY_CHAT_GEN_1,Has anyone seen my wrench?,Alguém viu minha chave de boca?
+TY_CHAT_GEN_2,I can smell a launch today.,Hoje eu sinto cheiro de lançamento.
+TY_CHAT_GEN_3,Thinking about rockets. Again.,Pensando em foguete. De novo.
+TY_CHAT_GEN_4,Who left a mug on the workbench?,Quem deixou a caneca na bancada?
+TY_CHAT_GEN_5,One day we're going home.,Um dia a gente volta pra casa.
+TY_CHAT_GEN_6,Good morning! Or afternoon. I lost track.,Bom dia! Ou boa tarde. Perdi a conta.
+TY_CHAT_GEN_7,"If it goes wrong, we write it down.","Se der errado, a gente anota no caderno."
+TY_CHAT_GEN_8,Snack after work?,Lanchinho depois do trabalho?
+TY_CHAT_GEN_9,My ears are fluttering. Good wind.,Minhas orelhas tão esvoaçando. Vento bom.
+TY_CHAT_GEN_10,"First the Moon, then the comet, then a snack.","Primeiro a Lua, depois o cometa, depois o lanchinho."
+TY_CHAT_WALK_1,"Excuse me, coming through!","Com licença, passando!"
+TY_CHAT_WALK_2,Shortcut over the grass? Better not.,Atalho pela grama? Melhor não.
+TY_CHAT_WALK_3,"Coming, coming!","Tô indo, tô indo!"
+TY_CHAT_WALK_LAB,Off to the lab. Ideas are waiting.,Indo pro laboratório. As ideias tão esperando.
+TY_CHAT_WALK_PAD,Just popping over to the pad.,Vou dar uma olhadinha na plataforma.
+TY_CHAT_WALK_HQ,Meeting at HQ. Should I bring cookies?,Reunião na sede. Levo biscoito?
+TY_CHAT_WALK_WORKSHOP,To the workshop! Bolts don't tighten themselves.,Pro galpão! Parafuso não se aperta sozinho.
+TY_CHAT_WALK_CONTROL,Shift in control. Where's my headset?,Turno no controle. Cadê meu fone?
+TY_CHAT_WALK_ANTENNA,Going to listen to the sky at the antennas.,Vou ouvir o céu nas antenas.
+TY_CHAT_WALK_TRAINING,Training time. My legs already object.,Hora do treino. Minhas pernas já reclamam.
+TY_CHAT_WALK_FACTORY,Factory! Rockets by the dozen today.,Fábrica! Hoje sai foguete em série.
+TY_CHAT_LAB_1,"Eureka! Oh, no. Just the coffee maker.","Eureka! Ah, não. Era só a cafeteira."
+TY_CHAT_LAB_2,One more measurement. Just one more.,Mais uma medida. Só mais uma.
+TY_CHAT_LAB_3,This graph is smiling at me.,Esse gráfico tá sorrindo pra mim.
+TY_CHAT_WORKSHOP_1,"Tighten, check, tighten again.","Aperta, confere, aperta de novo."
+TY_CHAT_WORKSHOP_2,One bolt left over. Is that normal?,Sobrou um parafuso. Isso é normal?
+TY_CHAT_WORKSHOP_3,Every kilo has a price. This one's pricey.,Cada quilo tem um preço. Esse aqui é caro.
+TY_CHAT_PAD_1,"Tower clear, sky clear. Almost.","Torre livre, céu limpo. Quase."
+TY_CHAT_PAD_2,The sky looks closer from here.,Daqui o céu parece mais perto.
+TY_CHAT_PAD_3,"Pretend countdown: three, two, one...","Contagem de mentirinha: três, dois, um..."
+TY_CHAT_CONTROL_1,Telemetry all green. I love green.,Telemetria verdinha. Amo verde.
+TY_CHAT_CONTROL_2,Control to rocket: all good up there?,Controle pro foguete: tudo bem aí?
+TY_CHAT_ANTENNA_1,I hear a beep. A nice beep.,Tô ouvindo um bip. Bip bonito.
+TY_CHAT_ANTENNA_2,"The data comes down slowly, like snow.","Os dados descem devagarinho, que nem neve."
+TY_CHAT_HQ_1,"Spreadsheet, spreadsheet... rocket!","Planilha, planilha... foguete!"
+TY_CHAT_HQ_2,Who booked a meeting at eight?,Quem marcou reunião às oito?
+TY_CHAT_TRAINING_1,One more spin in the centrifuge? Everything's spinning.,Mais uma volta na centrífuga? Tá tudo girando.
+TY_CHAT_TRAINING_2,"Training today, the Moon tomorrow.","Treino hoje, Lua amanhã."
+TY_CHAT_FACTORY_1,Another tank fresh out of the oven!,Mais um tanque saindo do forno!
+TY_CHAT_FACTORY_2,"Mass production: same rocket, cheaper.","Produção em série: o mesmo foguete, mais barato."
+TY_CHAT_BENCH_1,"One little bench, a whole sky.","Um banquinho, um céu inteiro."
+TY_CHAT_PLAZA_1,Anyone up for a game at break?,Quem topa uma peteca no intervalo?
+TY_CHAT_STATUE_1,Someday there'll be a statue of me here.,Um dia vai ter uma estátua minha aqui.
+TY_CHAT_LOOKOUT_1,You can see the whole sea from here.,Daqui dá pra ver o mar todo.
+TY_CHAT_LOOKOUT_2,"Up there, somewhere, she's coming back.","Lá em cima, em algum lugar, ela tá voltando."
+TY_CHAT_PILOT_1,Give me a rocket and a clear sky.,Me dá um foguete e um céu limpo.
+TY_CHAT_PILOT_2,"Steady paws, loose ears.","Patinhas firmes, orelhas soltas."
+TY_CHAT_PILOT_3,I've practised my wave for the Moon camera.,Já ensaiei o aceno pra câmera da Lua.
+TY_CHAT_SYSTEMS_1,Everything connects. Even the cookies.,Tudo se conecta. Até os biscoitos.
+TY_CHAT_SYSTEMS_2,"If a cable comes loose, I can feel it.","Se um cabo solta, eu sinto."
+TY_CHAT_PROPULSION_1,More thrust! Always more thrust.,Mais empuxo! Sempre mais empuxo.
+TY_CHAT_PROPULSION_2,This engine purrs like a kitten.,Esse motor ronrona que nem gatinho.
+TY_CHAT_SCIENTIST_1,Every data point tells a story.,Todo dado conta uma história.
+TY_CHAT_SCIENTIST_2,Today's hypothesis: the comet is cute.,Hipótese do dia: o cometa é fofo.
+TY_CHAT_RESEARCHER_1,Found a new idea at the back of a drawer.,Achei uma ideia nova no fundo da gaveta.
+TY_CHAT_RESEARCHER_2,The theory's done. Just the rest to go.,A teoria tá pronta. Só falta o resto.
+TY_CHAT_CONTROLLER_1,"Plan A, plan B, plan snack.","Plano A, plano B, plano lanchinho."
+TY_CHAT_CONTROLLER_2,I counted the seconds to lunch.,Contei os segundos até o almoço.
+TY_CHAT_TESTER_1,"Shook it, baked it, froze it. It held!","Sacudi, esquentei, congelei. Aguentou!"
+TY_CHAT_TESTER_2,Found a defect! What a lovely day.,Achei um defeito! Que dia lindo.
+TY_CHAT_HAPPY_1,What a day to be a Cometling!,Que dia bom pra ser Cometinho!
+TY_CHAT_HAPPY_2,I feel like doing little hops.,Tô com vontade de dar pulinhos.
+TY_CHAT_HAPPY_3,I like it here. I like you all.,Gosto daqui. Gosto de vocês.
+TY_CHAT_LOW_1,Today's a tough one...,Hoje tá difícil...
+TY_CHAT_LOW_2,I need a hug and a coffee.,Preciso de um abraço e de um café.
+TY_CHAT_LOW_3,Does anyone notice my work?,Será que alguém repara no meu trabalho?
+TY_CHAT_TIRED_1,Long week. Or weeks.,Semana longa. Ou semanas.
+TY_CHAT_TIRED_2,My antenna's blinking from sleepiness.,Minha antena tá piscando de sono.
+TY_CHAT_TIRED_3,A five-minute nap...,Um cochilo de cinco minutinhos...
+TY_CHAT_NAP_1,Zzz... one more bolt...,Zzz... mais um parafuso...
+TY_CHAT_NAP_2,Zzz... Mother-Ice... coming...,Zzz... Mãe-Gelo... já vou...
+TY_CHAT_NAP_3,"Zzz... no, not the red button...","Zzz... não, o botão vermelho não..."
+TY_CHAT_NEW_1,First week! Where's the bathroom?,Primeira semana! Onde fica o banheiro?
+TY_CHAT_NEW_2,Everyone here is so nice!,Todo mundo aqui é tão legal!
+TY_CHAT_NEW_3,Still learning everyone's names.,Ainda tô decorando os nomes.
+TY_CHAT_TRAIN_1,Specialisation coming. Just you wait!,Especialização chegando. Me aguarde!
+TY_CHAT_TRAIN_2,Studying so hard my antenna's warm.,Estudando tanto que minha antena esquentou.
+TY_CHAT_PROJECT_1,Project {project} is going to fly beautifully.,O projeto {project} vai voar bonito.
+TY_CHAT_PROJECT_2,Tight deadline on {project}. Let's go!,Prazo apertado no {project}. Bora!
+TY_CHAT_IDLE_1,Anyone got a project for me?,Alguém tem um projeto pra mim?
+TY_CHAT_ERA1_1,A shed and a dream. That's a start.,Um galpão e um sonho. Já dá pra começar.
+TY_CHAT_ERA1_2,"Sounding rockets today, the Moon someday.","Foguete de sondagem hoje, Lua um dia."
+TY_CHAT_ERA2_1,Orbit! We're going round the Earth!,Órbita! A gente tá dando volta na Terra!
+TY_CHAT_ERA2_2,A Cometling in space. How about me?,Um Cometinho no espaço. Que tal eu?
+TY_CHAT_ERA3_1,The Moon has ice at the poles. Ice!,A Lua tem gelo nos polos. Gelo!
+TY_CHAT_ERA3_2,Our robots will get there first.,Nossos robôs vão chegar lá primeiro.
+TY_CHAT_ERA4_1,There'll be Cometling footprints on the Moon!,Vai ter pegada de Cometinho na Lua!
+TY_CHAT_ERA4_2,"On the Moon, every step is a hop.","Na Lua, cada passo vira um pulinho."
+TY_CHAT_ERA5_1,The departure base is almost ready.,A base de partida tá quase pronta.
+TY_CHAT_ERA5_2,I've already packed my bag for the comet.,Já arrumei a mala pro cometa.
+TY_CHAT_LAUNCH_OK_1,It's up! It's up! IT'S UP!,Subiu! Subiu! SUBIU!
+TY_CHAT_LAUNCH_OK_2,"I knew it! Well, I hoped.","Eu sabia! Bom, eu torcia."
+TY_CHAT_LAUNCH_OK_3,Did you see that smoke trail? Beautiful.,Viu a fumacinha? Que linda.
+TY_CHAT_LAUNCH_OK_4,Party in the yard tonight!,Hoje tem festa no pátio!
+TY_CHAT_LAUNCH_FAIL_1,The engine coughed and gave up...,O motor tossiu e desistiu...
+TY_CHAT_LAUNCH_FAIL_2,Every failure teaches. This one taught a lot.,Toda falha ensina. Essa ensinou muito.
+TY_CHAT_LAUNCH_FAIL_3,It's okay. Let's write it down and try again.,Tá tudo bem. Vamos anotar e tentar de novo.
+TY_CHAT_LAUNCH_FAIL_4,Does anyone have a tissue?,Alguém tem um lencinho?
+TY_CHAT_MILESTONE_1,Our milestone! I'm telling the Mother-Ice.,Marco nosso! Vou contar pra Mãe-Gelo.
+TY_CHAT_MILESTONE_2,We're in the paper! Front page!,Saímos no jornal! Na capa!
+TY_CHAT_RIVAL_1,A rival got there first. Plenty of race left.,Uma rival chegou primeiro. Ainda tem muita corrida.
+TY_CHAT_RIVAL_2,Good for them. Now it's our turn.,Parabéns pra elas. Agora é a nossa vez.
+TY_CHAT_RIVAL_3,"They want to go home too, right?","Elas também querem voltar pra casa, né?"
+TY_CHAT_HIRE_1,"New face on campus! Hi, hi!","Gente nova no campus! Oi, oi!"
+TY_CHAT_HIRE_2,One more Cometling in the gang!,Mais um Cometinho na turma!
+TY_CHAT_MONEY_LOW_1,Shall we cut back on cookies?,Vamos economizar nos biscoitos?
+TY_CHAT_MONEY_LOW_2,Every kilo has a price. Every week too.,Cada quilo tem um preço. Cada semana também.
+TY_CHAT_MONEY_BROKE_1,The safe is echoing...,O cofre tá fazendo eco...
+TY_CHAT_MONEY_BROKE_2,Will payday happen this month?,Será que o salário sai esse mês?
+TY_CHAT_NEW_ERA_1,"New era, new campus!","Era nova, campus novo!"
+TY_CHAT_NEW_ERA_2,Look how much we've grown!,Olha como a gente cresceu!
+TY_CHAT_NIGHT_1,What a night for counting stars.,Que noite boa pra contar estrelas.
+TY_CHAT_NIGHT_2,My antenna glows brighter in the dark.,Minha antena brilha mais no escuro.
+TY_CHAT_NIGHT_3,Is she looking at us right now?,Será que ela tá olhando pra gente agora?
+TY_CHAT_DAWN_1,Sunrise. Coffee time.,Amanhecendo. Hora do café.
+TY_CHAT_GOLDEN_1,This peach-coloured sunset...,Esse pôr do sol cor de pêssego...
+TY_CHAT_COMET_NEAR_1,She's coming! I can feel it in my antenna.,Ela tá chegando! Dá pra sentir na antena.
+TY_CHAT_COMET_NEAR_2,Not long now till the Mother-Ice.,Falta pouquinho pra Mãe-Gelo.
+TY_CHAT_LEADER_1,"Decisions, decisions...","Decisões, decisões..."
+TY_CHAT_LEADER_2,Am I doing this right?,Será que eu tô fazendo direito?
+TY_CHAT_LEGEND_1,"Legends drink coffee too, you know.","Lenda também toma café, viu?"
+TY_CHAT_HALLEY_1,"Ah, my old bench.","Ah, meu velho banco."
+TY_CHAT_HALLEY_2,Where did I put my glasses?,Onde foi que eu deixei meus óculos?
+TY_CHAT_HALLEY_3,Twenty-five years. I checked twice.,Vinte e cinco anos. Conferi duas vezes.
+TY_CHAT_PAIR_COFFEE_A,Coffee?,Café?
+TY_CHAT_PAIR_COFFEE_B,Always.,Sempre.
+TY_CHAT_PAIR_BOLT_A,Seen a bolt around here?,Viu um parafuso por aí?
+TY_CHAT_PAIR_BOLT_B,Which one? There are about a thousand.,Qual deles? Tem uns mil.
+TY_CHAT_PAIR_TAIL_A,Do you remember her tail?,Você lembra da cauda dela?
+TY_CHAT_PAIR_TAIL_B,I remember the cold. And the glow.,Lembro do frio. E do brilho.
+TY_CHAT_PAIR_MOON_A,First the Moon?,Primeiro a Lua?
+TY_CHAT_PAIR_MOON_B,Then the comet!,Depois o cometa!
+TY_CHAT_PAIR_CAKE_A,There's cornbread cake today.,Hoje tem bolo de fubá.
+TY_CHAT_PAIR_CAKE_B,Run before it's gone!,Corre que acaba!
+TY_CHAT_PAIR_HELLO_A,"Hi, {other}!","Oi, {other}!"
+TY_CHAT_PAIR_HELLO_B,Hi! Nice antenna today.,Oi! Que antena bonita hoje.
+TY_CHAT_PAIR_WORK_A,How's the project going?,Como tá o projeto?
+TY_CHAT_PAIR_WORK_B,Almost there. I think.,Quase lá. Eu acho.
+TY_CHAT_PAIR_RIVAL_A,Did you see the paper?,Viu o jornal?
+TY_CHAT_PAIR_RIVAL_B,I did. Our turn next.,Vi. A próxima é nossa.
+TY_CHAT_PAIR_FAIL_A,Are you okay?,Tá tudo bem?
+TY_CHAT_PAIR_FAIL_B,I will be. We learn.,Vai ficar. A gente aprende.
+TY_CHAT_PAIR_OK_A,Did you see that?!,Você viu aquilo?!
+TY_CHAT_PAIR_OK_B,I did! I'm still shaking!,Vi! Ainda tô tremendo!
+TY_CHAT_PAIR_NIGHT_A,Which one of those is her?,Qual daquelas é ela?
+TY_CHAT_PAIR_NIGHT_B,None yet. But soon.,Nenhuma ainda. Mas logo.
+TY_CHAT_PAIR_TIRED_A,I'm so sleepy...,Tô morrendo de sono...
+TY_CHAT_PAIR_TIRED_B,Go nap a bit. I'll cover for you.,Vai cochilar um pouco. Eu te cubro.
+TY_CHAT_PAIR_NEW_A,First day. Any tips?,Primeiro dia. Alguma dica?
+TY_CHAT_PAIR_NEW_B,Never press the red button.,Nunca aperte o botão vermelho.
+TY_CHAT_PAIR_PILOT_A,Someday I'll fly to the Moon.,Um dia eu piloto até a Lua.
+TY_CHAT_PAIR_PILOT_B,And I'll work out the way.,E eu calculo o caminho.
+TY_CHAT_PAIR_SHED_A,"This shed creaks, huh?","Esse galpão range, né?"
+TY_CHAT_PAIR_SHED_B,That's its charm.,É charme.
+TY_CHAT_PAIR_MONEY_A,Do the books balance?,A conta fecha?
+TY_CHAT_PAIR_MONEY_B,If nobody eats the last cookie.,Se ninguém comer o último biscoito.
+TY_CHAT_PAIR_MOONWALK_A,How do you walk on the Moon?,Como é que se anda na Lua?
+TY_CHAT_PAIR_MOONWALK_B,In little hops. Gravity is a sixth of ours.,Aos pulinhos. A gravidade é um sexto da nossa.

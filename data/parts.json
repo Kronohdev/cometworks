@@ -1,0 +1,5418 @@
+{
+ "version": 1,
+ "g0": 9.80665,
+ "size_classes": {
+  "XS": 0.625,
+  "S": 1.25,
+  "M": 2.5,
+  "L": 3.75
+ },
+ "propellants": {
+  "kerolox": {
+   "name": {
+    "en": "Kerosene / LOX",
+    "pt": "Querosene / LOX"
+   },
+   "density": 1030,
+   "density_src": "ref",
+   "boiloff_pct_day": 0.2,
+   "tank_dry_fraction": 0.06,
+   "color": "white",
+   "storable": false
+  },
+  "methalox": {
+   "name": {
+    "en": "Methane / LOX",
+    "pt": "Metano / LOX"
+   },
+   "density": 800,
+   "density_src": "ref",
+   "boiloff_pct_day": 0.2,
+   "tank_dry_fraction": 0.065,
+   "color": "steel",
+   "storable": false
+  },
+  "hydrolox": {
+   "name": {
+    "en": "Hydrogen / LOX",
+    "pt": "Hidrogênio / LOX"
+   },
+   "density": 360,
+   "density_src": "ref",
+   "boiloff_pct_day": 1.0,
+   "tank_dry_fraction": 0.11,
+   "color": "foam",
+   "storable": false
+  },
+  "hypergolic": {
+   "name": {
+    "en": "MMH / NTO (hypergolic)",
+    "pt": "MMH / NTO (hipergólico)"
+   },
+   "density": 1190,
+   "density_src": "approx",
+   "boiloff_pct_day": 0.0,
+   "tank_dry_fraction": 0.08,
+   "color": "grey",
+   "storable": true
+  },
+  "hydrazine": {
+   "name": {
+    "en": "Hydrazine (monoprop)",
+    "pt": "Hidrazina (monopropelente)"
+   },
+   "density": 1010,
+   "density_src": "approx",
+   "boiloff_pct_day": 0.0,
+   "tank_dry_fraction": 0.12,
+   "color": "silver",
+   "storable": true
+  },
+  "xenon": {
+   "name": {
+    "en": "Xenon (electric)",
+    "pt": "Xenônio (elétrica)"
+   },
+   "density": 1600,
+   "density_src": "approx",
+   "boiloff_pct_day": 0.0,
+   "tank_dry_fraction": 0.15,
+   "color": "gold",
+   "storable": true
+  },
+  "solid": {
+   "name": {
+    "en": "Solid (APCP)",
+    "pt": "Sólido (APCP)"
+   },
+   "density": 1780,
+   "density_src": "approx",
+   "boiloff_pct_day": 0.0,
+   "tank_dry_fraction": null,
+   "color": "white",
+   "storable": true
+  },
+  "lh2": {
+   "name": {
+    "en": "Liquid hydrogen (nuclear)",
+    "pt": "Hidrogênio líquido (nuclear)"
+   },
+   "density": 71,
+   "density_src": "ref",
+   "boiloff_pct_day": 1.5,
+   "tank_dry_fraction": 0.18,
+   "color": "silver",
+   "storable": false
+  }
+ },
+ "categories": {
+  "command": {
+   "en": "Command & Avionics",
+   "pt": "Comando e Aviônica"
+  },
+  "tank": {
+   "en": "Propellant Tanks",
+   "pt": "Tanques de Propelente"
+  },
+  "engine": {
+   "en": "Engines & Thrusters",
+   "pt": "Motores e Propulsores"
+  },
+  "structure": {
+   "en": "Structure & Staging",
+   "pt": "Estrutura e Estágios"
+  },
+  "aero": {
+   "en": "Aerodynamics",
+   "pt": "Aerodinâmica"
+  },
+  "control": {
+   "en": "Attitude Control",
+   "pt": "Controle de Atitude"
+  },
+  "power": {
+   "en": "Power",
+   "pt": "Energia"
+  },
+  "comms": {
+   "en": "Communications",
+   "pt": "Comunicação"
+  },
+  "thermal": {
+   "en": "Thermal",
+   "pt": "Térmica"
+  },
+  "bus": {
+   "en": "Spacecraft Bus",
+   "pt": "Plataforma (Bus)"
+  },
+  "instrument": {
+   "en": "Science Instruments",
+   "pt": "Instrumentos Científicos"
+  },
+  "future": {
+   "en": "Phase 2 (crew & recovery)",
+   "pt": "Fase 2 (tripulação e recuperação)"
+  }
+ },
+ "parts": [
+  {
+   "id": "avionics_core_s",
+   "category": "command",
+   "model": "avionics_core",
+   "name": {
+    "en": "Avionics Core S",
+    "pt": "Núcleo de Aviônica S"
+   },
+   "desc": {
+    "en": "Flight computer, IMU and guidance. Every vessel needs exactly one root core.",
+    "pt": "Computador de voo, IMU e guiagem. Todo veículo precisa de exatamente um núcleo raiz."
+   },
+   "size": "S",
+   "mass_kg": 40,
+   "power_w": 40,
+   "cost_musd": 3.0,
+   "reliability": 0.995,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "avionics_core_m",
+   "category": "command",
+   "model": "avionics_core",
+   "name": {
+    "en": "Avionics Core M",
+    "pt": "Núcleo de Aviônica M"
+   },
+   "desc": {
+    "en": "Redundant flight computer (dual string). Higher reliability, heavier.",
+    "pt": "Computador de voo redundante (duas cadeias). Mais confiável, mais pesado."
+   },
+   "size": "M",
+   "mass_kg": 110,
+   "power_w": 90,
+   "cost_musd": 8.0,
+   "reliability": 0.999,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_s2",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank S-2m",
+    "pt": "Tanque Querosene / LOX S-2m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 2 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 2.0,
+   "propellant": "kerolox",
+   "volume_m3": 2.21,
+   "prop_mass_kg": 2275,
+   "mass_kg": 137,
+   "cost_musd": 0.38,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_s4",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank S-4m",
+    "pt": "Tanque Querosene / LOX S-4m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 4 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 4.0,
+   "propellant": "kerolox",
+   "volume_m3": 4.42,
+   "prop_mass_kg": 4550,
+   "mass_kg": 273,
+   "cost_musd": 0.61,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_s8",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank S-8m",
+    "pt": "Tanque Querosene / LOX S-8m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 8 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 8.0,
+   "propellant": "kerolox",
+   "volume_m3": 8.84,
+   "prop_mass_kg": 9101,
+   "mass_kg": 546,
+   "cost_musd": 1.06,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_m2",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank M-2m",
+    "pt": "Tanque Querosene / LOX M-2m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 2 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 2.0,
+   "propellant": "kerolox",
+   "volume_m3": 8.84,
+   "prop_mass_kg": 9101,
+   "mass_kg": 546,
+   "cost_musd": 1.06,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_m4",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank M-4m",
+    "pt": "Tanque Querosene / LOX M-4m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 4 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 4.0,
+   "propellant": "kerolox",
+   "volume_m3": 17.67,
+   "prop_mass_kg": 18202,
+   "mass_kg": 1092,
+   "cost_musd": 1.97,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_m8",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank M-8m",
+    "pt": "Tanque Querosene / LOX M-8m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 8 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 8.0,
+   "propellant": "kerolox",
+   "volume_m3": 35.34,
+   "prop_mass_kg": 36403,
+   "mass_kg": 2184,
+   "cost_musd": 3.79,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_l2",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank L-2m",
+    "pt": "Tanque Querosene / LOX L-2m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 2 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 2.0,
+   "propellant": "kerolox",
+   "volume_m3": 19.88,
+   "prop_mass_kg": 20477,
+   "mass_kg": 1229,
+   "cost_musd": 2.2,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_l4",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank L-4m",
+    "pt": "Tanque Querosene / LOX L-4m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 4 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 4.0,
+   "propellant": "kerolox",
+   "volume_m3": 39.76,
+   "prop_mass_kg": 40954,
+   "mass_kg": 2457,
+   "cost_musd": 4.25,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_kerolox_l8",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank L-8m",
+    "pt": "Tanque Querosene / LOX L-8m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 8 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 8.0,
+   "propellant": "kerolox",
+   "volume_m3": 79.52,
+   "prop_mass_kg": 81907,
+   "mass_kg": 4914,
+   "cost_musd": 8.34,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_s2",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank S-2m",
+    "pt": "Tanque Metano / LOX S-2m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 2 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 2.0,
+   "propellant": "methalox",
+   "volume_m3": 2.21,
+   "prop_mass_kg": 1767,
+   "mass_kg": 115,
+   "cost_musd": 0.36,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_s4",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank S-4m",
+    "pt": "Tanque Metano / LOX S-4m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 4 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 4.0,
+   "propellant": "methalox",
+   "volume_m3": 4.42,
+   "prop_mass_kg": 3534,
+   "mass_kg": 230,
+   "cost_musd": 0.57,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_m2",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank M-2m",
+    "pt": "Tanque Metano / LOX M-2m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 2 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 2.0,
+   "propellant": "methalox",
+   "volume_m3": 8.84,
+   "prop_mass_kg": 7069,
+   "mass_kg": 459,
+   "cost_musd": 1.0,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_m4",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank M-4m",
+    "pt": "Tanque Metano / LOX M-4m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 4 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 4.0,
+   "propellant": "methalox",
+   "volume_m3": 17.67,
+   "prop_mass_kg": 14137,
+   "mass_kg": 919,
+   "cost_musd": 1.85,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_m8",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank M-8m",
+    "pt": "Tanque Metano / LOX M-8m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 8 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 8.0,
+   "propellant": "methalox",
+   "volume_m3": 35.34,
+   "prop_mass_kg": 28274,
+   "mass_kg": 1838,
+   "cost_musd": 3.54,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_l2",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank L-2m",
+    "pt": "Tanque Metano / LOX L-2m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 2 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 2.0,
+   "propellant": "methalox",
+   "volume_m3": 19.88,
+   "prop_mass_kg": 15904,
+   "mass_kg": 1034,
+   "cost_musd": 2.06,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_l4",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank L-4m",
+    "pt": "Tanque Metano / LOX L-4m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 4 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 4.0,
+   "propellant": "methalox",
+   "volume_m3": 39.76,
+   "prop_mass_kg": 31809,
+   "mass_kg": 2068,
+   "cost_musd": 3.97,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_methalox_l8",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank L-8m",
+    "pt": "Tanque Metano / LOX L-8m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 8 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 8.0,
+   "propellant": "methalox",
+   "volume_m3": 79.52,
+   "prop_mass_kg": 63617,
+   "mass_kg": 4135,
+   "cost_musd": 7.78,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_s2",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank S-2m",
+    "pt": "Tanque Hidrogênio / LOX S-2m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 2 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 2.0,
+   "propellant": "hydrolox",
+   "volume_m3": 2.21,
+   "prop_mass_kg": 795,
+   "mass_kg": 87,
+   "cost_musd": 0.39,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_s4",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank S-4m",
+    "pt": "Tanque Hidrogênio / LOX S-4m"
+   },
+   "desc": {
+    "en": "Stackable 1.25 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 1.25 m, 4 m de comprimento."
+   },
+   "size": "S",
+   "length_m": 4.0,
+   "propellant": "hydrolox",
+   "volume_m3": 4.42,
+   "prop_mass_kg": 1590,
+   "mass_kg": 175,
+   "cost_musd": 0.63,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_m2",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank M-2m",
+    "pt": "Tanque Hidrogênio / LOX M-2m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 2 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 2.0,
+   "propellant": "hydrolox",
+   "volume_m3": 8.84,
+   "prop_mass_kg": 3181,
+   "mass_kg": 350,
+   "cost_musd": 1.1,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_m4",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank M-4m",
+    "pt": "Tanque Hidrogênio / LOX M-4m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 4 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 4.0,
+   "propellant": "hydrolox",
+   "volume_m3": 17.67,
+   "prop_mass_kg": 6362,
+   "mass_kg": 700,
+   "cost_musd": 2.06,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_m8",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank M-8m",
+    "pt": "Tanque Hidrogênio / LOX M-8m"
+   },
+   "desc": {
+    "en": "Stackable 2.5 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 2.5 m, 8 m de comprimento."
+   },
+   "size": "M",
+   "length_m": 8.0,
+   "propellant": "hydrolox",
+   "volume_m3": 35.34,
+   "prop_mass_kg": 12723,
+   "mass_kg": 1400,
+   "cost_musd": 3.97,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_l2",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank L-2m",
+    "pt": "Tanque Hidrogênio / LOX L-2m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 2 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 2 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 2.0,
+   "propellant": "hydrolox",
+   "volume_m3": 19.88,
+   "prop_mass_kg": 7157,
+   "mass_kg": 787,
+   "cost_musd": 2.3,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_l4",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank L-4m",
+    "pt": "Tanque Hidrogênio / LOX L-4m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 4 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 4 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 4.0,
+   "propellant": "hydrolox",
+   "volume_m3": 39.76,
+   "prop_mass_kg": 14314,
+   "mass_kg": 1575,
+   "cost_musd": 4.44,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrolox_l8",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank L-8m",
+    "pt": "Tanque Hidrogênio / LOX L-8m"
+   },
+   "desc": {
+    "en": "Stackable 3.75 m tank, 8 m long.",
+    "pt": "Tanque empilhável de 3.75 m, 8 m de comprimento."
+   },
+   "size": "L",
+   "length_m": 8.0,
+   "propellant": "hydrolox",
+   "volume_m3": 79.52,
+   "prop_mass_kg": 28628,
+   "mass_kg": 3149,
+   "cost_musd": 8.74,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hypergolic_06",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hypergolic Sphere 0.6 m",
+    "pt": "Esfera Hipergólica 0,6 m"
+   },
+   "desc": {
+    "en": "Pressurized spacecraft tank. Storable: no boil-off.",
+    "pt": "Tanque pressurizado de espaçonave. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hypergolic",
+   "volume_m3": 0.104,
+   "prop_mass_kg": 123.8,
+   "mass_kg": 9.9,
+   "cost_musd": 0.65,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hypergolic",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hypergolic_10",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hypergolic Sphere 1.0 m",
+    "pt": "Esfera Hipergólica 1,0 m"
+   },
+   "desc": {
+    "en": "Pressurized spacecraft tank. Storable: no boil-off.",
+    "pt": "Tanque pressurizado de espaçonave. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hypergolic",
+   "volume_m3": 0.482,
+   "prop_mass_kg": 573.2,
+   "mass_kg": 45.9,
+   "cost_musd": 1.55,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hypergolic",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrazine_04",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hydrazine Sphere 0.4 m",
+    "pt": "Esfera de Hidrazina 0,4 m"
+   },
+   "desc": {
+    "en": "Pressurized spacecraft tank. Storable: no boil-off.",
+    "pt": "Tanque pressurizado de espaçonave. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hydrazine",
+   "volume_m3": 0.031,
+   "prop_mass_kg": 31.1,
+   "mass_kg": 3.7,
+   "cost_musd": 0.46,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrazine",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_hydrazine_08",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hydrazine Sphere 0.8 m",
+    "pt": "Esfera de Hidrazina 0,8 m"
+   },
+   "desc": {
+    "en": "Pressurized spacecraft tank. Storable: no boil-off.",
+    "pt": "Tanque pressurizado de espaçonave. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hydrazine",
+   "volume_m3": 0.247,
+   "prop_mass_kg": 249.1,
+   "mass_kg": 29.9,
+   "cost_musd": 0.9,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrazine",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "tank_xenon_05",
+   "category": "tank",
+   "model": "tank_xenon",
+   "name": {
+    "en": "Xenon Tank 0.5 m",
+    "pt": "Tanque de Xenônio 0,5 m"
+   },
+   "desc": {
+    "en": "Pressurized spacecraft tank. Storable: no boil-off.",
+    "pt": "Tanque pressurizado de espaçonave. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "xenon",
+   "volume_m3": 0.06,
+   "prop_mass_kg": 96.3,
+   "mass_kg": 14.5,
+   "cost_musd": 0.59,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_xenon",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "eng_kestrel",
+   "category": "engine",
+   "model": "engine_small",
+   "name": {
+    "en": "Kestrel-1 (sea level)",
+    "pt": "Kestrel-1 (nível do mar)"
+   },
+   "desc": {
+    "en": "Small kerolox engine with electric pumps. Cluster 9 under an S tank.",
+    "pt": "Motor pequeno a querosene com bombas elétricas. Use 9 em cluster sob um tanque S."
+   },
+   "propellant": "kerolox",
+   "size": "XS",
+   "thrust_sl_kn": 24,
+   "thrust_vac_kn": 26,
+   "isp_sl_s": 295,
+   "isp_vac_s": 311,
+   "mass_kg": 35,
+   "gimbal_deg": 5,
+   "throttle_min": 0.7,
+   "restarts": 0,
+   "cost_musd": 0.6,
+   "reliability": 0.99,
+   "ref": {
+    "en": "Inspired by Rocket Lab Rutherford (~25 kN, Isp ~311 s, ~35 kg; approx.)",
+    "pt": "Inspirado no Rutherford da Rocket Lab (~25 kN, Isp ~311 s, ~35 kg; aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   }
+  },
+  {
+   "id": "eng_kestrel_v",
+   "category": "engine",
+   "model": "engine_small_vac",
+   "name": {
+    "en": "Kestrel-1V (vacuum)",
+    "pt": "Kestrel-1V (vácuo)"
+   },
+   "desc": {
+    "en": "Vacuum-optimized Kestrel with a large nozzle. Upper stages only.",
+    "pt": "Kestrel otimizado para vácuo, bocal grande. Só em estágios superiores."
+   },
+   "propellant": "kerolox",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 26,
+   "isp_sl_s": 0,
+   "isp_vac_s": 343,
+   "mass_kg": 42,
+   "gimbal_deg": 3,
+   "throttle_min": 0.7,
+   "restarts": 3,
+   "cost_musd": 0.8,
+   "reliability": 0.99,
+   "ref": {
+    "en": "Inspired by Rutherford Vacuum (Isp ~343 s; approx.)",
+    "pt": "Inspirado no Rutherford Vacuum (Isp ~343 s; aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   }
+  },
+  {
+   "id": "eng_falcao",
+   "category": "engine",
+   "model": "engine_kerolox",
+   "name": {
+    "en": "Falcão-1 (sea level)",
+    "pt": "Falcão-1 (nível do mar)"
+   },
+   "desc": {
+    "en": "Workhorse gas-generator kerolox engine. Cluster 9 under an L stage.",
+    "pt": "Motor a querosene de gerador de gás, o 'burro de carga'. Use 9 sob um estágio L."
+   },
+   "propellant": "kerolox",
+   "size": "S",
+   "thrust_sl_kn": 845,
+   "thrust_vac_kn": 914,
+   "isp_sl_s": 282,
+   "isp_vac_s": 311,
+   "mass_kg": 470,
+   "gimbal_deg": 5,
+   "throttle_min": 0.4,
+   "restarts": 3,
+   "cost_musd": 1.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Inspired by SpaceX Merlin 1D (~845 kN SL, Isp 282/311 s, ~470 kg)",
+    "pt": "Inspirado no Merlin 1D da SpaceX (~845 kN NM, Isp 282/311 s, ~470 kg)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   }
+  },
+  {
+   "id": "eng_falcao_v",
+   "category": "engine",
+   "model": "engine_kerolox_vac",
+   "name": {
+    "en": "Falcão-1V (vacuum)",
+    "pt": "Falcão-1V (vácuo)"
+   },
+   "desc": {
+    "en": "Kerolox upper-stage engine with a huge radiatively cooled nozzle.",
+    "pt": "Motor a querosene para estágio superior, bocal enorme resfriado por radiação."
+   },
+   "propellant": "kerolox",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 981,
+   "isp_sl_s": 0,
+   "isp_vac_s": 348,
+   "mass_kg": 550,
+   "gimbal_deg": 5,
+   "throttle_min": 0.4,
+   "restarts": 4,
+   "cost_musd": 1.4,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Inspired by Merlin Vacuum (~981 kN, Isp ~348 s; mass is a game value)",
+    "pt": "Inspirado no Merlin Vacuum (~981 kN, Isp ~348 s; massa é valor de jogo)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   }
+  },
+  {
+   "id": "eng_hidra_rl",
+   "category": "engine",
+   "model": "engine_hydrolox_upper",
+   "name": {
+    "en": "Hidra-10 (vacuum)",
+    "pt": "Hidra-10 (vácuo)"
+   },
+   "desc": {
+    "en": "High-efficiency hydrolox upper-stage engine. Low thrust, superb Isp.",
+    "pt": "Motor hidrolox de alta eficiência para estágio superior. Pouco empuxo, Isp excelente."
+   },
+   "propellant": "hydrolox",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 110,
+   "isp_sl_s": 0,
+   "isp_vac_s": 465,
+   "mass_kg": 301,
+   "gimbal_deg": 4,
+   "throttle_min": 0.3,
+   "restarts": 15,
+   "cost_musd": 3.0,
+   "reliability": 0.998,
+   "ref": {
+    "en": "Based on Aerojet Rocketdyne RL10B-2 (110.1 kN, Isp 465.5 s, 301 kg)",
+    "pt": "Baseado no RL10B-2 da Aerojet Rocketdyne (110,1 kN, Isp 465,5 s, 301 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   }
+  },
+  {
+   "id": "eng_hidra_25",
+   "category": "engine",
+   "model": "engine_hydrolox_main",
+   "name": {
+    "en": "Hidra-25 (main)",
+    "pt": "Hidra-25 (principal)"
+   },
+   "desc": {
+    "en": "Staged-combustion hydrolox main engine. Expensive, powerful, efficient.",
+    "pt": "Motor principal hidrolox de combustão em estágios. Caro, potente e eficiente."
+   },
+   "propellant": "hydrolox",
+   "size": "M",
+   "thrust_sl_kn": 1860,
+   "thrust_vac_kn": 2279,
+   "isp_sl_s": 366,
+   "isp_vac_s": 452,
+   "mass_kg": 3500,
+   "gimbal_deg": 10,
+   "throttle_min": 0.67,
+   "restarts": 0,
+   "cost_musd": 20.0,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on RS-25 (1,860 kN SL / 2,279 kN vac, Isp 366/452 s, ~3.5 t)",
+    "pt": "Baseado no RS-25 (1.860 kN NM / 2.279 kN vácuo, Isp 366/452 s, ~3,5 t)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   }
+  },
+  {
+   "id": "eng_metano_r",
+   "category": "engine",
+   "model": "engine_methalox",
+   "name": {
+    "en": "Metano-R (sea level)",
+    "pt": "Metano-R (nível do mar)"
+   },
+   "desc": {
+    "en": "Full-flow methalox engine. High thrust, reusable, clean burning.",
+    "pt": "Motor metalox de fluxo total. Alto empuxo, reutilizável e queima limpa."
+   },
+   "propellant": "methalox",
+   "size": "M",
+   "thrust_sl_kn": 2260,
+   "thrust_vac_kn": 2450,
+   "isp_sl_s": 327,
+   "isp_vac_s": 350,
+   "mass_kg": 1600,
+   "gimbal_deg": 15,
+   "throttle_min": 0.4,
+   "restarts": 5,
+   "cost_musd": 2.0,
+   "reliability": 0.993,
+   "ref": {
+    "en": "Inspired by SpaceX Raptor (public figures vary; ~2.3 MN, Isp ~327 s SL; approx.)",
+    "pt": "Inspirado no Raptor da SpaceX (números públicos variam; ~2,3 MN, Isp ~327 s NM; aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   }
+  },
+  {
+   "id": "eng_omega",
+   "category": "engine",
+   "model": "engine_hypergolic",
+   "name": {
+    "en": "Ômega-27 (hypergolic)",
+    "pt": "Ômega-27 (hipergólico)"
+   },
+   "desc": {
+    "en": "Pressure-fed hypergolic engine. Ignites on contact, unlimited restarts, storable for years.",
+    "pt": "Motor hipergólico alimentado por pressão. Acende por contato, reignições ilimitadas, armazenável por anos."
+   },
+   "propellant": "hypergolic",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 26.7,
+   "isp_sl_s": 0,
+   "isp_vac_s": 316,
+   "mass_kg": 118,
+   "gimbal_deg": 6,
+   "throttle_min": 1.0,
+   "restarts": 999,
+   "cost_musd": 2.5,
+   "reliability": 0.999,
+   "ref": {
+    "en": "Inspired by the Shuttle OMS engine AJ10-190 (26.7 kN, Isp ~316 s; mass approx.)",
+    "pt": "Inspirado no motor OMS do Shuttle AJ10-190 (26,7 kN, Isp ~316 s; massa aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   }
+  },
+  {
+   "id": "eng_srb_s",
+   "category": "engine",
+   "model": "srb",
+   "name": {
+    "en": "Booster SRB-S",
+    "pt": "Propulsor Sólido SRB-S"
+   },
+   "desc": {
+    "en": "Small solid booster with integrated propellant. Cannot throttle or shut down.",
+    "pt": "Propulsor sólido pequeno com propelente integrado. Não acelera nem desliga."
+   },
+   "propellant": "solid",
+   "size": "S",
+   "thrust_sl_kn": 420,
+   "thrust_vac_kn": 460,
+   "isp_sl_s": 242,
+   "isp_vac_s": 268,
+   "mass_kg": 1300,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 0,
+   "cost_musd": 3.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Isp follows the Shuttle SRB (242 s SL / 268 s vac); size is a game value",
+    "pt": "Isp segue o SRB do Shuttle (242 s NM / 268 s vácuo); tamanho é valor de jogo"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": false
+   },
+   "prop_mass_kg": 10000,
+   "length_m": 9.0
+  },
+  {
+   "id": "eng_srb_m",
+   "category": "engine",
+   "model": "srb",
+   "name": {
+    "en": "Booster SRB-M",
+    "pt": "Propulsor Sólido SRB-M"
+   },
+   "desc": {
+    "en": "Medium solid booster strapped radially to a core stage.",
+    "pt": "Propulsor sólido médio fixado radialmente ao estágio central."
+   },
+   "propellant": "solid",
+   "size": "M",
+   "thrust_sl_kn": 1600,
+   "thrust_vac_kn": 1750,
+   "isp_sl_s": 242,
+   "isp_vac_s": 268,
+   "mass_kg": 6000,
+   "gimbal_deg": 3,
+   "throttle_min": 1.0,
+   "restarts": 0,
+   "cost_musd": 9.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Isp follows the Shuttle SRB (242 s SL / 268 s vac); size is a game value",
+    "pt": "Isp segue o SRB do Shuttle (242 s NM / 268 s vácuo); tamanho é valor de jogo"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": false
+   },
+   "prop_mass_kg": 45000,
+   "length_m": 17.0
+  },
+  {
+   "id": "eng_mono_22n",
+   "category": "engine",
+   "model": "thruster_mono",
+   "name": {
+    "en": "Monoprop Thruster 22 N",
+    "pt": "Propulsor Monopropelente 22 N"
+   },
+   "desc": {
+    "en": "Catalytic hydrazine thruster for orbit corrections.",
+    "pt": "Propulsor catalítico de hidrazina para correções de órbita."
+   },
+   "propellant": "hydrazine",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 0.022,
+   "isp_sl_s": 0,
+   "isp_vac_s": 232,
+   "mass_kg": 0.6,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 9999,
+   "cost_musd": 0.3,
+   "reliability": 0.999,
+   "ref": {
+    "en": "Based on Aerojet MR-106L (10-34 N, Isp 228-236 s, 0.6 kg)",
+    "pt": "Baseado no MR-106L da Aerojet (10-34 N, Isp 228-236 s, 0,6 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   }
+  },
+  {
+   "id": "eng_ion",
+   "category": "engine",
+   "model": "thruster_ion",
+   "name": {
+    "en": "Ion Thruster NX-7",
+    "pt": "Propulsor Iônico NX-7"
+   },
+   "desc": {
+    "en": "Gridded ion engine. Tiny thrust, enormous Isp, needs ~6.9 kW of power.",
+    "pt": "Motor iônico de grades. Empuxo minúsculo, Isp enorme, precisa de ~6,9 kW de energia."
+   },
+   "propellant": "xenon",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 0.000236,
+   "isp_sl_s": 0,
+   "isp_vac_s": 4190,
+   "mass_kg": 60,
+   "gimbal_deg": 0,
+   "throttle_min": 0.1,
+   "restarts": 9999,
+   "cost_musd": 8.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Based on NASA NEXT-C (236 mN, Isp ~4,190 s, 6.9 kW); mass incl. PPU is a game value",
+    "pt": "Baseado no NEXT-C da NASA (236 mN, Isp ~4.190 s, 6,9 kW); massa com PPU é valor de jogo"
+   },
+   "src": "ref",
+   "power_w": 6900,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   }
+  },
+  {
+   "id": "decoupler_s",
+   "category": "structure",
+   "model": "decoupler",
+   "name": {
+    "en": "Stack Decoupler S",
+    "pt": "Desacoplador de Pilha S"
+   },
+   "desc": {
+    "en": "Pyrotechnic separation ring. Defines where one stage ends and the next begins.",
+    "pt": "Anel de separação pirotécnico. Define onde um estágio termina e o próximo começa."
+   },
+   "size": "S",
+   "mass_kg": 30,
+   "cost_musd": 0.3,
+   "reliability": 0.999,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "ejection_impulse_kns": 0.6,
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "decoupler_m",
+   "category": "structure",
+   "model": "decoupler",
+   "name": {
+    "en": "Stack Decoupler M",
+    "pt": "Desacoplador de Pilha M"
+   },
+   "desc": {
+    "en": "Pyrotechnic separation ring. Defines where one stage ends and the next begins.",
+    "pt": "Anel de separação pirotécnico. Define onde um estágio termina e o próximo começa."
+   },
+   "size": "M",
+   "mass_kg": 120,
+   "cost_musd": 0.8,
+   "reliability": 0.999,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "ejection_impulse_kns": 2.4,
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "decoupler_l",
+   "category": "structure",
+   "model": "decoupler",
+   "name": {
+    "en": "Stack Decoupler L",
+    "pt": "Desacoplador de Pilha L"
+   },
+   "desc": {
+    "en": "Pyrotechnic separation ring. Defines where one stage ends and the next begins.",
+    "pt": "Anel de separação pirotécnico. Define onde um estágio termina e o próximo começa."
+   },
+   "size": "L",
+   "mass_kg": 250,
+   "cost_musd": 1.5,
+   "reliability": 0.999,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "ejection_impulse_kns": 5.0,
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "decoupler_radial",
+   "category": "structure",
+   "model": "decoupler_radial",
+   "name": {
+    "en": "Radial Decoupler",
+    "pt": "Desacoplador Radial"
+   },
+   "desc": {
+    "en": "Holds side boosters; releases them when they burn out.",
+    "pt": "Segura propulsores laterais e os solta quando se esgotam."
+   },
+   "size": "XS",
+   "mass_kg": 40,
+   "cost_musd": 0.2,
+   "reliability": 0.999,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "interstage_m",
+   "category": "structure",
+   "model": "interstage",
+   "name": {
+    "en": "Interstage M",
+    "pt": "Interestágio M"
+   },
+   "desc": {
+    "en": "Hollow shell that covers the upper-stage engine nozzle.",
+    "pt": "Casca oca que cobre o bocal do motor do estágio superior."
+   },
+   "size": "M",
+   "length_m": 3.0,
+   "mass_kg": 400,
+   "cost_musd": 0.6,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "interstage_l",
+   "category": "structure",
+   "model": "interstage",
+   "name": {
+    "en": "Interstage L",
+    "pt": "Interestágio L"
+   },
+   "desc": {
+    "en": "Hollow shell that covers the upper-stage engine nozzle.",
+    "pt": "Casca oca que cobre o bocal do motor do estágio superior."
+   },
+   "size": "L",
+   "length_m": 3.0,
+   "mass_kg": 700,
+   "cost_musd": 0.6,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "adapter_sm",
+   "category": "structure",
+   "model": "adapter",
+   "name": {
+    "en": "Adapter S-M",
+    "pt": "Adaptador S-M"
+   },
+   "desc": {
+    "en": "Conical adapter between two diameter classes.",
+    "pt": "Adaptador cônico entre duas classes de diâmetro."
+   },
+   "size": "M",
+   "mass_kg": 150,
+   "cost_musd": 0.3,
+   "attach": {
+    "top": "S",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "adapter_ml",
+   "category": "structure",
+   "model": "adapter",
+   "name": {
+    "en": "Adapter M-L",
+    "pt": "Adaptador M-L"
+   },
+   "desc": {
+    "en": "Conical adapter between two diameter classes.",
+    "pt": "Adaptador cônico entre duas classes de diâmetro."
+   },
+   "size": "L",
+   "mass_kg": 300,
+   "cost_musd": 0.3,
+   "attach": {
+    "top": "M",
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "thrust_plate_s9",
+   "category": "structure",
+   "model": "thrust_plate",
+   "name": {
+    "en": "Thrust Plate S x9",
+    "pt": "Placa de Empuxo S x9"
+   },
+   "desc": {
+    "en": "Engine mount with 9 engine slots in a ring+center pattern.",
+    "pt": "Suporte de motores com 9 posições (anel + centro)."
+   },
+   "size": "S",
+   "mass_kg": 60,
+   "cost_musd": 0.4,
+   "engine_slots": 9,
+   "attach": {
+    "top": "S",
+    "bottom": "engines",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "thrust_plate_l9",
+   "category": "structure",
+   "model": "thrust_plate",
+   "name": {
+    "en": "Thrust Plate L x9",
+    "pt": "Placa de Empuxo L x9"
+   },
+   "desc": {
+    "en": "Engine mount with 9 engine slots in a ring+center pattern.",
+    "pt": "Suporte de motores com 9 posições (anel + centro)."
+   },
+   "size": "L",
+   "mass_kg": 1200,
+   "cost_musd": 0.4,
+   "engine_slots": 9,
+   "attach": {
+    "top": "L",
+    "bottom": "engines",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "thrust_plate_m3",
+   "category": "structure",
+   "model": "thrust_plate",
+   "name": {
+    "en": "Thrust Plate M x3",
+    "pt": "Placa de Empuxo M x3"
+   },
+   "desc": {
+    "en": "Engine mount with 3 engine slots in a ring+center pattern.",
+    "pt": "Suporte de motores com 3 posições (anel + centro)."
+   },
+   "size": "M",
+   "mass_kg": 300,
+   "cost_musd": 0.4,
+   "engine_slots": 3,
+   "attach": {
+    "top": "M",
+    "bottom": "engines",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "fairing_s",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing S",
+    "pt": "Coifa de Carga S"
+   },
+   "desc": {
+    "en": "Aerodynamic shell protecting the spacecraft through max-Q; jettisoned above ~110 km.",
+    "pt": "Casca aerodinâmica que protege a espaçonave no Max-Q; descartada acima de ~110 km."
+   },
+   "size": "S",
+   "mass_kg": 60,
+   "cost_musd": 0.2,
+   "inner_diameter_m": 1.1,
+   "attach": {
+    "top": null,
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "fairing_m",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing M",
+    "pt": "Coifa de Carga M"
+   },
+   "desc": {
+    "en": "Aerodynamic shell protecting the spacecraft through max-Q; jettisoned above ~110 km.",
+    "pt": "Casca aerodinâmica que protege a espaçonave no Max-Q; descartada acima de ~110 km."
+   },
+   "size": "M",
+   "mass_kg": 500,
+   "cost_musd": 1.67,
+   "inner_diameter_m": 2.3,
+   "attach": {
+    "top": null,
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "fairing_l",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing L",
+    "pt": "Coifa de Carga L"
+   },
+   "desc": {
+    "en": "Aerodynamic shell protecting the spacecraft through max-Q; jettisoned above ~110 km.",
+    "pt": "Casca aerodinâmica que protege a espaçonave no Max-Q; descartada acima de ~110 km."
+   },
+   "size": "L",
+   "mass_kg": 1300,
+   "cost_musd": 4.33,
+   "inner_diameter_m": 3.5,
+   "attach": {
+    "top": null,
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "nose_cone_s",
+   "category": "aero",
+   "model": "nose_cone",
+   "name": {
+    "en": "Nose Cone S",
+    "pt": "Ogiva S"
+   },
+   "desc": {
+    "en": "Reduces drag on boosters and sounding rockets.",
+    "pt": "Reduz o arrasto de boosters e foguetes de sondagem."
+   },
+   "size": "S",
+   "mass_kg": 20,
+   "cost_musd": 0.05,
+   "attach": {
+    "top": null,
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "nose_cone_m",
+   "category": "aero",
+   "model": "nose_cone",
+   "name": {
+    "en": "Nose Cone M",
+    "pt": "Ogiva M"
+   },
+   "desc": {
+    "en": "Reduces drag on boosters and sounding rockets.",
+    "pt": "Reduz o arrasto de boosters e foguetes de sondagem."
+   },
+   "size": "M",
+   "mass_kg": 80,
+   "cost_musd": 0.05,
+   "attach": {
+    "top": null,
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "fin_basic",
+   "category": "aero",
+   "model": "fin",
+   "name": {
+    "en": "Stabilizer Fin",
+    "pt": "Aleta Estabilizadora"
+   },
+   "desc": {
+    "en": "Moves the center of pressure aft. Useful on small rockets without gimbal.",
+    "pt": "Move o centro de pressão para trás. Útil em foguetes pequenos sem gimbal."
+   },
+   "size": "XS",
+   "mass_kg": 15,
+   "cost_musd": 0.02,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "payload_adapter",
+   "category": "structure",
+   "model": "payload_adapter",
+   "name": {
+    "en": "Payload Adapter",
+    "pt": "Adaptador de Carga"
+   },
+   "desc": {
+    "en": "Separation interface between the launcher and the spacecraft.",
+    "pt": "Interface de separação entre o lançador e a espaçonave."
+   },
+   "size": "M",
+   "mass_kg": 90,
+   "cost_musd": 0.5,
+   "attach": {
+    "top": "XS",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "reaction_wheels",
+   "category": "control",
+   "model": "reaction_wheels",
+   "name": {
+    "en": "Reaction Wheel Set",
+    "pt": "Conjunto de Rodas de Reação"
+   },
+   "desc": {
+    "en": "Four wheels for fine pointing without propellant. Saturate over time.",
+    "pt": "Quatro rodas para apontamento fino sem propelente. Saturam com o tempo."
+   },
+   "size": "XS",
+   "mass_kg": 12,
+   "power_w": 25,
+   "cost_musd": 1.5,
+   "reliability": 0.99,
+   "src": "game",
+   "attach": {},
+   "phase": 1
+  },
+  {
+   "id": "rcs_block",
+   "category": "control",
+   "model": "rcs_block",
+   "name": {
+    "en": "RCS Quad Block",
+    "pt": "Bloco RCS Quádruplo"
+   },
+   "desc": {
+    "en": "Four 1 N hydrazine thrusters for attitude control and wheel desaturation.",
+    "pt": "Quatro propulsores de hidrazina de 1 N para atitude e dessaturação das rodas."
+   },
+   "size": "XS",
+   "mass_kg": 1.5,
+   "cost_musd": 0.4,
+   "propellant": "hydrazine",
+   "thrust_vac_kn": 0.004,
+   "isp_vac_s": 215,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on Aerojet MR-103 (~1 N, Isp 202-224 s, 0.37 kg each)",
+    "pt": "Baseado no MR-103 da Aerojet (~1 N, Isp 202-224 s, 0,37 kg cada)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "star_tracker",
+   "category": "control",
+   "model": "star_tracker",
+   "name": {
+    "en": "Star Tracker",
+    "pt": "Rastreador de Estrelas"
+   },
+   "desc": {
+    "en": "Camera that recognizes star patterns. Enables arcsecond-level pointing.",
+    "pt": "Câmera que reconhece padrões de estrelas. Permite apontamento de segundos de arco."
+   },
+   "size": "XS",
+   "mass_kg": 3,
+   "power_w": 8,
+   "cost_musd": 1.0,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "solar_body",
+   "category": "power",
+   "model": "solar_body",
+   "name": {
+    "en": "Body-Mounted Solar Panel",
+    "pt": "Painel Solar de Corpo"
+   },
+   "desc": {
+    "en": "Fixed to the bus. No deployment risk, poor sun angle.",
+    "pt": "Fixo no bus. Sem risco de abertura, ângulo ruim."
+   },
+   "size": "XS",
+   "area_m2": 0.5,
+   "power_gen_w_1au": 191,
+   "mass_kg": 7.6,
+   "specific_power_w_kg": 25,
+   "cost_musd": 0.5,
+   "reliability": 0.998,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Triple-junction cells ~27-30% efficient",
+    "pt": "Células de tripla junção ~27-30% de eficiência"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "solar_wing",
+   "category": "power",
+   "model": "solar_wing",
+   "name": {
+    "en": "Deployable Solar Wing",
+    "pt": "Asa Solar Desdobrável"
+   },
+   "desc": {
+    "en": "Rigid folding wing on a gimbal. Tracks the Sun.",
+    "pt": "Asa rígida dobrável com gimbal. Segue o Sol."
+   },
+   "size": "XS",
+   "area_m2": 4.0,
+   "power_gen_w_1au": 1524,
+   "mass_kg": 38.1,
+   "specific_power_w_kg": 40,
+   "cost_musd": 3.0,
+   "reliability": 0.985,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Triple-junction cells ~27-30% efficient",
+    "pt": "Células de tripla junção ~27-30% de eficiência"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "solar_rollout",
+   "category": "power",
+   "model": "solar_rollout",
+   "name": {
+    "en": "Roll-Out Solar Array",
+    "pt": "Painel Solar Enrolável"
+   },
+   "desc": {
+    "en": "Flexible blanket unrolled from two booms. Very light per watt.",
+    "pt": "Manta flexível desenrolada por duas hastes. Muito leve por watt."
+   },
+   "size": "XS",
+   "area_m2": 8.0,
+   "power_gen_w_1au": 3049,
+   "mass_kg": 27.7,
+   "specific_power_w_kg": 110,
+   "cost_musd": 6.0,
+   "reliability": 0.985,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "ROSA: 100-120 W/kg (Redwire); triple-junction cells ~27-30% efficient",
+    "pt": "ROSA: 100-120 W/kg (Redwire); células de tripla junção ~27-30% de eficiência"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "battery_s",
+   "category": "power",
+   "model": "battery",
+   "name": {
+    "en": "Battery Pack 400 Wh",
+    "pt": "Bateria 400 Wh"
+   },
+   "desc": {
+    "en": "Li-ion pack. Carries the spacecraft through eclipses.",
+    "pt": "Pacote de íons de lítio. Sustenta a nave durante eclipses."
+   },
+   "size": "XS",
+   "capacity_wh": 400,
+   "mass_kg": 3.3,
+   "cost_musd": 0.52,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Battery-level ~100-150 Wh/kg (approx.)",
+    "pt": "Nível de bateria ~100-150 Wh/kg (aprox.)"
+   },
+   "src": "approx",
+   "attach": {},
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "battery_m",
+   "category": "power",
+   "model": "battery",
+   "name": {
+    "en": "Battery Pack 2 kWh",
+    "pt": "Bateria 2 kWh"
+   },
+   "desc": {
+    "en": "Li-ion pack. Carries the spacecraft through eclipses.",
+    "pt": "Pacote de íons de lítio. Sustenta a nave durante eclipses."
+   },
+   "size": "XS",
+   "capacity_wh": 2000,
+   "mass_kg": 16.7,
+   "cost_musd": 1.8,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Battery-level ~100-150 Wh/kg (approx.)",
+    "pt": "Nível de bateria ~100-150 Wh/kg (aprox.)"
+   },
+   "src": "approx",
+   "attach": {},
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "rtg",
+   "category": "power",
+   "model": "rtg",
+   "name": {
+    "en": "Radioisotope Generator (RTG)",
+    "pt": "Gerador Radioisotópico (RTG)"
+   },
+   "desc": {
+    "en": "Plutonium-238 decay heat to electricity. Works anywhere, decays ~4%/year.",
+    "pt": "Calor do decaimento de plutônio-238 vira eletricidade. Funciona em qualquer lugar, perde ~4%/ano."
+   },
+   "size": "XS",
+   "mass_kg": 45,
+   "power_w": 0,
+   "power_gen_w_1au": 110,
+   "cost_musd": 80.0,
+   "reliability": 0.999,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on NASA MMRTG (~110 W at start, ~45 kg)",
+    "pt": "Baseado no MMRTG da NASA (~110 W no início, ~45 kg)"
+   },
+   "src": "ref",
+   "phase": 1
+  },
+  {
+   "id": "antenna_omni",
+   "category": "comms",
+   "model": "antenna_omni",
+   "name": {
+    "en": "Omni Antenna",
+    "pt": "Antena Omni"
+   },
+   "desc": {
+    "en": "Works in any orientation. Emergency link, very low data rate.",
+    "pt": "Funciona em qualquer orientação. Link de emergência, taxa muito baixa."
+   },
+   "size": "XS",
+   "mass_kg": 1.0,
+   "power_w": 5,
+   "rate_ref_mbps_moon": 0.01,
+   "cost_musd": 0.2,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "antenna_mga",
+   "category": "comms",
+   "model": "antenna_dish_s",
+   "name": {
+    "en": "Medium-Gain Dish 0.5 m",
+    "pt": "Antena Média 0,5 m"
+   },
+   "desc": {
+    "en": "Must point roughly at Earth. Good for the Moon.",
+    "pt": "Precisa apontar para a Terra. Boa para a Lua."
+   },
+   "size": "XS",
+   "mass_kg": 6.0,
+   "power_w": 30,
+   "rate_ref_mbps_moon": 2.0,
+   "cost_musd": 1.5,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "antenna_hga",
+   "category": "comms",
+   "model": "antenna_dish_l",
+   "name": {
+    "en": "High-Gain Dish 1.5 m",
+    "pt": "Antena de Alto Ganho 1,5 m"
+   },
+   "desc": {
+    "en": "X/Ka-band workhorse for deep space. Needs precise pointing.",
+    "pt": "Antena X/Ka para espaço profundo. Exige apontamento preciso."
+   },
+   "size": "XS",
+   "mass_kg": 20.0,
+   "power_w": 60,
+   "rate_ref_mbps_moon": 20.0,
+   "cost_musd": 5.0,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "antenna_hga_xl",
+   "category": "comms",
+   "model": "antenna_dish_l",
+   "name": {
+    "en": "High-Gain Dish 3 m",
+    "pt": "Antena de Alto Ganho 3 m"
+   },
+   "desc": {
+    "en": "Large reflector for planetary orbiters with heavy data loads.",
+    "pt": "Refletor grande para orbitadores planetários com muitos dados."
+   },
+   "size": "XS",
+   "mass_kg": 50.0,
+   "power_w": 100,
+   "rate_ref_mbps_moon": 80.0,
+   "cost_musd": 12.0,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "radiator",
+   "category": "thermal",
+   "model": "radiator",
+   "name": {
+    "en": "Radiator Panel",
+    "pt": "Painel Radiador"
+   },
+   "desc": {
+    "en": "Rejects waste heat to space. Needed for high-power payloads.",
+    "pt": "Rejeita calor para o espaço. Necessário para cargas de alta potência."
+   },
+   "size": "XS",
+   "mass_kg": 8,
+   "cost_musd": 0.4,
+   "heat_reject_w": 400,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "mli_heaters",
+   "category": "thermal",
+   "model": "mli",
+   "name": {
+    "en": "MLI Blankets + Heaters",
+    "pt": "Mantas MLI + Aquecedores"
+   },
+   "desc": {
+    "en": "Gold multi-layer insulation and heaters. Keeps electronics alive far from the Sun.",
+    "pt": "Isolamento multicamadas dourado e aquecedores. Mantém a eletrônica viva longe do Sol."
+   },
+   "size": "XS",
+   "mass_kg": 10,
+   "power_w": 30,
+   "cost_musd": 0.5,
+   "src": "game",
+   "attach": {},
+   "phase": 1
+  },
+  {
+   "id": "bus_cubesat",
+   "category": "bus",
+   "model": "bus_box",
+   "name": {
+    "en": "CubeSat 6U Bus",
+    "pt": "Bus CubeSat 6U"
+   },
+   "desc": {
+    "en": "Primary structure, harness and wiring. Defines payload capacity and instrument slots.",
+    "pt": "Estrutura primária e cabeamento. Define capacidade de carga e posições de instrumentos."
+   },
+   "size": "XS",
+   "mass_kg": 3,
+   "payload_capacity_kg": 6,
+   "instrument_slots": 3,
+   "cost_musd": 1.0,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "bus_small",
+   "category": "bus",
+   "model": "bus_box",
+   "name": {
+    "en": "Small Bus (150 kg class)",
+    "pt": "Bus Pequeno (classe 150 kg)"
+   },
+   "desc": {
+    "en": "Primary structure, harness and wiring. Defines payload capacity and instrument slots.",
+    "pt": "Estrutura primária e cabeamento. Define capacidade de carga e posições de instrumentos."
+   },
+   "size": "S",
+   "mass_kg": 90,
+   "payload_capacity_kg": 60,
+   "instrument_slots": 4,
+   "cost_musd": 15.0,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "bus_medium",
+   "category": "bus",
+   "model": "bus_box",
+   "name": {
+    "en": "Medium Bus (600 kg class)",
+    "pt": "Bus Médio (classe 600 kg)"
+   },
+   "desc": {
+    "en": "Primary structure, harness and wiring. Defines payload capacity and instrument slots.",
+    "pt": "Estrutura primária e cabeamento. Define capacidade de carga e posições de instrumentos."
+   },
+   "size": "S",
+   "mass_kg": 350,
+   "payload_capacity_kg": 250,
+   "instrument_slots": 6,
+   "cost_musd": 60.0,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "bus_large",
+   "category": "bus",
+   "model": "bus_box",
+   "name": {
+    "en": "Large Bus (1500 kg class)",
+    "pt": "Bus Grande (classe 1500 kg)"
+   },
+   "desc": {
+    "en": "Primary structure, harness and wiring. Defines payload capacity and instrument slots.",
+    "pt": "Estrutura primária e cabeamento. Define capacidade de carga e posições de instrumentos."
+   },
+   "size": "S",
+   "mass_kg": 900,
+   "payload_capacity_kg": 600,
+   "instrument_slots": 8,
+   "cost_musd": 150.0,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1
+  },
+  {
+   "id": "inst_wac",
+   "category": "instrument",
+   "model": "camera",
+   "name": {
+    "en": "Wide-Angle Camera",
+    "pt": "Câmera Grande-Angular"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 6,
+   "power_w": 12,
+   "data_gbit_day": 8,
+   "cost_musd": 12,
+   "capabilities": {
+    "imaging": 0.5
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_nac",
+   "category": "instrument",
+   "model": "camera_hr",
+   "name": {
+    "en": "High-Resolution Camera",
+    "pt": "Câmera de Alta Resolução"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 18,
+   "power_w": 25,
+   "data_gbit_day": 20,
+   "cost_musd": 30,
+   "capabilities": {
+    "imaging": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_neutron",
+   "category": "instrument",
+   "model": "neutron_spec",
+   "name": {
+    "en": "Neutron Spectrometer",
+    "pt": "Espectrômetro de Nêutrons"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 12,
+   "power_w": 14,
+   "data_gbit_day": 0.5,
+   "cost_musd": 22,
+   "capabilities": {
+    "hydrogen": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_ir",
+   "category": "instrument",
+   "model": "spectrometer",
+   "name": {
+    "en": "IR Spectrometer",
+    "pt": "Espectrômetro IR"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 25,
+   "power_w": 30,
+   "data_gbit_day": 6,
+   "cost_musd": 40,
+   "capabilities": {
+    "composition": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_radar",
+   "category": "instrument",
+   "model": "radar",
+   "name": {
+    "en": "Radar Sounder / SAR",
+    "pt": "Radar Sondador / SAR"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 20,
+   "power_w": 90,
+   "data_gbit_day": 40,
+   "cost_musd": 55,
+   "capabilities": {
+    "subsurface": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_lidar",
+   "category": "instrument",
+   "model": "lidar",
+   "name": {
+    "en": "Laser Altimeter",
+    "pt": "Altímetro Laser"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 15,
+   "power_w": 25,
+   "data_gbit_day": 1,
+   "cost_musd": 35,
+   "capabilities": {
+    "topography": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_thermal",
+   "category": "instrument",
+   "model": "spectrometer",
+   "name": {
+    "en": "Thermal Radiometer",
+    "pt": "Radiômetro Térmico"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 10,
+   "power_w": 15,
+   "data_gbit_day": 2,
+   "cost_musd": 20,
+   "capabilities": {
+    "thermal": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_mag",
+   "category": "instrument",
+   "model": "magnetometer",
+   "name": {
+    "en": "Magnetometer + Boom",
+    "pt": "Magnetômetro + Haste"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 3,
+   "power_w": 2,
+   "data_gbit_day": 0.1,
+   "cost_musd": 8,
+   "capabilities": {
+    "fields": 0.6
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "inst_multispectral",
+   "category": "instrument",
+   "model": "camera",
+   "name": {
+    "en": "Multispectral Imager (Earth)",
+    "pt": "Imageador Multiespectral (Terra)"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 15,
+   "power_w": 20,
+   "data_gbit_day": 15,
+   "cost_musd": 28,
+   "capabilities": {
+    "vegetation": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 1
+  },
+  {
+   "id": "crew_capsule",
+   "category": "future",
+   "model": "crew_capsule",
+   "name": {
+    "en": "Crew Capsule (3 seats)",
+    "pt": "Cápsula Tripulada (3 lugares)"
+   },
+   "desc": {
+    "en": "Pressurized capsule with heat shield and docking port. Phase 2.",
+    "pt": "Cápsula pressurizada com escudo térmico e porta de acoplamento. Fase 2."
+   },
+   "size": "M",
+   "mass_kg": 8500,
+   "power_w": 800,
+   "cost_musd": 300,
+   "attach": {
+    "top": "S",
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "phase": 2,
+   "crew_seats": 3
+  },
+  {
+   "id": "parachute",
+   "category": "future",
+   "model": "parachute",
+   "name": {
+    "en": "Parachute Pack",
+    "pt": "Pacote de Paraquedas"
+   },
+   "desc": {
+    "en": "Main parachutes for splashdown. Phase 2.",
+    "pt": "Paraquedas principais para amerissagem. Fase 2."
+   },
+   "size": "S",
+   "mass_kg": 150,
+   "cost_musd": 1.0,
+   "src": "game",
+   "phase": 2,
+   "attach": {},
+   "power_w": 0.0
+  },
+  {
+   "id": "landing_legs",
+   "category": "future",
+   "model": "landing_legs",
+   "name": {
+    "en": "Landing Legs",
+    "pt": "Pernas de Pouso"
+   },
+   "desc": {
+    "en": "Deployable legs for propulsive booster landing. Phase 2.",
+    "pt": "Pernas desdobráveis para pouso propulsivo do booster. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 600,
+   "cost_musd": 2.0,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 2,
+   "power_w": 0.0
+  },
+  {
+   "id": "grid_fins",
+   "category": "future",
+   "model": "grid_fins",
+   "name": {
+    "en": "Grid Fins",
+    "pt": "Aletas em Grade"
+   },
+   "desc": {
+    "en": "Steer the booster during re-entry. Phase 2.",
+    "pt": "Guiam o booster na reentrada. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 150,
+   "cost_musd": 1.0,
+   "attach": {
+    "radial": true
+   },
+   "src": "game",
+   "phase": 2,
+   "power_w": 0.0
+  },
+  {
+   "id": "eng_hidra_5",
+   "category": "engine",
+   "model": "engine_hydrolox_s",
+   "name": {
+    "en": "Hidra-5 (vacuum)",
+    "pt": "Hidra-5 (vácuo)"
+   },
+   "desc": {
+    "en": "Compact expander-bleed hydrolox upper-stage engine. Deep throttling and many restarts.",
+    "pt": "Motor hidrolox compacto de ciclo expansor (sangria) para estágio superior. Aceleração profunda e muitas reignições."
+   },
+   "propellant": "hydrolox",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 137,
+   "isp_sl_s": 0,
+   "isp_vac_s": 447,
+   "mass_kg": 285,
+   "gimbal_deg": 4,
+   "throttle_min": 0.6,
+   "restarts": 15,
+   "cost_musd": 2.5,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on JAXA/MHI LE-5B (137 kN vac, Isp ~447 s, ~285 kg; up to 16 starts)",
+    "pt": "Baseado no LE-5B da JAXA/MHI (137 kN vácuo, Isp ~447 s, ~285 kg; até 16 partidas)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_hidra_j2",
+   "category": "engine",
+   "model": "engine_hydrolox_j2",
+   "name": {
+    "en": "Hidra-100 (upper stage)",
+    "pt": "Hidra-100 (estágio superior)"
+   },
+   "desc": {
+    "en": "Gas-generator hydrolox engine for heavy upper stages. Restartable once for trans-lunar injection.",
+    "pt": "Motor hidrolox de gerador de gás para estágios superiores pesados. Reacende uma vez para a injeção translunar."
+   },
+   "propellant": "hydrolox",
+   "size": "M",
+   "thrust_sl_kn": 486,
+   "thrust_vac_kn": 1033,
+   "isp_sl_s": 200,
+   "isp_vac_s": 421,
+   "mass_kg": 1788,
+   "gimbal_deg": 7,
+   "throttle_min": 0.8,
+   "restarts": 1,
+   "cost_musd": 9.0,
+   "reliability": 0.996,
+   "ref": {
+    "en": "Based on Rocketdyne J-2 (486.2 kN SL / 1,033.1 kN vac, Isp 200/421 s, 1,788 kg)",
+    "pt": "Baseado no J-2 da Rocketdyne (486,2 kN NM / 1.033,1 kN vácuo, Isp 200/421 s, 1.788 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_hidra_68",
+   "category": "engine",
+   "model": "engine_hydrolox_rs68",
+   "name": {
+    "en": "Hidra-68 (booster)",
+    "pt": "Hidra-68 (primeiro estágio)"
+   },
+   "desc": {
+    "en": "Simple, cheap gas-generator hydrolox booster engine with an ablative nozzle. Very high thrust.",
+    "pt": "Motor hidrolox de primeiro estágio, simples e barato, de gerador de gás com bocal ablativo. Empuxo muito alto."
+   },
+   "propellant": "hydrolox",
+   "size": "L",
+   "thrust_sl_kn": 3137,
+   "thrust_vac_kn": 3560,
+   "isp_sl_s": 362,
+   "isp_vac_s": 411,
+   "mass_kg": 6740,
+   "gimbal_deg": 6,
+   "throttle_min": 0.58,
+   "restarts": 0,
+   "cost_musd": 15.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Based on Aerojet Rocketdyne RS-68A (3,137 kN SL / 3,560 kN vac, Isp 362/411 s, ~6.7 t)",
+    "pt": "Baseado no RS-68A da Aerojet Rocketdyne (3.137 kN NM / 3.560 kN vácuo, Isp 362/411 s, ~6,7 t)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_harpia",
+   "category": "engine",
+   "model": "engine_kerolox_dual",
+   "name": {
+    "en": "Harpia-2 (dual chamber)",
+    "pt": "Harpia-2 (câmara dupla)"
+   },
+   "desc": {
+    "en": "Oxygen-rich staged-combustion kerolox engine: one turbopump feeding two gimballed chambers.",
+    "pt": "Motor a querosene de combustão em estágios rica em oxigênio: uma turbobomba alimenta duas câmaras com gimbal."
+   },
+   "propellant": "kerolox",
+   "size": "L",
+   "thrust_sl_kn": 3830,
+   "thrust_vac_kn": 4152,
+   "isp_sl_s": 311,
+   "isp_vac_s": 338,
+   "mass_kg": 5480,
+   "gimbal_deg": 8,
+   "throttle_min": 0.47,
+   "restarts": 0,
+   "cost_musd": 12.0,
+   "reliability": 0.996,
+   "ref": {
+    "en": "Based on NPO Energomash RD-180 (3,830 kN SL / 4,152 kN vac, Isp 311/338 s, 5,480 kg)",
+    "pt": "Baseado no RD-180 da NPO Energomash (3.830 kN NM / 4.152 kN vácuo, Isp 311/338 s, 5.480 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_falcao_4v",
+   "category": "engine",
+   "model": "engine_kerolox_quad",
+   "name": {
+    "en": "Falcão-4V (four chambers, vacuum)",
+    "pt": "Falcão-4V (quatro câmaras, vácuo)"
+   },
+   "desc": {
+    "en": "Staged-combustion kerolox upper-stage engine with four small gimballed chambers.",
+    "pt": "Motor a querosene de combustão em estágios para estágio superior, com quatro pequenas câmaras com gimbal."
+   },
+   "propellant": "kerolox",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 294,
+   "isp_sl_s": 0,
+   "isp_vac_s": 359,
+   "mass_kg": 480,
+   "gimbal_deg": 8,
+   "throttle_min": 0.6,
+   "restarts": 2,
+   "cost_musd": 3.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Based on KBKhA RD-0124 (294.3 kN vac, Isp 359 s, 480 kg)",
+    "pt": "Baseado no RD-0124 da KBKhA (294,3 kN vácuo, Isp 359 s, 480 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_metano_v",
+   "category": "engine",
+   "model": "engine_methalox_vac",
+   "name": {
+    "en": "Metano-V (vacuum)",
+    "pt": "Metano-V (vácuo)"
+   },
+   "desc": {
+    "en": "Full-flow methalox engine with a large fixed vacuum nozzle. Reusable upper stages.",
+    "pt": "Motor metalox de fluxo total com bocal de vácuo grande e fixo. Estágios superiores reutilizáveis."
+   },
+   "propellant": "methalox",
+   "size": "M",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 2500,
+   "isp_sl_s": 0,
+   "isp_vac_s": 378,
+   "mass_kg": 1800,
+   "gimbal_deg": 0,
+   "throttle_min": 0.4,
+   "restarts": 10,
+   "cost_musd": 3.0,
+   "reliability": 0.992,
+   "ref": {
+    "en": "Inspired by SpaceX Raptor Vacuum (public figures vary: ~2.5 MN, Isp ~378-380 s; mass approx.)",
+    "pt": "Inspirado no Raptor Vacuum da SpaceX (números públicos variam: ~2,5 MN, Isp ~378-380 s; massa aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_apogee_490n",
+   "category": "engine",
+   "model": "engine_apogee",
+   "name": {
+    "en": "Apogee Thruster 490 N",
+    "pt": "Propulsor de Apogeu 490 N"
+   },
+   "desc": {
+    "en": "Bipropellant spacecraft main engine for orbit insertion. Radiatively cooled niobium nozzle.",
+    "pt": "Motor bipropelente principal de espaçonave para inserção orbital. Bocal de nióbio resfriado por radiação."
+   },
+   "propellant": "hypergolic",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 0.49,
+   "isp_sl_s": 0,
+   "isp_vac_s": 312,
+   "mass_kg": 3.6,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 999,
+   "cost_musd": 0.8,
+   "reliability": 0.999,
+   "ref": {
+    "en": "Based on Aerojet R-4D-11 (490 N, Isp 312 s, 3.63 kg)",
+    "pt": "Baseado no R-4D-11 da Aerojet (490 N, Isp 312 s, 3,63 kg)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_descent",
+   "category": "engine",
+   "model": "engine_descent",
+   "name": {
+    "en": "Descent Engine DE-45 (throttleable)",
+    "pt": "Motor de Descida DE-45 (acelerável)"
+   },
+   "desc": {
+    "en": "Pressure-fed hypergolic lander engine that throttles down to 10% for a soft touchdown.",
+    "pt": "Motor hipergólico de pouso alimentado por pressão que reduz até 10% para um toque suave."
+   },
+   "propellant": "hypergolic",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 45,
+   "isp_sl_s": 0,
+   "isp_vac_s": 311,
+   "mass_kg": 179,
+   "gimbal_deg": 6,
+   "throttle_min": 0.1,
+   "restarts": 20,
+   "cost_musd": 4.0,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on the Apollo LM Descent Propulsion System (45.04 kN, Isp 311 s, 179 kg, 10-100% throttle)",
+    "pt": "Baseado no Sistema de Propulsão de Descida do LM Apollo (45,04 kN, Isp 311 s, 179 kg, 10-100%)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_mono_lander",
+   "category": "engine",
+   "model": "thruster_mono_lander",
+   "name": {
+    "en": "Throttleable Monoprop 3 kN",
+    "pt": "Monopropelente Acelerável 3 kN"
+   },
+   "desc": {
+    "en": "Large throttleable hydrazine thruster. Cluster 8 on a sky-crane or lander descent stage.",
+    "pt": "Propulsor grande de hidrazina, acelerável. Use 8 em um guindaste aéreo ou estágio de descida."
+   },
+   "propellant": "hydrazine",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 3.1,
+   "isp_sl_s": 0,
+   "isp_vac_s": 225,
+   "mass_kg": 8.0,
+   "gimbal_deg": 0,
+   "throttle_min": 0.1,
+   "restarts": 999,
+   "cost_musd": 0.9,
+   "reliability": 0.998,
+   "ref": {
+    "en": "Inspired by Aerojet MR-80B (MSL / Mars 2020 descent stage, ~3.1 kN, Isp ~225 s; mass approx.)",
+    "pt": "Inspirado no MR-80B da Aerojet (estágio de descida MSL / Mars 2020, ~3,1 kN, Isp ~225 s; massa aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_hall_s",
+   "category": "engine",
+   "model": "thruster_hall_s",
+   "name": {
+    "en": "Hall Thruster HT-100",
+    "pt": "Propulsor Hall HT-100"
+   },
+   "desc": {
+    "en": "Stationary plasma (Hall-effect) thruster. Higher thrust per watt than a gridded ion engine, lower Isp.",
+    "pt": "Propulsor de plasma estacionário (efeito Hall). Mais empuxo por watt que o iônico de grades, Isp menor."
+   },
+   "propellant": "xenon",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 8e-05,
+   "isp_sl_s": 0,
+   "isp_vac_s": 1600,
+   "mass_kg": 12,
+   "gimbal_deg": 0,
+   "throttle_min": 0.5,
+   "restarts": 9999,
+   "cost_musd": 1.5,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on OKB Fakel SPT-100 (80 mN, Isp 1,600 s, 1.35 kW); mass incl. PPU is a game value",
+    "pt": "Baseado no SPT-100 da OKB Fakel (80 mN, Isp 1.600 s, 1,35 kW); massa com PPU é valor de jogo"
+   },
+   "src": "ref",
+   "power_w": 1350,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_hall_l",
+   "category": "engine",
+   "model": "thruster_hall_l",
+   "name": {
+    "en": "Hall Thruster HT-12k",
+    "pt": "Propulsor Hall HT-12k"
+   },
+   "desc": {
+    "en": "High-power magnetically shielded Hall thruster for cargo tugs and lunar gateways. Needs 12.5 kW.",
+    "pt": "Propulsor Hall de alta potência com blindagem magnética, para rebocadores e estações lunares. Precisa de 12,5 kW."
+   },
+   "propellant": "xenon",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 0.0006,
+   "isp_sl_s": 0,
+   "isp_vac_s": 2800,
+   "mass_kg": 100,
+   "gimbal_deg": 0,
+   "throttle_min": 0.5,
+   "restarts": 9999,
+   "cost_musd": 12.0,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Based on NASA/Aerojet AEPS (600 mN, Isp ~2,800 s, 12.5 kW, ~100 kg per string)",
+    "pt": "Baseado no AEPS da NASA/Aerojet (600 mN, Isp ~2.800 s, 12,5 kW, ~100 kg por conjunto)"
+   },
+   "src": "approx",
+   "power_w": 12500,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "added": "v2"
+  },
+  {
+   "id": "eng_kick_48",
+   "category": "engine",
+   "model": "kick_motor",
+   "name": {
+    "en": "Kick Motor KM-48 (solid)",
+    "pt": "Motor de Chute KM-48 (sólido)"
+   },
+   "desc": {
+    "en": "Spin-stabilized solid upper stage that stacks under a spacecraft for the final escape burn.",
+    "pt": "Estágio superior sólido estabilizado por rotação, empilhado sob a espaçonave para a queima final de escape."
+   },
+   "propellant": "solid",
+   "size": "S",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 68.6,
+   "isp_sl_s": 0,
+   "isp_vac_s": 292,
+   "mass_kg": 131,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 0,
+   "cost_musd": 4.0,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on Northrop Grumman Star 48B (2,011 kg propellant, 2,141 kg total, Isp 292.1 s, ~84 s burn)",
+    "pt": "Baseado no Star 48B da Northrop Grumman (2.011 kg de propelente, 2.141 kg total, Isp 292,1 s, ~84 s)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "prop_mass_kg": 2011,
+   "length_m": 2.03,
+   "added": "v2"
+  },
+  {
+   "id": "eng_kick_37",
+   "category": "engine",
+   "model": "kick_motor",
+   "name": {
+    "en": "Kick Motor KM-37 (solid)",
+    "pt": "Motor de Chute KM-37 (sólido)"
+   },
+   "desc": {
+    "en": "Smaller solid kick motor for apogee and escape burns of small spacecraft.",
+    "pt": "Motor de chute sólido menor para queimas de apogeu e de escape de espaçonaves pequenas."
+   },
+   "propellant": "solid",
+   "size": "XS",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 47.3,
+   "isp_sl_s": 0,
+   "isp_vac_s": 290,
+   "mass_kg": 82,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 0,
+   "cost_musd": 2.5,
+   "reliability": 0.997,
+   "ref": {
+    "en": "Based on Northrop Grumman Star 37FM (~1,066 kg propellant, Isp ~290 s; approx.)",
+    "pt": "Baseado no Star 37FM da Northrop Grumman (~1.066 kg de propelente, Isp ~290 s; aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": false
+   },
+   "prop_mass_kg": 1066,
+   "length_m": 1.69,
+   "added": "v2"
+  },
+  {
+   "id": "eng_sep_motor",
+   "category": "engine",
+   "model": "sep_motor",
+   "name": {
+    "en": "Separation Motor (solid)",
+    "pt": "Motor de Separação (sólido)"
+   },
+   "desc": {
+    "en": "Tiny one-second solid motor that pushes a spent booster away (or settles propellant as an ullage motor).",
+    "pt": "Motor sólido minúsculo de um segundo que afasta um booster gasto (ou assenta o propelente, como motor de ulagem)."
+   },
+   "propellant": "solid",
+   "size": "XS",
+   "thrust_sl_kn": 98,
+   "thrust_vac_kn": 102,
+   "isp_sl_s": 236,
+   "isp_vac_s": 250,
+   "mass_kg": 42,
+   "gimbal_deg": 0,
+   "throttle_min": 1.0,
+   "restarts": 0,
+   "cost_musd": 0.15,
+   "reliability": 0.999,
+   "ref": {
+    "en": "Inspired by the Space Shuttle booster separation motor (~98 kN for ~1 s; values approx.)",
+    "pt": "Inspirado no motor de separação do booster do Space Shuttle (~98 kN por ~1 s; valores aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "prop_mass_kg": 34,
+   "length_m": 0.8,
+   "added": "v2"
+  },
+  {
+   "id": "eng_aerospike",
+   "category": "engine",
+   "model": "engine_aerospike",
+   "name": {
+    "en": "Aerospike AS-9 (altitude compensating)",
+    "pt": "Aerospike AS-9 (compensa a altitude)"
+   },
+   "desc": {
+    "en": "Plug-nozzle hydrolox engine: the open exhaust adapts to air pressure, so Isp stays high from sea level to vacuum. Phase 2.",
+    "pt": "Motor hidrolox de bocal tampão: o jato aberto se adapta à pressão do ar e o Isp fica alto do nível do mar ao vácuo. Fase 2."
+   },
+   "propellant": "hydrolox",
+   "size": "M",
+   "thrust_sl_kn": 909,
+   "thrust_vac_kn": 1184,
+   "isp_sl_s": 339,
+   "isp_vac_s": 439,
+   "mass_kg": 3200,
+   "gimbal_deg": 0,
+   "throttle_min": 0.6,
+   "restarts": 3,
+   "cost_musd": 25.0,
+   "reliability": 0.99,
+   "ref": {
+    "en": "Based on Rocketdyne XRS-2200 linear aerospike (909 kN SL / 1,184 kN vac, Isp 339/439 s); annular shape and mass are game values",
+    "pt": "Baseado no aerospike linear XRS-2200 da Rocketdyne (909 kN NM / 1.184 kN vácuo, Isp 339/439 s); forma anular e massa são valores de jogo"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 2,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "steering": "differential_throttle",
+   "added": "v2"
+  },
+  {
+   "id": "eng_ntr",
+   "category": "engine",
+   "model": "engine_ntr",
+   "name": {
+    "en": "Nuclear Thermal NT-75 (vacuum)",
+    "pt": "Térmico Nuclear NT-75 (vácuo)"
+   },
+   "desc": {
+    "en": "A fission reactor heats pure hydrogen to ~2,500 K: twice the Isp of chemical engines, but heavy and vacuum-only. Phase 2, flagged.",
+    "pt": "Um reator de fissão aquece hidrogênio puro a ~2.500 K: o dobro do Isp dos motores químicos, mas pesado e só no vácuo. Fase 2, sinalizado."
+   },
+   "propellant": "lh2",
+   "size": "M",
+   "thrust_sl_kn": 0,
+   "thrust_vac_kn": 73,
+   "isp_sl_s": 0,
+   "isp_vac_s": 900,
+   "mass_kg": 2500,
+   "gimbal_deg": 4,
+   "throttle_min": 0.6,
+   "restarts": 10,
+   "cost_musd": 120.0,
+   "reliability": 0.985,
+   "ref": {
+    "en": "Based on the Los Alamos Small Nuclear Rocket Engine study (~16.4-16.7 klbf / 73 kN, Isp ~875-900 s, T/W ~3)",
+    "pt": "Baseado no estudo Small Nuclear Rocket Engine de Los Alamos (~16,4-16,7 klbf / 73 kN, Isp ~875-900 s, T/P ~3)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 2,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "nuclear": true,
+   "flag": {
+    "en": "Nuclear: start the reactor only in a high, disposal-safe orbit (above ~800 km).",
+    "pt": "Nuclear: ligue o reator só em órbita alta e segura para descarte (acima de ~800 km)."
+   },
+   "added": "v2"
+  },
+  {
+   "id": "tank_kerolox_xs1",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank XS-1m",
+    "pt": "Tanque Querosene / LOX XS-1m"
+   },
+   "desc": {
+    "en": "Stackable 0.625 m tank, 1 m long. Sounding rockets, kick stages, landers.",
+    "pt": "Tanque empilhável de 0.625 m, 1 m de comprimento. Foguetes de sondagem, estágios de chute, módulos de pouso."
+   },
+   "size": "XS",
+   "length_m": 1.0,
+   "propellant": "kerolox",
+   "volume_m3": 0.276,
+   "prop_mass_kg": 284,
+   "mass_kg": 17,
+   "cost_musd": 0.18,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_kerolox_xs2",
+   "category": "tank",
+   "model": "tank_kerolox",
+   "name": {
+    "en": "Kerosene / LOX Tank XS-2m",
+    "pt": "Tanque Querosene / LOX XS-2m"
+   },
+   "desc": {
+    "en": "Stackable 0.625 m tank, 2 m long. Sounding rockets, kick stages, landers.",
+    "pt": "Tanque empilhável de 0.625 m, 2 m de comprimento. Foguetes de sondagem, estágios de chute, módulos de pouso."
+   },
+   "size": "XS",
+   "length_m": 2.0,
+   "propellant": "kerolox",
+   "volume_m3": 0.552,
+   "prop_mass_kg": 569,
+   "mass_kg": 34,
+   "cost_musd": 0.21,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_kerolox",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_methalox_xs2",
+   "category": "tank",
+   "model": "tank_methalox",
+   "name": {
+    "en": "Methane / LOX Tank XS-2m",
+    "pt": "Tanque Metano / LOX XS-2m"
+   },
+   "desc": {
+    "en": "Stackable 0.625 m tank, 2 m long. Sounding rockets, kick stages, landers.",
+    "pt": "Tanque empilhável de 0.625 m, 2 m de comprimento. Foguetes de sondagem, estágios de chute, módulos de pouso."
+   },
+   "size": "XS",
+   "length_m": 2.0,
+   "propellant": "methalox",
+   "volume_m3": 0.552,
+   "prop_mass_kg": 442,
+   "mass_kg": 29,
+   "cost_musd": 0.2,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_methalox",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_hydrolox_xs2",
+   "category": "tank",
+   "model": "tank_hydrolox",
+   "name": {
+    "en": "Hydrogen / LOX Tank XS-2m",
+    "pt": "Tanque Hidrogênio / LOX XS-2m"
+   },
+   "desc": {
+    "en": "Stackable 0.625 m tank, 2 m long. Sounding rockets, kick stages, landers.",
+    "pt": "Tanque empilhável de 0.625 m, 2 m de comprimento. Foguetes de sondagem, estágios de chute, módulos de pouso."
+   },
+   "size": "XS",
+   "length_m": 2.0,
+   "propellant": "hydrolox",
+   "volume_m3": 0.552,
+   "prop_mass_kg": 199,
+   "mass_kg": 22,
+   "cost_musd": 0.21,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrolox",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_lh2_m8",
+   "category": "tank",
+   "model": "tank_lh2",
+   "name": {
+    "en": "Liquid Hydrogen Tank M-8m",
+    "pt": "Tanque de Hidrogênio Líquido M-8m"
+   },
+   "desc": {
+    "en": "Foil-wrapped, heavily insulated pure-LH2 tank for nuclear thermal engines. No oxidizer.",
+    "pt": "Tanque de LH2 puro, envolto em isolamento metalizado, para motores térmicos nucleares. Sem oxidante."
+   },
+   "size": "M",
+   "length_m": 8.0,
+   "propellant": "lh2",
+   "volume_m3": 35.34,
+   "prop_mass_kg": 2509,
+   "mass_kg": 452,
+   "cost_musd": 1.55,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": true
+   },
+   "ref": {
+    "en": "LH2 density 70.8 kg/m3 at 20 K; dry fraction is a game value",
+    "pt": "Densidade do LH2 70,8 kg/m3 a 20 K; fração seca é valor de jogo"
+   },
+   "src": "derived",
+   "family": "tank_lh2",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "tank_lh2_l8",
+   "category": "tank",
+   "model": "tank_lh2",
+   "name": {
+    "en": "Liquid Hydrogen Tank L-8m",
+    "pt": "Tanque de Hidrogênio Líquido L-8m"
+   },
+   "desc": {
+    "en": "Foil-wrapped, heavily insulated pure-LH2 tank for nuclear thermal engines. No oxidizer.",
+    "pt": "Tanque de LH2 puro, envolto em isolamento metalizado, para motores térmicos nucleares. Sem oxidante."
+   },
+   "size": "L",
+   "length_m": 8.0,
+   "propellant": "lh2",
+   "volume_m3": 79.52,
+   "prop_mass_kg": 5646,
+   "mass_kg": 1016,
+   "cost_musd": 3.12,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": true
+   },
+   "ref": {
+    "en": "LH2 density 70.8 kg/m3 at 20 K; dry fraction is a game value",
+    "pt": "Densidade do LH2 70,8 kg/m3 a 20 K; fração seca é valor de jogo"
+   },
+   "src": "derived",
+   "family": "tank_lh2",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "tank_hypergolic_14",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hypergolic Sphere 1.4 m",
+    "pt": "Esfera Hipergólica 1,4 m"
+   },
+   "desc": {
+    "en": "Large pressurized spacecraft tank for planetary orbiters. Storable: no boil-off.",
+    "pt": "Tanque pressurizado grande para orbitadores planetários. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hypergolic",
+   "volume_m3": 1.322,
+   "prop_mass_kg": 1573.0,
+   "mass_kg": 125.8,
+   "cost_musd": 3.55,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hypergolic",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_hydrazine_12",
+   "category": "tank",
+   "model": "tank_sphere",
+   "name": {
+    "en": "Hydrazine Sphere 1.2 m",
+    "pt": "Esfera de Hidrazina 1,2 m"
+   },
+   "desc": {
+    "en": "Large pressurized spacecraft tank for planetary orbiters. Storable: no boil-off.",
+    "pt": "Tanque pressurizado grande para orbitadores planetários. Armazenável: sem evaporação."
+   },
+   "size": "XS",
+   "propellant": "hydrazine",
+   "volume_m3": 0.832,
+   "prop_mass_kg": 840.7,
+   "mass_kg": 100.9,
+   "cost_musd": 2.08,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "derived",
+   "family": "tank_hydrazine",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_toroid_hyp",
+   "category": "tank",
+   "model": "tank_toroid",
+   "name": {
+    "en": "Toroidal Hypergolic Tank",
+    "pt": "Tanque Toroidal Hipergólico"
+   },
+   "desc": {
+    "en": "Doughnut tank that wraps around an engine nozzle: short stacks for landers and kick stages.",
+    "pt": "Tanque em forma de rosca que envolve o bocal do motor: pilhas curtas para módulos de pouso e estágios."
+   },
+   "size": "S",
+   "propellant": "hypergolic",
+   "volume_m3": 0.236,
+   "prop_mass_kg": 281.0,
+   "mass_kg": 28.1,
+   "cost_musd": 1.16,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": true
+   },
+   "ref": {
+    "en": "Torus volume 2*pi^2*R*r^2 (R 0.45 m, r 0.17 m, 92% fill); dry fraction 0.10 (game)",
+    "pt": "Volume do toro 2*pi^2*R*r^2 (R 0,45 m, r 0,17 m, 92% cheio); fração seca 0,10 (jogo)"
+   },
+   "src": "derived",
+   "family": "tank_hypergolic",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "tank_xenon_08",
+   "category": "tank",
+   "model": "tank_xenon",
+   "name": {
+    "en": "Xenon Tank 0.8 m (COPV)",
+    "pt": "Tanque de Xenônio 0,8 m (COPV)"
+   },
+   "desc": {
+    "en": "Carbon-overwrapped xenon bottle sized for asteroid-belt missions with electric propulsion.",
+    "pt": "Garrafa de xenônio revestida de carbono, dimensionada para missões ao cinturão de asteroides com propulsão elétrica."
+   },
+   "size": "XS",
+   "propellant": "xenon",
+   "volume_m3": 0.524,
+   "prop_mass_kg": 838.6,
+   "mass_kg": 125.8,
+   "cost_musd": 2.08,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "ref": {
+    "en": "Psyche carried ~1,085 kg of xenon; capsule volume x 1,600 kg/m3 (supercritical)",
+    "pt": "A Psyche levou ~1.085 kg de xenônio; volume da cápsula x 1.600 kg/m3 (supercrítico)"
+   },
+   "src": "derived",
+   "family": "tank_xenon",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "decoupler_xs",
+   "category": "structure",
+   "model": "decoupler",
+   "name": {
+    "en": "Stack Decoupler XS",
+    "pt": "Desacoplador de Pilha XS"
+   },
+   "desc": {
+    "en": "Small pyrotechnic separation ring for sounding rockets and kick stages.",
+    "pt": "Anel de separação pirotécnico pequeno para foguetes de sondagem e estágios de chute."
+   },
+   "size": "XS",
+   "mass_kg": 10,
+   "cost_musd": 0.1,
+   "reliability": 0.999,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": false
+   },
+   "src": "game",
+   "ejection_impulse_kns": 0.2,
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "decoupler_clamp_s",
+   "category": "structure",
+   "model": "clamp_band",
+   "name": {
+    "en": "Clamp-Band Separation System S",
+    "pt": "Sistema de Separação por Cinta S"
+   },
+   "desc": {
+    "en": "Marman clamp band released by bolt cutters; springs push the spacecraft away gently (low shock).",
+    "pt": "Cinta Marman liberada por cortadores de parafuso; molas afastam a espaçonave suavemente (baixo choque)."
+   },
+   "size": "S",
+   "mass_kg": 18,
+   "cost_musd": 0.6,
+   "reliability": 0.9995,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "ejection_impulse_kns": 0.18,
+   "separation_speed_ms": 0.5,
+   "ref": {
+    "en": "Inspired by Beyond Gravity (RUAG) PAS 1194 clamp-band systems (mass approx.)",
+    "pt": "Inspirado nos sistemas de cinta PAS 1194 da Beyond Gravity (RUAG) (massa aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "decoupler_clamp_m",
+   "category": "structure",
+   "model": "clamp_band",
+   "name": {
+    "en": "Clamp-Band Separation System M",
+    "pt": "Sistema de Separação por Cinta M"
+   },
+   "desc": {
+    "en": "Marman clamp band released by bolt cutters; springs push the spacecraft away gently (low shock).",
+    "pt": "Cinta Marman liberada por cortadores de parafuso; molas afastam a espaçonave suavemente (baixo choque)."
+   },
+   "size": "M",
+   "mass_kg": 45,
+   "cost_musd": 1.0,
+   "reliability": 0.9995,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "ejection_impulse_kns": 0.45,
+   "separation_speed_ms": 0.5,
+   "ref": {
+    "en": "Inspired by Beyond Gravity (RUAG) PAS 2624 clamp-band systems (mass approx.)",
+    "pt": "Inspirado nos sistemas de cinta PAS 2624 da Beyond Gravity (RUAG) (massa aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "interstage_s",
+   "category": "structure",
+   "model": "interstage",
+   "name": {
+    "en": "Interstage S",
+    "pt": "Interestágio S"
+   },
+   "desc": {
+    "en": "Hollow 1.25 m shell that covers a small vacuum engine nozzle.",
+    "pt": "Casca oca de 1,25 m que cobre o bocal de um motor de vácuo pequeno."
+   },
+   "size": "S",
+   "length_m": 2.0,
+   "mass_kg": 120,
+   "cost_musd": 0.3,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "adapter_xss",
+   "category": "structure",
+   "model": "adapter",
+   "name": {
+    "en": "Adapter XS-S",
+    "pt": "Adaptador XS-S"
+   },
+   "desc": {
+    "en": "Conical adapter between two diameter classes.",
+    "pt": "Adaptador cônico entre duas classes de diâmetro."
+   },
+   "size": "S",
+   "length_m": 0.8,
+   "mass_kg": 40,
+   "cost_musd": 0.3,
+   "attach": {
+    "top": "XS",
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "adapter_sl",
+   "category": "structure",
+   "model": "adapter",
+   "name": {
+    "en": "Adapter S-L",
+    "pt": "Adaptador S-L"
+   },
+   "desc": {
+    "en": "Conical adapter between two diameter classes.",
+    "pt": "Adaptador cônico entre duas classes de diâmetro."
+   },
+   "size": "L",
+   "length_m": 2.5,
+   "mass_kg": 350,
+   "cost_musd": 0.3,
+   "attach": {
+    "top": "S",
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "adapter_rev_ms",
+   "category": "structure",
+   "model": "adapter_rev",
+   "name": {
+    "en": "Inverted Adapter M-S",
+    "pt": "Adaptador Invertido M-S"
+   },
+   "desc": {
+    "en": "Wider on top: carries a 2.5 m payload or fairing on a 1.25 m stage (\"hammerhead\").",
+    "pt": "Mais largo em cima: leva uma carga ou coifa de 2,5 m sobre um estágio de 1,25 m (\"cabeça de martelo\")."
+   },
+   "size": "M",
+   "length_m": 1.2,
+   "mass_kg": 180,
+   "cost_musd": 0.4,
+   "attach": {
+    "top": "M",
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "truss_xs",
+   "category": "structure",
+   "model": "truss_xs",
+   "name": {
+    "en": "Girder Segment XS",
+    "pt": "Segmento de Viga XS"
+   },
+   "desc": {
+    "en": "2 m square lattice girder. Spaces out instruments, booms and radiators; also mounts radially.",
+    "pt": "Viga treliçada quadrada de 2 m. Afasta instrumentos, hastes e radiadores; também encaixa radialmente."
+   },
+   "size": "XS",
+   "length_m": 2.0,
+   "mass_kg": 25,
+   "cost_musd": 0.05,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "truss_m",
+   "category": "structure",
+   "model": "truss_m",
+   "name": {
+    "en": "Open Truss Adapter M",
+    "pt": "Treliça Aberta M"
+   },
+   "desc": {
+    "en": "Open octagonal truss between two 2.5 m stages: lighter than a shell, lets hot-staging exhaust escape.",
+    "pt": "Treliça octogonal aberta entre dois estágios de 2,5 m: mais leve que uma casca e deixa sair o jato na separação a quente."
+   },
+   "size": "M",
+   "length_m": 2.0,
+   "mass_kg": 220,
+   "cost_musd": 0.5,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "ref": {
+    "en": "Like the open truss of Soyuz/R-7 hot staging",
+    "pt": "Como a treliça aberta da separação a quente do Soyuz/R-7"
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "strut_radial",
+   "category": "structure",
+   "model": "strut_radial",
+   "name": {
+    "en": "Radial Strut Beam",
+    "pt": "Viga de Escora Radial"
+   },
+   "desc": {
+    "en": "Stiff I-beam strut for side mounts and booster attach points.",
+    "pt": "Escora rígida em perfil I para montagens laterais e pontos de fixação de boosters."
+   },
+   "size": "XS",
+   "mass_kg": 8,
+   "cost_musd": 0.02,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "docking_port_xs",
+   "category": "structure",
+   "model": "docking_port",
+   "name": {
+    "en": "Docking Port XS",
+    "pt": "Porta de Acoplamento XS"
+   },
+   "desc": {
+    "en": "Joins two vessels in orbit and lets crew and cargo pass through. Phase 2.",
+    "pt": "Une dois veículos em órbita e deixa passar tripulação e carga. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 60,
+   "power_w": 10,
+   "cost_musd": 2.0,
+   "reliability": 0.998,
+   "attach": {
+    "top": "XS",
+    "bottom": "XS",
+    "radial": false
+   },
+   "docking_class": "probe_drogue",
+   "ref": {
+    "en": "Small probe-and-drogue port (game values)",
+    "pt": "Porta pequena sonda-cone (valores de jogo)"
+   },
+   "src": "game",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "docking_port_s",
+   "category": "structure",
+   "model": "docking_port",
+   "name": {
+    "en": "Docking Port S",
+    "pt": "Porta de Acoplamento S"
+   },
+   "desc": {
+    "en": "Joins two vessels in orbit and lets crew and cargo pass through. Phase 2.",
+    "pt": "Une dois veículos em órbita e deixa passar tripulação e carga. Fase 2."
+   },
+   "size": "S",
+   "mass_kg": 340,
+   "power_w": 50,
+   "cost_musd": 8.0,
+   "reliability": 0.998,
+   "attach": {
+    "top": "S",
+    "bottom": "S",
+    "radial": false
+   },
+   "docking_class": "idss",
+   "ref": {
+    "en": "Inspired by the NASA Docking System / IDSS (androgynous, 0.8 m passage; mass approx.)",
+    "pt": "Inspirado no NASA Docking System / IDSS (andrógino, passagem de 0,8 m; massa aprox.)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "thrust_plate_l5",
+   "category": "structure",
+   "model": "thrust_plate",
+   "name": {
+    "en": "Thrust Plate L x5",
+    "pt": "Placa de Empuxo L x5"
+   },
+   "desc": {
+    "en": "Engine mount with 5 engine slots in a ring+center pattern.",
+    "pt": "Suporte de motores com 5 posições (anel + centro)."
+   },
+   "size": "L",
+   "mass_kg": 900,
+   "cost_musd": 0.4,
+   "engine_slots": 5,
+   "attach": {
+    "top": "L",
+    "bottom": "engines",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "thrust_plate_m7",
+   "category": "structure",
+   "model": "thrust_plate",
+   "name": {
+    "en": "Thrust Plate M x7",
+    "pt": "Placa de Empuxo M x7"
+   },
+   "desc": {
+    "en": "Engine mount with 7 engine slots in a ring+center pattern.",
+    "pt": "Suporte de motores com 7 posições (anel + centro)."
+   },
+   "size": "M",
+   "mass_kg": 450,
+   "cost_musd": 0.4,
+   "engine_slots": 7,
+   "attach": {
+    "top": "M",
+    "bottom": "engines",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fairing_xs",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing XS",
+    "pt": "Coifa de Carga XS"
+   },
+   "desc": {
+    "en": "Two-half composite fairing, 0.8 m cylinder + 1.0 m ogive. Jettisoned above ~110 km.",
+    "pt": "Coifa de compósito em duas metades, cilindro de 0.8 m + ogiva de 1.0 m. Descartada acima de ~110 km."
+   },
+   "size": "XS",
+   "mass_kg": 25,
+   "cost_musd": 0.08,
+   "inner_diameter_m": 0.5,
+   "cyl_length_m": 0.8,
+   "nose_length_m": 1.0,
+   "attach": {
+    "top": null,
+    "bottom": "XS",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fairing_s_long",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing S (long)",
+    "pt": "Coifa de Carga S (longa)"
+   },
+   "desc": {
+    "en": "Two-half composite fairing, 3.2 m cylinder + 1.9 m ogive. Jettisoned above ~110 km.",
+    "pt": "Coifa de compósito em duas metades, cilindro de 3.2 m + ogiva de 1.9 m. Descartada acima de ~110 km."
+   },
+   "size": "S",
+   "mass_kg": 90,
+   "cost_musd": 0.3,
+   "inner_diameter_m": 1.1,
+   "cyl_length_m": 3.2,
+   "nose_length_m": 1.9,
+   "attach": {
+    "top": null,
+    "bottom": "S",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fairing_m_long",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing M (long)",
+    "pt": "Coifa de Carga M (longa)"
+   },
+   "desc": {
+    "en": "Two-half composite fairing, 7.0 m cylinder + 4.0 m ogive. Jettisoned above ~110 km.",
+    "pt": "Coifa de compósito em duas metades, cilindro de 7.0 m + ogiva de 4.0 m. Descartada acima de ~110 km."
+   },
+   "size": "M",
+   "mass_kg": 750,
+   "cost_musd": 2.5,
+   "inner_diameter_m": 2.3,
+   "cyl_length_m": 7.0,
+   "nose_length_m": 4.0,
+   "attach": {
+    "top": null,
+    "bottom": "M",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fairing_l_long",
+   "category": "aero",
+   "model": "fairing",
+   "name": {
+    "en": "Payload Fairing L (long)",
+    "pt": "Coifa de Carga L (longa)"
+   },
+   "desc": {
+    "en": "Two-half composite fairing, 10.0 m cylinder + 6.0 m ogive. Jettisoned above ~110 km.",
+    "pt": "Coifa de compósito em duas metades, cilindro de 10.0 m + ogiva de 6.0 m. Descartada acima de ~110 km."
+   },
+   "size": "L",
+   "mass_kg": 1900,
+   "cost_musd": 6.33,
+   "inner_diameter_m": 3.5,
+   "cyl_length_m": 10.0,
+   "nose_length_m": 6.0,
+   "attach": {
+    "top": null,
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "nose_cone_xs",
+   "category": "aero",
+   "model": "nose_cone",
+   "name": {
+    "en": "Nose Cone XS",
+    "pt": "Ogiva XS"
+   },
+   "desc": {
+    "en": "Reduces drag on boosters and sounding rockets.",
+    "pt": "Reduz o arrasto de boosters e foguetes de sondagem."
+   },
+   "size": "XS",
+   "mass_kg": 6,
+   "cost_musd": 0.05,
+   "attach": {
+    "top": null,
+    "bottom": "XS",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "nose_cone_l",
+   "category": "aero",
+   "model": "nose_cone",
+   "name": {
+    "en": "Nose Cone L",
+    "pt": "Ogiva L"
+   },
+   "desc": {
+    "en": "Reduces drag on boosters and sounding rockets.",
+    "pt": "Reduz o arrasto de boosters e foguetes de sondagem."
+   },
+   "size": "L",
+   "mass_kg": 200,
+   "cost_musd": 0.05,
+   "attach": {
+    "top": null,
+    "bottom": "L",
+    "radial": false
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fin_large",
+   "category": "aero",
+   "model": "fin_large",
+   "name": {
+    "en": "Large Stabilizer Fin",
+    "pt": "Aleta Estabilizadora Grande"
+   },
+   "desc": {
+    "en": "Big trapezoidal fin for heavy unguided rockets. Lots of stability, lots of drag.",
+    "pt": "Aleta trapezoidal grande para foguetes pesados sem guiagem. Muita estabilidade e muito arrasto."
+   },
+   "size": "XS",
+   "mass_kg": 40,
+   "cost_musd": 0.04,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fin_swept",
+   "category": "aero",
+   "model": "fin_swept",
+   "name": {
+    "en": "Swept Fin",
+    "pt": "Aleta Enflechada"
+   },
+   "desc": {
+    "en": "Clipped-delta fin with a swept trailing edge. Less drag at supersonic speed.",
+    "pt": "Aleta delta truncada com bordo de fuga enflechado. Menos arrasto em velocidade supersônica."
+   },
+   "size": "XS",
+   "mass_kg": 18,
+   "cost_musd": 0.03,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "src": "game",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "capsule_1",
+   "category": "command",
+   "model": "capsule_1",
+   "name": {
+    "en": "Crew Capsule (1 seat)",
+    "pt": "Cápsula Tripulada (1 lugar)"
+   },
+   "desc": {
+    "en": "Tiny conical capsule for one astronaut. Short suborbital or orbital flights only.",
+    "pt": "Cápsula cônica minúscula para um astronauta. Só voos suborbitais ou orbitais curtos."
+   },
+   "size": "S",
+   "mass_kg": 1400,
+   "power_w": 250,
+   "cost_musd": 60,
+   "reliability": 0.995,
+   "attach": {
+    "top": "XS",
+    "bottom": "S",
+    "radial": false
+   },
+   "crew_seats": 1,
+   "life_support_days": 1.5,
+   "heat_shield": true,
+   "ref": {
+    "en": "Inspired by Mercury (1 astronaut, ~1,355 kg in orbit, 1.89 m base; scaled to S)",
+    "pt": "Inspirada na Mercury (1 astronauta, ~1.355 kg em órbita, base de 1,89 m; reduzida para S)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "capsule_2",
+   "category": "command",
+   "model": "capsule_2",
+   "name": {
+    "en": "Crew Capsule (2 seats)",
+    "pt": "Cápsula Tripulada (2 lugares)"
+   },
+   "desc": {
+    "en": "Two-seat capsule with a docking nose. Long-duration orbital flights and rendezvous practice.",
+    "pt": "Cápsula de dois lugares com nariz de acoplamento. Voos orbitais longos e treino de encontro orbital."
+   },
+   "size": "M",
+   "mass_kg": 3200,
+   "power_w": 500,
+   "cost_musd": 150,
+   "reliability": 0.995,
+   "attach": {
+    "top": "S",
+    "bottom": "M",
+    "radial": false
+   },
+   "crew_seats": 2,
+   "life_support_days": 14,
+   "heat_shield": true,
+   "ref": {
+    "en": "Inspired by Gemini (2 crew, 3,850 kg with adapter, 2.3 m base, up to 14 days)",
+    "pt": "Inspirada na Gemini (2 tripulantes, 3.850 kg com adaptador, base de 2,3 m, até 14 dias)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "capsule_4",
+   "category": "command",
+   "model": "capsule_4",
+   "name": {
+    "en": "Crew Capsule (4 seats)",
+    "pt": "Cápsula Tripulada (4 lugares)"
+   },
+   "desc": {
+    "en": "Modern capsule with a hinged nose cap over the docking port and integrated abort thrusters.",
+    "pt": "Cápsula moderna com tampa de nariz articulada sobre a porta de acoplamento e propulsores de abortagem integrados."
+   },
+   "size": "L",
+   "mass_kg": 9500,
+   "power_w": 2000,
+   "cost_musd": 400,
+   "reliability": 0.995,
+   "attach": {
+    "top": "S",
+    "bottom": "L",
+    "radial": false
+   },
+   "crew_seats": 4,
+   "life_support_days": 7,
+   "heat_shield": true,
+   "ref": {
+    "en": "Inspired by Crew Dragon (4 crew, 3.7 m diameter, integrated abort motors; mass approx.)",
+    "pt": "Inspirada na Crew Dragon (4 tripulantes, 3,7 m de diâmetro, motores de abortagem integrados; massa aprox.)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "crew_cabin_m",
+   "category": "future",
+   "model": "crew_cabin",
+   "name": {
+    "en": "Crew Cabin M (4 seats)",
+    "pt": "Cabine Tripulada M (4 lugares)"
+   },
+   "desc": {
+    "en": "Pressurized passenger cabin without flight controls. Needs a capsule or core to fly. Phase 2.",
+    "pt": "Cabine pressurizada de passageiros sem controles de voo. Precisa de uma cápsula ou núcleo. Fase 2."
+   },
+   "size": "M",
+   "length_m": 2.6,
+   "mass_kg": 2800,
+   "power_w": 400,
+   "cost_musd": 80,
+   "reliability": 0.995,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "crew_seats": 4,
+   "pressurized_m3": 20,
+   "life_support_days": 10,
+   "src": "game",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "hab_inflatable",
+   "category": "future",
+   "model": "hab_inflatable",
+   "name": {
+    "en": "Inflatable Habitat (2 crew)",
+    "pt": "Habitat Inflável (2 tripulantes)"
+   },
+   "desc": {
+    "en": "Folded soft-goods module that expands in orbit to ~16 m3. Living space for long missions. Phase 2.",
+    "pt": "Módulo de tecido dobrado que se expande em órbita para ~16 m3. Espaço habitável para missões longas. Fase 2."
+   },
+   "size": "M",
+   "length_m": 4.0,
+   "mass_kg": 1413,
+   "power_w": 150,
+   "cost_musd": 40,
+   "reliability": 0.99,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "crew_seats": 2,
+   "pressurized_m3": 16,
+   "ref": {
+    "en": "Based on Bigelow BEAM on the ISS (1,413 kg, 16 m3 expanded, 4.0 m x 3.2 m); 2-crew rating is a game value",
+    "pt": "Baseado no BEAM da Bigelow na ISS (1.413 kg, 16 m3 expandido, 4,0 m x 3,2 m); capacidade de 2 é valor de jogo"
+   },
+   "src": "ref",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "cupola",
+   "category": "future",
+   "model": "cupola",
+   "name": {
+    "en": "Observation Cupola",
+    "pt": "Cúpula de Observação"
+   },
+   "desc": {
+    "en": "Seven-window dome with shutters for robotic-arm work and Earth observation. Phase 2.",
+    "pt": "Cúpula de sete janelas com persianas, para operar o braço robótico e observar a Terra. Fase 2."
+   },
+   "size": "M",
+   "mass_kg": 1880,
+   "power_w": 100,
+   "cost_musd": 30,
+   "reliability": 0.998,
+   "attach": {
+    "top": null,
+    "bottom": "M",
+    "radial": false
+   },
+   "crew_seats": 1,
+   "ref": {
+    "en": "Based on the ISS Cupola (1,880 kg, 2.95 m wide, 1.5 m tall, 7 windows)",
+    "pt": "Baseado na Cupola da ISS (1.880 kg, 2,95 m de largura, 1,5 m de altura, 7 janelas)"
+   },
+   "src": "ref",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "les_tower",
+   "category": "future",
+   "model": "les_tower",
+   "name": {
+    "en": "Launch Escape Tower",
+    "pt": "Torre de Escape"
+   },
+   "desc": {
+    "en": "Solid rocket tower that pulls the capsule away from a failing launcher. Jettisoned after max-Q. Phase 2.",
+    "pt": "Torre com foguete sólido que arranca a cápsula de um lançador em falha. Descartada depois do Max-Q. Fase 2."
+   },
+   "size": "S",
+   "mass_kg": 4200,
+   "cost_musd": 6.0,
+   "reliability": 0.995,
+   "attach": {
+    "top": null,
+    "bottom": "S",
+    "radial": false
+   },
+   "abort_thrust_kn": 650,
+   "abort_burn_s": 4.0,
+   "ref": {
+    "en": "Based on the Apollo Launch Escape System (~650 kN for ~4 s, ~4.2 t)",
+    "pt": "Baseado no Launch Escape System da Apollo (~650 kN por ~4 s, ~4,2 t)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "parachute_drogue",
+   "category": "future",
+   "model": "parachute_drogue",
+   "name": {
+    "en": "Drogue Chute",
+    "pt": "Paraquedas de Frenagem"
+   },
+   "desc": {
+    "en": "Small radial drogue that stabilizes and slows a capsule before the mains open. Phase 2.",
+    "pt": "Paraquedas radial pequeno que estabiliza e freia a cápsula antes dos principais. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 40,
+   "cost_musd": 0.5,
+   "reliability": 0.995,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "canopy_diameter_m": 7.0,
+   "deploy_alt_km": 7.0,
+   "ref": {
+    "en": "Orion drogues ~7 m, mains ~35 m (116 ft); masses are game values",
+    "pt": "Frenagem da Orion ~7 m, principais ~35 m (116 pés); massas são valores de jogo"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "parachute_radial",
+   "category": "future",
+   "model": "parachute_radial",
+   "name": {
+    "en": "Radial Main Chute",
+    "pt": "Paraquedas Principal Radial"
+   },
+   "desc": {
+    "en": "Side-mounted main parachute. Use 3 for a capsule (one can fail). Phase 2.",
+    "pt": "Paraquedas principal lateral. Use 3 em uma cápsula (um pode falhar). Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 120,
+   "cost_musd": 0.5,
+   "reliability": 0.995,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "canopy_diameter_m": 35.0,
+   "deploy_alt_km": 2.5,
+   "ref": {
+    "en": "Orion drogues ~7 m, mains ~35 m (116 ft); masses are game values",
+    "pt": "Frenagem da Orion ~7 m, principais ~35 m (116 pés); massas são valores de jogo"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "landing_leg_lander",
+   "category": "future",
+   "model": "landing_leg_lander",
+   "name": {
+    "en": "Lander Leg",
+    "pt": "Perna de Módulo de Pouso"
+   },
+   "desc": {
+    "en": "Crushable-honeycomb lander leg with a wide footpad for soft regolith. Use 4. Phase 2.",
+    "pt": "Perna com colmeia amassável e sapata larga para regolito fofo. Use 4. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 60,
+   "cost_musd": 0.8,
+   "reliability": 0.998,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by the Apollo LM landing gear (honeycomb struts, 0.94 m footpads)",
+    "pt": "Inspirada no trem de pouso do LM Apollo (escoras de colmeia, sapatas de 0,94 m)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "rover_wheel",
+   "category": "future",
+   "model": "rover_wheel",
+   "name": {
+    "en": "Rover Wheel",
+    "pt": "Roda de Rover"
+   },
+   "desc": {
+    "en": "Machined aluminium wheel with chevron grousers and a rocker mount. Use 6 for a rover. Phase 2.",
+    "pt": "Roda de alumínio usinado com garras em V e suporte de balancim. Use 6 em um rover. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 25,
+   "power_w": 20,
+   "cost_musd": 0.6,
+   "reliability": 0.995,
+   "attach": {
+    "top": null,
+    "bottom": null,
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by Curiosity / Perseverance wheels (0.5 m diameter, 0.4 m wide)",
+    "pt": "Inspirada nas rodas de Curiosity / Perseverance (0,5 m de diâmetro, 0,4 m de largura)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "added": "v2"
+  },
+  {
+   "id": "fuel_cell",
+   "category": "power",
+   "model": "fuel_cell",
+   "name": {
+    "en": "Fuel Cell 7 kW",
+    "pt": "Célula a Combustível 7 kW"
+   },
+   "desc": {
+    "en": "Hydrogen-oxygen fuel cell: steady power for crewed flights and drinkable water as a by-product.",
+    "pt": "Célula a combustível de hidrogênio e oxigênio: energia constante para voos tripulados e água potável de subproduto."
+   },
+   "size": "XS",
+   "mass_kg": 118,
+   "power_gen_w_1au": 7000,
+   "power_gen_w": 7000,
+   "power_source": "fuel_cell",
+   "reactant_kg_per_kwh": 0.36,
+   "cost_musd": 6.0,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on the Space Shuttle orbiter fuel cell (7 kW continuous, 12 kW peak, ~118 kg; approx.)",
+    "pt": "Baseado na célula a combustível do orbitador do Space Shuttle (7 kW contínuos, 12 kW de pico, ~118 kg; aprox.)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "solar_wing_l",
+   "category": "power",
+   "model": "solar_wing_l",
+   "name": {
+    "en": "Large Solar Wing",
+    "pt": "Asa Solar Grande"
+   },
+   "desc": {
+    "en": "Four-panel rigid wing on a gimbal for GEO satellites and planetary orbiters.",
+    "pt": "Asa rígida de quatro painéis com gimbal, para satélites GEO e orbitadores planetários."
+   },
+   "size": "XS",
+   "area_m2": 6.8,
+   "power_gen_w_1au": 2591,
+   "mass_kg": 57.6,
+   "specific_power_w_kg": 45,
+   "cost_musd": 6.0,
+   "reliability": 0.985,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Triple-junction cells ~27-30% efficient",
+    "pt": "Células de tripla junção ~27-30% de eficiência"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "solar_ultraflex",
+   "category": "power",
+   "model": "solar_ultraflex",
+   "name": {
+    "en": "Circular Fan Array",
+    "pt": "Painel Solar Circular em Leque"
+   },
+   "desc": {
+    "en": "Fan-folded circular blanket that opens like a paper fan. Very light per watt.",
+    "pt": "Manta circular dobrada que abre como um leque. Muito leve por watt."
+   },
+   "size": "XS",
+   "area_m2": 3.6,
+   "power_gen_w_1au": 1372,
+   "mass_kg": 11.4,
+   "specific_power_w_kg": 120,
+   "cost_musd": 4.0,
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by Northrop Grumman UltraFlex (InSight, Cygnus): ~100-150 W/kg, 2.15 m fans on InSight",
+    "pt": "Inspirado no UltraFlex da Northrop Grumman (InSight, Cygnus): ~100-150 W/kg, leques de 2,15 m na InSight"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "battery_xs",
+   "category": "power",
+   "model": "battery",
+   "name": {
+    "en": "Battery Pack 100 Wh",
+    "pt": "Bateria 100 Wh"
+   },
+   "desc": {
+    "en": "CubeSat-class Li-ion pack.",
+    "pt": "Pacote de íons de lítio da classe CubeSat."
+   },
+   "size": "XS",
+   "capacity_wh": 100,
+   "mass_kg": 0.8,
+   "cost_musd": 0.1,
+   "reliability": 0.995,
+   "ref": {
+    "en": "Battery-level ~100-150 Wh/kg (approx.)",
+    "pt": "Nível de bateria ~100-150 Wh/kg (aprox.)"
+   },
+   "src": "approx",
+   "attach": {},
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "fission_reactor",
+   "category": "power",
+   "model": "fission_reactor",
+   "name": {
+    "en": "Fission Power Unit 10 kWe",
+    "pt": "Unidade de Fissão 10 kWe"
+   },
+   "desc": {
+    "en": "Small uranium reactor with Stirling converters and a conical radiator. Night-proof power on the Moon or Mars. Phase 2.",
+    "pt": "Pequeno reator de urânio com conversores Stirling e radiador cônico. Energia mesmo à noite na Lua ou em Marte. Fase 2."
+   },
+   "size": "XS",
+   "mass_kg": 1500,
+   "power_gen_w_1au": 10000,
+   "power_gen_w": 10000,
+   "power_source": "fission",
+   "heat_reject_w": 30000,
+   "cost_musd": 150.0,
+   "reliability": 0.995,
+   "attach": {
+    "top": null,
+    "bottom": "XS",
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on NASA Kilopower / KRUSTY (1-10 kWe designs; 10 kWe ~1.5 t, approx.)",
+    "pt": "Baseado no Kilopower / KRUSTY da NASA (projetos de 1-10 kWe; 10 kWe ~1,5 t, aprox.)"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "antenna_relay",
+   "category": "comms",
+   "model": "antenna_helix",
+   "name": {
+    "en": "UHF Relay Antenna",
+    "pt": "Antena de Retransmissão UHF"
+   },
+   "desc": {
+    "en": "Quadrifilar helix for proximity links: relays data from landers and rovers to Earth.",
+    "pt": "Hélice quadrifilar para enlaces de proximidade: retransmite dados de módulos de pouso e rovers para a Terra."
+   },
+   "size": "XS",
+   "mass_kg": 5,
+   "power_w": 18,
+   "rate_ref_mbps_moon": 0.5,
+   "relay": true,
+   "relay_rate_mbps": 2.0,
+   "cost_musd": 2.5,
+   "reliability": 0.995,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by the JPL Electra UHF proximity radio (up to ~2 Mbps; mass approx.)",
+    "pt": "Inspirada no rádio de proximidade UHF Electra do JPL (até ~2 Mbps; massa aprox.)"
+   },
+   "src": "approx",
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "antenna_optical",
+   "category": "comms",
+   "model": "optical_terminal",
+   "name": {
+    "en": "Laser Comm Terminal",
+    "pt": "Terminal de Comunicação a Laser"
+   },
+   "desc": {
+    "en": "22 cm gimballed telescope that sends data by laser: 10-100x a radio dish, but needs very precise pointing and clear skies at the ground station.",
+    "pt": "Telescópio de 22 cm com gimbal que envia dados por laser: 10-100x uma antena de rádio, mas exige apontamento muito preciso e céu limpo na estação."
+   },
+   "size": "XS",
+   "mass_kg": 30,
+   "power_w": 90,
+   "rate_ref_mbps_moon": 600,
+   "pointing_urad": 1.0,
+   "cost_musd": 25.0,
+   "reliability": 0.985,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by NASA DSOC on Psyche (22 cm aperture, up to 267 Mbps from ~0.2 AU) and LLCD (622 Mbps from the Moon)",
+    "pt": "Inspirado no DSOC da NASA na Psyche (abertura de 22 cm, até 267 Mbps de ~0,2 UA) e no LLCD (622 Mbps da Lua)"
+   },
+   "src": "approx",
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "radiator_deploy",
+   "category": "thermal",
+   "model": "radiator_deploy",
+   "name": {
+    "en": "Deployable Radiator",
+    "pt": "Radiador Desdobrável"
+   },
+   "desc": {
+    "en": "Three hinged panels with an ammonia loop. Unfolds after launch to dump the heat of big payloads.",
+    "pt": "Três painéis articulados com circuito de amônia. Abre depois do lançamento para rejeitar o calor de cargas grandes."
+   },
+   "size": "XS",
+   "mass_kg": 35,
+   "power_w": 20,
+   "cost_musd": 1.5,
+   "heat_reject_w": 2000,
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "~100-350 W/m2 rejected by spacecraft radiators near Earth (game values)",
+    "pt": "~100-350 W/m2 rejeitados por radiadores perto da Terra (valores de jogo)"
+   },
+   "src": "game",
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "heat_shield_m",
+   "category": "thermal",
+   "model": "heat_shield",
+   "name": {
+    "en": "Ablative Heat Shield M",
+    "pt": "Escudo Térmico Ablativo M"
+   },
+   "desc": {
+    "en": "PICA ablator tiles on a carbon carrier. Survives lunar-return re-entry (~11 km/s). Phase 2.",
+    "pt": "Placas ablativas PICA sobre estrutura de carbono. Aguenta a reentrada vinda da Lua (~11 km/s). Fase 2."
+   },
+   "size": "M",
+   "mass_kg": 450,
+   "cost_musd": 6.0,
+   "reliability": 0.998,
+   "attach": {
+    "top": "M",
+    "bottom": "M",
+    "radial": false
+   },
+   "max_entry_kms": 11.0,
+   "ref": {
+    "en": "PICA / PICA-X ablators (Stardust, Crew Dragon); masses are game values",
+    "pt": "Ablativos PICA / PICA-X (Stardust, Crew Dragon); massas são valores de jogo"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "heat_shield_l",
+   "category": "thermal",
+   "model": "heat_shield",
+   "name": {
+    "en": "Ablative Heat Shield L",
+    "pt": "Escudo Térmico Ablativo L"
+   },
+   "desc": {
+    "en": "PICA ablator tiles on a carbon carrier. Survives lunar-return re-entry (~11 km/s). Phase 2.",
+    "pt": "Placas ablativas PICA sobre estrutura de carbono. Aguenta a reentrada vinda da Lua (~11 km/s). Fase 2."
+   },
+   "size": "L",
+   "mass_kg": 900,
+   "cost_musd": 10.0,
+   "reliability": 0.998,
+   "attach": {
+    "top": "L",
+    "bottom": "L",
+    "radial": false
+   },
+   "max_entry_kms": 11.0,
+   "ref": {
+    "en": "PICA / PICA-X ablators (Stardust, Crew Dragon); masses are game values",
+    "pt": "Ablativos PICA / PICA-X (Stardust, Crew Dragon); massas são valores de jogo"
+   },
+   "src": "approx",
+   "phase": 2,
+   "power_w": 0.0,
+   "added": "v2"
+  },
+  {
+   "id": "reaction_wheel_s",
+   "category": "control",
+   "model": "reaction_wheel_s",
+   "name": {
+    "en": "Micro Reaction Wheel",
+    "pt": "Micro Roda de Reação"
+   },
+   "desc": {
+    "en": "Single CubeSat wheel. Use three on orthogonal axes.",
+    "pt": "Roda única para CubeSat. Use três em eixos ortogonais."
+   },
+   "size": "XS",
+   "mass_kg": 0.25,
+   "power_w": 1,
+   "cost_musd": 0.05,
+   "reliability": 0.99,
+   "momentum_nms": 0.05,
+   "torque_nm": 0.007,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Class of Blue Canyon RWP050 (0.05 Nms, ~0.24 kg)",
+    "pt": "Classe da Blue Canyon RWP050 (0,05 Nms, ~0,24 kg)"
+   },
+   "src": "approx",
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "reaction_wheels_l",
+   "category": "control",
+   "model": "reaction_wheels_l",
+   "name": {
+    "en": "Heavy Reaction Wheel Set",
+    "pt": "Conjunto Pesado de Rodas de Reação"
+   },
+   "desc": {
+    "en": "Four large wheels in a pyramid: fine pointing for big telescopes and orbiters.",
+    "pt": "Quatro rodas grandes em pirâmide: apontamento fino para grandes telescópios e orbitadores."
+   },
+   "size": "XS",
+   "mass_kg": 52,
+   "power_w": 100,
+   "cost_musd": 6.0,
+   "reliability": 0.99,
+   "momentum_nms": 100,
+   "torque_nm": 0.2,
+   "ref": {
+    "en": "Class of Honeywell HR16 (up to 100-150 Nms, ~0.2 Nm, ~12 kg each)",
+    "pt": "Classe da Honeywell HR16 (até 100-150 Nms, ~0,2 Nm, ~12 kg cada)"
+   },
+   "src": "approx",
+   "attach": {},
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "cmg",
+   "category": "control",
+   "model": "cmg",
+   "name": {
+    "en": "Control Moment Gyroscope",
+    "pt": "Giroscópio de Momento de Controle"
+   },
+   "desc": {
+    "en": "Gimballed flywheel with huge torque for space stations. No propellant, but very heavy.",
+    "pt": "Volante com gimbal e torque enorme para estações espaciais. Sem propelente, mas muito pesado."
+   },
+   "size": "XS",
+   "mass_kg": 272,
+   "power_w": 150,
+   "cost_musd": 15.0,
+   "reliability": 0.98,
+   "momentum_nms": 4760,
+   "torque_nm": 258,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on the ISS double-gimbal CMG (4,760 Nms, 272 kg, 6,600 rpm)",
+    "pt": "Baseado no CMG de gimbal duplo da ISS (4.760 Nms, 272 kg, 6.600 rpm)"
+   },
+   "src": "ref",
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "rcs_block_heavy",
+   "category": "control",
+   "model": "rcs_heavy",
+   "name": {
+    "en": "RCS Quad 22 N",
+    "pt": "RCS Quádruplo 22 N"
+   },
+   "desc": {
+    "en": "Four 22 N hydrazine thrusters on a pod for medium spacecraft and stage attitude control.",
+    "pt": "Quatro propulsores de hidrazina de 22 N em um módulo, para espaçonaves médias e controle de atitude de estágios."
+   },
+   "size": "XS",
+   "mass_kg": 3.5,
+   "cost_musd": 0.8,
+   "propellant": "hydrazine",
+   "thrust_vac_kn": 0.088,
+   "isp_vac_s": 232,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on Aerojet MR-106L (22 N, Isp ~232 s, 0.6 kg each)",
+    "pt": "Baseado no MR-106L da Aerojet (22 N, Isp ~232 s, 0,6 kg cada)"
+   },
+   "src": "ref",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "rcs_biprop",
+   "category": "control",
+   "model": "rcs_biprop",
+   "name": {
+    "en": "Bipropellant RCS Pod 400 N",
+    "pt": "Módulo RCS Bipropelente 400 N"
+   },
+   "desc": {
+    "en": "Four 400 N hypergolic thrusters for capsules and docking. Strong, fast and storable.",
+    "pt": "Quatro propulsores hipergólicos de 400 N para cápsulas e acoplamento. Fortes, rápidos e armazenáveis."
+   },
+   "size": "XS",
+   "mass_kg": 9,
+   "cost_musd": 1.5,
+   "propellant": "hypergolic",
+   "thrust_vac_kn": 1.6,
+   "isp_vac_s": 300,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by SpaceX Draco (400 N, Isp ~300 s)",
+    "pt": "Inspirado no Draco da SpaceX (400 N, Isp ~300 s)"
+   },
+   "src": "approx",
+   "power_w": 0.0,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_mag_s",
+   "category": "instrument",
+   "model": "magnetometer_s",
+   "name": {
+    "en": "Fluxgate Magnetometer (short boom)",
+    "pt": "Magnetômetro Fluxgate (haste curta)"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 1.2,
+   "power_w": 1,
+   "data_gbit_day": 0.05,
+   "cost_musd": 3,
+   "capabilities": {
+    "fields": 0.4
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Class of CubeSat fluxgates on ~0.6 m booms",
+    "pt": "Classe dos fluxgates de CubeSat em hastes de ~0,6 m"
+   },
+   "src": "game",
+   "surface_only": false,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_seismo",
+   "category": "instrument",
+   "model": "seismometer",
+   "name": {
+    "en": "Seismometer + Wind Shield",
+    "pt": "Sismômetro + Escudo de Vento"
+   },
+   "desc": {
+    "en": "Surface science payload: only works on a lander or rover.",
+    "pt": "Carga científica de superfície: só funciona em módulo de pouso ou rover."
+   },
+   "size": "XS",
+   "mass_kg": 30,
+   "power_w": 9,
+   "data_gbit_day": 0.3,
+   "cost_musd": 45,
+   "capabilities": {
+    "seismic": 0.9
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by InSight SEIS (~30 kg with its wind and thermal shield; approx.)",
+    "pt": "Inspirado no SEIS da InSight (~30 kg com escudo de vento e térmico; aprox.)"
+   },
+   "src": "approx",
+   "surface_only": true,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_mass_spec",
+   "category": "instrument",
+   "model": "mass_spec",
+   "name": {
+    "en": "Mass Spectrometer Suite",
+    "pt": "Conjunto de Espectrômetro de Massa"
+   },
+   "desc": {
+    "en": "Science payload. Value depends on orbit, pointing and data actually downlinked.",
+    "pt": "Carga científica. O valor depende da órbita, do apontamento e dos dados realmente baixados."
+   },
+   "size": "XS",
+   "mass_kg": 40,
+   "power_w": 70,
+   "data_gbit_day": 0.5,
+   "cost_musd": 60,
+   "capabilities": {
+    "organics": 0.9,
+    "composition": 0.5
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by Curiosity SAM (40 kg; mass spectrometer, gas chromatograph, laser spectrometer)",
+    "pt": "Inspirado no SAM do Curiosity (40 kg; espectrômetro de massa, cromatógrafo a gás e espectrômetro a laser)"
+   },
+   "src": "approx",
+   "surface_only": false,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_weather",
+   "category": "instrument",
+   "model": "weather_station",
+   "name": {
+    "en": "Weather Station",
+    "pt": "Estação Meteorológica"
+   },
+   "desc": {
+    "en": "Surface science payload: only works on a lander or rover.",
+    "pt": "Carga científica de superfície: só funciona em módulo de pouso ou rover."
+   },
+   "size": "XS",
+   "mass_kg": 5.5,
+   "power_w": 17,
+   "data_gbit_day": 0.05,
+   "cost_musd": 8,
+   "capabilities": {
+    "atmosphere": 0.8
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by Perseverance MEDA (~5.5 kg: wind, pressure, humidity, dust, radiation)",
+    "pt": "Inspirado no MEDA do Perseverance (~5,5 kg: vento, pressão, umidade, poeira, radiação)"
+   },
+   "src": "approx",
+   "surface_only": true,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_gpr",
+   "category": "instrument",
+   "model": "gpr",
+   "name": {
+    "en": "Ground-Penetrating Radar",
+    "pt": "Radar de Penetração no Solo"
+   },
+   "desc": {
+    "en": "Surface science payload: only works on a lander or rover.",
+    "pt": "Carga científica de superfície: só funciona em módulo de pouso ou rover."
+   },
+   "size": "XS",
+   "mass_kg": 3,
+   "power_w": 10,
+   "data_gbit_day": 0.2,
+   "cost_musd": 10,
+   "capabilities": {
+    "subsurface": 0.6
+   },
+   "reliability": 0.99,
+   "attach": {
+    "radial": true
+   },
+   "ref": {
+    "en": "Inspired by Perseverance RIMFAX (~3 kg, 150-1,200 MHz, >10 m depth)",
+    "pt": "Inspirado no RIMFAX do Perseverance (~3 kg, 150-1.200 MHz, >10 m de profundidade)"
+   },
+   "src": "approx",
+   "surface_only": true,
+   "phase": 1,
+   "added": "v2"
+  },
+  {
+   "id": "inst_src",
+   "category": "instrument",
+   "model": "sample_capsule",
+   "name": {
+    "en": "Sample Return Capsule",
+    "pt": "Cápsula de Retorno de Amostras"
+   },
+   "desc": {
+    "en": "Seals collected samples and brings them back through Earth re-entry by parachute. Science value is earned on landing.",
+    "pt": "Lacra as amostras coletadas e as traz de volta pela reentrada na Terra com paraquedas. O valor científico vem no pouso."
+   },
+   "size": "XS",
+   "mass_kg": 46,
+   "power_w": 0,
+   "data_gbit_day": 0,
+   "cost_musd": 35,
+   "capabilities": {
+    "sample_return": 1.0
+   },
+   "reliability": 0.99,
+   "attach": {
+    "top": null,
+    "bottom": "XS",
+    "radial": true
+   },
+   "ref": {
+    "en": "Based on the Stardust sample return capsule (45.7 kg, 0.81 m, PICA heat shield, 12.9 km/s entry)",
+    "pt": "Baseado na cápsula de retorno da Stardust (45,7 kg, 0,81 m, escudo PICA, reentrada a 12,9 km/s)"
+   },
+   "src": "ref",
+   "surface_only": false,
+   "phase": 1,
+   "added": "v2"
+  }
+ ],
+ "delta_v_map": [
+  {
+   "from": "surface_earth",
+   "to": "leo",
+   "dv_kms": 9.4,
+   "label": {
+    "en": "Earth surface -> LEO (incl. ~1.5-2 km/s gravity/drag losses)",
+    "pt": "Superfície da Terra -> LEO (inclui ~1,5-2 km/s de perdas)"
+   }
+  },
+  {
+   "from": "leo",
+   "to": "gto",
+   "dv_kms": 2.44,
+   "label": {
+    "en": "LEO -> Geostationary transfer orbit",
+    "pt": "LEO -> órbita de transferência geoestacionária"
+   }
+  },
+  {
+   "from": "gto",
+   "to": "geo",
+   "dv_kms": 1.5,
+   "label": {
+    "en": "GTO -> GEO (circularization + plane change)",
+    "pt": "GTO -> GEO (circularização + troca de plano)"
+   }
+  },
+  {
+   "from": "leo",
+   "to": "tli",
+   "dv_kms": 3.1,
+   "label": {
+    "en": "LEO -> Trans-lunar injection",
+    "pt": "LEO -> injeção translunar"
+   }
+  },
+  {
+   "from": "tli",
+   "to": "llo",
+   "dv_kms": 0.9,
+   "label": {
+    "en": "Lunar orbit insertion (low lunar orbit)",
+    "pt": "Inserção em órbita lunar baixa"
+   }
+  },
+  {
+   "from": "llo",
+   "to": "moon_surface",
+   "dv_kms": 1.7,
+   "label": {
+    "en": "Low lunar orbit -> lunar surface",
+    "pt": "Órbita lunar baixa -> superfície"
+   }
+  },
+  {
+   "from": "leo",
+   "to": "tmi",
+   "dv_kms": 3.6,
+   "label": {
+    "en": "LEO -> Trans-Mars injection (window-dependent)",
+    "pt": "LEO -> injeção trans-Marte (depende da janela)"
+   }
+  },
+  {
+   "from": "tmi",
+   "to": "mars_capture",
+   "dv_kms": 1.0,
+   "label": {
+    "en": "Mars capture into an elliptical orbit",
+    "pt": "Captura em órbita elíptica de Marte"
+   }
+  },
+  {
+   "from": "mars_capture",
+   "to": "mars_low",
+   "dv_kms": 1.4,
+   "label": {
+    "en": "Elliptical -> low Mars orbit (or aerobraking)",
+    "pt": "Elíptica -> órbita baixa de Marte (ou aerofrenagem)"
+   }
+  },
+  {
+   "from": "leo",
+   "to": "escape",
+   "dv_kms": 3.2,
+   "label": {
+    "en": "LEO -> Earth escape (C3 = 0)",
+    "pt": "LEO -> escape da Terra (C3 = 0)"
+   }
+  }
+ ]
+}

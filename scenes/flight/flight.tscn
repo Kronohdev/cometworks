@@ -1,0 +1,114 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_world.gd" id="1_world"]
+[ext_resource type="Script" path="res://src/flight/flight_sky.gd" id="2_sky"]
+[ext_resource type="Shader" path="res://shaders/flight_sky.gdshader" id="3_skysh"]
+[ext_resource type="Texture2D" path="res://scenes/flight/textures/earth_albedo.png" id="4_earth"]
+[ext_resource type="Texture2D" path="res://scenes/flight/textures/earth_clouds.png" id="5_clouds"]
+[ext_resource type="Texture2D" path="res://scenes/flight/textures/moon_albedo.png" id="6_moon"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_launch_site.tscn" id="7_site"]
+[ext_resource type="Script" path="res://src/flight/flight_smoke.gd" id="8_smoke"]
+[ext_resource type="Shader" path="res://shaders/flight_smoke.gdshader" id="9_smokesh"]
+[ext_resource type="Script" path="res://src/flight/flight_camera.gd" id="10_cam"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_hud.tscn" id="11_hud"]
+
+[sub_resource type="ShaderMaterial" id="m_sky"]
+shader = ExtResource("3_skysh")
+shader_parameter/earth_albedo = ExtResource("4_earth")
+shader_parameter/earth_clouds = ExtResource("5_clouds")
+shader_parameter/moon_albedo = ExtResource("6_moon")
+shader_parameter/sun_intensity = 9.0
+shader_parameter/exposure = 1.0
+shader_parameter/moon_radius = 0.016
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("m_sky")
+process_mode = 2
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.62, 0.72, 0.9, 1)
+ambient_light_energy = 0.55
+reflected_light_source = 1
+tonemap_mode = 3
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.4
+glow_strength = 1.05
+glow_bloom = 0.04
+glow_blend_mode = 1
+glow_hdr_threshold = 1.1
+fog_enabled = true
+fog_light_color = Color(0.72, 0.8, 0.9, 1)
+fog_light_energy = 1.0
+fog_density = 0.00014
+fog_aerial_perspective = 0.0
+fog_sky_affect = 0.0
+
+[sub_resource type="QuadMesh" id="puff"]
+
+[sub_resource type="ShaderMaterial" id="m_smoke"]
+render_priority = -1
+shader = ExtResource("9_smokesh")
+shader_parameter/sun_dir = Vector3(0.72, 0.45, 0.42)
+
+[sub_resource type="MultiMesh" id="mm_smoke"]
+transform_format = 1
+use_custom_data = true
+custom_aabb = AABB(-100000, -100000, -100000, 200000, 200000, 200000)
+mesh = SubResource("puff")
+
+[node name="Flight" type="Node3D"]
+script = ExtResource("1_world")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("sun_light")]
+environment = SubResource("env")
+script = ExtResource("2_sky")
+sun_direction = Vector3(0.72, 0.45, 0.42)
+moon_direction = Vector3(-0.72, 0.5, -0.1)
+sun_light = NodePath("../Sun")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866, 0, -0.866, 0.5, 0, 0, 0)
+light_color = Color(1, 0.9451, 0.8627, 1)
+light_energy = 2.2
+light_indirect_energy = 1.0
+light_angular_distance = 0.5
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 1.2
+shadow_blur = 1.2
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.15
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 260.0
+directional_shadow_pancake_size = 80.0
+
+[node name="LaunchSite" parent="." instance=ExtResource("7_site")]
+
+[node name="Vessels" type="Node3D" parent="."]
+
+[node name="Effects" type="Node3D" parent="."]
+
+[node name="Smoke" type="MultiMeshInstance3D" parent="."]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+multimesh = SubResource("mm_smoke")
+material_override = SubResource("m_smoke")
+script = ExtResource("8_smoke")
+max_puffs = 1100
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("10_cam")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+current = true
+fov = 55.0
+near = 0.3
+far = 800000.0
+
+[node name="HUD" parent="." instance=ExtResource("11_hud")]

@@ -1,0 +1,37 @@
+keys,en,pt
+CREW_TITLE,Crew,Tripulação
+CREW_SUBTITLE,Cometlings ready to fly,Cometinhos prontos para voar
+CREW_SPECIES,Cometlings,Cometinhos
+CREW_SPECIES_ONE,Cometling,Cometinho
+CREW_HIRE,Hire,Contratar
+CREW_HIRE_TIP,Hire a new Cometling astronaut,Contratar um novo astronauta Cometinho
+CREW_RENAME_TIP,Rename (or double-click the card),Renomear (ou clique duas vezes no cartão)
+CREW_SEATS,CREW SEATS,ASSENTOS DA TRIPULAÇÃO
+CREW_ROSTER,ROSTER,EQUIPE
+CREW_NO_SEATS,Add a crewed part (like the Crew Capsule) to seat your crew.,Adicione uma peça tripulada (como a Cápsula Tripulada) para acomodar a tripulação.
+CREW_NO_VESSEL,No vessel in the hangar yet.,Ainda não há veículo no hangar.
+CREW_SEAT_N,Seat %d,Assento %d
+CREW_EMPTY_SEAT,empty,vazio
+CREW_ASSIGN,Seat in the vessel,Colocar no veículo
+CREW_UNASSIGN,Take out of the seat,Tirar do assento
+CREW_STATUS_AVAILABLE,Available,Disponível
+CREW_STATUS_ASSIGNED,Seated · %s,No assento · %s
+CREW_SEATS_FULL,All seats are taken.,Todos os assentos estão ocupados.
+CREW_DRAG_HINT,"Drag a card onto a seat, or select it and click a seat.","Arraste um cartão até um assento, ou selecione-o e clique num assento."
+CREW_LEVEL,Lv %d,Nv %d
+CREW_MISSIONS,%d missions,%d missões
+CREW_MOD_ATTITUDE,Attitude +%d%%,Atitude +%d%%
+CREW_MOD_RELIABILITY,Reliability +%d%%,Confiabilidade +%d%%
+CREW_MOD_SCIENCE,Science +%d%%,Ciência +%d%%
+CREW_CLOSE,Close,Fechar
+ROLE_PILOT,Pilot,Piloto
+ROLE_ENGINEER,Engineer,Engenheiro
+ROLE_SCIENTIST,Scientist,Cientista
+ROLE_GROUND,Ground crew,Equipe de solo
+ROLE_PILOT_DESC,Pilots improve attitude control.,Pilotos melhoram o controle de atitude.
+ROLE_ENGINEER_DESC,Engineers make the vessel more reliable.,Engenheiros deixam o veículo mais confiável.
+ROLE_SCIENTIST_DESC,Scientists bring back more science.,Cientistas trazem mais ciência.
+ROLE_GROUND_DESC,Ground crew keep the hangar running.,A equipe de solo mantém o hangar funcionando.
+STAT_COURAGE,Courage,Coragem
+STAT_SKILL,Skill,Habilidade
+STAT_CURIOSITY,Curiosity,Curiosidade

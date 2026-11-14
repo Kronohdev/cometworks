@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/surface_sky.gdshader" id="1_shader"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_shader")
+shader_parameter/zenith_color = Color(0.2, 0.42, 0.8, 1)
+shader_parameter/horizon_color = Color(0.7, 0.82, 0.95, 1)
+shader_parameter/ground_color = Color(0.25, 0.26, 0.24, 1)
+shader_parameter/gradient_power = 0.5
+shader_parameter/star_intensity = 0.0
+shader_parameter/sun_color = Color(1, 0.96, 0.9, 1)
+shader_parameter/sun_size_deg = 0.53
+shader_parameter/glow_color = Color(1, 0.9, 0.7, 1)
+shader_parameter/glow_strength = 0.6
+shader_parameter/sun_disk_energy = 30.0
+shader_parameter/body_enabled = false
+shader_parameter/body_energy = 1.0

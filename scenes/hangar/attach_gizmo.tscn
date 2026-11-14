@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="SphereMesh" id="sphere"]
+radius = 0.5
+height = 1.0
+radial_segments = 24
+rings = 12
+
+[sub_resource type="StandardMaterial3D" id="mat"]
+render_priority = 12
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.3, 0.9, 1, 0.75)
+
+[sub_resource type="TorusMesh" id="ring"]
+inner_radius = 0.62
+outer_radius = 0.72
+rings = 32
+ring_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="ring_mat"]
+render_priority = 12
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.5)
+
+[node name="AttachGizmo" type="Node3D"]
+
+[node name="Sphere" type="MeshInstance3D" parent="."]
+mesh = SubResource("sphere")
+surface_material_override/0 = SubResource("mat")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+mesh = SubResource("ring")
+surface_material_override/0 = SubResource("ring_mat")

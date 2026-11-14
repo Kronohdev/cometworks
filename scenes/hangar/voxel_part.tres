@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/voxel_part.gdshader" id="1_voxel"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_voxel")
+shader_parameter/jitter = 0.07
+shader_parameter/roughness_value = 0.8
+shader_parameter/metallic_value = 0.0

@@ -1,0 +1,130 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/hangar/stage_card.gd" id="1_card"]
+[ext_resource type="PackedScene" path="res://scenes/ui/chip.tscn" id="2_chip"]
+
+[node name="StageCard" type="PanelContainer"]
+offset_right = 268.0
+offset_bottom = 56.0
+tooltip_text = "UI_STAGE_TIP"
+mouse_default_cursor_shape = 2
+theme_type_variation = &"CardFlat"
+script = ExtResource("1_card")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+mouse_filter = 2
+
+[node name="Swatch" type="ColorRect" parent="HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.4157, 0.6627, 1, 1)
+
+[node name="Main" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+theme_override_constants/separation = 1
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Row1" type="HBoxContainer" parent="HBox/Main"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="HBox/Main/Row1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "Stage 1"
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Mass" type="Label" parent="HBox/Main/Row1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "254.8 t"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+
+[node name="Row2" type="HBoxContainer" parent="HBox/Main"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="Dv" type="Label" parent="HBox/Main/Row2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+text = "7 111 m/s"
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TwrChip" parent="HBox/Main/Row2" instance=ExtResource("2_chip")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+text = "TWR 2.03"
+tone = 1
+
+[node name="Detail" type="VBoxContainer" parent="HBox/Main"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+visible = false
+mouse_filter = 2
+
+[node name="Gap" type="Control" parent="HBox/Main/Detail"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Row3" type="HBoxContainer" parent="HBox/Main/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="DvDetail" type="Label" parent="HBox/Main/Detail/Row3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SL 5 878 · vac 7 111 m/s"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="Burn" type="Label" parent="HBox/Main/Detail/Row3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Burn 223 s"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="TwrRow" type="HBoxContainer" parent="HBox/Main/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 8
+mouse_filter = 2
+
+[node name="TwrCaption" type="Label" parent="HBox/Main/Detail/TwrRow"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "STAT_TWR"
+mouse_filter = 2
+
+[node name="TwrBar" type="ProgressBar" parent="HBox/Main/Detail/TwrRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+max_value = 3.0
+step = 0.01
+value = 2.03
+show_percentage = false

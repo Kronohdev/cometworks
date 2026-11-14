@@ -1,0 +1,134 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/crew/crew_panel.gd" id="1_panel"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/icon_hire.svg" id="3_hire"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crew_card.tscn" id="4_card"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crew_seat.tscn" id="5_seat"]
+
+[node name="CrewPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(400, 560)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 420.0
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_panel")
+card_scene = ExtResource("4_card")
+seat_scene = ExtResource("5_seat")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Titles" type="VBoxContainer" parent="Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Crew"
+
+[node name="Subtitle" type="Label" parent="Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Cometlings ready to fly"
+
+[node name="HireBtn" type="Button" parent="Margin/VBox/Header"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "Hire"
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("3_hire")
+
+[node name="CloseBtn" type="Button" parent="Margin/VBox/Header"]
+visible = false
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "×"
+
+[node name="SeatsTitle" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "CREW SEATS"
+
+[node name="Seats" type="HFlowContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="NoSeats" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Add a crew capsule to the vessel to seat your crew."
+autowrap_mode = 3
+
+[node name="Mods" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Attitude" type="Label" parent="Margin/VBox/Mods"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Attitude +0%"
+horizontal_alignment = 1
+
+[node name="Reliability" type="Label" parent="Margin/VBox/Mods"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Reliability +0%"
+horizontal_alignment = 1
+
+[node name="Science" type="Label" parent="Margin/VBox/Mods"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Science +0%"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="RosterTitle" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "ROSTER"
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Hint" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Drag a card onto a seat, or select it and click a seat."
+autowrap_mode = 3

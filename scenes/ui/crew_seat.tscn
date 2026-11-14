@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/crew/crew_seat_slot.gd" id="1_seat"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/icon_unseat.svg" id="2_unseat"]
+
+[sub_resource type="StyleBoxFlat" id="slot"]
+bg_color = Color(0.051, 0.067, 0.09, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.231, 0.29, 0.361, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="dot"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="CrewSeat" type="PanelContainer"]
+custom_minimum_size = Vector2(112, 64)
+offset_right = 112.0
+offset_bottom = 64.0
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("slot")
+script = ExtResource("1_seat")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="Top" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SeatLabel" type="Label" parent="VBox/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+theme_override_font_sizes/font_size = 11
+text = "SEAT 1"
+
+[node name="Unseat" type="Button" parent="VBox/Top"]
+visible = false
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 11
+icon = ExtResource("2_unseat")
+flat = true
+icon_alignment = 1
+
+[node name="Part" type="Label" parent="VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 10
+text = "Crew Capsule"
+text_overrun_behavior = 3
+
+[node name="Occupant" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Dot" type="Panel" parent="VBox/Occupant"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("dot")
+
+[node name="Name" type="Label" parent="VBox/Occupant"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "empty"
+text_overrun_behavior = 3

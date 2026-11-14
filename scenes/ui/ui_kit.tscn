@@ -1,0 +1,1821 @@
+[gd_scene load_steps=71 format=3]
+
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="theme"]
+[ext_resource type="PackedScene" path="res://scenes/ui/chip.tscn" id="chip"]
+[ext_resource type="PackedScene" path="res://scenes/ui/stage_card.tscn" id="stage"]
+[ext_resource type="PackedScene" path="res://scenes/ui/part_card.tscn" id="part"]
+[ext_resource type="Texture2D" path="res://ui/kit/emblem_margin.svg" id="emblem"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_search.svg" id="k_icon_search"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_mass.svg" id="k_icon_mass"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_thrust.svg" id="k_icon_thrust"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_isp.svg" id="k_icon_isp"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cost.svg" id="k_icon_cost"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_check.svg" id="k_icon_check"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_warn.svg" id="k_icon_warn"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_danger.svg" id="k_icon_danger"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_info.svg" id="k_icon_info"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_star_fill.svg" id="k_icon_star_fill"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_save.svg" id="k_icon_save"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_snap.svg" id="k_icon_snap"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_load.svg" id="k_icon_load"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_launch.svg" id="k_icon_launch"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_undo.svg" id="k_icon_undo"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_redo.svg" id="k_icon_redo"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_4.svg" id="k_icon_sym_4"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_nodes.svg" id="k_icon_nodes"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_stages.svg" id="k_icon_stages"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_crew.svg" id="k_icon_crew"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_com.svg" id="k_icon_com"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cot.svg" id="k_icon_cot"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_col.svg" id="k_icon_col"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_1.svg" id="k_icon_sym_1"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_2.svg" id="k_icon_sym_2"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_3.svg" id="k_icon_sym_3"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_6.svg" id="k_icon_sym_6"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_sym_8.svg" id="k_icon_sym_8"]
+[ext_resource type="Texture2D" path="res://ui/part_icons/engine_hydrolox_main.png" id="pi0"]
+[ext_resource type="Texture2D" path="res://ui/part_icons/tank_hydrolox.png" id="pi1"]
+[ext_resource type="Texture2D" path="res://ui/part_icons/avionics_core.png" id="pi2"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_burn.svg" id="k_icon_burn"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_aero.svg" id="k_icon_cat_aero"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_bus.svg" id="k_icon_cat_bus"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_command.svg" id="k_icon_cat_command"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_comms.svg" id="k_icon_cat_comms"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_control.svg" id="k_icon_cat_control"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_engine.svg" id="k_icon_cat_engine"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_favorites.svg" id="k_icon_cat_favorites"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_future.svg" id="k_icon_cat_future"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_instrument.svg" id="k_icon_cat_instrument"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_power.svg" id="k_icon_cat_power"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_structure.svg" id="k_icon_cat_structure"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_tank.svg" id="k_icon_cat_tank"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_cat_thermal.svg" id="k_icon_cat_thermal"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_chevron_down.svg" id="k_icon_chevron_down"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_close.svg" id="k_icon_close"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_collapse.svg" id="k_icon_collapse"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_compact.svg" id="k_icon_compact"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_details.svg" id="k_icon_details"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_dv.svg" id="k_icon_dv"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_examples.svg" id="k_icon_examples"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_expand.svg" id="k_icon_expand"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_file.svg" id="k_icon_file"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_help.svg" id="k_icon_help"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_hud.svg" id="k_icon_hud"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_language.svg" id="k_icon_language"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_new.svg" id="k_icon_new"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_parts.svg" id="k_icon_parts"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_star.svg" id="k_icon_star"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_symmetry.svg" id="k_icon_symmetry"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_target.svg" id="k_icon_target"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_twr.svg" id="k_icon_twr"]
+
+[sub_resource type="ButtonGroup" id="seg_group"]
+
+[sub_resource type="ButtonGroup" id="sym_group"]
+
+[node name="UIKit" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme")
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03922, 0.0549, 0.07451, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Head" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Emblem" type="TextureRect" parent="Margin/VBox/Head"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = ExtResource("emblem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Margin/VBox/Head"]
+layout_mode = 2
+theme_override_constants/separation = 0
+size_flags_vertical = 4
+
+[node name="Title" type="Label" parent="Margin/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"LogoLabel"
+text = "MARGIN · UI KIT 2.0"
+
+[node name="Sub" type="Label" parent="Margin/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "ui/margin_theme.tres + ui/kit/*.svg + ui/palette.gd — generated by tools/make_ui_kit.py from one palette table. / Gerado a partir de uma única tabela de cores."
+
+[node name="Cols" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+size_flags_vertical = 3
+
+[node name="Palette" type="PanelContainer" parent="Margin/VBox/Cols"]
+layout_mode = 2
+custom_minimum_size = Vector2(470, 0)
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Cols/Palette"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="T" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Palette 2.0"
+
+[node name="G0" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Surfaces"
+
+[node name="Grid0" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="INK" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/INK"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.03922, 0.0549, 0.07451, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/INK"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "INK"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="WELL" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/WELL"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.0549, 0.07843, 0.1059, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/WELL"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "WELL"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="PANEL" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/PANEL"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.07059, 0.09804, 0.1333, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/PANEL"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "PANEL"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="PANEL_HI" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/PANEL_HI"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.09412, 0.1294, 0.1725, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/PANEL_HI"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "PANEL_HI"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="RAISED" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/RAISED"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.1098, 0.149, 0.2, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/RAISED"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "RAISED"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="RAISED_HI" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid0"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid0/RAISED_HI"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.149, 0.2, 0.2706, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid0/RAISED_HI"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "RAISED_HI"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G1" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Strokes"
+
+[node name="Grid1" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="LINE" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid1"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid1/LINE"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.1686, 0.2235, 0.2863, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid1/LINE"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "LINE"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="LINE_HI" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid1"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid1/LINE_HI"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.2627, 0.3373, 0.4392, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid1/LINE_HI"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "LINE_HI"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G2" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Text"
+
+[node name="Grid2" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="TEXT" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid2"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "TEXT"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="TEXT_DIM" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid2"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT_DIM"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.5765, 0.6392, 0.7216, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT_DIM"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "TEXT_DIM"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="TEXT_MUTED" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid2"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT_MUTED"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.3725, 0.4353, 0.5176, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid2/TEXT_MUTED"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "TEXT_MUTED"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G3" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Accents"
+
+[node name="Grid3" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="ACCENT" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid3"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.6039, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "ACCENT"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="ACCENT_HI" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid3"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_HI"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.7412, 0.4784, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_HI"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "ACCENT_HI"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="ACCENT_LO" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid3"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_LO"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.7843, 0.4, 0.102, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_LO"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "ACCENT_LO"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="ACCENT_2" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid3"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_2"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.4157, 0.6627, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_2"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "ACCENT_2"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="ACCENT_2_HI" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid3"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_2_HI"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.6392, 0.7882, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid3/ACCENT_2_HI"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "ACCENT_2_HI"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G4" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Status"
+
+[node name="Grid4" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="SUCCESS" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid4"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid4/SUCCESS"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.3569, 0.8392, 0.5569, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid4/SUCCESS"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "SUCCESS"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="WARNING" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid4"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid4/WARNING"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.7725, 0.2784, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid4/WARNING"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "WARNING"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DANGER" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid4"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid4/DANGER"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.3725, 0.4275, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid4/DANGER"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DANGER"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G5" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Data"
+
+[node name="Grid5" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="DATA_1" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_1"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.4157, 0.6627, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_1"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_1"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DATA_2" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_2"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.6039, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_2"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_2"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DATA_3" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_3"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.3098, 0.8392, 0.6902, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_3"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_3"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DATA_4" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_4"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.7098, 0.5647, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_4"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_4"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DATA_5" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_5"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.9569, 0.498, 0.6431, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_5"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_5"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="DATA_6" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid5"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_6"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.7882, 0.8275, 0.4157, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid5/DATA_6"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "DATA_6"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G6" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Markers"
+
+[node name="Grid6" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="MARK_COM" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid6"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COM"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(1, 0.851, 0.102, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COM"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "MARK_COM"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="MARK_COT" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid6"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COT"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.949, 0.2, 0.851, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COT"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "MARK_COT"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="MARK_COL" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid6"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COL"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.2, 0.749, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid6/MARK_COL"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "MARK_COL"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="G7" type="Label" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "World"
+
+[node name="Grid7" type="GridContainer" parent="Margin/VBox/Cols/Palette/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 6
+
+[node name="STRUCTURE" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid7"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid7/STRUCTURE"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.8745, 0.8902, 0.9059, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid7/STRUCTURE"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "STRUCTURE"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="METAL" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid7"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid7/METAL"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.6392, 0.6784, 0.7216, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid7/METAL"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "METAL"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="GUNMETAL" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid7"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid7/GUNMETAL"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.2353, 0.2667, 0.3137, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid7/GUNMETAL"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "GUNMETAL"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="HAZARD" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid7"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid7/HAZARD"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.949, 0.7176, 0.01961, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid7/HAZARD"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "HAZARD"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="GLASS" type="VBoxContainer" parent="Margin/VBox/Cols/Palette/VBox/Grid7"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Swatch" type="ColorRect" parent="Margin/VBox/Cols/Palette/VBox/Grid7/GLASS"]
+custom_minimum_size = Vector2(68, 22)
+layout_mode = 2
+color = Color(0.749, 0.9137, 1, 1)
+
+[node name="Name" type="Label" parent="Margin/VBox/Cols/Palette/VBox/Grid7/GLASS"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "GLASS"
+theme_override_font_sizes/font_size = 9
+auto_translate_mode = 2
+
+[node name="Controls" type="PanelContainer" parent="Margin/VBox/Cols"]
+layout_mode = 2
+custom_minimum_size = Vector2(430, 0)
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Cols/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="T" type="Label" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Typography & inputs"
+
+[node name="Section" type="Label" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "SectionLabel · section"
+
+[node name="Values" type="HBoxContainer" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Big" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Values"]
+layout_mode = 2
+theme_type_variation = &"BigValueLabel"
+text = "16 170 m/s"
+
+[node name="Val" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Values"]
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+text = "2.03"
+size_flags_vertical = 8
+
+[node name="Cap" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Values"]
+layout_mode = 2
+theme_type_variation = &"CaptionLabel"
+text = "CAPTION"
+size_flags_vertical = 8
+
+[node name="Body" type="Label" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+text = "Label: body text, 14 px Segoe UI. DimLabel below for secondary info."
+
+[node name="Dim" type="Label" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "DimLabel · TEXT_DIM on PANEL 6.9:1"
+
+[node name="Search" type="LineEdit" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+placeholder_text = "LineEdit · Search parts..."
+clear_button_enabled = true
+right_icon = ExtResource("k_icon_search")
+
+[node name="Focused" type="LineEdit" parent="Margin/VBox/Cols/Controls/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Focused field (glow)"
+
+[node name="Option" type="OptionButton" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+focus_mode = 0
+selected = 0
+item_count = 3
+popup/item_0/text = "OptionButton · Earth"
+popup/item_0/id = 0
+popup/item_1/text = "Moon"
+popup/item_1/id = 1
+popup/item_2/text = "Mars"
+popup/item_2/id = 2
+
+[node name="Switches" type="HBoxContainer" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Check" type="CheckButton" parent="Margin/VBox/Cols/Controls/VBox/Switches"]
+layout_mode = 2
+focus_mode = 0
+button_pressed = true
+text = "CheckButton"
+
+[node name="Check2" type="CheckButton" parent="Margin/VBox/Cols/Controls/VBox/Switches"]
+layout_mode = 2
+focus_mode = 0
+text = "Off"
+
+[node name="Box" type="CheckBox" parent="Margin/VBox/Cols/Controls/VBox/Switches"]
+layout_mode = 2
+focus_mode = 0
+button_pressed = true
+text = "CheckBox"
+
+[node name="Bar" type="ProgressBar" parent="Margin/VBox/Cols/Controls/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 64.0
+show_percentage = false
+
+[node name="Slider" type="HSlider" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+focus_mode = 0
+value = 40.0
+
+[node name="Keys" type="HBoxContainer" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="K0" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Keys"]
+layout_mode = 2
+theme_type_variation = &"KeyCap"
+text = "Ctrl+Z"
+
+[node name="K1" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Keys"]
+layout_mode = 2
+theme_type_variation = &"KeyCap"
+text = "X"
+
+[node name="K2" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Keys"]
+layout_mode = 2
+theme_type_variation = &"KeyCap"
+text = "F1"
+
+[node name="K3" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Keys"]
+layout_mode = 2
+theme_type_variation = &"KeyCap"
+text = "F2"
+
+[node name="KD" type="Label" parent="Margin/VBox/Cols/Controls/VBox/Keys"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "KeyCap"
+size_flags_vertical = 4
+
+[node name="ChipT" type="Label" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Chips & badges"
+
+[node name="Chips" type="HFlowContainer" parent="Margin/VBox/Cols/Controls/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="C0" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_mass")
+text = "1.2 t"
+tone = 0
+
+[node name="C1" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_thrust")
+text = "24 / 26 kN"
+tone = 0
+
+[node name="C2" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_isp")
+text = "295 / 311 s"
+tone = 0
+
+[node name="C3" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_cost")
+text = "US$ 0.6 M"
+tone = 0
+
+[node name="C4" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_check")
+text = "Ready"
+tone = 1
+
+[node name="C5" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_warn")
+text = "Low TWR"
+tone = 2
+
+[node name="C6" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_danger")
+text = "No fuel"
+tone = 3
+
+[node name="C7" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_info")
+text = "Gimbal"
+tone = 4
+
+[node name="C8" parent="Margin/VBox/Cols/Controls/VBox/Chips" instance=ExtResource("chip")]
+layout_mode = 2
+icon = ExtResource("k_icon_star_fill")
+text = "Selected"
+tone = 5
+
+[node name="Buttons" type="PanelContainer" parent="Margin/VBox/Cols"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Cols/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="T" type="Label" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Buttons & cards"
+
+[node name="Row1" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="B1" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row1"]
+layout_mode = 2
+focus_mode = 0
+text = "Button"
+icon = ExtResource("k_icon_save")
+
+[node name="B2" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row1"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+button_pressed = true
+text = "Toggled"
+icon = ExtResource("k_icon_snap")
+
+[node name="B3" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row1"]
+layout_mode = 2
+focus_mode = 0
+text = "Disabled"
+icon = ExtResource("k_icon_load")
+disabled = true
+
+[node name="B4" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row1"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"PrimaryButton"
+text = "Launch"
+icon = ExtResource("k_icon_launch")
+custom_minimum_size = Vector2(120, 40)
+
+[node name="Row2" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Group" type="PanelContainer" parent="Margin/VBox/Cols/Buttons/VBox/Row2"]
+layout_mode = 2
+theme_type_variation = &"ToolGroup"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="F1" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("k_icon_undo")
+
+[node name="F2" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("k_icon_redo")
+
+[node name="F3" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+text = "4×"
+icon = ExtResource("k_icon_sym_4")
+
+[node name="F4" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+button_pressed = true
+text = "15°"
+icon = ExtResource("k_icon_snap")
+
+[node name="F5" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Group/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+icon = ExtResource("k_icon_nodes")
+
+[node name="Seg" type="PanelContainer" parent="Margin/VBox/Cols/Buttons/VBox/Row2"]
+layout_mode = 2
+theme_type_variation = &"ToolGroup"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Seg"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="S1" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Seg/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SegmentButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("seg_group")
+text = "Stages"
+icon = ExtResource("k_icon_stages")
+
+[node name="S2" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Row2/Seg/HBox"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SegmentButton"
+toggle_mode = true
+button_group = SubResource("seg_group")
+text = "Crew"
+icon = ExtResource("k_icon_crew")
+
+[node name="Markers" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="M1" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Markers"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MarkerToggle"
+toggle_mode = true
+button_pressed = true
+text = "CoM"
+icon = ExtResource("k_icon_com")
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(1, 0.851, 0.102, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.851, 0.102, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.851, 0.102, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.851, 0.102, 1)
+
+[node name="M2" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Markers"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MarkerToggle"
+toggle_mode = true
+button_pressed = true
+text = "CoT"
+icon = ExtResource("k_icon_cot")
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(0.949, 0.2, 0.851, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.949, 0.2, 0.851, 1)
+theme_override_colors/icon_pressed_color = Color(0.949, 0.2, 0.851, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.949, 0.2, 0.851, 1)
+
+[node name="M3" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/Markers"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"MarkerToggle"
+toggle_mode = true
+text = "CoL"
+icon = ExtResource("k_icon_col")
+size_flags_horizontal = 3
+theme_override_colors/font_pressed_color = Color(0.2, 0.749, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.2, 0.749, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.2, 0.749, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.2, 0.749, 1, 1)
+
+[node name="SymT" type="Label" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Symmetry selector"
+
+[node name="SymPanel" type="PanelContainer" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"FloatPanel"
+
+[node name="Row" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Sym1" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_group = SubResource("sym_group")
+text = "1×"
+icon = ExtResource("k_icon_sym_1")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Sym2" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_group = SubResource("sym_group")
+text = "2×"
+icon = ExtResource("k_icon_sym_2")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Sym3" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_group = SubResource("sym_group")
+text = "3×"
+icon = ExtResource("k_icon_sym_3")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Sym4" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("sym_group")
+text = "4×"
+icon = ExtResource("k_icon_sym_4")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Sym6" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_group = SubResource("sym_group")
+text = "6×"
+icon = ExtResource("k_icon_sym_6")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Sym8" type="Button" parent="Margin/VBox/Cols/Buttons/VBox/SymPanel/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"SymButton"
+toggle_mode = true
+button_group = SubResource("sym_group")
+text = "8×"
+icon = ExtResource("k_icon_sym_8")
+custom_minimum_size = Vector2(54, 66)
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Cards" type="HBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Stages" type="VBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox/Cards"]
+layout_mode = 2
+theme_override_constants/separation = 6
+custom_minimum_size = Vector2(268, 0)
+
+[node name="ST" type="Label" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Stages"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Stage cards: compact / detailed"
+
+[node name="Compact" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Stages" instance=ExtResource("stage")]
+layout_mode = 2
+
+[node name="Detailed" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Stages" instance=ExtResource("stage")]
+unique_name_in_owner = true
+layout_mode = 2
+detailed = true
+
+[node name="Parts" type="VBoxContainer" parent="Margin/VBox/Cols/Buttons/VBox/Cards"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PT" type="Label" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Parts"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Part cards"
+
+[node name="Grid" type="GridContainer" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Parts"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="P0" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Parts/Grid" instance=ExtResource("part")]
+layout_mode = 2
+text = "Hydrolox Main"
+icon = ExtResource("pi0")
+
+[node name="P1" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Parts/Grid" instance=ExtResource("part")]
+layout_mode = 2
+text = "Tank L-8m"
+icon = ExtResource("pi1")
+toggle_mode = true
+button_pressed = true
+
+[node name="P2" parent="Margin/VBox/Cols/Buttons/VBox/Cards/Parts/Grid" instance=ExtResource("part")]
+layout_mode = 2
+text = "Avionics Core S"
+icon = ExtResource("pi2")
+
+[node name="IconsT" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "Icons"
+
+[node name="Icons" type="HFlowContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+
+[node name="burn" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "burn"
+texture = ExtResource("k_icon_burn")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_aero" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_aero"
+texture = ExtResource("k_icon_cat_aero")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_bus" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_bus"
+texture = ExtResource("k_icon_cat_bus")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_command" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_command"
+texture = ExtResource("k_icon_cat_command")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_comms" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_comms"
+texture = ExtResource("k_icon_cat_comms")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_control" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_control"
+texture = ExtResource("k_icon_cat_control")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_engine" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_engine"
+texture = ExtResource("k_icon_cat_engine")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_favorites" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_favorites"
+texture = ExtResource("k_icon_cat_favorites")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_future" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_future"
+texture = ExtResource("k_icon_cat_future")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_instrument" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_instrument"
+texture = ExtResource("k_icon_cat_instrument")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_power" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_power"
+texture = ExtResource("k_icon_cat_power")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_structure" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_structure"
+texture = ExtResource("k_icon_cat_structure")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_tank" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_tank"
+texture = ExtResource("k_icon_cat_tank")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cat_thermal" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cat_thermal"
+texture = ExtResource("k_icon_cat_thermal")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="check" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "check"
+texture = ExtResource("k_icon_check")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="chevron_down" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "chevron_down"
+texture = ExtResource("k_icon_chevron_down")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="close" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "close"
+texture = ExtResource("k_icon_close")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="col" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "col"
+texture = ExtResource("k_icon_col")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="collapse" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "collapse"
+texture = ExtResource("k_icon_collapse")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="com" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "com"
+texture = ExtResource("k_icon_com")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="compact" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "compact"
+texture = ExtResource("k_icon_compact")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cost" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cost"
+texture = ExtResource("k_icon_cost")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="cot" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "cot"
+texture = ExtResource("k_icon_cot")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="crew" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "crew"
+texture = ExtResource("k_icon_crew")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="danger" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "danger"
+texture = ExtResource("k_icon_danger")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="details" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "details"
+texture = ExtResource("k_icon_details")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="dv" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "dv"
+texture = ExtResource("k_icon_dv")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="examples" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "examples"
+texture = ExtResource("k_icon_examples")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="expand" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "expand"
+texture = ExtResource("k_icon_expand")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="file" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "file"
+texture = ExtResource("k_icon_file")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="help" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "help"
+texture = ExtResource("k_icon_help")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="hud" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "hud"
+texture = ExtResource("k_icon_hud")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="info" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "info"
+texture = ExtResource("k_icon_info")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="isp" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "isp"
+texture = ExtResource("k_icon_isp")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="language" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "language"
+texture = ExtResource("k_icon_language")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="launch" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "launch"
+texture = ExtResource("k_icon_launch")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="load" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "load"
+texture = ExtResource("k_icon_load")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="mass" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "mass"
+texture = ExtResource("k_icon_mass")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="new" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "new"
+texture = ExtResource("k_icon_new")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="nodes" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "nodes"
+texture = ExtResource("k_icon_nodes")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="parts" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "parts"
+texture = ExtResource("k_icon_parts")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="redo" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "redo"
+texture = ExtResource("k_icon_redo")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="save" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "save"
+texture = ExtResource("k_icon_save")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="search" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "search"
+texture = ExtResource("k_icon_search")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="snap" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "snap"
+texture = ExtResource("k_icon_snap")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="stages" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "stages"
+texture = ExtResource("k_icon_stages")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="star" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "star"
+texture = ExtResource("k_icon_star")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="star_fill" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "star_fill"
+texture = ExtResource("k_icon_star_fill")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="symmetry" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "symmetry"
+texture = ExtResource("k_icon_symmetry")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="target" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "target"
+texture = ExtResource("k_icon_target")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="thrust" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "thrust"
+texture = ExtResource("k_icon_thrust")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="twr" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "twr"
+texture = ExtResource("k_icon_twr")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="undo" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "undo"
+texture = ExtResource("k_icon_undo")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="warn" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "warn"
+texture = ExtResource("k_icon_warn")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_1" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_1"
+texture = ExtResource("k_icon_sym_1")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_2" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_2"
+texture = ExtResource("k_icon_sym_2")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_3" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_3"
+texture = ExtResource("k_icon_sym_3")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_4" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_4"
+texture = ExtResource("k_icon_sym_4")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_6" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_6"
+texture = ExtResource("k_icon_sym_6")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)
+
+[node name="sym_8" type="TextureRect" parent="Margin/VBox/Icons"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+tooltip_text = "sym_8"
+texture = ExtResource("k_icon_sym_8")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.9294, 0.949, 0.9686, 1)

@@ -1,0 +1,271 @@
+[gd_scene load_steps=38 format=3]
+
+[ext_resource type="Script" path="res://src/npc/creature.gd" id="script"]
+[ext_resource type="Material" path="res://scenes/npc/creature_material.tres" id="mat"]
+[ext_resource type="Material" path="res://scenes/npc/blob_shadow.tres" id="shadow_mat"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/emotes.png" id="emotes"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_backpack.glb" id="g_acc_backpack"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_belt.glb" id="g_acc_belt"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_goggles.glb" id="g_acc_goggles"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_hardhat.glb" id="g_acc_hardhat"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_helmet.glb" id="g_acc_helmet"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_scarf.glb" id="g_acc_scarf"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_scarf_tail.glb" id="g_acc_scarf_tail"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_vest.glb" id="g_acc_vest"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/antenna.glb" id="g_antenna"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/arm_l.glb" id="g_arm_l"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/arm_r.glb" id="g_arm_r"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/body.glb" id="g_body"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/bulb.glb" id="g_bulb"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/ear_l.glb" id="g_ear_l"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/ear_r.glb" id="g_ear_r"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/eye_happy_l.glb" id="g_eye_happy_l"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/eye_happy_r.glb" id="g_eye_happy_r"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/eye_l.glb" id="g_eye_l"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/eye_r.glb" id="g_eye_r"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/foot.glb" id="g_foot"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/head.glb" id="g_head"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_clipboard.glb" id="g_item_clipboard"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="g_item_crate"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_hammer.glb" id="g_item_hammer"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_scanner.glb" id="g_item_scanner"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_wrench.glb" id="g_item_wrench"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/lid_l.glb" id="g_lid_l"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/lid_r.glb" id="g_lid_r"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/mouth_o.glb" id="g_mouth_o"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/mouth_open.glb" id="g_mouth_open"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/mouth_smile.glb" id="g_mouth_smile"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/tail.glb" id="g_tail"]
+
+[sub_resource type="QuadMesh" id="shadow_quad"]
+size = Vector2(0.62, 0.5)
+orientation = 1
+
+[node name="Creature" type="Node3D"]
+script = ExtResource("script")
+body_material = ExtResource("mat")
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0.01)
+cast_shadow = 0
+mesh = SubResource("shadow_quad")
+surface_material_override/0 = ExtResource("shadow_mat")
+
+[node name="Rig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+
+[node name="FootL" type="Node3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0850, 0.0000, 0.0000)
+
+[node name="Mesh" parent="Rig/FootL" instance=ExtResource("g_foot")]
+
+[node name="FootR" type="Node3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0850, 0.0000, 0.0000)
+
+[node name="Mesh" parent="Rig/FootR" instance=ExtResource("g_foot")]
+
+[node name="Hips" type="Node3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0700, 0.0000)
+
+[node name="Mesh" parent="Rig/Hips" instance=ExtResource("g_body")]
+
+[node name="Belt" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Belt" instance=ExtResource("g_acc_belt")]
+
+[node name="Vest" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Vest" instance=ExtResource("g_acc_vest")]
+
+[node name="Backpack" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Backpack" instance=ExtResource("g_acc_backpack")]
+
+[node name="Scarf" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Scarf" instance=ExtResource("g_acc_scarf")]
+
+[node name="ScarfTail" type="Node3D" parent="Rig/Hips/Scarf"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0700, 0.3350, -0.1500)
+
+[node name="Mesh" parent="Rig/Hips/Scarf/ScarfTail" instance=ExtResource("g_acc_scarf_tail")]
+
+[node name="Tail" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0800, -0.1400)
+
+[node name="Mesh" parent="Rig/Hips/Tail" instance=ExtResource("g_tail")]
+
+[node name="ArmL" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1600, 0.2650, 0.0000)
+
+[node name="Mesh" parent="Rig/Hips/ArmL" instance=ExtResource("g_arm_l")]
+
+[node name="HandL" type="Node3D" parent="Rig/Hips/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0860, -0.2000, 0.0180)
+
+[node name="ArmR" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1600, 0.2650, 0.0000)
+
+[node name="Mesh" parent="Rig/Hips/ArmR" instance=ExtResource("g_arm_r")]
+
+[node name="HandR" type="Node3D" parent="Rig/Hips/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0860, -0.2000, 0.0180)
+
+[node name="Wrench" type="Node3D" parent="Rig/Hips/ArmR/HandR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/ArmR/HandR/Wrench" instance=ExtResource("g_item_wrench")]
+
+[node name="Hammer" type="Node3D" parent="Rig/Hips/ArmR/HandR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/ArmR/HandR/Hammer" instance=ExtResource("g_item_hammer")]
+
+[node name="Clipboard" type="Node3D" parent="Rig/Hips/ArmL/HandL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/ArmL/HandL/Clipboard" instance=ExtResource("g_item_clipboard")]
+
+[node name="Carry" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.2000, 0.2500)
+
+[node name="Crate" type="Node3D" parent="Rig/Hips/Carry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Carry/Crate" instance=ExtResource("g_item_crate")]
+
+[node name="ScanHold" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.1800, 0.2000)
+
+[node name="Scanner" type="Node3D" parent="Rig/Hips/ScanHold"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/ScanHold/Scanner" instance=ExtResource("g_item_scanner")]
+
+[node name="Neck" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.3300, 0.0000)
+
+[node name="Mesh" parent="Rig/Hips/Neck" instance=ExtResource("g_head")]
+
+[node name="EyeL" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1160, 0.2320, 0.2626)
+
+[node name="Mesh" parent="Rig/Hips/Neck/EyeL" instance=ExtResource("g_eye_l")]
+
+[node name="EyeR" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1160, 0.2320, 0.2626)
+
+[node name="Mesh" parent="Rig/Hips/Neck/EyeR" instance=ExtResource("g_eye_r")]
+
+[node name="LidL" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1160, 0.3280, 0.2586)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/LidL" instance=ExtResource("g_lid_l")]
+
+[node name="LidR" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1160, 0.3280, 0.2586)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/LidR" instance=ExtResource("g_lid_r")]
+
+[node name="HappyL" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1160, 0.2320, 0.2626)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/HappyL" instance=ExtResource("g_eye_happy_l")]
+
+[node name="HappyR" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1160, 0.2320, 0.2626)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/HappyR" instance=ExtResource("g_eye_happy_r")]
+
+[node name="Mouth" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.1480, 0.2615)
+
+[node name="Smile" type="Node3D" parent="Rig/Hips/Neck/Mouth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+
+[node name="Mesh" parent="Rig/Hips/Neck/Mouth/Smile" instance=ExtResource("g_mouth_smile")]
+
+[node name="Open" type="Node3D" parent="Rig/Hips/Neck/Mouth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/Mouth/Open" instance=ExtResource("g_mouth_open")]
+
+[node name="Oh" type="Node3D" parent="Rig/Hips/Neck/Mouth"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/Mouth/Oh" instance=ExtResource("g_mouth_o")]
+
+[node name="EarL" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2350, 0.3950, -0.0300)
+
+[node name="Mesh" parent="Rig/Hips/Neck/EarL" instance=ExtResource("g_ear_l")]
+
+[node name="EarR" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2350, 0.3950, -0.0300)
+
+[node name="Mesh" parent="Rig/Hips/Neck/EarR" instance=ExtResource("g_ear_r")]
+
+[node name="Antenna" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.5050, 0.0200)
+
+[node name="Mesh" parent="Rig/Hips/Neck/Antenna" instance=ExtResource("g_antenna")]
+
+[node name="Bulb" type="Node3D" parent="Rig/Hips/Neck/Antenna"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.1150, 0.0550)
+
+[node name="Mesh" parent="Rig/Hips/Neck/Antenna/Bulb" instance=ExtResource("g_bulb")]
+
+[node name="Helmet" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/Helmet" instance=ExtResource("g_acc_helmet")]
+
+[node name="HardHat" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/HardHat" instance=ExtResource("g_acc_hardhat")]
+
+[node name="Goggles" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0000, 0.0000, 0.0000)
+visible = false
+
+[node name="Mesh" parent="Rig/Hips/Neck/Goggles" instance=ExtResource("g_acc_goggles")]
+
+[node name="Emote" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.38, 0)
+visible = false
+cast_shadow = 0
+pixel_size = 0.0115
+billboard = 1
+shaded = false
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("emotes")
+hframes = 4
+vframes = 4
+render_priority = 1
+
+[node name="OnScreen" type="VisibleOnScreenNotifier3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+aabb = AABB(-0.5, -0.6, -0.5, 1, 1.4, 1)

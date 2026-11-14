@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Shader" path="res://shaders/shroud_panels.gdshader" id="1_shroud"]
+
+[sub_resource type="CylinderMesh" id="collar_mesh"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 1.0
+radial_segments = 48
+rings = 1
+
+[sub_resource type="ShaderMaterial" id="collar_mat"]
+render_priority = 0
+shader = ExtResource("1_shroud")
+shader_parameter/body_color = Color(0.639, 0.678, 0.722, 1)
+shader_parameter/seam_color = Color(0.137, 0.153, 0.18, 1)
+shader_parameter/stripe_color = Color(0.961, 0.604, 0.212, 1)
+shader_parameter/band_height = 10.0
+shader_parameter/seams_around = 24.0
+shader_parameter/seam_width = 0.03
+shader_parameter/stripe_from = -1.0
+shader_parameter/stripe_to = -2.0
+shader_parameter/metallic_amount = 0.7
+
+[node name="JointCollar" type="MeshInstance3D"]
+mesh = SubResource("collar_mesh")
+surface_material_override/0 = SubResource("collar_mat")

@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://ui/part_icons/engine_hydrolox_main.png" id="1_icon"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_star_fill.svg" id="k_icon_star_fill"]
+
+[node name="PartCard" type="Button"]
+custom_minimum_size = Vector2(82, 96)
+offset_right = 82.0
+offset_bottom = 96.0
+focus_mode = 0
+auto_translate_mode = 2
+theme_type_variation = &"PartCard"
+action_mode = 0
+text = "Hydrolox Main"
+icon = ExtResource("1_icon")
+clip_text = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+autowrap_mode = 3
+
+[node name="Fav" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 0.6039, 0.2392, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -19.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 19.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("k_icon_star_fill")
+expand_mode = 1
+stretch_mode = 5

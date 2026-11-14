@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="PlanetSurfaceProfile" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/world/planet_surface_profile.gd" id="1_profile"]
+
+[sub_resource type="FastNoiseLite" id="cont"]
+noise_type = 1
+frequency = 0.00032
+fractal_octaves = 4
+seed = 4
+
+[sub_resource type="FastNoiseLite" id="ridge"]
+noise_type = 1
+frequency = 0.0011
+fractal_octaves = 5
+seed = 9
+fractal_type = 2
+
+[sub_resource type="FastNoiseLite" id="detail"]
+noise_type = 1
+frequency = 0.035
+fractal_octaves = 3
+seed = 2
+
+[sub_resource type="FastNoiseLite" id="patch"]
+noise_type = 1
+frequency = 0.0045
+fractal_octaves = 3
+seed = 6
+
+[resource]
+script = ExtResource("1_profile")
+id = &"earth"
+name_key = "PLANET_EARTH"
+description_key = "PLANET_EARTH_DESC"
+terrain_seed = 7
+gravity = 9.8
+has_atmosphere = true
+surface_pressure_kpa = 101.4
+radius_km = 6371
+color_surface = Color(0.32, 0.45, 0.2, 1)
+color_surface_alt = Color(0.46, 0.49, 0.27, 1)
+color_subsurface = Color(0.44, 0.33, 0.23, 1)
+color_rock = Color(0.5, 0.49, 0.47, 1)
+color_rock_strata = Color(0.43, 0.41, 0.39, 1)
+color_sand = Color(0.84, 0.77, 0.57, 1)
+color_ice = Color(0.93, 0.95, 0.98, 1)
+color_accent = Color(0.2, 0.35, 0.15, 1)
+color_seabed = Color(0.7, 0.65, 0.5, 1)
+color_pad = Color(0.56, 0.56, 0.55, 1)
+shade_variation = 0.06
+subsurface_depth = 3
+strata_thickness = 3
+cliff_slope = 1.5
+base_height = 7
+continents = SubResource("cont")
+continent_amplitude = 30
+ridges = SubResource("ridge")
+ridge_amplitude = 190
+ridge_mask_low = 0.05
+ridge_mask_high = 0.5
+detail = SubResource("detail")
+detail_amplitude = 1.3
+regional_slope = Vector2(-17, 0)
+patches = SubResource("patch")
+alt_threshold = 0.12
+accent_threshold = 0.42
+has_sea = true
+sea_level = 0
+water_shallow_color = Color(0.16, 0.6, 0.62, 1)
+water_deep_color = Color(0.03, 0.17, 0.32, 1)
+beach_height = 2.2
+polar_ice = true
+snow_line = 150
+snow_blend = 30
+flat_zone_radius = 42
+flat_zone_blend = 60
+flat_zone_offset = 1
+flat_zone_paved = true
+prop_kind = 1
+prop_density = 28
+prop_color_a = Color(0.2, 0.37, 0.15, 1)
+prop_color_b = Color(0.36, 0.26, 0.17, 1)
+sky_zenith_color = Color(0.2, 0.42, 0.8, 1)
+sky_horizon_color = Color(0.7, 0.82, 0.95, 1)
+sky_ground_color = Color(0.32, 0.33, 0.3, 1)
+sky_gradient_power = 0.45
+star_intensity = 0
+sun_glow_color = Color(1, 0.92, 0.75, 1)
+sun_glow_strength = 0.5
+sun_color = Color(1, 0.94, 0.84, 1)
+sun_energy = 1.35
+sun_elevation_deg = 36
+sun_azimuth_deg = 140
+sun_size_deg = 0.53
+ambient_color = Color(0.5, 0.6, 0.8, 1)
+ambient_energy = 0.4
+exposure = 0.9
+fog_enabled = true
+fog_color = Color(0.7, 0.8, 0.93, 1)
+fog_density = 0.00028
+fog_aerial_perspective = 0.75
+fog_sun_scatter = 0.12

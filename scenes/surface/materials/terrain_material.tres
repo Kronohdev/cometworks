@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/surface_terrain.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/jitter_amount = 0.07
+shader_parameter/hue_jitter = 0.012
+shader_parameter/roughness_value = 0.86
+shader_parameter/specular_value = 0.25
+shader_parameter/edge_darkening = 0.07
+shader_parameter/edge_fade_distance = 120.0
+shader_parameter/debug_lod = false

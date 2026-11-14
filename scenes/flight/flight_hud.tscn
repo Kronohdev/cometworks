@@ -1,0 +1,1120 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_map.tscn" id="3_map"]
+[ext_resource type="Shader" path="res://shaders/flight_navball.gdshader" id="4_navball"]
+[ext_resource type="Texture2D" path="res://scenes/flight/textures/navball.png" id="5_navtex"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/navball_bezel.svg" id="6_bezel"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_prograde.svg" id="7_pro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_retrograde.svg" id="8_retro"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="9_chevron"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_collapse.svg" id="10_collapse"]
+[ext_resource type="Texture2D" path="res://ui/kit/icon_expand.svg" id="11_expand"]
+[ext_resource type="Script" path="res://src/flight/flight_plot.gd" id="12_plot"]
+[ext_resource type="Texture2D" path="res://ui/kit/emblem_margin.svg" id="13_emblem"]
+
+[sub_resource type="ShaderMaterial" id="m_ball"]
+shader = ExtResource("4_navball")
+shader_parameter/navball_tex = ExtResource("5_navtex")
+shader_parameter/rim_dark = 0.55
+
+[sub_resource type="SphereMesh" id="ball"]
+radius = 1.0
+height = 2.0
+radial_segments = 96
+rings = 48
+
+[sub_resource type="StyleBoxFlat" id="toast_box"]
+content_margin_left = 22.0
+content_margin_top = 8.0
+content_margin_right = 22.0
+content_margin_bottom = 8.0
+bg_color = Color(0.051, 0.067, 0.09, 0.82)
+border_width_bottom = 2
+border_color = Color(0.961, 0.604, 0.212, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="nav_box"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.051, 0.067, 0.09, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 0
+border_color = Color(0.231, 0.29, 0.361, 0.85)
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+corner_detail = 16
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="dim_bg"]
+bg_color = Color(0.051, 0.067, 0.09, 0.55)
+
+[sub_resource type="StyleBoxFlat" id="throttle_fill"]
+bg_color = Color(0.961, 0.604, 0.212, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="throttle_bg"]
+bg_color = Color(0.133, 0.173, 0.22, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.231, 0.29, 0.361, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="bar_fill_g"]
+bg_color = Color(0.494, 0.878, 0.541, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="bar_fill_q"]
+bg_color = Color(0.373, 0.69, 0.847, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="MapView" parent="." instance=ExtResource("3_map")]
+visible = false
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="TopStrip" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 12.0
+offset_right = 250.0
+offset_bottom = 70.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"TopBarPanel"
+
+[node name="HBox" type="HBoxContainer" parent="Root/TopStrip"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Emblem" type="TextureRect" parent="Root/TopStrip/HBox"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("13_emblem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AltBox" type="VBoxContainer" parent="Root/TopStrip/HBox"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="Caption" type="Label" parent="Root/TopStrip/HBox/AltBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "FL_ALTITUDE"
+horizontal_alignment = 1
+
+[node name="AltValue" type="Label" parent="Root/TopStrip/HBox/AltBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+theme_override_font_sizes/font_size = 24
+text = "0 m"
+horizontal_alignment = 1
+
+[node name="Sep1" type="VSeparator" parent="Root/TopStrip/HBox"]
+layout_mode = 2
+
+[node name="ClockBox" type="VBoxContainer" parent="Root/TopStrip/HBox"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="Caption" type="Label" parent="Root/TopStrip/HBox/ClockBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "FL_MISSION_TIME"
+horizontal_alignment = 1
+
+[node name="Clock" type="Label" parent="Root/TopStrip/HBox/ClockBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 19
+text = "T+ 00:00"
+horizontal_alignment = 1
+
+[node name="Sep2" type="VSeparator" parent="Root/TopStrip/HBox"]
+layout_mode = 2
+
+[node name="WarpBox" type="HBoxContainer" parent="Root/TopStrip/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BtnWarpDown" type="Button" parent="Root/TopStrip/HBox/WarpBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "FL_WARP_DOWN_TIP"
+focus_mode = 0
+text = "‹"
+
+[node name="Warp" type="Label" parent="Root/TopStrip/HBox/WarpBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 0)
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 18
+text = "1×"
+horizontal_alignment = 1
+
+[node name="BtnWarpUp" type="Button" parent="Root/TopStrip/HBox/WarpBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "FL_WARP_UP_TIP"
+focus_mode = 0
+text = "›"
+
+[node name="Telemetry" type="PanelContainer" parent="Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 276.0
+offset_bottom = 60.0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/Telemetry"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Head" type="HBoxContainer" parent="Root/Telemetry/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/Telemetry/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "FL_FLIGHT_DATA"
+
+[node name="BtnTeleCollapse" type="Button" parent="Root/Telemetry/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_COLLAPSE_TIP"
+focus_mode = 0
+icon = ExtResource("10_collapse")
+flat = true
+
+[node name="TeleBody" type="VBoxContainer" parent="Root/Telemetry/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="ApRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/ApRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_APOAPSIS"
+
+[node name="ApValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/ApRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="PeRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/PeRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_PERIAPSIS"
+
+[node name="PeValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/PeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="TapRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/TapRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_TIME_TO_AP"
+
+[node name="TapValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/TapRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+horizontal_alignment = 2
+
+[node name="Sep1" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="VsRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/VsRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_VERTICAL_SPEED"
+
+[node name="VsValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/VsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "0 m/s"
+horizontal_alignment = 2
+
+[node name="HsRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/HsRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_HORIZONTAL_SPEED"
+
+[node name="HsValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/HsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "0 m/s"
+horizontal_alignment = 2
+
+[node name="MachRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/MachRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_MACH"
+
+[node name="MachValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/MachRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "0.00"
+horizontal_alignment = 2
+
+[node name="Sep2" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="GRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/GRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_G_FORCE"
+
+[node name="GValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/GRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "1.00 g"
+horizontal_alignment = 2
+
+[node name="GBar" type="ProgressBar" parent="Root/Telemetry/VBox/TeleBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/fill = SubResource("bar_fill_g")
+max_value = 10.0
+step = 0.01
+value = 1.0
+show_percentage = false
+
+[node name="QRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_DYN_PRESSURE"
+
+[node name="MaxQTag" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.333333, 1)
+theme_override_font_sizes/font_size = 11
+text = "FL_MAXQ_TAG"
+
+[node name="QValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/QRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "0.0 kPa"
+horizontal_alignment = 2
+
+[node name="QBar" type="ProgressBar" parent="Root/Telemetry/VBox/TeleBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+theme_override_styles/fill = SubResource("bar_fill_q")
+max_value = 60.0
+step = 0.01
+show_percentage = false
+
+[node name="Sep3" type="HSeparator" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="DvStageRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvStageRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_DV_STAGE"
+
+[node name="DvStageValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvStageRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "0 m/s"
+horizontal_alignment = 2
+
+[node name="DvTotalRow" type="HBoxContainer" parent="Root/Telemetry/VBox/TeleBody"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvTotalRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_DV_TOTAL"
+
+[node name="DvTotalValue" type="Label" parent="Root/Telemetry/VBox/TeleBody/DvTotalRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+theme_override_colors/font_color = Color(0.961, 0.604, 0.212, 1)
+text = "0 m/s"
+horizontal_alignment = 2
+
+[node name="StagesPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -284.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 60.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/StagesPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Root/StagesPanel/VBox"]
+layout_mode = 2
+
+[node name="BtnStagesCollapse" type="Button" parent="Root/StagesPanel/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_COLLAPSE_TIP"
+focus_mode = 0
+icon = ExtResource("11_expand")
+flat = true
+
+[node name="Title" type="Label" parent="Root/StagesPanel/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SectionLabel"
+text = "FL_STAGES"
+horizontal_alignment = 2
+
+[node name="StagesBody" type="VBoxContainer" parent="Root/StagesPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StageList" type="VBoxContainer" parent="Root/StagesPanel/VBox/StagesBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnStage" type="Button" parent="Root/StagesPanel/VBox/StagesBody"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_STAGE_TIP"
+focus_mode = 0
+text = "FL_STAGE_BUTTON"
+
+[node name="NavCluster" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -238.0
+offset_top = -292.0
+offset_right = 238.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("nav_box")
+
+[node name="HBox" type="HBoxContainer" parent="Root/NavCluster"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ThrottleBox" type="VBoxContainer" parent="Root/NavCluster/HBox"]
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Root/NavCluster/HBox/ThrottleBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "FL_THROTTLE"
+horizontal_alignment = 1
+
+[node name="ThrottleBar" type="ProgressBar" parent="Root/NavCluster/HBox/ThrottleBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("throttle_bg")
+theme_override_styles/fill = SubResource("throttle_fill")
+fill_mode = 3
+value = 100.0
+show_percentage = false
+
+[node name="ThrottleLabel" type="Label" parent="Root/NavCluster/HBox/ThrottleBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "100%"
+horizontal_alignment = 1
+
+[node name="Center" type="VBoxContainer" parent="Root/NavCluster/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="SpeedMode" type="Label" parent="Root/NavCluster/HBox/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "FL_SURFACE_SPEED"
+horizontal_alignment = 1
+
+[node name="SpeedValue" type="Label" parent="Root/NavCluster/HBox/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+text = "0 m/s"
+horizontal_alignment = 1
+
+[node name="NavballBox" type="Control" parent="Root/NavCluster/HBox/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(204, 204)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Viewport" type="SubViewportContainer" parent="Root/NavCluster/HBox/Center/NavballBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="NavViewport" type="SubViewport" parent="Root/NavCluster/HBox/Center/NavballBox/Viewport"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(188, 188)
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera3D" parent="Root/NavCluster/HBox/Center/NavballBox/Viewport/NavViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+projection = 1
+size = 2.02
+near = 0.5
+far = 10.0
+
+[node name="Ball" type="MeshInstance3D" parent="Root/NavCluster/HBox/Center/NavballBox/Viewport/NavViewport"]
+unique_name_in_owner = true
+mesh = SubResource("ball")
+surface_material_override/0 = SubResource("m_ball")
+
+[node name="Bezel" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_bezel")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarkRetro" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 30.0
+mouse_filter = 2
+texture = ExtResource("8_retro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarkPro" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 30.0
+mouse_filter = 2
+texture = ExtResource("7_pro")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Chevron" type="TextureRect" parent="Root/NavCluster/HBox/Center/NavballBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -15.0
+offset_right = 30.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_chevron")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HdgLabel" type="Label" parent="Root/NavCluster/HBox/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "HDG 090°  ·  PIT +90°"
+horizontal_alignment = 1
+
+[node name="Modes" type="VBoxContainer" parent="Root/NavCluster/HBox"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 5
+
+[node name="BtnSas" type="Button" parent="Root/NavCluster/HBox/Modes"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_SAS_TIP"
+focus_mode = 0
+toggle_mode = true
+text = "FL_SAS"
+
+[node name="BtnPro" type="Button" parent="Root/NavCluster/HBox/Modes"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_PRO_TIP"
+focus_mode = 0
+toggle_mode = true
+text = "FL_PRO"
+
+[node name="BtnRetro" type="Button" parent="Root/NavCluster/HBox/Modes"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_RETRO_TIP"
+focus_mode = 0
+toggle_mode = true
+text = "FL_RETRO"
+
+[node name="BtnAuto" type="Button" parent="Root/NavCluster/HBox/Modes"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_AUTO_TIP"
+focus_mode = 0
+toggle_mode = true
+text = "FL_AUTO"
+
+[node name="BtnMap" type="Button" parent="Root/NavCluster/HBox/Modes"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "FL_MAP_TIP"
+focus_mode = 0
+toggle_mode = true
+text = "FL_MAP"
+
+[node name="Toast" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 88.0
+offset_right = 200.0
+offset_bottom = 128.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("toast_box")
+
+[node name="ToastLabel" type="Label" parent="Root/Toast"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ValueLabel"
+theme_override_font_sizes/font_size = 18
+text = "MSG_LIFTOFF"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -44.0
+offset_right = 560.0
+offset_bottom = -18.0
+grow_vertical = 0
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 14
+text = "FL_PAD_HINT"
+
+[node name="Help" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -230.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/Help"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/Help/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "FL_HELP_TITLE"
+
+[node name="Text" type="Label" parent="Root/Help/VBox"]
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 14
+text = "FL_HELP_TEXT"
+
+[node name="Pause" type="Control" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="Panel" parent="Root/Pause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("dim_bg")
+
+[node name="Center" type="CenterContainer" parent="Root/Pause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Pause/Center"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/Pause/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Root/Pause/Center/Panel/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "FL_PAUSED"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="Root/Pause/Center/Panel/VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "FL_PAUSED_SUB"
+horizontal_alignment = 1
+
+[node name="BtnResume" type="Button" parent="Root/Pause/Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_RESUME"
+
+[node name="BtnRevertLaunch" type="Button" parent="Root/Pause/Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_REVERT_LAUNCH"
+
+[node name="BtnRevertHangar" type="Button" parent="Root/Pause/Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_REVERT_HANGAR"
+
+[node name="BtnEndFlight" type="Button" parent="Root/Pause/Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_END_FLIGHT"
+
+[node name="Report" type="Control" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="Panel" parent="Root/Report"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("dim_bg")
+
+[node name="Center" type="CenterContainer" parent="Root/Report"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Report/Center"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/Report/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Emblem" type="TextureRect" parent="Root/Report/Center/Panel/VBox/Head"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture = ExtResource("13_emblem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "RP_TITLE"
+
+[node name="ReportVessel" type="Label" parent="Root/Report/Center/Panel/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Garça"
+
+[node name="ReportBadge" type="Label" parent="Root/Report/Center/Panel/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"ValueLabel"
+theme_override_font_sizes/font_size = 26
+text = "RP_ORBIT"
+
+[node name="Sep" type="HSeparator" parent="Root/Report/Center/Panel/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Stats" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body"]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Section" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "RP_RESULTS"
+
+[node name="Grid" type="GridContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 7
+columns = 2
+
+[node name="L1" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_ORBIT_REACHED"
+
+[node name="ROrbit" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L2" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_MAX_ALT"
+
+[node name="RMaxAlt" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L3" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_MAX_SPEED"
+
+[node name="RMaxSpeed" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L4" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_MAX_Q"
+
+[node name="RMaxQ" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L5" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_MAX_G"
+
+[node name="RMaxG" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L6" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_FLIGHT_TIME"
+
+[node name="RTime" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="L7" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_DV"
+
+[node name="RDv" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "—"
+
+[node name="DvCaption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "RP_DV_NOTE"
+autowrap_mode = 3
+
+[node name="RDvBar" type="ProgressBar" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+value = 50.0
+show_percentage = false
+
+[node name="RReasonRow" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/RReasonRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "RP_CAUSE"
+
+[node name="RReason" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats/RReasonRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.419608, 0.419608, 1)
+text = "—"
+autowrap_mode = 3
+
+[node name="Section2" type="Label" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "RP_TIMELINE"
+
+[node name="TimelineScroll" type="ScrollContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats"]
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Timeline" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/Stats/TimelineScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="PlotBox" type="VBoxContainer" parent="Root/Report/Center/Panel/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Section" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "RP_PROFILE"
+
+[node name="Plot" type="Control" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(480, 330)
+layout_mode = 2
+script = ExtResource("12_plot")
+
+[node name="Legend" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox/Body/PlotBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="AltKey" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox/Legend"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.961, 0.604, 0.212, 1)
+text = "RP_KEY_ALT"
+
+[node name="SpeedKey" type="Label" parent="Root/Report/Center/Panel/VBox/Body/PlotBox/Legend"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.373, 0.69, 0.847, 1)
+text = "RP_KEY_SPEED"
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Report/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="BtnRContinue" type="Button" parent="Root/Report/Center/Panel/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "RP_CONTINUE"
+
+[node name="BtnRLaunch" type="Button" parent="Root/Report/Center/Panel/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_REVERT_LAUNCH"
+
+[node name="BtnRHangar" type="Button" parent="Root/Report/Center/Panel/VBox/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "FL_REVERT_HANGAR"

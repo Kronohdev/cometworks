@@ -1,0 +1,116 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/hangar/part_instance.gd" id="1_ga15a"]
+
+[node name="Garça" type="Node3D" unique_id=295554622]
+script = ExtResource("1_ga15a")
+part_id = "avionics_core_m"
+
+[node name="top · payload_adapter" type="Node3D" parent="." unique_id=368577576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+script = ExtResource("1_ga15a")
+part_id = "payload_adapter"
+parent_node_name = "top"
+own_node_name = "bottom"
+
+[node name="bottom · tank_hydrolox_m8" type="Node3D" parent="." unique_id=386226615]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_m8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_hydrolox_m4" type="Node3D" parent="bottom · tank_hydrolox_m8" unique_id=1928665158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_m4"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · eng_hidra_rl" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4" unique_id=79124062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6, 0)
+script = ExtResource("1_ga15a")
+part_id = "eng_hidra_rl"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · decoupler_m" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl" unique_id=995592826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+script = ExtResource("1_ga15a")
+part_id = "decoupler_m"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · adapter_ml" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m" unique_id=234024243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, 0)
+script = ExtResource("1_ga15a")
+part_id = "adapter_ml"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_hydrolox_l8" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml" unique_id=540931775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_hydrolox_l8" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8" unique_id=1069851433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_hydrolox_l8" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8" unique_id=744952016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_hydrolox_l8" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8" unique_id=787613756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_ga15a")
+part_id = "tank_hydrolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · eng_hidra_25" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8/bottom · tank_hydrolox_l8" unique_id=1716932147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.25, 0)
+script = ExtResource("1_ga15a")
+part_id = "eng_hidra_25"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="surface · decoupler_radial" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8" unique_id=1842633220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.895, 3.5, 0)
+script = ExtResource("1_ga15a")
+part_id = "decoupler_radial"
+parent_node_name = "surface"
+own_node_name = "surface"
+sym_tag = 0
+
+[node name="side · eng_srb_m" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8/surface · decoupler_radial" unique_id=1613301084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.63, -8, 0.004999995)
+script = ExtResource("1_ga15a")
+part_id = "eng_srb_m"
+parent_node_name = "side"
+own_node_name = "sidechild"
+sym_tag = 1
+
+[node name="surface · decoupler_radial2" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8" unique_id=1057523421]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.895, 3.5, 1.6566617e-07)
+script = ExtResource("1_ga15a")
+part_id = "decoupler_radial"
+parent_node_name = "surface"
+own_node_name = "surface"
+sym_tag = 0
+
+[node name="side · eng_srb_m" type="Node3D" parent="bottom · tank_hydrolox_m8/bottom · tank_hydrolox_m4/bottom · eng_hidra_rl/bottom · decoupler_m/bottom · adapter_ml/bottom · tank_hydrolox_l8/surface · decoupler_radial2" unique_id=1703408774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.63, -8, 0.004999995)
+script = ExtResource("1_ga15a")
+part_id = "eng_srb_m"
+parent_node_name = "side"
+own_node_name = "sidechild"
+sym_tag = 1

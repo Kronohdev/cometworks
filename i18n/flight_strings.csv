@@ -1,0 +1,89 @@
+keys,en,pt
+FL_LAUNCH,Launch,Lançar
+FL_LAUNCH_TIP,Fly this rocket from the launch pad (test flight),Voar com este foguete a partir da plataforma (voo de teste)
+FL_ALTITUDE,ALTITUDE,ALTITUDE
+FL_MISSION_TIME,MISSION TIME,TEMPO DE MISSÃO
+FL_ON_PAD,ON THE PAD,NA PLATAFORMA
+FL_WARP_DOWN_TIP,Slower time warp ( , ),Acelerar menos o tempo ( , )
+FL_WARP_UP_TIP,Faster time warp ( . ) - 10x to 1000x only above the atmosphere with the engines off,Acelerar o tempo ( . ) - 10x a 1000x só acima da atmosfera e com os motores desligados
+FL_WARP_ATMO,High warp only above 140 km with the engines off,Aceleração alta só acima de 140 km e com os motores desligados
+FL_FLIGHT_DATA,FLIGHT DATA,DADOS DE VOO
+FL_COLLAPSE_TIP,Collapse / expand,Recolher / expandir
+FL_APOAPSIS,Apoapsis,Apoapse
+FL_PERIAPSIS,Periapsis,Periapse
+FL_TIME_TO_AP,Time to Ap,Tempo até Ap
+FL_VERTICAL_SPEED,Vertical speed,Velocidade vertical
+FL_HORIZONTAL_SPEED,Horizontal speed,Velocidade horizontal
+FL_MACH,Mach,Mach
+FL_G_FORCE,G-force,Força G
+FL_DYN_PRESSURE,Dynamic pressure,Pressão dinâmica
+FL_MAXQ_TAG,MAX-Q,MAX-Q
+FL_DV_STAGE,Δv stage,Δv do estágio
+FL_DV_TOTAL,Δv total,Δv total
+FL_STAGES,STAGES,ESTÁGIOS
+FL_BOOSTERS,boosters,boosters
+FL_STAGE_BUTTON,Stage  [Space],Estágio  [Espaço]
+FL_STAGE_TIP,Activate the next stage: ignite / separate,Ativar o próximo estágio: ignição / separação
+FL_THROTTLE,THR,ACEL
+FL_SURFACE_SPEED,SURFACE,SUPERFÍCIE
+FL_ORBIT_SPEED,ORBIT,ÓRBITA
+FL_HDG,HDG,RUMO
+FL_PITCH,PITCH,ARFAGEM
+FL_SAS,SAS,SAS
+FL_SAS_TIP,Hold attitude (T),Manter atitude (T)
+FL_PRO,PRO,PRO
+FL_PRO_TIP,Hold prograde (G),Manter progrado (G)
+FL_RETRO,RETRO,RETRO
+FL_RETRO_TIP,Hold retrograde (H),Manter retrógrado (H)
+FL_AUTO,AUTO,AUTO
+FL_AUTO_TIP,Auto-ascent to a 200 km orbit (P),Subida automática para órbita de 200 km (P)
+FL_AUTO_ON,Auto-ascent engaged,Subida automática ligada
+FL_AUTO_OFF,Auto-ascent off,Subida automática desligada
+FL_MAP,MAP,MAPA
+FL_MAP_TIP,Map view (M),Vista de mapa (M)
+FL_MAP_HINT,Map view · right mouse: rotate · wheel: zoom · M: back,Vista de mapa · botão direito: girar · roda: zoom · M: voltar
+FL_PAD_HINT,Press SPACE to ignite stage 1 · P auto-ascent · F1 controls,Aperte ESPAÇO para ignição do estágio 1 · P subida automática · F1 controles
+FL_HELP_TITLE,Flight controls,Controles de voo
+FL_HELP_TEXT,"SPACE        next stage (ignite / separate)\nW / S        pitch down / up\nA / D        yaw left / right\nQ / E        roll\nShift / Ctrl throttle up / down\nZ / X        full throttle / cut\nT            SAS: hold attitude\nG / H        hold prograde / retrograde\nP            auto-ascent to orbit\nM            map view\n,  .         time warp\nRight mouse  orbit camera · wheel: zoom\nEsc          pause menu\nF2           hide HUD","ESPAÇO       próximo estágio (ignição / separação)\nW / S        arfagem para baixo / cima\nA / D        guinada esquerda / direita\nQ / E        rolagem\nShift / Ctrl acelerar / desacelerar\nZ / X        aceleração máxima / cortar\nT            SAS: manter atitude\nG / H        manter progrado / retrógrado\nP            subida automática até a órbita\nM            vista de mapa\n,  .         acelerar o tempo\nBotão dir.   girar câmera · roda: zoom\nEsc          menu de pausa\nF2           esconder o HUD"
+FL_PAUSED,PAUSED,PAUSADO
+FL_PAUSED_SUB,The flight is frozen,O voo está congelado
+FL_RESUME,Resume,Continuar
+FL_REVERT_LAUNCH,Revert to launch,Voltar ao lançamento
+FL_REVERT_HANGAR,Revert to hangar,Voltar ao hangar
+FL_END_FLIGHT,End flight · report,Encerrar voo · relatório
+MSG_IGNITION,Ignition!,Ignição!
+MSG_IGNITION_N,Stage %d ignition,Ignição do estágio %d
+MSG_LIFTOFF,Liftoff!,Decolagem!
+MSG_MAXQ,Max-Q passed,Max-Q superado
+MSG_BOOSTER_SEP,Booster separation,Separação dos boosters
+MSG_STAGE_SEP,Stage %d separation,Separação do estágio %d
+MSG_FAIRING,Fairing jettisoned,Carenagem ejetada
+MSG_FLAMEOUT,Stage %d burnout,Fim da queima do estágio %d
+MSG_SPACE,Welcome to space (100 km),Bem-vindo ao espaço (100 km)
+MSG_ORBIT,Orbit achieved!,Órbita alcançada!
+MSG_CRASH,Vehicle lost,Veículo perdido
+CRASH_IMPACT,Hit the ground too fast,Bateu no chão rápido demais
+CRASH_AERO,Broke up: too much angle of attack in thick air,Desintegrou: ângulo de ataque grande demais no ar denso
+CRASH_Q,Broke up: dynamic pressure over the limit,Desintegrou: pressão dinâmica acima do limite
+CRASH_G,Broke up: acceleration over the structural limit,Desintegrou: aceleração acima do limite estrutural
+RP_TITLE,FLIGHT TEST REPORT,RELATÓRIO DO VOO DE TESTE
+RP_ORBIT,ORBIT,ÓRBITA
+RP_CRASHED,LOST,PERDIDO
+RP_SUBORBITAL,SUBORBITAL,SUBORBITAL
+RP_RESULTS,RESULTS,RESULTADOS
+RP_ORBIT_REACHED,Orbit reached (Pe > 140 km),Órbita alcançada (Pe > 140 km)
+RP_YES,Yes,Sim
+RP_NO,No,Não
+RP_MAX_ALT,Max altitude,Altitude máxima
+RP_MAX_SPEED,Max speed,Velocidade máxima
+RP_MAX_Q,Max-Q,Max-Q
+RP_MAX_G,Max G-force,Força G máxima
+RP_FLIGHT_TIME,Flight time,Tempo de voo
+RP_DV,Δv used / hangar,Δv usado / hangar
+RP_DV_NOTE,"Δv the engines delivered vs. the hangar's prediction for the whole rocket (gravity and drag losses are part of the bill).","Δv entregue pelos motores vs. a previsão do hangar para o foguete inteiro (as perdas por gravidade e arrasto fazem parte da conta)."
+RP_CAUSE,Cause,Causa
+RP_TIMELINE,TIMELINE,LINHA DO TEMPO
+RP_PROFILE,ASCENT PROFILE,PERFIL DE SUBIDA
+RP_KEY_ALT,— altitude,— altitude
+RP_KEY_SPEED,— speed,— velocidade
+RP_CONTINUE,Keep flying,Continuar voando

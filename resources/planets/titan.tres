@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="PlanetSurfaceProfile" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/world/planet_surface_profile.gd" id="1_profile"]
+
+[sub_resource type="FastNoiseLite" id="cont"]
+noise_type = 1
+frequency = 0.00042
+fractal_octaves = 4
+seed = 51
+
+[sub_resource type="FastNoiseLite" id="ridge"]
+noise_type = 1
+frequency = 0.0012
+fractal_octaves = 4
+seed = 52
+fractal_type = 2
+
+[sub_resource type="FastNoiseLite" id="detail"]
+noise_type = 1
+frequency = 0.03
+fractal_octaves = 3
+seed = 53
+
+[sub_resource type="FastNoiseLite" id="patch"]
+noise_type = 1
+frequency = 0.0025
+fractal_octaves = 3
+seed = 54
+
+[resource]
+script = ExtResource("1_profile")
+id = &"titan"
+name_key = "PLANET_TITAN"
+description_key = "PLANET_TITAN_DESC"
+terrain_seed = 6
+gravity = 1.354
+has_atmosphere = true
+surface_pressure_kpa = 146.7
+radius_km = 2574.7
+color_surface = Color(0.46, 0.36, 0.24, 1)
+color_surface_alt = Color(0.53, 0.42, 0.29, 1)
+color_subsurface = Color(0.4, 0.3, 0.2, 1)
+color_rock = Color(0.6, 0.55, 0.47, 1)
+color_rock_strata = Color(0.52, 0.47, 0.4, 1)
+color_sand = Color(0.3, 0.23, 0.16, 1)
+color_ice = Color(0.8, 0.76, 0.68, 1)
+color_accent = Color(0.36, 0.27, 0.17, 1)
+color_seabed = Color(0.24, 0.19, 0.13, 1)
+color_pad = Color(0.6, 0.55, 0.5, 1)
+shade_variation = 0.06
+subsurface_depth = 2
+strata_thickness = 3
+cliff_slope = 1.4
+base_height = 2
+continents = SubResource("cont")
+continent_amplitude = 30
+ridges = SubResource("ridge")
+ridge_amplitude = 90
+ridge_mask_low = 0.2
+ridge_mask_high = 0.65
+detail = SubResource("detail")
+detail_amplitude = 1.6
+regional_slope = Vector2(0, 0)
+patches = SubResource("patch")
+alt_threshold = 0.15
+accent_threshold = 0.5
+dune_amplitude = 7
+dune_wavelength = 75
+dune_direction_deg = 0
+dune_warp = 0.25
+dune_max_continent = 0.1
+has_sea = true
+sea_level = -4
+water_shallow_color = Color(0.3, 0.22, 0.12, 1)
+water_deep_color = Color(0.06, 0.045, 0.03, 1)
+beach_height = 0.8
+prop_kind = 2
+prop_density = 3
+prop_color_a = Color(0.62, 0.57, 0.48, 1)
+prop_color_b = Color(0.42, 0.36, 0.28, 1)
+flat_zone_radius = 26
+flat_zone_blend = 50
+sky_zenith_color = Color(0.56, 0.38, 0.16, 1)
+sky_horizon_color = Color(0.86, 0.62, 0.3, 1)
+sky_ground_color = Color(0.4, 0.28, 0.14, 1)
+sky_gradient_power = 0.7
+star_intensity = 0
+sun_glow_color = Color(1, 0.75, 0.42, 1)
+sun_glow_strength = 1.2
+sun_color = Color(1, 0.78, 0.5, 1)
+sun_energy = 0.75
+sun_elevation_deg = 35
+sun_azimuth_deg = 160
+sun_size_deg = 0.06
+ambient_color = Color(0.8, 0.58, 0.34, 1)
+ambient_energy = 0.85
+exposure = 1.25
+fog_enabled = true
+fog_color = Color(0.8, 0.57, 0.3, 1)
+fog_density = 0.0014
+fog_aerial_perspective = 0.85
+fog_sun_scatter = 0.3

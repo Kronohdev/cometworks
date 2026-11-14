@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/world/surface_fly_camera.gd" id="1_cam"]
+
+[node name="FlyCamera" type="Camera3D"]
+transform = Transform3D(0.79, 0, 0.61, -0.25, 0.91, 0.33, -0.56, -0.41, 0.72, -70, 40, 90)
+current = true
+fov = 70.0
+near = 0.1
+far = 14000.0
+script = ExtResource("1_cam")

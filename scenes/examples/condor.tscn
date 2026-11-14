@@ -1,0 +1,161 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/hangar/part_instance.gd" id="1_60d3i"]
+
+[node name="Condor" type="Node3D" unique_id=1873330952]
+script = ExtResource("1_60d3i")
+part_id = "avionics_core_m"
+
+[node name="top · payload_adapter" type="Node3D" parent="." unique_id=146659351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+script = ExtResource("1_60d3i")
+part_id = "payload_adapter"
+parent_node_name = "top"
+own_node_name = "bottom"
+
+[node name="bottom · adapter_ml" type="Node3D" parent="." unique_id=1433742530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, 0)
+script = ExtResource("1_60d3i")
+part_id = "adapter_ml"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml" unique_id=269812391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l4" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8" unique_id=1748534930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l4"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · eng_falcao_v" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4" unique_id=718777703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.2, 0)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao_v"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · decoupler_l" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v" unique_id=629507790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+script = ExtResource("1_60d3i")
+part_id = "decoupler_l"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · interstage_l" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l" unique_id=1971058661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+script = ExtResource("1_60d3i")
+part_id = "interstage_l"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l" unique_id=1402716912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8" unique_id=153056694]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8" unique_id=1468014814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8" unique_id=319930285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · tank_kerolox_l8" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8" unique_id=443308613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+script = ExtResource("1_60d3i")
+part_id = "tank_kerolox_l8"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="bottom · thrust_plate_l9" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8" unique_id=1367035141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
+script = ExtResource("1_60d3i")
+part_id = "thrust_plate_l9"
+parent_node_name = "bottom"
+own_node_name = "top"
+
+[node name="slot 0 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=380958966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, 0)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:0"
+own_node_name = "top"
+
+[node name="slot 1 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=368740602]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2375, -2.75, 0)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:1"
+own_node_name = "top"
+
+[node name="slot 2 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=276073303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87504464, -2.75, 0.87504464)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:2"
+own_node_name = "top"
+
+[node name="slot 3 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=1470035481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.577252e-17, -2.75, 1.2375)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:3"
+own_node_name = "top"
+
+[node name="slot 4 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=1451990150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.87504464, -2.75, 0.87504464)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:4"
+own_node_name = "top"
+
+[node name="slot 5 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=1872769516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2375, -2.75, 1.5154503e-16)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:5"
+own_node_name = "top"
+
+[node name="slot 6 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=1361471850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.87504464, -2.75, -0.87504464)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:6"
+own_node_name = "top"
+
+[node name="slot 7 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=137804002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2731754e-16, -2.75, -1.2375)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:7"
+own_node_name = "top"
+
+[node name="slot 8 · eng_falcao" type="Node3D" parent="bottom · adapter_ml/bottom · tank_kerolox_l8/bottom · tank_kerolox_l4/bottom · eng_falcao_v/bottom · decoupler_l/bottom · interstage_l/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · tank_kerolox_l8/bottom · thrust_plate_l9" unique_id=772719938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87504464, -2.75, -0.87504464)
+script = ExtResource("1_60d3i")
+part_id = "eng_falcao"
+parent_node_name = "slot:8"
+own_node_name = "top"

@@ -1,0 +1,36 @@
+keys,en,pt
+SURF_TITLE,PLANET SURFACE · VOXEL TERRAIN,SUPERFÍCIE PLANETÁRIA · TERRENO VOXEL
+SURF_PLANET,Destination,Destino
+SURF_GRAVITY,Gravity,Gravidade
+SURF_ATMOSPHERE,Atmosphere,Atmosfera
+SURF_AIRLESS,none (airless),nenhuma (sem ar)
+SURF_ATMO_FMT,%s kPa at the surface,%s kPa na superfície
+SURF_RADIUS,Mean radius,Raio médio
+SURF_FPS,FPS,FPS
+SURF_CHUNKS,Chunks,Chunks
+SURF_LOD,LOD,LOD
+SURF_TRIS,Triangles,Triângulos
+SURF_VS_NAIVE,vs naive,vs ingênuo
+SURF_GEN,Generation per chunk,Geração por chunk
+SURF_JOBS,Jobs running / queued,Tarefas rodando / na fila
+SURF_COLLISION,Collision chunks,Chunks de colisão
+SURF_MEMORY,RAM,RAM
+SURF_VRAM,VRAM,VRAM
+SURF_ALTITUDE,Altitude,Altitude
+SURF_SPEED,Speed,Velocidade
+SURF_STATS,Performance,Desempenho
+SURF_LOD_VIEW,Show LOD rings (F1),Mostrar anéis de LOD (F1)
+SURF_LANG,PT,EN
+SURF_CONTROLS,"WASD: fly · Q/E: down/up · Right mouse: look (left click locks, Esc frees) · Shift: fast · Wheel: speed · PgUp/PgDn: planet · F1: LOD · F2: hide HUD · L: language","WASD: voar · Q/E: descer/subir · Botão direito: olhar (clique esquerdo trava, Esc solta) · Shift: rápido · Roda: velocidade · PgUp/PgDn: planeta · F1: LOD · F2: esconder HUD · L: idioma"
+PLANET_EARTH,Earth · coastal launch site,Terra · base de lançamento costeira
+PLANET_EARTH_DESC,"Grass, beaches and a paved pad by the sea; hills rise inland to snowy ridges.","Grama, praias e uma plataforma pavimentada à beira-mar; colinas sobem para o interior até cumes nevados."
+PLANET_MOON,Moon,Lua
+PLANET_MOON_DESC,"Gray regolith, dark basalt maria and craters of every size under a black sky. Earth hangs above the horizon.","Regolito cinza, mares de basalto escuro e crateras de todos os tamanhos sob um céu negro. A Terra paira acima do horizonte."
+PLANET_MARS,Mars,Marte
+PLANET_MARS_DESC,"Rust-colored dust, dark basaltic dunes, layered mesas and a dusty butterscotch sky.","Poeira cor de ferrugem, dunas escuras de basalto, mesas em camadas e um céu empoeirado cor de caramelo."
+PLANET_MERCURY,Mercury,Mercúrio
+PLANET_MERCURY_DESC,"Ancient, heavily cratered crust under a Sun 2.5× wider than seen from Earth.","Crosta antiga e muito craterada sob um Sol 2,5× maior do que visto da Terra."
+PLANET_EUROPA,Europa,Europa
+PLANET_EUROPA_DESC,"A shell of water ice crossed by reddish-brown lineae and double ridges. Jupiter fills the sky.","Uma casca de gelo de água cortada por lineae marrom-avermelhadas e cristas duplas. Júpiter domina o céu."
+PLANET_TITAN,Titan,Titã
+PLANET_TITAN_DESC,"Orange haze, hydrocarbon dunes and dark methane lakes on a world of water-ice bedrock.","Névoa laranja, dunas de hidrocarbonetos e lagos escuros de metano sobre um leito de gelo de água."

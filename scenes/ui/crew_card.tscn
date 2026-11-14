@@ -1,0 +1,279 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://src/crew/crew_card.gd" id="1_card"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crew_portrait.tscn" id="2_portrait"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/icon_rename.svg" id="3_rename"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/icon_seat.svg" id="4_seat"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/role_pilot.svg" id="5_role"]
+
+[sub_resource type="StyleBoxFlat" id="portrait_bg"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="StyleBoxFlat" id="badge"]
+bg_color = Color(1, 1, 1, 1)
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 8.0
+content_margin_bottom = 1.0
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="fill_courage"]
+bg_color = Color(1, 0.4196, 0.4196, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="fill_skill"]
+bg_color = Color(0.3725, 0.6902, 0.8471, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="fill_curiosity"]
+bg_color = Color(0.4941, 0.8784, 0.5412, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="bar_bg"]
+bg_color = Color(0.051, 0.067, 0.09, 0.85)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="fill_xp"]
+bg_color = Color(0.961, 0.604, 0.212, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="select_frame"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.961, 0.604, 0.212, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="CrewCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 122)
+offset_right = 380.0
+offset_bottom = 122.0
+mouse_default_cursor_shape = 13
+theme_type_variation = &"CardPanel"
+script = ExtResource("1_card")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="PortraitFrame" type="Control" parent="HBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Bg" type="Panel" parent="HBox/PortraitFrame"]
+self_modulate = Color(0.749, 0.914, 1, 0.35)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("portrait_bg")
+
+[node name="Portrait" parent="HBox/PortraitFrame" instance=ExtResource("2_portrait")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Info" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="NameRow" type="HBoxContainer" parent="HBox/Info"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="HBox/Info/NameRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"ValueLabel"
+theme_override_font_sizes/font_size = 17
+text = "Pibo Glimwick"
+text_overrun_behavior = 3
+
+[node name="NameEdit" type="LineEdit" parent="HBox/Info/NameRow"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+max_length = 28
+select_all_on_focus = true
+
+[node name="RenameBtn" type="Button" parent="HBox/Info/NameRow"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 15
+icon = ExtResource("3_rename")
+flat = true
+icon_alignment = 1
+
+[node name="BadgeRow" type="HBoxContainer" parent="HBox/Info"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Badge" type="PanelContainer" parent="HBox/Info/BadgeRow"]
+self_modulate = Color(0.961, 0.604, 0.212, 1)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("badge")
+
+[node name="HBox" type="HBoxContainer" parent="HBox/Info/BadgeRow/Badge"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="RoleIcon" type="TextureRect" parent="HBox/Info/BadgeRow/Badge/HBox"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("5_role")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RoleLabel" type="Label" parent="HBox/Info/BadgeRow/Badge/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.051, 0.067, 0.09, 1)
+theme_override_font_sizes/font_size = 12
+text = "Pilot"
+
+[node name="Level" type="Label" parent="HBox/Info/BadgeRow"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Lv 1"
+
+[node name="XP" type="ProgressBar" parent="HBox/Info/BadgeRow"]
+custom_minimum_size = Vector2(40, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("fill_xp")
+max_value = 1.0
+value = 0.3
+show_percentage = false
+
+[node name="Stats" type="GridContainer" parent="HBox/Info"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="CourageLabel" type="Label" parent="HBox/Info/Stats"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Courage"
+
+[node name="Courage" type="ProgressBar" parent="HBox/Info/Stats"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("fill_courage")
+max_value = 1.0
+value = 0.6
+show_percentage = false
+
+[node name="SkillLabel" type="Label" parent="HBox/Info/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Skill"
+
+[node name="Skill" type="ProgressBar" parent="HBox/Info/Stats"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("fill_skill")
+max_value = 1.0
+value = 0.7
+show_percentage = false
+
+[node name="CuriosityLabel" type="Label" parent="HBox/Info/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Curiosity"
+
+[node name="Curiosity" type="ProgressBar" parent="HBox/Info/Stats"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("bar_bg")
+theme_override_styles/fill = SubResource("fill_curiosity")
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="Status" type="Label" parent="HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+text = "Available"
+text_overrun_behavior = 3
+
+[node name="SeatBtn" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("4_seat")
+icon_alignment = 1
+
+[node name="Select" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("select_frame")

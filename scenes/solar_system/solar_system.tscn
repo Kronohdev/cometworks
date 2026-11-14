@@ -1,0 +1,2040 @@
+[gd_scene load_steps=86 format=3]
+
+[ext_resource type="Script" path="res://src/solar_system/solar_system.gd" id="s_system"]
+[ext_resource type="Script" path="res://src/solar_system/orbit_body.gd" id="s_body"]
+[ext_resource type="Script" path="res://src/solar_system/space_camera.gd" id="s_camera"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="theme"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="sh_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_sun.gdshader" id="sh_sun"]
+[ext_resource type="Shader" path="res://shaders/solar_corona.gdshader" id="sh_corona"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="sh_atmosphere"]
+[ext_resource type="Shader" path="res://shaders/solar_orbit.gdshader" id="sh_orbit"]
+[ext_resource type="Shader" path="res://shaders/solar_rings.gdshader" id="sh_rings"]
+[ext_resource type="Shader" path="res://shaders/solar_sky.gdshader" id="sh_sky"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/sun.png" id="icon_sun"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod0.glb" id="g_sun0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod1.glb" id="g_sun1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/sun_lod2.glb" id="g_sun2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/mercury.png" id="icon_mercury"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod0.glb" id="g_mercury0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod1.glb" id="g_mercury1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mercury_lod2.glb" id="g_mercury2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/venus.png" id="icon_venus"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod0.glb" id="g_venus0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod1.glb" id="g_venus1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/venus_lod2.glb" id="g_venus2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/earth.png" id="icon_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="g_earth0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod0.glb" id="g_clouds0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod1.glb" id="g_earth1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod1.glb" id="g_clouds1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod2.glb" id="g_earth2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod2.glb" id="g_clouds2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/moon.png" id="icon_moon"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod0.glb" id="g_moon0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="g_moon1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod2.glb" id="g_moon2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/mars.png" id="icon_mars"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod0.glb" id="g_mars0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod1.glb" id="g_mars1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod2.glb" id="g_mars2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/jupiter.png" id="icon_jupiter"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod0.glb" id="g_jupiter0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod1.glb" id="g_jupiter1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod2.glb" id="g_jupiter2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/europa.png" id="icon_europa"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod0.glb" id="g_europa0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod1.glb" id="g_europa1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod2.glb" id="g_europa2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/saturn.png" id="icon_saturn"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod0.glb" id="g_saturn0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod0.glb" id="g_saturn_rings0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod1.glb" id="g_saturn1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod1.glb" id="g_saturn_rings1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod2.glb" id="g_saturn2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod2.glb" id="g_saturn_rings2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/uranus.png" id="icon_uranus"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod0.glb" id="g_uranus0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod1.glb" id="g_uranus1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/uranus_lod2.glb" id="g_uranus2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/neptune.png" id="icon_neptune"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod0.glb" id="g_neptune0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod1.glb" id="g_neptune1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/neptune_lod2.glb" id="g_neptune2"]
+[ext_resource type="Texture2D" path="res://assets/voxel/planets/icons/pluto.png" id="icon_pluto"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod0.glb" id="g_pluto0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod1.glb" id="g_pluto1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod2.glb" id="g_pluto2"]
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("sh_sky")
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 1
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.42, 0.5, 0.72, 1)
+ambient_light_energy = 0.14
+reflected_light_source = 1
+tonemap_mode = 3
+tonemap_exposure = 1.05
+glow_enabled = true
+glow_levels/1 = 0.0
+glow_levels/2 = 0.3
+glow_levels/3 = 1.0
+glow_levels/4 = 0.8
+glow_levels/5 = 1.0
+glow_levels/6 = 0.6
+glow_levels/7 = 0.35
+glow_intensity = 0.85
+glow_strength = 1.0
+glow_bloom = 0.0
+glow_blend_mode = 1
+glow_hdr_threshold = 1.1
+glow_hdr_scale = 2.0
+adjustment_enabled = true
+adjustment_contrast = 1.05
+adjustment_saturation = 1.12
+
+[sub_resource type="ShaderMaterial" id="mat_planet"]
+shader = ExtResource("sh_planet")
+
+[sub_resource type="ShaderMaterial" id="mat_gas"]
+shader = ExtResource("sh_planet")
+shader_parameter/normal_blend = 0.75
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="mat_clouds"]
+shader = ExtResource("sh_planet")
+shader_parameter/normal_blend = 0.7
+shader_parameter/night_floor = 0.012
+shader_parameter/specular_amount = 0.05
+
+[sub_resource type="ShaderMaterial" id="mat_sun"]
+shader = ExtResource("sh_sun")
+
+[sub_resource type="ShaderMaterial" id="mat_rings"]
+shader = ExtResource("sh_rings")
+shader_parameter/brightness = 1.5
+shader_parameter/two_sided_wrap = 0.8
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("sh_planet")
+shader_parameter/ocean_glint = 0.7
+
+[sub_resource type="ShaderMaterial" id="mat_orbit"]
+shader = ExtResource("sh_orbit")
+
+[sub_resource type="ShaderMaterial" id="mat_corona"]
+shader = ExtResource("sh_corona")
+shader_parameter/sun_ratio = 0.26
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_earth"]
+shader = ExtResource("sh_atmosphere")
+shader_parameter/atmo_color = Color(0.435294, 0.705882, 1, 1)
+shader_parameter/intensity = 1.9
+shader_parameter/power = 2.2
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_venus"]
+shader = ExtResource("sh_atmosphere")
+shader_parameter/atmo_color = Color(1, 0.886275, 0.658824, 1)
+shader_parameter/intensity = 1.4
+shader_parameter/power = 2
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_mars"]
+shader = ExtResource("sh_atmosphere")
+shader_parameter/atmo_color = Color(1, 0.690196, 0.541176, 1)
+shader_parameter/intensity = 0.8
+shader_parameter/power = 2.6
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_uranus"]
+shader = ExtResource("sh_atmosphere")
+shader_parameter/atmo_color = Color(0.65098, 0.941176, 1, 1)
+shader_parameter/intensity = 0.9
+shader_parameter/power = 2.6
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_neptune"]
+shader = ExtResource("sh_atmosphere")
+shader_parameter/atmo_color = Color(0.435294, 0.611765, 1, 1)
+shader_parameter/intensity = 1.1
+shader_parameter/power = 2.6
+
+[sub_resource type="PlaneMesh" id="orbit_plane"]
+size = Vector2(2, 2)
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 32
+
+[sub_resource type="QuadMesh" id="corona_quad"]
+size = Vector2(138.462, 138.462)
+
+[sub_resource type="SystemFont" id="font_label"]
+font_names = PackedStringArray("Bahnschrift", "Segoe UI", "Arial")
+font_weight = 600
+
+[node name="SolarSystem" type="Node3D"]
+script = ExtResource("s_system")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="SunLight" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 3.2
+light_specular = 0.35
+omni_range = 4096.0
+omni_attenuation = 0.25
+shadow_enabled = false
+
+[node name="Bodies" type="Node3D" parent="."]
+
+[node name="Sun" type="Node3D" parent="Bodies"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "sun"
+name_key = "SS_NAME_SUN"
+orbit_radius = 0
+orbital_period_days = 0
+phase_deg = 0
+tidally_locked = false
+visual_radius = 18
+rotation_period_hours = 609.12
+metadata/focus_key = 0
+
+[node name="Pivot" type="Node3D" parent="Bodies/Sun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Sun/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Sun/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.992005, 0.126199, 0, -0.126199, 0.992005, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Sun/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_sun0")]
+transform = Transform3D(18, 0, 0, 0, 18, 0, 0, 0, 18, 0, 0, 0)
+
+[node name="sun_lod0" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_sun")
+cast_shadow = 0
+visibility_range_end = 252
+visibility_range_end_margin = 30.24
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_sun1")]
+transform = Transform3D(18, 0, 0, 0, 18, 0, 0, 0, 18, 0, 0, 0)
+
+[node name="sun_lod1" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_sun")
+cast_shadow = 0
+visibility_range_begin = 252
+visibility_range_begin_margin = 30.24
+visibility_range_end = 828
+visibility_range_end_margin = 99.36
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_sun2")]
+transform = Transform3D(18, 0, 0, 0, 18, 0, 0, 0, 18, 0, 0, 0)
+
+[node name="sun_lod2" parent="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_sun")
+cast_shadow = 0
+visibility_range_begin = 828
+visibility_range_begin_margin = 99.36
+visibility_range_fade_mode = 1
+
+[node name="Corona" type="MeshInstance3D" parent="Bodies/Sun/Pivot/Anchor"]
+mesh = SubResource("corona_quad")
+material_override = SubResource("mat_corona")
+cast_shadow = 0
+custom_aabb = AABB(-69.2308, -69.2308, -69.2308, 138.462, 138.462, 138.462)
+
+[node name="Label" type="Label3D" parent="Bodies/Sun/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -19.8, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(1, 0.86, 0.56, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Sun"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 0
+no_depth_test = true
+visibility_range_begin = 57.6
+visibility_range_begin_margin = 6.912
+visibility_range_fade_mode = 1
+
+[node name="Mercury" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.995841, 0.0910347, -0.00370177, -0.0910347, 0.992546, -0.0810235, -0.00370177, 0.0810235, 0.996705, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "mercury"
+name_key = "SS_NAME_MERCURY"
+orbit_radius = 80.7907
+orbital_period_days = 87.969
+phase_deg = 252.25
+tidally_locked = false
+visual_radius = 1.97573
+rotation_period_hours = 1407.6
+metadata/focus_key = 1
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Mercury"]
+transform = Transform3D(80.7907, 0, 0, 0, 80.7907, 0, 0, 0, 80.7907, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.75, 0.72, 0.68, 0.9)
+instance_shader_parameters/head_angle = 6.71969
+
+[node name="Pivot" type="Node3D" parent="Bodies/Mercury"]
+transform = Transform3D(0.906234, 0, 0.422776, 0, 1, 0, -0.422776, 0, 0.906234, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Mercury/Pivot"]
+transform = Transform3D(0.906234, 0, -0.422776, 0, 1, 0, 0.422776, 0, 0.906234, 80.7907, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Mercury/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0.000593412, 0, -0.000593412, 1, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Mercury/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mercury0")]
+transform = Transform3D(1.97573, 0, 0, 0, 1.97573, 0, 0, 0, 1.97573, 0, 0, 0)
+
+[node name="mercury_lod0" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 27.6603
+visibility_range_end_margin = 3.31923
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mercury1")]
+transform = Transform3D(1.97573, 0, 0, 0, 1.97573, 0, 0, 0, 1.97573, 0, 0, 0)
+
+[node name="mercury_lod1" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 27.6603
+visibility_range_begin_margin = 3.31923
+visibility_range_end = 90.8837
+visibility_range_end_margin = 10.906
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mercury2")]
+transform = Transform3D(1.97573, 0, 0, 0, 1.97573, 0, 0, 0, 1.97573, 0, 0, 0)
+
+[node name="mercury_lod2" parent="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 90.8837
+visibility_range_begin_margin = 10.906
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Mercury/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.21282, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Mercury"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 6.32234
+visibility_range_begin_margin = 0.758681
+visibility_range_end = 452.428
+visibility_range_end_margin = 54.2914
+visibility_range_fade_mode = 1
+
+[node name="Venus" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.998343, 0.0575414, -0.000392299, -0.0575414, 0.99825, -0.0136234, -0.000392299, 0.0136234, 0.999907, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "venus"
+name_key = "SS_NAME_VENUS"
+orbit_radius = 97.2212
+orbital_period_days = 224.701
+phase_deg = 181.98
+tidally_locked = false
+visual_radius = 3.11173
+rotation_period_hours = -5832.6
+metadata/focus_key = 2
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Venus"]
+transform = Transform3D(97.2212, 0, 0, 0, 97.2212, 0, 0, 0, 97.2212, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.98, 0.84, 0.55, 0.9)
+instance_shader_parameters/head_angle = 6.94708
+
+[node name="Pivot" type="Node3D" parent="Bodies/Venus"]
+transform = Transform3D(0.787599, 0, 0.616188, 0, 1, 0, -0.616188, 0, 0.787599, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Venus/Pivot"]
+transform = Transform3D(0.787599, 0, -0.616188, 0, 1, 0, 0.616188, 0, 0.787599, 97.2212, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Venus/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, -0.998939, 0.0460604, 0, -0.0460604, -0.998939, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Venus/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_venus0")]
+transform = Transform3D(3.11173, 0, 0, 0, 3.11173, 0, 0, 0, 3.11173, 0, 0, 0)
+
+[node name="venus_lod0" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 43.5643
+visibility_range_end_margin = 5.22771
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_venus1")]
+transform = Transform3D(3.11173, 0, 0, 0, 3.11173, 0, 0, 0, 3.11173, 0, 0, 0)
+
+[node name="venus_lod1" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 43.5643
+visibility_range_begin_margin = 5.22771
+visibility_range_end = 143.14
+visibility_range_end_margin = 17.1768
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_venus2")]
+transform = Transform3D(3.11173, 0, 0, 0, 3.11173, 0, 0, 0, 3.11173, 0, 0, 0)
+
+[node name="venus_lod2" parent="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 143.14
+visibility_range_begin_margin = 17.1768
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Bodies/Venus/Pivot/Anchor/Tilt"]
+transform = Transform3D(3.36067, 0, 0, 0, 3.36067, 0, 0, 0, 3.36067, 0, 0, 0)
+mesh = SubResource("atmo_sphere")
+material_override = SubResource("mat_atmo_venus")
+cast_shadow = 0
+visibility_range_end = 357.849
+visibility_range_end_margin = 42.9419
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Venus/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.48514, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Venus"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 9.95754
+visibility_range_begin_margin = 1.19491
+visibility_range_end = 544.439
+visibility_range_end_margin = 65.3326
+visibility_range_fade_mode = 1
+
+[node name="Earth" type="Node3D" parent="Bodies"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "earth"
+name_key = "SS_NAME_EARTH"
+orbit_radius = 108
+orbital_period_days = 365.256
+phase_deg = 100.46
+tidally_locked = false
+visual_radius = 3.19274
+rotation_period_hours = 23.9345
+metadata/focus_key = 3
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Earth"]
+transform = Transform3D(108, 0, 0, 0, 108, 0, 0, 0, 108, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.4, 0.72, 1, 0.9)
+instance_shader_parameters/head_angle = 6.91992
+
+[node name="Pivot" type="Node3D" parent="Bodies/Earth"]
+transform = Transform3D(0.804043, 0, 0.594571, 0, 1, 0, -0.594571, 0, 0.804043, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Earth/Pivot"]
+transform = Transform3D(0.804043, 0, -0.594571, 0, 1, 0, 0.594571, 0, 0.804043, 108, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Earth/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.917477, 0.397789, 0, -0.397789, 0.917477, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_earth0")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_lod0" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+visibility_range_end = 44.6984
+visibility_range_end_margin = 5.36381
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_earth1")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_lod1" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+visibility_range_begin = 44.6984
+visibility_range_begin_margin = 5.36381
+visibility_range_end = 146.866
+visibility_range_end_margin = 17.6239
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_earth2")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_lod2" parent="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+visibility_range_begin = 146.866
+visibility_range_begin_margin = 17.6239
+visibility_range_fade_mode = 1
+
+[node name="CloudSpin" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Tilt"]
+
+[node name="Clouds0" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin" instance=ExtResource("g_clouds0")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_clouds_lod0" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds0" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_end = 44.6984
+visibility_range_end_margin = 5.36381
+visibility_range_fade_mode = 1
+
+[node name="Clouds1" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin" instance=ExtResource("g_clouds1")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_clouds_lod1" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds1" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_begin = 44.6984
+visibility_range_begin_margin = 5.36381
+visibility_range_end = 146.866
+visibility_range_end_margin = 17.6239
+visibility_range_fade_mode = 1
+
+[node name="Clouds2" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin" instance=ExtResource("g_clouds2")]
+transform = Transform3D(3.19274, 0, 0, 0, 3.19274, 0, 0, 0, 3.19274, 0, 0, 0)
+
+[node name="earth_clouds_lod2" parent="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds2" index="0"]
+material_override = SubResource("mat_clouds")
+cast_shadow = 0
+visibility_range_begin = 146.866
+visibility_range_begin_margin = 17.6239
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Bodies/Earth/Pivot/Anchor/Tilt"]
+transform = Transform3D(3.48009, 0, 0, 0, 3.48009, 0, 0, 0, 3.48009, 0, 0, 0)
+mesh = SubResource("atmo_sphere")
+material_override = SubResource("mat_atmo_earth")
+cast_shadow = 0
+visibility_range_end = 367.165
+visibility_range_end_margin = 44.0598
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Earth/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.57587, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Earth"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 10.2168
+visibility_range_begin_margin = 1.22601
+visibility_range_end = 604.8
+visibility_range_end_margin = 72.576
+visibility_range_fade_mode = 1
+
+[node name="Moon" type="Node3D" parent="Bodies/Earth/Pivot/Anchor"]
+transform = Transform3D(0.997302, 0.0733868, 0.00189496, -0.0733868, 0.995971, 0.0515389, 0.00189496, -0.0515389, 0.998669, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "moon"
+name_key = "SS_NAME_MOON"
+orbit_radius = 8.18984
+orbital_period_days = 27.3217
+phase_deg = 218.32
+tidally_locked = true
+visual_radius = 1.66729
+rotation_period_hours = 655.72
+metadata/focus_key = -1
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Earth/Pivot/Anchor/Moon"]
+transform = Transform3D(8.18984, 0, 0, 0, 8.18984, 0, 0, 0, 8.18984, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.75, 0.78, 0.85, 0.7)
+instance_shader_parameters/head_angle = 7.45116
+visibility_range_end = 180
+visibility_range_end_margin = 21.6
+visibility_range_fade_mode = 1
+
+[node name="Pivot" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Moon"]
+transform = Transform3D(0.392018, 0, 0.919958, 0, 1, 0, -0.919958, 0, 0.392018, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.18984, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.993211, 0.116324, 0, -0.116324, 0.993211, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_moon0")]
+transform = Transform3D(1.66729, 0, 0, 0, 1.66729, 0, 0, 0, 1.66729, 0, 0, 0)
+
+[node name="moon_lod0" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 23.342
+visibility_range_end_margin = 2.80104
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_moon1")]
+transform = Transform3D(1.66729, 0, 0, 0, 1.66729, 0, 0, 0, 1.66729, 0, 0, 0)
+
+[node name="moon_lod1" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 23.342
+visibility_range_begin_margin = 2.80104
+visibility_range_end = 76.6951
+visibility_range_end_margin = 9.20341
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_moon2")]
+transform = Transform3D(1.66729, 0, 0, 0, 1.66729, 0, 0, 0, 1.66729, 0, 0, 0)
+
+[node name="moon_lod2" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 76.6951
+visibility_range_begin_margin = 9.20341
+visibility_range_end = 700
+visibility_range_end_margin = 84
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86736, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.74, 0.8, 0.9, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Moon"
+font = SubResource("font_label")
+font_size = 32
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 5.33531
+visibility_range_begin_margin = 0.640238
+visibility_range_end = 120
+visibility_range_end_margin = 14.4
+visibility_range_fade_mode = 1
+
+[node name="Mars" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.999698, 0.0245701, -0.000257321, -0.0245701, 0.999479, -0.0209404, -0.000257321, 0.0209404, 0.999781, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "mars"
+name_key = "SS_NAME_MARS"
+orbit_radius = 124.884
+orbital_period_days = 686.98
+phase_deg = 355.45
+tidally_locked = false
+visual_radius = 2.32878
+rotation_period_hours = 24.6229
+metadata/focus_key = 4
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Mars"]
+transform = Transform3D(124.884, 0, 0, 0, 124.884, 0, 0, 0, 124.884, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(1, 0.5, 0.32, 0.9)
+instance_shader_parameters/head_angle = 7.84348
+
+[node name="Pivot" type="Node3D" parent="Bodies/Mars"]
+transform = Transform3D(0.0104965, 0, 0.999945, 0, 1, 0, -0.999945, 0, 0.0104965, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Mars/Pivot"]
+transform = Transform3D(0.0104965, 0, -0.999945, 0, 1, 0, 0.999945, 0, 0.0104965, 124.884, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Mars/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.904901, 0.425621, 0, -0.425621, 0.904901, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Mars/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mars0")]
+transform = Transform3D(2.32878, 0, 0, 0, 2.32878, 0, 0, 0, 2.32878, 0, 0, 0)
+
+[node name="mars_lod0" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 32.6029
+visibility_range_end_margin = 3.91234
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mars1")]
+transform = Transform3D(2.32878, 0, 0, 0, 2.32878, 0, 0, 0, 2.32878, 0, 0, 0)
+
+[node name="mars_lod1" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 32.6029
+visibility_range_begin_margin = 3.91234
+visibility_range_end = 107.124
+visibility_range_end_margin = 12.8548
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_mars2")]
+transform = Transform3D(2.32878, 0, 0, 0, 2.32878, 0, 0, 0, 2.32878, 0, 0, 0)
+
+[node name="mars_lod2" parent="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 107.124
+visibility_range_begin_margin = 12.8548
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Bodies/Mars/Pivot/Anchor/Tilt"]
+transform = Transform3D(2.4685, 0, 0, 0, 2.4685, 0, 0, 0, 2.4685, 0, 0, 0)
+mesh = SubResource("atmo_sphere")
+material_override = SubResource("mat_atmo_mars")
+cast_shadow = 0
+visibility_range_end = 267.809
+visibility_range_end_margin = 32.1371
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Mars/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60823, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Mars"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 7.45208
+visibility_range_begin_margin = 0.89425
+visibility_range_end = 699.352
+visibility_range_end_margin = 83.9222
+visibility_range_fade_mode = 1
+
+[node name="Jupiter" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.99975, 0.0223789, 4.62357e-05, -0.0223789, 0.999741, 0.00413153, 4.62357e-05, -0.00413153, 0.999991, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "jupiter"
+name_key = "SS_NAME_JUPITER"
+orbit_radius = 200.248
+orbital_period_days = 4332.59
+phase_deg = 34.4
+tidally_locked = false
+visual_radius = 10.5763
+rotation_period_hours = 9.925
+metadata/focus_key = 5
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Jupiter"]
+transform = Transform3D(200.248, 0, 0, 0, 200.248, 0, 0, 0, 200.248, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.95, 0.75, 0.52, 0.9)
+instance_shader_parameters/head_angle = 2.24178
+
+[node name="Pivot" type="Node3D" parent="Bodies/Jupiter"]
+transform = Transform3D(-0.621753, 0, 0.783213, 0, 1, 0, -0.783213, 0, -0.621753, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Jupiter/Pivot"]
+transform = Transform3D(-0.621753, 0, -0.783213, 0, 1, 0, 0.783213, 0, -0.621753, 200.248, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.998508, 0.0546016, 0, -0.0546016, 0.998508, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_jupiter0")]
+transform = Transform3D(10.5763, 0, 0, 0, 10.5763, 0, 0, 0, 10.5763, 0, 0, 0)
+
+[node name="jupiter_lod0" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 148.068
+visibility_range_end_margin = 17.7681
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_jupiter1")]
+transform = Transform3D(10.5763, 0, 0, 0, 10.5763, 0, 0, 0, 10.5763, 0, 0, 0)
+
+[node name="jupiter_lod1" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 148.068
+visibility_range_begin_margin = 17.7681
+visibility_range_end = 486.509
+visibility_range_end_margin = 58.381
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_jupiter2")]
+transform = Transform3D(10.5763, 0, 0, 0, 10.5763, 0, 0, 0, 10.5763, 0, 0, 0)
+
+[node name="jupiter_lod2" parent="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 486.509
+visibility_range_begin_margin = 58.381
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Jupiter/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.8454, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Jupiter"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 33.8441
+visibility_range_begin_margin = 4.06129
+visibility_range_end = 1121.39
+visibility_range_end_margin = 134.567
+visibility_range_fade_mode = 1
+
+[node name="Europa" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.999967, -0.00813314, -0, 0.00813314, 0.999967, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "europa"
+name_key = "SS_NAME_EUROPA"
+orbit_radius = 19.722
+orbital_period_days = 3.551
+phase_deg = 0
+tidally_locked = true
+visual_radius = 1.58028
+rotation_period_hours = 85.228
+metadata/focus_key = -1
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa"]
+transform = Transform3D(19.722, 0, 0, 0, 19.722, 0, 0, 0, 19.722, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.9, 0.82, 0.7, 0.7)
+instance_shader_parameters/head_angle = 5.91338
+visibility_range_end = 180
+visibility_range_end_margin = 21.6
+visibility_range_fade_mode = 1
+
+[node name="Pivot" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa"]
+transform = Transform3D(0.932397, 0, -0.361436, 0, 1, 0, 0.361436, 0, 0.932397, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.722, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.999998, 0.00174533, 0, -0.00174533, 0.999998, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_europa0")]
+transform = Transform3D(1.58028, 0, 0, 0, 1.58028, 0, 0, 0, 1.58028, 0, 0, 0)
+
+[node name="europa_lod0" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 22.1239
+visibility_range_end_margin = 2.65487
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_europa1")]
+transform = Transform3D(1.58028, 0, 0, 0, 1.58028, 0, 0, 0, 1.58028, 0, 0, 0)
+
+[node name="europa_lod1" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 22.1239
+visibility_range_begin_margin = 2.65487
+visibility_range_end = 72.6928
+visibility_range_end_margin = 8.72314
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_europa2")]
+transform = Transform3D(1.58028, 0, 0, 0, 1.58028, 0, 0, 0, 1.58028, 0, 0, 0)
+
+[node name="europa_lod2" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 72.6928
+visibility_range_begin_margin = 8.72314
+visibility_range_end = 700
+visibility_range_end_margin = 84
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76991, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.74, 0.8, 0.9, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Europa"
+font = SubResource("font_label")
+font_size = 32
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 5.05689
+visibility_range_begin_margin = 0.606827
+visibility_range_end = 120
+visibility_range_end_margin = 14.4
+visibility_range_fade_mode = 1
+
+[node name="Saturn" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.999211, 0.0397103, 0.000345777, -0.0397103, 0.99906, 0.0174068, 0.000345777, -0.0174068, 0.999848, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "saturn"
+name_key = "SS_NAME_SATURN"
+orbit_radius = 258.77
+orbital_period_days = 10759.2
+phase_deg = 49.94
+tidally_locked = false
+visual_radius = 9.65252
+rotation_period_hours = 10.656
+metadata/focus_key = 6
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Saturn"]
+transform = Transform3D(258.77, 0, 0, 0, 258.77, 0, 0, 0, 258.77, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.98, 0.88, 0.6, 0.9)
+instance_shader_parameters/head_angle = 6.59288
+
+[node name="Pivot" type="Node3D" parent="Bodies/Saturn"]
+transform = Transform3D(0.952425, 0, 0.304772, 0, 1, 0, -0.304772, 0, 0.952425, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Saturn/Pivot"]
+transform = Transform3D(0.952425, 0, -0.304772, 0, 1, 0, 0.304772, 0, 0.952425, 258.77, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Saturn/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.893136, 0.449787, 0, -0.449787, 0.893136, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Saturn/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_saturn0")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_lod0" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 135.135
+visibility_range_end_margin = 16.2162
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_saturn1")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_lod1" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 135.135
+visibility_range_begin_margin = 16.2162
+visibility_range_end = 444.016
+visibility_range_end_margin = 53.2819
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_saturn2")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_lod2" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 444.016
+visibility_range_begin_margin = 53.2819
+visibility_range_fade_mode = 1
+
+[node name="Rings" type="Node3D" parent="Bodies/Saturn/Pivot/Anchor/Tilt"]
+
+[node name="Rings0" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings" instance=ExtResource("g_saturn_rings0")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_rings_lod0" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings0" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_end = 135.135
+visibility_range_end_margin = 16.2162
+visibility_range_fade_mode = 1
+
+[node name="Rings1" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings" instance=ExtResource("g_saturn_rings1")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_rings_lod1" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings1" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_begin = 135.135
+visibility_range_begin_margin = 16.2162
+visibility_range_end = 444.016
+visibility_range_end_margin = 53.2819
+visibility_range_fade_mode = 1
+
+[node name="Rings2" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings" instance=ExtResource("g_saturn_rings2")]
+transform = Transform3D(9.65252, 0, 0, 0, 9.65252, 0, 0, 0, 9.65252, 0, 0, 0)
+
+[node name="saturn_rings_lod2" parent="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings2" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+visibility_range_begin = 444.016
+visibility_range_begin_margin = 53.2819
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Saturn/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1351, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Saturn"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 30.8881
+visibility_range_begin_margin = 3.70657
+visibility_range_end = 1449.11
+visibility_range_end_margin = 173.893
+visibility_range_fade_mode = 1
+
+[node name="Uranus" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.999916, 0.0129522, -2.40375e-05, -0.0129522, 0.999909, -0.00371155, -2.40375e-05, 0.00371155, 0.999993, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "uranus"
+name_key = "SS_NAME_URANUS"
+orbit_radius = 351.201
+orbital_period_days = 30685.4
+phase_deg = 313.23
+tidally_locked = false
+visual_radius = 6.37018
+rotation_period_hours = -17.24
+metadata/focus_key = 7
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Uranus"]
+transform = Transform3D(351.201, 0, 0, 0, 351.201, 0, 0, 0, 351.201, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.55, 0.92, 0.95, 0.9)
+instance_shader_parameters/head_angle = 7.47294
+
+[node name="Pivot" type="Node3D" parent="Bodies/Uranus"]
+transform = Transform3D(0.371886, 0, 0.928279, 0, 1, 0, -0.928279, 0, 0.371886, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Uranus/Pivot"]
+transform = Transform3D(0.371886, 0, -0.928279, 0, 1, 0, 0.928279, 0, 0.371886, 351.201, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Uranus/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, -0.135197, 0.990819, 0, -0.990819, -0.135197, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Uranus/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_uranus0")]
+transform = Transform3D(6.37018, 0, 0, 0, 6.37018, 0, 0, 0, 6.37018, 0, 0, 0)
+
+[node name="uranus_lod0" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 89.1825
+visibility_range_end_margin = 10.7019
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_uranus1")]
+transform = Transform3D(6.37018, 0, 0, 0, 6.37018, 0, 0, 0, 6.37018, 0, 0, 0)
+
+[node name="uranus_lod1" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 89.1825
+visibility_range_begin_margin = 10.7019
+visibility_range_end = 293.028
+visibility_range_end_margin = 35.1634
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_uranus2")]
+transform = Transform3D(6.37018, 0, 0, 0, 6.37018, 0, 0, 0, 6.37018, 0, 0, 0)
+
+[node name="uranus_lod2" parent="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 293.028
+visibility_range_begin_margin = 35.1634
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Bodies/Uranus/Pivot/Anchor/Tilt"]
+transform = Transform3D(6.68869, 0, 0, 0, 6.68869, 0, 0, 0, 6.68869, 0, 0, 0)
+mesh = SubResource("atmo_sphere")
+material_override = SubResource("mat_atmo_uranus")
+cast_shadow = 0
+visibility_range_end = 732.571
+visibility_range_end_margin = 87.9085
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Uranus/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.1346, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Uranus"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 20.3846
+visibility_range_begin_margin = 2.44615
+visibility_range_end = 1966.72
+visibility_range_end_margin = 236.007
+visibility_range_fade_mode = 1
+
+[node name="Neptune" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.999735, 0.02302, 0.000236792, -0.02302, 0.999523, 0.0205678, 0.000236792, -0.0205678, 0.999788, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "neptune"
+name_key = "SS_NAME_NEPTUNE"
+orbit_radius = 431.528
+orbital_period_days = 60189
+phase_deg = 304.88
+tidally_locked = false
+visual_radius = 6.27656
+rotation_period_hours = 16.11
+metadata/focus_key = 8
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Neptune"]
+transform = Transform3D(431.528, 0, 0, 0, 431.528, 0, 0, 0, 431.528, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.45, 0.6, 1, 0.9)
+instance_shader_parameters/head_angle = 6.34388
+
+[node name="Pivot" type="Node3D" parent="Bodies/Neptune"]
+transform = Transform3D(0.998159, 0, 0.0606551, 0, 1, 0, -0.0606551, 0, 0.998159, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Neptune/Pivot"]
+transform = Transform3D(0.998159, 0, -0.0606551, 0, 1, 0, 0.0606551, 0, 0.998159, 431.528, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Neptune/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 0.880312, 0.474396, 0, -0.474396, 0.880312, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Neptune/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_neptune0")]
+transform = Transform3D(6.27656, 0, 0, 0, 6.27656, 0, 0, 0, 6.27656, 0, 0, 0)
+
+[node name="neptune_lod0" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_end = 87.8718
+visibility_range_end_margin = 10.5446
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_neptune1")]
+transform = Transform3D(6.27656, 0, 0, 0, 6.27656, 0, 0, 0, 6.27656, 0, 0, 0)
+
+[node name="neptune_lod1" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 87.8718
+visibility_range_begin_margin = 10.5446
+visibility_range_end = 288.722
+visibility_range_end_margin = 34.6466
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_neptune2")]
+transform = Transform3D(6.27656, 0, 0, 0, 6.27656, 0, 0, 0, 6.27656, 0, 0, 0)
+
+[node name="neptune_lod2" parent="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+visibility_range_begin = 288.722
+visibility_range_begin_margin = 34.6466
+visibility_range_fade_mode = 1
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Bodies/Neptune/Pivot/Anchor/Tilt"]
+transform = Transform3D(6.59039, 0, 0, 0, 6.59039, 0, 0, 0, 6.59039, 0, 0, 0)
+mesh = SubResource("atmo_sphere")
+material_override = SubResource("mat_atmo_neptune")
+cast_shadow = 0
+visibility_range_end = 721.804
+visibility_range_end_margin = 86.6165
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Neptune/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.02975, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Neptune"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 20.085
+visibility_range_begin_margin = 2.4102
+visibility_range_end = 2416.56
+visibility_range_end_margin = 289.987
+visibility_range_fade_mode = 1
+
+[node name="Pluto" type="Node3D" parent="Bodies"]
+transform = Transform3D(0.960843, 0.276716, 0.0144847, -0.276716, 0.955485, 0.10236, 0.0144847, -0.10236, 0.994642, 0, 0, 0)
+script = ExtResource("s_body")
+body_id = "pluto"
+name_key = "SS_NAME_PLUTO"
+orbit_radius = 488.41
+orbital_period_days = 90560
+phase_deg = 238.93
+tidally_locked = false
+visual_radius = 1.37887
+rotation_period_hours = -153.293
+metadata/focus_key = 9
+
+[node name="OrbitLine" type="MeshInstance3D" parent="Bodies/Pluto"]
+transform = Transform3D(488.41, 0, 0, 0, 488.41, 0, 0, 0, 488.41, 0, 0, 0)
+mesh = SubResource("orbit_plane")
+material_override = SubResource("mat_orbit")
+cast_shadow = 0
+instance_shader_parameters/line_color = Color(0.85, 0.75, 0.65, 0.9)
+instance_shader_parameters/head_angle = 4.84985
+
+[node name="Pivot" type="Node3D" parent="Bodies/Pluto"]
+transform = Transform3D(0.137024, 0, -0.990568, 0, 1, 0, 0.990568, 0, 0.137024, 0, 0, 0)
+
+[node name="Anchor" type="Node3D" parent="Bodies/Pluto/Pivot"]
+transform = Transform3D(0.137024, 0, 0.990568, 0, 1, 0, -0.990568, 0, 0.137024, 488.41, 0, 0)
+
+[node name="Tilt" type="Node3D" parent="Bodies/Pluto/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, -0.537741, 0.84311, 0, -0.84311, -0.537741, 0, 0, 0)
+
+[node name="Spin" type="Node3D" parent="Bodies/Pluto/Pivot/Anchor/Tilt"]
+
+[node name="LOD0" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_pluto0")]
+transform = Transform3D(1.37887, 0, 0, 0, 1.37887, 0, 0, 0, 1.37887, 0, 0, 0)
+
+[node name="pluto_lod0" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 19.3042
+visibility_range_end_margin = 2.3165
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_pluto1")]
+transform = Transform3D(1.37887, 0, 0, 0, 1.37887, 0, 0, 0, 1.37887, 0, 0, 0)
+
+[node name="pluto_lod1" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 19.3042
+visibility_range_begin_margin = 2.3165
+visibility_range_end = 63.428
+visibility_range_end_margin = 7.61136
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin" instance=ExtResource("g_pluto2")]
+transform = Transform3D(1.37887, 0, 0, 0, 1.37887, 0, 0, 0, 1.37887, 0, 0, 0)
+
+[node name="pluto_lod2" parent="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 63.428
+visibility_range_begin_margin = 7.61136
+visibility_range_fade_mode = 1
+
+[node name="Label" type="Label3D" parent="Bodies/Pluto/Pivot/Anchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54433, 0)
+auto_translate_mode = 2
+cast_shadow = 0
+pixel_size = 0.00052
+billboard = 1
+fixed_size = true
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.92, 0.95, 1, 1)
+outline_modulate = Color(0.01, 0.02, 0.05, 0.85)
+text = "Pluto"
+font = SubResource("font_label")
+font_size = 40
+outline_size = 12
+vertical_alignment = 2
+no_depth_test = false
+visibility_range_begin = 4.41238
+visibility_range_begin_margin = 0.529486
+visibility_range_end = 2735.1
+visibility_range_end_margin = 328.211
+visibility_range_fade_mode = 1
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("s_camera")
+distance = 560.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+fov = 50
+near = 0.05
+far = 6000.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Root" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("theme")
+
+[node name="TopBar" type="PanelContainer" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_type_variation = &"TopBarPanel"
+
+[node name="HBox" type="HBoxContainer" parent="UI/Root/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Logo" type="Label" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+theme_type_variation = &"LogoLabel"
+text = "MARGIN"
+
+[node name="Title" type="Label" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"TitleLabel"
+text = "SS_TITLE"
+
+[node name="Subtitle" type="Label" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+text = "SS_SUBTITLE"
+
+[node name="Spacer" type="Control" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="DateLabel" type="Label" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+horizontal_alignment = 1
+text = "2026-10-28"
+
+[node name="Sep1" type="VSeparator" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+text = "SS_TIME"
+
+[node name="TimeSlider" type="HSlider" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 100.0
+step = 0.1
+value = 58.0618
+tooltip_text = "SS_TIME"
+
+[node name="RateLabel" type="Label" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "1 s = 8 days"
+
+[node name="BtnPause" type="Button" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+text = "SS_PAUSE"
+
+[node name="Sep2" type="VSeparator" parent="UI/Root/TopBar/HBox"]
+layout_mode = 2
+
+[node name="BtnOverview" type="Button" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "SS_OVERVIEW"
+
+[node name="BtnLang" type="Button" parent="UI/Root/TopBar/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+focus_mode = 0
+text = "SS_LANG"
+
+[node name="BodiesPanel" type="PanelContainer" parent="UI/Root"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 82.0
+offset_right = 226.0
+offset_bottom = 400.0
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/BodiesPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="Label" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_type_variation = &"SectionLabel"
+text = "SS_BODIES"
+
+[node name="HSep" type="HSeparator" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+
+[node name="RowSun" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowSun"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_SUN"
+text = "SS_NAME_SUN"
+icon = ExtResource("icon_sun")
+alignment = 0
+expand_icon = false
+metadata/body_id = "sun"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowSun"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "0"
+
+[node name="RowMercury" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowMercury"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_MERCURY"
+text = "SS_NAME_MERCURY"
+icon = ExtResource("icon_mercury")
+alignment = 0
+expand_icon = false
+metadata/body_id = "mercury"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowMercury"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "1"
+
+[node name="RowVenus" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowVenus"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_VENUS"
+text = "SS_NAME_VENUS"
+icon = ExtResource("icon_venus")
+alignment = 0
+expand_icon = false
+metadata/body_id = "venus"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowVenus"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "2"
+
+[node name="RowEarth" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowEarth"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_EARTH"
+text = "SS_NAME_EARTH"
+icon = ExtResource("icon_earth")
+alignment = 0
+expand_icon = false
+metadata/body_id = "earth"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowEarth"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "3"
+
+[node name="RowMoon" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Indent" type="Control" parent="UI/Root/BodiesPanel/VBox/RowMoon"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowMoon"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_MOON"
+text = "SS_NAME_MOON"
+icon = ExtResource("icon_moon")
+alignment = 0
+expand_icon = false
+metadata/body_id = "moon"
+theme_override_constants/icon_max_width = 22
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowMoon"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = ""
+
+[node name="RowMars" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowMars"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_MARS"
+text = "SS_NAME_MARS"
+icon = ExtResource("icon_mars")
+alignment = 0
+expand_icon = false
+metadata/body_id = "mars"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowMars"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "4"
+
+[node name="RowJupiter" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowJupiter"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_JUPITER"
+text = "SS_NAME_JUPITER"
+icon = ExtResource("icon_jupiter")
+alignment = 0
+expand_icon = false
+metadata/body_id = "jupiter"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowJupiter"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "5"
+
+[node name="RowEuropa" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Indent" type="Control" parent="UI/Root/BodiesPanel/VBox/RowEuropa"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowEuropa"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_EUROPA"
+text = "SS_NAME_EUROPA"
+icon = ExtResource("icon_europa")
+alignment = 0
+expand_icon = false
+metadata/body_id = "europa"
+theme_override_constants/icon_max_width = 22
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowEuropa"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = ""
+
+[node name="RowSaturn" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowSaturn"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_SATURN"
+text = "SS_NAME_SATURN"
+icon = ExtResource("icon_saturn")
+alignment = 0
+expand_icon = false
+metadata/body_id = "saturn"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowSaturn"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "6"
+
+[node name="RowUranus" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowUranus"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_URANUS"
+text = "SS_NAME_URANUS"
+icon = ExtResource("icon_uranus")
+alignment = 0
+expand_icon = false
+metadata/body_id = "uranus"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowUranus"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "7"
+
+[node name="RowNeptune" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowNeptune"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_NEPTUNE"
+text = "SS_NAME_NEPTUNE"
+icon = ExtResource("icon_neptune")
+alignment = 0
+expand_icon = false
+metadata/body_id = "neptune"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowNeptune"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "8"
+
+[node name="RowPluto" type="HBoxContainer" parent="UI/Root/BodiesPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Btn" type="Button" parent="UI/Root/BodiesPanel/VBox/RowPluto"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+tooltip_text = "SS_KIND_PLUTO"
+text = "SS_NAME_PLUTO"
+icon = ExtResource("icon_pluto")
+alignment = 0
+expand_icon = false
+metadata/body_id = "pluto"
+theme_override_constants/icon_max_width = 26
+
+[node name="Key" type="Label" parent="UI/Root/BodiesPanel/VBox/RowPluto"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DimLabel"
+auto_translate_mode = 2
+horizontal_alignment = 2
+text = "9"
+
+[node name="InfoPanel" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -392.0
+offset_top = 82.0
+offset_right = -16.0
+offset_bottom = 300.0
+grow_horizontal = 0
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/InfoPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="UI/Root/InfoPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="UI/Root/InfoPanel/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("icon_earth")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Names" type="VBoxContainer" parent="UI/Root/InfoPanel/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="BodyName" type="Label" parent="UI/Root/InfoPanel/VBox/Head/Names"]
+unique_name_in_owner = true
+layout_mode = 2
+auto_translate_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Earth"
+
+[node name="BodyKind" type="Label" parent="UI/Root/InfoPanel/VBox/Head/Names"]
+unique_name_in_owner = true
+layout_mode = 2
+auto_translate_mode = 2
+theme_type_variation = &"DimLabel"
+text = "Planet · 3rd from the Sun"
+
+[node name="HSep" type="HSeparator" parent="UI/Root/InfoPanel/VBox"]
+layout_mode = 2
+
+[node name="Stats" type="GridContainer" parent="UI/Root/InfoPanel/VBox"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 6
+
+[node name="KRadius" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_RADIUS"
+
+[node name="VRadius" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="KDistance" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_DISTANCE"
+
+[node name="VDistance" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="KPeriod" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_PERIOD"
+
+[node name="VPeriod" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="KDay" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_DAY"
+
+[node name="VDay" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="KTilt" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_TILT"
+
+[node name="VTilt" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="KGravity" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "SS_GRAVITY"
+
+[node name="VGravity" type="Label" parent="UI/Root/InfoPanel/VBox/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MonoLabel"
+auto_translate_mode = 2
+text = "-"
+
+[node name="HSep2" type="HSeparator" parent="UI/Root/InfoPanel/VBox"]
+layout_mode = 2
+
+[node name="Desc" type="Label" parent="UI/Root/InfoPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+auto_translate_mode = 2
+autowrap_mode = 3
+text = "-"
+
+[node name="Source" type="Label" parent="UI/Root/InfoPanel/VBox"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 3
+text = "SS_SOURCE"
+
+[node name="Footer" type="VBoxContainer" parent="UI/Root"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -62.0
+offset_right = 520.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Help" type="Label" parent="UI/Root/Footer"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+horizontal_alignment = 1
+text = "SS_HELP"
+
+[node name="ScaleNote" type="Label" parent="UI/Root/Footer"]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.94, 0.66, 0.23, 0.8)
+horizontal_alignment = 1
+text = "SS_SCALE_NOTE"
+
+[connection signal="value_changed" from="UI/Root/TopBar/HBox/TimeSlider" to="." method="_on_time_slider_changed"]
+[connection signal="toggled" from="UI/Root/TopBar/HBox/BtnPause" to="." method="_on_pause_toggled"]
+[connection signal="pressed" from="UI/Root/TopBar/HBox/BtnOverview" to="." method="overview"]
+[connection signal="pressed" from="UI/Root/TopBar/HBox/BtnLang" to="." method="toggle_language"]
+
+[editable path="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Sun/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Mercury/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Venus/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds0"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds1"]
+[editable path="Bodies/Earth/Pivot/Anchor/Tilt/CloudSpin/Clouds2"]
+[editable path="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Earth/Pivot/Anchor/Moon/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Mars/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Jupiter/Pivot/Anchor/Europa/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings0"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings1"]
+[editable path="Bodies/Saturn/Pivot/Anchor/Tilt/Rings/Rings2"]
+[editable path="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Uranus/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Neptune/Pivot/Anchor/Tilt/Spin/LOD2"]
+[editable path="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD0"]
+[editable path="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD1"]
+[editable path="Bodies/Pluto/Pivot/Anchor/Tilt/Spin/LOD2"]

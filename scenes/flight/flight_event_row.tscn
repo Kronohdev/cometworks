@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[node name="EventRow" type="HBoxContainer"]
+theme_override_constants/separation = 10
+
+[node name="Time" type="Label" parent="."]
+custom_minimum_size = Vector2(78, 0)
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_colors/font_color = Color(0.549, 0.608, 0.71, 1)
+theme_override_font_sizes/font_size = 13
+text = "T+00:00"
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Event"
+text_overrun_behavior = 3
+
+[node name="Alt" type="Label" parent="."]
+layout_mode = 2
+theme_type_variation = &"DimLabel"
+text = "0 m"
+horizontal_alignment = 2

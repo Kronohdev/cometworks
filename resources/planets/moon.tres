@@ -1,0 +1,106 @@
+[gd_resource type="Resource" script_class="PlanetSurfaceProfile" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/world/planet_surface_profile.gd" id="1_profile"]
+
+[sub_resource type="FastNoiseLite" id="cont"]
+noise_type = 1
+frequency = 0.0004
+fractal_octaves = 4
+seed = 11
+
+[sub_resource type="FastNoiseLite" id="ridge"]
+noise_type = 1
+frequency = 0.0014
+fractal_octaves = 4
+seed = 12
+fractal_type = 2
+
+[sub_resource type="FastNoiseLite" id="detail"]
+noise_type = 1
+frequency = 0.06
+fractal_octaves = 2
+seed = 13
+
+[sub_resource type="FastNoiseLite" id="patch"]
+noise_type = 1
+frequency = 0.0007
+fractal_octaves = 3
+seed = 14
+
+[resource]
+script = ExtResource("1_profile")
+id = &"moon"
+name_key = "PLANET_MOON"
+description_key = "PLANET_MOON_DESC"
+terrain_seed = 3
+gravity = 1.62
+has_atmosphere = false
+surface_pressure_kpa = 0
+radius_km = 1737.4
+color_surface = Color(0.56, 0.55, 0.53, 1)
+color_surface_alt = Color(0.63, 0.62, 0.6, 1)
+color_subsurface = Color(0.48, 0.47, 0.46, 1)
+color_rock = Color(0.44, 0.43, 0.42, 1)
+color_rock_strata = Color(0.38, 0.37, 0.37, 1)
+color_sand = Color(0.6, 0.59, 0.57, 1)
+color_ice = Color(0.85, 0.88, 0.92, 1)
+color_accent = Color(0.36, 0.36, 0.37, 1)
+color_seabed = Color(0.5, 0.5, 0.5, 1)
+color_pad = Color(0.6, 0.6, 0.6, 1)
+shade_variation = 0.05
+subsurface_depth = 2
+strata_thickness = 0
+cliff_slope = 2.2
+base_height = 0
+continents = SubResource("cont")
+continent_amplitude = 55
+ridges = SubResource("ridge")
+ridge_amplitude = 110
+ridge_mask_low = -0.1
+ridge_mask_high = 0.6
+detail = SubResource("detail")
+detail_amplitude = 0.8
+regional_slope = Vector2(0, 0)
+patches = SubResource("patch")
+alt_threshold = 0.18
+accent_threshold = -0.12
+accent_depression = 10
+crater_density = 160
+crater_min_radius = 3
+crater_max_radius = 900
+crater_size_exponent = 1.75
+crater_size_classes = 7
+crater_depth_ratio = 0.19
+crater_rim_ratio = 0.035
+crater_ejecta_bright = 0.85
+prop_kind = 2
+prop_density = 3
+prop_color_a = Color(0.6, 0.59, 0.57, 1)
+prop_color_b = Color(0.4, 0.39, 0.38, 1)
+flat_zone_radius = 30
+flat_zone_blend = 40
+sky_zenith_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+sky_ground_color = Color(0.04, 0.04, 0.04, 1)
+sky_gradient_power = 1
+star_intensity = 1
+sun_glow_color = Color(1, 0.97, 0.92, 1)
+sun_glow_strength = 0.35
+sky_body_enabled = true
+sky_body_elevation_deg = 15
+sky_body_azimuth_deg = -35
+sky_body_size_deg = 1.9
+sky_body_color_a = Color(0.1, 0.27, 0.66, 1)
+sky_body_color_b = Color(0.97, 0.97, 0.98, 1)
+sky_body_bands = 0
+sun_color = Color(1, 0.98, 0.95, 1)
+sun_energy = 1.9
+sun_elevation_deg = 30
+sun_azimuth_deg = 75
+sun_size_deg = 0.53
+ambient_color = Color(0.5, 0.52, 0.58, 1)
+ambient_energy = 1
+exposure = 0.95
+fog_enabled = false
+fog_color = Color(0, 0, 0, 1)
+fog_density = 0

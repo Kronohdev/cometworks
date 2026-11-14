@@ -1,0 +1,145 @@
+keys,en,pt
+HANGAR_TITLE,Hangar,Hangar
+HANGAR_SUB,VEHICLE ASSEMBLY · HANGAR,MONTAGEM DE VEÍCULO · HANGAR
+UI_PICK_HINT,Click a part to hold it. Hover over a part for details.,Clique numa peça para segurá-la. Passe o mouse para ver detalhes.
+UI_TARGET,LEO target %s,Alvo LEO %s
+UI_SUMMARY,%s t · %d parts · US$ %s M,%s t · %d peças · US$ %s M
+UI_PARTS,Parts,Peças
+UI_STAGES,Stages,Estágios
+UI_STAGE_N,Stage %d,Estágio %d
+UI_NEW,New,Novo
+UI_SAVE,Save,Salvar
+UI_LOAD,Load,Carregar
+UI_LANG,PT,EN
+UI_SYMMETRY,Symmetry: %dx,Simetria: %dx
+UI_COM,CoM,CM
+UI_COT,CoT,CE
+UI_COL,CoL,CS
+UI_TOTAL,Total,Total
+UI_MASS,Mass,Massa
+UI_PARTS_COUNT,Parts,Peças
+UI_COST,Cost,Custo
+UI_DV_ASCENT,Ascent Δv,Δv de subida
+UI_TARGET_LEO,LEO target,Alvo LEO
+UI_STABLE,Stable: CoL below CoM,Estável: CS abaixo do CM
+UI_UNSTABLE,Unstable: CoL above CoM,Instável: CS acima do CM
+UI_GIMBAL,"CoL above CoM: unstable without control, held straight by engine gimbal (like real rockets)","CS acima do CM: instável sem controle, mantido reto pelo gimbal dos motores (como foguetes reais)"
+UI_EMPTY,Pick a part on the left to start. Begin with an Avionics Core.,Escolha uma peça à esquerda para começar. Comece por um Núcleo de Aviônica.
+UI_HELP,LMB: pick/place · Alt+LMB: copy · Q/E: rotate · X: symmetry · C: snap · N: nodes · RMB: orbit · Wheel: zoom · Shift+Wheel/MMB: pan · Double-click: focus · Ctrl+Z: undo · Esc: drop,BE: pegar/soltar · Alt+BE: copiar · Q/E: girar · X: simetria · C: snap · N: nós · BD: girar câmera · Roda: zoom · Shift+Roda/BM: mover · Duplo clique: focar · Ctrl+Z: desfazer · Esc: descartar
+UI_SAVED,Vessel saved.,Veículo salvo.
+UI_LOADED,Vessel loaded.,Veículo carregado.
+UI_UNDO,Undo (Ctrl+Z),Desfazer (Ctrl+Z)
+UI_UNDONE,Undone.,Desfeito.
+UI_EXAMPLES,Examples,Exemplos
+UI_EXAMPLE_LOADED,Example loaded: %s,Exemplo carregado: %s
+UI_SNAP_FREE,Free,Livre
+UI_SNAP_TIP,Angle snap (C): radial parts snap every 15° and 0.25 m. Off = free placement.,"Snap de ângulo (C): peças radiais encaixam a cada 15° e 0,25 m. Desligado = posição livre."
+UI_SYMMETRY_TIP,Symmetry (X): how many copies are placed around the axis. Right-click cycles.,Simetria (X): quantas cópias são colocadas ao redor do eixo. Botão direito alterna.
+UI_LANG_TIP,Switch language,Trocar idioma
+UI_NODES_TIP,Show attach nodes (N),Mostrar nós de encaixe (N)
+UI_SEARCH,Search parts...,Buscar peças...
+UI_SEARCH_RESULTS,Search results,Resultados da busca
+UI_HEIGHT_TIP,Camera height (Shift+Wheel / Up/Down),Altura da câmera (Shift+Roda / Cima/Baixo)
+UI_HOVER_DETAIL,%s kg · %d free nodes,%s kg · %d nós livres
+UI_DELETED,Part deleted.,Peça descartada.
+UI_COPIED,Copied: %s,Copiado: %s
+UI_FILE,File,Arquivo
+UI_FILE_TIP,"New, save, load and example rockets","Novo, salvar, carregar e foguetes de exemplo"
+UI_REDO,Redo (Ctrl+Y),Refazer (Ctrl+Y)
+UI_REDONE,Redone.,Refeito.
+UI_HELP_TIP,Controls (F1),Controles (F1)
+UI_HUD_TIP,Show/hide panels (F2),Mostrar/ocultar painéis (F2)
+UI_COLLAPSE_TIP,Collapse / expand panel,Recolher / expandir painel
+UI_HELP_TITLE,Controls,Controles
+HELP_PLACE,Pick up / place a part,Pegar / soltar uma peça
+HELP_COPY,Copy a part with everything attached,Copiar uma peça com tudo que está preso nela
+HELP_ROTATE,Rotate the held part (Shift: 5°),Girar a peça segurada (Shift: 5°)
+HELP_SYMMETRY,"Symmetry: 1, 2, 3, 4, 6, 8 copies (or click the symmetry button)","Simetria: 1, 2, 3, 4, 6, 8 cópias (ou clique no botão de simetria)"
+HELP_SNAP,Angle snap for radial parts (15°),Snap de ângulo para peças radiais (15°)
+HELP_NODES,Show every free attach node,Mostrar todos os nós de encaixe livres
+HELP_ORBIT,Orbit the camera,Girar a câmera
+HELP_PAN,Pan / move the camera up and down,Mover a câmera / subir e descer
+HELP_ZOOM,Zoom,Zoom
+HELP_FOCUS,Focus the camera on a part,Focar a câmera numa peça
+HELP_UNDO,Undo / redo,Desfazer / refazer
+HELP_DROP,Drop the held part (or click the part list),Descartar a peça segurada (ou clique na lista de peças)
+HELP_HELP,Show this help,Mostrar esta ajuda
+HELP_HUD,Hide the panels for a clean view,Ocultar os painéis para ver o foguete limpo
+UI_INSERTED,Inserted into the stack.,Inserida na pilha.
+UI_QUALITY,Graphics quality: %s (F3),Qualidade gráfica: %s (F3)
+QUALITY_LOW,Low,Baixa
+QUALITY_MEDIUM,Medium,Média
+QUALITY_HIGH,High,Alta
+UI_NO_SNAP,No attach point here. Bring the part close to a node.,Sem ponto de encaixe aqui. Aproxime a peça de um nó.
+UI_LEGEND_COM,Center of Mass (wet),Centro de Massa (cheio)
+UI_LEGEND_COT,Center of Thrust (stage 1),Centro de Empuxo (estágio 1)
+UI_LEGEND_COL,Center of Lift / Pressure,Centro de Sustentação / Pressão
+STAT_DV,Δv,Δv
+STAT_SL,SL,NM
+STAT_VAC,vac,vác
+STAT_TWR,TWR,TWR
+STAT_BURN,Burn,Queima
+STAT_BOOSTERS,boosters,boosters
+WARN_NO_CORE,No avionics core: the vessel has no flight computer.,Sem núcleo de aviônica: o veículo não tem computador de voo.
+WARN_NO_FUEL,%s has no compatible propellant in its stage.,%s não tem propelente compatível no estágio.
+WARN_TWR_LOW,Liftoff TWR %.2f < 1: the rocket can't leave the pad.,TWR de decolagem %.2f < 1: o foguete não sai da plataforma.
+WARN_TWR_MARGINAL,Liftoff TWR %.2f: high gravity losses (aim for 1.2+).,TWR de decolagem %.2f: perdas por gravidade altas (busque 1.2+).
+WARN_DV_LOW,Ascent Δv below LEO target.,Δv de subida abaixo do alvo LEO.
+WARN_UNSTABLE,CoL above CoM and no engine gimbal: add fins or gimballed engines.,CS acima do CM e sem gimbal nos motores: adicione aletas ou motores com gimbal.
+OK_READY,All checks passed.,Todas as checagens passaram.
+UI_LAUNCH,Launch,Lançar
+UI_LAUNCH_TIP,Launch this vessel,Lançar este veículo
+UI_CREW,Crew,Tripulação
+UI_CREW_EMPTY,Crew assignment will appear here.,A escalação da tripulação aparecerá aqui.
+UI_DETAIL_TIP,Detailed / compact stage cards (or click a card),Cartões de estágio detalhados / compactos (ou clique num cartão)
+UI_STAGE_TIP,Click for details,Clique para ver detalhes
+UI_STAGES_EMPTY,Add an engine with propellant to see the stages.,Adicione um motor com propelente para ver os estágios.
+UI_CHECKS,Checks,Verificações
+UI_SYMMETRY_TITLE,Symmetry,Simetria
+UI_SYMMETRY_HINT,Copies are placed evenly around the vessel axis.,As cópias ficam distribuídas ao redor do eixo do veículo.
+UI_SYM_SINGLE,Single part (no symmetry),Peça única (sem simetria)
+UI_SYM_COPIES,%d copies around the axis,%d cópias ao redor do eixo
+UI_FAVORITES,Favorites,Favoritos
+UI_FAV_TIP,Right-click a part card to add or remove it.,Clique com o botão direito num cartão de peça para adicionar ou remover.
+UI_FAV_EMPTY,No favorites yet. Right-click a part card to add it here.,Nenhum favorito ainda. Clique com o botão direito num cartão de peça para adicioná-lo.
+UI_FAV_ADDED,Added to favorites: %s,Adicionado aos favoritos: %s
+UI_FAV_REMOVED,Removed from favorites: %s,Removido dos favoritos: %s
+UI_NO_RESULTS,No parts match the search.,Nenhuma peça corresponde à busca.
+UI_CHIP_MASS_TIP,Wet mass (with propellant),Massa cheia (com propelente)
+UI_CHIP_THRUST_TIP,Thrust: sea level / vacuum,Empuxo: nível do mar / vácuo
+UI_CHIP_ISP_TIP,Specific impulse (Isp): sea level / vacuum,Impulso específico (Isp): nível do mar / vácuo
+UI_CHIP_PROP_TIP,Propellant load,Carga de propelente
+UI_CHIP_SIZE_TIP,Size class and diameter,Classe de tamanho e diâmetro
+UI_CHIP_COST_TIP,Unit cost,Custo unitário
+UI_TARGET_SHORT,of %s LEO,de %s LEO
+UI_DV_TIP,Ascent Δv vs the low-Earth-orbit target. Bar colours = stages (same colours as the stage cards).,Δv de subida vs o alvo de órbita baixa. Cores da barra = estágios (as mesmas dos cartões).
+UI_TWR_TIP,"Liftoff thrust-to-weight ratio: above 1 to leave the pad, 1.2+ recommended.","Razão empuxo/peso na decolagem: acima de 1 para sair da plataforma, 1,2+ recomendado."
+UI_TWR_SL_TIP,Thrust-to-weight at liftoff (sea level),Empuxo/peso na decolagem (nível do mar)
+UI_TWR_VAC_TIP,Thrust-to-weight at ignition (vacuum),Empuxo/peso na ignição (vácuo)
+UI_MASS_TIP,Total wet mass on the pad,Massa total cheia na plataforma
+UI_PARTS_TIP,Number of parts,Número de peças
+UI_COST_TIP,Total vehicle cost,Custo total do veículo
+UI_ISSUE,Issue,Alerta
+UI_ISSUE_1,1 issue,1 alerta
+UI_ISSUES,%d issues,%d alertas
+UI_EMPTY_TITLE,Start a new rocket,Comece um foguete
+UI_EMPTY_SHORT,Empty,Vazio
+OK_READY_SHORT,Ready,Pronto
+WARN_S_NO_CORE,No core,Sem núcleo
+WARN_S_NO_FUEL,No fuel,Sem propelente
+WARN_S_TWR_LOW,TWR < 1,TWR < 1
+WARN_S_TWR_MARGINAL,Low TWR,TWR baixo
+WARN_S_DV_LOW,Δv short,Δv curto
+WARN_S_UNSTABLE,Unstable,Instável
+STAB_S_STABLE,Stable,Estável
+STAB_S_GIMBAL,Gimbal,Gimbal
+KEY_LMB,LMB,BE
+KEY_ALT_LMB,Alt + LMB,Alt + BE
+KEY_RMB,RMB,BD
+KEY_RMB_CARD,RMB on a card,BD num cartão
+KEY_MMB,MMB / Shift+Wheel,BM / Shift+Roda
+KEY_WHEEL,Wheel,Roda
+KEY_DOUBLE,Double-click,Duplo clique
+HELP_FAV,Add / remove a favorite part,Adicionar / remover peça favorita
+HELP_SEARCH,Search parts (Esc leaves the field),Buscar peças (Esc sai do campo)
+UI_CYCLE,cycles,alterna

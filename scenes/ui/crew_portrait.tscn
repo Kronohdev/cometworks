@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/crew/crew_portrait.gd" id="1_portrait"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="2_creature"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(0.82, 0.86, 0.94, 1)
+ambient_light_energy = 0.75
+tonemap_mode = 3
+tonemap_exposure = 1.0
+tonemap_white = 8.0
+
+[sub_resource type="World3D" id="world"]
+environment = SubResource("env")
+
+[node name="CrewPortrait" type="SubViewportContainer"]
+custom_minimum_size = Vector2(96, 96)
+offset_right = 96.0
+offset_bottom = 96.0
+mouse_filter = 2
+stretch = true
+script = ExtResource("1_portrait")
+
+[node name="Viewport" type="SubViewport" parent="."]
+own_world_3d = true
+world_3d = SubResource("world")
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(96, 96)
+render_target_update_mode = 4
+
+[node name="Key" type="DirectionalLight3D" parent="Viewport"]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 2, 2)
+light_color = Color(1, 0.886, 0.749, 1)
+light_energy = 1.25
+
+[node name="Rim" type="OmniLight3D" parent="Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.2, -0.8)
+light_color = Color(0.749, 0.914, 1, 1)
+light_energy = 1.6
+omni_range = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="Viewport"]
+transform = Transform3D(1, 0, 0, 0, 0.997564, 0.0697565, 0, -0.0697565, 0.997564, 0, 0.8, 1.62)
+fov = 34.0
+near = 0.05
+far = 10.0
+
+[node name="Creature" parent="Viewport" instance=ExtResource("2_creature")]
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
+listen_to_events = false
+cull_distance = 20.0

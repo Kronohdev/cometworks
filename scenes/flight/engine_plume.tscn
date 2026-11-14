@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_plume.gd" id="1_plume"]
+[ext_resource type="Shader" path="res://shaders/flight_plume.gdshader" id="2_shader"]
+
+[sub_resource type="CylinderMesh" id="cone_flame"]
+top_radius = 1.0
+bottom_radius = 1.35
+height = 1.0
+radial_segments = 24
+rings = 16
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="CylinderMesh" id="cone_core"]
+top_radius = 0.75
+bottom_radius = 0.2
+height = 1.0
+radial_segments = 20
+rings = 10
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="ShaderMaterial" id="m_flame"]
+render_priority = 1
+shader = ExtResource("2_shader")
+shader_parameter/intensity = 1.6
+shader_parameter/diamonds = 1.0
+shader_parameter/is_core = 0.0
+
+[sub_resource type="ShaderMaterial" id="m_core"]
+render_priority = 2
+shader = ExtResource("2_shader")
+shader_parameter/intensity = 2.6
+shader_parameter/diamonds = 0.6
+shader_parameter/is_core = 1.0
+
+[node name="EnginePlume" type="Node3D"]
+script = ExtResource("1_plume")
+
+[node name="Scale" type="Node3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 6, 0, 0, 0, 0.6, 0, 0, 0)
+
+[node name="Flame" type="MeshInstance3D" parent="Scale"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+cast_shadow = 0
+extra_cull_margin = 40.0
+mesh = SubResource("cone_flame")
+surface_material_override/0 = SubResource("m_flame")
+
+[node name="Core" type="MeshInstance3D" parent="Scale"]
+transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, -0.225, 0)
+cast_shadow = 0
+extra_cull_margin = 40.0
+mesh = SubResource("cone_core")
+surface_material_override/0 = SubResource("m_core")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+light_color = Color(1, 0.72, 0.42, 1)
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 0.2
+omni_range = 40.0
+omni_attenuation = 1.4

@@ -1,0 +1,70 @@
+keys,en,pt
+SS_TITLE,Solar System,Sistema Solar
+SS_SUBTITLE,MAP VIEW · NASA DATA,VISTA DO MAPA · DADOS DA NASA
+SS_BODIES,Bodies,Corpos
+SS_OVERVIEW,Overview,Visão geral
+SS_LANG,PT,EN
+SS_PAUSE,Pause,Pausar
+SS_PLAY,Play,Continuar
+SS_TIME,Time,Tempo
+SS_TIME_RATE,1 s = %s,1 s = %s
+SS_DATE,%s,%s
+SS_HELP,"RMB drag: orbit · Wheel: zoom · MMB / WASD: pan · Double-click or 0-9: focus · Space: pause · F: overview","BD arrastar: girar · Roda: zoom · BM / WASD: mover · Duplo clique ou 0-9: focar · Espaço: pausar · F: visão geral"
+SS_SCALE_NOTE,"Sizes and distances are compressed to fit on screen; the numbers are real.","Tamanhos e distâncias estão comprimidos para caber na tela; os números são reais."
+SS_RADIUS,Mean radius,Raio médio
+SS_DISTANCE,Mean distance,Distância média
+SS_PERIOD,Orbital period,Período orbital
+SS_DAY,Rotation period,Período de rotação
+SS_TILT,Axial tilt,Inclinação axial
+SS_GRAVITY,Surface gravity,Gravidade na superfície
+SS_SOURCE,Source: NASA NSSDCA planetary fact sheets,Fonte: fichas planetárias NASA NSSDCA
+SS_FMT_AU,%s AU · %s million km,%s UA · %s milhões de km
+SS_FMT_KM,%s km,%s km
+SS_FMT_KM_FROM,%s km from %s,%s km de %s
+SS_FMT_DAYS,%s days,%s dias
+SS_FMT_YEARS,%s years,%s anos
+SS_FMT_HOURS,%s h,%s h
+SS_FMT_G,%s m/s² · %s g,%s m/s² · %s g
+SS_FMT_DEG,%s°,%s°
+SS_RETROGRADE,retrograde,retrógrada
+SS_LOCKED,tidally locked,acoplamento de maré
+SS_CENTER,Center of the Solar System,Centro do Sistema Solar
+SS_UNIT_DAYS,%s days,%s dias
+SS_UNIT_HOURS,%s hours,%s horas
+SS_UNIT_YEARS,%s years,%s anos
+SS_NAME_SUN,Sun,Sol
+SS_NAME_MERCURY,Mercury,Mercúrio
+SS_NAME_VENUS,Venus,Vênus
+SS_NAME_EARTH,Earth,Terra
+SS_NAME_MOON,Moon,Lua
+SS_NAME_MARS,Mars,Marte
+SS_NAME_JUPITER,Jupiter,Júpiter
+SS_NAME_EUROPA,Europa,Europa
+SS_NAME_SATURN,Saturn,Saturno
+SS_NAME_URANUS,Uranus,Urano
+SS_NAME_NEPTUNE,Neptune,Netuno
+SS_NAME_PLUTO,Pluto,Plutão
+SS_KIND_SUN,Star · type G2V,Estrela · tipo G2V
+SS_KIND_MERCURY,Planet · 1st from the Sun,Planeta · 1º a partir do Sol
+SS_KIND_VENUS,Planet · 2nd from the Sun,Planeta · 2º a partir do Sol
+SS_KIND_EARTH,Planet · 3rd from the Sun,Planeta · 3º a partir do Sol
+SS_KIND_MOON,Moon of Earth,Lua da Terra
+SS_KIND_MARS,Planet · 4th from the Sun,Planeta · 4º a partir do Sol
+SS_KIND_JUPITER,Gas giant · 5th from the Sun,Gigante gasoso · 5º a partir do Sol
+SS_KIND_EUROPA,Moon of Jupiter,Lua de Júpiter
+SS_KIND_SATURN,Gas giant · 6th from the Sun,Gigante gasoso · 6º a partir do Sol
+SS_KIND_URANUS,Ice giant · 7th from the Sun,Gigante de gelo · 7º a partir do Sol
+SS_KIND_NEPTUNE,Ice giant · 8th from the Sun,Gigante de gelo · 8º a partir do Sol
+SS_KIND_PLUTO,Dwarf planet · Kuiper Belt,Planeta anão · Cinturão de Kuiper
+SS_DESC_SUN,"A G-type star holding 99.86% of the Solar System's mass. Its light takes about 8 minutes to reach Earth.","Uma estrela do tipo G com 99,86% da massa do Sistema Solar. Sua luz leva cerca de 8 minutos para chegar à Terra."
+SS_DESC_MERCURY,"The smallest planet and the closest to the Sun. Its cratered surface swings from 430 °C by day to -180 °C at night.","O menor planeta e o mais próximo do Sol. Sua superfície cheia de crateras vai de 430 °C de dia a -180 °C à noite."
+SS_DESC_VENUS,"Wrapped in thick clouds of sulfuric acid, Venus is the hottest planet (about 465 °C). It spins backwards, very slowly.","Envolto em nuvens espessas de ácido sulfúrico, Vênus é o planeta mais quente (cerca de 465 °C). Gira ao contrário, bem devagar."
+SS_DESC_EARTH,"Our home: the only world known to have liquid water oceans on its surface, and life.","Nossa casa: o único mundo conhecido com oceanos de água líquida na superfície, e vida."
+SS_DESC_MOON,"Earth's only natural satellite. Tidally locked, it always shows us the same face; the dark maria are ancient lava plains.","O único satélite natural da Terra. Por acoplamento de maré, sempre nos mostra a mesma face; os mares escuros são antigas planícies de lava."
+SS_DESC_MARS,"A cold desert world with the largest volcano (Olympus Mons) and canyon system (Valles Marineris) in the Solar System.","Um mundo desértico e frio, com o maior vulcão (Monte Olimpo) e o maior sistema de cânions (Valles Marineris) do Sistema Solar."
+SS_DESC_JUPITER,"The largest planet, a gas giant whose Great Red Spot is a storm wider than the Earth.","O maior planeta, um gigante gasoso cuja Grande Mancha Vermelha é uma tempestade mais larga que a Terra."
+SS_DESC_EUROPA,"An icy moon of Jupiter. Beneath its cracked crust lies a global salty ocean, a prime target in the search for life.","Uma lua gelada de Júpiter. Sob sua crosta rachada há um oceano salgado global, um alvo importante na busca por vida."
+SS_DESC_SATURN,"A gas giant with the most spectacular rings, made of countless particles of water ice and rock.","Um gigante gasoso com os anéis mais espetaculares, feitos de incontáveis partículas de gelo de água e rocha."
+SS_DESC_URANUS,"An ice giant tipped on its side (98° tilt), so each pole gets about 42 years of continuous sunlight.","Um gigante de gelo deitado de lado (inclinação de 98°): cada polo recebe cerca de 42 anos seguidos de luz solar."
+SS_DESC_NEPTUNE,"The farthest planet, with the fastest winds measured in the Solar System (over 2,000 km/h).","O planeta mais distante, com os ventos mais rápidos já medidos no Sistema Solar (mais de 2.000 km/h)."
+SS_DESC_PLUTO,"A dwarf planet in the Kuiper Belt. Its bright heart-shaped plain, Tombaugh Regio, is made of nitrogen ice.","Um planeta anão no Cinturão de Kuiper. Sua planície clara em forma de coração, Tombaugh Regio, é feita de gelo de nitrogênio."

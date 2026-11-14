@@ -1,0 +1,223 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_map.gd" id="1_map"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="2_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_clouds_lod0.glb" id="3_clouds"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="4_moon"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="6_atmo"]
+[ext_resource type="Shader" path="res://shaders/solar_sky.gdshader" id="7_sky"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_apsis.svg" id="8_apsis"]
+[ext_resource type="Texture2D" path="res://scenes/flight/ui/marker_vessel.svg" id="9_ship"]
+[ext_resource type="Theme" path="res://ui/margin_theme.tres" id="10_theme"]
+
+[sub_resource type="ShaderMaterial" id="m_stars"]
+shader = ExtResource("7_sky")
+shader_parameter/star_brightness = 2.4
+shader_parameter/milky_way = 0.6
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("m_stars")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.25, 0.3, 0.4, 1)
+ambient_light_energy = 0.35
+tonemap_mode = 3
+tonemap_exposure = 1.05
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.05
+
+[sub_resource type="ShaderMaterial" id="m_earth"]
+shader = ExtResource("5_planet")
+shader_parameter/ocean_glint = 0.7
+shader_parameter/night_floor = 0.03
+
+[sub_resource type="ShaderMaterial" id="m_clouds"]
+shader = ExtResource("5_planet")
+shader_parameter/normal_blend = 0.7
+shader_parameter/night_floor = 0.012
+shader_parameter/specular_amount = 0.05
+
+[sub_resource type="ShaderMaterial" id="m_moon"]
+shader = ExtResource("5_planet")
+shader_parameter/night_floor = 0.01
+
+[sub_resource type="ShaderMaterial" id="m_atmo"]
+shader = ExtResource("6_atmo")
+shader_parameter/atmo_color = Color(0.435294, 0.705882, 1, 1)
+shader_parameter/intensity = 1.9
+shader_parameter/power = 2.2
+shader_parameter/sun_position = Vector3(1e+06, 6e+05, 7e+05)
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radius = 1.0
+height = 2.0
+radial_segments = 96
+rings = 48
+
+[node name="MapView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("10_theme")
+script = ExtResource("1_map")
+
+[node name="Container" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="MapViewport" type="SubViewport" parent="Container"]
+unique_name_in_owner = true
+own_world_3d = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(1600, 900)
+render_target_update_mode = 0
+
+[node name="World" type="Node3D" parent="Container/MapViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Container/MapViewport/World"]
+environment = SubResource("env")
+
+[node name="MapSun" type="DirectionalLight3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+light_color = Color(1, 0.9451, 0.8627, 1)
+light_energy = 1.6
+
+[node name="MapCamera" type="Camera3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.877583, 0.479426, 0, -0.479426, 0.877583, 0, 1246, 2281)
+fov = 50.0
+near = 5.0
+far = 200000.0
+
+[node name="Earth" type="Node3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+transform = Transform3D(614.8, 0, 0, 0, 614.8, 0, 0, 0, 614.8, 0, 0, 0)
+
+[node name="Surface" parent="Container/MapViewport/World/Earth" instance=ExtResource("2_earth")]
+
+[node name="earth_lod0" parent="Container/MapViewport/World/Earth/Surface" index="0"]
+material_override = SubResource("m_earth")
+cast_shadow = 0
+
+[node name="Clouds" parent="Container/MapViewport/World/Earth" instance=ExtResource("3_clouds")]
+
+[node name="earth_clouds_lod0" parent="Container/MapViewport/World/Earth/Clouds" index="0"]
+material_override = SubResource("m_clouds")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Container/MapViewport/World/Earth"]
+transform = Transform3D(1.085, 0, 0, 0, 1.085, 0, 0, 0, 1.085, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("m_atmo")
+
+[node name="Moon" type="Node3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+transform = Transform3D(173.74, 0, 0, 0, 173.74, 0, 0, 0, 173.74, -23000, 19000, 22000)
+
+[node name="Surface" parent="Container/MapViewport/World/Moon" instance=ExtResource("4_moon")]
+
+[node name="moon_lod1" parent="Container/MapViewport/World/Moon/Surface" index="0"]
+material_override = SubResource("m_moon")
+cast_shadow = 0
+
+[node name="MapOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ShipMarker" type="TextureRect" parent="MapOverlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 24.0
+mouse_filter = 2
+texture = ExtResource("9_ship")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ApMarker" type="VBoxContainer" parent="MapOverlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 46.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="ApLabel" type="Label" parent="MapOverlay/ApMarker"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 13
+text = "Ap"
+horizontal_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="MapOverlay/ApMarker"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_apsis")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PeMarker" type="VBoxContainer" parent="MapOverlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 46.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="PeLabel" type="Label" parent="MapOverlay/PeMarker"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+theme_override_font_sizes/font_size = 13
+text = "Pe"
+horizontal_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="MapOverlay/PeMarker"]
+self_modulate = Color(0.372549, 0.690196, 0.847059, 1)
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_apsis")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Legend" type="Label" parent="MapOverlay"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -40.0
+offset_right = 520.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_type_variation = &"DimLabel"
+text = "FL_MAP_HINT"

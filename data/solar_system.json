@@ -1,0 +1,134 @@
+{
+  "_comment": "Real physical/orbital data (NASA NSSDCA fact sheets, mean values) + visual hints for the voxel solar system. Planets: semi_major_axis_au around the Sun. Moons: semi_major_axis_km around 'parent'. Negative rotation = retrograde. Visual scale formulas live in tools/planet_gen.py (scale_*) and docs/solar_system.md.",
+  "version": 1,
+  "au_km": 149597870.7,
+  "orbit_src": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
+  "_orbit_note": "mean_longitude_j2000_deg / longitude_ascending_node_deg: JPL approximate Keplerian elements (J2000 epoch). Europa phase is arbitrary. The map uses circular orbits.",
+  "bodies": [
+    {
+      "id": "sun", "type": "star", "parent": "",
+      "name": {"en": "Sun", "pt": "Sol"},
+      "radius_km": 695700.0, "semi_major_axis_au": 0.0, "orbital_period_days": 0.0,
+      "rotation_period_hours": 609.12, "axial_tilt_deg": 7.25, "orbital_inclination_deg": 0.0,
+      "surface_gravity_ms2": 274.0,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "visual": {"palette": ["#fff6c8", "#ffd65a", "#ffa62b", "#f2741c", "#b8400e"], "style": ["granulation", "sunspots", "emissive"], "seed": 11}
+    },
+    {
+      "id": "mercury", "type": "planet", "parent": "sun",
+      "name": {"en": "Mercury", "pt": "Mercúrio"},
+      "radius_km": 2439.7, "semi_major_axis_au": 0.387, "orbital_period_days": 87.969,
+      "rotation_period_hours": 1407.6, "axial_tilt_deg": 0.034, "orbital_inclination_deg": 7.0,
+      "mean_longitude_j2000_deg": 252.25, "longitude_ascending_node_deg": 48.33,
+      "surface_gravity_ms2": 3.70,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
+      "visual": {"palette": ["#a9a39b", "#8c857c", "#6e6860", "#c9c1b4", "#4f4a45"], "style": ["craters", "rays"], "seed": 21}
+    },
+    {
+      "id": "venus", "type": "planet", "parent": "sun",
+      "name": {"en": "Venus", "pt": "Vênus"},
+      "radius_km": 6051.8, "semi_major_axis_au": 0.723, "orbital_period_days": 224.701,
+      "rotation_period_hours": -5832.6, "axial_tilt_deg": 177.36, "orbital_inclination_deg": 3.39,
+      "mean_longitude_j2000_deg": 181.98, "longitude_ascending_node_deg": 76.68,
+      "surface_gravity_ms2": 8.87,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
+      "visual": {"palette": ["#f3dfa6", "#e6c27a", "#d4a55a", "#f8ecc8", "#b98a45"], "style": ["cloud_swirl", "atmosphere"], "atmosphere": "#ffe2a8", "seed": 31}
+    },
+    {
+      "id": "earth", "type": "planet", "parent": "sun",
+      "name": {"en": "Earth", "pt": "Terra"},
+      "radius_km": 6371.0, "semi_major_axis_au": 1.0, "orbital_period_days": 365.256,
+      "rotation_period_hours": 23.9345, "axial_tilt_deg": 23.44, "orbital_inclination_deg": 0.0,
+      "mean_longitude_j2000_deg": 100.46, "longitude_ascending_node_deg": 0.0,
+      "surface_gravity_ms2": 9.80,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+      "visual": {"palette": ["#123f8c", "#1d64b8", "#3f9ad6", "#3e8a3a", "#7da64a", "#c8b27a", "#8a7350", "#f4f8ff"], "style": ["continents", "oceans", "clouds", "polar_caps", "atmosphere"], "atmosphere": "#6fb4ff", "seed": 41}
+    },
+    {
+      "id": "moon", "type": "moon", "parent": "earth",
+      "name": {"en": "Moon", "pt": "Lua"},
+      "radius_km": 1737.4, "semi_major_axis_km": 384400.0, "orbital_period_days": 27.3217,
+      "rotation_period_hours": 655.72, "axial_tilt_deg": 6.68, "orbital_inclination_deg": 5.145,
+      "mean_longitude_j2000_deg": 218.32, "longitude_ascending_node_deg": 125.08,
+      "surface_gravity_ms2": 1.62, "tidally_locked": true,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+      "visual": {"palette": ["#c9c7c2", "#a9a7a2", "#86847f", "#5f5e5b", "#e3e1dc"], "style": ["craters", "maria", "rays"], "seed": 51}
+    },
+    {
+      "id": "mars", "type": "planet", "parent": "sun",
+      "name": {"en": "Mars", "pt": "Marte"},
+      "radius_km": 3389.5, "semi_major_axis_au": 1.524, "orbital_period_days": 686.98,
+      "rotation_period_hours": 24.6229, "axial_tilt_deg": 25.19, "orbital_inclination_deg": 1.85,
+      "mean_longitude_j2000_deg": 355.45, "longitude_ascending_node_deg": 49.56,
+      "surface_gravity_ms2": 3.71,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+      "visual": {"palette": ["#c1440e", "#d9692c", "#e8915a", "#8a3416", "#5c2614", "#f4efe8"], "style": ["rust", "dark_regions", "polar_caps", "craters", "atmosphere"], "atmosphere": "#ffb08a", "seed": 61}
+    },
+    {
+      "id": "jupiter", "type": "planet", "parent": "sun",
+      "name": {"en": "Jupiter", "pt": "Júpiter"},
+      "radius_km": 69911.0, "semi_major_axis_au": 5.204, "orbital_period_days": 4332.59,
+      "rotation_period_hours": 9.925, "axial_tilt_deg": 3.13, "orbital_inclination_deg": 1.304,
+      "mean_longitude_j2000_deg": 34.4, "longitude_ascending_node_deg": 100.46,
+      "surface_gravity_ms2": 24.79,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+      "visual": {"palette": ["#f1e3c8", "#d8b88c", "#b07c4f", "#8c5a3a", "#e9d2a6", "#c4553a", "#f7efe0"], "style": ["bands", "great_red_spot", "storms"], "seed": 71}
+    },
+    {
+      "id": "europa", "type": "moon", "parent": "jupiter",
+      "name": {"en": "Europa", "pt": "Europa"},
+      "radius_km": 1560.8, "semi_major_axis_km": 671100.0, "orbital_period_days": 3.551,
+      "rotation_period_hours": 85.228, "axial_tilt_deg": 0.1, "orbital_inclination_deg": 0.466,
+      "mean_longitude_j2000_deg": 0.0, "longitude_ascending_node_deg": 0.0,
+      "surface_gravity_ms2": 1.31, "tidally_locked": true,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/joviansatfact.html",
+      "visual": {"palette": ["#f2ece0", "#ddd2bd", "#c9b79a", "#9c6b4a", "#7a4a33"], "style": ["ice", "lineae"], "seed": 81}
+    },
+    {
+      "id": "saturn", "type": "planet", "parent": "sun",
+      "name": {"en": "Saturn", "pt": "Saturno"},
+      "radius_km": 58232.0, "semi_major_axis_au": 9.573, "orbital_period_days": 10759.22,
+      "rotation_period_hours": 10.656, "axial_tilt_deg": 26.73, "orbital_inclination_deg": 2.485,
+      "mean_longitude_j2000_deg": 49.94, "longitude_ascending_node_deg": 113.67,
+      "surface_gravity_ms2": 10.44,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html",
+      "rings": {
+        "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html",
+        "inner_km": 74658.0, "outer_km": 136775.0,
+        "gaps_km": [[117580.0, 122170.0, "Cassini Division"], [133423.0, 133745.0, "Encke Gap"]],
+        "zones_km": [[74658.0, 92000.0, "C"], [92000.0, 117580.0, "B"], [122170.0, 136775.0, "A"]]
+      },
+      "visual": {"palette": ["#f2e2b6", "#e3c98f", "#cfae6e", "#b8955a", "#f7eccc", "#d9c08c"], "ring_palette": ["#8f8270", "#e8d7b0", "#d2bd92", "#b9a27a", "#f2e6c8"], "style": ["bands", "rings", "hexagon"], "seed": 91}
+    },
+    {
+      "id": "uranus", "type": "planet", "parent": "sun",
+      "name": {"en": "Uranus", "pt": "Urano"},
+      "radius_km": 25362.0, "semi_major_axis_au": 19.165, "orbital_period_days": 30685.4,
+      "rotation_period_hours": -17.24, "axial_tilt_deg": 97.77, "orbital_inclination_deg": 0.772,
+      "mean_longitude_j2000_deg": 313.23, "longitude_ascending_node_deg": 74.01,
+      "surface_gravity_ms2": 8.87,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
+      "visual": {"palette": ["#bfe9ec", "#9fdbe2", "#86ccd6", "#d8f4f3"], "style": ["soft_bands", "atmosphere"], "atmosphere": "#a6f0ff", "seed": 101}
+    },
+    {
+      "id": "neptune", "type": "planet", "parent": "sun",
+      "name": {"en": "Neptune", "pt": "Netuno"},
+      "radius_km": 24622.0, "semi_major_axis_au": 30.178, "orbital_period_days": 60189.0,
+      "rotation_period_hours": 16.11, "axial_tilt_deg": 28.32, "orbital_inclination_deg": 1.769,
+      "mean_longitude_j2000_deg": 304.88, "longitude_ascending_node_deg": 131.78,
+      "surface_gravity_ms2": 11.15,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+      "visual": {"palette": ["#3d6fe0", "#2f56c4", "#5b8cf0", "#1f3d96", "#e8f0ff"], "style": ["soft_bands", "dark_spot", "atmosphere"], "atmosphere": "#6f9cff", "seed": 111}
+    },
+    {
+      "id": "pluto", "type": "dwarf_planet", "parent": "sun",
+      "name": {"en": "Pluto", "pt": "Plutão"},
+      "radius_km": 1188.3, "semi_major_axis_au": 39.482, "orbital_period_days": 90560.0,
+      "rotation_period_hours": -153.2928, "axial_tilt_deg": 122.53, "orbital_inclination_deg": 17.16,
+      "mean_longitude_j2000_deg": 238.93, "longitude_ascending_node_deg": 110.3,
+      "surface_gravity_ms2": 0.62,
+      "src": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/plutofact.html",
+      "visual": {"palette": ["#e8d8c0", "#c9a882", "#8c5f3f", "#5a3a28", "#f6efe4"], "style": ["heart", "craters"], "seed": 121}
+    }
+  ]
+}

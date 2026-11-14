@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/environment/outside_launch_site.tscn" id="1_site"]
+[ext_resource type="Shader" path="res://shaders/flight_site_ground.gdshader" id="2_ground"]
+[ext_resource type="Shader" path="res://shaders/flight_site_concrete.gdshader" id="3_concrete"]
+
+[sub_resource type="ShaderMaterial" id="m_ground"]
+shader = ExtResource("2_ground")
+shader_parameter/coast_origin = Vector2(350, -200)
+shader_parameter/coast_normal = Vector2(0.89443, -0.44721)
+shader_parameter/coast_dir = Vector2(-0.44721, -0.89443)
+
+[sub_resource type="ShaderMaterial" id="m_apron"]
+shader = ExtResource("3_concrete")
+shader_parameter/base_color = Color(0.6638, 0.6923, 0.7232, 1)
+shader_parameter/joint_color = Color(0.5051, 0.5268, 0.5503, 1)
+shader_parameter/slab_size = 8.0
+shader_parameter/fade_start = 0.0
+shader_parameter/fade_end = 0.01
+shader_parameter/roughness_base = 0.75
+
+[sub_resource type="WorldBoundaryShape3D" id="ground"]
+
+[sub_resource type="BoxShape3D" id="pad"]
+size = Vector3(48, 12.7, 48)
+
+[sub_resource type="BoxShape3D" id="deck"]
+size = Vector3(60, 9.5, 60)
+
+[node name="FlightLaunchSite" instance=ExtResource("1_site")]
+
+[node name="SkyDome" parent="Sky"]
+visible = false
+
+[node name="Sun" parent="Sky"]
+visible = false
+
+[node name="RocketOnPad" parent="LaunchComplexA"]
+visible = false
+
+[node name="GroundPlane" parent="Ground"]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.25, 0)
+surface_material_override/0 = SubResource("m_ground")
+
+[node name="ApronFront" parent="Ground"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="ApronBack" parent="Ground"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="ApronLeft" parent="Ground"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="ApronRight" parent="Ground"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="PadDeck" parent="LaunchComplexA"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="PadDeck" parent="LaunchComplexB"]
+surface_material_override/0 = SubResource("m_apron")
+
+[node name="CrashGround" type="StaticBody3D" parent="."]
+
+[node name="Ground" type="CollisionShape3D" parent="CrashGround"]
+shape = SubResource("ground")
+
+[node name="PadCollider" type="StaticBody3D" parent="LaunchComplexA"]
+
+[node name="Launcher" type="CollisionShape3D" parent="LaunchComplexA/PadCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.35, 0)
+shape = SubResource("pad")
+
+[node name="Deck" type="CollisionShape3D" parent="LaunchComplexA/PadCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.75, 0)
+shape = SubResource("deck")

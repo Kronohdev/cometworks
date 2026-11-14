@@ -1,0 +1,20 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Exported builds
+/builds/
+*.exe
+*.pck
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Claude Code local state (agent worktrees)
+.claude/

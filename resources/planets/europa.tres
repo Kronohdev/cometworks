@@ -1,0 +1,115 @@
+[gd_resource type="Resource" script_class="PlanetSurfaceProfile" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/world/planet_surface_profile.gd" id="1_profile"]
+
+[sub_resource type="FastNoiseLite" id="cont"]
+noise_type = 1
+frequency = 0.0005
+fractal_octaves = 4
+seed = 41
+
+[sub_resource type="FastNoiseLite" id="ridge"]
+noise_type = 1
+frequency = 0.0024
+fractal_octaves = 3
+seed = 42
+fractal_type = 2
+
+[sub_resource type="FastNoiseLite" id="detail"]
+noise_type = 1
+frequency = 0.045
+fractal_octaves = 2
+seed = 43
+
+[sub_resource type="FastNoiseLite" id="patch"]
+noise_type = 1
+frequency = 0.0019
+fractal_octaves = 3
+seed = 44
+
+[sub_resource type="FastNoiseLite" id="lin"]
+noise_type = 1
+frequency = 0.0022
+fractal_octaves = 2
+seed = 45
+fractal_gain = 0.35
+
+[resource]
+script = ExtResource("1_profile")
+id = &"europa"
+name_key = "PLANET_EUROPA"
+description_key = "PLANET_EUROPA_DESC"
+terrain_seed = 4
+gravity = 1.315
+has_atmosphere = false
+surface_pressure_kpa = 0
+radius_km = 1560.8
+color_surface = Color(0.87, 0.89, 0.9, 1)
+color_surface_alt = Color(0.78, 0.86, 0.93, 1)
+color_subsurface = Color(0.7, 0.79, 0.88, 1)
+color_rock = Color(0.62, 0.72, 0.83, 1)
+color_rock_strata = Color(0.55, 0.66, 0.79, 1)
+color_sand = Color(0.82, 0.8, 0.76, 1)
+color_ice = Color(0.96, 0.97, 1, 1)
+color_accent = Color(0.5, 0.36, 0.28, 1)
+color_seabed = Color(0.5, 0.5, 0.5, 1)
+color_pad = Color(0.8, 0.8, 0.8, 1)
+shade_variation = 0.04
+subsurface_depth = 2
+strata_thickness = 2
+cliff_slope = 1.6
+base_height = 0
+continents = SubResource("cont")
+continent_amplitude = 22
+ridges = SubResource("ridge")
+ridge_amplitude = 40
+ridge_mask_low = 0.15
+ridge_mask_high = 0.6
+detail = SubResource("detail")
+detail_amplitude = 0.7
+regional_slope = Vector2(0, 0)
+patches = SubResource("patch")
+alt_threshold = 0.1
+accent_threshold = 0.55
+accent_depression = 3
+crater_density = 1.5
+crater_min_radius = 8
+crater_max_radius = 300
+crater_size_exponent = 2.2
+crater_size_classes = 4
+crater_depth_ratio = 0.12
+crater_rim_ratio = 0.03
+lineae = SubResource("lin")
+lineae_width = 7
+lineae_height = 4
+prop_kind = 3
+prop_density = 1.5
+prop_color_a = Color(0.9, 0.93, 0.97, 1)
+prop_color_b = Color(0.62, 0.72, 0.84, 1)
+flat_zone_radius = 26
+flat_zone_blend = 40
+sky_zenith_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+sky_ground_color = Color(0.05, 0.05, 0.06, 1)
+sky_gradient_power = 1
+star_intensity = 1
+sun_glow_color = Color(1, 0.97, 0.92, 1)
+sun_glow_strength = 0.25
+sky_body_enabled = true
+sky_body_elevation_deg = 13
+sky_body_azimuth_deg = -60
+sky_body_size_deg = 12
+sky_body_color_a = Color(0.76, 0.6, 0.45, 1)
+sky_body_color_b = Color(0.95, 0.92, 0.86, 1)
+sky_body_bands = 7
+sun_color = Color(1, 0.98, 0.95, 1)
+sun_energy = 1.7
+sun_elevation_deg = 19
+sun_azimuth_deg = 40
+sun_size_deg = 0.12
+ambient_color = Color(0.5, 0.54, 0.62, 1)
+ambient_energy = 0.7
+exposure = 0.95
+fog_enabled = false
+fog_color = Color(0, 0, 0, 1)
+fog_density = 0

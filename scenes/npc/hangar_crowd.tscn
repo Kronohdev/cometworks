@@ -1,0 +1,366 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://src/npc/hangar_crowd.gd" id="1_crowd"]
+[ext_resource type="PackedScene" path="res://scenes/npc/hangar_npc.tscn" id="2_npc"]
+[ext_resource type="NavigationMesh" path="res://scenes/npc/hangar_navmesh.tres" id="3_nav"]
+[ext_resource type="PackedScene" path="res://assets/voxel/creatures/item_crate.glb" id="4_crate"]
+
+[sub_resource type="StandardMaterial3D" id="m_hazard"]
+albedo_color = Color(0.949, 0.7176, 0.01961, 1)
+roughness = 0.55
+metallic = 0.05
+
+[sub_resource type="StandardMaterial3D" id="m_gunmetal"]
+albedo_color = Color(0.2353, 0.2667, 0.3137, 1)
+roughness = 0.55
+metallic = 0.4
+
+[sub_resource type="StandardMaterial3D" id="m_metal"]
+albedo_color = Color(0.6392, 0.6784, 0.7216, 1)
+roughness = 0.55
+metallic = 0.4
+
+[sub_resource type="StandardMaterial3D" id="m_accent2"]
+albedo_color = Color(0.3725, 0.6902, 0.8471, 1)
+roughness = 0.55
+metallic = 0.05
+
+[sub_resource type="StandardMaterial3D" id="m_accent"]
+albedo_color = Color(0.9608, 0.6039, 0.2118, 1)
+roughness = 0.55
+metallic = 0.05
+
+[sub_resource type="StandardMaterial3D" id="m_structure"]
+albedo_color = Color(0.8745, 0.8902, 0.9059, 1)
+roughness = 0.55
+metallic = 0.05
+
+[sub_resource type="BoxMesh" id="b_unit"]
+
+[node name="HangarCrowd" type="Node3D"]
+script = ExtResource("1_crowd")
+
+[node name="NavRegion" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("3_nav")
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Workbench" type="Node3D" parent="Props"]
+transform = Transform3D(6.1232e-17, 0, 1, 0, 1, 0, -1, 0, 6.1232e-17, -24, 0, -6.2)
+
+[node name="Top" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(1.1, 0, 0, 0, 0.12, 0, -0, 0, 3, 0, 0.78, 0)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_gunmetal")
+
+[node name="Shelf" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(1, 0, 0, 0, 0.06, 0, -0, 0, 2.8, 0, 0.25, 0)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_gunmetal")
+
+[node name="Leg0" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.1, 0, 0, 0, 0.72, 0, -0, 0, 0.1, -0.45, 0.36, -1.35)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_hazard")
+
+[node name="Leg1" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.1, 0, 0, 0, 0.72, 0, -0, 0, 0.1, 0.45, 0.36, -1.35)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_hazard")
+
+[node name="Leg2" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.1, 0, 0, 0, 0.72, 0, -0, 0, 0.1, -0.45, 0.36, 1.35)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_hazard")
+
+[node name="Leg3" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.1, 0, 0, 0, 0.72, 0, -0, 0, 0.1, 0.45, 0.36, 1.35)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_hazard")
+
+[node name="Vise" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.3, 0, 0, 0, 0.22, 0, -0, 0, 0.24, -0.25, 0.95, -0.9)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_metal")
+
+[node name="Toolbox" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.42, 0, 0, 0, 0.28, 0, -0, 0, 0.7, 0.05, 0.98, 0.8)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_accent")
+
+[node name="ToolboxLid" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.44, 0, 0, 0, 0.05, 0, -0, 0, 0.72, 0.05, 1.14, 0.8)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_gunmetal")
+
+[node name="Panel" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.06, 0, 0, 0, 1, 0, -0, 0, 2.6, 0.62, 1.3, 0)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_structure")
+
+[node name="PanelStripe" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.02, 0, 0, 0, 0.1, 0, -0, 0, 2.6, 0.585, 1.72, 0)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_accent2")
+
+[node name="Bin" type="MeshInstance3D" parent="Props/Workbench"]
+transform = Transform3D(0.8, 0, 0, 0, 0.3, 0, -0, 0, 0.9, 0, 0.42, -0.6)
+mesh = SubResource("b_unit")
+surface_material_override/0 = SubResource("m_accent2")
+
+[node name="CrateStack" type="Node3D" parent="Props"]
+transform = Transform3D(0.95106, 0, 0.30902, 0, 1, 0, -0.30902, 0, 0.95106, 13.6, 0, -15)
+
+[node name="Crate0" parent="Props/CrateStack" instance=ExtResource("4_crate")]
+transform = Transform3D(3.1922, 0, 0.22322, 0, 3.2, 0, -0.22322, 0, 3.1922, -0.55, 0.6, 0)
+
+[node name="Crate1" parent="Props/CrateStack" instance=ExtResource("4_crate")]
+transform = Transform3D(3.1825, 0, -0.33449, 0, 3.2, 0, 0.33449, 0, 3.1825, 0.55, 0.6, 0.1)
+
+[node name="Crate2" parent="Props/CrateStack" instance=ExtResource("4_crate")]
+transform = Transform3D(3.1301, 0, 0.66532, 0, 3.2, 0, -0.66532, 0, 3.1301, 0.05, 1.55, 0.05)
+
+[node name="Points" type="Node3D" parent="."]
+
+[node name="work0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 10.151, 0, 4.7333)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 5.2581, 0, 9.889)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -1.9449, 0, 11.03)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work3" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -8.3232, 0, 7.4943)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work4" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -11.091, 0, 1.5587)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work5" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -10.151, 0, -4.7333)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work6" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -5.6, 0, -9.6995)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work7" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 2.3286, 0, -10.955)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="work8" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8.3232, 0, -7.4943)
+gizmo_extents = 0.6
+metadata/kind = "work"
+
+[node name="look0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -13.856, 0, 8)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -15.99, 0, -0.55839)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -13.265, 0, -8.9471)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look3" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -5.4723, 0, -15.035)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look4" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 5.9937, 0, -14.835)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look5" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 12.608, 0, -9.8506)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="look6" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 15.757, 0, -2.7784)
+gizmo_extents = 0.6
+metadata/kind = "look"
+
+[node name="rest0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -19, 0, 6.5)
+gizmo_extents = 0.6
+metadata/kind = "rest"
+
+[node name="rest1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -29, 0, -13)
+gizmo_extents = 0.6
+metadata/kind = "rest"
+
+[node name="rest2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 17.5, 0, -25)
+gizmo_extents = 0.6
+metadata/kind = "rest"
+
+[node name="rest3" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -21, 0, -27)
+gizmo_extents = 0.6
+metadata/kind = "rest"
+
+[node name="door0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -26, 0, -53.5)
+gizmo_extents = 0.6
+metadata/kind = "door"
+
+[node name="door1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -12, 0, -54.5)
+gizmo_extents = 0.6
+metadata/kind = "door"
+
+[node name="door2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 4, 0, -54)
+gizmo_extents = 0.6
+metadata/kind = "door"
+
+[node name="wave0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -12.5, 0, 9.5)
+gizmo_extents = 0.6
+metadata/kind = "wave"
+
+[node name="wave1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8.5, 0, 10.5)
+gizmo_extents = 0.6
+metadata/kind = "wave"
+
+[node name="wave2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -3, 0, 12.6)
+gizmo_extents = 0.6
+metadata/kind = "wave"
+
+[node name="dance0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -14, 0, -17)
+gizmo_extents = 0.6
+metadata/kind = "dance"
+
+[node name="dance1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6, 0, -21)
+gizmo_extents = 0.6
+metadata/kind = "dance"
+
+[node name="crate_pickup0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.6, 0, -13.4)
+gizmo_extents = 0.6
+metadata/kind = "crate_pickup"
+
+[node name="crate_pickup1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 15.6, 0, -13)
+gizmo_extents = 0.6
+metadata/kind = "crate_pickup"
+
+[node name="crate_pickup2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 13.6, 0, -17.4)
+gizmo_extents = 0.6
+metadata/kind = "crate_pickup"
+
+[node name="crate_drop0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -13.5, 0, 4)
+gizmo_extents = 0.6
+metadata/kind = "crate_drop"
+
+[node name="crate_drop1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.5, 0, -13)
+gizmo_extents = 0.6
+metadata/kind = "crate_drop"
+
+[node name="crate_drop2" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11, 0, -6.5)
+gizmo_extents = 0.6
+metadata/kind = "crate_drop"
+
+[node name="crate_drop3" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -14.5, 0, -6.5)
+gizmo_extents = 0.6
+metadata/kind = "crate_drop"
+
+[node name="bench0" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -25, 0, -7.6)
+gizmo_extents = 0.6
+metadata/kind = "bench"
+metadata/face = Vector3(-24.0, 1.0, -5.0)
+
+[node name="bench1" type="Marker3D" parent="Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -23, 0, -7.6)
+gizmo_extents = 0.6
+metadata/kind = "bench"
+metadata/face = Vector3(-24.0, 1.0, -5.0)
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="Npc1" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.93969, 0, 0.34202, 0, 1, 0, -0.34202, 0, -0.93969, -4, 0, 12.5)
+role = "pilot"
+variant = 0
+personality_seed = 11
+
+[node name="Npc2" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.93969, 0, -0.34202, 0, 1, 0, 0.34202, 0, -0.93969, 6, 0, -16)
+role = "engineer"
+variant = 2
+personality_seed = 23
+
+[node name="Npc3" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.86603, 0, 0.5, 0, 1, 0, -0.5, 0, -0.86603, -12, 0, -10)
+role = "scientist"
+variant = 4
+personality_seed = 37
+
+[node name="Npc4" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.34202, 0, -0.93969, 0, 1, 0, 0.93969, 0, -0.34202, 14, 0, -6)
+role = "pilot"
+variant = 5
+personality_seed = 41
+
+[node name="Npc5" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.5, 0, 0.86603, 0, 1, 0, -0.86603, 0, -0.5, -22, 0, -9)
+role = "engineer"
+variant = 8
+personality_seed = 53
+
+[node name="Npc6" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-1, 0, 1.2246e-16, 0, 1, 0, -1.2246e-16, 0, -1, -8, 0, -22)
+role = "scientist"
+variant = 1
+personality_seed = 67
+
+[node name="Npc7" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.76604, 0, 0.64279, 0, 1, 0, -0.64279, 0, -0.76604, 12, 0, -10)
+role = "ground"
+variant = 3
+personality_seed = 71
+
+[node name="Npc8" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.86603, 0, -0.5, 0, 1, 0, 0.5, 0, -0.86603, -16, 0, 4)
+role = "ground"
+variant = 7
+personality_seed = 83
+
+[node name="Npc9" parent="NPCs" instance=ExtResource("2_npc")]
+transform = Transform3D(-0.17365, 0, 0.98481, 0, 1, 0, -0.98481, 0, -0.17365, 3, 0, -28)
+role = "ground"
+variant = 6
+personality_seed = 97

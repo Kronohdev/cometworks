@@ -1,0 +1,16 @@
+0 heart
+1 star
+2 exclaim
+3 question
+4 note
+5 wrench
+6 rocket
+7 zzz
+8 idea
+9 sweat
+10 happy
+11 sparkle
+12 chat
+13 fire
+14 check
+15 planet

@@ -1,11 +1,16 @@
 extends CwScreen
 ## Rocket designer (scenes/tycoon/ui/screens/rocket_designer.tscn, E2 / GDD 8.2): the step after
-## New project (target, type and team chosen) and the Design Review's "change rocket". On the
+## the team (briefing, target, type, payload and team chosen) and the Design Review's "change rocket". On the
 ## left the agency's rocket families (reused with their flight heritage) and the Cometlings'
 ## three proposals (Barata, Equilibrada, Robusta: RocketDesigner.proposals); in the middle one
 ## row per slot with the components research has unlocked; on the right the voxel rocket
 ## turning (a DesignedRocket in a SubViewport), the "pode chegar / não chega" check (delta-v,
 ## lift, fairing room), cost per flight, build weeks, reliability and the family's name.
+## Two ways to a rocket: the quick design (families, proposals, one component per slot) or
+## "Montar no hangar" (%HangarCard): the real hangar opens inside the campus (TycoonModes) for
+## this mission and the vessel the player uses comes back here as the design on the bench
+## (use_hangar, HangarRocket); the slot rows then show, read only, what its parts put in each
+## slot (with their reliability), and "Projeto rápido" goes back to the quick design.
 ## Everything visual is in the scene; rows are copies of its hidden templates.
 
 const STATE_COLORS := {"green": CwPalette.AURORA_TEAL, "yellow": CwPalette.WARNING, "red": CwPalette.DANGER}
@@ -17,6 +22,9 @@ var type_id := ""
 var target_id := ""
 var contract_id := ""
 var staff_ids: Array[String] = []
+## the plan of the earlier steps (briefing board, payload planner, team)
+var briefing_id := ""
+var payload: Array[String] = []
 var project_id := ""
 ## the design on the bench (slot -> component id)
 var parts: Dictionary = {}
@@ -33,13 +41,15 @@ func _ready() -> void:
 	%Back.pressed.connect(_back)
 	%Start.pressed.connect(_start)
 	%Save.pressed.connect(_save)
+	%HangarOpen.pressed.connect(open_hangar)
+	%HangarQuick.pressed.connect(quick_design)
 	%FamilyName.text_changed.connect(func(_t: String) -> void:
 		_name_touched = true
 		_fill_footer())
 
 
-## args: {"type", "target", "contract_id", "staff"} from New project, or {"project_id"} from the
-## Design Review (change the rocket of a waiting project).
+## args: {"type", "target", "contract_id", "staff", "briefing_id", "payload"} from the team step,
+## or {"project_id"} from the Design Review (change the rocket of a waiting project).
 func open_with(args: Dictionary) -> void:
 	if args.has("project_id"):
 		mode = "change"
@@ -60,6 +70,10 @@ func open_with(args: Dictionary) -> void:
 		staff_ids.clear()
 		for sid in args.get("staff", []):
 			staff_ids.append(String(sid))
+		briefing_id = String(args.get("briefing_id", ""))
+		payload.clear()
+		for m in args.get("payload", []):
+			payload.append(String(m))
 		var d := RocketDesigner.default_design(state, type_id, target_id)
 		parts = RocketDesigner.normalize(d.get("parts", {}))
 		family_id = String(d.get("family", ""))
@@ -89,7 +103,7 @@ func _start() -> void:
 				close_screen()
 		return
 	# start_project emits project_phase_started: ProjectFlow opens the phase screen when this closes
-	var p := ProjectDesk.start_project(state, type_id, target_id, staff_ids, contract_id, _design())
+	var p := ProjectDesk.start_project(state, type_id, target_id, staff_ids, contract_id, _design(), _plan())
 	if p and hud and hud.current_screen() == "rocket_designer":
 		hud.close_screen()
 
@@ -100,7 +114,13 @@ func _back() -> void:
 	elif mode == "change":
 		hud.open_screen("design_review", {"project_id": project_id})
 	else:
-		hud.open_screen("new_project", {"target": target_id, "type": type_id, "contract_id": contract_id, "staff": staff_ids})
+		hud.open_screen("project_team", {"target": target_id, "type": type_id, "contract_id": contract_id, "staff": staff_ids,
+			"briefing_id": briefing_id, "payload": payload})
+
+
+## The payload and briefing chosen in the earlier steps (ProjectDesk.start_project's plan).
+func _plan() -> Dictionary:
+	return {"payload": payload, "briefing_id": briefing_id}
 
 
 func _save() -> void:
@@ -108,6 +128,37 @@ func _save() -> void:
 	family_id = String(fam["id"])
 	_name_touched = false
 	state.changed.emit()
+
+
+## "Montar no hangar" / "Editar no hangar": the hangar opens inside the campus for this mission.
+func open_hangar() -> void:
+	var main := _main()
+	if main and main.modes:
+		main.modes.open_designer_hangar(self)
+
+
+func _main() -> TycoonMain:
+	return hud.owner as TycoonMain if hud else null
+
+
+## The hangar's "Usar na missão": its vessel (a HangarRocket definition) is the design on the bench.
+func use_hangar(d: Dictionary) -> void:
+	if d.is_empty() or state == null:
+		return
+	parts = HangarRocket.adopt(state, d)
+	_sync_family()
+	refresh()
+
+
+## "Projeto rápido": back from a hangar rocket to the Cometlings' balanced proposal.
+func quick_design() -> void:
+	for pr in RocketDesigner.proposals(state, type_id, target_id):
+		if String(pr["kind"]) == "balanced":
+			parts = RocketDesigner.normalize(pr["parts"])
+	if HangarRocket.is_hangar(parts):
+		parts = RocketDesigner.normalize({})
+	_sync_family()
+	refresh()
 
 
 func _pick_family(id: String) -> void:
@@ -162,6 +213,7 @@ func refresh() -> void:
 	_fill_proposals()
 	_fill_slots()
 	var chk := RocketDesigner.check(state, parts, type_id, target_id)
+	_fill_hangar(chk)
 	_fill_check(chk)
 	_fill_stats()
 	_fill_footer(chk)
@@ -238,7 +290,14 @@ func _fill_slots() -> void:
 		var ll := row.get_node("Head/Locked") as Label
 		ll.visible = locked > 0
 		ll.text = tr("TY_RK_LOCKED_N") % locked
-		var opts := RocketDesigner.options(state, sid)
+		# a hangar rocket shows what each slot holds (read only): its parts decide them
+		var hangar := HangarRocket.is_hangar(parts)
+		var opts: Array[Dictionary] = []
+		if hangar:
+			opts.append(cur)
+		else:
+			opts = RocketDesigner.options(state, sid)
+		ll.visible = locked > 0 and not hangar
 		var buttons := copies(row.get_node("Trough/Options/OptionTemplate"), opts.size())
 		for j in opts.size():
 			var c: Dictionary = opts[j]
@@ -249,8 +308,29 @@ func _fill_slots() -> void:
 				b.set_meta("wired", true)
 				b.pressed.connect(func() -> void: _pick_part(String(b.get_meta("slot")), String(b.get_meta("id"))))
 			b.text = tr(String(c.get("name_key", c["id"])))
+			if hangar and float(c.get("rel", 1.0)) < 1.0:
+				b.text += "  ·  %d%%" % roundi(float(c["rel"]) * 100.0)
 			b.tooltip_text = tr(String(c.get("desc_key", "")))
+			b.disabled = hangar
 			b.set_pressed_no_signal(String(c["id"]) == String(parts.get(sid, "")))
+
+
+## The hangar card: the way into the hangar, or the summary of the hangar rocket on the bench
+## (then the slot rows step aside).
+func _fill_hangar(chk: Dictionary) -> void:
+	var d := HangarRocket.definition_of(state, parts)
+	var on := not d.is_empty()
+	%HangarQuick.visible = on
+	%HangarOpen.text = tr("TY_HG_EDIT_BUTTON") if on else tr("TY_HG_BUILD_BUTTON")
+	var main := _main()
+	%HangarOpen.disabled = main == null or main.modes == null
+	if on:
+		%HangarTitle.text = tr("TY_HG_ON_BENCH_TITLE")
+		%HangarLine.text = tr("TY_HG_ON_BENCH") % [String(%FamilyName.text), int(d.get("parts_n", 0)),
+			int(d.get("stages_n", 1)), TycoonHUD.fmt_int(float(chk["dv"]["have"]) * 1000.0)]
+	else:
+		%HangarTitle.text = tr("TY_HG_BUILD_CAPTION")
+		%HangarLine.text = tr("TY_HG_BUILD_HINT")
 
 
 func _fill_check(chk: Dictionary) -> void:
@@ -305,7 +385,7 @@ func _fill_footer(chk: Dictionary = {}) -> void:
 	if not chk["reaches"]:
 		err = "TY_PJ_ERR_ROCKET"
 	elif mode == "new":
-		err = ProjectDesk.start_error(state, type_id, target_id, staff_ids, _design())
+		err = ProjectDesk.start_error(state, type_id, target_id, staff_ids, _design(), _plan())
 	%Error.text = tr(err) if err != "" else ""
 	%Start.disabled = err != ""
 	%Start.text = tr("TY_RK_USE") if mode == "change" else tr("TY_RK_START")

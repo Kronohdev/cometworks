@@ -22,7 +22,12 @@ const TOLERANCE := 4.0
 const DOCK: Array[String] = ["crew", "research", "contracts", "finance", "race", "settings"]
 ## screens that may cover the HUD (full-screen views, modals over a scrim)
 const COVER: Array[String] = ["book", "map", "newspaper", "new_project", "rocket_designer", "project_phase",
-	"design_review", "project_review", "final_score", "finale"]
+	"design_review", "project_review", "final_score", "finale", "briefings", "payload_planner", "project_team", "journal",
+	"launch_choice"]
+## screens whose detail page is checked too (open_detail(): the first item's page)
+const DETAILS: Array[String] = ["contracts", "research", "final_score", "book", "race", "map"]
+## [screen, page] of the tabs past the first one
+const TABS: Array = [["contracts", "Signed"], ["finance", "Flow"], ["finance", "Budget"], ["settings", "Save"], ["settings", "Image"], ["settings", "Sound"]]
 ## nodes that are backdrops (they may span the whole screen, under the HUD too)
 const BACKDROPS: Array[String] = ["Scrim", "Shade", "Backdrop", "Sky", "Comet", "View"]
 
@@ -163,6 +168,7 @@ func _prepare_state() -> void:
 		"status": "accepted"})
 	# a launched project (history) and one waiting at its design review
 	var launched := _run_project(s, "sounding", "suborbital", true)
+	_worst_review(s, launched)
 	var waiting := _run_project(s, "sounding", "suborbital", false)
 	# one in development
 	var free := ProjectDesk.free_staff(s)
@@ -174,6 +180,13 @@ func _prepare_state() -> void:
 	_args["design_review"] = {"project_id": waiting}
 	_args["project_review"] = {"project_id": launched}
 	_args["rocket_designer"] = {"type": "demo_sat", "target": "leo", "staff": team}
+	# the mission flow: a briefing on the board, a lunar payload (the busiest planner), the team
+	BriefingDesk.spawn(s, "moonquakes")
+	_args["briefings"] = {"briefing_id": "moonquakes"}
+	_args["payload_planner"] = {"type": "lander", "target": "lunar_surface", "briefing_id": "moonquakes",
+		"payload": ["seismometer", "camera", "omni", "solar_wing", "battery", "battery_l", "heater"]}
+	_args["project_team"] = {"type": "demo_sat", "target": "leo", "briefing_id": "moonquakes", "payload": ["camera", "omni", "battery"]}
+	_args["journal"] = {"type": "sounding", "target": "suborbital"}
 	# years pass: the rivals spread along the track
 	for i in 12 * 52 + 30:
 		s.advance_week()
@@ -197,6 +210,9 @@ func _prepare_state() -> void:
 	if s.staff.size() > 2:
 		TycoonCrew.add_xp(s, String(s.staff[2]["id"]), 230.0)
 		_args["crew@spec"] = {"staff_id": String(s.staff[2]["id"])}
+	var cands := TycoonCrew.candidates(s)
+	if not cands.is_empty():
+		_args["crew@cand"] = {"cand_id": String(cands[0]["id"])}
 	var page := {"kind": "first", "milestone": "robotic_landing", "by": "aurora", "week": s.weeks, "issue": 9}
 	_args["newspaper"] = {"page": page}
 	s.race.pending_pages.clear()
@@ -208,6 +224,36 @@ func _prepare_state() -> void:
 	var wp := ProjectDesk.find(s, waiting)
 	_check(wp != null and wp.review_state == "waiting", "state: a project waits at its design review (%s)" % waiting)
 	_check(dev != null, "state: a project in development")
+
+
+## The launched project's review at its tallest: a failed launch with its cause, the rocket
+## line, the novelty line, the most feedback lines a review keeps (long ones), the briefing's
+## result (late and over budget) and new journal entries.
+static func _worst_review(s: TycoonState, project_id: String) -> void:
+	var e := ProjectDesk.history_entry(s, project_id)
+	if e.is_empty():
+		return
+	e["success"] = false
+	e["outcome"] = "fail"
+	e["cause"] = "stage2"
+	e["cause_key"] = "TY_RK_CAUSE_STAGE2"
+	e["novelty"] = true
+	e["grade_project"] = 9.6
+	e["grade"] = 9.6 * ProjectDesk.outcome_grade("fail")
+	var rk: Dictionary = e.get("rocket", {})
+	rk["name"] = "Andorinha Pesada Bloco II"
+	e["rocket"] = rk
+	var lines: Array[Dictionary] = [{"key": "TY_FB_LAUNCH_FAIL", "args": [], "tone": "bad", "topic": "launch"},
+		{"key": "TY_FB_TARGET_OFF", "args": [String(s.mission_target("suborbital").get("name_key", ""))], "tone": "bad", "topic": "objective"},
+		{"key": "TY_FB_TYPE_OFF", "args": [String(s.mission_type("sounding").get("name_key", ""))], "tone": "bad", "topic": "objective"},
+		{"key": "TY_FB_NIGHT_MOON", "args": [], "tone": "bad", "topic": "power"},
+		{"key": "TY_FB_MISSING_ANTENNA", "args": ["TY_PL_M_OMNI"], "tone": "bad", "topic": "instrument"},
+		{"key": "TY_FB_OPS_OVERLOAD", "args": [], "tone": "bad", "topic": "team"},
+		{"key": "TY_FB_DATA_STUCK", "args": [], "tone": "bad", "topic": "data"}]
+	e["feedback"] = lines.slice(0, maxi(int(BriefingDesk.disc().get("feedback_max", 5)), 1))
+	e["briefing"] = {"id": "moonquakes", "met": "missed", "reward": 0.0, "late": true, "over_budget": true}
+	e["learned"] = [{"key": "TY_JN_NOTE_RATIO", "args": []}, {"key": "TY_JN_NOTE_COMBO_GOOD", "args": []},
+		{"key": "TY_JN_NOTE_INSTR_USELESS", "args": []}, {"key": "TY_JN_NOTE_ENV_NIGHT", "args": []}]
 
 
 ## A few short missions run to the end on another campaign, so the book's archive has entries.
@@ -294,6 +340,16 @@ func cases() -> Array[Dictionary]:
 	out.append({"key": "crew@spec", "screen": "crew", "args": _args.get("crew@spec", {})})
 	out.append({"key": "crew@hire", "screen": "crew", "args": {"tab": "hire"}})
 	out.append({"key": "book@cards", "screen": "book", "page": "cards"})
+	out.append({"key": "crew@cand", "screen": "crew", "args": _args.get("crew@cand", {"tab": "hire"})})
+	out.append({"key": "race@agency", "screen": "race", "call": ["open_agency", "aurora"]})
+	out.append({"key": "race@you", "screen": "race", "call": ["open_agency", RaceDirector.PLAYER]})
+	out.append({"key": "book@card", "screen": "book", "call": ["open_first_card"]})
+	# the other tabs
+	for t: Array in TABS:
+		out.append({"key": "%s@%s" % [t[0], String(t[1]).to_lower()], "screen": t[0], "page": t[1]})
+	# the detail page of every screen with pages (open_detail(): the first item's page)
+	for n: String in DETAILS:
+		out.append({"key": n + "@detail", "screen": n, "args": _args.get(n, {}), "detail": true})
 	return out
 
 
@@ -303,8 +359,21 @@ func open_case(c: Dictionary) -> bool:
 		return false
 	await _frames(2)
 	var layer := hud.get_node("%Screens")
-	if c.has("page") and layer.get_child_count() > 0 and layer.get_child(0).has_method("show_page"):
-		layer.get_child(0).call("show_page", c["page"])
+	if c.has("page") and layer.get_child_count() > 0:
+		var scr: Node = layer.get_child(0)
+		if scr.has_method("show_page"):
+			scr.call("show_page", c["page"])
+		else:
+			# a tab of the screen's page stack
+			for st in get_nodes_in_group(&"cw_page_stack"):
+				if scr.is_ancestor_of(st):
+					(st as CwPageStack).switch_to(StringName(String(c["page"])))
+					break
+	if c.get("detail", false) and layer.get_child_count() > 0 and layer.get_child(0).has_method("open_detail"):
+		layer.get_child(0).call("open_detail")
+	# another page opened by a call on the screen: [method, args...]
+	if c.has("call") and layer.get_child_count() > 0 and layer.get_child(0).has_method(String(c["call"][0])):
+		layer.get_child(0).callv(String(c["call"][0]), (c["call"] as Array).slice(1))
 	await _wait(0.45 if c["screen"] != "finale" else 1.2)
 	return true
 
@@ -344,6 +413,8 @@ func _check_screen(c: Dictionary, vp: Vector2i) -> void:
 		_check(bad.is_empty(), "%s: clear of the top bar and the rail %s" % [tag, "" if bad.is_empty() else str(bad)])
 	if screen_name == "race":
 		_check_race(scr, tag)
+	if screen_name == "project_review":
+		_check_review(scr, tag, view)
 	hud.close_screen()
 	await _frames(2)
 
@@ -362,6 +433,24 @@ func _inside(root: Node, view: Rect2, tag: String, skip: Array = []) -> void:
 				break
 	_check(bad.is_empty(), "%s: inside the %dx%d view %s" % [tag, view.size.x, view.size.y,
 		"" if bad.is_empty() else str(bad)])
+
+
+## The review (worst-case entry, _worst_review): it really is the busy one, the panel stays
+## whole on screen, and the title, the results and Back are never scrolled away.
+func _check_review(scr: Control, tag: String, view: Rect2) -> void:
+	_check((scr.get_node("%Debrief") as Control).is_visible_in_tree() and (scr.get_node("%CauseLine") as Control).visible
+		and (scr.get_node("%RocketLine") as Control).visible and (scr.get_node("%Novelty") as Control).visible
+		and (scr.get_node("%GradeProject") as Control).visible and (scr.get_node("%BriefLine") as Control).visible,
+		"%s: the worst-case review shows every optional line" % tag)
+	var panel := (scr.get_node("Panel") as Control).get_global_rect()
+	_check(view.grow(TOLERANCE).encloses(panel), "%s: review panel whole on screen (%s)" % [tag, panel])
+	var scroll := (scr.get_node("%Scroll") as Control).get_global_rect()
+	for n in ["%Title", "%Outcome", "%RwCash", "%RwCost", "%Back"]:
+		var r := (scr.get_node(n) as Control).get_global_rect()
+		_check(view.grow(TOLERANCE).encloses(r) and not r.intersects(scroll.grow(-1.0)),
+			"%s: %s on screen outside the scrolling middle (%s)" % [tag, n, r])
+	if _verbose:
+		print("    review middle %.0f px in a %.0f px scroll" % [(scr.get_node("%Middle") as Control).get_combined_minimum_size().y, scroll.size.y])
 
 
 ## The race track: milestone labels apart from each other and off the planet / Moon art.

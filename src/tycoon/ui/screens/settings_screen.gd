@@ -1,8 +1,13 @@
 class_name TycoonSettingsScreen
 extends Control
-## In-game settings (scenes/tycoon/ui/screens/settings.tscn): the save slots (save, load,
-## the monthly autosave), back to the menu, and the main menu's options panel (language,
-## fullscreen, volume: scenes/menu/options_panel.tscn with MenuSettings) instanced as is.
+## In-game settings (scenes/tycoon/ui/screens/settings.tscn), four tabs (CwPageStack):
+##   Game   language, motion, the launch cinematic, story scenes, replay the opening
+##   Save   the save slots (save, load, the monthly autosave)
+##   Image  window / fullscreen, style, outlines
+##   Sound  the three volumes
+## The options rows come from the main menu's options panel (scenes/menu/options_panel.tscn
+## with MenuSettings), instanced once per tab with the other rows hidden in the scene. Back to
+## the menu and back to the campus stay at the foot.
 ## Rows are copies of the hidden SlotTemplate; the look is the scene's. LaunchCinematic turns
 ## the launch sequence on or off; Cutscenes the story scenes (Cutscenes), and ReplayOpening
 ## plays the opening again.
@@ -20,7 +25,9 @@ func _ready() -> void:
 	%Close.pressed.connect(close)
 	%Resume.pressed.connect(close)
 	%Menu.pressed.connect(back_to_menu)
-	(%Options as MenuOptionsPanel).closed.connect(close)
+	# the menu's options panel, once per tab (each shows only that tab's rows)
+	for o in [%Options, %OptionsImage, %OptionsSound]:
+		(o as MenuOptionsPanel).closed.connect(close)
 	# the launch cinematic on/off (src/tycoon/launch/launch_sequence.gd)
 	%LaunchCinematic.button_pressed = LaunchSequence.enabled()
 	%LaunchCinematic.toggled.connect(LaunchSequence.set_enabled)
@@ -40,6 +47,12 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 	clock.set_speed(0)
 	hud.screen_closed.connect(_on_screen_closed)
 	refresh()
+
+
+## open_screen("settings", {"tab": "Game" | "Save" | "Image" | "Sound"})
+func open_with(args: Dictionary) -> void:
+	if args.has("tab"):
+		(%Pages as CwPageStack).switch_to(StringName(String(args["tab"])))
 
 
 func _on_screen_closed(screen_name: String) -> void:

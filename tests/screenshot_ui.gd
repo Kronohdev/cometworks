@@ -1,7 +1,8 @@
 extends SceneTree
 ## Visual check of the HUD redesign (opens a window): hangar with the Garça example
-## (EN/PT, compact and detailed stage cards, part card with stat chips, symmetry selector
-## open, collapsed rail, warning badges, crew tab, empty hangar, search), the UI kit
+## (EN/PT, stage cards, part detail card, symmetry selector open, collapsed rail, problems
+## of a broken vessel, crew drawer, empty hangar, search; the advisor flow has its own
+## script, screenshot_hangar_ui.gd), the UI kit
 ## showcase, the solar-system map HUD and the planet-surface HUD.
 ## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_ui.gd -- <out_dir> [hangar|kit|map|surface]...
 
@@ -41,21 +42,18 @@ func _hangar_shots() -> void:
 	_warp(Vector2(1120, 650))
 	await _frames(4)
 	_shot("ui_hangar_en")
-	# part card with stat chips: hover an engine card in the engine tab
+	# part detail card: hover an engine card in the engine tab
 	(ui._category_bar.get_node("engine") as Button).button_pressed = true
 	await _frames(3)
 	var card := ui._part_grid.get_child(0) as Control
 	_warp(card.get_global_rect().get_center())
 	await _frames(6)
-	ui._show_part_info(_first_engine())
+	ui._show_detail(_first_engine(), card)
 	await _frames(3)
 	_shot("ui_part_card")
 	_warp(Vector2(1120, 650))
-	# detailed stage cards
-	ui._set_detailed(true)
-	await _frames(6)
+	await _frames(3)
 	_shot("ui_stages_detailed")
-	ui._set_detailed(false)
 	# symmetry selector open
 	hangar.symmetry = 4
 	ui.set_symmetry(4)
@@ -73,13 +71,9 @@ func _hangar_shots() -> void:
 	_shot("ui_hangar_pt")
 	hangar._toggle_language()
 	await _frames(4)
-	# warnings: remove the boosters' fuel -> issues badges
-	ui.show_analysis(hangar.vessel.analyze(), {"parts": 5, "cost": 12.0, "stable": 0})
-	var a: Dictionary = hangar.vessel.analyze()
-	a["warnings"] = [tr("WARN_TWR_MARGINAL") % 1.1, tr("WARN_DV_LOW"), tr("WARN_UNSTABLE")]
-	a["liftoff_twr"] = 1.1
-	a["ascent_dv"] = 7200.0
-	ui.show_analysis(a, {"parts": 9, "cost": 40.0, "stable": 0})
+	# problems: a kerosene tank on a hydrogen engine, no core, tumbling
+	var bad := [{"core": [PartDB.get_part("tank_kerolox_s4"), PartDB.get_part("eng_hidra_rl")], "boosters": []}]
+	ui.show_analysis(VesselMath.analyze(bad), {"parts": 2, "cost": 3.4, "stable": 0, "specs": bad})
 	await _frames(4)
 	_shot("ui_warnings")
 	hangar._dirty = true

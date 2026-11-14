@@ -1,0 +1,876 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/project/payload_planner_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/research.svg" id="3_icon"]
+
+[node name="PayloadPlanner" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -650.0
+offset_top = -380.0
+offset_right = 650.0
+offset_bottom = 380.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Orbiter → Lunar orbit"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_PL_TITLE"
+
+[node name="Brief" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(380, 0)
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Brief"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 2
+text = "TY_BF_GOAL"
+
+[node name="BriefGoal" type="Label" parent="Panel/Margin/VBox/Header/Brief"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+horizontal_alignment = 2
+text = "Prove there is water in the Moon's dark craters."
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+size_flags_vertical = 0
+tooltip_text = "TY_PJ_CANCEL"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="ModScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.3
+horizontal_scroll_mode = 0
+
+[node name="Modules" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="InstrumentHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+text = "TY_PL_KIND_INSTRUMENT"
+
+[node name="LockedInstrument" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "+2"
+
+[node name="InstrumentGrid" type="GridContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="InstrumentTemplate" type="Button" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+
+[node name="Box" type="MarginContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+text = "Spectrometer"
+
+[node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text_overrun_behavior = 3
+text = "14 kg · 12 W · 3 Gb"
+
+[node name="Rating" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid/InstrumentTemplate/Box/Row"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(64, 0)
+horizontal_alignment = 2
+vertical_alignment = 1
+text = "?"
+
+[node name="PowerHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+text = "TY_PL_KIND_POWER"
+
+[node name="LockedPower" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "+2"
+
+[node name="PowerGrid" type="GridContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="PowerTemplate" type="Button" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+
+[node name="Box" type="MarginContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+text = "Spectrometer"
+
+[node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text_overrun_behavior = 3
+text = "14 kg · 12 W · 3 Gb"
+
+[node name="Rating" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/PowerGrid/PowerTemplate/Box/Row"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(64, 0)
+horizontal_alignment = 2
+vertical_alignment = 1
+text = "?"
+
+[node name="CommsHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+text = "TY_PL_KIND_COMMS"
+
+[node name="LockedComms" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "+2"
+
+[node name="CommsGrid" type="GridContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="CommsTemplate" type="Button" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+
+[node name="Box" type="MarginContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+text = "Spectrometer"
+
+[node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text_overrun_behavior = 3
+text = "14 kg · 12 W · 3 Gb"
+
+[node name="Rating" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/CommsGrid/CommsTemplate/Box/Row"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(64, 0)
+horizontal_alignment = 2
+vertical_alignment = 1
+text = "?"
+
+[node name="OtherHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+text = "TY_PL_KIND_OTHER"
+
+[node name="LockedOther" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "+2"
+
+[node name="OtherGrid" type="GridContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules"]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="OtherTemplate" type="Button" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+
+[node name="Box" type="MarginContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+text = "Spectrometer"
+
+[node name="Stats" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text_overrun_behavior = 3
+text = "14 kg · 12 W · 3 Gb"
+
+[node name="Rating" type="Label" parent="Panel/Margin/VBox/Body/ModScroll/Modules/OtherGrid/OtherTemplate/Box/Row"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(64, 0)
+horizontal_alignment = 2
+vertical_alignment = 1
+text = "?"
+
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(480, 0)
+theme_override_constants/separation = 10
+
+[node name="GaugesCaption" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PL_GAUGES"
+
+[node name="Gauges" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="GaugeMass" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeMass"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_MASS"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeMass"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeMass"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeMass"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeEnergy" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeEnergy"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_ENERGY"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeEnergy"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeEnergy"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeEnergy"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeData" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeData"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_DATA"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeData"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeData"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeData"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeComms" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeComms"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_COMMS"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeComms"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeComms"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeComms"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeBudget" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeBudget"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_BUDGET"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeBudget"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeBudget"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeBudget"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeTime" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeTime"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(118, 0)
+text = "TY_PL_G_TIME"
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeTime"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("2_seg")
+value = 0.6
+segments = 12
+
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeTime"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "40 / 84 kg"
+
+[node name="State" type="Label" parent="Panel/Margin/VBox/Body/Right/Gauges/VBox/GaugeTime"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "OK"
+
+[node name="GaugeNote" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+text = "TY_PL_GAUGE_NOTE"
+
+[node name="Env" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Env"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EnvCaption" type="Label" parent="Panel/Margin/VBox/Body/Right/Env/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_PL_ENV"
+
+[node name="EnvLine" type="Label" parent="Panel/Margin/VBox/Body/Right/Env/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+text = "Strong sun · short nights · no frost"
+
+[node name="Info" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Info"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InfoName" type="Label" parent="Panel/Margin/VBox/Body/Right/Info/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 16
+text = "TY_PL_INFO"
+
+[node name="InfoDesc" type="Label" parent="Panel/Margin/VBox/Body/Right/Info/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+text = "TY_PL_INFO_DESC"
+
+[node name="InfoNote" type="Label" parent="Panel/Margin/VBox/Body/Right/Info/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = ""
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Back" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+focus_mode = 0
+text = "TY_PL_BACK"
+
+[node name="Error" type="Label" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+vertical_alignment = 1
+autowrap_mode = 3
+text = ""
+
+[node name="Next" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_PL_NEXT_TEAM"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.97, 0.97)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwInstruments" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/ModScroll/Modules/InstrumentGrid")
+offset = Vector2(-10, 0)
+delay = 0.16
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwGauges" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Right/Gauges/VBox")
+offset = Vector2(10, 0)
+delay = 0.21
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

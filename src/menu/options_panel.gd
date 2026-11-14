@@ -11,6 +11,11 @@ extends PanelContainer
 
 signal closed
 
+## When not empty, only these Grid rows show (node names, label and control), and the
+## General / Camera tabs hide: a host screen that splits the options over its own tabs (the
+## in-game settings) picks the rows of each copy here, in the inspector.
+@export var rows: PackedStringArray = PackedStringArray()
+
 @onready var lang_en: Button = %LangEN
 @onready var lang_pt: Button = %LangPT
 @onready var win: Button = %Windowed
@@ -149,6 +154,11 @@ func _show_volume() -> void:
 
 ## Shows one page of the options grid: "" the general rows, "camera" the camera rows.
 func show_page(page: String) -> void:
+	if not rows.is_empty():
+		for c in grid.get_children():
+			(c as CanvasItem).visible = rows.has(String(c.name))
+		page_general.get_parent().visible = false
+		return
 	for c in grid.get_children():
 		(c as CanvasItem).visible = String(c.get_meta("page", "")) == page
 	page_camera.set_pressed_no_signal(page == "camera")

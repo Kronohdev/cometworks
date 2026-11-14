@@ -68,6 +68,10 @@
   "review": {"fix_factor": 0.5, "fix_cost_min": 3000, "payload_fix_weeks": 1, "payload_fix_defects": 0.4, "payload_fix_rel": 0.15,
     "low": 0.02, "high": 0.05, "scrub_reputation": 1.0, "rebuild_review": true},
   "proposals": {"cost_weight": 0.05},
+  "_hangar": "Rockets built in the hangar for a mission (src/tycoon/rocket/hangar_rocket.gd). cost = the parts' cost_musd x cr_per_musd; build weeks = ceil(parts / parts_per_week) + stages, within weeks_min..weeks_max; reliability = the product of the parts' reliability per slot (stage 1, upper stages, boosters, separations, avionics), x stage_rel per powered stage, x fairing_rel per fairing, x no_command_rel without a command part. Payload room: the widest fairing x fairing_size, else the widest part x bare_size (in the mission types' size units). model_wet_t: wet mass steps (t) of the era model shown for it. A piloted flight reaches space at space_alt (m); beyond low orbit it must keep beyond_margin x (the target's delta-v - the LEO delta-v) in the tanks.",
+  "hangar": {"cr_per_musd": 10000, "parts_per_week": 5, "weeks_min": 2, "weeks_max": 14, "stage_rel": 0.985,
+    "fairing_rel": 0.997, "no_command_rel": 0.85, "fairing_size": 1.0, "bare_size": 0.8,
+    "model_wet_t": [20, 150, 400, 800], "space_alt": 100000, "beyond_margin": 1.0},
   "family_names": ["Andorinha", "Bem-te-vi", "Sabiá", "Colibri", "Tucano", "Arara", "Garça", "Gavião", "Condor", "Harpia",
     "Albatroz", "Fragata", "Quero-quero", "Jaçanã", "Socó", "Tiê", "Uirapuru", "Carcará"]
 }

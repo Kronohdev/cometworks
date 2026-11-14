@@ -1,24 +1,54 @@
 class_name RaceScreen
 extends Control
-## The race to the Moon (scenes/tycoon/ui/screens/race.tscn, GDD section 13): the 15
-## milestones as stations on a rail from the home world to the Mother-Ice (names alternate
-## above and below the line, so each has two stations of room), one row per agency with
-## what it took when, a plain-words legend, the rival cards in a scrolling row and the detail
-## of the milestone under the cursor. All the look is in the scene; this script fills data,
-## places the station / lane templates on the track (CwRaceTrack.station_pos) and follows
-## the hover.
+## The race to the Moon (scenes/tycoon/ui/screens/race.tscn, GDD section 13), as pages:
+##   Overview   the 15 milestones as stations on a rail from the home world to the Mother-Ice
+##              (names alternate above and below the line, so each has two stations of room),
+##              one row per agency with what it took when, a plain-words legend, the milestone
+##              under the cursor in one line and the agencies as tiles
+##   Milestone  one milestone: era, reward, how to get it, when rivals are expected, who took it
+##   Agency     one agency: personality, strength / weakness, what it chases now, its motto and
+##              setbacks, and the milestones it took
+## Click a station (or the line's key) for its milestone, a lane head or a tile for its agency.
+## All the look is in the scene; this script fills data, places the station / lane templates
+## on the track (CwRaceTrack.station_pos) and follows the hover.
 
 var state: TycoonState
 var clock: TycoonClock
 var hud: TycoonHUD
 var selected := -1
+## the agency on the Agency page
+var agency := ""
 
 @onready var track: CwRaceTrack = %Track
+@onready var pages: CwPageStack = %Pages
 
 
 func _ready() -> void:
 	%Close.pressed.connect(close)
+	%PeekOpen.pressed.connect(open_detail)
 	track.resized.connect(refresh)
+	pages.page_changed.connect(func(_p: StringName, _d: int) -> void: refresh())
+
+
+## The selected milestone's page (the line's key, tests, dev menu).
+func open_detail() -> void:
+	open_milestone(selected)
+
+
+func open_milestone(i: int) -> void:
+	if state == null or i < 0 or i >= state.race.milestones.size():
+		return
+	selected = i
+	pages.push(&"Milestone", tr(String(state.race.milestones[i]["name_key"])))
+	refresh()
+
+
+func open_agency(id: String) -> void:
+	if state == null:
+		return
+	agency = id
+	pages.push(&"Agency", _agency_label(id))
+	refresh()
 
 
 func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
@@ -38,7 +68,8 @@ func close() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if hud == null and event.is_action_pressed("ui_cancel"):
-		close()
+		if not pages.back():
+			close()
 
 
 func refresh() -> void:
@@ -53,10 +84,15 @@ func refresh() -> void:
 	_fill_eras()
 	_fill_stations()
 	_fill_lanes()
-	_fill_cards()
+	_fill_agencies()
 	if selected < 0:
 		selected = mini(r.next_of(RaceDirector.PLAYER), r.milestones.size() - 1)
-	_fill_detail(selected)
+	_fill_peek(selected)
+	match pages.current():
+		&"Milestone":
+			_fill_detail(selected)
+		&"Agency":
+			_fill_agency(agency)
 
 
 static func initials(name: String) -> String:
@@ -133,6 +169,8 @@ func _fill_stations() -> void:
 		if not hit.has_meta("wired"):
 			hit.set_meta("wired", true)
 			hit.mouse_entered.connect(func() -> void: select(int(st.get_meta("index"))))
+			hit.pressed.connect(func() -> void: open_milestone(int(st.get_meta("index"))))
+		hit.tooltip_text = tr("TY_RACE_OPEN_MILESTONE_TIP")
 		st.set_meta("index", i)
 
 
@@ -141,7 +179,50 @@ func select(i: int) -> void:
 		return
 	selected = i
 	_fill_stations()
-	_fill_detail(i)
+	_fill_peek(i)
+
+
+## The milestone under the cursor, in one line under the legend.
+func _fill_peek(i: int) -> void:
+	var r := state.race
+	if i < 0 or i >= r.milestones.size():
+		return
+	var m: Dictionary = r.milestones[i]
+	%PeekNum.text = "%02d" % (i + 1)
+	%PeekName.text = tr(String(m["name_key"]))
+	var reward := tr("TY_RACE_VICTORY") % int(r.mdata.get("score", {}).get("comet_bonus", 200)) \
+		if bool(m.get("victory", false)) \
+		else tr("TY_RACE_REWARD") % [TycoonHUD.fmt_cr(float(m.get("prize", 0))), int(m.get("rep", 0)), int(m.get("hype", 0))]
+	var first := r.first_of(m["id"])
+	var who := tr("TY_RACE_PEEK_FIRST") % _agency_label(String(first["by"])) if not first.is_empty() else tr("TY_RACE_PEEK_OPEN")
+	%PeekLine.text = "%s · %s" % [reward, who]
+
+
+# ------------------------------------------------------------ agencies
+## One tile per agency (the player first): count, firsts and what it chases now.
+func _fill_agencies() -> void:
+	var r := state.race
+	var ids := r.agencies()
+	var tiles := TycoonHUD._copies(%AgencyTemplate, ids.size())
+	for k in ids.size():
+		var id := ids[k]
+		var b := tiles[k] as Button
+		var col := r.agency_color(id)
+		var box := b.get_node("Box")
+		var mk := box.get_node("Head/Marker") as CwMarker
+		mk.fill = col
+		mk.outline = col
+		var nl := box.get_node("Head/Name") as Label
+		nl.text = _agency_label(id)
+		nl.add_theme_color_override("font_color", CwPalette.ink(col))
+		(box.get_node("Count") as Label).text = "%d/%d · %d★" % [r.claims_of(id).size(), r.milestones.size(), r.firsts_of(id)]
+		var next := r.next_of(id)
+		(box.get_node("Now") as Label).text = "%s %s" % [tr("TY_RACE_NOW"), tr(String(r.milestones[next].get("short_key", ""))) \
+			if next < r.milestones.size() else tr("TY_RACE_ALL_DONE")]
+		b.set_meta("agency", id)
+		if not b.has_meta("wired"):
+			b.set_meta("wired", true)
+			b.pressed.connect(func() -> void: open_agency(String(b.get_meta("agency"))))
 
 
 # ------------------------------------------------------------ lanes
@@ -171,6 +252,16 @@ func _fill_lanes() -> void:
 		# the lane and the track share the left edge; the cells start after the head column
 		var dx := -(head.custom_minimum_size.x + float(lane.get_theme_constant("separation")))
 		_fill_cells(lane.get_node("Cells") as Control, id, col, dx, lane.custom_minimum_size.y)
+		# the lane head opens the agency's page
+		head.set_meta("agency", id)
+		head.tooltip_text = tr("TY_RACE_OPEN_AGENCY_TIP")
+		head.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		if not head.has_meta("wired"):
+			head.set_meta("wired", true)
+			head.gui_input.connect(func(e: InputEvent) -> void:
+				var mb := e as InputEventMouseButton
+				if mb and mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+					open_agency(String(head.get_meta("agency"))))
 
 
 func _fill_cells(cells: Control, id: String, col: Color, dx: float, height: float) -> void:
@@ -218,31 +309,56 @@ func _fill_cells(cells: Control, id: String, col: Color, dx: float, height: floa
 	prog.size = Vector2(maxf(target_x - prog.position.x, 0.0), 4.0)
 
 
-# ------------------------------------------------------------ rival cards
-func _fill_cards() -> void:
+# ------------------------------------------------------------ agency page
+## One agency: the rival's card (the player's agency shows its name and what it chases) and
+## the milestones it took, in order.
+func _fill_agency(id: String) -> void:
 	var r := state.race
-	var cards := TycoonHUD._copies(%CardTemplate, state.rivals.size())
-	for k in state.rivals.size():
-		var id := String(state.rivals[k]["id"])
-		var p := r.rival(id)
-		var card := cards[k] as PanelContainer
-		var col := r.agency_color(id)
-		var st := card.get_theme_stylebox("panel").duplicate() as CwPanelStyle
-		if st:
-			st.tab_color = col
-			card.add_theme_stylebox_override("panel", st)
-		var v := card.get_node("VBox")
-		var name_l := v.get_node("Head/Name") as Label
-		name_l.text = tr(String(p.get("name_key", id)))
-		name_l.add_theme_color_override("font_color", CwPalette.ink(col))
-		(v.get_node("Head/Initials") as Label).text = String(p.get("initials", ""))
-		(v.get_node("Pers") as Label).text = tr(String(p.get("personality_key", "")))
-		(v.get_node("Grid/Str") as Label).text = tr(String(p.get("strength_key", "")))
-		(v.get_node("Grid/Weak") as Label).text = tr(String(p.get("weakness_key", "")))
-		var next := r.next_of(id)
-		(v.get_node("Now/Value") as Label).text = tr(String(r.milestones[next].get("short_key", ""))) if next < r.milestones.size() else tr("TY_RACE_ALL_DONE")
-		(v.get_node("Foot/Motto") as Label).text = tr(String(p.get("motto_key", "")))
-		(v.get_node("Foot/Setbacks") as Label).text = "%s: %d" % [tr("TY_RACE_SETBACKS"), int(r.rival_state(id).get("fails", 0))]
+	if id == "":
+		return
+	var you := id == RaceDirector.PLAYER
+	var p := r.rival(id) if not you else {}
+	var col := r.agency_color(id)
+	var card := %Pages.get_node("Agency/ACard") as PanelContainer
+	var st := card.get_theme_stylebox("panel").duplicate() as CwPanelStyle
+	if st:
+		st.tab_color = col
+		card.add_theme_stylebox_override("panel", st)
+	pages.set_title(_agency_label(id))
+	var v := card.get_node("VBox")
+	var name_l := v.get_node("Head/Name") as Label
+	name_l.text = _agency_label(id)
+	name_l.add_theme_color_override("font_color", CwPalette.ink(col))
+	(v.get_node("Head/Initials") as Label).text = _agency_initials(id)
+	(v.get_node("Pers") as Label).text = tr("TY_RACE_YOU") if you else tr(String(p.get("personality_key", "")))
+	(v.get_node("Grid") as Control).visible = not you
+	(v.get_node("Foot") as Control).visible = not you
+	(v.get_node("Grid/Str") as Label).text = tr(String(p.get("strength_key", "")))
+	(v.get_node("Grid/Weak") as Label).text = tr(String(p.get("weakness_key", "")))
+	var next := r.next_of(id)
+	(v.get_node("Now/Value") as Label).text = tr(String(r.milestones[next].get("short_key", ""))) if next < r.milestones.size() else tr("TY_RACE_ALL_DONE")
+	(v.get_node("Foot/Motto") as Label).text = tr(String(p.get("motto_key", "")))
+	(v.get_node("Foot/Setbacks") as Label).text = "%s: %d" % [tr("TY_RACE_SETBACKS"), int(r.rival_state(id).get("fails", 0))]
+	# the milestones it took
+	var taken: Array = []
+	for i in r.milestones.size():
+		var m: Dictionary = r.milestones[i]
+		for cl in r.claims_of(id):
+			if cl["milestone"] == m["id"]:
+				taken.append([m, cl])
+	var rows := TycoonHUD._copies(%TakenTemplate, taken.size())
+	%TakenNone.visible = taken.is_empty()
+	for k in taken.size():
+		var m: Dictionary = taken[k][0]
+		var cl: Dictionary = taken[k][1]
+		var first := int(cl["order"]) == 0
+		var mk := rows[k].get_node("Marker") as CwMarker
+		mk.star = bool(m.get("victory", false))
+		mk.fill = col if first else Color(col, 0.35)
+		mk.outline = col
+		(rows[k].get_node("Name") as Label).text = tr(String(m["name_key"]))
+		(rows[k].get_node("When") as Label).text = "%s · %s" % [tr("TY_RACE_ORD_%d" % mini(int(cl["order"]) + 1, 4)),
+			tr("TY_RACE_YEAR_SHORT") % (int(cl["week"]) / state.weeks_per_year() + 1)]
 
 
 # ------------------------------------------------------------ detail
@@ -251,6 +367,7 @@ func _fill_detail(i: int) -> void:
 	if i < 0 or i >= r.milestones.size():
 		return
 	var m: Dictionary = r.milestones[i]
+	pages.set_title(tr(String(m["name_key"])))
 	%DNum.text = "%02d" % (i + 1)
 	%DEra.text = tr("TY_RACE_ERA") % [int(m.get("era", 1)), tr("TY_ERA_%d" % int(m.get("era", 1)))]
 	%DName.text = tr(String(m["name_key"]))

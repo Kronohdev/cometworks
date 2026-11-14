@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/tycoon/ui/screens/finance_screen.gd" id="1_script"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="page_tabs"]
 
 [sub_resource type="ButtonGroup" id="period_group"]
 
@@ -53,89 +56,52 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_constants/separation = 26
 
-[node name="Titles" type="VBoxContainer" parent="Frame/VBox/Head"]
+[node name="NavBar" parent="Frame/VBox/Head" instance=ExtResource("nav_bar")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Title" type="Label" parent="Frame/VBox/Head/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 26
-text = "TY_FN_TITLE"
-
-[node name="Sub" type="Label" parent="Frame/VBox/Head/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_SUB"
+stack = NodePath("../../Pages")
+subtitle = "TY_FN_SUB"
 
 [node name="Spacer" type="Control" parent="Frame/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Cash" type="VBoxContainer" parent="Frame/VBox/Head"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 0
-
-[node name="Caption" type="Label" parent="Frame/VBox/Head/Cash"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_CASH"
-
-[node name="CashValue" type="Label" parent="Frame/VBox/Head/Cash"]
+[node name="Tabs" type="HBoxContainer" parent="Frame/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "1 284 000 cr"
-
-[node name="Net" type="VBoxContainer" parent="Frame/VBox/Head"]
-layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 0
+theme_override_constants/separation = 6
+script = ExtResource("page_tabs")
+stack = NodePath("../../Pages")
 
-[node name="Caption" type="Label" parent="Frame/VBox/Head/Net"]
+[node name="OverviewTab" type="Button" parent="Frame/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_NET"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+text = "TY_FN_TAB_OVERVIEW"
+metadata/page = &"Overview"
 
-[node name="NetValue" type="Label" parent="Frame/VBox/Head/Net"]
-unique_name_in_owner = true
+[node name="FlowTab" type="Button" parent="Frame/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "−18 500 cr"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_FN_TAB_FLOW"
+metadata/page = &"Flow"
 
-[node name="Grant" type="VBoxContainer" parent="Frame/VBox/Head"]
+[node name="LoanTab" type="Button" parent="Frame/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 0
-
-[node name="Caption" type="Label" parent="Frame/VBox/Head/Grant"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_GRANT"
-
-[node name="GrantValue" type="Label" parent="Frame/VBox/Head/Grant"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "280 000 cr"
-
-[node name="Runway" type="VBoxContainer" parent="Frame/VBox/Head"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 0
-
-[node name="Caption" type="Label" parent="Frame/VBox/Head/Runway"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_RUNWAY"
-
-[node name="RunwayValue" type="Label" parent="Frame/VBox/Head/Runway"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "14 meses"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_FN_TAB_LOAN"
+metadata/page = &"Budget"
 
 [node name="Sep" type="VSeparator" parent="Frame/VBox/Head"]
 layout_mode = 2
@@ -175,101 +141,196 @@ theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 theme_override_font_sizes/font_size = 14
 text = "TY_FN_INTERVENTION"
 
-[node name="Body" type="HBoxContainer" parent="Frame/VBox"]
+[node name="Pages" type="Container" parent="Frame/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 18
+script = ExtResource("page_stack")
 
-[node name="Main" type="VBoxContainer" parent="Frame/VBox/Body"]
+[node name="Overview" type="VBoxContainer" parent="Frame/VBox/Pages"]
+layout_mode = 2
+theme_override_constants/separation = 14
+metadata/title = "TY_FN_TITLE"
+
+[node name="Numbers" type="HBoxContainer" parent="Frame/VBox/Pages/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="CashCard" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Numbers"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+theme_type_variation = &"CwCard"
 
-[node name="ChartCard" type="PanelContainer" parent="Frame/VBox/Body/Main"]
+[node name="Cash" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Numbers/CashCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/CashCard/Cash"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_CASH"
+
+[node name="CashValue" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/CashCard/Cash"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "1 284 000 cr"
+theme_override_font_sizes/font_size = 30
+
+[node name="NetCard" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCard"
+
+[node name="Net" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Numbers/NetCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/NetCard/Net"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_NET"
+
+[node name="NetValue" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/NetCard/Net"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "−18 500 cr"
+theme_override_font_sizes/font_size = 30
+
+[node name="GrantCard" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCard"
+
+[node name="Grant" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Numbers/GrantCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/GrantCard/Grant"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_GRANT"
+
+[node name="GrantValue" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/GrantCard/Grant"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "280 000 cr"
+theme_override_font_sizes/font_size = 30
+
+[node name="RunwayCard" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCard"
+
+[node name="Runway" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Numbers/RunwayCard"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/RunwayCard/Runway"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_RUNWAY"
+
+[node name="RunwayValue" type="Label" parent="Frame/VBox/Pages/Overview/Numbers/RunwayCard/Runway"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "14 meses"
+theme_override_font_sizes/font_size = 30
+
+[node name="Row" type="HBoxContainer" parent="Frame/VBox/Pages/Overview"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="ChartCard" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Row"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.35
 theme_type_variation = &"CwCard"
+size_flags_horizontal = 3
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Main/ChartCard"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Row/ChartCard"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Head" type="HBoxContainer" parent="Frame/VBox/Body/Main/ChartCard/VBox"]
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
 text = "TY_FN_CHART"
 
-[node name="LegendCash" type="HBoxContainer" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head"]
+[node name="LegendCash" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendCash"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendCash"]
 custom_minimum_size = Vector2(16, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.749, 0.9098, 1, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendCash"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendCash"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_FN_CASH"
 
-[node name="LegendProj" type="HBoxContainer" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head"]
+[node name="LegendProj" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Dash1" type="ColorRect" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendProj"]
+[node name="Dash1" type="ColorRect" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendProj"]
 custom_minimum_size = Vector2(5, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2471, 0.8784, 0.7725, 1)
 
-[node name="Dash2" type="ColorRect" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendProj"]
+[node name="Dash2" type="ColorRect" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendProj"]
 custom_minimum_size = Vector2(5, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2471, 0.8784, 0.7725, 1)
 
-[node name="Gap" type="Control" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendProj"]
+[node name="Gap" type="Control" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendProj"]
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendProj"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendProj"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_FN_PROJ"
 
-[node name="LegendNet" type="HBoxContainer" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head"]
+[node name="LegendNet" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendNet"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendNet"]
 custom_minimum_size = Vector2(6, 10)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2471, 0.8784, 0.7725, 1)
 
-[node name="Swatch2" type="ColorRect" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendNet"]
+[node name="Swatch2" type="ColorRect" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendNet"]
 custom_minimum_size = Vector2(6, 10)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(1, 0.3608, 0.4235, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Main/ChartCard/VBox/Head/LegendNet"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox/Head/LegendNet"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_FN_NETBARS"
 
-[node name="Chart" type="Control" parent="Frame/VBox/Body/Main/ChartCard/VBox"]
+[node name="Chart" type="Control" parent="Frame/VBox/Pages/Overview/Row/ChartCard/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
@@ -277,171 +338,145 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("4_chart")
 
-[node name="Breakdown" type="HBoxContainer" parent="Frame/VBox/Body/Main"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Income" type="PanelContainer" parent="Frame/VBox/Body/Main/Breakdown"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCard"
-
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Income"]
-layout_mode = 2
-theme_override_constants/separation = 7
-
-[node name="Head" type="HBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-text = "TY_FN_INCOME"
-
-[node name="IncomeTotal" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Head"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
-text = "640 000 cr"
-
-[node name="Rows" type="VBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="InTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Rows"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Rows/InTemplate"]
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 13
-text = "Contratos"
-clip_text = true
-text_overrun_behavior = 3
-
-[node name="Bar" type="Control" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Rows/InTemplate"]
-custom_minimum_size = Vector2(56, 5)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("3_seg")
-color = Color(0.1843, 0.7686, 0.6275, 1)
-segments = 20
-gap = 1.0
-
-[node name="Amount" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox/Rows/InTemplate"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "420 000 cr"
-horizontal_alignment = 2
-
-[node name="IncomeEmpty" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Income/VBox"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "TY_FN_NONE"
-
-[node name="Expense" type="PanelContainer" parent="Frame/VBox/Body/Main/Breakdown"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCard"
-
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Expense"]
-layout_mode = 2
-theme_override_constants/separation = 7
-
-[node name="Head" type="HBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-text = "TY_FN_EXPENSE"
-
-[node name="ExpenseTotal" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Head"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
-text = "520 000 cr"
-
-[node name="Rows" type="VBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="OutTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Rows"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Rows/OutTemplate"]
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 13
-text = "Salários"
-clip_text = true
-text_overrun_behavior = 3
-
-[node name="Bar" type="Control" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Rows/OutTemplate"]
-custom_minimum_size = Vector2(56, 5)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("3_seg")
-segments = 20
-gap = 1.0
-
-[node name="Amount" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox/Rows/OutTemplate"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "222 000 cr"
-horizontal_alignment = 2
-
-[node name="ExpenseEmpty" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Expense/VBox"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "TY_FN_NONE"
-
-[node name="SideScroll" type="ScrollContainer" parent="Frame/VBox/Body"]
-layout_mode = 2
-custom_minimum_size = Vector2(340, 0)
-horizontal_scroll_mode = 0
-
-[node name="Side" type="VBoxContainer" parent="Frame/VBox/Body/SideScroll"]
-layout_mode = 2
-theme_override_constants/separation = 8
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Period" type="PanelContainer" parent="Frame/VBox/Body/SideScroll/Side"]
+[node name="Bills" type="PanelContainer" parent="Frame/VBox/Pages/Overview/Row"]
 layout_mode = 2
 theme_type_variation = &"CwCard"
+custom_minimum_size = Vector2(420, 0)
 
-[node name="HBox" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Period"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Period/HBox"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_BILLS"
+
+[node name="Sal" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Sal"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_FN_C_SALARIES"
+
+[node name="SalNote" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Sal"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "5 funcionários"
+
+[node name="SalValue" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Sal"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "−22 500 cr"
+
+[node name="Upk" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Upk"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_FN_C_UPKEEP"
+
+[node name="UpkNote" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Upk"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "4 prédios"
+
+[node name="UpkValue" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Upk"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "−1 800 cr"
+
+[node name="Don" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Don"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TY_FN_C_DONATIONS"
+
+[node name="DonNote" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Don"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "hype 5 × 400 cr"
+
+[node name="DonValue" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Don"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "+2 000 cr"
+
+[node name="LoanRow" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/LoanRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_FN_C_LOAN_REPAY"
+
+[node name="LoanPayValue" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/LoanRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "−9 415 cr"
+
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+
+[node name="Net" type="HBoxContainer" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Net"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "TY_FN_NET"
+
+[node name="BillsNet" type="Label" parent="Frame/VBox/Pages/Overview/Row/Bills/VBox/Net"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "−20 300 cr"
+
+[node name="Flow" type="VBoxContainer" parent="Frame/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+metadata/title = "TY_FN_TAB_FLOW"
+
+[node name="Period" type="PanelContainer" parent="Frame/VBox/Pages/Flow"]
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="HBox" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Period"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Flow/Period/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
 text = "TY_FN_PERIOD"
 
-[node name="P1" type="Button" parent="Frame/VBox/Body/SideScroll/Side/Period/HBox"]
+[node name="P1" type="Button" parent="Frame/VBox/Pages/Flow/Period/HBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 28)
 layout_mode = 2
@@ -451,7 +486,7 @@ toggle_mode = true
 button_group = SubResource("period_group")
 text = "TY_FN_PERIOD_1"
 
-[node name="P12" type="Button" parent="Frame/VBox/Body/SideScroll/Side/Period/HBox"]
+[node name="P12" type="Button" parent="Frame/VBox/Pages/Flow/Period/HBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 28)
 layout_mode = 2
@@ -462,7 +497,7 @@ button_pressed = true
 button_group = SubResource("period_group")
 text = "TY_FN_PERIOD_12"
 
-[node name="P24" type="Button" parent="Frame/VBox/Body/SideScroll/Side/Period/HBox"]
+[node name="P24" type="Button" parent="Frame/VBox/Pages/Flow/Period/HBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(58, 28)
 layout_mode = 2
@@ -472,172 +507,166 @@ toggle_mode = true
 button_group = SubResource("period_group")
 text = "TY_FN_PERIOD_24"
 
-[node name="Bills" type="PanelContainer" parent="Frame/VBox/Body/SideScroll/Side"]
+[node name="Cols" type="HBoxContainer" parent="Frame/VBox/Pages/Flow"]
 layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Income" type="PanelContainer" parent="Frame/VBox/Pages/Flow/Cols"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwCard"
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Income"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 7
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_FN_BILLS"
-
-[node name="Sal" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Sal"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_FN_C_SALARIES"
-
-[node name="SalNote" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Sal"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "5 funcionários"
-
-[node name="SalValue" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Sal"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "−22 500 cr"
-
-[node name="Upk" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Upk"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_FN_C_UPKEEP"
-
-[node name="UpkNote" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Upk"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "4 prédios"
-
-[node name="UpkValue" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Upk"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "−1 800 cr"
-
-[node name="Don" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Don"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "TY_FN_C_DONATIONS"
-
-[node name="DonNote" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Don"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "hype 5 × 400 cr"
-
-[node name="DonValue" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Don"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "+2 000 cr"
-
-[node name="LoanRow" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/LoanRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 13
-text = "TY_FN_C_LOAN_REPAY"
-
-[node name="LoanPayValue" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/LoanRow"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "−9 415 cr"
-
-[node name="Sep" type="HSeparator" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox"]
 layout_mode = 2
 
-[node name="Net" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox"]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Net"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
-text = "TY_FN_NET"
+text = "TY_FN_INCOME"
 
-[node name="BillsNet" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Bills/VBox/Net"]
+[node name="IncomeTotal" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "−20 300 cr"
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "640 000 cr"
 
-[node name="GrantCard" type="PanelContainer" parent="Frame/VBox/Body/SideScroll/Side"]
+[node name="Rows" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="InTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Rows"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Rows/InTemplate"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Contratos"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Rows/InTemplate"]
+custom_minimum_size = Vector2(56, 5)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 20
+gap = 1.0
+
+[node name="Amount" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox/Rows/InTemplate"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "420 000 cr"
+horizontal_alignment = 2
+
+[node name="IncomeEmpty" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Income/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_FN_NONE"
+
+[node name="Expense" type="PanelContainer" parent="Frame/VBox/Pages/Flow/Cols"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwCard"
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/GrantCard"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Expense"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 7
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/GrantCard/VBox"]
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox"]
 layout_mode = 2
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
-text = "TY_FN_C_GRANT"
+text = "TY_FN_EXPENSE"
 
-[node name="GrantBig" type="Label" parent="Frame/VBox/Body/SideScroll/Side/GrantCard/VBox"]
+[node name="ExpenseTotal" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwMono"
-theme_override_font_sizes/font_size = 20
-text = "280 000 cr"
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+text = "520 000 cr"
 
-[node name="GrantFormula" type="Label" parent="Frame/VBox/Body/SideScroll/Side/GrantCard/VBox"]
+[node name="Rows" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="OutTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Rows"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Rows/OutTemplate"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Salários"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Rows/OutTemplate"]
+custom_minimum_size = Vector2(56, 5)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+segments = 20
+gap = 1.0
+
+[node name="Amount" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox/Rows/OutTemplate"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "222 000 cr"
+horizontal_alignment = 2
+
+[node name="ExpenseEmpty" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Expense/VBox"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "400 000 cr × (0,5 + reputação 20/100) × (1 + 0,05 × 0 marcos)"
-autowrap_mode = 3
+text = "TY_FN_NONE"
 
-[node name="Ledger" type="PanelContainer" parent="Frame/VBox/Body/SideScroll/Side"]
+[node name="Ledger" type="PanelContainer" parent="Frame/VBox/Pages/Flow/Cols"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"CwCard"
+size_flags_horizontal = 3
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Ledger"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Ledger"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Head" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox"]
+[node name="Head" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Head"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
 text = "TY_FN_LEDGER"
 
-[node name="NetCaption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Head"]
+[node name="NetCaption" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Head"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
@@ -645,7 +674,7 @@ theme_override_font_sizes/font_size = 12
 text = "TY_FN_LEDGER_NET"
 horizontal_alignment = 2
 
-[node name="CashCaption" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Head"]
+[node name="CashCaption" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Head"]
 custom_minimum_size = Vector2(108, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
@@ -653,17 +682,17 @@ theme_override_font_sizes/font_size = 12
 text = "TY_FN_LEDGER_END"
 horizontal_alignment = 2
 
-[node name="Months" type="VBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox"]
+[node name="Months" type="VBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="MonthTemplate" type="HBoxContainer" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Months"]
+[node name="MonthTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Months"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Month" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Months/MonthTemplate"]
+[node name="Month" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Months/MonthTemplate"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwMonoSmall"
@@ -671,7 +700,7 @@ theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 theme_override_font_sizes/font_size = 13
 text = "A7 · 05"
 
-[node name="Net" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Months/MonthTemplate"]
+[node name="Net" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Months/MonthTemplate"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -679,7 +708,7 @@ theme_override_font_sizes/font_size = 13
 text = "+120 000"
 horizontal_alignment = 2
 
-[node name="Cash" type="Label" parent="Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Months/MonthTemplate"]
+[node name="Cash" type="Label" parent="Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Months/MonthTemplate"]
 custom_minimum_size = Vector2(108, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -687,47 +716,86 @@ theme_override_font_sizes/font_size = 13
 text = "1 652 000"
 horizontal_alignment = 2
 
-[node name="Loan" type="PanelContainer" parent="Frame/VBox/Body/Main/Breakdown"]
+[node name="Budget" type="HBoxContainer" parent="Frame/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 14
+metadata/title = "TY_FN_TAB_LOAN"
+
+[node name="Loan" type="PanelContainer" parent="Frame/VBox/Pages/Budget"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCard"
+size_flags_vertical = 0
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Main/Breakdown/Loan"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Budget/Loan"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Loan/VBox"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Budget/Loan/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_FN_LOAN_TITLE"
 
-[node name="LoanText" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Loan/VBox"]
+[node name="LoanText" type="Label" parent="Frame/VBox/Pages/Budget/Loan/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 text = "TY_FN_LOAN_NONE"
 autowrap_mode = 3
 
-[node name="Terms" type="Label" parent="Frame/VBox/Body/Main/Breakdown/Loan/VBox"]
+[node name="Terms" type="Label" parent="Frame/VBox/Pages/Budget/Loan/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "TY_FN_LOAN_TERMS"
 
-[node name="Fill" type="Control" parent="Frame/VBox/Body/Main/Breakdown/Loan/VBox"]
+[node name="Fill" type="Control" parent="Frame/VBox/Pages/Budget/Loan/VBox"]
 layout_mode = 2
-size_flags_vertical = 3
 mouse_filter = 2
+custom_minimum_size = Vector2(0, 12)
 
-[node name="LoanButton" type="Button" parent="Frame/VBox/Body/Main/Breakdown/Loan/VBox"]
+[node name="LoanButton" type="Button" parent="Frame/VBox/Pages/Budget/Loan/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
 theme_override_font_sizes/font_size = 15
 text = "TY_FN_LOAN_ASK"
+custom_minimum_size = Vector2(0, 46)
+
+[node name="GrantInfo" type="PanelContainer" parent="Frame/VBox/Pages/Budget"]
+layout_mode = 2
+theme_type_variation = &"CwCard"
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Budget/GrantInfo"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Budget/GrantInfo/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FN_C_GRANT"
+
+[node name="GrantBig" type="Label" parent="Frame/VBox/Pages/Budget/GrantInfo/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 30
+text = "280 000 cr"
+
+[node name="GrantFormula" type="Label" parent="Frame/VBox/Pages/Budget/GrantInfo/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 15
+text = "400 000 cr × (0,5 + reputação 20/100) × (1 + 0,05 × 0 marcos)"
+autowrap_mode = 3
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
@@ -746,7 +814,7 @@ curve = 1
 
 [node name="CwIncome" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Frame/VBox/Body/Main/Breakdown/Income/VBox/Rows")
+target = NodePath("../Frame/VBox/Pages/Flow/Cols/Income/VBox/Rows")
 offset = Vector2(-10, 0)
 delay = 0.16
 step = 0.03
@@ -755,7 +823,7 @@ max_delay = 0.45
 
 [node name="CwExpense" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Frame/VBox/Body/Main/Breakdown/Expense/VBox/Rows")
+target = NodePath("../Frame/VBox/Pages/Flow/Cols/Expense/VBox/Rows")
 offset = Vector2(-10, 0)
 delay = 0.16
 step = 0.03
@@ -764,7 +832,7 @@ max_delay = 0.45
 
 [node name="CwLedger" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Frame/VBox/Body/SideScroll/Side/Ledger/VBox/Months")
+target = NodePath("../Frame/VBox/Pages/Flow/Cols/Ledger/VBox/Months")
 offset = Vector2(10, 0)
 delay = 0.16
 step = 0.02

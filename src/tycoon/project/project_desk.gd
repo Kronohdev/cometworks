@@ -24,6 +24,18 @@ static func find(state: TycoonState, project_id: String) -> MissionProject:
 	return null
 
 
+## The mission grade's share of the project grade for a launch outcome
+## (projects.json launch.outcome_grade: a failed flight keeps 0.35 of it, a partial one 0.8).
+static func outcome_grade(outcome: String) -> float:
+	return float((ProjectRules.section("launch").get("outcome_grade", {}) as Dictionary).get(outcome, 1.0))
+
+
+## A history entry's project grade (development x MissionFit, before the flight's outcome);
+## entries from saves older than grade_project only have "grade".
+static func project_grade(entry: Dictionary) -> float:
+	return float(entry.get("grade_project", entry.get("grade", 0.0)))
+
+
 ## The history entry (review data) of a launched project, {} if none.
 static func history_entry(state: TycoonState, project_id: String) -> Dictionary:
 	for i in range(state.project_history.size() - 1, -1, -1):
@@ -128,9 +140,20 @@ static func default_target(state: TycoonState, type_id: String) -> String:
 	return best
 
 
+## The payload of a plan ({"payload": [...]}), or the Cometlings' starter kit when it has none.
+static func plan_payload(state: TycoonState, type_id: String, target_id: String, plan: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	for m in plan.get("payload", []):
+		out.append(String(m))
+	return out if not out.is_empty() else PayloadRules.default_payload(state, type_id, target_id)
+
+
 ## Why a project cannot start ("" when it can): a translation key.
 ## `design` as in estimate(); a rocket that does not reach the target cannot start.
-static func start_error(state: TycoonState, type_id: String, target_id: String, staff_ids: Array, design := {}) -> String:
+## `plan` {"payload": module ids, "briefing_id"}: a payload in the red (mass, energy) cannot
+## start, and its cost counts with the money.
+static func start_error(state: TycoonState, type_id: String, target_id: String, staff_ids: Array, design := {},
+		plan := {}) -> String:
 	if not state.mission_target_available(target_id):
 		return "TY_PJ_ERR_TARGET"
 	if not state.mission_type_available(type_id):
@@ -159,7 +182,14 @@ static func start_error(state: TycoonState, type_id: String, target_id: String, 
 	var dp: Dictionary = d.get("parts", {})
 	if not RocketDesigner.buildable(state, dp) or not RocketDesigner.check(state, dp, type_id, target_id)["reaches"]:
 		return "TY_PJ_ERR_ROCKET"
-	if state.cash < float(estimate(state, type_id, d, target_id)["total"]):
+	var payload := plan_payload(state, type_id, target_id, plan)
+	var est := estimate(state, type_id, d, target_id)
+	var perr := PayloadRules.plan_error(state, {"type": type_id, "target": target_id, "payload": payload,
+		"weeks": est["weeks"], "dev_cost": est["dev_cost"], "launch_cost": est["launch_cost"],
+		"briefing_id": String(plan.get("briefing_id", ""))}, false)
+	if perr != "":
+		return perr
+	if state.cash < float(est["total"]) + PayloadRules.cost(payload):
 		return "TY_PJ_ERR_CASH"
 	return ""
 
@@ -169,10 +199,12 @@ static func start_error(state: TycoonState, type_id: String, target_id: String, 
 ## screen should then ask for the first phase's sliders (project_phase_started is emitted).
 ## `design` {"parts", "family", "name"}: the rocket (RocketDesigner); empty takes the default
 ## one. A new design becomes a rocket family (RocketFamilies.ensure, named "name" if given).
+## `plan` {"payload": module ids (empty: the starter kit), "briefing_id": the briefing it answers
+## (its offer leaves the board, BriefingDesk.take)}. The payload is paid now.
 static func start_project(state: TycoonState, type_id: String, target_id: String, staff_ids: Array,
-		contract_id := "", design := {}) -> MissionProject:
+		contract_id := "", design := {}, plan := {}) -> MissionProject:
 	var d := design if not design.is_empty() else RocketDesigner.default_design(state, type_id, target_id)
-	if start_error(state, type_id, target_id, staff_ids, d) != "":
+	if start_error(state, type_id, target_id, staff_ids, d, plan) != "":
 		return null
 	var fam := _family_of(state, d)
 	if fam.is_empty():
@@ -191,6 +223,14 @@ static func start_project(state: TycoonState, type_id: String, target_id: String
 	p.rocket = {"family": String(fam["id"]), "parts": RocketDesigner.normalize(fam["parts"])}
 	p.weeks_total = int(estimate(state, type_id, p.rocket, target_id)["weeks"])
 	p.awaiting_sliders = true
+	p.payload = plan_payload(state, type_id, target_id, plan)
+	var pc := PayloadRules.cost(p.payload)
+	state.cash -= pc
+	p.cost_spent += pc
+	var bid := String(plan.get("briefing_id", ""))
+	if not BriefingDesk.briefing(bid).is_empty():
+		p.briefing_id = bid
+		p.briefing_terms = BriefingDesk.take(state, bid, p.id).duplicate()
 	for m in state.staff:
 		if String(m["id"]) in p.staff_ids:
 			m["assigned"] = p.id
@@ -222,6 +262,7 @@ static func set_sliders(state: TycoonState, project_id: String, values: Array) -
 ## development ends goes to its Design Review (review_gate on: it waits for the player,
 ## project_review_ready) or straight to the launch with the review's defaults (gate off).
 static func advance_week(state: TycoonState) -> void:
+	BriefingDesk.week(state)
 	for p: MissionProject in state.mission_projects.duplicate():
 		var wc := ProjectRules.week_cost(p.mission_type(state), state.era())
 		state.cash -= wc
@@ -265,6 +306,11 @@ static func _review_week(state: TycoonState, p: MissionProject) -> void:
 			if p.review_weeks <= 0:
 				p.review_state = ""
 				_development_done(state, p)
+		"pad":
+			if not state.pilot_gate:
+				launch(state, p, {"auto": true})
+			else:
+				state.launch_pad_ready.emit(p.id)  # still on the pad: remind the player
 
 
 # ------------------------------------------------------------ the Design Review (E2)
@@ -343,6 +389,33 @@ static func change_rocket(state: TycoonState, project_id: String, design: Dictio
 	return true
 
 
+## A new rocket for a project still in development (the campus workshop's hangar): it is built
+## during the development (the project lasts at least the rocket's build weeks). Returns false
+## if the design does not reach the target or the project is past its development.
+static func swap_rocket(state: TycoonState, project_id: String, design: Dictionary) -> bool:
+	var p := find(state, project_id)
+	if p == null or p.review_state != "":
+		return false
+	var parts: Dictionary = design.get("parts", {})
+	if not RocketDesigner.buildable(state, parts) or not RocketDesigner.check(state, parts, p.type_id, p.target_id)["reaches"]:
+		return false
+	var fam := RocketFamilies.ensure(state, parts, String(design.get("name", "")))
+	p.rocket = {"family": String(fam["id"]), "parts": RocketDesigner.normalize(fam["parts"])}
+	p.weeks_total = maxi(p.weeks_total, RocketDesigner.build_weeks(state, parts, RocketFamilies.flights(fam)))
+	sync_strips(state)
+	state.changed.emit()
+	return true
+
+
+## Projects on the pad waiting for the player's launch choice (a rocket built in the hangar).
+static func waiting_pad(state: TycoonState) -> Array[MissionProject]:
+	var out: Array[MissionProject] = []
+	for p: MissionProject in state.mission_projects:
+		if p.review_state == "pad":
+			out.append(p)
+	return out
+
+
 ## Scrubs the launch: the project is cancelled before it flies (the team is freed, a contract
 ## fails, the reputation drops by rockets.json review.scrub_reputation). The rocket stays home.
 static func scrub(state: TycoonState, project_id: String) -> bool:
@@ -355,6 +428,8 @@ static func scrub(state: TycoonState, project_id: String) -> bool:
 			m["assigned"] = ""
 	if p.contract_id != "":
 		state.complete_contract(p.contract_id, 0.0, false)
+	if p.briefing_id != "":
+		BriefingDesk.release(state, p.briefing_id)
 	state.reputation = maxf(state.reputation - float(DesignReview.cfg().get("scrub_reputation", 1.0)), 0.0)
 	state.news.push_front({"key": "TY_RK_NEWS_SCRUB", "args": [p.code]})
 	sync_strips(state)
@@ -429,11 +504,29 @@ static func rocket_info(state: TycoonState, p: MissionProject) -> Dictionary:
 
 ## Development is over: grade, launch roll, reviews, rewards; the project leaves the desk.
 ## Returns the history entry it wrote.
-static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
+## A rocket built in the hangar first stops on the pad when state.pilot_gate is on (review_state
+## "pad", launch_pad_ready; returns {}): the player flies it (TycoonModes) or lets it be
+## simulated. `flight` is that choice: {"auto": true} rolls as usual; a piloted flight's verdict
+## (HangarRocket.flight_verdict: "outcome" "success" | "partial" | "fail", "cause_key",
+## "flight") replaces the roll: a success is graded as usual, "partial" stays partial, a failure
+## names the flight's cause.
+static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dictionary:
+	if flight.is_empty() and state.pilot_gate and p.review_state != "pad" and HangarRocket.is_hangar(p.rocket.get("parts", {})):
+		p.review_state = "pad"
+		p.review_weeks = 0
+		state.news.push_front({"key": "TY_HG_NEWS_PAD", "args": [p.code]})
+		sync_strips(state)
+		state.launch_pad_ready.emit(p.id)
+		state.changed.emit()
+		return {}
+	var piloted := flight.has("outcome")
 	var l := ProjectRules.section("launch")
 	var rw := ProjectRules.section("rewards")
 	var history := state.project_history
-	var grade := p.grade(state, history)
+	# the development grade, then how well the plan fit its hidden ideals (MissionFit)
+	var grade_dev := p.grade(state, history)
+	var report := MissionFit.evaluate(state, MissionFit.ctx_of(state, p))
+	var grade := MissionFit.apply(grade_dev, report)
 	var bars := p.bar_scores(state, history)
 	var expected := MissionProject.expected_points(state, p.type_id, history)
 	var chance := success_chance(state, p)
@@ -453,8 +546,13 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 	dev_force_outcome = ""
 	if forced != "":
 		success = forced != "fail"
+	if piloted:
+		forced = ""
+		success = String(flight["outcome"]) != "fail"
 	var cause := {}
-	if not success:
+	if not success and piloted:
+		cause = {"id": "flight", "cause_key": String(flight.get("cause_key", "TY_HG_CAUSE_LOST"))}
+	elif not success:
 		cause = DesignReview.pick_cause(chance["risks"], state.rng.randf())
 	var outcome := "fail"
 	if success:
@@ -468,15 +566,21 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 			var bi := ProjectRules.BARS.find(bar)
 			if bi >= 0 and bars[bi] < float(c["min_bars"][bar]):
 				outcome = "partial"
-		if forced == "partial":
+		if forced == "partial" or (piloted and String(flight["outcome"]) == "partial"):
 			outcome = "partial"
 		elif forced == "success" and outcome == "partial":
 			outcome = "full"
+	# the mission's grade counts the flight too: a blown launch can't score 10 however well it was
+	# built (projects.json launch.outcome_grade). The project's own grade (development x fit) stays
+	# as grade_project: the outcome above, the press (it shifts by the outcome itself), the client,
+	# the journal and the crew's XP read that one, so a failure is not counted twice
+	var grade_project := grade
+	grade = grade_project * outcome_grade(outcome)
 	# the family's heritage, and the recovered stage's refund after a good flight
 	RocketFamilies.record_flight(state, String(rocket["family"]), success)
 	var refund := float(RocketDesigner.stats(rocket["parts"])["refund"]) if success else 0.0
 	state.cash += refund
-	var reviews := ReviewBoard.review(state.rng, {"grade": grade, "outcome": outcome, "novelty": novelty,
+	var reviews := ReviewBoard.review(state.rng, {"grade": grade_project, "outcome": outcome, "novelty": novelty,
 		"crewed": ProjectRules.is_crewed(p.type_id), "hype": state.hype, "bar_scores": bars, "defects": p.residual_defects(),
 		"q": p.total_points() / maxf(expected, 0.001), "contract": p.contract_id != ""})
 	var avg := ReviewBoard.average(reviews)
@@ -492,12 +596,28 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 		float(rw.get("reputation_cap", 5.0)))
 	state.reputation = maxf(state.reputation + rep, 0.0)
 	var hype := avg * avg / float(rw.get("hype_div", 5.0))
+	if report.get("great", false) and success:
+		hype += float((BriefingDesk.disc().get("great", {}) as Dictionary).get("hype", 6.0))
 	state.hype += hype
+	# the briefing's client pays by the result; the journal writes down what this flight taught
+	var brief := {}
+	if p.briefing_id != "":
+		brief = BriefingDesk.complete(state, p, grade_project, success)
+		brief["id"] = p.briefing_id
+	var learned := Discovery.record(state, p, report, grade_project, success)
+	var feedback := MissionFit.feedback(state, report, p.type_id, p.target_id)
+	if not success:
+		# the rocket failed: say so first; a great plan is no great combo without a flight
+		var kept: Array[Dictionary] = [{"key": "TY_FB_LAUNCH_FAIL", "args": [], "tone": "bad", "topic": "launch"}]
+		for f in feedback:
+			if String(f["tone"]) != "star" and kept.size() < int(BriefingDesk.disc().get("feedback_max", 5)):
+				kept.append(f)
+		feedback = kept
 	var research := 0.0
 	if suborbital:
 		research = science * float(rw.get("research_per_science", 0.5))
 		state.research_points += research
-	var xp := float(rw.get("xp_per_week", 12.0)) * p.weeks_total * (float(rw.get("xp_grade_floor", 0.5)) + grade / 10.0) \
+	var xp := float(rw.get("xp_per_week", 12.0)) * p.weeks_total * (float(rw.get("xp_grade_floor", 0.5)) + grade_project / 10.0) \
 		+ p.training_xp
 	# levels, the training centre and mentors live in the crew rules; launch morale too
 	# (TycoonCrew.mission_result reacts to mission_launched, while the team is still assigned)
@@ -514,7 +634,12 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 		"p_rocket": chance["rocket"], "p_crew": chance["crew"], "launch_class": cls, "pad": pad, "success": success,
 		"outcome": outcome, "reviews": reviews, "review_avg": avg, "science": science, "suborbital": suborbital,
 		"rocket": rocket, "risks": risk_rows, "fixes": p.review_fixes.duplicate(), "cause": String(cause.get("id", "")),
-		"cause_key": cause_key,
+		"cause_key": cause_key, "grade_dev": grade_dev, "grade_project": grade_project, "payload": p.payload_or_default(state).duplicate(),
+		"fit": {"fit": report["fit"], "mult": report["mult"], "great": report["great"], "instrument": report["instrument"],
+			"power": report["power"], "data": report["data"], "team": report["team"], "objective": report["objective"],
+			"match": report["match"]},
+		"feedback": feedback, "learned": learned, "briefing": brief, "piloted": piloted,
+		"flight": (flight.get("flight", {}) as Dictionary).duplicate() if piloted else {},
 		"rewards": {"cash": state.cash - cash0, "reputation": rep, "hype": hype, "research": research, "xp": xp,
 			"dev_cost": p.cost_spent, "launch_cost": launch_cost, "refund": refund}}
 	state.project_history.append(entry)
@@ -527,14 +652,17 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 		state.news.push_front({"key": "TY_PJ_NEWS_FAIL", "args": [p.code, "%.1f" % avg]})
 	sync_strips(state)
 	var result := {"project_id": p.id, "code": p.code, "type": p.type_id, "target": p.target_id, "grade": grade,
-		"success": success, "outcome": outcome, "contract_id": p.contract_id, "review_avg": avg,
+		"grade_project": grade_project, "success": success, "outcome": outcome, "contract_id": p.contract_id, "review_avg": avg,
 		"p_success": chance["total"], "pad": pad, "rocket": rocket, "cause": String(cause.get("id", "")),
-		"cause_key": cause_key}
+		"cause_key": cause_key, "piloted": piloted}
 	if success and not suborbital:
-		state.active_missions.append({"id": p.id, "code": p.code, "type": p.type_id, "target": p.target_id,
+		var am := {"id": p.id, "code": p.code, "type": p.type_id, "target": p.target_id,
 			"start_week": state.weeks, "weeks_total": ProjectRules.ops_weeks(p.type_id), "data_stored": 0.0,
 			"data_down": 0.0, "science": 0.0, "status": "cruise", "science_goal": science, "grade": grade,
-			"contract_id": p.contract_id, "outcome": outcome, "success": success, "project_id": p.id})
+			"contract_id": p.contract_id, "outcome": outcome, "success": success, "project_id": p.id}
+		# the payload drives the operations: its data, storage, antenna, science value, night and cold
+		am.merge(MissionFit.ops_fields(state, p.type_id, p.payload_or_default(state), report), true)
+		state.active_missions.append(am)
 	state.mission_launching.emit(result)
 	state.mission_launched.emit(result)
 	for m in state.staff:
@@ -571,6 +699,8 @@ static func sync_strips(state: TycoonState) -> void:
 				line = TranslationServer.translate("TY_RK_STRIP_FIXING") % p.review_weeks
 			"rebuild":
 				line = TranslationServer.translate("TY_RK_STRIP_REBUILD") % p.review_weeks
+			"pad":
+				line = TranslationServer.translate("TY_HG_STRIP_PAD")
 		state.projects.append({"id": p.id, "code": "%s · %s" % [p.code, TranslationServer.translate(String(mt.get("name_key", "")))],
 			"kind": p.type_id, "phase": line, "review": p.review_state,
 			"progress": p.progress(), "color": CwPalette.BARS[ProjectRules.BARS[top]]})
@@ -589,4 +719,9 @@ static func restore(state: TycoonState, d: Dictionary) -> void:
 	for pd: Dictionary in d.get("mission_projects", []):
 		state.mission_projects.append(MissionProject.from_dict(pd))
 	state.project_history.assign(d.get("project_history", []))
+	# saves from before the mission grade: their "grade" was the project grade
+	for h: Dictionary in state.project_history:
+		if not h.has("grade_project"):
+			h["grade_project"] = float(h.get("grade", 0.0))
+			h["grade"] = float(h["grade_project"]) * outcome_grade(String(h.get("outcome", "full")))
 	sync_strips(state)

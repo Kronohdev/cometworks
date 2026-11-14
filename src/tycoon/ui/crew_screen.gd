@@ -1,35 +1,60 @@
 class_name CrewScreen
 extends Control
-## Crew screen (scenes/tycoon/ui/screens/crew.tscn), opened by the HUD's Crew rail button:
-## the staff roster (profession antenna tag, level, XP, traits, morale, salary, what they are
-## doing), a card for the selected Cometling with a live 3D portrait in a round visor and
-## their specialisation slots, and the hiring market (3 candidates a month, hidden traits as
-## "?"). Everything visual is in the scene; rows, candidates, spec slots and their options are
-## copies of hidden templates there. Rules come from TycoonCrew.
+## Crew screen (scenes/tycoon/ui/screens/crew.tscn), opened by the HUD's Crew rail button. Its
+## pages (a CwPageStack, with the breadcrumb CwNavBar and the CwPageTabs in the header):
+##   Roster  the Cometlings as cards (portrait, name, profession, level, mood, what they are
+##           doing), filtered by profession / available / napping and sorted by level, name or
+##           mood; a card opens the Cometling's sheet
+##   Sheet   one Cometling (or a candidate): big live 3D portrait, level and XP, traits, mood,
+##           salary, specialisations, the missions they flew; fire / specialise / hire here
+##   Hire    the hiring market (3 candidates a month, hidden traits as "?") as cards; a card
+##           opens the candidate's sheet
+## The team summary (head count, payroll, average mood) is a strip in the header. Everything
+## visual is in the scene; cards, chips, slots and history rows are copies of hidden templates
+## there, and card portraits are stills from the scene's CwPortraitStudio. Rules come from
+## TycoonCrew.
+
+const SORTS: Array[String] = ["level", "name", "morale"]
 
 var state: TycoonState
 var clock: TycoonClock
 var hud: Node
-## "roster" | "hire"
+## "roster" | "hire" (the tab on show)
 var tab := "roster"
+## the Cometling on the sheet (or last opened)
 var selected := ""
+## the candidate on the sheet (or last opened)
 var selected_cand := ""
+## "staff" | "cand": who the sheet shows
+var sheet_kind := "staff"
+## roster filters: a profession id ("" = all), "free" / "nap" / ""
+var filter_prof := ""
+var filter_state := ""
+var sort_by := "level"
 var _fire_armed := ""
 var _note := ""
 var _shown_look := ""
 
-@onready var creature: Cometling = $Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Creature
+@onready var pages: CwPageStack = %Pages
+@onready var creature: Cometling = %Creature
+@onready var studio: CwPortraitStudio = %Studio
 
 
 func _ready() -> void:
-	%RosterTab.pressed.connect(func() -> void: show_tab("roster"))
-	%HireTab.pressed.connect(func() -> void: show_tab("hire"))
 	%CloseButton.pressed.connect(close)
 	%FireButton.pressed.connect(_on_fire)
 	%HireButton.pressed.connect(_on_hire)
 	%EditLeader.pressed.connect(func() -> void:   # the leader creator, in edit mode
 		if hud and hud.has_method("open_screen"):
 			hud.call("open_screen", "leader_creator"))
+	%FilterAll.pressed.connect(func() -> void: set_filter("", ""))
+	%FilterFree.pressed.connect(func() -> void: set_filter(filter_prof, "" if filter_state == "free" else "free"))
+	%FilterNap.pressed.connect(func() -> void: set_filter(filter_prof, "" if filter_state == "nap" else "nap"))
+	%SortKey.pressed.connect(func() -> void:
+		sort_by = SORTS[(SORTS.find(sort_by) + 1) % SORTS.size()]
+		refresh())
+	pages.page_changed.connect(_on_page_changed)
+	studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_portraits())
 
 
 func bind(s: TycoonState, c: TycoonClock, h: Node) -> void:
@@ -43,10 +68,13 @@ func bind(s: TycoonState, c: TycoonClock, h: Node) -> void:
 	refresh()
 
 
-## args: {"tab": "roster" | "hire", "staff_id": id}
+## args: {"tab": "roster" | "hire", "staff_id": id (opens their sheet), "cand_id": id}
 func open_with(args: Dictionary) -> void:
-	selected = String(args.get("staff_id", selected))
 	show_tab(String(args.get("tab", tab)))
+	if args.has("staff_id"):
+		select_member(String(args["staff_id"]))
+	elif args.has("cand_id"):
+		select_candidate(String(args["cand_id"]))
 
 
 func close() -> void:
@@ -56,23 +84,60 @@ func close() -> void:
 		queue_free()
 
 
+## Esc / back: the sheet goes back to its list first (TycoonHUD.screen_back).
+func go_back() -> bool:
+	return pages.back()
+
+
+## Shows the roster ("roster") or the hiring market ("hire") at their top level.
 func show_tab(t: String) -> void:
-	tab = t
+	tab = "hire" if t == "hire" else "roster"
 	_note = ""
 	_fire_armed = ""
+	pages.switch_to(&"Hire" if tab == "hire" else &"Roster")
 	refresh()
 
 
+## Opens a Cometling's sheet from the roster.
 func select_member(id: String) -> void:
+	if state == null or TycoonCrew.find(state, id).is_empty():
+		return
 	selected = id
+	sheet_kind = "staff"
 	_note = ""
 	_fire_armed = ""
+	if tab != "roster":
+		tab = "roster"
+		pages.switch_to(&"Roster")
+	pages.push(&"Sheet", String(TycoonCrew.find(state, id)["name"]))
 	refresh()
 
 
+## Opens a candidate's sheet from the hiring market.
 func select_candidate(id: String) -> void:
+	if state == null or TycoonCrew.find_candidate(state, id).is_empty():
+		return
 	selected_cand = id
+	sheet_kind = "cand"
 	_note = ""
+	if tab != "hire":
+		tab = "hire"
+		pages.switch_to(&"Hire")
+	pages.push(&"Sheet", String(TycoonCrew.find_candidate(state, id)["name"]))
+	refresh()
+
+
+func set_filter(prof: String, st: String) -> void:
+	filter_prof = prof
+	filter_state = st
+	refresh()
+	CwMotion.poke(self)   # the roster cascade (CwRoster, on_poke) plays again
+
+
+func _on_page_changed(page: StringName, _depth: int) -> void:
+	if page != &"Sheet":
+		tab = "hire" if pages.root_page() == &"Hire" else "roster"
+		_fire_armed = ""
 	refresh()
 
 
@@ -80,100 +145,153 @@ func select_candidate(id: String) -> void:
 func refresh() -> void:
 	if state == null or not is_inside_tree():
 		return
-	var cands := TycoonCrew.candidates(state)
 	%StaffValue.text = "%d / %d" % [state.staff.size(), TycoonCrew.staff_limit(state)]
 	%PayrollValue.text = TycoonHUD.fmt_cr(state.monthly_salaries())
 	var avg := TycoonCrew.average_morale(state)
 	%AvgMoraleValue.text = "%d" % roundi(avg)
-	%AvgMoraleValue.add_theme_color_override("font_color", _morale_color(avg))
-	%MarketValue.text = tr("TY_CREW_MARKET_VALUE") % [cands.size(), TycoonCrew.weeks_to_market(state)]
-	%RosterTab.set_pressed_no_signal(tab == "roster")
-	%HireTab.set_pressed_no_signal(tab == "hire")
-	%RosterPage.visible = tab == "roster"
-	%HirePage.visible = tab == "hire"
-	if tab == "roster":
-		if TycoonCrew.find(state, selected).is_empty() and not state.staff.is_empty():
-			selected = String(state.staff[0]["id"])
-		_fill_roster()
-		_show_member(TycoonCrew.find(state, selected))
-	else:
-		if TycoonCrew.find_candidate(state, selected_cand).is_empty() and not cands.is_empty():
-			selected_cand = String(cands[0]["id"])
-		_fill_market(cands)
-		_show_candidate(TycoonCrew.find_candidate(state, selected_cand))
-	_fill_composition()
+	%AvgMoraleValue.add_theme_color_override("font_color", CwPalette.ink(_morale_color(avg)))
+	(%AvgFace as CwMoodFace).mood = avg
+	var cands := TycoonCrew.candidates(state)
+	%HireTab.text = "%s · %d" % [tr("TY_CREW_TAB_HIRE"), cands.size()] if not cands.is_empty() else tr("TY_CREW_TAB_HIRE")
+	_fill_filters()
+	_fill_roster()
+	_fill_market(cands)
+	if pages.current() == &"Sheet":
+		if sheet_kind == "staff":
+			var m := TycoonCrew.find(state, selected)
+			if m.is_empty():
+				pages.back()   # fired: back to the roster
+				return
+			_show_member(m)
+		else:
+			var c := TycoonCrew.find_candidate(state, selected_cand)
+			if c.is_empty():
+				pages.back()   # hired by someone else / the market renewed
+				return
+			_show_candidate(c)
 
 
-## Footer: a chip per profession with how many Cometlings have it and the project bar it
-## favours, in full words (the chips flow onto a second line when the row is full).
-func _fill_composition() -> void:
-	var profs: Array = state.pdata.get("professions", [])
-	var cells := TycoonHUD._copies(%ProfTemplate, profs.size())
-	for i in profs.size():
-		var p: Dictionary = profs[i]
+## The filter chips: everyone, one chip per profession on the team (with its count), the
+## available / napping chips and the sort key.
+func _fill_filters() -> void:
+	%FilterAll.text = tr("TY_CREW_FILTER_ALL") % state.staff.size()
+	%FilterAll.set_pressed_no_signal(filter_prof == "" and filter_state == "")
+	%FilterFree.set_pressed_no_signal(filter_state == "free")
+	%FilterNap.set_pressed_no_signal(filter_state == "nap")
+	%SortKey.text = tr("TY_CREW_SORT_" + sort_by.to_upper())
+	var present: Array[Dictionary] = []
+	for p: Dictionary in state.pdata.get("professions", []):
 		var n := 0
 		for m in state.staff:
 			n += 1 if m.get("profession", "") == p["id"] else 0
+		if n > 0:
+			present.append({"p": p, "n": n})
+	if filter_prof != "" and not present.any(func(e: Dictionary) -> bool: return e["p"]["id"] == filter_prof):
+		filter_prof = ""
+	var chips := TycoonHUD._copies(%ProfChipTemplate, present.size())
+	for i in present.size():
+		var p: Dictionary = present[i]["p"]
+		var b := chips[i] as Button
 		var col := Color(String(p.get("color", "#8c9ab5")))
-		var cell := cells[i].get_node("HBox")
-		(cell.get_node("Bulb") as TextureRect).self_modulate = col if n > 0 else CwPalette.LINE
-		var count := cell.get_node("Count") as Label
-		count.text = str(n)
-		count.add_theme_color_override("font_color", CwPalette.COMET_ICE if n > 0 else CwPalette.TEXT_DIM)
-		var name_l := cell.get_node("Name") as Label
-		name_l.text = tr(String(p.get("name_key", "")))
-		name_l.add_theme_color_override("font_color", CwPalette.TEXT if n > 0 else CwPalette.TEXT_DIM)
-		var bar := String(p.get("primary", "eng"))
-		var bar_l := cell.get_node("Bar") as Label
-		bar_l.text = tr("TY_BAR_" + bar.to_upper())
-		bar_l.add_theme_color_override("font_color", CwPalette.ink(CwPalette.BARS.get(bar, CwPalette.TEXT_DIM)))
+		b.text = "%d · %s" % [int(present[i]["n"]), tr(String(p.get("name_key", "")))]
+		b.tooltip_text = tr("TY_CREW_FILTER_PROF_TIP") % tr("TY_BAR_" + String(p.get("primary", "eng")).to_upper())
+		for k in ["icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_hover_pressed_color", "icon_focus_color"]:
+			b.add_theme_color_override(k, col)
+		b.set_meta("prof", String(p["id"]))
+		b.set_pressed_no_signal(filter_prof == String(p["id"]))
+		if not b.has_meta("wired"):
+			b.set_meta("wired", true)
+			b.pressed.connect(func() -> void:
+				var pid := String(b.get_meta("prof"))
+				set_filter("" if filter_prof == pid else pid, filter_state))
+	# the chips sit right after "everyone"
+	for i in chips.size():
+		%Filters.move_child(chips[i], %FilterAll.get_index() + 1 + i)
+
+
+func _passes(m: Dictionary) -> bool:
+	if filter_prof != "" and String(m.get("profession", "")) != filter_prof:
+		return false
+	match filter_state:
+		"free":
+			return TycoonCrew.status(m) == "idle"
+		"nap":
+			return TycoonCrew.status(m) == "nap"
+	return true
+
+
+func _roster() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for m in state.staff:
+		if _passes(m):
+			out.append(m)
+	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		match sort_by:
+			"name":
+				return String(a["name"]) < String(b["name"])
+			"morale":
+				return float(a["morale"]) < float(b["morale"])
+		if int(a["level"]) != int(b["level"]):
+			return int(a["level"]) > int(b["level"])
+		return float(a["xp"]) > float(b["xp"]))
+	# the leader always leads the list on the default sort
+	if sort_by == "level":
+		for i in out.size():
+			if TycoonLeader.is_leader(out[i]) and i > 0:
+				out.push_front(out.pop_at(i))
+				break
+	return out
 
 
 func _fill_roster() -> void:
-	var rows := TycoonHUD._copies(%RowTemplate, state.staff.size())
-	for i in state.staff.size():
-		var m: Dictionary = state.staff[i]
-		var row := rows[i] as Button
+	var list := _roster()
+	var cards := TycoonHUD._copies(%CardTemplate, list.size())
+	%RosterEmpty.visible = list.is_empty()
+	%Grid.move_child(%RosterEmpty, %Grid.get_child_count() - 1)
+	for i in list.size():
+		var m: Dictionary = list[i]
+		var card := cards[i] as Button
 		var id := String(m["id"])
-		row.set_meta("id", id)
-		if not row.has_meta("wired"):
-			row.set_meta("wired", true)
-			row.pressed.connect(func() -> void: select_member(String(row.get_meta("id"))))
-		row.set_pressed_no_signal(id == selected)
+		card.set_meta("id", id)
+		card.set_meta("member", m)
+		if not card.has_meta("wired"):
+			card.set_meta("wired", true)
+			card.pressed.connect(func() -> void: select_member(String(card.get_meta("id"))))
 		var col := TycoonCrew.profession_color(state, String(m["profession"]))
-		(row.get_node("HBox/Tab") as ColorRect).color = col
-		(row.get_node("HBox/Bulb") as TextureRect).self_modulate = col
-		(row.get_node("HBox/Bulb/Leader") as Control).visible = TycoonLeader.is_leader(m)
-		(row.get_node("HBox/Who/Name") as Label).text = String(m["name"])
-		(row.get_node("HBox/Who/Prof") as Label).text = _prof_name(m)
-		(row.get_node("HBox/Level") as Label).text = str(int(m["level"]))
-		(row.get_node("HBox/XP/Bar") as CwSegmentBar).value = TycoonCrew.level_progress(m)
-		(row.get_node("HBox/XP/Text") as Label).text = "%d XP" % roundi(float(m["xp"]))
-		for t: String in TycoonCrew.TRAITS:
-			_trait(row.get_node("HBox/" + t.capitalize()), m, t)
+		var box := card.get_node("Box")
+		(box.get_node("Name") as Label).text = String(m["name"])
+		(box.get_node("Prof/Bulb") as TextureRect).self_modulate = col
+		var pl := box.get_node("Prof/Name") as Label
+		pl.text = _prof_name(m)
+		pl.add_theme_color_override("font_color", CwPalette.ink(col))
+		(box.get_node("Visor/Level/Text") as Label).text = tr("TY_CREW_LEVEL_SHORT") % int(m["level"])
+		(box.get_node("Visor/Leader") as Control).visible = TycoonLeader.is_leader(m)
+		(box.get_node("Visor/Fallback") as TextureRect).self_modulate = col
 		var mo := float(m["morale"])
-		var mb := row.get_node("HBox/Morale/Bar") as CwSegmentBar
-		mb.value = mo / 100.0
-		mb.color = _morale_color(mo)
-		(row.get_node("HBox/Morale/Text") as Label).text = "%d · %s" % [roundi(mo), tr(_mood_key(mo))]
-		(row.get_node("HBox/Salary") as Label).text = TycoonHUD.fmt_cr(TycoonCrew.salary(state, m))
-		var task := row.get_node("HBox/Doing/Task") as Label
-		task.text = _project_name(String(m["assigned"]))
-		task.add_theme_color_override("font_color", CwPalette.TEXT if String(m["assigned"]) != "" else CwPalette.TEXT_DIM)
-		var chip := row.get_node("HBox/Doing/Chip") as Label
+		(box.get_node("Mood/Face") as CwMoodFace).mood = mo
+		var bar := box.get_node("Mood/Bar") as CwSegmentBar
+		bar.value = mo / 100.0
+		bar.color = _morale_color(mo)
+		box.get_node("Mood").tooltip_text = "%s · %d" % [tr(_mood_key(mo)), roundi(mo)]
 		var st := _status(m)
-		chip.text = st[0]
-		chip.add_theme_color_override("font_color", CwPalette.ink(st[1]))
+		var act := box.get_node("Activity/Text") as Label
+		act.text = st[0] if TycoonCrew.status(m) != "busy" else "%s · %s" % [st[0], _project_name(String(m["assigned"]))]
+		act.add_theme_color_override("font_color", CwPalette.ink(st[1]))
+		box.get_node("Activity").tooltip_text = act.text   # the chip may shorten it
+	_fill_portraits()
 
 
-## A trait cell (Value label + Bar) of a roster row: "?" while hidden.
-func _trait(cell: Node, m: Dictionary, t: String) -> void:
-	var known := TycoonCrew.trait_known(m, t)
-	var v := float(m.get(t, 0.0))
-	var lbl := cell.get_node("Value") as Label
-	lbl.text = "%d" % roundi(v * 100.0) if known else "?"
-	lbl.add_theme_color_override("font_color", CwPalette.COMET_ICE if known else CwPalette.TEXT_DIM)
-	(cell.get_node("Bar") as CwSegmentBar).value = v if known else 0.0
+## Card portraits: the studio's stills (cards keep their profession badge until theirs is ready).
+func _fill_portraits() -> void:
+	for tmpl: Control in [%CardTemplate, %CandTemplate]:
+		for card in tmpl.get_parent().get_children():
+			if card == tmpl or not card.has_meta("from_template") or not card.has_meta("member"):
+				continue
+			var m: Dictionary = card.get_meta("member")
+			var tex := studio.portrait(m, TycoonCrew.profession_color(state, String(m.get("profession", ""))))
+			var pr := card.get_node("Box/Visor/Portrait") as TextureRect
+			pr.texture = tex
+			(card.get_node("Box/Visor/Fallback") as Control).visible = tex == null
 
 
 func _fill_market(cands: Array) -> void:
@@ -183,50 +301,51 @@ func _fill_market(cands: Array) -> void:
 	%MarketLimit.add_theme_color_override("font_color",
 		CwPalette.WARNING if state.staff.size() >= TycoonCrew.staff_limit(state) else CwPalette.TEXT_DIM)
 	%EmptyMarket.visible = cands.is_empty()
-	var rows := TycoonHUD._copies(%CandTemplate, cands.size())
+	var cards := TycoonHUD._copies(%CandTemplate, cands.size())
 	for i in cands.size():
 		var c: Dictionary = cands[i]
-		var row := rows[i] as Button
-		row.set_meta("id", String(c["id"]))
-		if not row.has_meta("wired"):
-			row.set_meta("wired", true)
-			row.pressed.connect(func() -> void: select_candidate(String(row.get_meta("id"))))
-		row.set_pressed_no_signal(String(c["id"]) == selected_cand)
+		var card := cards[i] as Button
+		card.set_meta("id", String(c["id"]))
+		card.set_meta("member", c)
+		if not card.has_meta("wired"):
+			card.set_meta("wired", true)
+			card.pressed.connect(func() -> void: select_candidate(String(card.get_meta("id"))))
 		var col := TycoonCrew.profession_color(state, String(c["profession"]))
-		(row.get_node("HBox/Tab") as ColorRect).color = col
-		(row.get_node("HBox/Bulb") as TextureRect).self_modulate = col
-		(row.get_node("HBox/Who/Name") as Label).text = String(c["name"])
-		var prof := row.get_node("HBox/Who/Prof") as Label
+		var box := card.get_node("Box")
+		(box.get_node("Name") as Label).text = String(c["name"])
+		(box.get_node("Prof/Bulb") as TextureRect).self_modulate = col
+		(box.get_node("Visor/Fallback") as TextureRect).self_modulate = col
+		var prof := box.get_node("Prof/Name") as Label
 		prof.text = _prof_name(c)
 		prof.add_theme_color_override("font_color", CwPalette.ink(col))
-		(row.get_node("HBox/Who/Level") as Label).text = "%s %d · %d XP" % [tr("TY_CREW_LEVEL"), int(c["level"]),
-			roundi(float(c["xp"]))]
-		for t: String in TycoonCrew.TRAITS:
-			_trait(row.get_node("HBox/Traits/" + t.capitalize()), c, t)
-		(row.get_node("HBox/Money/Ask") as Label).text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, c))
+		(box.get_node("Level") as Label).text = "%s %d · %d XP" % [tr("TY_CREW_LEVEL"), int(c["level"]), roundi(float(c["xp"]))]
+		(box.get_node("Ask") as Label).text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, c))
 		var fee := TycoonCrew.hire_fee(state, c)
-		var fee_l := row.get_node("HBox/Money/Fee") as Label
-		fee_l.text = TycoonHUD.fmt_cr(fee)
-		fee_l.add_theme_color_override("font_color", CwPalette.DANGER if state.cash < fee else CwPalette.COMET_ICE)
+		var fee_l := box.get_node("Fee") as Label
+		fee_l.text = tr("TY_CREW_FEE_LINE") % TycoonHUD.fmt_cr(fee)
+		fee_l.add_theme_color_override("font_color", CwPalette.DANGER if state.cash < fee else CwPalette.TEXT_DIM)
 		var hidden: Array = c.get("hidden", [])
-		(row.get_node("HBox/Reveal") as Label).text = tr("TY_CREW_ALL_KNOWN") if hidden.is_empty() \
+		(box.get_node("Reveal") as Label).text = tr("TY_CREW_ALL_KNOWN") if hidden.is_empty() \
 			else tr("TY_CREW_HIDDEN_LEFT") % hidden.size()
+	_fill_portraits()
 
 
-# ------------------------------------------------------------ card
+# ------------------------------------------------------------ sheet
 func _show_member(m: Dictionary) -> void:
-	%Card.visible = not m.is_empty()
-	if m.is_empty():
-		return
+	pages.set_title(String(m["name"]))
 	_card_common(m)
 	var mo := float(m["morale"])
-	for n in [%MoraleLabel, %MoraleBar, %MoraleValue]:
+	for n in [%MoraleLabel, %MoraleBar, %MoraleValue, %MoodFace]:
 		(n as Control).visible = true
 	%MoraleBar.value = mo / 100.0
 	%MoraleBar.color = _morale_color(mo)
 	%MoraleValue.text = "%d" % roundi(mo)
-	%MoraleValue.add_theme_color_override("font_color", _morale_color(mo))
+	%MoraleValue.add_theme_color_override("font_color", CwPalette.ink(_morale_color(mo)))
+	(%MoodFace as CwMoodFace).mood = mo
 	%Mood.text = _mood_line(m)
+	var st := _status(m)
+	%SheetStatus.text = st[0] if TycoonCrew.status(m) != "busy" else "%s · %s" % [st[0], _project_name(String(m["assigned"]))]
+	%SheetStatus.add_theme_color_override("font_color", CwPalette.ink(st[1]))
 	%Cap1.text = tr("TY_CREW_COL_SALARY")
 	%Val1.text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, m))
 	%Cap2.text = tr("TY_CREW_ASSIGNED")
@@ -237,6 +356,8 @@ func _show_member(m: Dictionary) -> void:
 		else tr("TY_CREW_HIRED_VALUE") % [hw / state.weeks_per_year() + 1, hw % state.weeks_per_year() + 1]
 	%SpecSection.visible = true
 	_fill_specs(m)
+	%History.visible = true
+	_fill_history(m)
 	%FireButton.visible = not TycoonLeader.is_leader(m)
 	%FireButton.text = tr("TY_CREW_FIRE_CONFIRM") % String(m["name"]) if _fire_armed == String(m["id"]) else tr("TY_CREW_FIRE")
 	%HireButton.visible = false
@@ -255,14 +376,14 @@ func _show_member(m: Dictionary) -> void:
 
 
 func _show_candidate(c: Dictionary) -> void:
-	%Card.visible = not c.is_empty()
-	if c.is_empty():
-		return
+	pages.set_title(String(c["name"]))
 	_card_common(c)
-	for n in [%MoraleLabel, %MoraleBar, %MoraleValue]:
+	for n in [%MoraleLabel, %MoraleBar, %MoraleValue, %MoodFace]:
 		(n as Control).visible = false
 	var hidden: Array = c.get("hidden", [])
 	%Mood.text = tr("TY_CREW_ALL_KNOWN") if hidden.is_empty() else tr("TY_CREW_HIDDEN_LEFT") % hidden.size()
+	%SheetStatus.text = tr("TY_CREW_CANDIDATE")
+	%SheetStatus.add_theme_color_override("font_color", CwPalette.ink(CwPalette.AURORA_VIOLET))
 	var fee := TycoonCrew.hire_fee(state, c)
 	%Cap1.text = tr("TY_CREW_ASK")
 	%Val1.text = tr("TY_CREW_SALARY_MONTH") % TycoonHUD.fmt_cr(TycoonCrew.salary(state, c))
@@ -271,6 +392,7 @@ func _show_candidate(c: Dictionary) -> void:
 	%Cap3.text = tr("TY_CREW_STAFF")
 	%Val3.text = "%d / %d" % [state.staff.size(), TycoonCrew.staff_limit(state)]
 	%SpecSection.visible = false
+	%History.visible = false
 	%FireButton.visible = false
 	%HireButton.visible = true
 	%HireButton.text = tr("TY_CREW_HIRE") % TycoonHUD.fmt_cr(fee)
@@ -360,13 +482,40 @@ func _fill_specs(m: Dictionary) -> void:
 				b.pressed.connect(func() -> void: _on_spec(String(b.get_meta("spec"))))
 
 
+## The missions the Cometling worked on (launched projects with them on the team), newest first.
+func _fill_history(m: Dictionary) -> void:
+	var id := String(m["id"])
+	var rows: Array[Dictionary] = []
+	for i in range(state.project_history.size() - 1, -1, -1):
+		var h: Dictionary = state.project_history[i]
+		if id in Array(h.get("staff", [])).map(func(x: Variant) -> String: return String(x)):
+			rows.append(h)
+		if rows.size() >= 8:
+			break
+	var lines := TycoonHUD._copies(%HistTemplate, rows.size())
+	%HistEmpty.visible = rows.is_empty()
+	for i in rows.size():
+		var h := rows[i]
+		(lines[i].get_node("Code") as Label).text = String(h.get("code", ""))
+		var ty := tr(String(state.mission_type(String(h.get("type", ""))).get("name_key", "")))
+		var tg := tr(String(state.mission_target(String(h.get("target", ""))).get("name_key", "")))
+		(lines[i].get_node("What") as Label).text = "%s · %s" % [ty, tg]
+		var ok := bool(h.get("success", false))
+		var res := lines[i].get_node("Result") as Label
+		res.text = (tr("TY_CREW_HIST_OK") if ok else tr("TY_CREW_HIST_FAIL")) + " · %.1f" % float(h.get("grade", 0.0))
+		res.add_theme_color_override("font_color", CwPalette.ink(CwPalette.SUCCESS if ok else CwPalette.DANGER))
+
+
 # ------------------------------------------------------------ actions
 func _on_hire() -> void:
 	var err := TycoonCrew.hire(state, selected_cand)
 	_note = tr(err) if err != "" else ""
 	if err == "":
-		selected = String(state.staff[state.staff.size() - 1]["id"])
+		# the new Cometling's own sheet, from the roster
+		var id := String(state.staff[state.staff.size() - 1]["id"])
+		select_member(id)
 		creature.play_sequence(["cheer", "jump"])
+		return
 	refresh()
 
 
@@ -408,7 +557,7 @@ func _project_name(pid: String) -> String:
 	return pid
 
 
-## [chip text, chip colour] for a roster row.
+## [chip text, chip colour] for a card.
 func _status(m: Dictionary) -> Array:
 	match TycoonCrew.status(m):
 		"nap":

@@ -19,7 +19,9 @@ extends CanvasLayer
 ## catch it), collects the warnings and errors the engine prints (a Logger) for
 ## the Log tab, and is only there in debug builds and the editor (or with the project setting
 ## cometworks/dev/enabled on). Hooks it uses in the game are named dev_*:
-## ProjectDesk.dev_force_outcome / dev_finish_phase(), TycoonClock.dev_turbo, TycoonCrew
+## ProjectDesk.dev_force_outcome / dev_finish_phase(), Discovery.reveal_all(), BriefingDesk.spawn(),
+## TycoonModes.open_project_hangar() / open_project_flight() (the hangar and the flight in the campus),
+## TycoonClock.dev_turbo, TycoonCrew
 ## .dev_ignore_limit / dev_refresh_market(), Campus.dev_spawn_walkers() / dev_show_nav().
 
 signal open_changed(open: bool)
@@ -187,10 +189,17 @@ func is_toggle_key(k: InputEventKey) -> bool:
 	return k.physical_keycode == KEY_QUOTELEFT and not k.shift_pressed
 
 
-## Does the scene on show use F1 itself?
+## Does the scene on show use F1 itself? (The hangar and the flight open inside the campus too.)
 func f1_taken() -> bool:
 	var cs := get_tree().current_scene
+	if _modes_open():
+		return true
 	return cs != null and (cs.scene_file_path in F1_TAKEN or cs is SurfaceDemo)
+
+
+func _modes_open() -> bool:
+	var m := main()
+	return m != null and m.modes != null and m.modes.is_open()
 
 
 func _typing() -> bool:
@@ -333,6 +342,8 @@ func context_tags() -> Dictionary:
 		tags["hangar"] = true
 	if cs and (cs.scene_file_path == FLIGHT or cs is FlightWorld):
 		tags["flight"] = true
+	if _modes_open():
+		tags[main().modes.kind] = true
 	if not cometlings(true).is_empty():
 		tags["cometlings"] = true
 	return tags
@@ -968,6 +979,64 @@ static func replay_result(s: TycoonState, kind: String, target: String) -> Dicti
 	return r
 
 
+## The hangar inside the campus for the project in development (or the one waiting in its
+## Design Review); with no project, the free workshop.
+func _a_mission_hangar(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	if m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	var p := _project(m.state)
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	if not m.modes.open_project_hangar(p.id if p else ""):
+		return "o hangar não abriu"
+	return "hangar de %s" % p.code if p and m.modes.kind == "hangar" and not FlightSession.mission.is_empty() 		else "oficina livre (sem missão)"
+
+
+## Puts the project on the pad with a rocket built in the hangar (an example vessel when it has
+## none: Andorinha up to low orbit, Garça beyond) and opens the piloted flight; its verdict is the
+## launch (the review follows). With no project, a sounding rocket project starts first.
+func _a_mission_flight(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	if m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	var s := m.state
+	var p := _project(s)
+	if p == null:
+		var team: Array[String] = []
+		for f in ProjectDesk.free_staff(s):
+			if TycoonCrew.is_working(f) and team.size() < 2:
+				team.append(String(f["id"]))
+		if team.is_empty():
+			return "ninguém livre para o teste"
+		s.cash = maxf(s.cash, float(ProjectDesk.estimate(s, "sounding", {}, "suborbital")["total"]) + 1.0)
+		p = ProjectDesk.start_project(s, "sounding", "suborbital", team)
+		if p == null:
+			return "não começou: %s" % tr(ProjectDesk.start_error(s, "sounding", "suborbital", team))
+	if not HangarRocket.is_hangar(p.rocket.get("parts", {})):
+		var mission := HangarRocket.mission_for(s, p.type_id, p.target_id, 0.0, p.code)
+		var example := "andorinha" if float(mission["dv_needed"]) <= 9800.0 else "garca"
+		var d := HangarRocket.from_scene(load("res://scenes/examples/%s.tscn" % example), mission, ExampleVessels.display_name(example))
+		var parts := HangarRocket.adopt(s, d)
+		var fam := RocketFamilies.ensure(s, parts, String(d["name"]))
+		p.rocket = {"family": String(fam["id"]), "parts": RocketDesigner.normalize(fam["parts"])}
+	p.review_state = "pad"
+	ProjectDesk.sync_strips(s)
+	_drop_phases(p)
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	var pid := p.id
+	var ok := m.modes.open_project_flight(pid, func(verdict: Dictionary) -> void:
+		var pp := ProjectDesk.find(s, pid)
+		if pp:
+			ProjectDesk.launch(s, pp, verdict))
+	return "%s na plataforma: voo pilotado" % p.code if ok else "o voo não abriu"
+
+
 func _a_rocket_parts(_arg: Variant) -> String:
 	var s := _state()
 	if s == null:
@@ -1050,7 +1119,35 @@ func screen_args(screen_name: String) -> Dictionary:
 			return {"project_id": String(s.project_history[-1].get("id", "")) if not s.project_history.is_empty() else ""}
 		"newspaper":
 			return {"page": _paper_page(s)}
+		"payload_planner", "project_team":
+			var ty := ""
+			for t: Dictionary in s.mdata.get("types", []):
+				if s.mission_type_available(String(t["id"])):
+					ty = String(t["id"])
+			return {"type": ty, "target": ProjectDesk.default_target(s, ty)}
 	return {}
+
+
+# ------------------------------------------------------------ missions and discoveries
+## The journal knows everything (Discovery.reveal_all).
+func _a_reveal_discoveries(_arg: Variant) -> String:
+	var s := _state()
+	if s == null:
+		return NO_CAMPAIGN
+	Discovery.reveal_all(s)
+	return "caderno: tudo revelado (%d descobertas)" % Discovery.count(s)
+
+
+## Puts a briefing on the board (any era, even solved) and opens the board on it.
+func _a_briefing(id: Variant) -> String:
+	var s := _state()
+	var m := main()
+	if s == null or m == null:
+		return NO_CAMPAIGN
+	if not BriefingDesk.spawn(s, String(id)):
+		return "pedido não existe: %s" % id
+	m.hud.open_screen("briefings", {"briefing_id": String(id)})
+	return "pedido no quadro: %s" % TranslationServer.translate(BriefingDesk.title_key(String(id)))
 
 
 func _paper_page(s: TycoonState) -> Dictionary:
@@ -1298,6 +1395,13 @@ func _items_screens() -> Array:
 	var out := []
 	for n in names:
 		out.append([n, "screen", n])
+	return out
+
+
+func _items_briefings() -> Array:
+	var out := []
+	for b: Dictionary in BriefingDesk.briefings():
+		out.append(["%d · %s" % [int(b.get("era", 1)), String(b["id"])], "briefing", String(b["id"])])
 	return out
 
 

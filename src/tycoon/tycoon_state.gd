@@ -27,6 +27,10 @@ signal project_phase_started(project_id: String, phase: int)
 ## A mission project finished development and waits for its Design Review (DesignReview, E2):
 ## emitted when it gets there and again every week it keeps waiting. Only with review_gate on.
 signal project_review_ready(project_id: String)
+## A mission project whose rocket was built in the hangar is on the pad: the player picks a
+## piloted flight or the automatic simulation (HangarRocket, ProjectDesk.launch). Emitted when
+## it gets there and again every week it keeps waiting. Only with pilot_gate on.
+signal launch_pad_ready(project_id: String)
 
 const RULES_PATH := "res://data/tycoon/rules.json"
 const BUILDINGS_PATH := "res://data/tycoon/buildings.json"
@@ -101,8 +105,14 @@ var rockets: Dictionary = {}
 ## development waits for the player's Design Review; off (headless, tests) it launches at once
 ## with the review's defaults (no fixes)
 var review_gate := false
+## runtime, not saved: when on (ProjectFlow binds the launch choice), a project with a rocket
+## built in the hangar stops on the pad before its launch (launch_pad_ready) for the player to
+## fly it or let it be simulated; off (headless, tests) it launches with the usual roll
+var pilot_gate := false
 ## story beats the campaign has seen (Cutscenes): {"opening": true, "ending": true}
 var story: Dictionary = {}
+## the discovery journal and the briefing board (Discovery.d, BriefingDesk)
+var discovery: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -390,7 +400,7 @@ func to_dict() -> Dictionary:
 		"unlocked": unlocked, "crew": crew, "mission_projects": ProjectDesk.save(self),
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
-		"rockets": rockets, "story": story}
+		"rockets": rockets, "story": story, "discovery": discovery}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -427,6 +437,7 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	var ld: Dictionary = d.get("leader", {})
 	s.leader = TycoonLeader.sanitize(ld) if not ld.is_empty() else {}
 	s.story = d.get("story", {})
+	s.discovery = d.get("discovery", {})
 	for lot_id: String in s.buildings:  # JSON numbers come back as floats
 		var b: Dictionary = s.buildings[lot_id]
 		for k in ["level", "target", "weeks_left"]:

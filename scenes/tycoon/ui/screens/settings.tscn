@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="page_tabs"]
 
 [node name="SettingsScreen" type="Control"]
 layout_mode = 3
@@ -37,9 +40,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -480.0
-offset_top = -228.0
+offset_top = -262.0
 offset_right = 440.0
-offset_bottom = 262.0
+offset_bottom = 292.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"CwPanelTop"
@@ -67,12 +70,60 @@ texture = ExtResource("3_icon")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Panel/Margin/VBox/Head"]
+[node name="NavBar" parent="Panel/Margin/VBox/Head" instance=ExtResource("nav_bar")]
+unique_name_in_owner = true
+layout_mode = 2
+stack = NodePath("../../Pages")
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 26
-text = "TY_SET_TITLE"
+mouse_filter = 2
+
+[node name="Tabs" type="HBoxContainer" parent="Panel/Margin/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 6
+script = ExtResource("page_tabs")
+stack = NodePath("../../Pages")
+
+[node name="GameTab" type="Button" parent="Panel/Margin/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+text = "TY_SET_TAB_GAME"
+metadata/page = &"Game"
+
+[node name="SaveTab" type="Button" parent="Panel/Margin/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_SET_TAB_SAVE"
+metadata/page = &"Save"
+
+[node name="ImageTab" type="Button" parent="Panel/Margin/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_SET_TAB_IMAGE"
+metadata/page = &"Image"
+
+[node name="SoundTab" type="Button" parent="Panel/Margin/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_SET_TAB_SOUND"
+metadata/page = &"Sound"
 
 [node name="Close" type="Button" parent="Panel/Margin/VBox/Head"]
 unique_name_in_owner = true
@@ -86,79 +137,73 @@ text = "TY_RACE_CLOSE"
 [node name="HSep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="Pages" type="Container" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 20
+script = ExtResource("page_stack")
+keep_largest = true
 
-[node name="Campaign" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+[node name="Game" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
+metadata/title = "TY_SET_TITLE"
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_SET_CAMPAIGN"
-
-[node name="Slots" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Campaign"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="SlotTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots"]
+[node name="Options" parent="Panel/Margin/VBox/Pages/Game" instance=ExtResource("4_options")]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+rows = PackedStringArray("LangLabel", "Lang", "MotionLabel", "Motion", "CamRotateLabel", "CamRotateRow", "CamZoomLabel", "CamZoomRow", "CamInvertLabel", "CamInvert", "CamOrbitLabel", "CamOrbit", "CamEdgeLabel", "CamEdge")
+
+[node name="Sep2" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox" index="3"]
 visible = false
-layout_mode = 2
-theme_type_variation = &"CwStrip"
 
-[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate"]
-layout_mode = 2
-theme_override_constants/separation = 10
+[node name="Foot" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox" index="4"]
+visible = false
 
-[node name="Info" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 1
+[node name="Head" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox" index="0"]
+visible = false
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
-theme_override_font_sizes/font_size = 13
-text = "Slot 1"
+[node name="Sep" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox" index="1"]
+visible = false
 
-[node name="Summary" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "Ano 07 · semana 12 · 1 284 000 cr"
+[node name="DisplayLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="2"]
+visible = false
 
-[node name="When" type="Label" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox/Info"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
-text = "2026-11-04  13:22"
+[node name="Display" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="3"]
+visible = false
 
-[node name="Save" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-text = "TY_SET_SAVE"
+[node name="VolumeLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="4"]
+visible = false
 
-[node name="Load" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Slots/SlotTemplate/HBox"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-text = "TY_SET_LOAD"
+[node name="VolumeRow" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="5"]
+visible = false
 
-[node name="Note" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_SET_AUTOSAVE_NOTE"
+[node name="MusicLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="6"]
+visible = false
 
-[node name="LaunchCinematic" type="CheckButton" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="MusicRow" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="7"]
+visible = false
+
+[node name="SfxLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="8"]
+visible = false
+
+[node name="SfxRow" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="9"]
+visible = false
+
+[node name="StyleLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="12"]
+visible = false
+
+[node name="Style" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="13"]
+visible = false
+
+[node name="OutlineLabel" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="14"]
+visible = false
+
+[node name="Outlines" parent="Panel/Margin/VBox/Pages/Game/Options/Margin/VBox/Grid" index="15"]
+visible = false
+
+[node name="LaunchCinematic" type="CheckButton" parent="Panel/Margin/VBox/Pages/Game"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "TY_SET_LAUNCH_CINEMATIC_TIP"
@@ -166,7 +211,7 @@ focus_mode = 0
 button_pressed = true
 text = "TY_SET_LAUNCH_CINEMATIC"
 
-[node name="Cutscenes" type="CheckButton" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="Cutscenes" type="CheckButton" parent="Panel/Margin/VBox/Pages/Game"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "TY_SET_CUTSCENES_TIP"
@@ -174,64 +219,218 @@ focus_mode = 0
 button_pressed = true
 text = "TY_SET_CUTSCENES"
 
-[node name="ReplayOpening" type="Button" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="ReplayOpening" type="Button" parent="Panel/Margin/VBox/Pages/Game"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 0
 tooltip_text = "TY_SET_REPLAY_OPENING_TIP"
 focus_mode = 0
 text = "TY_SET_REPLAY_OPENING"
 
-[node name="Status" type="Label" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="Save" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/title = "TY_SET_TAB_SAVE"
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Pages/Save"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SET_CAMPAIGN"
+
+[node name="Slots" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Save"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SlotTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Pages/Save/Slots"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwStrip"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Info" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_font_sizes/font_size = 13
+text = "Slot 1"
+
+[node name="Summary" type="Label" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "Ano 07 · semana 12 · 1 284 000 cr"
+
+[node name="When" type="Label" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "2026-11-04  13:22"
+
+[node name="Save" type="Button" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "TY_SET_SAVE"
+
+[node name="Load" type="Button" parent="Panel/Margin/VBox/Pages/Save/Slots/SlotTemplate/HBox"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+text = "TY_SET_LOAD"
+
+[node name="Note" type="Label" parent="Panel/Margin/VBox/Pages/Save"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_SET_AUTOSAVE_NOTE"
+
+[node name="Status" type="Label" parent="Panel/Margin/VBox/Pages/Save"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "Salvo no espaço 1"
 
-[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="Image" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
+visible = false
 layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
+theme_override_constants/separation = 10
+metadata/title = "TY_SET_TAB_IMAGE"
 
-[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Campaign"]
+[node name="OptionsImage" parent="Panel/Margin/VBox/Pages/Image" instance=ExtResource("4_options")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA")
+
+[node name="Head" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="0"]
+visible = false
+
+[node name="Sep" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="1"]
+visible = false
+
+[node name="Sep2" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="3"]
+visible = false
+
+[node name="Foot" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="4"]
+visible = false
+
+[node name="LangLabel" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="0"]
+visible = false
+
+[node name="Lang" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="1"]
+visible = false
+
+[node name="VolumeLabel" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="4"]
+visible = false
+
+[node name="VolumeRow" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="5"]
+visible = false
+
+[node name="MusicLabel" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="6"]
+visible = false
+
+[node name="MusicRow" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="7"]
+visible = false
+
+[node name="SfxLabel" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="8"]
+visible = false
+
+[node name="SfxRow" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="9"]
+visible = false
+
+[node name="MotionLabel" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="10"]
+visible = false
+
+[node name="Motion" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox/Grid" index="11"]
+visible = false
+
+[node name="Sound" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/title = "TY_SET_TAB_SOUND"
+
+[node name="OptionsSound" parent="Panel/Margin/VBox/Pages/Sound" instance=ExtResource("4_options")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+rows = PackedStringArray("VolumeLabel", "VolumeRow", "MusicLabel", "MusicRow", "SfxLabel", "SfxRow")
+
+[node name="Head" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox" index="0"]
+visible = false
+
+[node name="Sep" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox" index="1"]
+visible = false
+
+[node name="Sep2" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox" index="3"]
+visible = false
+
+[node name="Foot" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox" index="4"]
+visible = false
+
+[node name="LangLabel" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="0"]
+visible = false
+
+[node name="Lang" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="1"]
+visible = false
+
+[node name="DisplayLabel" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="2"]
+visible = false
+
+[node name="Display" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="3"]
+visible = false
+
+[node name="MotionLabel" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="10"]
+visible = false
+
+[node name="Motion" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="11"]
+visible = false
+
+[node name="StyleLabel" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="12"]
+visible = false
+
+[node name="Style" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="13"]
+visible = false
+
+[node name="OutlineLabel" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="14"]
+visible = false
+
+[node name="Outlines" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="15"]
+visible = false
+
+[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Menu" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+[node name="Menu" type="Button" parent="Panel/Margin/VBox/Foot"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "TY_SET_MENU"
 
-[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Foot"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Resume" type="Button" parent="Panel/Margin/VBox/Body/Campaign/Foot"]
+[node name="Resume" type="Button" parent="Panel/Margin/VBox/Foot"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
 text = "TY_SET_RESUME"
-
-[node name="VSep" type="VSeparator" parent="Panel/Margin/VBox/Body"]
-layout_mode = 2
-
-[node name="Options" parent="Panel/Margin/VBox/Body" instance=ExtResource("4_options")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="Index" parent="Panel/Margin/VBox/Body/Options/Margin/VBox/Head" index="2"]
-visible = false
-
-[node name="Sep2" parent="Panel/Margin/VBox/Body/Options/Margin/VBox" index="3"]
-visible = false
-
-[node name="Foot" parent="Panel/Margin/VBox/Body/Options/Margin/VBox" index="4"]
-visible = false
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
@@ -252,7 +451,7 @@ curve = 1
 
 [node name="CwSlots" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Panel/Margin/VBox/Body/Campaign/Slots")
+target = NodePath("../Panel/Margin/VBox/Pages/Save/Slots")
 offset = Vector2(-10, 0)
 delay = 0.2
 step = 0.05

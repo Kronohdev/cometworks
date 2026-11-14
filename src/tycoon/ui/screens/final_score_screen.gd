@@ -1,10 +1,12 @@
 class_name FinalScoreScreen
 extends Control
-## Campaign report (scenes/tycoon/ui/screens/final_score.tscn, GDD section 16.2): the final
-## score counted up from zero, its breakdown (milestones, science, reputation, cash,
-## Cometlings, firsts and the Mother-Ice bonus) as LED meters, the standings of the four
-## agencies and the player's milestones; back to the menu or to the race. Data from
-## RaceDirector.score(); rows are copies of the hidden templates in the scene.
+## Campaign report (scenes/tycoon/ui/screens/final_score.tscn, GDD section 16.2), two pages:
+##   Summary  the final score counted up from zero, the rank, the standings of the four
+##            agencies and the player's milestones
+##   Details  its breakdown (milestones, science, reputation, cash, Cometlings, firsts and the
+##            Mother-Ice bonus) as LED meters that fill as the page opens
+## Back to the menu or to the race. Data from RaceDirector.score(); rows are copies of the
+## hidden templates in the scene.
 
 const MENU := "res://scenes/menu/main_menu.tscn"
 const ROW_COLORS := {"race": CwPalette.IGNITION, "science": CwPalette.COMET_ICE, "reputation": CwPalette.AURORA_VIOLET,
@@ -21,6 +23,15 @@ func _ready() -> void:
 	%RaceButton.pressed.connect(func() -> void:
 		if hud:
 			hud.open_screen("race"))
+	%DetailsButton.pressed.connect(open_detail)
+	(%Pages as CwPageStack).page_changed.connect(func(p: StringName, _d: int) -> void:
+		if p == &"Details":
+			_grow_bars())
+
+
+## The breakdown page.
+func open_detail() -> void:
+	(%Pages as CwPageStack).push(&"Details")
 
 
 func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
@@ -33,7 +44,7 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 
 func fill() -> void:
 	var r := state.race
-	%Agency.text = state.agency_name
+	(%Pages as CwPageStack).set_title(state.agency_name)
 	var st: Array = result.get("standings", [])
 	%Rank.text = tr("TY_SCORE_RANK") % [int(result.get("rank", 1)), st.size()]
 	%Of.text = tr("TY_SCORE_OF") % int(result.get("max", 1000))
@@ -55,8 +66,9 @@ func fill() -> void:
 		var bar := n.get_node("Bar") as CwSegmentBar
 		bar.color = ROW_COLORS.get(row["id"], CwPalette.TEXT)
 		bar.value = 0.0
-		tw.tween_property(bar, "value", float(row["ratio"]), 0.6).set_delay(0.25 + 0.12 * i) \
-			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		bar.set_meta("ratio", float(row["ratio"]))
+	if (%Pages as CwPageStack).current() == &"Details":
+		_grow_bars()
 	var total := int(result.get("total", 0))
 	tw.tween_method(func(v: float) -> void: %Total.text = "%d" % roundi(v), 0.0, float(total), 1.4) \
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -95,3 +107,17 @@ func fill() -> void:
 		else:
 			mk.fill = Color(0, 0, 0, 0)
 			mk.outline = CwPalette.LINE
+
+
+## The breakdown meters fill from empty, one after another (when the Details page opens).
+func _grow_bars() -> void:
+	var tw := create_tween().set_parallel()
+	var i := 0
+	for n in (%RowTemplate as Control).get_parent().get_children():
+		if n == %RowTemplate or not n.has_meta("from_template"):
+			continue
+		var bar := n.get_node("Bar") as CwSegmentBar
+		bar.value = 0.0
+		tw.tween_property(bar, "value", float(bar.get_meta("ratio", 0.0)), 0.6).set_delay(0.15 + 0.1 * i) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		i += 1

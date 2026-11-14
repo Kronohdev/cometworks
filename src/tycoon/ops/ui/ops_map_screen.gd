@@ -4,8 +4,10 @@ extends Control
 ## A 3D Earth–Moon system (the repo's voxel Earth and Moon, the solar-system orbit and map-line
 ## shaders) with the LEO / SSO / GEO rings, the Moon on its orbit, the comet Mother-Ice when it
 ## is near, the agency's ground stations and their coverage arcs, and the active missions as
-## markers moving on the right orbit. Panels: mission cards (phase, recorder, data on the
-## ground, health, science, link), the antenna network and the decision popup.
+## markers moving on the right orbit. Panels: the missions in space (a CwPageStack: a list of
+## short cards - code, type, status, target, phase - and one mission's page with the
+## recorder, data on the ground, health, science and link; a card or a marker opens it and
+## frames the camera on it), the antenna network and the decision popup.
 ## Everything visual is authored in the scene; this script positions markers, fills panels
 ## by duplicating the hidden templates (TycoonHUD._copies) and drives the camera.
 
@@ -41,6 +43,7 @@ var _transfers: Dictionary = {}
 var _decision_id := ""
 
 @onready var cam: OpsMapCamera = %Camera
+@onready var pages: CwPageStack = %Pages
 
 
 func _ready() -> void:
@@ -59,6 +62,11 @@ func _ready() -> void:
 			_dismissed[_decision_id] = int(m["decision"].get("since", 0))
 		_fill_decision())
 	%View.gui_input.connect(_on_view_input)
+	pages.page_changed.connect(func(p: StringName, _d: int) -> void:
+		if p == &"List" and selected != "":
+			selected = ""
+		if state:
+			_fill_cards())
 	for r in [%CoverLEO, %CoverSSO, %CoverGEO]:
 		_cover_meshes[r] = ArrayMesh.new()
 		(r as MeshInstance3D).mesh = _cover_meshes[r]
@@ -102,6 +110,8 @@ func set_view(v: String, instant := false) -> void:
 	_view = v
 	if not v.begins_with("mission:"):
 		selected = ""
+		if pages.current() == &"Mission":
+			pages.back()
 	var keys := {"earth": %ViewEarth, "moon": %ViewMoon, "all": %ViewAll, "comet": %ViewComet}
 	for k: String in keys:
 		(keys[k] as Button).set_pressed_no_signal(k == v)
@@ -129,10 +139,15 @@ func select_mission(id: String) -> void:
 	if not m.is_empty():
 		var cls := String(MissionOps.target_ops(String(m["target"])).get("class", "earth"))
 		cam.distance = 8.5 if cls == "earth" else (4.2 if cls == "moon" else 9.0)
+		# the mission's own page in the side panel
+		pages.push(&"Mission", String(m.get("code", id)))
 	_fill_cards()
-	for c in %CardTemplate.get_parent().get_children():
-		if c.visible and String(c.get_meta("mission_id", "")) == id:
-			(%CardTemplate.get_parent().get_parent() as ScrollContainer).ensure_control_visible(c)
+
+
+## The first mission's page (tests, dev menu).
+func open_detail() -> void:
+	if state and not state.active_missions.is_empty():
+		select_mission(String(state.active_missions[0].get("id", "")))
 
 
 func _on_view_input(e: InputEvent) -> void:
@@ -405,6 +420,8 @@ func _place_overlay() -> void:
 		c.visible = sp != null and not _behind_earth(node.global_position)
 		if sp != null:
 			c.position = (sp as Vector2) + (l.get_meta("offset", Vector2.ZERO) as Vector2)
+			# a label that would hang off the screen (its body is out of the frame) hides
+			c.visible = c.visible and Rect2(Vector2.ZERO, size).encloses(Rect2(c.position, c.size))
 	if %LblComet.visible:
 		%LblComet.text = tr("TY_OPS_COMET_DIST") % TycoonOpsFmt.int_str(state.comet_weeks_left())
 	# ground stations
@@ -431,8 +448,9 @@ func _place_overlay() -> void:
 		var mk := ms[i] as OpsMarker
 		var p := mission_position(m)
 		var sp: Variant = _project(p)
-		mk.visible = sp != null
-		if sp == null:
+		# off the screen (the camera swinging to a mission): no marker, no label at the edge
+		mk.visible = sp != null and Rect2(Vector2(16, 16), size - Vector2(126, 56)).has_point(sp as Vector2)
+		if not mk.visible:
 			continue
 		mk.position = (sp as Vector2) - mk.size * 0.5
 		mk.modulate.a = 0.3 if _behind_earth(p) else 1.0
@@ -535,17 +553,28 @@ func _fill_cards() -> void:
 	var cards := TycoonHUD._copies(%CardTemplate, missions.size())
 	for i in missions.size():
 		_fill_card(cards[i] as PanelContainer, missions[i])
+	if pages.current() == &"Mission":
+		var m := MissionOps.find(state, selected)
+		if m.is_empty():
+			pages.back()   # the mission ended (it is in the book now)
+		else:
+			_fill_card(%Detail as PanelContainer, m)
+			pages.set_title(String(m.get("code", selected)))
 
 
 func _fill_card(card: PanelContainer, m: Dictionary) -> void:
 	var id := String(m.get("id", ""))
 	card.set_meta("mission_id", id)
-	if not card.has_meta("wired"):
+	var list_card := card != %Detail
+	if list_card and not card.has_meta("wired"):
 		card.set_meta("wired", true)
 		card.gui_input.connect(func(e: InputEvent) -> void:
 			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed \
 					and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 				select_mission(String(card.get_meta("mission_id"))))
+		var open := card.get_node_or_null("VBox/Head/Open") as Button
+		if open:
+			open.pressed.connect(func() -> void: select_mission(String(card.get_meta("mission_id"))))
 	var ty := state.mission_type(String(m.get("type", "")))
 	var tg := state.mission_target(String(m.get("target", "")))
 	var tops := MissionOps.target_ops(String(m.get("target", "")))
@@ -578,6 +607,8 @@ func _fill_card(card: PanelContainer, m: Dictionary) -> void:
 	pb.marker = float(m.get("cruise_weeks", 0)) / total if int(m.get("cruise_weeks", 0)) > 0 else -1.0
 	pb.color = _status_color(m)
 	(v.get_node("Phase/Weeks") as Label).text = tr("TY_OPS_WEEK_OF") % [age, total]
+	if not v.has_node("Data"):
+		return   # a list card: the recorder, data and link are on the mission's page
 	var cap := float(m.get("storage", 1.0)) * float(m.get("buffer_mult", 1.0))
 	var stored := float(m.get("data_stored", 0.0))
 	var sb := v.get_node("Data/StoredBar") as CwSegmentBar

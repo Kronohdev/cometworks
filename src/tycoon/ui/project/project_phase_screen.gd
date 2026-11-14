@@ -2,8 +2,10 @@ extends Control
 ## Phase screen (scenes/tycoon/ui/screens/project_phase.tscn, GDD 6.4 / 22.4): pops at the
 ## start of each phase of a project (the clock is paused by ProjectFlow). Three throttle
 ## levers split the team's time (moving one pulls the others, the total stays 100%); under
-## each, what it feeds. On the right, a live preview of the 4 bars at the end of the phase
-## with the ideal ratio engraved on each meter, the balance match and the defects.
+## each, what it feeds. On the right, a live preview of the 4 bars at the end of the phase and
+## the defects; the ideal ratio engraved on each meter, the balance match and the lever ranges
+## that hit it show only once the discovery journal knows the ideal (Discovery.ratio_known; a
+## briefing client's own priorities never show: the story tells them).
 ## The levers, rows and colours are in the scene; this script only fills data.
 
 var state: TycoonState
@@ -12,6 +14,8 @@ var hud: TycoonHUD
 var project: MissionProject
 var values: Array[int] = [34, 33, 33]
 var _levers: Array[Control] = []
+## the ideal balance is known (the journal revealed it)
+var _known := false
 
 
 func _ready() -> void:
@@ -92,10 +96,25 @@ func _fill_static() -> void:
 			sl.add_theme_stylebox_override("grabber_area_highlight", fill)
 	%ExpectedValue.text = "%d" % roundi(MissionProject.expected_points(state, project.type_id, state.project_history))
 	var ideal := project.ideal(state)
+	var client := BriefingDesk.ratio(BriefingDesk.briefing(project.briefing_id)).size() == 4
+	_known = Discovery.ratio_known(state, project.type_id) and not client
 	var rows: Array[Node] = [%PrevEng, %PrevSci, %PrevOps, %PrevRel]
 	for b in 4:
-		(rows[b].get_node("Bar") as CwSegmentBar).marker = ideal[b] / 0.6
-		(rows[b].get_node("Ideal") as Label).text = "%d%%" % roundi(ideal[b] * 100.0)
+		(rows[b].get_node("Bar") as CwSegmentBar).marker = ideal[b] / 0.6 if _known else -1.0
+		(rows[b].get_node("Ideal") as Label).text = "%d%%" % roundi(ideal[b] * 100.0) if _known else "?"
+	if client:
+		%IdealNote.text = tr("TY_PJ_IDEAL_CLIENT")
+	elif _known:
+		%IdealNote.text = tr("TY_PJ_IDEAL_MARK")
+	else:
+		%IdealNote.text = tr("TY_PJ_IDEAL_HIDDEN") % [Discovery.attempts(state, project.type_id), int(BriefingDesk.disc().get("reveal_ratio_after", 2))]
+	var ranges := Discovery.lever_ranges(ideal) if _known else []
+	for i in 3:
+		var rl := _levers[i].get_node("Range") as Label
+		rl.visible = _known
+		if _known:
+			var r: Array = ranges[k][i]
+			rl.text = tr("TY_PJ_RANGE") % [int(r[0]), int(r[1])]
 
 
 func _update() -> void:
@@ -112,9 +131,9 @@ func _update() -> void:
 		(rows[b].get_node("Bar") as CwSegmentBar).value = frac[b] / 0.6
 		(rows[b].get_node("Value") as Label).text = "%d%%" % roundi(frac[b] * 100.0)
 	var m := MissionProject.ratio_match(frac, project.ideal(state))
-	%MatchValue.text = "%d%%" % roundi(m * 100.0)
-	%MatchValue.add_theme_color_override("font_color", CwPalette.AURORA_TEAL if m >= 0.85
-		else (CwPalette.WARNING if m >= 0.65 else CwPalette.DANGER))
+	%MatchValue.text = "%d%%" % roundi(m * 100.0) if _known else "?"
+	%MatchValue.add_theme_color_override("font_color", (CwPalette.AURORA_TEAL if m >= 0.85
+		else (CwPalette.WARNING if m >= 0.65 else CwPalette.DANGER)) if _known else CwPalette.TEXT_DIM)
 	%DefectsValue.text = "%.1f" % sim.defects
 	%DefectsValue.add_theme_color_override("font_color", CwPalette.COMET_ICE if sim.defects < 1.0
 		else (CwPalette.WARNING if sim.defects < 3.0 else CwPalette.DANGER))

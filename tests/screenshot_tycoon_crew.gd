@@ -2,11 +2,14 @@ extends SceneTree
 ## Windowed screenshots of the Cometworks crew (scenes/tycoon/ui/screens/crew.tscn + campus):
 ##   crew_01_campus_nap   the camera on a napping Cometling (antenna in the profession colour)
 ##   crew_02_walk_in      a new hire walking in from the gate
-##   crew_03_roster       the crew screen: roster + card of a Cometling on a project
-##   crew_04_spec         card of a level-3 Cometling choosing a specialisation
-##   crew_05_nap_card     card of a napping Cometling
-##   crew_06_hire         the hiring market with hidden traits
-##   crew_07_roster_en    the roster in English
+##   crew_03_roster       the crew screen: the roster of Cometling cards
+##   crew_04_sheet        the sheet of a Cometling on a project (breadcrumb Equipe > name)
+##   crew_05_spec         the sheet of a level-3 Cometling choosing a specialisation
+##   crew_06_nap_sheet    the sheet of a napping Cometling
+##   crew_07_hire         the hiring market (candidate cards)
+##   crew_08_candidate    a candidate's sheet with the hire key
+##   crew_09_filter       the roster filtered to one profession
+##   crew_10_roster_en    the roster in English
 ## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_tycoon_crew.gd -- <out_dir>
 
 var out_dir := "user://"
@@ -57,23 +60,36 @@ func _initialize() -> void:
 	main.camera.release()
 	main.hud.open_screen("crew")
 	var scr := main.hud.get_node("%Screens").get_child(0) as CrewScreen
+	await _frames(60)
+	await _shot("crew_03_roster")
 	scr.select_member(String(staff[0]["id"]))
 	await _frames(40)
-	await _shot("crew_03_roster")
+	await _shot("crew_04_sheet")
+	scr.go_back()
 	scr.select_member(String(staff[2]["id"]))
 	await _frames(40)
-	await _shot("crew_04_spec")
+	await _shot("crew_05_spec")
+	scr.go_back()
 	scr.select_member(String(staff[1]["id"]))
 	await _frames(40)
-	await _shot("crew_05_nap_card")
+	await _shot("crew_06_nap_sheet")
 	scr.show_tab("hire")
 	await _frames(40)
-	await _shot("crew_06_hire")
-	TranslationServer.set_locale("en")
+	await _shot("crew_07_hire")
+	var cands := TycoonCrew.candidates(s)
+	if not cands.is_empty():
+		scr.select_candidate(String(cands[0]["id"]))
+		await _frames(40)
+		await _shot("crew_08_candidate")
 	scr.show_tab("roster")
-	scr.select_member(String(s.staff[s.staff.size() - 1]["id"]))
+	scr.set_filter(String(staff[0]["profession"]), "")
+	await _frames(30)
+	await _shot("crew_09_filter")
+	scr.set_filter("", "")
+	TranslationServer.set_locale("en")
+	scr.refresh()
 	await _frames(40)
-	await _shot("crew_07_roster_en")
+	await _shot("crew_10_roster_en")
 	print("CREW SCREENSHOTS DONE")
 	quit()
 

@@ -6,7 +6,8 @@ extends SceneTree
 ## Run: godot --headless --path . --script res://tests/test_ui_motion.gd
 
 const SCREENS := ["book", "contracts", "crew", "final_score", "finale", "finance", "map", "new_project",
-	"newspaper", "project_phase", "project_review", "race", "research", "settings", "rocket_designer", "design_review"]
+	"newspaper", "project_phase", "project_review", "race", "research", "settings", "rocket_designer", "design_review",
+	"briefings", "payload_planner", "project_team", "journal"]
 
 var _fails := 0
 

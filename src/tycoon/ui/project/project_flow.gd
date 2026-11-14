@@ -1,6 +1,7 @@
 class_name ProjectFlow
 extends Node
-## Routes mission project events to the HUD screens (E1, E2): a phase that starts opens the
+## Routes mission project events to the HUD screens (E1, E2; a new project goes briefing board ->
+## objective -> payload planner -> team -> rocket designer): a phase that starts opens the
 ## phase screen (scenes/tycoon/ui/screens/project_phase.tscn), a project that ends its
 ## development opens its Design Review (design_review.tscn: it turns TycoonState.review_gate
 ## on, so projects wait for the player there; the rocket designer, rocket_designer.tscn, opens
@@ -12,15 +13,20 @@ extends Node
 ## A launch always comes first: a waiting launch (and then its review) goes ahead of the other
 ## waiting project screens, and the race's newspaper (TycoonRaceFlow.wait_for) waits for it,
 ## so the paper never reports a launch the player has not seen yet.
+## A rocket built in the hangar stops on the pad first (TycoonState.pilot_gate, turned on here):
+## the launch choice (launch_choice.tscn) asks to fly it (the flight mode inside the campus,
+## TycoonModes) or simulate it; a piloted launch skips the launch sequence (the player just
+## flew it) and goes straight to its review.
 ## tycoon_main adds one of these and calls bind().
 
 const PROJECT_SCREENS: Array[String] = ["new_project", "project_phase", "project_review", "launch", "rocket_designer",
-	"design_review"]
+	"design_review", "briefings", "payload_planner", "project_team", "launch_choice"]
 ## screens a project screen waits behind (the race's newspaper and finale included)
 const DECISIONS: Array[String] = ["project_phase", "project_review", "newspaper", "finale", "final_score", "launch",
-	"design_review", "rocket_designer"]
+	"design_review", "rocket_designer", "launch_choice"]
 const REVIEW := "design_review"
 const LAUNCH := "launch"
+const PAD := "launch_choice"
 ## screens that jump the queue, in this order: the launch, then its review
 const FIRST: Array[String] = ["launch", "project_review"]
 
@@ -46,8 +52,13 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 	state.project_review_ready.connect(func(id: String) -> void:
 		if not _showing(REVIEW, id):
 			show_screen(REVIEW, {"project_id": id}))
+	# a rocket built in the hangar waits on the pad: fly it or simulate it
+	state.pilot_gate = true
+	state.launch_pad_ready.connect(func(id: String) -> void:
+		if not _showing(PAD, id):
+			show_screen(PAD, {"project_id": id}))
 	state.mission_launching.connect(func(r: Dictionary) -> void:
-		if launch_cinematic and LaunchSequence.enabled():
+		if launch_cinematic and LaunchSequence.enabled() and not r.get("piloted", false):
 			show_screen(LAUNCH, {"result": r}))
 	state.mission_launched.connect(func(r: Dictionary) -> void:
 		show_screen("project_review", {"project_id": String(r.get("project_id", ""))}))
@@ -62,6 +73,8 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 	# a loaded game: reviews that were waiting come back
 	for p in ProjectDesk.waiting_review(state):
 		show_screen.call_deferred(REVIEW, {"project_id": p.id})
+	for p in ProjectDesk.waiting_pad(state):
+		show_screen.call_deferred(PAD, {"project_id": p.id})
 
 
 ## Is this screen (for this project) on show or waiting already?
@@ -144,6 +157,10 @@ func _next() -> void:
 		if n["name"] == REVIEW:
 			var rp := ProjectDesk.find(state, String(n["args"].get("project_id", "")))
 			if rp == null or rp.review_state != "waiting":
+				continue
+		if n["name"] == PAD:
+			var pp := ProjectDesk.find(state, String(n["args"].get("project_id", "")))
+			if pp == null or pp.review_state != "pad":
 				continue
 		_open(String(n["name"]), n["args"])
 		return

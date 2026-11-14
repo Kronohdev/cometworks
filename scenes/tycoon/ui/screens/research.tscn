@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
 
 [node name="Research" type="Control"]
 layout_mode = 3
@@ -51,20 +53,11 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_constants/separation = 26
 
-[node name="Titles" type="VBoxContainer" parent="Frame/VBox/Head"]
+[node name="NavBar" parent="Frame/VBox/Head" instance=ExtResource("nav_bar")]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Title" type="Label" parent="Frame/VBox/Head/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 26
-text = "TY_RS_TITLE"
-
-[node name="Sub" type="Label" parent="Frame/VBox/Head/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_RS_SUB"
+stack = NodePath("../../Pages")
+subtitle = "TY_RS_SUB"
 
 [node name="Spacer" type="Control" parent="Frame/VBox/Head"]
 layout_mode = 2
@@ -147,125 +140,127 @@ text = "×"
 [node name="HSep" type="HSeparator" parent="Frame/VBox"]
 layout_mode = 2
 
-[node name="Body" type="HBoxContainer" parent="Frame/VBox"]
+[node name="Pages" type="Container" parent="Frame/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 18
+script = ExtResource("page_stack")
 
-[node name="Tree" type="VBoxContainer" parent="Frame/VBox/Body"]
+[node name="Tree" type="VBoxContainer" parent="Frame/VBox/Pages"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
+metadata/title = "TY_RS_TITLE"
 
-[node name="EraHeads" type="HBoxContainer" parent="Frame/VBox/Body/Tree"]
+[node name="EraHeads" type="HBoxContainer" parent="Frame/VBox/Pages/Tree"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Era1" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+[node name="Era1" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era1"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era1"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "Era 1 · Galpão"
 horizontal_alignment = 1
 
-[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era1"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era1"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "anos 1–5"
 horizontal_alignment = 1
 
-[node name="Era2" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+[node name="Era2" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era2"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era2"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "Era 2 · Órbita"
 horizontal_alignment = 1
 
-[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era2"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era2"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "anos 6–10"
 horizontal_alignment = 1
 
-[node name="Era3" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+[node name="Era3" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era3"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era3"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "Era 3 · Lua robótica"
 horizontal_alignment = 1
 
-[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era3"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era3"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "anos 11–15"
 horizontal_alignment = 1
 
-[node name="Era4" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+[node name="Era4" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era4"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era4"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "Era 4 · Lua tripulada"
 horizontal_alignment = 1
 
-[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era4"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era4"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "anos 16–20"
 horizontal_alignment = 1
 
-[node name="Era5" type="VBoxContainer" parent="Frame/VBox/Body/Tree/EraHeads"]
+[node name="Era5" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era5"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era5"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "Era 5 · Base de partida"
 horizontal_alignment = 1
 
-[node name="Years" type="Label" parent="Frame/VBox/Body/Tree/EraHeads/Era5"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era5"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "anos 21–25"
 horizontal_alignment = 1
 
-[node name="Canvas" type="Control" parent="Frame/VBox/Body/Tree"]
+[node name="Canvas" type="Control" parent="Frame/VBox/Pages/Tree"]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Bands" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas"]
+[node name="Bands" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -276,37 +271,37 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Band1" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+[node name="Band1" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 color = Color(0.1255, 0.1647, 0.3843, 0.55)
 
-[node name="Band2" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+[node name="Band2" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Band3" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+[node name="Band3" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Band4" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+[node name="Band4" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Band5" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Bands"]
+[node name="Band5" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Links" type="Control" parent="Frame/VBox/Body/Tree/Canvas"]
+[node name="Links" type="Control" parent="Frame/VBox/Pages/Tree/Canvas"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -317,7 +312,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_links")
 
-[node name="Nodes" type="Control" parent="Frame/VBox/Body/Tree/Canvas"]
+[node name="Nodes" type="Control" parent="Frame/VBox/Pages/Tree/Canvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -326,7 +321,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="NodeTemplate" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes"]
+[node name="NodeTemplate" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 3
@@ -337,7 +332,7 @@ offset_right = 216.0
 offset_bottom = 102.0
 mouse_default_cursor_shape = 2
 
-[node name="Card" type="PanelContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate"]
+[node name="Card" type="PanelContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -347,23 +342,23 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwNodeAvailable"
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="Top" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+[node name="Top" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 7
 
-[node name="DotBox" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
+[node name="DotBox" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
 custom_minimum_size = Vector2(6, 16)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="Dot" type="ColorRect" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top/DotBox"]
+[node name="Dot" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top/DotBox"]
 layout_mode = 0
 offset_top = 6.0
 offset_right = 6.0
@@ -371,7 +366,7 @@ offset_bottom = 12.0
 mouse_filter = 2
 color = Color(1, 0.5412, 0.2392, 1)
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -381,29 +376,29 @@ text = "Estágio superior religável"
 autowrap_mode = 3
 max_lines_visible = 2
 
-[node name="Fill" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+[node name="Fill" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Bottom" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+[node name="Bottom" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Cost" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
+[node name="Cost" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "90 PP"
 
-[node name="State" type="Label" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
+[node name="State" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "DISPONÍVEL"
 
-[node name="Bar" type="Control" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+[node name="Bar" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 mouse_filter = 2
@@ -413,7 +408,7 @@ color = Color(0.6078, 0.4863, 1, 1)
 segments = 16
 gap = 2.0
 
-[node name="Ring" type="Panel" parent="Frame/VBox/Body/Tree/Canvas/Nodes/NodeTemplate"]
+[node name="Ring" type="Panel" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -424,16 +419,16 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwRing"
 
-[node name="Foot" type="HBoxContainer" parent="Frame/VBox/Body/Tree"]
+[node name="Foot" type="HBoxContainer" parent="Frame/VBox/Pages/Tree"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="QueueCaption" type="Label" parent="Frame/VBox/Body/Tree/Foot"]
+[node name="QueueCaption" type="Label" parent="Frame/VBox/Pages/Tree/Foot"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_QUEUE"
 
-[node name="QueueLabel" type="Label" parent="Frame/VBox/Body/Tree/Foot"]
+[node name="QueueLabel" type="Label" parent="Frame/VBox/Pages/Tree/Foot"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -442,174 +437,180 @@ text = "Foguete orbital (8 sem)  →  Barramento de satélite"
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="Legend" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot"]
+[node name="Legend" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot"]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Done" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+[node name="Done" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Done"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Done"]
 custom_minimum_size = Vector2(14, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2471, 0.8784, 0.7725, 0.75)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Done"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Done"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_RS_ST_DONE"
 
-[node name="Active" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+[node name="Active" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Active"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Active"]
 custom_minimum_size = Vector2(14, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.5569, 0.4863, 1, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Active"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Active"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_RS_ST_RESEARCHING"
 
-[node name="Open" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+[node name="Open" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Open"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Open"]
 custom_minimum_size = Vector2(14, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2902, 0.3451, 0.651, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Open"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Open"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_RS_ST_AVAILABLE"
 
-[node name="Locked" type="HBoxContainer" parent="Frame/VBox/Body/Tree/Foot/Legend"]
+[node name="Locked" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Body/Tree/Foot/Legend/Locked"]
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Locked"]
 custom_minimum_size = Vector2(14, 2)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.149, 0.1843, 0.4, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Body/Tree/Foot/Legend/Locked"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Locked"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_RS_ST_LOCKED"
 
-[node name="Detail" type="PanelContainer" parent="Frame/VBox/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(330, 0)
+[node name="Tech" type="HBoxContainer" parent="Frame/VBox/Pages"]
+visible = false
 layout_mode = 2
+theme_override_constants/separation = 14
+metadata/title = "TY_RS_TECH"
+
+[node name="Main" type="PanelContainer" parent="Frame/VBox/Pages/Tech"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwCard"
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Body/Detail"]
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main"]
 layout_mode = 2
-theme_override_constants/separation = 9
+theme_override_constants/separation = 12
 
-[node name="DBranch" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DBranch" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "Propulsão"
 
-[node name="DName" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DName" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 34
 text = "Foguete orbital"
 autowrap_mode = 3
 
-[node name="DState" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DState" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "Era 1 · disponível"
 
-[node name="DDesc" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DDesc" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 17
 text = "Descrição da tecnologia."
 autowrap_mode = 3
 
-[node name="Sep" type="HSeparator" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
 
-[node name="Stats" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Stats" type="HBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Cost" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+[node name="Cost" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Cost"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Cost"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_COST"
 
-[node name="DCost" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Cost"]
+[node name="DCost" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Cost"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "90 PP"
 
-[node name="Time" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+[node name="Time" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Time"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Time"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_MIN_TIME"
 
-[node name="DTime" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Time"]
+[node name="DTime" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Time"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "4 sem"
 
-[node name="Eta" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Stats"]
+[node name="Eta" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Eta"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Eta"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_ETA"
 
-[node name="DEta" type="Label" parent="Frame/VBox/Body/Detail/VBox/Stats/Eta"]
+[node name="DEta" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Stats/Eta"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
 text = "9 sem"
 
-[node name="DBar" type="Control" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DBar" type="Control" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 6)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("3_seg")
@@ -618,7 +619,7 @@ color = Color(0.6078, 0.4863, 1, 1)
 segments = 24
 gap = 2.0
 
-[node name="DProgress" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="DProgress" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -627,43 +628,39 @@ theme_override_font_sizes/font_size = 13
 text = "27 / 90 PP"
 horizontal_alignment = 2
 
-[node name="UnlocksCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="PathSep" type="HSeparator" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_RS_UNLOCKS"
 
-[node name="Unlocks" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Path" type="HBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 40
 
-[node name="UnlockTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Unlocks"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Kind" type="Label" parent="Frame/VBox/Body/Detail/VBox/Unlocks/UnlockTemplate"]
-custom_minimum_size = Vector2(104, 0)
-layout_mode = 2
-size_flags_vertical = 0
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
-text = "MISSÃO"
-
-[node name="Name" type="Label" parent="Frame/VBox/Body/Detail/VBox/Unlocks/UnlockTemplate"]
-custom_minimum_size = Vector2(200, 0)
+[node name="Needs" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Path"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 13
-text = "Satélite de demonstração"
-autowrap_mode = 3
+theme_override_constants/separation = 8
 
-[node name="RequiresCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Needs"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_REQUIRES"
 
-[node name="Requires" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="NeedChips" type="HFlowContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Needs"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="NeedTemplate" type="Button" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Needs/NeedChips"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+tooltip_text = "TY_RS_OPEN_TECH_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "Foguete orbital"
+
+[node name="Requires" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Needs"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -671,41 +668,138 @@ theme_type_variation = &"CwDim"
 text = "Nenhum"
 autowrap_mode = 3
 
-[node name="Fill" type="Control" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Next" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Path"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Next"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_LEADS_TO"
+
+[node name="NextChips" type="HFlowContainer" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Next"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="NextTemplate" type="Button" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Next/NextChips"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+tooltip_text = "TY_RS_OPEN_TECH_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "Estágio translunar"
+
+[node name="NextNone" type="Label" parent="Frame/VBox/Pages/Tech/Main/VBox/Path/Next"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_RS_LEADS_NONE"
+
+[node name="Fill" type="Control" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="BenchSep" type="HSeparator" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Actions" type="HBoxContainer" parent="Frame/VBox/Pages/Tech/Main/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="BenchCaption" type="Label" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Fund" type="Button" parent="Frame/VBox/Pages/Tech/Main/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_RS_FUND"
+custom_minimum_size = Vector2(280, 48)
+
+[node name="License" type="Button" parent="Frame/VBox/Pages/Tech/Main/VBox/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "TY_RS_LICENSE"
+custom_minimum_size = Vector2(0, 48)
+theme_type_variation = &"CwSecondary"
+
+[node name="Side" type="PanelContainer" parent="Frame/VBox/Pages/Tech"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="Scroll" type="ScrollContainer" parent="Frame/VBox/Pages/Tech/Side"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Side/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 9
+
+[node name="UnlocksCaption" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "TY_RS_BENCH"
+text = "TY_RS_UNLOCKS"
 
-[node name="Bench" type="VBoxContainer" parent="Frame/VBox/Body/Detail/VBox"]
+[node name="Unlocks" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="SeatTemplate" type="HBoxContainer" parent="Frame/VBox/Body/Detail/VBox/Bench"]
+[node name="UnlockTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Unlocks"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Dot" type="ColorRect" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+[node name="Kind" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Unlocks/UnlockTemplate"]
+custom_minimum_size = Vector2(104, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "MISSÃO"
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Unlocks/UnlockTemplate"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Satélite de demonstração"
+autowrap_mode = 3
+
+[node name="BenchSep" type="HSeparator" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
+layout_mode = 2
+
+[node name="BenchCaption" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_BENCH"
+
+[node name="Bench" type="VBoxContainer" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="SeatTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Dot" type="ColorRect" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench/SeatTemplate"]
 custom_minimum_size = Vector2(6, 6)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.5569, 0.4863, 1, 1)
 
-[node name="Name" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench/SeatTemplate"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Lyra"
 
-[node name="Prof" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+[node name="Prof" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench/SeatTemplate"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
@@ -714,13 +808,13 @@ text = "Pesquisadora"
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="PP" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench/SeatTemplate"]
+[node name="PP" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench/SeatTemplate"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "+6.4 PP"
 
-[node name="BenchEmpty" type="Label" parent="Frame/VBox/Body/Detail/VBox/Bench"]
+[node name="BenchEmpty" type="Label" parent="Frame/VBox/Pages/Tech/Side/Scroll/VBox/Bench"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -728,19 +822,6 @@ theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "TY_RS_BENCH_EMPTY"
 autowrap_mode = 3
-
-[node name="Fund" type="Button" parent="Frame/VBox/Body/Detail/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwPrimary"
-text = "TY_RS_FUND"
-
-[node name="License" type="Button" parent="Frame/VBox/Body/Detail/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "TY_RS_LICENSE"
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
@@ -759,7 +840,7 @@ curve = 1
 
 [node name="CwTechs" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Frame/VBox/Body/Tree/Canvas/Nodes")
+target = NodePath("../Frame/VBox/Pages/Tree/Canvas/Nodes")
 offset = Vector2(0, 8)
 delay = 0.2
 step = 0.012

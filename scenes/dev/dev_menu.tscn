@@ -1065,6 +1065,77 @@ text = "Lançar teste agora"
 tooltip_text = "Um foguete de sondagem suborbital, já no ar"
 metadata/action = "quick_launch"
 
+[node name="Integrated" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Integrated"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Hangar e voo no campus"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Integrated"]
+layout_mode = 2
+
+[node name="MissionHangar" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Integrated/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Hangar da missão"
+tooltip_text = "Abre o hangar dentro do campus para o projeto em andamento (ou a oficina livre)"
+metadata/action = "mission_hangar"
+
+[node name="MissionFlight" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Integrated/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Pilotar a missão"
+tooltip_text = "Põe o projeto na plataforma com um foguete do hangar (um exemplo, se não tiver) e abre o voo pilotado"
+metadata/action = "mission_flight"
+
+[node name="Missions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Missões e descobertas"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
+layout_mode = 2
+
+[node name="Reveal" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Revelar todas as descobertas"
+tooltip_text = "O caderno passa a saber tudo: proporções, instrumentos, ambientes, combinações"
+metadata/action = "reveal_discoveries"
+
+[node name="Board" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Quadro de missões"
+metadata/action = "screen"
+metadata/arg = "briefings"
+
+[node name="Journal" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Caderno"
+metadata/action = "screen"
+metadata/arg = "journal"
+
+[node name="SpawnCaption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Gerar pedido (qualquer era)"
+
+[node name="Briefings" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Missions"]
+layout_mode = 2
+metadata/fill = "briefings"
+
 [node name="Replay" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
 layout_mode = 2
 

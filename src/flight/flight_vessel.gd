@@ -60,6 +60,11 @@ var current_stage := -1
 var engines: Array = []
 var pools: Array = []
 var fairings: Array[PartInstance] = []
+## Extra mass (kg) the vessel carries on top (a tycoon mission's payload, FlightSession.mission):
+## it rides on the command part (else the top part) while that part stays attached. Set before
+## setup_from_scene().
+var payload_kg := 0.0
+var _payload_part: PartInstance = null
 
 # aerodynamics
 var a_front := 1.0
@@ -113,6 +118,17 @@ func setup_from_scene(ps: PackedScene) -> void:
 		prop0[p] = prop[p]
 	_build_engines()
 	_rebuild()
+	if payload_kg > 0.0:
+		_payload_part = _pick_payload_part()
+		_rebuild()
+
+
+## The part the mission payload rides on: the first command part, else the top part.
+func _pick_payload_part() -> PartInstance:
+	for p in parts:
+		if PartDB.is_command(p.data):
+			return p
+	return _top_part()
 
 
 func _add_decor() -> void:
@@ -182,7 +198,8 @@ func _rebuild() -> void:
 		first = false
 		var r := maxf(p.radius(), 0.05)
 		var h := maxf(p.aabb.size.y, 0.05)
-		info[p] = {"c": c, "r": r, "h": h, "dry": p.dry_mass(), "xz": Vector2(c.x, c.z)}
+		info[p] = {"c": c, "r": r, "h": h, "dry": p.dry_mass() + (payload_kg if p == _payload_part else 0.0),
+			"xz": Vector2(c.x, c.z)}
 		if not prop.has(p):
 			prop[p] = PartDB.prop_mass(p.data)
 			prop0[p] = prop[p]
@@ -857,7 +874,8 @@ func remaining_dv() -> Array:
 		if _attached(fp):
 			fairing_kg += fp.dry_mass()
 	var drop := 2 if current_stage <= 0 else 1
-	var res := VesselMath.analyze(specs, 0.0, fairing_kg, drop)
+	var carried := payload_kg if _payload_part != null and _attached(_payload_part) else 0.0
+	var res := VesselMath.analyze(specs, carried, fairing_kg, drop)
 	for st in res["stages"]:
 		var i: int = int(st["stage"]) - 1
 		var dv: float = st["dv_vac"]

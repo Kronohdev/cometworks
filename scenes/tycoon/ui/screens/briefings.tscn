@@ -1,0 +1,542 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/project/briefings_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/crew.svg" id="3_crew"]
+
+[node name="Briefings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -370.0
+offset_right = 640.0
+offset_bottom = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_BF_BOARD_CAPTION"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_BF_BOARD_TITLE"
+
+[node name="Journal" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Journal"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+horizontal_alignment = 2
+text = "TY_JN_SHORT"
+
+[node name="JournalCount" type="Label" parent="Panel/Margin/VBox/Header/Journal"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+horizontal_alignment = 2
+text = "0"
+
+[node name="SepJ" type="VSeparator" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+
+[node name="Cash" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Cash"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+horizontal_alignment = 2
+text = "TY_CASH"
+
+[node name="CashNow" type="Label" parent="Panel/Margin/VBox/Header/Cash"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+horizontal_alignment = 2
+text = "300 000 cr"
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+size_flags_vertical = 0
+tooltip_text = "TY_PJ_CANCEL"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="ListCol" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(390, 0)
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/ListCol"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_BF_REQUESTS"
+
+[node name="Sub" type="Label" parent="Panel/Margin/VBox/Body/ListCol"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = "TY_BF_REQUESTS_SUB"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body/ListCol"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ListCol/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="CardTemplate" type="Button" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+toggle_mode = true
+text = ""
+
+[node name="Box" type="MarginContainer" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Swatch" type="ColorRect" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox/Top"]
+custom_minimum_size = Vector2(4, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.2471, 0.8784, 0.7725, 1)
+
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox/Top"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 3
+text = "Science question"
+
+[node name="Reward" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox/Top"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+text = "60 000 cr"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 17
+text_overrun_behavior = 3
+text = "Ice in the eternal shadow"
+
+[node name="Client" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text_overrun_behavior = 3
+text = "Cometling Science Council"
+
+[node name="Empty" type="Label" parent="Panel/Margin/VBox/Body/ListCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = "TY_BF_EMPTY"
+
+[node name="Free" type="Button" parent="Panel/Margin/VBox/Body/ListCol"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_BF_FREE"
+
+[node name="SepA" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="DetailScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Detail" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="KindRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="KindChip" type="PanelContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwChip"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow/KindChip"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Swatch" type="ColorRect" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow/KindChip/HBox"]
+custom_minimum_size = Vector2(3, 12)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.2471, 0.8784, 0.7725, 1)
+
+[node name="KindText" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow/KindChip/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "Science question"
+
+[node name="Client" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+horizontal_alignment = 2
+text = "Cometling Science Council"
+
+[node name="BTitle" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+autowrap_mode = 3
+text = "Ice in the eternal shadow"
+
+[node name="Story" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+text = "There are craters near the Moon's poles where the Sun never shines..."
+
+[node name="GoalBox" type="PanelContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/GoalBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/GoalBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_GOAL"
+
+[node name="Goal" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/GoalBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+text = "Prove there is water in the Moon's dark craters."
+
+[node name="Terms" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DeadlineBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/DeadlineBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_DEADLINE"
+
+[node name="Deadline" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/DeadlineBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "40 sem"
+
+[node name="BudgetBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/BudgetBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_BUDGET"
+
+[node name="Budget" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/BudgetBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "1 200 000 cr"
+
+[node name="RewardBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/RewardBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_REWARD"
+
+[node name="Reward" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/RewardBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "900 000 cr"
+
+[node name="EraBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/EraBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_ERA"
+
+[node name="Era" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Terms/EraBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "3"
+
+[node name="HintsCaption" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_BF_TEAM_SAYS"
+
+[node name="Hints" type="VBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HintTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"CwBubble"
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/HintTemplate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/HintTemplate/Row"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_crew")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/Hints/HintTemplate/Row"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+autowrap_mode = 3
+text = "Bel acha que..."
+
+[node name="NoHints" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = "TY_BF_NO_HINTS"
+
+[node name="HintsGap" type="Control" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Source" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+text = "TY_BF_SOURCE"
+
+[node name="Note" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+text = "TY_BF_NOTE"
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Error" type="Label" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+vertical_alignment = 1
+autowrap_mode = 3
+text = ""
+
+[node name="Next" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_BF_ACCEPT"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.97, 0.97)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwCards" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/ListCol/Scroll/List")
+offset = Vector2(-10, 0)
+delay = 0.16
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwHints" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/DetailScroll/Detail/Hints")
+offset = Vector2(10, 0)
+delay = 0.21
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_right.svg" id="arrow_right"]
 
 [node name="FinalScoreScreen" type="Control"]
 layout_mode = 3
@@ -59,24 +62,12 @@ theme_override_constants/separation = 14
 [node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Kicker" type="Label" parent="Panel/Margin/VBox/Head/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
-theme_override_font_sizes/font_size = 13
-text = "TY_SCORE_KICKER"
-
-[node name="Agency" type="Label" parent="Panel/Margin/VBox/Head/Titles"]
+[node name="NavBar" parent="Panel/Margin/VBox/Head" instance=ExtResource("nav_bar")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 32
-text = "Cometworks"
+size_flags_horizontal = 3
+stack = NodePath("../../Pages")
+subtitle = "TY_SCORE_KICKER"
 
 [node name="Rank" type="Label" parent="Panel/Margin/VBox/Head"]
 unique_name_in_owner = true
@@ -88,22 +79,29 @@ text = "2º lugar entre 4 agências"
 [node name="HSep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="Pages" type="Container" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 26
+script = ExtResource("page_stack")
+keep_largest = true
 
-[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+[node name="Summary" type="HBoxContainer" parent="Panel/Margin/VBox/Pages"]
+layout_mode = 2
+theme_override_constants/separation = 30
+metadata/title = "TY_SCORE_KICKER"
+
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Summary"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.4
 theme_override_constants/separation = 10
 
-[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Left"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Total" type="Label" parent="Panel/Margin/VBox/Body/Left/ScoreRow"]
+[node name="Total" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
@@ -111,17 +109,17 @@ theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 96
 text = "742"
 
-[node name="Side" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/ScoreRow"]
+[node name="Side" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/separation = 2
 
-[node name="BonusRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/ScoreRow/Side"]
+[node name="BonusRow" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow/Side"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Star" type="Control" parent="Panel/Margin/VBox/Body/Left/ScoreRow/Side/BonusRow"]
+[node name="Star" type="Control" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow/Side/BonusRow"]
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
 size_flags_vertical = 4
@@ -132,105 +130,93 @@ outline = Color(0.1843, 0.4706, 0.8, 1)
 radius = 6.0
 star = true
 
-[node name="BonusLabel" type="Label" parent="Panel/Margin/VBox/Body/Left/ScoreRow/Side/BonusRow"]
+[node name="BonusLabel" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow/Side/BonusRow"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "TY_SCORE_COMET_BONUS"
 
-[node name="BonusPoints" type="Label" parent="Panel/Margin/VBox/Body/Left/ScoreRow/Side/BonusRow"]
+[node name="BonusPoints" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow/Side/BonusRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "+200"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Left/ScoreRow/Side"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Left/ScoreRow/Side"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 18
 text = "de 1000"
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="Caption2" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Left"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "TY_SCORE_TITLE"
+text = "TY_SCORE_MILESTONES"
 
-[node name="Rows" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="Milestones" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Left"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 6
 
-[node name="RowTemplate" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Rows"]
+[node name="MsTemplate" type="Control" parent="Panel/Margin/VBox/Pages/Summary/Left/Milestones"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-theme_override_constants/separation = 4
+script = ExtResource("4_marker")
+radius = 7.0
 
-[node name="Top" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/Rows/RowTemplate"]
+[node name="Fill" type="Control" parent="Panel/Margin/VBox/Pages/Summary/Left"]
 layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="Panel/Margin/VBox/Body/Left/Rows/RowTemplate/Top"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 15
-text = "Marcos"
-
-[node name="Detail" type="Label" parent="Panel/Margin/VBox/Body/Left/Rows/RowTemplate/Top"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
-text = "9 / 15"
-
-[node name="Points" type="Label" parent="Panel/Margin/VBox/Body/Left/Rows/RowTemplate/Top"]
-custom_minimum_size = Vector2(110, 0)
-layout_mode = 2
-theme_type_variation = &"CwMono"
-theme_override_font_sizes/font_size = 15
-text = "212 / 300"
-horizontal_alignment = 2
-
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/Rows/RowTemplate"]
-custom_minimum_size = Vector2(0, 7)
-layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("5_seg")
-segments = 40
 
-[node name="VSep" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+[node name="DetailsButton" type="Button" parent="Panel/Margin/VBox/Pages/Summary/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_SCORE_SEE_DETAILS"
+icon = ExtResource("arrow_right")
+icon_alignment = 2
+expand_icon = true
+
+[node name="VSep" type="VSeparator" parent="Panel/Margin/VBox/Pages/Summary"]
 layout_mode = 2
 
-[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Summary"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_SCORE_STANDINGS"
 
-[node name="Stands" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Stands" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Right"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="StandTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Stands"]
+[node name="StandTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_type_variation = &"CwStrip"
 
-[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate"]
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Rank" type="Label" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate/HBox"]
+[node name="Rank" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate/HBox"]
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "1"
 
-[node name="Marker" type="Control" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate/HBox"]
+[node name="Marker" type="Control" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate/HBox"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
@@ -238,19 +224,19 @@ mouse_filter = 2
 script = ExtResource("4_marker")
 radius = 5.0
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate/HBox"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
 text = "Aurora Rubra"
 
-[node name="Count" type="Label" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate/HBox"]
+[node name="Count" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate/HBox"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "12/15 · 4★"
 
-[node name="Points" type="Label" parent="Panel/Margin/VBox/Body/Right/Stands/StandTemplate/HBox"]
+[node name="Points" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right/Stands/StandTemplate/HBox"]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_type_variation = &"CwMono"
@@ -258,29 +244,64 @@ theme_override_font_sizes/font_size = 15
 text = "9.6"
 horizontal_alignment = 2
 
-[node name="PtsHint" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+[node name="PtsHint" type="Label" parent="Panel/Margin/VBox/Pages/Summary/Right"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 12
 text = "TY_SCORE_POINTS"
 horizontal_alignment = 2
 
-[node name="Caption2" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Details" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+metadata/title = "TY_SCORE_DETAILS"
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Pages/Details"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "TY_SCORE_MILESTONES"
+text = "TY_SCORE_TITLE"
 
-[node name="Milestones" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Rows" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Details"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 12
 
-[node name="MsTemplate" type="Control" parent="Panel/Margin/VBox/Body/Right/Milestones"]
+[node name="RowTemplate" type="VBoxContainer" parent="Panel/Margin/VBox/Pages/Details/Rows"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-script = ExtResource("4_marker")
-radius = 7.0
+theme_override_constants/separation = 4
+
+[node name="Top" type="HBoxContainer" parent="Panel/Margin/VBox/Pages/Details/Rows/RowTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/Pages/Details/Rows/RowTemplate/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "Marcos"
+
+[node name="Detail" type="Label" parent="Panel/Margin/VBox/Pages/Details/Rows/RowTemplate/Top"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "9 / 15"
+
+[node name="Points" type="Label" parent="Panel/Margin/VBox/Pages/Details/Rows/RowTemplate/Top"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 15
+text = "212 / 300"
+horizontal_alignment = 2
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Pages/Details/Rows/RowTemplate"]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_seg")
+segments = 40
 
 [node name="HSep2" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -329,7 +350,7 @@ curve = 1
 
 [node name="CwStands" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Panel/Margin/VBox/Body/Right/Stands")
+target = NodePath("../Panel/Margin/VBox/Pages/Summary/Right/Stands")
 offset = Vector2(16, 0)
 delay = 0.35
 step = 0.08

@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/book.svg" id="10_book"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/finance.svg" id="11_finance"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="12_settings"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/journal.svg" id="cw_journal"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="13_seg"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_aurora_line.gd" id="14_aurora"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_panel_motion.gd" id="15_motion"]
@@ -477,6 +478,17 @@ icon = ExtResource("10_book")
 icon_alignment = 1
 expand_icon = true
 
+[node name="Journal" type="Button" parent="Rail/VBox"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+tooltip_text = "TY_MENU_JOURNAL"
+focus_mode = 0
+theme_type_variation = &"CwRailButton"
+toggle_mode = true
+icon = ExtResource("cw_journal")
+icon_alignment = 1
+expand_icon = true
+
 [node name="Finance" type="Button" parent="Rail/VBox"]
 custom_minimum_size = Vector2(52, 52)
 layout_mode = 2
@@ -775,6 +787,15 @@ layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
 text = "TY_BUILD"
+
+[node name="HangarButton" type="Button" parent="Side/LotPanel/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "TY_HG_LOT_HANGAR_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_HG_LOT_HANGAR"
 
 [node name="HintBox" type="PanelContainer" parent="."]
 layout_mode = 1

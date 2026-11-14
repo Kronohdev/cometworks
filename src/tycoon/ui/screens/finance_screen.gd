@@ -1,10 +1,18 @@
 extends CwScreen
-## Finance screen (scenes/tycoon/ui/screens/finance.tscn): month-end cash for the last 24
-## months with the 12-month projection (CwCashChart), income and expense categories for the
-## chosen period, this month's bills (salaries, upkeep, donations, loan), the government
-## budget formula and the loan. Visuals are in the scene; this script fills them.
+## Finance screen (scenes/tycoon/ui/screens/finance.tscn), three tabs (CwPageStack):
+##   Overview  the big numbers (cash, monthly net, next budget, runway), month-end cash for the
+##             last 24 months with the 12-month projection (CwCashChart) and this month's bills
+##   Flow      income and expense categories for the chosen period, and the last months' ledger
+##   Budget    the loan and the government budget formula
+## Visuals are in the scene; this script fills them.
 
 var period := 12
+
+
+## open_screen("finance", {"tab": "Overview" | "Flow" | "Budget"})
+func open_with(args: Dictionary) -> void:
+	if args.has("tab"):
+		(%Pages as CwPageStack).switch_to(StringName(String(args["tab"])))
 
 
 func _ready() -> void:

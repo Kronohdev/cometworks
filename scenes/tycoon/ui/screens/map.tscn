@@ -19,6 +19,9 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_right.svg" id="arrow_right"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("4_sky")
@@ -870,52 +873,64 @@ theme_override_constants/separation = 8
 [node name="Head" type="HBoxContainer" parent="Missions/VBox"]
 layout_mode = 2
 
-[node name="Caption" type="Label" parent="Missions/VBox/Head"]
+[node name="NavBar" parent="Missions/VBox/Head" instance=ExtResource("nav_bar")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-text = "TY_OPS_ACTIVE"
+stack = NodePath("../../Pages")
 
 [node name="Count" type="Label" parent="Missions/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "0"
+size_flags_vertical = 4
 
 [node name="Sep" type="HSeparator" parent="Missions/VBox"]
 layout_mode = 2
 
-[node name="Empty" type="VBoxContainer" parent="Missions/VBox"]
+[node name="Pages" type="Container" parent="Missions/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("page_stack")
+
+[node name="List" type="VBoxContainer" parent="Missions/VBox/Pages"]
+layout_mode = 2
+theme_override_constants/separation = 8
+metadata/title = "TY_OPS_ACTIVE"
+
+[node name="Empty" type="VBoxContainer" parent="Missions/VBox/Pages/List"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Text" type="Label" parent="Missions/VBox/Empty"]
+[node name="Text" type="Label" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 text = "TY_OPS_NONE"
 
-[node name="Hint" type="Label" parent="Missions/VBox/Empty"]
+[node name="Hint" type="Label" parent="Missions/VBox/Pages/List/Empty"]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 theme_type_variation = &"CwDim"
 text = "TY_OPS_NONE_HINT"
 autowrap_mode = 3
 
-[node name="FlowSep" type="HSeparator" parent="Missions/VBox/Empty"]
+[node name="FlowSep" type="HSeparator" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="FlowTitle" type="Label" parent="Missions/VBox/Empty"]
+[node name="FlowTitle" type="Label" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 1)
 text = "TY_OPS_FLOW_TITLE"
 
-[node name="Step1" type="HBoxContainer" parent="Missions/VBox/Empty"]
+[node name="Step1" type="HBoxContainer" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Index" type="Label" parent="Missions/VBox/Empty/Step1"]
+[node name="Index" type="Label" parent="Missions/VBox/Pages/List/Empty/Step1"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -923,7 +938,7 @@ theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "1"
 
-[node name="Text" type="Label" parent="Missions/VBox/Empty/Step1"]
+[node name="Text" type="Label" parent="Missions/VBox/Pages/List/Empty/Step1"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -931,11 +946,11 @@ theme_override_font_sizes/font_size = 13
 text = "TY_OPS_FLOW_1"
 autowrap_mode = 3
 
-[node name="Step2" type="HBoxContainer" parent="Missions/VBox/Empty"]
+[node name="Step2" type="HBoxContainer" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Index" type="Label" parent="Missions/VBox/Empty/Step2"]
+[node name="Index" type="Label" parent="Missions/VBox/Pages/List/Empty/Step2"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -943,7 +958,7 @@ theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "2"
 
-[node name="Text" type="Label" parent="Missions/VBox/Empty/Step2"]
+[node name="Text" type="Label" parent="Missions/VBox/Pages/List/Empty/Step2"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -951,11 +966,11 @@ theme_override_font_sizes/font_size = 13
 text = "TY_OPS_FLOW_2"
 autowrap_mode = 3
 
-[node name="Step3" type="HBoxContainer" parent="Missions/VBox/Empty"]
+[node name="Step3" type="HBoxContainer" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Index" type="Label" parent="Missions/VBox/Empty/Step3"]
+[node name="Index" type="Label" parent="Missions/VBox/Pages/List/Empty/Step3"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -963,7 +978,7 @@ theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "3"
 
-[node name="Text" type="Label" parent="Missions/VBox/Empty/Step3"]
+[node name="Text" type="Label" parent="Missions/VBox/Pages/List/Empty/Step3"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -971,11 +986,11 @@ theme_override_font_sizes/font_size = 13
 text = "TY_OPS_FLOW_3"
 autowrap_mode = 3
 
-[node name="Step4" type="HBoxContainer" parent="Missions/VBox/Empty"]
+[node name="Step4" type="HBoxContainer" parent="Missions/VBox/Pages/List/Empty"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Index" type="Label" parent="Missions/VBox/Empty/Step4"]
+[node name="Index" type="Label" parent="Missions/VBox/Pages/List/Empty/Step4"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -983,7 +998,7 @@ theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 text = "4"
 
-[node name="Text" type="Label" parent="Missions/VBox/Empty/Step4"]
+[node name="Text" type="Label" parent="Missions/VBox/Pages/List/Empty/Step4"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -991,63 +1006,74 @@ theme_override_font_sizes/font_size = 13
 text = "TY_OPS_FLOW_4"
 autowrap_mode = 3
 
-[node name="Scroll" type="ScrollContainer" parent="Missions/VBox"]
+[node name="Scroll" type="ScrollContainer" parent="Missions/VBox/Pages/List"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Cards" type="VBoxContainer" parent="Missions/VBox/Scroll"]
+[node name="Cards" type="VBoxContainer" parent="Missions/VBox/Pages/List/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="CardTemplate" type="PanelContainer" parent="Missions/VBox/Scroll/Cards"]
+[node name="CardTemplate" type="PanelContainer" parent="Missions/VBox/Pages/List/Scroll/Cards"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_type_variation = &"CwStrip"
 
-[node name="VBox" type="VBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate"]
+[node name="VBox" type="VBoxContainer" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/separation = 5
 
-[node name="Head" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+[node name="Head" type="HBoxContainer" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/separation = 8
 
-[node name="Code" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+[node name="Code" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Head"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_font_sizes/font_size = 15
 text = "ORB-01"
 
-[node name="Type" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+[node name="Type" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 14
 text = "Orbitador"
 clip_text = true
 
-[node name="Status" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Head"]
+[node name="Status" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Head"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "OPERAÇÃO"
 
-[node name="Target" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+[node name="Open" type="Button" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Head"]
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_OPS_OPEN_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+icon = ExtResource("arrow_right")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Target" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "Órbita lunar · 384 400 km"
 
-[node name="Phase" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+[node name="Phase" type="HBoxContainer" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/separation = 10
 
-[node name="Bar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Phase"]
+[node name="Bar" type="Control" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Phase"]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1058,7 +1084,7 @@ color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 26
 gap = 2.0
 
-[node name="Weeks" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Phase"]
+[node name="Weeks" type="Label" parent="Missions/VBox/Pages/List/Scroll/Cards/CardTemplate/VBox/Phase"]
 custom_minimum_size = Vector2(76, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -1066,22 +1092,98 @@ theme_override_font_sizes/font_size = 13
 horizontal_alignment = 2
 text = "sem 3/15"
 
-[node name="Data" type="GridContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+[node name="Mission" type="ScrollContainer" parent="Missions/VBox/Pages"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/title = "TY_OPS_MISSION"
+
+[node name="Detail" type="PanelContainer" parent="Missions/VBox/Pages/Mission"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwStrip"
+
+[node name="VBox" type="VBoxContainer" parent="Missions/VBox/Pages/Mission/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Code" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 22
+text = "ORB-01"
+
+[node name="Type" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 16
+text = "Orbitador"
+clip_text = true
+
+[node name="Status" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwCaps"
+text = "OPERAÇÃO"
+
+[node name="Target" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 15
+text = "Órbita lunar · 384 400 km"
+
+[node name="PhaseCap" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_OPS_PHASE"
+
+[node name="Phase" type="HBoxContainer" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Bar" type="Control" parent="Missions/VBox/Pages/Mission/Detail/VBox/Phase"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("15_seg")
+color = Color(0.1843, 0.7686, 0.6275, 1)
+segments = 26
+gap = 2.0
+
+[node name="Weeks" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Phase"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+horizontal_alignment = 2
+text = "sem 3/15"
+
+[node name="Sep" type="HSeparator" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+
+[node name="Data" type="GridContainer" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 3
+theme_override_constants/v_separation = 10
 columns = 3
 
-[node name="StoredCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="StoredCap" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 custom_minimum_size = Vector2(92, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 text = "TY_OPS_STORED"
 
-[node name="StoredBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
-custom_minimum_size = Vector2(0, 5)
+[node name="StoredBar" type="Control" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1090,22 +1192,22 @@ script = ExtResource("15_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 16
 
-[node name="StoredVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="StoredVal" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 custom_minimum_size = Vector2(104, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 horizontal_alignment = 2
 text = "12 / 40 Gb"
 
-[node name="DownCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="DownCap" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 text = "TY_OPS_DOWN"
 
-[node name="DownBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
-custom_minimum_size = Vector2(0, 5)
+[node name="DownBar" type="Control" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1114,21 +1216,21 @@ script = ExtResource("15_seg")
 color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 16
 
-[node name="DownVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="DownVal" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 horizontal_alignment = 2
 text = "48 Gb · 72%"
 
-[node name="HealthCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="HealthCap" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 13
 text = "TY_OPS_HEALTH"
 
-[node name="HealthBar" type="Control" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
-custom_minimum_size = Vector2(0, 5)
+[node name="HealthBar" type="Control" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1137,37 +1239,40 @@ script = ExtResource("15_seg")
 color = Color(0.2706, 0.8, 0.5098, 1)
 segments = 16
 
-[node name="HealthVal" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Data"]
+[node name="HealthVal" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Data"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 horizontal_alignment = 2
 text = "100%"
 
-[node name="Foot" type="HBoxContainer" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox"]
+[node name="Sep2" type="HSeparator" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
+layout_mode = 2
+
+[node name="Foot" type="HBoxContainer" parent="Missions/VBox/Pages/Mission/Detail/VBox"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/separation = 8
 
-[node name="SciCap" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+[node name="SciCap" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Foot"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 12
 text = "TY_OPS_SCIENCE"
 
-[node name="Science" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+[node name="Science" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Foot"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 22
 text = "12.4"
 
-[node name="Link" type="Label" parent="Missions/VBox/Scroll/Cards/CardTemplate/VBox/Foot"]
+[node name="Link" type="Label" parent="Missions/VBox/Pages/Mission/Detail/VBox/Foot"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 horizontal_alignment = 2
 text = "em contato"
 
@@ -1303,7 +1408,7 @@ extra_step = 0.07
 
 [node name="CwCards" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Missions/VBox/Scroll/Cards")
+target = NodePath("../Missions/VBox/Pages/List/Scroll/Cards")
 offset = Vector2(16, 0)
 delay = 0.25
 step = 0.03

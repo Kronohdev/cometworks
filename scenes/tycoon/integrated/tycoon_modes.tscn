@@ -1,0 +1,210 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/integrated/tycoon_modes.gd" id="1_modes"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hangar.svg" id="4_icon"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="5_btn"]
+
+[node name="Modes" type="CanvasLayer"]
+layer = 4
+visible = false
+script = ExtResource("1_modes")
+
+[node name="View" type="SubViewportContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="Port" type="SubViewport" parent="View"]
+unique_name_in_owner = true
+own_world_3d = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(1600, 900)
+render_target_update_mode = 4
+
+[node name="Card" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -390.0
+offset_top = 76.0
+offset_right = 390.0
+offset_bottom = 156.0
+grow_horizontal = 2
+theme = ExtResource("2_theme")
+theme_type_variation = &"CwPanelRaised"
+
+[node name="Margin" type="MarginContainer" parent="Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Row" type="HBoxContainer" parent="Card/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Card/Margin/VBox/Row"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Card/Margin/VBox/Row"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Card/Margin/VBox/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_HG_CARD_CAPTION"
+text_overrun_behavior = 3
+
+[node name="Title" type="Label" parent="Card/Margin/VBox/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text = "DEM-01 · Satélite demonstrador"
+text_overrun_behavior = 3
+
+[node name="Hint" type="Label" parent="Card/Margin/VBox/Row/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 11
+text = "TY_HG_CARD_TEST"
+text_overrun_behavior = 3
+
+[node name="VerdictPill" type="PanelContainer" parent="Card/Margin/VBox/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwVerdict"
+
+[node name="Verdict" type="Label" parent="Card/Margin/VBox/Row/VerdictPill"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "TY_RK_REACHES"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="Card/Margin/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 38)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_font_sizes/font_size = 14
+text = "TY_HG_CARD_BACK"
+
+[node name="Use" type="Button" parent="Card/Margin/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(156, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+theme_override_font_sizes/font_size = 15
+text = "TY_HG_CARD_USE"
+
+[node name="Meters" type="HBoxContainer" parent="Card/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DvName" type="Label" parent="Card/Margin/VBox/Meters"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_HG_CARD_DV"
+vertical_alignment = 1
+
+[node name="DvBar" type="Control" parent="Card/Margin/VBox/Meters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.6
+color = Color(0.0549, 0.5647, 0.4667, 1)
+pill = true
+marker = 0.5
+
+[node name="DvValue" type="Label" parent="Card/Margin/VBox/Meters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 13
+text = "10 400 / 9 400 m/s"
+
+[node name="SepA" type="VSeparator" parent="Card/Margin/VBox/Meters"]
+layout_mode = 2
+
+[node name="PayloadName" type="Label" parent="Card/Margin/VBox/Meters"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_HG_CARD_PAYLOAD"
+vertical_alignment = 1
+
+[node name="PayloadValue" type="Label" parent="Card/Margin/VBox/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 13
+text = "0.30 t"
+
+[node name="SepB" type="VSeparator" parent="Card/Margin/VBox/Meters"]
+layout_mode = 2
+
+[node name="CostName" type="Label" parent="Card/Margin/VBox/Meters"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_HG_CARD_COST"
+vertical_alignment = 1
+
+[node name="CostValue" type="Label" parent="Card/Margin/VBox/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwStat"
+theme_override_font_sizes/font_size = 13
+text = "115k de 300k"
+
+[node name="Target" type="Label" parent="Card/Margin/VBox/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "Destino: Órbita baixa"
+horizontal_alignment = 2
+
+[node name="CwButtons" type="Node" parent="Card"]
+script = ExtResource("5_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08

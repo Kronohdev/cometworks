@@ -1,0 +1,64 @@
+keys,en,pt
+TY_NAV_BACK_TIP,Back (Esc),Voltar (Esc)
+TY_NAV_CRUMB_TIP,Go back here,Voltar para cá
+TY_NAV_OPEN,Open,Abrir
+TY_CREW_SHEET,Sheet,Ficha
+TY_CREW_FILTER_ALL,Everyone · %d,Todos · %d
+TY_CREW_FILTER_FREE,Available,Disponíveis
+TY_CREW_FILTER_FREE_TIP,Only Cometlings free for a project,Só os Cometinhos livres para um projeto
+TY_CREW_FILTER_NAP,Napping,Cochilando
+TY_CREW_FILTER_NAP_TIP,Only the ones napping (low mood: they skip work this week),Só quem está cochilando (moral baixa: não trabalha esta semana)
+TY_CREW_FILTER_PROF_TIP,Show only this profession (it helps the %s bar),Mostrar só esta profissão (ajuda a barra de %s)
+TY_CREW_SORT_LEVEL,Sort: level,Ordem: nível
+TY_CREW_SORT_NAME,Sort: name,Ordem: nome
+TY_CREW_SORT_MORALE,Sort: mood,Ordem: moral
+TY_CREW_SORT_TIP,Change the order of the cards,Mudar a ordem dos cartões
+TY_CREW_EMPTY_FILTER,No Cometling matches these filters.,Nenhum Cometinho com esses filtros.
+TY_CREW_OPEN_TIP,Open this Cometling's sheet,Abrir a ficha deste Cometinho
+TY_CREW_CAND_OPEN_TIP,See this candidate,Ver este candidato
+TY_CREW_LEVEL_SHORT,Lv %d,Nv %d
+TY_CREW_TRAITS,Traits,Traços
+TY_CREW_HISTORY,Missions flown,Missões em que trabalhou
+TY_CREW_HISTORY_EMPTY,No launched mission yet.,Nenhuma missão lançada ainda.
+TY_CREW_HIST_OK,Success,Sucesso
+TY_CREW_HIST_FAIL,Failure,Falha
+TY_CREW_FEE_LINE,Hiring fee %s,Taxa de contratação %s
+TY_CREW_CANDIDATE,Candidate,Candidato(a)
+TY_CT_TAB_OFFERS,Offers,Ofertas
+TY_CT_TAB_SIGNED,Signed,Assinados
+TY_CT_OPEN,Details,Detalhes
+TY_CT_DETAIL,Contract,Contrato
+TY_RS_TECH,Technology,Tecnologia
+TY_RS_LEADS_TO,Leads to,Abre caminho para
+TY_RS_LEADS_NONE,The end of this branch.,Fim deste ramo.
+TY_RS_OPEN_TECH_TIP,Open this technology,Abrir esta tecnologia
+TY_FN_TAB_OVERVIEW,Overview,Resumo
+TY_FN_TAB_FLOW,Income and spending,Entradas e saídas
+TY_FN_TAB_LOAN,Budget and loan,Orçamento e empréstimo
+TY_SET_TAB_GAME,Game,Jogo
+TY_SET_TAB_SAVE,Save,Salvar
+TY_SET_TAB_IMAGE,Picture,Imagem
+TY_SET_TAB_SOUND,Sound,Som
+TY_SCORE_DETAILS,Score breakdown,Pontuação detalhada
+TY_SCORE_SEE_DETAILS,See the breakdown,Ver a pontuação detalhada
+TY_BOOK_SHELF,Agency book,Livro da agência
+TY_BOOK_SHELF_MISSIONS,%d missions · %s success,%d missões · %s de sucesso
+TY_BOOK_MISSIONS_HINT,"Every finished mission, what it returned and what held it back.","Cada missão encerrada, o que rendeu e o que a segurou."
+TY_BOOK_MISSION,Mission,Missão
+TY_BOOK_CARD,Card,Ficha
+TY_BOOK_LESSON,What held it back,O que segurou a missão
+TY_BOOK_OPEN_CARD_TIP,Read this card,Ler esta ficha
+TY_RACE_CLICK_HINT,Point at a milestone; click it or an agency for more,Aponte para um marco; clique nele ou numa agência para ver mais
+TY_RACE_OPEN_MILESTONE,Milestone,Ver marco
+TY_RACE_OPEN_MILESTONE_TIP,Open this milestone,Abrir este marco
+TY_RACE_OPEN_AGENCY_TIP,Open this agency,Abrir esta agência
+TY_RACE_AGENCIES,Agencies,Agências
+TY_RACE_AGENCY,Agency,Agência
+TY_RACE_MILESTONE,Milestone,Marco
+TY_RACE_TAKEN,Milestones taken,Marcos conquistados
+TY_RACE_TAKEN_NONE,None yet.,Nenhum ainda.
+TY_RACE_PEEK_FIRST,first: %s,primeiro: %s
+TY_RACE_PEEK_OPEN,nobody yet,ninguém ainda
+TY_OPS_MISSION,Mission,Missão
+TY_OPS_PHASE,Mission time,Tempo de missão
+TY_OPS_OPEN_TIP,Open this mission,Abrir esta missão

@@ -152,7 +152,8 @@ static func heritage_stamp(state: TycoonState) -> int:
 	return n
 
 
-## from_dict() hook: JSON numbers come back as floats.
+## from_dict() hook: JSON numbers come back as floats; the hangar rockets (HangarRocket) are
+## registered again.
 static func restore(state: TycoonState, d: Dictionary) -> void:
 	state.rockets = d.duplicate(true)
 	if d.is_empty():
@@ -163,3 +164,5 @@ static func restore(state: TycoonState, d: Dictionary) -> void:
 		for k in ["flights", "successes", "failures", "created_week", "last_week"]:
 			f[k] = int(f.get(k, 0))
 		f["trust"] = float(f.get("trust", heritage().get("debut", 0.9)))
+	# rockets built in the hangar (their components) come back before anything reads the parts
+	HangarRocket.register_all(state)

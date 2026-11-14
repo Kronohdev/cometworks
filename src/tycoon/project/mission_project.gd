@@ -33,12 +33,19 @@ var awaiting_sliders := true
 var rocket: Dictionary = {}
 ## the Design Review after development (DesignReview): "" developing, "waiting" for the
 ## player's decision, "fixing" (the chosen fixes, then the launch), "rebuild" (a new rocket is
-## being built, then the review again)
+## being built, then the review again), "pad" (a rocket built in the hangar waits on the pad for
+## the player's launch choice: pilot it or simulate it, ProjectDesk.launch)
 var review_state := ""
 ## weeks left of "fixing" or "rebuild"
 var review_weeks := 0
 ## the risks fixed in the review (DesignReview risk ids)
 var review_fixes: Array[String] = []
+## the briefing this project answers ("" for a free project or a contract; BriefingDesk) and the
+## offer's terms it took: {"reward", "budget", "deadline", "client"}
+var briefing_id := ""
+var briefing_terms: Dictionary = {}
+## the modules it carries (PayloadRules ids: instruments, power, comms, heater, recorder)
+var payload: Array[String] = []
 
 
 # ------------------------------------------------------------ queries
@@ -46,12 +53,24 @@ func mission_type(state: TycoonState) -> Dictionary:
 	return state.mission_type(type_id)
 
 
+## The ideal balance of the bars: the briefing client's own when it has one, else the type's.
+## Hidden from the player until the journal reveals it (Discovery.ratio_known).
 func ideal(state: TycoonState) -> Array[float]:
 	var r: Array = mission_type(state).get("ratio", [0.25, 0.25, 0.25, 0.25])
+	var br := BriefingDesk.ratio(BriefingDesk.briefing(briefing_id))
+	if br.size() == 4:
+		r = br
 	var out: Array[float] = [0.25, 0.25, 0.25, 0.25]
 	for b in mini(4, r.size()):
 		out[b] = float(r[b])
 	return out
+
+
+## The payload, or the Cometlings' starter kit for projects that have none (old saves, tests).
+func payload_or_default(state: TycoonState) -> Array[String]:
+	if not payload.is_empty():
+		return payload
+	return PayloadRules.default_payload(state, type_id, target_id)
 
 
 func total_points() -> float:
@@ -228,7 +247,8 @@ static func expected_points(state: TycoonState, p_type_id: String, history: Arra
 			continue
 		if String(h.get("type", "")) == p_type_id:
 			repeats += 1
-		best = maxf(best, float(h.get("grade", 0.0)))
+		# the project grade, not the mission's: a rocket failure does not lower what is expected
+		best = maxf(best, ProjectDesk.project_grade(h))
 	var size := float(state.mission_type(p_type_id).get("size", 1.0))
 	return ProjectRules.expectation_era(state.era()) * size * (1.0 + float(g.get("repeat_step", 0.1)) * repeats) \
 		* (1.0 + float(g.get("best_grade_step", 0.03)) * maxf(best - float(g.get("best_grade_pivot", 5.0)), 0.0))
@@ -293,7 +313,8 @@ func to_dict() -> Dictionary:
 		"staff_ids": staff_ids, "start_week": start_week, "weeks_total": weeks_total, "weeks_done": weeks_done,
 		"phase": phase, "sliders": sliders, "pts": pts, "defects": defects, "cost_spent": cost_spent,
 		"training_xp": training_xp, "awaiting_sliders": awaiting_sliders, "rocket": rocket,
-		"review_state": review_state, "review_weeks": review_weeks, "review_fixes": review_fixes}
+		"review_state": review_state, "review_weeks": review_weeks, "review_fixes": review_fixes,
+		"briefing_id": briefing_id, "briefing_terms": briefing_terms, "payload": payload}
 
 
 static func from_dict(d: Dictionary) -> MissionProject:
@@ -327,4 +348,8 @@ static func from_dict(d: Dictionary) -> MissionProject:
 	p.review_weeks = int(d.get("review_weeks", 0))
 	for f in d.get("review_fixes", []):
 		p.review_fixes.append(String(f))
+	p.briefing_id = String(d.get("briefing_id", ""))
+	p.briefing_terms = (d.get("briefing_terms", {}) as Dictionary).duplicate()
+	for m in d.get("payload", []):
+		p.payload.append(String(m))
 	return p

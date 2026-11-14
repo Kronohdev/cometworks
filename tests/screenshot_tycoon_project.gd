@@ -1,6 +1,9 @@
 extends SceneTree
 ## Windowed screenshots of the mission project loop (E1) on the Cometworks main screen:
-##   project_01_new        New project: target, type, ideal balance, contract, team, estimate
+##   project_00_briefings  the mission board: briefing cards, the story, goal, terms, staff hints
+##   project_01_new        New project: target, type, the briefing's goal, ideal balance (hidden), contract, estimate
+##   project_01p_payload   the payload planner: modules, journal ratings, the six gauges, environment
+##   project_01t_team      the team step: Cometlings, what the mission leans on, hints, estimate
 ##   project_02_phase1     phase 1 levers right after Start
 ##   project_03_phase1_mix the levers moved (live preview of the bars)
 ##   project_04_phase2     phase 2 (tests remove defects)
@@ -35,11 +38,20 @@ func _initialize() -> void:
 		"reward": 60000, "bonus": 15000, "penalty": 20000, "deadline_week": 30, "min_bars": {"sci": 5.0},
 		"status": "accepted"})
 	await _frames(90)
-	main.hud.open_screen("new_project")
+	BriefingDesk.spawn(s, "first_hop")
+	main.hud.open_screen("briefings")
+	await _frames(30)
+	await _shot("project_00_briefings")
+	main.hud.get_node("%Screens").get_child(0).call("_accept")
 	await _frames(20)
 	await _shot("project_01_new")
-	var np := main.hud.get_node("%Screens").get_child(0)
-	np.call("_start")
+	main.hud.get_node("%Screens").get_child(0).call("_start")
+	await _frames(25)
+	await _shot("project_01p_payload")
+	main.hud.get_node("%Screens").get_child(0).call("_next")
+	await _frames(25)
+	await _shot("project_01t_team")
+	main.hud.get_node("%Screens").get_child(0).call("_next")
 	await _frames(30)
 	await _shot("project_01b_rocket")
 	main.hud.get_node("%Screens").get_child(0).call("_start")
@@ -84,19 +96,28 @@ func _initialize() -> void:
 	var p2 := ProjectDesk.start_project(s, "sounding", "suborbital", team2)
 	await _frames(5)
 	var plan := [[45, 25, 30], [40, 20, 40], [25, 15, 60]]
-	for k in 3:
-		ProjectDesk.set_sliders(s, p2.id, plan[k])
-		main.hud.close_screen()
-		await _frames(3)
-		if k == 2:
-			_force_success(s, p2)
-		s.advance_week()
-		await _frames(5)
+	ProjectDesk.dev_force_outcome = "success"
+	for k in 16:
+		if ProjectDesk.find(s, p2.id) == null:
+			break
 		if p2.review_state == "waiting":
 			main.hud.close_screen()
 			await _frames(3)
+			_force_success(s, p2)
 			ProjectDesk.confirm_review(s, p2.id, [])
 			await _frames(5)
+			continue
+		ProjectDesk.set_sliders(s, p2.id, plan[mini(p2.phase, 2)])
+		main.hud.close_screen()
+		await _frames(3)
+		s.advance_week()
+		await _frames(5)
+	ProjectDesk.dev_force_outcome = ""
+	# (the flow may still hold the Design Review it opened: show the review itself)
+	if main.hud.current_screen() != "project_review":
+		main.hud.close_screen()
+		await _frames(5)
+		main.hud.open_screen("project_review", {"project_id": p2.id})
 	await _frames(90)
 	await _shot("project_08_review_success")
 	main.hud.close_screen()

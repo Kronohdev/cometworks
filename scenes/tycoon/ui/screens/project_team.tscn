@@ -1,0 +1,633 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/project/project_team_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/crew.svg" id="3_crew"]
+
+[node name="ProjectTeam" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -370.0
+offset_right = 640.0
+offset_bottom = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Orbiter → Lunar orbit"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_TM_TITLE"
+
+[node name="Cash" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Cash"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+horizontal_alignment = 2
+text = "TY_CASH"
+
+[node name="CashNow" type="Label" parent="Panel/Margin/VBox/Header/Cash"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+horizontal_alignment = 2
+text = "300 000 cr"
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+size_flags_vertical = 0
+tooltip_text = "TY_PJ_CANCEL"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="TeamHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+text = "TY_PJ_STEP_TEAM"
+
+[node name="TeamIdeal" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "ideal team: 2"
+
+[node name="TeamCount" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "2 / 6"
+
+[node name="TeamHint" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = "TY_PJ_TEAM_HINT"
+
+[node name="TeamScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Team" type="GridContainer" parent="Panel/Margin/VBox/Body/Left/TeamScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="StaffTemplate" type="Button" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwRow"
+visible = false
+size_flags_horizontal = 3
+toggle_mode = true
+text = ""
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = 10.0
+offset_right = -12.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Tab" type="ColorRect" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate/Row"]
+custom_minimum_size = Vector2(4, 36)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate/Row"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate/Row/Names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text_overrun_behavior = 3
+text = "Ada Lumen"
+
+[node name="Prof" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate/Row/Names"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text_overrun_behavior = 3
+text = "Systems engineer"
+
+[node name="Level" type="Label" parent="Panel/Margin/VBox/Body/Left/TeamScroll/Team/StaffTemplate/Row"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+vertical_alignment = 1
+text = "Lv 1"
+
+[node name="SepA" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+custom_minimum_size = Vector2(460, 0)
+theme_override_constants/separation = 10
+
+[node name="NeedsCaption" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_TM_NEEDS"
+
+[node name="Needs" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Bar" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+size_flags_horizontal = 3
+text = "TY_TM_BAR"
+
+[node name="Ideal" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "TY_PJ_IDEAL_SHORT"
+
+[node name="Have" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "TY_TM_HAVE"
+
+[node name="NeedEng" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Chip" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedEng"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedEng"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
+text = "TY_BAR_ENG"
+
+[node name="Ideal" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedEng"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "?"
+
+[node name="Have" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedEng"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "1 Cometling"
+
+[node name="NeedSci" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Chip" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedSci"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedSci"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
+text = "TY_BAR_SCI"
+
+[node name="Ideal" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedSci"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "?"
+
+[node name="Have" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedSci"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "1 Cometling"
+
+[node name="NeedOps" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Chip" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedOps"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedOps"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
+text = "TY_BAR_OPS"
+
+[node name="Ideal" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedOps"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "?"
+
+[node name="Have" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedOps"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "1 Cometling"
+
+[node name="NeedRel" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Chip" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedRel"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(1, 0.5412, 0.2392, 1)
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedRel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+size_flags_horizontal = 3
+text = "TY_BAR_REL"
+
+[node name="Ideal" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedRel"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2
+text = "?"
+
+[node name="Have" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox/NeedRel"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 14
+custom_minimum_size = Vector2(150, 0)
+horizontal_alignment = 2
+text = "1 Cometling"
+
+[node name="NeedsNote" type="Label" parent="Panel/Margin/VBox/Body/Right/Needs/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+text = "TY_TM_NEEDS_HIDDEN"
+
+[node name="BestTeam" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = ""
+
+[node name="HintsCaption" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_BF_TEAM_SAYS"
+
+[node name="Hints" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HintTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Hints"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_type_variation = &"CwBubble"
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Hints/HintTemplate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/Right/Hints/HintTemplate/Row"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_crew")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Panel/Margin/VBox/Body/Right/Hints/HintTemplate/Row"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+size_flags_horizontal = 3
+autowrap_mode = 3
+text = "Bel acha que..."
+
+[node name="NoHints" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = "TY_BF_NO_HINTS"
+
+[node name="HintsGap" type="Control" parent="Panel/Margin/VBox/Body/Right"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Estimate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Weeks" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Weeks"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_EST_WEEKS"
+
+[node name="EstWeeks" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Weeks"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "3"
+
+[node name="Dev" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Dev"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_EST_DEV"
+
+[node name="EstDev" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Dev"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "9 000 cr"
+
+[node name="Payload" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Payload"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_TM_PAYLOAD"
+
+[node name="EstPayload" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Payload"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "6 000 cr"
+
+[node name="Launch" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Launch"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_EST_LAUNCH"
+
+[node name="EstLaunch" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Launch"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "30 000 cr"
+
+[node name="Total" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Total"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_EST_TOTAL"
+
+[node name="EstTotal" type="Label" parent="Panel/Margin/VBox/Body/Right/Estimate/HBox/Total"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "45 000 cr"
+
+[node name="Deadline" type="Label" parent="Panel/Margin/VBox/Body/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+text = ""
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Back" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+focus_mode = 0
+text = "TY_PL_BACK"
+
+[node name="Error" type="Label" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+vertical_alignment = 1
+autowrap_mode = 3
+text = ""
+
+[node name="Next" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 44)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_PJ_NEXT_ROCKET"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.97, 0.97)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.04
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwTeam" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Left/TeamScroll/Team")
+offset = Vector2(-10, 0)
+delay = 0.16
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

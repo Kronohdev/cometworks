@@ -1,9 +1,12 @@
 extends CwScreen
-## Research screen (scenes/tycoon/ui/screens/research.tscn): the tech tree laid out by era
-## (columns) with connection lines, node states (locked / available / queued / researching /
-## done), the lab readouts, the queue and the detail card of the selected tech. The scene
-## holds every visual; this script places copies of %NodeTemplate on the era grid and fills
-## the texts.
+## Research screen (scenes/tycoon/ui/screens/research.tscn), as pages (CwPageStack):
+##   Tree  the tech tree laid out by era (columns) with connection lines, node states (locked /
+##         available / queued / researching / done) and the queue; click a tech to open it,
+##         double-click an open one to fund it
+##   Tech  one tech: branch, era, state, description, cost / time / ETA, progress, what it
+##         unlocks and needs, who sits in the lab; fund / queue / stop and license here
+## The lab readouts stay in the header. The scene holds every visual; this script places
+## copies of %NodeTemplate on the era grid and fills the texts.
 
 const NODE_STYLE := {"done": &"CwNodeDone", "researching": &"CwNodeActive", "queued": &"CwNodeAvailable",
 	"available": &"CwNodeAvailable", "locked": &"CwNodeLocked"}
@@ -12,6 +15,8 @@ const KIND_COLOR := {"type": CwPalette.IGNITION, "target": CwPalette.COMET_ICE, 
 	"rocket": CwPalette.IGNITION}
 
 var selected := ""
+
+@onready var pages: CwPageStack = %Pages
 
 
 func _ready() -> void:
@@ -41,14 +46,28 @@ func _bound() -> void:
 		selected = String(TycoonResearch.techs()[0]["id"])
 
 
-## Opens with a given tech selected: open_screen("research", {"tech": id}).
+## Opens a tech's page: open_screen("research", {"tech": id}).
 func open_with(args: Dictionary) -> void:
 	if args.has("tech"):
-		select(String(args["tech"]))
+		open_tech(String(args["tech"]))
+
+
+## The selected tech's page (tests, dev menu).
+func open_detail() -> void:
+	open_tech(selected)
 
 
 func select(id: String) -> void:
 	selected = id
+	refresh()
+
+
+## Selects a tech and opens its page.
+func open_tech(id: String) -> void:
+	if TycoonResearch.tech(id).is_empty():
+		return
+	selected = id
+	pages.push(&"Tech", tr("TY_TECH_" + id.to_upper()))
 	refresh()
 
 
@@ -187,7 +206,9 @@ func _on_node_input(event: InputEvent, n: Control) -> void:
 		var id := String(n.get_meta("tech", ""))
 		if mb.double_click and TycoonResearch.node_state(state, id) in ["available", "queued", "researching"]:
 			TycoonResearch.fund(state, id)
-		select(id)
+			select(id)
+		else:
+			open_tech(id)
 		accept_event()
 
 
@@ -216,6 +237,12 @@ func _fill_detail() -> void:
 	var id := selected
 	var st := TycoonResearch.node_state(state, id)
 	var br := TycoonResearch.branch(String(t["branch"]))
+	if pages.current() == &"Tech":
+		pages.set_title(tr("TY_TECH_" + id.to_upper()))
+	var bst := %Main.get_theme_stylebox("panel").duplicate() as CwPanelStyle
+	if bst:
+		bst.tab_color = Color(String(br.get("color", "#8c9ab5")))
+		%Main.add_theme_stylebox_override("panel", bst)
 	%DBranch.text = tr(String(br.get("name_key", "")))
 	%DBranch.add_theme_color_override("font_color", CwPalette.ink(Color(String(br.get("color", "#8c9ab5")))))
 	%DName.text = tr("TY_TECH_" + id.to_upper())
@@ -244,14 +271,23 @@ func _fill_detail() -> void:
 			nl.text = String(r["name"])
 		else:
 			nl.text = tr(String(r["key"]))
-	# prerequisites
+	# the path: what it needs and what it leads to, each a key to that tech's page
+	var pre: Array = t.get("prereq", [])
+	_tech_keys(%NeedTemplate, pre)
+	var next: Array = []
+	for o: Dictionary in TycoonResearch.techs():
+		if id in Array(o.get("prereq", [])):
+			next.append(String(o["id"]))
+	_tech_keys(%NextTemplate, next)
+	%NextNone.visible = next.is_empty()
 	var req: Array[String] = []
-	for p: String in t.get("prereq", []):
-		req.append(("✓ " if TycoonResearch.is_done(state, p) else "· ") + tr("TY_TECH_" + p.to_upper()))
 	var la := int(TycoonResearch.db().get("era_lookahead", 1))
 	if int(t["era"]) > state.era() + la:
 		req.append(tr("TY_RS_NEEDS_ERA") % ((int(t["era"]) - la - 1) * 5 + 1))
-	%Requires.text = "\n".join(req) if not req.is_empty() else tr("TY_RS_NO_REQ")
+	elif pre.is_empty():
+		req.append(tr("TY_RS_NO_REQ"))
+	%Requires.text = "\n".join(req)
+	%Requires.visible = not req.is_empty()
 	_fill_bench()
 	# actions: the screen's one primary button
 	var fund: Button = %Fund
@@ -277,6 +313,19 @@ func _fill_detail() -> void:
 	else:
 		lic.text = tr("TY_RS_LICENSED")
 		lic.disabled = true
+
+
+## Keys for a list of techs (copies of `template`): done ones ticked, each opens its page.
+func _tech_keys(template: Control, ids: Array) -> void:
+	var keys := copies(template, ids.size())
+	for i in ids.size():
+		var tid := String(ids[i])
+		var b := keys[i] as Button
+		b.text = ("✓ " if TycoonResearch.is_done(state, tid) else "") + tr("TY_TECH_" + tid.to_upper())
+		b.set_meta("tech", tid)
+		if not b.has_meta("wired"):
+			b.set_meta("wired", true)
+			b.pressed.connect(func() -> void: open_tech(String(b.get_meta("tech"))))
 
 
 func _on_fund() -> void:

@@ -90,9 +90,11 @@ func _add_item(c: Control, d: float) -> void:
 		.set_delay(d * (0.5 if reduced else 1.0)), curve)
 
 
-func _item_at(k: float, c: Control, reduced: bool) -> void:
-	if not is_instance_valid(c):
+## (`item` untyped: a copy freed mid-cascade, a filtered card, must not break the tween call)
+func _item_at(k: float, item: Variant, reduced: bool) -> void:
+	if not is_instance_valid(item):
 		return
+	var c := item as Control
 	if reduced:
 		CwMotion.set_channel(c, &"stagger", Vector2.ZERO, Vector2.ONE, 0.0, k)
 		return

@@ -1,0 +1,2531 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://src/hangar/hangar_ui.gd" id="script"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="seg"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="m_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="m_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="m_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="m_pulse"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="m_ticker"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_shimmer.gd" id="m_shimmer"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crew_panel.tscn" id="crew_panel"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_command.svg" id="cat_command"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_tank.svg" id="cat_tank"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_engine.svg" id="cat_engine"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_structure.svg" id="cat_structure"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_aero.svg" id="cat_aero"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_control.svg" id="cat_control"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_power.svg" id="cat_power"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_comms.svg" id="cat_comms"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_thermal.svg" id="cat_thermal"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_bus.svg" id="cat_bus"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_instrument.svg" id="cat_instrument"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/cat_future.svg" id="cat_future"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/recommended.svg" id="recommended"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/drop.svg" id="drop"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/weight.svg" id="weight"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/reach.svg" id="reach"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/lift.svg" id="lift"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/warn.svg" id="warn"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/danger.svg" id="danger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ok.svg" id="ok"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/crew.svg" id="crew"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/stages.svg" id="stages"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_file.svg" id="ink_file"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_undo.svg" id="ink_undo"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_redo.svg" id="ink_redo"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_1.svg" id="ink_sym_1"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_2.svg" id="ink_sym_2"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_3.svg" id="ink_sym_3"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_4.svg" id="ink_sym_4"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_6.svg" id="ink_sym_6"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_sym_8.svg" id="ink_sym_8"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_snap.svg" id="ink_snap"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_nodes.svg" id="ink_nodes"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_help.svg" id="ink_help"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_language.svg" id="ink_language"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_hud.svg" id="ink_hud"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_collapse.svg" id="ink_collapse"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_expand.svg" id="ink_expand"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_search.svg" id="ink_search"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_com.svg" id="ink_com"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_cot.svg" id="ink_cot"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_col.svg" id="ink_col"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/hangar/ink_close.svg" id="ink_close"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="i_rocket"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/coin.svg" id="i_coin"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/heart.svg" id="i_heart"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/plus.svg" id="i_plus"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="i_arrow_left"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hangar.svg" id="i_hangar"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="i_star"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="i_planet"]
+
+[sub_resource type="StyleBoxEmpty" id="popup_empty"]
+
+[sub_resource type="ButtonGroup" id="cat_group"]
+
+[sub_resource type="ButtonGroup" id="sym_group"]
+
+[sub_resource type="ButtonGroup" id="tab_group"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("script")
+propellant_colors = {
+"kerolox": Color(1.0000, 0.6039, 0.3608, 1.0000),
+"methalox": Color(0.3098, 0.8392, 0.6784, 1.0000),
+"hydrolox": Color(0.4235, 0.7373, 1.0000, 1.0000),
+"hypergolic": Color(0.6627, 0.5490, 1.0000, 1.0000),
+"hydrazine": Color(1.0000, 0.5255, 0.6902, 1.0000),
+"xenon": Color(1.0000, 0.7882, 0.2353, 1.0000),
+"solid": Color(0.7882, 0.7059, 0.5608, 1.0000),
+"lh2": Color(0.2196, 0.7765, 0.8627, 1.0000)
+}
+stage_colors = [Color(1.0000, 0.6039, 0.3608, 1.0000), Color(0.4235, 0.7373, 1.0000, 1.0000), Color(0.6627, 0.5490, 1.0000, 1.0000), Color(0.3098, 0.8392, 0.6784, 1.0000), Color(1.0000, 0.5255, 0.6902, 1.0000), Color(1.0000, 0.7882, 0.2353, 1.0000)]
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("theme")
+
+[node name="ButtonMotion" type="Node" parent="Root"]
+script = ExtResource("m_btn")
+scope = 1
+
+[node name="TopBar" type="HBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = -16.0
+offset_bottom = 80.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="TitleCard" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Row" type="HBoxContainer" parent="Root/TopBar/TitleCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnMenu" type="Button" parent="Root/TopBar/TitleCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_BACK_MENU_TIP"
+text = "HG_BACK"
+icon = ExtResource("i_arrow_left")
+size_flags_vertical = 4
+theme_override_constants/icon_max_width = 20
+
+[node name="Logo" type="TextureRect" parent="Root/TopBar/TitleCard/Row"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_hangar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Root/TopBar/TitleCard/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = -2
+
+[node name="Title" type="Label" parent="Root/TopBar/TitleCard/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+custom_minimum_size = Vector2(220, 0)
+text = "HG_TITLE"
+
+[node name="Subtitle" type="Label" parent="Root/TopBar/TitleCard/Row/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(220, 0)
+text = "HG_FREE"
+
+[node name="ToolsCard" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Row" type="HBoxContainer" parent="Root/TopBar/ToolsCard"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnFile" type="MenuButton" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_FILE_TIP"
+text = "UI_FILE"
+icon = ExtResource("ink_file")
+size_flags_vertical = 4
+flat = false
+
+[node name="BtnUndo" type="Button" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_UNDO"
+icon = ExtResource("ink_undo")
+size_flags_vertical = 4
+
+[node name="BtnRedo" type="Button" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_REDO"
+icon = ExtResource("ink_redo")
+size_flags_vertical = 4
+
+[node name="Sep" type="VSeparator" parent="Root/TopBar/ToolsCard/Row"]
+layout_mode = 2
+
+[node name="BtnSym" type="Button" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_SYMMETRY_TIP"
+text = "1×"
+icon = ExtResource("ink_sym_1")
+size_flags_vertical = 4
+
+[node name="BtnSnap" type="Button" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_SNAP_TIP"
+toggle_mode = true
+text = "15°"
+icon = ExtResource("ink_snap")
+size_flags_vertical = 4
+button_pressed = true
+
+[node name="BtnNodes" type="Button" parent="Root/TopBar/ToolsCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_NODES_TIP"
+toggle_mode = true
+icon = ExtResource("ink_nodes")
+size_flags_vertical = 4
+
+[node name="Spacer" type="Control" parent="Root/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ViewCard" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Row" type="HBoxContainer" parent="Root/TopBar/ViewCard"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnHelp" type="Button" parent="Root/TopBar/ViewCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_HELP_TIP"
+toggle_mode = true
+icon = ExtResource("ink_help")
+size_flags_vertical = 4
+
+[node name="BtnLang" type="Button" parent="Root/TopBar/ViewCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_LANG_TIP"
+text = "EN"
+icon = ExtResource("ink_language")
+size_flags_vertical = 4
+
+[node name="BtnHud" type="Button" parent="Root/TopBar/ViewCard/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_HUD_TIP"
+toggle_mode = true
+icon = ExtResource("ink_hud")
+size_flags_vertical = 4
+button_pressed = true
+
+[node name="BtnLaunch" type="Button" parent="Root/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+tooltip_text = "UI_LAUNCH_TIP"
+text = "UI_LAUNCH"
+icon = ExtResource("i_rocket")
+custom_minimum_size = Vector2(176, 0)
+theme_override_constants/icon_max_width = 30
+
+[node name="Shimmer" type="ColorRect" parent="Root/TopBar/BtnLaunch"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -8.0
+mouse_filter = 2
+script = ExtResource("m_shimmer")
+
+[node name="PartsPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 94.0
+offset_right = 424.0
+offset_bottom = -16.0
+grow_vertical = 1
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/PartsPanel"]
+script = ExtResource("m_appear")
+offset = Vector2(-24, 0)
+seconds = 0.3
+
+[node name="VBox" type="VBoxContainer" parent="Root/PartsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Root/PartsPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PartsTitle" type="Label" parent="Root/PartsPanel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "HG_PARTS"
+
+[node name="Search" type="LineEdit" parent="Root/PartsPanel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "HG_SEARCH"
+right_icon = ExtResource("ink_search")
+clear_button_enabled = true
+tooltip_text = "HELP_SEARCH"
+
+[node name="BtnPartsCollapse" type="Button" parent="Root/PartsPanel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_COLLAPSE_TIP"
+icon = ExtResource("ink_collapse")
+size_flags_vertical = 4
+
+[node name="CategoryBar" type="GridContainer" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 7
+
+[node name="recommended" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("recommended")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+button_pressed = true
+tooltip_text = "HG_RECOMMENDED"
+
+[node name="favorites" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("i_heart")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+tooltip_text = "UI_FAVORITES"
+
+[node name="command" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_command")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="tank" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_tank")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="engine" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_engine")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="structure" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_structure")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="aero" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_aero")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="control" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_control")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="power" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_power")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="comms" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_comms")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="thermal" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_thermal")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="bus" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_bus")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="instrument" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_instrument")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="future" type="Button" parent="Root/PartsPanel/VBox/CategoryBar"]
+custom_minimum_size = Vector2(48, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_group = SubResource("cat_group")
+icon = ExtResource("cat_future")
+icon_alignment = 1
+expand_icon = true
+theme_override_constants/icon_max_width = 28
+
+[node name="CategoryRow" type="HBoxContainer" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CategoryIcon" type="TextureRect" parent="Root/PartsPanel/VBox/CategoryRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("recommended")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CategoryName" type="Label" parent="Root/PartsPanel/VBox/CategoryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+theme_override_font_sizes/font_size = 22
+text = "HG_RECOMMENDED"
+
+[node name="CountChip" type="PanelContainer" parent="Root/PartsPanel/VBox/CategoryRow"]
+layout_mode = 2
+theme_type_variation = &"CwChip"
+size_flags_vertical = 4
+
+[node name="CategoryCount" type="Label" parent="Root/PartsPanel/VBox/CategoryRow/CountChip"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+text = "0"
+
+[node name="RecStrip" type="PanelContainer" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="VBox" type="VBoxContainer" parent="Root/PartsPanel/VBox/RecStrip"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Root/PartsPanel/VBox/RecStrip/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/PartsPanel/VBox/RecStrip/VBox/Head"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("recommended")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Root/PartsPanel/VBox/RecStrip/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+size_flags_horizontal = 3
+text = "HG_FOR_YOU"
+
+[node name="BtnSeeAll" type="Button" parent="Root/PartsPanel/VBox/RecStrip/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwLink"
+text = "HG_SEE_ALL"
+size_flags_vertical = 4
+
+[node name="RecList" type="VBoxContainer" parent="Root/PartsPanel/VBox/RecStrip/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PartsEmpty" type="Label" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+visible = false
+autowrap_mode = 3
+horizontal_alignment = 1
+custom_minimum_size = Vector2(0, 60)
+vertical_alignment = 1
+text = "UI_NO_RESULTS"
+
+[node name="PartScroll" type="ScrollContainer" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Pad" type="MarginContainer" parent="Root/PartsPanel/VBox/PartScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="PartList" type="VBoxContainer" parent="Root/PartsPanel/VBox/PartScroll/Pad"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="RecFull" type="VBoxContainer" parent="Root/PartsPanel/VBox/PartScroll/Pad/PartList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RecEmpty" type="Label" parent="Root/PartsPanel/VBox/PartScroll/Pad/PartList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+visible = false
+autowrap_mode = 3
+custom_minimum_size = Vector2(0, 40)
+text = "HG_NO_ADVICE"
+
+[node name="GridCaption" type="Label" parent="Root/PartsPanel/VBox/PartScroll/Pad/PartList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+visible = false
+text = "HG_COMPATIBLE"
+
+[node name="PartGrid" type="GridContainer" parent="Root/PartsPanel/VBox/PartScroll/Pad/PartList"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Stagger" type="Node" parent="Root/PartsPanel/VBox/PartScroll"]
+script = ExtResource("m_stagger")
+target = NodePath("../Pad/PartList/PartGrid")
+on_ready = false
+step = 0.02
+max_delay = 0.3
+
+[node name="HintLine" type="Label" parent="Root/PartsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+text = "HG_D_TIP"
+
+[node name="Templates" type="Control" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+mouse_filter = 2
+
+[node name="PartCardTemplate" type="Button" parent="Root/Templates"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 154)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
+[node name="Margin" type="MarginContainer" parent="Root/Templates/PartCardTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Root/Templates/PartCardTemplate/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="Bay" type="PanelContainer" parent="Root/Templates/PartCardTemplate/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="Thumb" type="TextureRect" parent="Root/Templates/PartCardTemplate/Margin/VBox/Bay"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 56)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Root/Templates/PartCardTemplate/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2
+text_overrun_behavior = 3
+custom_minimum_size = Vector2(0, 40)
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+theme_override_constants/line_spacing = -3
+text = "Falcão-1"
+
+[node name="Info" type="HBoxContainer" parent="Root/Templates/PartCardTemplate/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Drop" type="TextureRect" parent="Root/Templates/PartCardTemplate/Margin/VBox/Info"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("drop")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Stat" type="Label" parent="Root/Templates/PartCardTemplate/Margin/VBox/Info"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+text = "845 kN"
+
+[node name="Stripe" type="ColorRect" parent="Root/Templates/PartCardTemplate/Margin/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 4)
+mouse_filter = 2
+color = Color(1.0000, 0.6039, 0.3608, 1.0000)
+
+[node name="Fav" type="TextureRect" parent="Root/Templates/PartCardTemplate"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_heart")
+expand_mode = 1
+stretch_mode = 5
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -30.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 30.0
+
+[node name="RecBadge" type="TextureRect" parent="Root/Templates/PartCardTemplate"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("recommended")
+expand_mode = 1
+stretch_mode = 5
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 32.0
+offset_bottom = 30.0
+
+[node name="Mismatch" type="PanelContainer" parent="Root/Templates/PartCardTemplate"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 30.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Row" type="HBoxContainer" parent="Root/Templates/PartCardTemplate/Mismatch"]
+layout_mode = 2
+alignment = 1
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Root/Templates/PartCardTemplate/Mismatch/Row"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("warn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Root/Templates/PartCardTemplate/Mismatch/Row"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.8510, 0.2275, 0.3608, 1.0000)
+text = "HG_OTHER_FUEL"
+
+[node name="RecRowTemplate" type="PanelContainer" parent="Root/Templates"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelRaised"
+mouse_default_cursor_shape = 2
+
+[node name="Row" type="HBoxContainer" parent="Root/Templates/RecRowTemplate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Bay" type="PanelContainer" parent="Root/Templates/RecRowTemplate/Row"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="Thumb" type="TextureRect" parent="Root/Templates/RecRowTemplate/Row/Bay"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 40)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/Templates/RecRowTemplate/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="NameRow" type="HBoxContainer" parent="Root/Templates/RecRowTemplate/Row/Texts"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Drop" type="TextureRect" parent="Root/Templates/RecRowTemplate/Row/Texts/NameRow"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("drop")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Root/Templates/RecRowTemplate/Row/Texts/NameRow"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 15
+text = "Falcão-1"
+
+[node name="Reason" type="Label" parent="Root/Templates/RecRowTemplate/Row/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+autowrap_mode = 3
+mouse_filter = 2
+custom_minimum_size = Vector2(150, 0)
+theme_override_font_sizes/font_size = 13
+text = "Queima querosene / LOX, como o seu tanque"
+
+[node name="Add" type="Button" parent="Root/Templates/RecRowTemplate/Row"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+tooltip_text = "HG_ADD_TIP"
+icon = ExtResource("i_plus")
+size_flags_vertical = 4
+custom_minimum_size = Vector2(48, 44)
+icon_alignment = 1
+theme_override_constants/icon_max_width = 22
+
+[node name="ProblemTemplate" type="HBoxContainer" parent="Root/Templates"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/Templates/ProblemTemplate"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+texture = ExtResource("warn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Root/Templates/ProblemTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 14
+text = "Problema"
+
+[node name="StageTemplate" type="PanelContainer" parent="Root/Templates"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="Row" type="HBoxContainer" parent="Root/Templates/StageTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Stripe" type="ColorRect" parent="Root/Templates/StageTemplate/Row"]
+layout_mode = 2
+custom_minimum_size = Vector2(6, 0)
+color = Color(1.0000, 0.6039, 0.3608, 1.0000)
+
+[node name="Texts" type="VBoxContainer" parent="Root/Templates/StageTemplate/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Head" type="HBoxContainer" parent="Root/Templates/StageTemplate/Row/Texts"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Name" type="Label" parent="Root/Templates/StageTemplate/Row/Texts/Head"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+text = "Estágio 1"
+
+[node name="First" type="Label" parent="Root/Templates/StageTemplate/Row/Texts/Head"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 12
+text = "HG_STAGE_FIRST"
+
+[node name="Spacer" type="Control" parent="Root/Templates/StageTemplate/Row/Texts/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Dv" type="Label" parent="Root/Templates/StageTemplate/Row/Texts/Head"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+text = "9 676 m/s"
+
+[node name="Line" type="Label" parent="Root/Templates/StageTemplate/Row/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TWR 2,03 · 254,8 t · 3 peças"
+
+[node name="PartDetail" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(336, 0)
+layout_mode = 0
+offset_left = 436.0
+offset_top = 160.0
+offset_right = 772.0
+offset_bottom = 520.0
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/PartDetail"]
+script = ExtResource("m_appear")
+on_ready = false
+on_visible = true
+offset = Vector2(-10, 0)
+seconds = 0.14
+
+[node name="VBox" type="VBoxContainer" parent="Root/PartDetail"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="Root/PartDetail/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Bay" type="PanelContainer" parent="Root/PartDetail/VBox/Head"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="DetailThumb" type="TextureRect" parent="Root/PartDetail/VBox/Head/Bay"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(76, 76)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Root/PartDetail/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="DetailName" type="Label" parent="Root/PartDetail/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+autowrap_mode = 3
+custom_minimum_size = Vector2(200, 0)
+text = "Falcão-1"
+
+[node name="CatRow" type="HBoxContainer" parent="Root/PartDetail/VBox/Head/Titles"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="DetailCatIcon" type="TextureRect" parent="Root/PartDetail/VBox/Head/Titles/CatRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("cat_engine")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailCategory" type="Label" parent="Root/PartDetail/VBox/Head/Titles/CatRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Motores"
+
+[node name="DetailAdvice" type="PanelContainer" parent="Root/PartDetail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="Row" type="HBoxContainer" parent="Root/PartDetail/VBox/DetailAdvice"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="DetailAdviceIcon" type="TextureRect" parent="Root/PartDetail/VBox/DetailAdvice/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+texture = ExtResource("recommended")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailAdviceText" type="Label" parent="Root/PartDetail/VBox/DetailAdvice/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(220, 0)
+theme_override_font_sizes/font_size = 14
+text = "Queima querosene"
+
+[node name="DetailDesc" type="Label" parent="Root/PartDetail/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+autowrap_mode = 3
+custom_minimum_size = Vector2(300, 0)
+theme_override_font_sizes/font_size = 14
+text = "Descrição"
+
+[node name="Stats" type="PanelContainer" parent="Root/PartDetail/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="Grid" type="GridContainer" parent="Root/PartDetail/VBox/Stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="CapThrust" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_THRUST_SL"
+
+[node name="ValThrust" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapThrustVac" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_THRUST_SPACE"
+
+[node name="ValThrustVac" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapIsp" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_ISP"
+
+[node name="ValIsp" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapFuel" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_FUEL"
+
+[node name="ValFuel" type="HBoxContainer" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="FuelDrop" type="TextureRect" parent="Root/PartDetail/VBox/Stats/Grid/ValFuel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("drop")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FuelName" type="Label" parent="Root/PartDetail/VBox/Stats/Grid/ValFuel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 14
+text = "Querosene / LOX"
+
+[node name="CapCarries" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_CARRIES"
+
+[node name="ValCarries" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapMass" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_MASS"
+
+[node name="ValMass" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapSize" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_SIZE"
+
+[node name="ValSize" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapRel" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_REL"
+
+[node name="ValRel" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="CapCost" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "HG_D_COST"
+
+[node name="ValCost" type="Label" parent="Root/PartDetail/VBox/Stats/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "-"
+
+[node name="RocketPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -404.0
+offset_top = 94.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 1
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/RocketPanel"]
+script = ExtResource("m_appear")
+offset = Vector2(24, 0)
+seconds = 0.3
+
+[node name="VBox" type="VBoxContainer" parent="Root/RocketPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Root/RocketPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/RocketPanel/VBox/Header"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_rocket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RocketTitle" type="Label" parent="Root/RocketPanel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+size_flags_horizontal = 3
+text = "HG_YOUR_ROCKET"
+
+[node name="VerdictMini" type="TextureRect" parent="Root/RocketPanel/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ok")
+expand_mode = 1
+stretch_mode = 5
+visible = false
+
+[node name="BtnRocketCollapse" type="Button" parent="Root/RocketPanel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_COLLAPSE_TIP"
+icon = ExtResource("ink_expand")
+size_flags_vertical = 4
+
+[node name="RocketBody" type="VBoxContainer" parent="Root/RocketPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="GoalCard" type="PanelContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelLilac"
+
+[node name="VBox" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/GoalCard"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Row" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="GoalIcon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_planet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="GoalCaption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "HG_FREE"
+
+[node name="GoalTitle" type="Label" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+autowrap_mode = 3
+custom_minimum_size = Vector2(240, 0)
+theme_override_font_sizes/font_size = 16
+text = "HG_FREE_GOAL"
+
+[node name="GoalLine" type="Label" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+autowrap_mode = 3
+custom_minimum_size = Vector2(240, 0)
+theme_override_font_sizes/font_size = 13
+text = ""
+
+[node name="GoalHint" type="Label" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+visible = false
+autowrap_mode = 3
+custom_minimum_size = Vector2(300, 0)
+theme_override_font_sizes/font_size = 12
+text = "TY_HG_CARD_TEST"
+
+[node name="GoalActions" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_override_constants/separation = 8
+
+[node name="BtnGoalBack" type="Button" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/GoalActions"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+tooltip_text = "UI_BACK_MENU_TIP"
+text = "TY_HG_CARD_BACK"
+custom_minimum_size = Vector2(96, 40)
+theme_override_font_sizes/font_size = 14
+
+[node name="BtnUse" type="Button" parent="Root/RocketPanel/VBox/RocketBody/GoalCard/VBox/GoalActions"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_HG_CARD_USE"
+icon = ExtResource("i_rocket")
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 42)
+theme_override_font_sizes/font_size = 16
+theme_override_constants/icon_max_width = 24
+
+[node name="Meters" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+layout_mode = 2
+theme_override_constants/separation = 9
+
+[node name="MeterDv" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "HG_DV_TIP"
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("reach")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Col" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "HG_STAT_DV"
+
+[node name="Value" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+
+[node name="Ticker" type="Node" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col/Top/Value"]
+script = ExtResource("m_ticker")
+flash_strength = 0.0
+seconds = 0.4
+
+[node name="Bar" type="Control" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 12)
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.0
+color = Color(0.4235, 0.7373, 1.0000, 1.0000)
+pill = true
+marker = -1.0
+
+[node name="Note" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterDv/Col"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = ""
+
+[node name="MeterTwr" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "HG_TWR_TIP"
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("lift")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Col" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "HG_STAT_TWR"
+
+[node name="Value" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+
+[node name="Ticker" type="Node" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col/Top/Value"]
+script = ExtResource("m_ticker")
+flash_strength = 0.0
+seconds = 0.4
+
+[node name="Bar" type="Control" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 12)
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.0
+color = Color(1.0000, 0.6039, 0.3608, 1.0000)
+pill = true
+marker = -1.0
+
+[node name="Note" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterTwr/Col"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = ""
+
+[node name="MeterCost" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "UI_COST_TIP"
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Col" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "HG_STAT_COST"
+
+[node name="Value" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+
+[node name="Ticker" type="Node" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col/Top/Value"]
+script = ExtResource("m_ticker")
+flash_strength = 0.0
+seconds = 0.4
+
+[node name="Bar" type="Control" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 12)
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.0
+color = Color(0.3098, 0.8392, 0.6784, 1.0000)
+pill = true
+marker = -1.0
+
+[node name="Note" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterCost/Col"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = ""
+
+[node name="MeterMass" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "UI_MASS_TIP"
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("weight")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Col" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Top" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "HG_STAT_MASS"
+
+[node name="Value" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col/Top"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+
+[node name="Ticker" type="Node" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col/Top/Value"]
+script = ExtResource("m_ticker")
+flash_strength = 0.0
+seconds = 0.4
+
+[node name="Bar" type="Control" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 12)
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.0
+color = Color(0.6627, 0.5490, 1.0000, 1.0000)
+pill = true
+marker = -1.0
+
+[node name="Note" type="Label" parent="Root/RocketPanel/VBox/RocketBody/Meters/MeterMass/Col"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+mouse_filter = 2
+theme_override_font_sizes/font_size = 12
+text = ""
+
+[node name="VerdictBox" type="PanelContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="VerdictPill" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VerdictIcon" type="TextureRect" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox/VBox/VerdictPill"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("ok")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Verdict" type="Label" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox/VBox/VerdictPill"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+text = "HG_READY"
+
+[node name="Pulse" type="Node" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox/VBox/VerdictPill/Verdict"]
+script = ExtResource("m_pulse")
+
+[node name="ProblemList" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/VerdictBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Tabs" type="PanelContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+layout_mode = 2
+theme_type_variation = &"CwSegmented"
+
+[node name="Row" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/Tabs"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TabStages" type="Button" parent="Root/RocketPanel/VBox/RocketBody/Tabs/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+toggle_mode = true
+text = "HG_STAGES"
+icon = ExtResource("stages")
+size_flags_horizontal = 3
+button_group = SubResource("tab_group")
+button_pressed = true
+theme_override_constants/icon_max_width = 18
+
+[node name="TabCrew" type="Button" parent="Root/RocketPanel/VBox/RocketBody/Tabs/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+toggle_mode = true
+text = "UI_CREW"
+icon = ExtResource("crew")
+size_flags_horizontal = 3
+button_group = SubResource("tab_group")
+theme_override_constants/icon_max_width = 18
+
+[node name="DetailScroll" type="ScrollContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DetailList" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/DetailScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="StageList" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/DetailScroll/DetailList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StagesEmpty" type="Label" parent="Root/RocketPanel/VBox/RocketBody/DetailScroll/DetailList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+autowrap_mode = 3
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 14
+text = "HG_STAGES_EMPTY"
+
+[node name="CrewInfo" type="VBoxContainer" parent="Root/RocketPanel/VBox/RocketBody/DetailScroll/DetailList"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_override_constants/separation = 6
+
+[node name="CrewText" type="Label" parent="Root/RocketPanel/VBox/RocketBody/DetailScroll/DetailList/CrewInfo"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+autowrap_mode = 3
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 14
+text = "HG_CREW_HINT"
+
+[node name="MarkerRow" type="HBoxContainer" parent="Root/RocketPanel/VBox/RocketBody"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Root/RocketPanel/VBox/RocketBody/MarkerRow"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "HG_MARKERS"
+
+[node name="ChkCoM" type="Button" parent="Root/RocketPanel/VBox/RocketBody/MarkerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_LEGEND_COM"
+toggle_mode = true
+text = "UI_COM"
+icon = ExtResource("ink_com")
+button_pressed = true
+theme_override_constants/icon_max_width = 18
+
+[node name="ChkCoT" type="Button" parent="Root/RocketPanel/VBox/RocketBody/MarkerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_LEGEND_COT"
+toggle_mode = true
+text = "UI_COT"
+icon = ExtResource("ink_cot")
+button_pressed = true
+theme_override_constants/icon_max_width = 18
+
+[node name="ChkCoL" type="Button" parent="Root/RocketPanel/VBox/RocketBody/MarkerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_LEGEND_COL"
+toggle_mode = true
+text = "UI_COL"
+icon = ExtResource("ink_col")
+button_pressed = true
+theme_override_constants/icon_max_width = 18
+
+[node name="CrewDrawer" type="MarginContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -868.0
+offset_top = 94.0
+offset_right = -448.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 1
+
+[node name="Appear" type="Node" parent="Root/CrewDrawer"]
+script = ExtResource("m_appear")
+on_ready = false
+on_visible = true
+offset = Vector2(16, 0)
+
+[node name="CrewSlot" type="VBoxContainer" parent="Root/CrewDrawer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CrewPanel" parent="Root/CrewDrawer/CrewSlot" instance=ExtResource("crew_panel")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HeightSlider" type="VSlider" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -442.0
+offset_top = 200.0
+offset_right = -418.0
+offset_bottom = -200.0
+grow_horizontal = 0
+grow_vertical = 2
+tooltip_text = "UI_HEIGHT_TIP"
+focus_mode = 0
+max_value = 160.0
+step = 0.5
+value = 12.0
+
+[node name="HoverInfo" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 60.0
+mouse_filter = 2
+theme_type_variation = &"CwBubble"
+
+[node name="VBox" type="VBoxContainer" parent="Root/HoverInfo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="HoverName" type="Label" parent="Root/HoverInfo/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+theme_override_font_sizes/font_size = 15
+text = "Peça"
+
+[node name="HoverDetail" type="Label" parent="Root/HoverInfo/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = ""
+
+[node name="EmptyHint" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -146.0
+offset_right = 300.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/EmptyHint"]
+script = ExtResource("m_appear")
+on_visible = true
+offset = Vector2(0, 16)
+
+[node name="Row" type="HBoxContainer" parent="Root/EmptyHint"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Root/EmptyHint/Row"]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_rocket")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Root/EmptyHint/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="HintTitle" type="Label" parent="Root/EmptyHint/Row/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "HG_EMPTY_TITLE"
+
+[node name="HintText" type="Label" parent="Root/EmptyHint/Row/Texts"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+autowrap_mode = 3
+custom_minimum_size = Vector2(420, 0)
+text = "HG_EMPTY_TEXT"
+
+[node name="Toast" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -84.0
+offset_right = 372.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="Appear" type="Node" parent="Root/Toast"]
+script = ExtResource("m_appear")
+on_ready = false
+on_visible = true
+on_poke = true
+offset = Vector2(0, 8)
+seconds = 0.18
+
+[node name="Status" type="Label" parent="Root/Toast"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+text = ""
+
+[node name="HelpOverlay" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -345.0
+offset_right = 340.0
+offset_bottom = 345.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanel"
+
+[node name="Appear" type="Node" parent="Root/HelpOverlay"]
+script = ExtResource("m_appear")
+on_ready = false
+on_visible = true
+from_scale = Vector2(0.96, 0.96)
+
+[node name="VBox" type="VBoxContainer" parent="Root/HelpOverlay"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Root/HelpOverlay/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/HelpOverlay/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "UI_HELP_TITLE"
+
+[node name="BtnHelpClose" type="Button" parent="Root/HelpOverlay/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+tooltip_text = "UI_HELP_TIP"
+icon = ExtResource("ink_close")
+size_flags_vertical = 4
+
+[node name="Scroll" type="ScrollContainer" parent="Root/HelpOverlay/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Root/HelpOverlay/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="K0" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K0"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_LMB"
+
+[node name="A0" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_PLACE"
+
+[node name="K1" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K1"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_ALT_LMB"
+
+[node name="A1" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_COPY"
+
+[node name="K2" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K2"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "Q / E"
+
+[node name="A2" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_ROTATE"
+
+[node name="K3" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K3"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "X"
+
+[node name="A3" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_SYMMETRY"
+
+[node name="K4" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K4"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "C"
+
+[node name="A4" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_SNAP"
+
+[node name="K5" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K5"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "N"
+
+[node name="A5" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_NODES"
+
+[node name="K6" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K6"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_RMB"
+
+[node name="A6" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_ORBIT"
+
+[node name="K7" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K7"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_MMB"
+
+[node name="A7" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_PAN"
+
+[node name="K8" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K8"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_WHEEL"
+
+[node name="A8" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_ZOOM"
+
+[node name="K9" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K9"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_DOUBLE"
+
+[node name="A9" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_FOCUS"
+
+[node name="K10" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K10"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "Ctrl+Z / Ctrl+Y"
+
+[node name="A10" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_UNDO"
+
+[node name="K11" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K11"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "Esc / Del"
+
+[node name="A11" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_DROP"
+
+[node name="K12" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K12"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "Ctrl+F"
+
+[node name="A12" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_SEARCH"
+
+[node name="K13" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K13"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "KEY_RMB_CARD"
+
+[node name="A13" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_FAV"
+
+[node name="K14" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K14"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "F1"
+
+[node name="A14" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_HELP"
+
+[node name="K15" type="PanelContainer" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid/K15"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+text = "F2"
+
+[node name="A15" type="Label" parent="Root/HelpOverlay/VBox/Scroll/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwBody"
+size_flags_horizontal = 3
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+theme_override_font_sizes/font_size = 15
+text = "HELP_HUD"
+
+[node name="SymPopup" type="PopupPanel" parent="Root"]
+unique_name_in_owner = true
+transparent_bg = true
+size = Vector2i(480, 236)
+transparent = true
+theme = ExtResource("theme")
+theme_override_styles/panel = SubResource("popup_empty")
+
+[node name="Panel" type="PanelContainer" parent="Root/SymPopup"]
+offset_right = 480.0
+offset_bottom = 236.0
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/SymPopup/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Head" type="HBoxContainer" parent="Root/SymPopup/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Root/SymPopup/Panel/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+size_flags_horizontal = 3
+text = "UI_SYMMETRY_TITLE"
+
+[node name="KeyChip" type="PanelContainer" parent="Root/SymPopup/Panel/VBox/Head"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwChip"
+
+[node name="Key" type="Label" parent="Root/SymPopup/Panel/VBox/Head/KeyChip"]
+layout_mode = 2
+theme_type_variation = &"CwInk"
+text = "X"
+
+[node name="KeyHint" type="Label" parent="Root/SymPopup/Panel/VBox/Head"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+size_flags_vertical = 4
+text = "UI_CYCLE"
+
+[node name="SymRow" type="HBoxContainer" parent="Root/SymPopup/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Sym1" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "1×"
+icon = ExtResource("ink_sym_1")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Sym2" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "2×"
+icon = ExtResource("ink_sym_2")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Sym3" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "3×"
+icon = ExtResource("ink_sym_3")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Sym4" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "4×"
+icon = ExtResource("ink_sym_4")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Sym6" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "6×"
+icon = ExtResource("ink_sym_6")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Sym8" type="Button" parent="Root/SymPopup/Panel/VBox/SymRow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "8×"
+icon = ExtResource("ink_sym_8")
+button_group = SubResource("sym_group")
+custom_minimum_size = Vector2(58, 70)
+icon_alignment = 1
+vertical_icon_alignment = 0
+theme_override_constants/icon_max_width = 26
+
+[node name="Hint" type="Label" parent="Root/SymPopup/Panel/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+autowrap_mode = 3
+custom_minimum_size = Vector2(380, 0)
+text = "UI_SYMMETRY_HINT"

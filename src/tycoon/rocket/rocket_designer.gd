@@ -62,6 +62,14 @@ static func component(id: String) -> Dictionary:
 	return _by_id.get(id, {})
 
 
+## Adds a component made outside rockets.json (a rocket built in the hangar, HangarRocket) to the
+## catalogue: component() and normalize() know it, the slot lists (components / options) and
+## the automatic designer do not.
+static func register_component(c: Dictionary) -> void:
+	data()
+	_by_id[String(c["id"])] = c
+
+
 ## Every component of a slot, in data order.
 static func components(slot_id: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
@@ -203,6 +211,12 @@ static func margin_risk(kind: String, margin: float) -> float:
 static func check(state: TycoonState, parts: Dictionary, type_id: String, target_id: String) -> Dictionary:
 	var st := stats(parts)
 	var nd := need(state, type_id, target_id)
+	# a rocket built in the hangar is measured for this mission's delta-v and payload
+	var hp := HangarRocket.performance(component(String(normalize(parts)["core"])), nd)
+	if not hp.is_empty():
+		st["dv"] = hp["dv"]
+		st["lift"] = hp["lift"]
+		st["class"] = class_of(float(hp["lift"]))
 	var mg := section("margins")
 	var out := {"stats": st}
 	for k in ["dv", "lift"]:

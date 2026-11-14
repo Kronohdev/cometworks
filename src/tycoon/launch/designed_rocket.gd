@@ -9,6 +9,9 @@ extends Node3D
 ##   side boosters are copies of `booster_models` standing at the Boosters/Slot* markers
 ##   (turn or move the markers in the editor; their distance from the axis is scaled to hug the
 ##   core), `booster_length` of the core's height.
+## A rocket built in the hangar (HangarRocket) shows the vessel itself: its voxel parts under
+## Core, scaled to the launch class like a model (never thinner than `hangar_min_width`), with
+## an invisible box (BoundsProxy) so the shots and the pad measure it like any model.
 ## Everything is authored in the scene: the default Core model (era 1) is what the editor shows.
 
 ## the rocket model per main-stage "model" (1..5)
@@ -26,6 +29,10 @@ extends Node3D
 @export_range(0.0, 0.5, 0.01) var booster_tuck := 0.12
 ## where along the core the boosters stand (0 = on the ground, 1 = at the top), in core heights
 @export_range(0.0, 0.5, 0.01) var booster_base := 0.0
+## a hangar vessel's height, times the era model's at the same launch class
+@export_range(0.5, 2.5, 0.05) var hangar_height := 1.2
+## a hangar vessel is never shown thinner than this (m)
+@export var hangar_min_width := 0.9
 
 ## the parts shown ({} = the authored look)
 var parts: Dictionary = {}
@@ -68,6 +75,10 @@ func build(p_parts: Dictionary) -> void:
 		core_size = _raw_size(core)
 		return
 	var st := RocketDesigner.stats(parts)
+	var hcore := RocketDesigner.component(String(parts["core"]))
+	if hcore.has("tree"):
+		_build_vessel(hcore["tree"], String(st["class"]))
+		return
 	var mi := clampi(int(st["model"]), 1, maxi(models.size(), 1)) - 1
 	if mi < models.size() and models[mi] != null:
 		for c in core.get_children():
@@ -104,6 +115,49 @@ func build(p_parts: Dictionary) -> void:
 		var b := ps.instantiate() as Node3D
 		b.scale = Vector3(sx, sy, sx)
 		slot.add_child(b)
+
+
+## A hangar vessel in place of the model (its own boosters are part of it).
+func _build_vessel(tree: Dictionary, cls: String) -> void:
+	for c in core.get_children():
+		core.remove_child(c)
+		c.queue_free()
+	var ps := HangarRocket.scene_of(tree)
+	if ps == null:
+		return
+	var root := ps.instantiate() as PartInstance
+	if root == null:
+		return
+	core.add_child(root)
+	var box := AABB()
+	var first := true
+	for p in root.subtree():
+		var xf := Transform3D.IDENTITY
+		var n: Node = p
+		while n != null and n != core:
+			xf = (n as Node3D).transform * xf
+			n = n.get_parent()
+		var b := xf * p.aabb
+		box = b if first else box.merge(b)
+		first = false
+	var w := maxf(maxf(box.size.x, box.size.z), 0.01)
+	var h := maxf(box.size.y, 0.01)
+	var k := float(class_scale.get(cls, 1.0))
+	var target_h := 7.0 * k * hangar_height
+	var s := maxf(target_h / h, hangar_min_width / w)
+	s = minf(s, target_h * 2.0 / h)
+	var c := box.get_center()
+	root.position = Vector3(-c.x, -box.position.y, -c.z)
+	core.scale = Vector3.ONE * s
+	var proxy := MeshInstance3D.new()
+	proxy.name = "BoundsProxy"
+	var bm := BoxMesh.new()
+	bm.size = Vector3(w, h, w)
+	proxy.mesh = bm
+	proxy.position = Vector3(0, h * 0.5, 0)
+	proxy.visible = false
+	core.add_child(proxy)
+	core_size = Vector2(w * s, h * s)
 
 
 ## The side boosters let go: they drift out and down from the core and vanish over `seconds`

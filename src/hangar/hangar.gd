@@ -28,6 +28,18 @@ extends Node3D
 ## launch, more parts can be attached to it, and it can be picked up later (with
 ## everything attached) and joined to the rocket. Picking up the root carries the whole
 ## rocket, so it can be moved around the hangar.
+##
+## Embedded (the hangar inside the tycoon's main mode, TycoonModes): with `embedded` set before
+## it enters the tree it keeps the game's language, and Launch / Menu / Esc emit
+## launch_requested / exit_requested instead of changing scenes (the host opens the flight or
+## goes back to the campus). The free workshop of the main menu leaves it off.
+
+## Embedded only: the vessel is in FlightSession (as for a launch); the host opens the flight.
+signal launch_requested
+## Embedded only: Menu, or Esc with empty hands: the host closes the hangar.
+signal exit_requested
+## Embedded only: "Usar na missão" on the HUD's goal card: the host takes the vessel.
+signal use_requested
 
 const SNAP_FRACTION := 0.05
 const SNAP_MIN_PX := 28.0
@@ -69,6 +81,8 @@ const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 
 ## Top of the launch pad in the hangar environment; the vessel stands on it.
 @export var pad_top_y := 0.62
+## Inside the tycoon (TycoonModes): signals instead of scene changes (set before _ready).
+@export var embedded := false
 
 var held: PartInstance = null
 var symmetry := 1
@@ -120,6 +134,8 @@ var _preview_child_xf := Transform3D.IDENTITY
 var _gizmos: Array[Node3D] = []
 var _ghosts: Array[Node3D] = []
 var _ghost_id := ""
+## The part the player is working with (held or last placed): the part advisor reads it.
+var _focus_id := ""
 
 @onready var vessel: Vessel = $Vessel
 @onready var cam: HangarCamera = $CameraRig
@@ -133,10 +149,17 @@ var _ghost_id := ""
 
 
 func _ready() -> void:
-	var lang := OS.get_locale_language()
-	TranslationServer.set_locale("pt" if lang == "pt" else "en")
+	if not embedded:  # inside the tycoon the game's language stays
+		var lang := OS.get_locale_language()
+		TranslationServer.set_locale("pt" if lang == "pt" else "en")
 	vessel.changed.connect(func() -> void: _dirty = true)
 	ui.part_chosen.connect(_on_part_chosen)
+	ui.part_quick_add.connect(quick_add)
+	ui.set_embedded(embedded)
+	ui.use_pressed.connect(func() -> void:
+		if embedded and vessel.root:
+			_drop_held()
+			use_requested.emit())
 	ui.new_pressed.connect(func() -> void:
 		_push_undo()
 		_drop_held()
@@ -220,7 +243,9 @@ func _refresh() -> void:
 		_frame_pending = false
 		cam.frame(b)
 	markers.update_from(m, maxf(b.size.y, 2.0))
-	ui.show_analysis(a, {"parts": vessel.all_parts().size(), "cost": vessel.cost_musd(), "stable": vessel.stability(m)})
+	var st := vessel.compute_stages()
+	ui.show_analysis(a, {"parts": vessel.all_parts().size(), "cost": vessel.cost_musd(), "stable": vessel.stability(m),
+		"specs": st["stages"], "fairing_kg": st["fairing_kg"], "focus": _advisor_focus()})
 
 
 # ------------------------------------------------------------ input
@@ -333,6 +358,8 @@ func _on_part_chosen(id: String) -> void:
 	held.set_pickable(false)
 	held.set_ghost(true)
 	add_child(held)
+	_focus_id = id
+	ui.set_focus(id)
 	held_angle = 0.0
 	_snap = {}
 	_held_visual_valid = false
@@ -702,6 +729,8 @@ func _place_held() -> void:
 		if is_instance_valid(q):
 			_joint_feedback(q, pnode)
 	_snap = {}
+	_focus_id = p.part_id
+	CwSfx.play(&"workshop_clank")
 
 
 ## The first part (or a picked-up root carrying the whole rocket) becomes the vessel
@@ -908,12 +937,18 @@ func launch() -> void:
 	_drop_held()
 	FlightSession.set_vessel(vessel.to_packed_scene(), "", vessel.analyze()["ascent_dv"])
 	FlightSession.hangar_loose = _pack_loose()  # loose parts stay in the hangar
+	if embedded:
+		launch_requested.emit()
+		return
 	get_tree().change_scene_to_file(FlightSession.FLIGHT_SCENE)
 
 
 # ------------------------------------------------------------ save / load / examples
 ## Back to the main menu (the Menu button, or Esc with nothing in hand).
 func back_to_menu() -> void:
+	if embedded:
+		exit_requested.emit()
+		return
 	get_tree().change_scene_to_file(MAIN_MENU)
 
 
@@ -978,3 +1013,127 @@ func load_example(id: String) -> void:
 	_place_in_air()
 	_frame_pending = true
 	ui.flash(tr("UI_EXAMPLE_LOADED") % ExampleVessels.display_name(id))
+
+
+# ------------------------------------------------------------ one-click add (part advisor)
+## Adds part `id` where the advisor's placement `hint` points (PartAdvisor: "root", "top",
+## "bottom", "below_tank:<prop>", "above_engine:<id>", "hand"). With no obvious free spot the
+## part goes to the player's hand instead. Returns true when it was attached.
+func quick_add(id: String, hint: String) -> bool:
+	if PartDB.get_part(id).is_empty():
+		return false
+	_drop_held()
+	var p := PartInstance.create(id)
+	if vessel.root == null:
+		add_child(p)
+		p.global_position = Vector3(0.0, pad_top_y + BUILD_CLEARANCE, 0.0)
+		_push_undo()
+		_make_root(p)
+		_focus_id = id
+		ui.notify_added(id, true)
+		return true
+	var spot := _quick_spot(p, hint)
+	if spot.is_empty():
+		p.free()
+		_on_part_chosen(id)
+		ui.notify_added(id, false)
+		return false
+	_push_undo()
+	var t: PartInstance = spot["target"]
+	if spot.get("insert", false):
+		vessel.insert(t, spot["pnode"], p, spot["xform"], spot["onode"])
+	else:
+		vessel.attach(t, p, spot["xform"], spot["pnode"], spot["onode"])
+	_joint_feedback(p, spot["pnode"])
+	_focus_id = id
+	ui.notify_added(id, true)
+	return true
+
+
+## The part the advice follows: the one in hand, else the last one placed if it is still
+## on the rocket (not after undo, New or loading another vessel).
+func _advisor_focus() -> String:
+	if held:
+		return held.part_id
+	for p in vessel.all_parts():
+		if p.part_id == _focus_id:
+			return _focus_id
+	return ""
+
+
+## {"target", "pnode", "onode", "xform", "insert"} for a quick add, or {} when nothing fits.
+func _quick_spot(p: PartInstance, hint: String) -> Dictionary:
+	var kind := hint.get_slice(":", 0)
+	var arg := hint.get_slice(":", 1) if hint.contains(":") else ""
+	var parts := vessel.all_parts()
+	match kind:
+		"above_engine":
+			for e in parts:
+				if e.part_id == arg:
+					var s := _top_side_spot(e, p)
+					if not s.is_empty():
+						return s
+			return {}
+		"below_tank":
+			var best := {}
+			var best_y := INF
+			for t in parts:
+				if t.data.get("category", "") != "tank" or t.data.get("propellant", "") != arg:
+					continue
+				var s := _free_spot(t, "bottom", p)
+				if not s.is_empty() and float(s["y"]) < best_y:
+					best = s
+					best_y = s["y"]
+			if best.is_empty():
+				for t in parts:  # a thrust plate under the tanks takes engines in its slots
+					for n in t.free_nodes():
+						if n.begins_with("slot:"):
+							var s := _free_spot(t, n, p)
+							if not s.is_empty():
+								return s
+			return best
+		"top", "bottom":
+			var best := {}
+			var best_v := -INF
+			for t in parts:
+				var s := _free_spot(t, kind, p)
+				if s.is_empty():
+					continue
+				var v: float = s["y"] if kind == "top" else -float(s["y"])
+				if v > best_v:
+					best = s
+					best_v = v
+			return best
+	return {}
+
+
+## Attach spot on the free node `tn` of `t` for `p`, with the node's world height ("y").
+func _free_spot(t: PartInstance, tn: String, p: PartInstance) -> Dictionary:
+	if not t.free_nodes().has(tn):
+		return {}
+	var on := Vessel.own_node_for(t, tn, p)
+	if on == "" or on == "sidechild":
+		return {}
+	return {"target": t, "pnode": tn, "onode": on, "insert": false, "xform": Vessel.local_for_node(t, tn, p, on),
+		"y": (t.global_transform * t.node_local(tn)).y}
+
+
+## Spot right above part `e` (a tank above an engine): its free top node, or an insert into
+## the joint on its top side (whichever part holds the other).
+func _top_side_spot(e: PartInstance, p: PartInstance) -> Dictionary:
+	var parent := e.part_parent()
+	if parent and e.own_node_name == "top" and e.parent_node_name in ["top", "bottom"]:
+		var on := Vessel.own_node_for(parent, e.parent_node_name, p)
+		if on != "" and Vessel.insert_node_for(parent, e.parent_node_name, p, on) != "":
+			return {"target": parent, "pnode": e.parent_node_name, "onode": on, "insert": true,
+				"xform": Vessel.local_for_node(parent, e.parent_node_name, p, on)}
+		return {}
+	if e.free_nodes().has("top"):
+		return _free_spot(e, "top", p)
+	for c in e.part_children():
+		if c.parent_node_name == "top":
+			var on := Vessel.own_node_for(e, "top", p)
+			if on != "" and Vessel.insert_node_for(e, "top", p, on) != "":
+				return {"target": e, "pnode": "top", "onode": on, "insert": true,
+					"xform": Vessel.local_for_node(e, "top", p, on)}
+	return {}

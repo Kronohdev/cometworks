@@ -28,15 +28,14 @@ color = Color(0.1059, 0.0941, 0.2706, 0.6)
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -640.0
-offset_top = -318.0
+offset_top = 24.0
 offset_right = 640.0
-offset_bottom = 310.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"CwPanelTop"
@@ -50,7 +49,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 
 [node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -93,34 +92,48 @@ horizontal_alignment = 1
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Middle" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
-[node name="GradeCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="GradeCaption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
-text = "TY_PJ_GRADE"
+text = "TY_PJ_GRADE_MISSION"
 
-[node name="GradeRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="GradeRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Grade" type="Label" parent="Panel/Margin/VBox/Body/Left/GradeRow"]
+[node name="Grade" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/GradeRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 72
 text = "8.4"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Left/GradeRow"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/GradeRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMono"
@@ -128,23 +141,31 @@ theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 theme_override_font_sizes/font_size = 22
 text = "/10"
 
-[node name="BarsCaption" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="GradeProject" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Projeto: 10.0/10 · falha no lançamento: 35%"
+autowrap_mode = 3
+
+[node name="BarsCaption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_PJ_BARS"
 
-[node name="BarEng" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="BarEng" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarEng"]
 custom_minimum_size = Vector2(118, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "TY_BAR_ENG"
 
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarEng"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -154,25 +175,25 @@ script = ExtResource("2_seg")
 value = 0.8
 segments = 10
 
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarEng"]
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarEng"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "8.0"
 horizontal_alignment = 2
 
-[node name="BarSci" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="BarSci" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarSci"]
 custom_minimum_size = Vector2(118, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "TY_BAR_SCI"
 
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarSci"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -183,25 +204,25 @@ value = 0.6
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarSci"]
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarSci"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "6.0"
 horizontal_alignment = 2
 
-[node name="BarOps" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="BarOps" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarOps"]
 custom_minimum_size = Vector2(118, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "TY_BAR_OPS"
 
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarOps"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -212,25 +233,25 @@ value = 0.7
 color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 10
 
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarOps"]
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarOps"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "7.0"
 horizontal_alignment = 2
 
-[node name="BarRel" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="BarRel" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarRel"]
 custom_minimum_size = Vector2(118, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "TY_BAR_REL"
 
-[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarRel"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -241,51 +262,51 @@ value = 0.9
 color = Color(0.6078, 0.4863, 1, 1)
 segments = 10
 
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Body/Left/BarRel"]
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/BarRel"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "9.0"
 horizontal_alignment = 2
 
-[node name="SepL" type="HSeparator" parent="Panel/Margin/VBox/Body/Left"]
+[node name="SepL" type="HSeparator" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 layout_mode = 2
 
-[node name="Facts" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left"]
+[node name="Facts" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 layout_mode = 2
 theme_override_constants/separation = 28
 
-[node name="Chance" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Facts"]
+[node name="Chance" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Chance"]
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts/Chance"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_PJ_P_SUCCESS"
 
-[node name="ChanceValue" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Chance"]
+[node name="ChanceValue" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts/Chance"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "74%"
 
-[node name="Defects" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Facts"]
+[node name="Defects" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Defects"]
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts/Defects"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_PJ_DEFECTS"
 
-[node name="DefectsValue" type="Label" parent="Panel/Margin/VBox/Body/Left/Facts/Defects"]
+[node name="DefectsValue" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left/Facts/Defects"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "0.4"
 
-[node name="RocketLine" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="RocketLine" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
@@ -293,7 +314,7 @@ theme_override_font_sizes/font_size = 13
 text = "Rocket Andorinha"
 autowrap_mode = 3
 
-[node name="CauseLine" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="CauseLine" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwHeading"
@@ -302,7 +323,7 @@ theme_override_font_sizes/font_size = 16
 text = "Cause: stage 2 failure"
 autowrap_mode = 3
 
-[node name="Novelty" type="Label" parent="Panel/Margin/VBox/Body/Left"]
+[node name="Novelty" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Left"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
@@ -310,19 +331,19 @@ theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "TY_PJ_NOVELTY"
 autowrap_mode = 3
 
-[node name="SepV" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+[node name="SepV" type="VSeparator" parent="Panel/Margin/VBox/Scroll/Middle/Body"]
 layout_mode = 2
 
-[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 14
 
-[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
@@ -330,31 +351,31 @@ theme_type_variation = &"CwCaps"
 theme_override_font_sizes/font_size = 13
 text = "TY_PJ_PRESS"
 
-[node name="AvgCaption" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+[node name="AvgCaption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Head"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwCaps"
 text = "TY_PJ_AVG"
 
-[node name="Avg" type="Label" parent="Panel/Margin/VBox/Body/Right/Head"]
+[node name="Avg" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Head"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_font_sizes/font_size = 26
 text = "7.3"
 
-[node name="Papers" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right"]
+[node name="Papers" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="Card0" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+[node name="Card0" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers"]
 custom_minimum_size = Vector2(0, 260)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card0"]
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -369,7 +390,7 @@ rotation = -0.017
 pivot_offset = Vector2(100, 150)
 mouse_filter = 2
 
-[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -383,7 +404,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -393,12 +414,12 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwPaper"
 
-[node name="Paper0" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper"]
+[node name="Paper0" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
@@ -409,32 +430,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 text = "popular"
 horizontal_alignment = 1
 
-[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 1)
 
-[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
 theme_override_font_sizes/font_size = 48
 text = "8"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0/ScoreRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMono"
@@ -442,19 +463,19 @@ theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 theme_override_font_sizes/font_size = 16
 text = "/10"
 
-[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 0.45)
 
-[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet/Paper/Paper0"]
 layout_mode = 2
 theme_type_variation = &"CwInk"
 text = "“Whole burrows stayed up to watch it.”"
 autowrap_mode = 3
 
-[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card0/Sheet"]
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -469,13 +490,13 @@ pivot_offset = Vector2(36, 10)
 mouse_filter = 2
 color = Color(0.9412, 0.9098, 0.7922, 0.62)
 
-[node name="Card1" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+[node name="Card1" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers"]
 custom_minimum_size = Vector2(0, 260)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card1"]
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -490,7 +511,7 @@ rotation = 0.012
 pivot_offset = Vector2(100, 150)
 mouse_filter = 2
 
-[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -504,7 +525,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -514,12 +535,12 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwPaper"
 
-[node name="Paper1" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper"]
+[node name="Paper1" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
@@ -530,32 +551,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 text = "technical"
 horizontal_alignment = 1
 
-[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 1)
 
-[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
 theme_override_font_sizes/font_size = 48
 text = "7"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1/ScoreRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMono"
@@ -563,19 +584,19 @@ theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 theme_override_font_sizes/font_size = 16
 text = "/10"
 
-[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 0.45)
 
-[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet/Paper/Paper1"]
 layout_mode = 2
 theme_type_variation = &"CwInk"
 text = "“Solid engineering.”"
 autowrap_mode = 3
 
-[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card1/Sheet"]
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -590,13 +611,13 @@ pivot_offset = Vector2(36, 10)
 mouse_filter = 2
 color = Color(0.9412, 0.9098, 0.7922, 0.62)
 
-[node name="Card2" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+[node name="Card2" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers"]
 custom_minimum_size = Vector2(0, 260)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card2"]
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -611,7 +632,7 @@ rotation = -0.008
 pivot_offset = Vector2(100, 150)
 mouse_filter = 2
 
-[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -625,7 +646,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -635,12 +656,12 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwPaper"
 
-[node name="Paper2" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper"]
+[node name="Paper2" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
@@ -651,32 +672,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 text = "scientific"
 horizontal_alignment = 1
 
-[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 1)
 
-[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
 theme_override_font_sizes/font_size = 48
 text = "6"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2/ScoreRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMono"
@@ -684,19 +705,19 @@ theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 theme_override_font_sizes/font_size = 16
 text = "/10"
 
-[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 0.45)
 
-[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet/Paper/Paper2"]
 layout_mode = 2
 theme_type_variation = &"CwInk"
 text = "“Useful data, if modest.”"
 autowrap_mode = 3
 
-[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card2/Sheet"]
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -711,13 +732,13 @@ pivot_offset = Vector2(36, 10)
 mouse_filter = 2
 color = Color(0.9412, 0.9098, 0.7922, 0.62)
 
-[node name="Card3" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers"]
+[node name="Card3" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers"]
 custom_minimum_size = Vector2(0, 260)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Body/Right/Papers/Card3"]
+[node name="Sheet" type="Control" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -732,7 +753,7 @@ rotation = 0.019
 pivot_offset = Vector2(100, 150)
 mouse_filter = 2
 
-[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+[node name="Shadow" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -746,7 +767,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+[node name="Paper" type="PanelContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -756,12 +777,12 @@ grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwPaper"
 
-[node name="Paper3" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper"]
+[node name="Paper3" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="Masthead" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 theme_type_variation = &"CwTitle"
@@ -772,32 +793,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="Kind" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 text = "public money"
 horizontal_alignment = 1
 
-[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="Rule" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 1)
 
-[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Score" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
+[node name="Score" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.149, 0.1843, 0.4, 1)
 theme_override_font_sizes/font_size = 48
 text = "5"
 
-[node name="Of" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
+[node name="Of" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3/ScoreRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMono"
@@ -805,19 +826,19 @@ theme_override_colors/font_color = Color(0.4784, 0.4353, 0.3451, 1)
 theme_override_font_sizes/font_size = 16
 text = "/10"
 
-[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="Rule2" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.149, 0.1843, 0.4, 0.45)
 
-[node name="Quote" type="Label" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
+[node name="Quote" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet/Paper/Paper3"]
 layout_mode = 2
 theme_type_variation = &"CwInk"
 text = "“Not cheap, not wasteful.”"
 autowrap_mode = 3
 
-[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Body/Right/Papers/Card3/Sheet"]
+[node name="Tape" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -831,6 +852,94 @@ rotation = -0.06
 pivot_offset = Vector2(36, 10)
 mouse_filter = 2
 color = Color(0.9412, 0.9098, 0.7922, 0.62)
+
+[node name="Debrief" type="PanelContainer" parent="Panel/Margin/VBox/Scroll/Middle"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Debrief"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Left" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Left"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PJ_LEARNED"
+
+[node name="Feedback" type="GridContainer" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="FeedbackTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Left/Feedback"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Dot" type="ColorRect" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Left/Feedback/FeedbackTemplate"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.851, 0.2275, 0.3608, 1)
+
+[node name="Text" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Left/Feedback/FeedbackTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "The battery did not last the lunar night."
+autowrap_mode = 3
+
+[node name="SepD" type="VSeparator" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox"]
+layout_mode = 2
+
+[node name="Right" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BriefLine" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text = "Briefing answered: Ice in the eternal shadow"
+autowrap_mode = 3
+
+[node name="BriefPay" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+900 000 cr"
+
+[node name="JournalLine" type="Label" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Journal: +3 discoveries"
+autowrap_mode = 3
+
+[node name="OpenJournal" type="Button" parent="Panel/Margin/VBox/Scroll/Middle/Debrief/HBox/Right"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_PJ_OPEN_JOURNAL"
 
 [node name="Results" type="PanelContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2

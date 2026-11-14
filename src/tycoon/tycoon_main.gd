@@ -8,6 +8,8 @@ extends Node3D
 ##   (the camera frames it) · click empty ground or Esc to let go / close the panel
 ## The crew comes from the existing crew roster (src/crew/), so the hangar's Cometlings are
 ## the agency's first employees.
+## The hangar and the flight open inside this scene (Modes, TycoonModes): the campus sleeps,
+## the clock holds and input goes to them until they close.
 
 @export var campaign_seed := 2026
 ## hackathon "modo feira": 1 s per week at any speed (GDD section 17)
@@ -31,6 +33,8 @@ var race_flow: TycoonRaceFlow
 @onready var campus: Campus = $Campus
 @onready var camera: CampusCamera = $Camera
 @onready var hud: TycoonHUD = $UI/HUD
+## the hangar and the flight inside the main mode (scenes/tycoon/integrated/tycoon_modes.tscn)
+@onready var modes: TycoonModes = get_node_or_null("Modes")
 
 
 func _ready() -> void:
@@ -46,11 +50,17 @@ func _ready() -> void:
 	race_flow = TycoonRaceFlow.new(state, clock, hud)
 	race_flow.before_finale = _play_ending
 	hud.build_requested.connect(_on_build)
+	if modes:
+		modes.bind(self)
+		hud.hangar_requested.connect(func(_lot: String) -> void:
+			hud.close_lot()
+			modes.open_project_hangar())
 	var flow := ProjectFlow.new()  # mission projects: phase and review screens (E1)
 	add_child(flow)
 	flow.bind(state, clock, hud)
 	camera.tour_source = _tour_shots
-	camera.input_gate = func() -> bool: return hud.current_screen() == ""  # no camera input under a screen
+	# no camera input under a screen or while the hangar / the flight is open
+	camera.input_gate = func() -> bool: return hud.current_screen() == "" and not (modes and modes.is_open())
 	camera.follow_changed.connect(_on_follow_changed)
 	camera.tour_changed.connect(func(on: bool) -> void:
 		if on:
@@ -99,6 +109,8 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if modes and (modes.is_open() or modes.just_closed()):
+		return  # the hangar / the flight handle their own keys (Esc leaves them)
 	if event is InputEventKey and event.pressed and not event.echo:
 		match (event as InputEventKey).keycode:
 			KEY_SPACE:
@@ -110,10 +122,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_3:
 				clock.set_speed(3)
 			KEY_ESCAPE:
-				# Esc steps back one layer: the open screen, the lot panel, the followed
-				# Cometling or the tour; with nothing open it brings up the pause menu
+				# Esc steps back one layer: the open screen's page (a Cometling's sheet back
+				# to the roster), the screen, the lot panel, the followed Cometling or the
+				# tour; with nothing open it brings up the pause menu
 				if hud.current_screen() != "":
-					hud.close_screen()
+					hud.screen_back()
 				elif hud.lot_id != "":
 					hud.close_lot()
 				elif camera.mode != CampusCamera.Mode.FREE:

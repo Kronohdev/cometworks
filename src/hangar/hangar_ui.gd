@@ -1,19 +1,26 @@
 class_name HangarUI
 extends CanvasLayer
-## Hangar HUD. The layout lives in scenes/hangar.tscn (styled by ui/margin_theme.tres,
-## generated with the palette by tools/make_ui_kit.py); this script fills in data and
-## handles the HUD modes:
-##   - top bar: File menu, undo/redo | tools (symmetry selector, angle snap, nodes)
-##     | view (help, language, HUD) | Launch
-##   - parts panel: search, category tabs (+ favorites), part cards, part card with stat
-##     chips; collapses to a rail of category icons (« button)
-##   - stages panel: compact / detailed stage cards, check badges, marker toggles and a
-##     Crew tab (CrewSlot); collapses to its header (» button)
-##   - readout (always visible with the HUD): ascent Δv vs target, TWR, mass, parts, cost
-##   - HUD button / F2 hides every panel; ? / F1 shows the controls; Ctrl+F searches
-## Static labels use translation keys as text, so Godot re-translates them.
+## Hangar HUD in the Cometworks look. The whole layout lives in scenes/hangar/ui/hangar_ui.tscn
+## (cream sticker panels of ui/cometworks_theme.tres, candy icons in ui/cometworks/hangar/);
+## this script only fills it with data and duplicates the hidden templates under Templates:
+##   - top bar: Back, the workshop title (mission name), File menu, undo / redo, symmetry,
+##     angle snap, nodes | help, language, HUD | Launch
+##   - parts panel (left): search, category tabs (Recommended first, then favorites and the
+##     catalog categories), the "Recommended for you" strip with one-click Add, and big part
+##     cards (thumbnail, propellant colour, one plain stat). Engines that cannot burn what
+##     the tanks carry are dimmed and tagged. Hovering a card opens the detail card beside
+##     the panel. Collapses to a rail of category keys.
+##   - rocket panel (right): the goal card (tycoon mission or the free workshop's training
+##     goal), meters for reach (Δv), liftoff push (TWR), cost and mass against the goal, the
+##     verdict, the plain-language problems, the stages and the crew drawer; markers toggles.
+##   - toasts, the empty-pad hint, the 3D hover card, the help overlay and the symmetry popup.
+## Advice and problems come from PartAdvisor (pure rules); the goal is FlightSession.mission
+## (empty = free workshop). Static labels use translation keys as text, so Godot re-translates.
 
 signal part_chosen(id: String)
+## One-click Add on a recommendation: the hangar attaches it where `hint` says (PartAdvisor
+## placement hints) or puts it in the player's hand.
+signal part_quick_add(id: String, hint: String)
 signal new_pressed
 signal save_pressed
 signal load_pressed
@@ -33,47 +40,50 @@ signal palette_clicked
 signal height_changed(y: float)
 ## The Launch button (top bar, right).
 signal launch_pressed
-## The Menu button (top bar, left): back to the main menu.
+## The Back button (top bar, left) and the goal card's Back (embedded with a mission).
 signal menu_pressed
+## The goal card's "Usar na missão" (embedded hangar with a mission): the host takes the vessel.
+signal use_pressed
 
-const STAGE_CARD := preload("res://scenes/ui/stage_card.tscn")
-const PART_CARD := preload("res://scenes/ui/part_card.tscn")
-const CHIP := preload("res://scenes/ui/chip.tscn")
 const ICON_DIR := "res://ui/part_icons/"
-const ICON_COLLAPSE := preload("res://ui/kit/icon_collapse.svg")
-const ICON_EXPAND := preload("res://ui/kit/icon_expand.svg")
-const ICON_OK := preload("res://ui/kit/icon_check.svg")
-const ICON_WARN := preload("res://ui/kit/icon_warn.svg")
-const ICON_DANGER := preload("res://ui/kit/icon_danger.svg")
-const ICON_INFO := preload("res://ui/kit/icon_info.svg")
+const ICON_COLLAPSE := preload("res://ui/cometworks/hangar/ink_collapse.svg")
+const ICON_EXPAND := preload("res://ui/cometworks/hangar/ink_expand.svg")
+const ICON_OK := preload("res://ui/cometworks/hangar/ok.svg")
+const ICON_WARN := preload("res://ui/cometworks/hangar/warn.svg")
+const ICON_DANGER := preload("res://ui/cometworks/hangar/danger.svg")
+const ICON_STAR := preload("res://ui/cometworks/hangar/recommended.svg")
 const SYM_ICONS := {
-	1: preload("res://ui/kit/icon_sym_1.svg"), 2: preload("res://ui/kit/icon_sym_2.svg"),
-	3: preload("res://ui/kit/icon_sym_3.svg"), 4: preload("res://ui/kit/icon_sym_4.svg"),
-	6: preload("res://ui/kit/icon_sym_6.svg"), 8: preload("res://ui/kit/icon_sym_8.svg"),
+	1: preload("res://ui/cometworks/hangar/ink_sym_1.svg"), 2: preload("res://ui/cometworks/hangar/ink_sym_2.svg"),
+	3: preload("res://ui/cometworks/hangar/ink_sym_3.svg"), 4: preload("res://ui/cometworks/hangar/ink_sym_4.svg"),
+	6: preload("res://ui/cometworks/hangar/ink_sym_6.svg"), 8: preload("res://ui/cometworks/hangar/ink_sym_8.svg"),
 }
 const SYMMETRY_MODES: Array[int] = [1, 2, 3, 4, 6, 8]
-const LEO_TARGET := 9400.0
+## Kept for callers of the old HUD: the free workshop's Δv goal.
+const LEO_TARGET := PartAdvisor.LEO_DV
 ## File menu item ids (examples start at FILE_EXAMPLES).
 const FILE_NEW := 0
 const FILE_SAVE := 1
 const FILE_LOAD := 2
 const FILE_EXAMPLES := 100
-const PARTS_WIDE := 300.0
-const PARTS_RAIL := 64.0
+const PARTS_WIDE := 408.0
+const PARTS_RAIL := 150.0
+## Category keys per row on the collapsed rail.
+const RAIL_COLUMNS := 2
 const CATEGORY_COLUMNS := 7
+const REC_CATEGORY := "recommended"
 const FAV_CATEGORY := "favorites"
+const STRIP_ITEMS := 2
 const PREFS_PATH := "user://hangar_prefs.cfg"
-## Vessel warnings (full sentences from Vessel._warnings) -> short badge text and tone.
-const WARN_BADGES := [
-	["WARN_NO_CORE", "WARN_S_NO_CORE", MarginChip.Tone.DANGER],
-	["WARN_NO_FUEL", "WARN_S_NO_FUEL", MarginChip.Tone.DANGER],
-	["WARN_TWR_LOW", "WARN_S_TWR_LOW", MarginChip.Tone.DANGER],
-	["WARN_TWR_MARGINAL", "WARN_S_TWR_MARGINAL", MarginChip.Tone.WARN],
-	["WARN_DV_LOW", "WARN_S_DV_LOW", MarginChip.Tone.WARN],
-	["WARN_UNSTABLE", "WARN_S_UNSTABLE", MarginChip.Tone.DANGER],
-]
+## Meter scales: the bar ends at goal * GOAL_SPAN, so the goal tick sits at 1 / GOAL_SPAN.
+const GOAL_SPAN := 1.25
+const TWR_SPAN := 2.5
 
-var _category: String = "command"
+## Propellant id -> colour of its stripe and drop on the part cards (edit in the inspector).
+@export var propellant_colors: Dictionary = {}
+## Stage colours, stage 1 first (stage cards).
+@export var stage_colors: Array[Color] = []
+
+var _category: String = REC_CATEGORY
 var _examples: Array[String] = []
 var _status_timer := 0.0
 var _last_analysis: Dictionary = {}
@@ -82,19 +92,25 @@ var _symmetry := 1
 var _icon_cache: Dictionary = {}
 var _search := ""
 var _favorites: Array[String] = []
-var _info_id := ""
-var _detailed := false
+var _detail_id := ""
 var _hud_on := true
+var _recs: Array[Dictionary] = []
+var _problems: Array[Dictionary] = []
+var _specs: Array = []
+var _focus := ""
 var parts_collapsed := false
 var stages_collapsed := false
+## Inside the tycoon (the hangar's `embedded`): Back reads "Voltar ao campus" and the goal card
+## carries the mission's Back / "Usar na missão" buttons.
+var embedded := false
 
 @onready var _root: Control = $Root
 @onready var _parts_panel: PanelContainer = %PartsPanel
-@onready var _stages_panel: PanelContainer = %StagesPanel
-@onready var _readout: Control = %Readout
+@onready var _rocket_panel: PanelContainer = %RocketPanel
 @onready var _parts_title: Label = %PartsTitle
 @onready var _category_bar: GridContainer = %CategoryBar
 @onready var _category_row: Control = %CategoryRow
+@onready var _category_icon: TextureRect = %CategoryIcon
 @onready var _category_name: Label = %CategoryName
 @onready var _category_count: Label = %CategoryCount
 @onready var _btn_file: MenuButton = %BtnFile
@@ -103,48 +119,48 @@ var stages_collapsed := false
 @onready var _btn_nodes: Button = %BtnNodes
 @onready var _btn_help: Button = %BtnHelp
 @onready var _btn_hud: Button = %BtnHud
+@onready var _btn_lang: Button = %BtnLang
 @onready var _btn_launch: Button = %BtnLaunch
 @onready var _btn_parts: Button = %BtnPartsCollapse
-@onready var _btn_stages: Button = %BtnStagesCollapse
-@onready var _btn_detail: Button = %BtnStageDetail
+@onready var _btn_rocket: Button = %BtnRocketCollapse
+@onready var _title: Label = %Title
+@onready var _subtitle: Label = %Subtitle
 @onready var _search_box: LineEdit = %Search
+@onready var _rec_strip: Control = %RecStrip
+@onready var _rec_list: VBoxContainer = %RecList
+@onready var _btn_see_all: Button = %BtnSeeAll
 @onready var _part_scroll: ScrollContainer = %PartScroll
+@onready var _part_list: VBoxContainer = %PartList
+@onready var _rec_full: VBoxContainer = %RecFull
+@onready var _rec_empty: Label = %RecEmpty
 @onready var _part_grid: GridContainer = %PartGrid
+@onready var _grid_caption: Label = %GridCaption
+@onready var _verdict_mini: TextureRect = %VerdictMini
 @onready var _parts_empty: Label = %PartsEmpty
-@onready var _info_card: Control = %InfoCard
-@onready var _info_body: Control = %InfoBody
-@onready var _info_hint: Control = %InfoHint
-@onready var _preview: TextureRect = %PartPreview
-@onready var _part_name: Label = %PartName
-@onready var _part_category: Label = %PartCategory
-@onready var _part_desc: Label = %PartDesc
-@onready var _chip_mass: MarginChip = %ChipMass
-@onready var _chip_thrust: MarginChip = %ChipThrust
-@onready var _chip_isp: MarginChip = %ChipIsp
-@onready var _chip_prop: MarginChip = %ChipProp
-@onready var _chip_size: MarginChip = %ChipSize
-@onready var _chip_cost: MarginChip = %ChipCost
+@onready var _tpl_card: Button = %PartCardTemplate
+@onready var _tpl_rec: Control = %RecRowTemplate
+@onready var _tpl_problem: Control = %ProblemTemplate
+@onready var _tpl_stage: Control = %StageTemplate
+@onready var _detail: PanelContainer = %PartDetail
+@onready var _rocket_body: Control = %RocketBody
+@onready var _verdict_pill: Control = %VerdictPill
+@onready var _verdict_icon: TextureRect = %VerdictIcon
+@onready var _verdict: Label = %Verdict
+@onready var _goal_caption: Label = %GoalCaption
+@onready var _goal_title: Label = %GoalTitle
+@onready var _goal_line: Label = %GoalLine
+@onready var _meter_dv: Control = %MeterDv
+@onready var _meter_twr: Control = %MeterTwr
+@onready var _meter_cost: Control = %MeterCost
+@onready var _meter_mass: Control = %MeterMass
 @onready var _tab_stages: Button = %TabStages
 @onready var _tab_crew: Button = %TabCrew
-@onready var _stages_body: Control = %StagesBody
-@onready var _stage_page: Control = %StagePage
-@onready var _crew_page: Control = %CrewPage
-@onready var _crew_slot: Control = %CrewSlot
-@onready var _crew_empty: Control = %CrewEmpty
-@onready var _stage_scroll: ScrollContainer = %StageScroll
+@onready var _problem_list: VBoxContainer = %ProblemList
 @onready var _stage_list: VBoxContainer = %StageList
 @onready var _stages_empty: Label = %StagesEmpty
-@onready var _checks: HFlowContainer = %Checks
-@onready var _checks_head: Control = %ChecksHead
-@onready var _dv_value: Label = %DvValue
-@onready var _dv_target: Label = %DvTarget
-@onready var _dv_stack: HBoxContainer = %DvStack
-@onready var _dv_rest: Control = %SegRest
-@onready var _ro_twr: Label = %RoTwr
-@onready var _ro_mass: Label = %RoMass
-@onready var _ro_parts: Label = %RoParts
-@onready var _ro_cost: Label = %RoCost
-@onready var _ro_status: MarginChip = %RoStatus
+@onready var _crew_info: Control = %CrewInfo
+@onready var _crew_drawer: Control = %CrewDrawer
+@onready var _crew_slot: Control = %CrewSlot
 @onready var _toast: Control = %Toast
 @onready var _status: Label = %Status
 @onready var _empty_hint: Control = %EmptyHint
@@ -162,11 +178,13 @@ var stages_collapsed := false
 
 func _ready() -> void:
 	_load_prefs()
-	%BtnLang.pressed.connect(func() -> void: language_toggled.emit())
+	_btn_lang.pressed.connect(func() -> void: language_toggled.emit())
 	%BtnUndo.pressed.connect(func() -> void: undo_pressed.emit())
 	%BtnRedo.pressed.connect(func() -> void: redo_pressed.emit())
 	_btn_launch.pressed.connect(func() -> void: launch_pressed.emit())
 	%BtnMenu.pressed.connect(func() -> void: menu_pressed.emit())
+	%BtnGoalBack.pressed.connect(func() -> void: menu_pressed.emit())
+	%BtnUse.pressed.connect(func() -> void: use_pressed.emit())
 	_btn_sym.pressed.connect(_open_symmetry)
 	_btn_sym.gui_input.connect(func(e: InputEvent) -> void:
 		var mb := e as InputEventMouseButton
@@ -179,16 +197,15 @@ func _ready() -> void:
 	_btn_snap.pressed.connect(func() -> void: angle_snap_pressed.emit())
 	_btn_nodes.toggled.connect(func(on: bool) -> void: nodes_toggled.emit(on))
 	_btn_help.toggled.connect(func(on: bool) -> void: _help.visible = on)
+	%BtnHelpClose.pressed.connect(func() -> void: _btn_help.button_pressed = false)
 	_btn_hud.toggled.connect(func(on: bool) -> void: set_hud_visible(on))
 	_btn_parts.pressed.connect(func() -> void: set_parts_collapsed(not parts_collapsed))
-	_btn_stages.pressed.connect(func() -> void: set_stages_collapsed(not stages_collapsed))
-	_btn_detail.toggled.connect(_set_detailed)
+	_btn_rocket.pressed.connect(func() -> void: set_stages_collapsed(not stages_collapsed))
+	_btn_see_all.pressed.connect(func() -> void: select_category(REC_CATEGORY))
 	_tab_stages.toggled.connect(func(_on: bool) -> void: _update_tabs())
 	_tab_crew.toggled.connect(func(_on: bool) -> void: _update_tabs())
-	_crew_slot.child_entered_tree.connect(func(_n: Node) -> void: _update_tabs.call_deferred())
-	_crew_slot.child_exiting_tree.connect(func(_n: Node) -> void: _update_tabs.call_deferred())
 	_btn_file.get_popup().id_pressed.connect(_on_file_menu)
-	# category buttons are authored in the scene; each node is named after its category id
+	# category keys are authored in the scene; each node is named after its category id
 	for b in _category_bar.get_children():
 		(b as Button).toggled.connect(func(on: bool) -> void:
 			if on:
@@ -214,7 +231,6 @@ func _ready() -> void:
 				_fill_parts()
 			_search_box.release_focus()
 			_search_box.accept_event())
-	_stage_list.minimum_size_changed.connect(_fit_stage_list.call_deferred)
 	_height.value_changed.connect(func(v: float) -> void: height_changed.emit(v))
 	_update_tabs()
 	refresh_texts()
@@ -225,9 +241,9 @@ func _process(delta: float) -> void:
 		_status_timer -= delta
 		if _status_timer <= 0.0:
 			_toast.visible = false
-	# the part card keeps the last hovered part while the mouse is over the palette
-	if _info_id != "" and not _parts_panel.get_global_rect().has_point(_root.get_global_mouse_position()):
-		_show_part_info("")
+	# the detail card stays while the mouse is over the palette
+	if _detail_id != "" and not _parts_panel.get_global_rect().has_point(_root.get_global_mouse_position()):
+		_show_detail("")
 
 
 ## Typing in the search box never reaches the hangar shortcuts (LineEdit consumes the
@@ -235,7 +251,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	var mb := event as InputEventMouseButton
 	if mb and mb.pressed and _search_box.has_focus() \
-			and not _search_box.get_global_rect().has_point(mb.position):
+			and not _search_box.get_global_rect().has_point(_root.get_global_mouse_position()):
 		_search_box.release_focus()
 
 
@@ -257,112 +273,117 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-## Decimal number with the locale's decimal separator ("1,5" in Portuguese).
+## Decimal number with the locale's decimal separator (kept for old callers).
 static func num(v: float, nd := 0) -> String:
-	var s := String.num(v, nd)
-	if TranslationServer.get_locale().begins_with("pt"):
-		s = s.replace(".", ",")
-	return s
+	return HangarFormat.num(v, nd)
 
 
-## Like num(), with thousands grouped by a space (SI style: "16 170").
+## Thousands grouped by a space (kept for old callers).
 static func numk(v: float, nd := 0) -> String:
-	var s := String.num(absf(v), nd)
-	var dot := s.find(".")
-	var ip := s if dot < 0 else s.substr(0, dot)
-	var fp := "" if dot < 0 else s.substr(dot + 1)
-	var out := ""
-	while ip.length() > 3:
-		out = " " + ip.right(3) + out
-		ip = ip.left(ip.length() - 3)
-	out = ip + out
-	if fp != "":
-		out += ("," if TranslationServer.get_locale().begins_with("pt") else ".") + fp
-	return ("-" if v < 0.0 else "") + out
+	return HangarFormat.numk(v, nd)
 
 
-static func _mass_text(kg: float) -> String:
-	return "%s kg" % numk(kg) if kg < 1000.0 else "%s t" % numk(kg / 1000.0, 2 if kg < 10000.0 else 1)
+## The mission the hangar builds for, or the free workshop's training goal.
+static func current_goal() -> Dictionary:
+	return FlightSession.mission if not FlightSession.mission.is_empty() else PartAdvisor.free_goal()
+
+
+func _prop_color(prop: String) -> Color:
+	return propellant_colors.get(prop, CwPalette.WELL_LINE)
 
 
 # ------------------------------------------------------------ HUD modes
+## The hangar inside the tycoon: Back goes to the campus and the goal card gets its buttons.
+func set_embedded(on: bool) -> void:
+	embedded = on
+	var back := %BtnMenu as Button
+	back.text = "TY_HG_CARD_TO_CAMPUS" if on else "HG_BACK"
+	back.tooltip_text = "TY_HG_CARD_TO_CAMPUS" if on else "UI_BACK_MENU_TIP"
+	_fill_goal()
+
+
 func set_hud_visible(on: bool) -> void:
 	_hud_on = on
 	_btn_hud.set_pressed_no_signal(on)
-	for c in [_parts_panel, _stages_panel, _height, _readout]:
+	for c in [_parts_panel, _rocket_panel, _height]:
 		c.visible = on
 	_empty_hint.visible = on and int(_last_extra.get("parts", 0)) == 0
+	_update_tabs()
 	if not on:
 		_help.visible = false
 		_btn_help.set_pressed_no_signal(false)
 		_sym_popup.hide()
+		_show_detail("")
 		hide_hover()
 
 
-## Collapsed: only the category icons remain, as a short vertical rail.
+## Collapsed: only the category keys remain, as a slim rail.
 func set_parts_collapsed(on: bool) -> void:
 	parts_collapsed = on
-	for c in [_parts_title, _search_box, _category_row, _part_scroll, _info_card]:
+	for c in [_parts_title, _search_box, _category_row, _part_scroll, %HintLine]:
 		(c as Control).visible = not on
 	_parts_empty.visible = false
-	_category_bar.columns = 1 if on else CATEGORY_COLUMNS
+	_category_bar.columns = RAIL_COLUMNS if on else CATEGORY_COLUMNS
 	_parts_panel.offset_right = _parts_panel.offset_left + (PARTS_RAIL if on else PARTS_WIDE)
 	_parts_panel.anchor_bottom = 0.0 if on else 1.0
-	_parts_panel.offset_bottom = (_parts_panel.offset_top + 10.0) if on else -12.0
+	_parts_panel.offset_bottom = (_parts_panel.offset_top + 10.0) if on else -16.0
 	_btn_parts.icon = ICON_EXPAND if on else ICON_COLLAPSE
-	if not on:
+	if on:
+		_rec_strip.visible = false
+		_show_detail("")
+	else:
 		_fill_parts()
 
 
-## Collapsed: only the panel header (tabs) stays.
+## Collapsed: only the rocket panel's header (title + verdict) stays.
 func set_stages_collapsed(on: bool) -> void:
 	stages_collapsed = on
-	_stages_body.visible = not on
-	_btn_detail.visible = not on and _tab_stages.button_pressed
-	_btn_stages.icon = ICON_COLLAPSE if on else ICON_EXPAND
+	_rocket_body.visible = not on
+	_rocket_panel.anchor_bottom = 0.0 if on else 1.0
+	_rocket_panel.offset_bottom = (_rocket_panel.offset_top + 10.0) if on else -16.0
+	_btn_rocket.icon = ICON_COLLAPSE if on else ICON_EXPAND
+	_verdict_mini.visible = on
+	_update_tabs()
 
 
-func _set_detailed(on: bool) -> void:
-	_detailed = on
-	_btn_detail.set_pressed_no_signal(on)
-	for c in _stage_list.get_children():
-		(c as StageCard).set_detailed(on)
+func select_category(id: String) -> void:
+	var b := _category_bar.get_node_or_null(id) as Button
+	if b:
+		b.button_pressed = true
 
 
 func _update_tabs() -> void:
 	var crew := _tab_crew.button_pressed
-	_stage_page.visible = not crew
-	_crew_page.visible = crew
-	_crew_empty.visible = _crew_slot.get_child_count() == 0
-	_btn_detail.visible = not crew and not stages_collapsed
-	if crew and stages_collapsed:
-		set_stages_collapsed(false)
-
-
-## The stage list grows with its cards up to the room left on screen, then scrolls.
-func _fit_stage_list() -> void:
-	var want := _stage_list.get_combined_minimum_size().y
-	var room := get_viewport().get_visible_rect().size.y - _stages_panel.offset_top - 300.0
-	_stage_scroll.custom_minimum_size.y = minf(want, maxf(room, 140.0))
+	_problem_list.visible = not crew
+	_stage_list.visible = not crew
+	_stages_empty.visible = not crew and _stage_list.get_child_count() == 0
+	_crew_info.visible = crew
+	_crew_drawer.visible = crew and _hud_on and not stages_collapsed and _crew_slot.get_child_count() > 0
 
 
 # ------------------------------------------------------------ texts that need data or formatting
 func refresh_texts() -> void:
 	set_symmetry(_symmetry)
 	set_angle_snap(_btn_snap.button_pressed)
+	_btn_lang.text = "EN" if TranslationServer.get_locale().begins_with("pt") else "PT"
 	for b in _category_bar.get_children():
-		var id := String(b.name)
-		if id == FAV_CATEGORY:
-			(b as Button).tooltip_text = "%s (%d)\n%s" % [tr("UI_FAVORITES"), _favorites.size(), tr("UI_FAV_TIP")]
-		else:
-			(b as Button).tooltip_text = "%s (%d)" % [PartDB.category_name(id), PartDB.parts_in_category(id).size()]
+		(b as Button).tooltip_text = _category_title(String(b.name))
 	for b in _sym_row.get_children():
 		var n := int(String(b.name).trim_prefix("Sym"))
 		(b as Button).tooltip_text = tr("UI_SYM_SINGLE") if n == 1 else tr("UI_SYM_COPIES") % n
-	_fill_parts()
-	_show_part_info(_info_id)
+	_fill_goal()
 	_fill_file_menu()
 	show_analysis(_last_analysis, _last_extra)
+	_fill_parts()
+
+
+func _category_title(id: String) -> String:
+	match id:
+		REC_CATEGORY:
+			return tr("HG_RECOMMENDED")
+		FAV_CATEGORY:
+			return "%s (%d)\n%s" % [tr("UI_FAVORITES"), _favorites.size(), tr("UI_FAV_TIP")]
+	return "%s (%d)" % [PartDB.category_name(id), PartDB.parts_in_category(id).size()]
 
 
 func set_symmetry(n: int) -> void:
@@ -377,7 +398,9 @@ func set_symmetry(n: int) -> void:
 func _open_symmetry() -> void:
 	set_symmetry(_symmetry)
 	var r := _btn_sym.get_global_rect()
-	_sym_popup.popup(Rect2i(Vector2i(int(r.position.x) - 8, int(r.end.y) + 10), Vector2i.ZERO))
+	var xf := _root.get_viewport_transform()
+	var pos := xf * Vector2(r.position.x - 8, r.end.y + 10)
+	_sym_popup.popup(Rect2i(Vector2i(pos), Vector2i.ZERO))
 
 
 func _choose_symmetry(n: int) -> void:
@@ -414,12 +437,13 @@ func set_examples(ids: Array[String]) -> void:
 func _fill_file_menu() -> void:
 	var pm := _btn_file.get_popup()
 	pm.clear()
-	pm.add_icon_item(preload("res://ui/kit/icon_new.svg"), tr("UI_NEW"), FILE_NEW)
-	pm.add_icon_item(preload("res://ui/kit/icon_save.svg"), tr("UI_SAVE"), FILE_SAVE)
-	pm.add_icon_item(preload("res://ui/kit/icon_load.svg"), tr("UI_LOAD"), FILE_LOAD)
+	pm.add_icon_item(preload("res://ui/cometworks/hangar/ink_new.svg"), tr("UI_NEW"), FILE_NEW)
+	pm.add_icon_item(preload("res://ui/cometworks/hangar/ink_save.svg"), tr("UI_SAVE"), FILE_SAVE)
+	pm.add_icon_item(preload("res://ui/cometworks/hangar/ink_load.svg"), tr("UI_LOAD"), FILE_LOAD)
 	pm.add_separator(tr("UI_EXAMPLES"))
 	for i in _examples.size():
-		pm.add_icon_item(preload("res://ui/kit/icon_examples.svg"), ExampleVessels.display_name(_examples[i]), FILE_EXAMPLES + i)
+		pm.add_icon_item(preload("res://ui/cometworks/hangar/ink_examples.svg"), ExampleVessels.display_name(_examples[i]),
+			FILE_EXAMPLES + i)
 
 
 func _on_file_menu(id: int) -> void:
@@ -438,7 +462,18 @@ func _on_file_menu(id: int) -> void:
 func flash(msg: String, seconds := 3.0) -> void:
 	_status.text = msg
 	_toast.visible = msg != ""
+	if _toast.visible:
+		CwMotion.poke(_toast)
 	_status_timer = seconds
+
+
+## The hangar reports a one-click Add: attached in place, or handed to the player.
+func notify_added(id: String, attached: bool) -> void:
+	if attached:
+		CwSfx.play(&"workshop_clank")
+		flash(tr("HG_ADDED") % PartDB.part_name(id), 2.0)
+	else:
+		flash(tr("HG_IN_HAND") % PartDB.part_name(id), 3.5)
 
 
 ## Small card next to the mouse with the hovered part's name, mass and free nodes.
@@ -447,11 +482,12 @@ func show_hover(id: String, mouse: Vector2, free_nodes: int) -> void:
 		return  # HUD hidden: keep the view clean
 	var p := PartDB.get_part(id)
 	_hover_name.text = PartDB.part_name(id)
-	_hover_detail.text = tr("UI_HOVER_DETAIL") % [numk(PartDB.wet_mass(p)), free_nodes]
+	_hover_detail.text = tr("UI_HOVER_DETAIL") % [HangarFormat.numk(PartDB.wet_mass(p)), free_nodes]
 	_hover.visible = true
 	_hover.reset_size()
-	var vp := get_viewport().get_visible_rect().size
-	var pos := mouse + Vector2(18, 18)
+	var m := _root.get_viewport_transform().affine_inverse() * mouse
+	var vp := _root.size
+	var pos := m + Vector2(18, 18)
 	pos.x = minf(pos.x, vp.x - _hover.size.x - 8)
 	pos.y = minf(pos.y, vp.y - _hover.size.y - 8)
 	_hover.position = pos
@@ -477,18 +513,46 @@ static func _short_name(id: String) -> String:
 	return n if i < 0 else n.substr(0, i)
 
 
-func _fill_parts() -> void:
-	for c in _part_grid.get_children():
-		_part_grid.remove_child(c)
+## One plain number for the card: thrust for engines, fuel for tanks, mass for the rest.
+static func _card_stat(p: Dictionary) -> String:
+	if PartDB.is_engine(p):
+		var sl := float(p.get("thrust_sl_kn", 0.0))
+		return HangarFormat.thrust(sl if sl > 0.0 else float(p.get("thrust_vac_kn", 0.0)))
+	if p.get("category", "") == "tank":
+		return HangarFormat.mass(float(p.get("prop_mass_kg", 0.0)))
+	return HangarFormat.mass(PartDB.wet_mass(p))
+
+
+func _rec_of(id: String) -> Dictionary:
+	for r in _recs:
+		if r["id"] == id:
+			return r
+	return {}
+
+
+func _clear(box: Node) -> void:
+	for c in box.get_children():
+		box.remove_child(c)
 		c.queue_free()
+
+
+## Rebuilds the cards of the current tab (search, Recommended, favorites or a category).
+## `keep_scroll`: a refresh of the same tab (the vessel changed) keeps the scroll position.
+func _fill_parts(keep_scroll := false) -> void:
+	var scroll := _part_scroll.scroll_vertical
+	_clear(_part_grid)
+	_clear(_rec_full)
 	var ids: Array[String] = []
+	var rec_tab := _category == REC_CATEGORY and _search == ""
 	if _search != "":
-		# search across every category, by localized name or id
 		_category_name.text = tr("UI_SEARCH_RESULTS")
+		_category_icon.texture = preload("res://ui/cometworks/hangar/ink_search.svg")
 		for c in PartDB.category_ids():
 			for id in PartDB.parts_in_category(c):
 				if PartDB.part_name(id).to_lower().contains(_search) or id.contains(_search):
 					ids.append(id)
+	elif rec_tab:
+		_category_name.text = tr("HG_RECOMMENDED")
 	elif _category == FAV_CATEGORY:
 		_category_name.text = tr("UI_FAVORITES")
 		for id in _favorites:
@@ -497,26 +561,114 @@ func _fill_parts() -> void:
 	else:
 		_category_name.text = PartDB.category_name(_category)
 		ids = PartDB.parts_in_category(_category)
-	_category_count.text = str(ids.size())
+	if _search == "":
+		var key := _category_bar.get_node_or_null(_category) as Button
+		_category_icon.texture = key.icon if key else null
+	if rec_tab:
+		for r in _recs:
+			_rec_full.add_child(_make_rec_row(r))
+		_category_count.text = str(_recs.size())
+		# below the advice: parts that go well with this rocket, to browse
+		for id in PartAdvisor.compatible(_specs, _focus):
+			if _rec_of(id).is_empty():
+				ids.append(id)
+	else:
+		_category_count.text = str(ids.size())
+	_rec_full.visible = rec_tab
+	_grid_caption.visible = rec_tab and not ids.is_empty()
+	_rec_empty.visible = rec_tab and _recs.is_empty()
 	for id in ids:
-		var card: Button = PART_CARD.instantiate()
-		card.text = _short_name(id)
-		card.icon = _icon(id)
-		card.tooltip_text = PartDB.part_name(id)
-		card.get_node("Fav").visible = _favorites.has(id)
-		card.pressed.connect(func() -> void:
-			_show_part_info(id)
-			part_chosen.emit(id))
-		card.mouse_entered.connect(func() -> void: _show_part_info(id))
-		card.gui_input.connect(func(e: InputEvent) -> void:
-			var mb := e as InputEventMouseButton
-			if mb and mb.pressed and mb.button_index == MOUSE_BUTTON_RIGHT:
-				_toggle_favorite(id)
-				card.accept_event())
-		_part_grid.add_child(card)
-	_parts_empty.visible = ids.is_empty() and not parts_collapsed
-	if ids.is_empty():
+		_part_grid.add_child(_make_card(id))
+	_parts_empty.visible = not rec_tab and ids.is_empty() and not parts_collapsed
+	if ids.is_empty() and not rec_tab:
 		_parts_empty.text = tr("UI_NO_RESULTS") if _search != "" else tr("UI_FAV_EMPTY")
+	_fill_rec_strip()
+	if keep_scroll:
+		_part_scroll.set_deferred("scroll_vertical", scroll)
+	else:
+		_part_scroll.scroll_vertical = 0
+
+
+func _make_card(id: String) -> Button:
+	var p := PartDB.get_part(id)
+	var card := _tpl_card.duplicate() as Button
+	card.unique_name_in_owner = false
+	card.set_meta("part_id", id)
+	(card.get_node("Margin/VBox/Bay/Thumb") as TextureRect).texture = _icon(id)
+	(card.get_node("Margin/VBox/Name") as Label).text = PartDB.part_name(id)
+	(card.get_node("Margin/VBox/Info/Stat") as Label).text = _card_stat(p)
+	var prop: String = p.get("propellant", "")
+	var stripe := card.get_node("Margin/VBox/Stripe") as ColorRect
+	var drop := card.get_node("Margin/VBox/Info/Drop") as TextureRect
+	stripe.visible = prop != ""
+	drop.visible = prop != ""
+	stripe.color = _prop_color(prop)
+	drop.modulate = _prop_color(prop)
+	_update_card(card)
+	card.pressed.connect(func() -> void:
+		_show_detail(id, card)
+		part_chosen.emit(id))
+	card.mouse_entered.connect(func() -> void: _show_detail(id, card))
+	card.gui_input.connect(func(e: InputEvent) -> void:
+		var mb := e as InputEventMouseButton
+		if mb and mb.pressed and mb.button_index == MOUSE_BUTTON_RIGHT:
+			_toggle_favorite(id)
+			card.accept_event())
+	card.visible = true
+	return card
+
+
+## Badges that follow the vessel: favorite, recommended, wrong propellant.
+func _update_card(card: Control) -> void:
+	var id: String = card.get_meta("part_id", "")
+	var fit := PartAdvisor.engine_fit(id, _specs, _focus)
+	card.get_node("Fav").visible = _favorites.has(id)
+	card.get_node("RecBadge").visible = not _rec_of(id).is_empty()
+	card.get_node("Mismatch").visible = fit < 0
+	card.modulate = Color(1, 1, 1, 0.55) if fit < 0 else Color.WHITE
+
+
+func _refresh_cards() -> void:
+	for c in _part_grid.get_children():
+		_update_card(c)
+
+
+func _make_rec_row(r: Dictionary) -> Control:
+	var id: String = r["id"]
+	var p := PartDB.get_part(id)
+	var row := _tpl_rec.duplicate() as Control
+	row.unique_name_in_owner = false
+	row.set_meta("part_id", id)
+	(row.get_node("Row/Bay/Thumb") as TextureRect).texture = _icon(id)
+	(row.get_node("Row/Texts/NameRow/Name") as Label).text = PartDB.part_name(id)
+	(row.get_node("Row/Texts/Reason") as Label).text = PartAdvisor.reason_text(r)
+	var prop: String = p.get("propellant", "")
+	var drop := row.get_node("Row/Texts/NameRow/Drop") as TextureRect
+	drop.visible = prop != ""
+	drop.modulate = _prop_color(prop)
+	var add := row.get_node("Row/Add") as Button
+	add.pressed.connect(func() -> void: part_quick_add.emit(id, String(r["hint"])))
+	row.mouse_entered.connect(func() -> void: _show_detail(id, row))
+	row.gui_input.connect(func(e: InputEvent) -> void:
+		var mb := e as InputEventMouseButton
+		if mb and mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+			part_chosen.emit(id)
+			row.accept_event())
+	row.visible = true
+	return row
+
+
+## The top picks above the cards while browsing a category (not in the Recommended tab).
+func _fill_rec_strip() -> void:
+	_clear(_rec_list)
+	var show := not _recs.is_empty() and not (_category == REC_CATEGORY and _search == "") and not parts_collapsed
+	_rec_strip.visible = show
+	if not show:
+		return
+	for i in mini(STRIP_ITEMS, _recs.size()):
+		_rec_list.add_child(_make_rec_row(_recs[i]))
+	_btn_see_all.visible = _recs.size() > STRIP_ITEMS
+	_btn_see_all.text = tr("HG_SEE_ALL") % _recs.size()
 
 
 func _toggle_favorite(id: String) -> void:
@@ -530,16 +682,14 @@ func _toggle_favorite(id: String) -> void:
 	if _category == FAV_CATEGORY and _search == "":
 		_fill_parts()
 	else:
-		for c in _part_grid.get_children():
-			if (c as Button).tooltip_text == PartDB.part_name(id):
-				c.get_node("Fav").visible = _favorites.has(id)
+		_refresh_cards()
 	refresh_category_tips()
 
 
 func refresh_category_tips() -> void:
 	var fav := _category_bar.get_node_or_null(FAV_CATEGORY) as Button
 	if fav:
-		fav.tooltip_text = "%s (%d)\n%s" % [tr("UI_FAVORITES"), _favorites.size(), tr("UI_FAV_TIP")]
+		fav.tooltip_text = _category_title(FAV_CATEGORY)
 
 
 func _load_prefs() -> void:
@@ -556,148 +706,264 @@ func _save_prefs() -> void:
 	cf.save(PREFS_PATH)
 
 
-func _show_part_info(id: String) -> void:
-	_info_id = id
-	_info_body.visible = id != ""
-	_info_hint.visible = id == ""
+# ------------------------------------------------------------ part detail card
+## Opens the detail card beside the palette, level with `anchor` (a card or a row).
+func _show_detail(id: String, anchor: Control = null) -> void:
+	_detail_id = id
+	_detail.visible = id != "" and _hud_on
 	if id == "":
 		return
 	var p := PartDB.get_part(id)
-	_preview.texture = _icon(id)
-	_part_name.text = PartDB.part_name(id)
-	_part_category.text = PartDB.category_name(p.get("category", ""))
-	_chip_mass.set_chip(_mass_text(PartDB.wet_mass(p)))
-	var engine := PartDB.is_engine(p)
-	_chip_thrust.visible = engine
-	_chip_isp.visible = engine
-	if engine:
-		_chip_thrust.set_chip("%s / %s kN" % [numk(p.get("thrust_sl_kn", 0), 1), numk(p.get("thrust_vac_kn", 0), 1)])
-		_chip_isp.set_chip("%s / %s s" % [numk(p.get("isp_sl_s", 0)), numk(p.get("isp_vac_s", 0))])
-	var prop := PartDB.prop_mass(p)
-	_chip_prop.visible = prop > 0.0 and not engine
-	if prop > 0.0 and not engine:
-		var pname := PartDB.loc(PartDB.propellants.get(p.get("propellant", ""), {}).get("name", ""))
-		_chip_prop.set_chip(_mass_text(prop), MarginChip.Tone.NEUTRAL, "%s\n%s" % [tr("UI_CHIP_PROP_TIP"), pname])
+	%DetailThumb.texture = _icon(id)
+	%DetailName.text = PartDB.part_name(id)
+	var cat: String = p.get("category", "")
+	%DetailCategory.text = PartDB.category_name(cat)
+	var key := _category_bar.get_node_or_null(cat) as Button
+	%DetailCatIcon.texture = key.icon if key else null
+	%DetailDesc.text = PartDB.loc(p.get("desc", ""))
+	# what the advisor thinks of it
+	var rec := _rec_of(id)
+	var fit := PartAdvisor.engine_fit(id, _specs, _focus)
+	var advice: Control = %DetailAdvice
+	advice.visible = true
+	if not rec.is_empty():
+		%DetailAdviceIcon.texture = ICON_STAR
+		%DetailAdviceText.text = PartAdvisor.reason_text(rec)
+	elif fit < 0:
+		%DetailAdviceIcon.texture = ICON_WARN
+		var have := PartAdvisor.matching_props(_specs, _focus).keys()
+		%DetailAdviceText.text = tr("ADV_P_MISMATCH") % [_short_name(id), PartAdvisor.prop_name(p.get("propellant", "")),
+			PartAdvisor.prop_name(have[0] if not have.is_empty() else "")]
+	elif fit > 0:
+		%DetailAdviceIcon.texture = ICON_OK
+		%DetailAdviceText.text = tr("HG_FITS")
+	else:
+		advice.visible = false
+	# plain stats
+	var sl := float(p.get("thrust_sl_kn", 0.0))
+	var vac := float(p.get("thrust_vac_kn", 0.0))
+	_detail_row("Thrust", sl > 0.0, HangarFormat.thrust(sl))
+	_detail_row("ThrustVac", vac > 0.0, HangarFormat.thrust(vac))
+	var isl := float(p.get("isp_sl_s", 0.0))
+	var ivac := float(p.get("isp_vac_s", 0.0))
+	_detail_row("Isp", ivac > 0.0, ("%s–%s s" % [HangarFormat.numk(isl), HangarFormat.numk(ivac)]) if isl > 0.0
+		else "%s s" % HangarFormat.numk(ivac))
+	var prop: String = p.get("propellant", "")
+	%CapFuel.visible = prop != ""
+	%ValFuel.visible = prop != ""
+	%FuelName.text = PartAdvisor.prop_name(prop)
+	%FuelDrop.modulate = _prop_color(prop)
+	var load_kg := PartDB.prop_mass(p)
+	_detail_row("Carries", load_kg > 0.0, HangarFormat.mass(load_kg))
+	_detail_row("Mass", true, HangarFormat.mass(PartDB.wet_mass(p)))
 	var size: String = p.get("size", "")
-	_chip_size.visible = PartDB.size_classes.has(size)
-	if _chip_size.visible:
-		_chip_size.set_chip("%s · Ø %s m" % [size, num(PartDB.size_classes[size], 2)])
-	_chip_cost.set_chip("US$ %s M" % num(p.get("cost_musd", 0), 2))
-	_part_desc.text = PartDB.loc(p.get("desc", ""))
+	_detail_row("Size", PartDB.size_classes.has(size),
+		"%s · Ø %s m" % [size, HangarFormat.num(float(PartDB.size_classes.get(size, 0.0)), 2)])
+	var rel := float(p.get("reliability", 0.0))
+	_detail_row("Rel", rel > 0.0, "%s%%" % HangarFormat.num(rel * 100.0, 1))
+	_detail_row("Cost", true, HangarFormat.money(float(p.get("cost_musd", 0.0))))
+	_place_detail(anchor)
+	_place_detail.call_deferred(anchor)  # again once the wrapped labels know their width
 
 
-# ------------------------------------------------------------ stages, checks and readout
-## extra: {"parts": int, "cost": float, "stable": int (-1 unknown, 0 no, 1 yes, 2 gimbal)}
+func _detail_row(row: String, on: bool, value: String) -> void:
+	var cap := _detail.find_child("Cap" + row, true, false) as Control
+	var val := _detail.find_child("Val" + row, true, false) as Label
+	cap.visible = on
+	val.visible = on
+	val.text = value
+
+
+func _place_detail(anchor: Control) -> void:
+	if not _detail.visible:
+		return
+	_detail.size = Vector2(_detail.custom_minimum_size.x, 0.0)
+	_detail.reset_size()
+	var vp := _root.size
+	var x := _parts_panel.position.x + _parts_panel.size.x + 12.0
+	var y := _parts_panel.position.y
+	if is_instance_valid(anchor) and anchor.is_inside_tree():
+		y = (_root.get_global_transform().affine_inverse() * anchor.global_position).y - 12.0
+	y = clampf(y, _parts_panel.position.y, vp.y - _detail.size.y - 16.0)
+	_detail.position = Vector2(x, y)
+
+
+# ------------------------------------------------------------ goal, meters, problems, stages
+func _fill_goal() -> void:
+	var m := FlightSession.mission
+	var actions := embedded and not m.is_empty()
+	%GoalActions.visible = actions
+	%GoalHint.visible = actions
+	if m.is_empty():
+		_subtitle.text = tr("HG_FREE")
+		_goal_caption.text = tr("HG_FREE")
+		_goal_title.text = tr("HG_FREE_GOAL")
+		_goal_line.text = tr("HG_NEED_DV") % HangarFormat.numk(PartAdvisor.LEO_DV)
+		return
+	var title := String(m.get("title", ""))
+	_subtitle.text = title if title != "" else tr("HG_MISSION")
+	_goal_caption.text = tr("HG_MISSION")
+	_goal_title.text = title
+	var bits := PackedStringArray()
+	if String(m.get("target", "")) != "":
+		bits.append(tr("HG_TARGET") % String(m["target"]))
+	if float(m.get("payload_kg", 0.0)) > 0.0:
+		bits.append(tr("HG_PAYLOAD") % HangarFormat.mass(float(m["payload_kg"])))
+	if bool(m.get("crewed", false)):
+		bits.append(tr("UI_CREW"))
+	_goal_line.text = " · ".join(bits)
+
+
+## The part the player just picked up (the advice follows it: a tank asks for its engines).
+func set_focus(id: String) -> void:
+	if _last_extra.get("focus", "") == id:
+		return
+	var extra := _last_extra.duplicate()
+	extra["focus"] = id
+	# deferred: the click that picked the part may come from a card this refresh rebuilds
+	show_analysis.call_deferred(_last_analysis, extra)
+
+
+## extra: {"parts": int, "cost": float, "stable": int (-1 unknown, 0 no, 1 yes, 2 gimbal),
+## "specs": stage specs (Vessel.compute_stages), "fairing_kg": float, "focus": part id}
 func show_analysis(a: Dictionary, extra: Dictionary) -> void:
 	_last_analysis = a
 	_last_extra = extra
-	for c in _stage_list.get_children():
-		_stage_list.remove_child(c)
-		c.queue_free()
-	for c in _checks.get_children():
-		_checks.remove_child(c)
-		c.queue_free()
-	var stages: Array = a.get("stages", [])
+	_specs = extra.get("specs", [])
+	_focus = extra.get("focus", "")
+	var goal := current_goal()
 	var n_parts := int(extra.get("parts", 0))
+	var stable := int(extra.get("stable", -1))
+	var fairing := float(extra.get("fairing_kg", 0.0))
+	# with a payload the goal figures fly it on top
+	var ga := a
+	if not _specs.is_empty() and float(goal.get("payload_kg", 0.0)) > 0.0:
+		ga = PartAdvisor.evaluate(_specs, goal, fairing)
+	var ctx := {"focus": _focus, "stable": stable, "fairing_kg": fairing, "analysis": ga,
+		"cost": float(extra.get("cost", 0.0))}
+	_recs = PartAdvisor.advise(_specs, goal, ctx)
+	_problems = PartAdvisor.problems(_specs, goal, ctx)
 	_empty_hint.visible = _hud_on and n_parts == 0
-	_stages_empty.visible = stages.is_empty()
-	_ro_parts.text = numk(n_parts)
-	_ro_cost.text = "US$ %s M" % num(extra.get("cost", 0.0), 1)
-	_dv_target.text = tr("UI_TARGET_SHORT") % numk(LEO_TARGET)
-	for i in range(stages.size() - 1, -1, -1):
-		var card: StageCard = STAGE_CARD.instantiate()
-		_stage_list.add_child(card)
-		card.setup(stages[i], i == 0, MarginPalette.data(i))
-		card.set_detailed(_detailed)
-	_fill_dv_bar(stages)
-	if stages.is_empty():
-		_dv_value.text = "—"
-		_dv_value.add_theme_color_override("font_color", MarginPalette.TEXT_DIM)
-		_ro_twr.text = "—"
-		_ro_twr.add_theme_color_override("font_color", MarginPalette.TEXT_DIM)
-		_ro_mass.text = _mass_text(a.get("mass_kg", 0.0)) if n_parts > 0 else "—"
+	_fill_meters(ga, goal, extra)
+	_fill_verdict(n_parts)
+	_fill_problems()
+	_fill_stages(a)
+	_fill_goal()
+	if _category == REC_CATEGORY and _search == "":
+		_fill_parts(true)
 	else:
-		var dv: float = a["ascent_dv"]
-		_dv_value.text = "%s m/s" % numk(dv)
-		_dv_value.add_theme_color_override("font_color", MarginPalette.SUCCESS if dv >= LEO_TARGET else MarginPalette.WARNING)
-		var twr: float = a.get("liftoff_twr", 0.0)
-		_ro_twr.text = num(twr, 2)
-		var tc := MarginPalette.SUCCESS if twr >= 1.2 else (MarginPalette.WARNING if twr >= 1.0 else MarginPalette.DANGER)
-		_ro_twr.add_theme_color_override("font_color", tc)
-		_ro_mass.text = _mass_text(a["mass_kg"])
-	_fill_checks(a.get("warnings", []), int(extra.get("stable", -1)), n_parts)
-	_fit_stage_list.call_deferred()
+		_fill_rec_strip()
+		_refresh_cards()
+	_update_tabs()
 
 
-## Stacked Δv bar: one segment per stage (stage colours), the rest of the LEO target empty.
-func _fill_dv_bar(stages: Array) -> void:
-	var total := 0.0
-	for st in stages:
-		total += float(st["dv_vac"])
-	var segs := _dv_stack.get_children().filter(func(n: Node) -> bool: return n is ColorRect)
-	for i in segs.size():
-		var seg := segs[i] as ColorRect
-		seg.visible = i < stages.size() and float(stages[i]["dv_vac"]) > 0.0
-		if seg.visible:
-			seg.size_flags_stretch_ratio = maxf(float(stages[i]["dv_vac"]), 1.0)
-			seg.tooltip_text = "%s · %s m/s" % [tr("UI_STAGE_N") % stages[i]["stage"], numk(stages[i]["dv_vac"])]
-	var ascent: float = _last_analysis.get("ascent_dv", 0.0)
-	var scale := total / maxf(ascent, 1.0)  # segments are vac Δv; the bar shows the ascent share
-	_dv_rest.visible = ascent < LEO_TARGET
-	_dv_rest.size_flags_stretch_ratio = maxf((LEO_TARGET - ascent) * scale, 1.0)
+## One meter row: the value (counted up by its CwNumberTicker when `fmt` is given), the note
+## under the bar and the bar itself (fill 0..1, goal tick at `marker`, < 0 = none).
+func _meter(m: Control, value: float, fmt: Callable, note: String, fill: float, marker: float, tone: Color,
+		bar_on := true) -> void:
+	var lbl := m.get_node("Col/Top/Value") as Label
+	if fmt.is_valid():
+		CwNumberTicker.show(lbl, value, fmt)
+	else:
+		lbl.text = "—"
+	lbl.add_theme_color_override("font_color", tone)
+	(m.get_node("Col/Note") as Label).text = note
+	var bar := m.get_node("Col/Bar") as CwSegmentBar
+	bar.visible = bar_on
+	bar.value = clampf(fill, 0.0, 1.0)
+	bar.marker = marker
 
 
-func _match_warning(line: String, key: String) -> bool:
-	var parts := tr(key).split("%")
-	for i in parts.size():
-		var frag := parts[i]
-		if i > 0:
-			var j := 0
-			while j < frag.length() and not ("sdfi".contains(frag[j])):
-				j += 1
-			frag = frag.substr(j + 1)
-		frag = frag.strip_edges()
-		if frag != "" and not line.contains(frag):
-			return false
-	return true
+func _fill_meters(a: Dictionary, goal: Dictionary, extra: Dictionary) -> void:
+	var none := (a.get("stages", []) as Array).is_empty()
+	var need := float(goal.get("dv_needed", 0.0))
+	var dv := float(a.get("ascent_dv", 0.0))
+	var dv_tone := CwPalette.TEXT_DIM if none else (CwPalette.SUCCESS if dv >= need else CwPalette.WARNING)
+	var fmt_dv := func(v: float) -> String: return "%s m/s" % HangarFormat.numk(v)
+	var fmt_twr := func(v: float) -> String: return HangarFormat.num(v, 2)
+	var fmt_cost := func(v: float) -> String: return HangarFormat.money(v)
+	var fmt_mass := func(v: float) -> String: return HangarFormat.mass(v)
+	_meter(_meter_dv, dv, Callable() if none else fmt_dv,
+		tr("HG_GOAL_OF") % ("%s m/s" % HangarFormat.numk(need)) if need > 0.0 else "",
+		dv / maxf(need * GOAL_SPAN, 1.0), 1.0 / GOAL_SPAN if need > 0.0 else -1.0, dv_tone)
+	var twr := float(a.get("liftoff_twr", 0.0))
+	var twr_tone := CwPalette.TEXT_DIM if none else (CwPalette.SUCCESS if twr >= PartAdvisor.TWR_GOOD
+		else (CwPalette.WARNING if twr >= PartAdvisor.TWR_MIN else CwPalette.DANGER))
+	_meter(_meter_twr, twr, Callable() if none else fmt_twr, tr("HG_TWR_NEED"), twr / TWR_SPAN,
+		PartAdvisor.TWR_GOOD / TWR_SPAN, twr_tone)
+	var cost := float(extra.get("cost", 0.0))
+	var budget := float(goal.get("budget_musd", 0.0))
+	var cost_tone := CwPalette.DANGER if budget > 0.0 and cost > budget else CwPalette.INK
+	_meter(_meter_cost, cost, fmt_cost,
+		tr("HG_BUDGET_OF") % HangarFormat.money(budget) if budget > 0.0 else tr("HG_NO_BUDGET"),
+		cost / maxf(budget * GOAL_SPAN, 0.001), 1.0 / GOAL_SPAN, cost_tone, budget > 0.0)
+	var n_parts := int(extra.get("parts", 0))
+	var payload := float(goal.get("payload_kg", 0.0))
+	var notes := PackedStringArray([tr("HG_PARTS_N") % n_parts])
+	if payload > 0.0:
+		notes.append(tr("HG_PAYLOAD") % HangarFormat.mass(payload))
+	_meter(_meter_mass, float(a.get("mass_kg", 0.0)), fmt_mass if n_parts > 0 else Callable(), " · ".join(notes),
+		0.0, -1.0, CwPalette.INK if n_parts > 0 else CwPalette.TEXT_DIM, false)
 
 
-func _add_check(label: String, tone: MarginChip.Tone, tip: String) -> MarginChip:
-	var chip: MarginChip = CHIP.instantiate()
-	_checks.add_child(chip)
-	var icon: Texture2D = {MarginChip.Tone.OK: ICON_OK, MarginChip.Tone.WARN: ICON_WARN,
-		MarginChip.Tone.DANGER: ICON_DANGER}.get(tone, ICON_INFO)
-	chip.set_chip(label, tone, tip, icon)
-	return chip
+func _fill_verdict(n_parts: int) -> void:
+	var before := _verdict.text
+	_fill_verdict_text(n_parts)
+	if _verdict.text != before and is_inside_tree():
+		CwMotion.poke(_verdict)
 
 
-func _fill_checks(warns: Array, stable: int, n_parts: int) -> void:
-	var worst := MarginChip.Tone.OK
-	for line: String in warns:
-		var label := tr("UI_ISSUE")
-		var tone := MarginChip.Tone.WARN
-		for wb in WARN_BADGES:
-			if _match_warning(line, wb[0]):
-				label = tr(wb[1])
-				tone = wb[2]
-				break
-		_add_check(label, tone, line)
-		if tone == MarginChip.Tone.DANGER or worst == MarginChip.Tone.OK:
-			worst = tone
-	if stable == 1:
-		_add_check(tr("STAB_S_STABLE"), MarginChip.Tone.OK, tr("UI_STABLE"))
-	elif stable == 2:
-		_add_check(tr("STAB_S_GIMBAL"), MarginChip.Tone.INFO, tr("UI_GIMBAL"))
-	_checks.visible = _checks.get_child_count() > 0 or (n_parts > 0 and warns.is_empty())
-	_checks_head.visible = _checks.visible
+func _fill_verdict_text(n_parts: int) -> void:
+	_btn_launch.disabled = n_parts == 0
+	(%BtnUse as Button).disabled = n_parts == 0
 	if n_parts == 0:
-		_ro_status.set_chip(tr("UI_EMPTY_SHORT"), MarginChip.Tone.NEUTRAL, tr("UI_EMPTY"), ICON_INFO)
-	elif warns.is_empty():
-		_add_check(tr("OK_READY_SHORT"), MarginChip.Tone.OK, tr("OK_READY"))
-		_ro_status.set_chip(tr("OK_READY_SHORT"), MarginChip.Tone.OK, tr("OK_READY"), ICON_OK)
+		_verdict.text = tr("HG_EMPTY")
+		_verdict_icon.texture = ICON_STAR
+		_verdict_mini.texture = ICON_STAR
+		_verdict_pill.tooltip_text = tr("HG_EMPTY_TEXT")
+		return
+	if _problems.is_empty():
+		_verdict.text = tr("HG_READY")
+		_verdict_icon.texture = ICON_OK
 	else:
-		var text := tr("UI_ISSUE_1") if warns.size() == 1 else tr("UI_ISSUES") % warns.size()
-		var tips := PackedStringArray()
-		for line: String in warns:
-			tips.append("• " + line)
-		_ro_status.set_chip(text, worst, "\n".join(tips), ICON_DANGER if worst == MarginChip.Tone.DANGER else ICON_WARN)
+		_verdict.text = tr("HG_PROBLEM_1") if _problems.size() == 1 else tr("HG_PROBLEMS") % _problems.size()
+		_verdict_icon.texture = ICON_DANGER if int(_problems[0]["tone"]) == PartAdvisor.Tone.DANGER else ICON_WARN
+	_verdict_mini.texture = _verdict_icon.texture
+	var tips := PackedStringArray([_verdict.text])
+	for pr in _problems:
+		tips.append("• " + PartAdvisor.problem_text(pr))
+	_verdict_mini.tooltip_text = "\n".join(tips)
+
+
+func _fill_problems() -> void:
+	_clear(_problem_list)
+	for pr in _problems:
+		var row := _tpl_problem.duplicate() as Control
+		row.unique_name_in_owner = false
+		(row.get_node("Icon") as TextureRect).texture = ICON_DANGER if int(pr["tone"]) == PartAdvisor.Tone.DANGER else ICON_WARN
+		(row.get_node("Text") as Label).text = PartAdvisor.problem_text(pr)
+		row.visible = true
+		_problem_list.add_child(row)
+
+
+func _fill_stages(a: Dictionary) -> void:
+	_clear(_stage_list)
+	var stages: Array = a.get("stages", [])
+	var parts: Array = a.get("stage_parts", [])
+	for i in range(stages.size() - 1, -1, -1):
+		var st: Dictionary = stages[i]
+		var card := _tpl_stage.duplicate() as Control
+		card.unique_name_in_owner = false
+		var color := stage_colors[i % stage_colors.size()] if not stage_colors.is_empty() else CwPalette.PEACH
+		(card.get_node("Row/Stripe") as ColorRect).color = color
+		(card.get_node("Row/Texts/Head/Name") as Label).text = tr("HG_STAGE_N") % int(st["stage"])
+		(card.get_node("Row/Texts/Head/First") as Control).visible = i == 0
+		(card.get_node("Row/Texts/Head/Dv") as Label).text = "%s m/s" % HangarFormat.numk(st["dv_vac"])
+		var twr := float(st["twr_sl"] if i == 0 else st["twr_vac"])
+		var bits := PackedStringArray(["%s %s" % [tr("STAT_TWR"), HangarFormat.num(twr, 2)], HangarFormat.mass(st["m0_kg"])])
+		if i < parts.size():
+			bits.append(tr("HG_PARTS_N") % (parts[i] as Array).size())
+		(card.get_node("Row/Texts/Line") as Label).text = " · ".join(bits)
+		card.visible = true
+		_stage_list.add_child(card)
+	_stages_empty.visible = stages.is_empty() and not _tab_crew.button_pressed

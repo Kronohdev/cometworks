@@ -136,6 +136,86 @@ WARN_S_DV_LOW,Δv short,Δv curto
 WARN_S_UNSTABLE,Unstable,Instável
 STAB_S_STABLE,Stable,Estável
 STAB_S_GIMBAL,Gimbal,Gimbal
+ADV_START,Start here: the rocket's brain,Comece por aqui: o cérebro do foguete
+ADV_START_CREW,Crewed mission: start with the capsule,Missão tripulada: comece pela cápsula
+ADV_CREW,The mission flies people: they need seats,A missão leva gente: precisa de assentos
+ADV_NO_CORE,No flight computer: nothing steers the rocket,Sem computador de bordo: ninguém pilota o foguete
+ADV_TANK_FOR,Carries %s for the %s,Leva %s para o %s
+ADV_ENGINE_FOR,"Burns %s, like your tank","Queima %s, como o seu tanque"
+ADV_FIRST_STAGE,The first stage needs fuel,O primeiro estágio precisa de combustível
+ADV_SL_ENGINE,Vacuum engines don't push at the pad,Motor de vácuo não empurra na plataforma
+ADV_MORE_THRUST,More push: liftoff thrust/weight is only %s,Mais força: empuxo/peso na decolagem é só %s
+ADV_BOOSTERS,Side boosters: an extra kick at liftoff,Propulsores laterais: um empurrão extra na decolagem
+ADV_BOOSTER_MOUNT,Holds the side boosters (and drops them),Segura os propulsores laterais (e solta depois)
+ADV_UPPER_STAGE,Split it in stages: %s m/s missing,Divida em estágios: faltam %s m/s
+ADV_MORE_TANK,More fuel: %s m/s missing,Mais combustível: faltam %s m/s
+ADV_FAIRING,Protects the payload on the way up,Protege a carga na subida
+ADV_NOSE,A pointy nose: less drag,Uma ponta afiada: menos arrasto
+ADV_FINS,Fins keep it flying straight,Aletas mantêm o voo reto
+ADV_P_NO_CORE,No flight computer on board,Sem computador de bordo
+ADV_P_NO_CREW,"Crewed mission, but no seats","Missão tripulada, mas sem assentos"
+ADV_P_NO_FUEL,%s has no %s to burn,%s não tem %s para queimar
+ADV_P_MISMATCH,"%s burns %s, but the tank carries %s","%s queima %s, mas o tanque leva %s"
+ADV_P_NO_ENGINE,The first stage has no engine,O primeiro estágio não tem motor
+ADV_P_TWR_LOW,Too heavy to lift off (thrust/weight %s),Pesado demais para decolar (empuxo/peso %s)
+ADV_P_TWR_MARGINAL,"Slow liftoff (thrust/weight %s, aim for 1.2)","Decolagem lenta (empuxo/peso %s, busque 1,2)"
+ADV_P_DV_SHORT,Short of the goal by %s m/s,Faltam %s m/s para a meta
+ADV_P_OVER_BUDGET,Over budget by US$ %s M,Acima do orçamento em US$ %s M
+ADV_P_UNSTABLE,It may tumble: add fins or a steerable engine,Pode capotar: ponha aletas ou um motor que vira
+HG_TITLE,Rocket workshop,Oficina de foguetes
+HG_FREE,Free workshop,Oficina livre
+HG_FREE_GOAL,Training goal: low orbit,Meta de treino: órbita baixa
+HG_MISSION,Mission,Missão
+HG_TARGET,Target: %s,Alvo: %s
+HG_BACK,Back,Voltar
+HG_PARTS,Parts,Peças
+HG_SEARCH,Search parts…,Buscar peças…
+HG_RECOMMENDED,Recommended,Recomendado
+HG_FOR_YOU,Recommended for you,Recomendado para você
+HG_ADD_TIP,Put it on the rocket in the obvious place (or in your hand if there is none),"Coloca no foguete no lugar certo (ou na sua mão, se não houver)"
+HG_NO_ADVICE,Looking good! No suggestions right now.,Tudo certo! Nenhuma sugestão agora.
+HG_SEE_ALL,See all %d,Ver todas (%d)
+HG_OTHER_FUEL,Other fuel,Outro combustível
+HG_FITS,Fits your tank,Combina com o tanque
+HG_YOUR_ROCKET,Your rocket,Seu foguete
+HG_STAT_DV,Reach (Δv),Alcance (Δv)
+HG_STAT_TWR,Liftoff push,Força na decolagem
+HG_STAT_COST,Cost,Custo
+HG_STAT_MASS,Mass,Massa
+HG_GOAL_OF,goal %s,meta %s
+HG_TWR_NEED,needs 1.2+,"precisa 1,2+"
+HG_BUDGET_OF,budget %s,orçamento %s
+HG_NO_BUDGET,no budget limit,sem limite de orçamento
+HG_PAYLOAD,payload %s,carga %s
+HG_PARTS_N,%d parts,%d peças
+HG_READY,Ready to launch!,Pronto para lançar!
+HG_PROBLEMS,%d things to fix,%d coisas para arrumar
+HG_PROBLEM_1,1 thing to fix,1 coisa para arrumar
+HG_EMPTY,Empty pad,Plataforma vazia
+HG_STAGES,Stages,Estágios
+HG_STAGE_N,Stage %d,Estágio %d
+HG_STAGE_FIRST,lights first,acende primeiro
+HG_STAGES_EMPTY,Stages show up once an engine has fuel.,Os estágios aparecem quando um motor tem combustível.
+HG_EMPTY_TITLE,Let's build a rocket!,Vamos montar um foguete!
+HG_EMPTY_TEXT,Pick a part on the left. The Recommended list knows where to start.,Escolha uma peça à esquerda. A lista Recomendado sabe por onde começar.
+HG_ADDED,Added: %s,Colocado: %s
+HG_IN_HAND,In your hand: %s. Click the rocket to attach it.,Na mão: %s. Clique no foguete para encaixar.
+HG_D_ISP,Efficiency (Isp),Eficiência (Isp)
+HG_D_FUEL,Fuel,Combustível
+HG_D_CARRIES,Carries,Leva
+HG_D_MASS,Mass,Massa
+HG_D_COST,Cost,Custo
+HG_D_SIZE,Fits,Encaixe
+HG_D_REL,Reliability,Confiabilidade
+HG_D_TIP,Click: pick it up · Right-click: favorite,Clique: pegar · Botão direito: favorito
+HG_MARKERS,Markers,Marcadores
+HG_DV_TIP,Δv is how much the rocket can change its speed. The goal says how much the trip needs.,Δv é quanto o foguete consegue mudar de velocidade. A meta diz quanto a viagem precisa.
+HG_TWR_TIP,"Thrust divided by weight at liftoff: above 1 it leaves the pad, 1.2 or more is comfortable.","Empuxo dividido pelo peso na decolagem: acima de 1 sai do chão, 1,2 ou mais é confortável."
+HG_COMPATIBLE,Goes well with your rocket,Combina com o seu foguete
+HG_CREW_HINT,Pick the crew in the panel beside this one.,Escale a tripulação no painel ao lado.
+HG_D_THRUST_SL,Push at the pad,Força no chão
+HG_D_THRUST_SPACE,Push in space,Força no espaço
+HG_NEED_DV,Needs %s m/s of Δv,Precisa de %s m/s de Δv
 KEY_LMB,LMB,BE
 KEY_ALT_LMB,Alt + LMB,Alt + BE
 KEY_RMB,RMB,BD

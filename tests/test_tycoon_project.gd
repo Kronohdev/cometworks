@@ -15,6 +15,7 @@ func _initialize() -> void:
 	_test_expectation_rises()
 	_test_orbital_launch()
 	_test_contract_and_errors()
+	await _test_outcome_grade()
 	print("RESULT: %s" % ("PASS" if _failures == 0 else "FAIL (%d)" % _failures))
 	quit(1 if _failures else 0)
 
@@ -163,8 +164,8 @@ func _test_sounding_project() -> void:
 			"review %s: %d" % [r["id"], r["score"]])
 	_check(String(s.staff[0]["assigned"]) == "" and float(s.staff[0]["xp"]) > 0.0, "team released with XP")
 	_check(s.active_missions.is_empty(), "suborbital missions do not go to active_missions")
-	var spent := 3 * 3000.0 + 30000.0
-	_check(absf((cash0 - s.cash + race[0]) - spent) < 0.01, "paid 3 weeks + the launch (%.0f)" % (cash0 - s.cash))
+	var spent := 3 * 3000.0 + 30000.0 + PayloadRules.cost(h["payload"])
+	_check(absf((cash0 - s.cash + race[0]) - spent) < 0.01, "paid 3 weeks + the launch + the payload (%.0f)" % (cash0 - s.cash))
 	if h["success"]:
 		# the lab adds its own weekly points on top of the mission's science
 		_check(s.research_points >= float(h["science"]) * 0.5 - 1e-4 and s.research_points > 0.0,
@@ -180,29 +181,29 @@ func _test_sliders_change_grade() -> void:
 	var balanced := _run_sounding(_state(5), [[50, 20, 30], [45, 20, 35], [20, 10, 70]])
 	var lopsided := _run_sounding(_state(5), [[0, 100, 0], [0, 100, 0], [0, 0, 100]])
 	var no_tests := _run_sounding(_state(5), [[50, 20, 30], [60, 40, 0], [50, 50, 0]])
-	var gb := float(balanced["grade"])
-	var gl := float(lopsided["grade"])
+	var gb := ProjectDesk.project_grade(balanced)
+	var gl := ProjectDesk.project_grade(lopsided)
 	print("    balanced %.2f (m %.2f)  science-heavy %.2f  no tests %.2f (defects %.2f vs %.2f)" % [gb,
 		MissionProject.ratio_match(MissionProject.fractions_of(balanced["pts"]), [0.4, 0.2, 0.15, 0.25]), gl,
-		float(no_tests["grade"]), float(no_tests["defects"]), float(balanced["defects"])])
+		ProjectDesk.project_grade(no_tests), float(no_tests["defects"]), float(balanced["defects"])])
 	_check(gb > gl + 1.0, "sliders near the ideal ratio grade higher than all-science (%.2f > %.2f)" % [gb, gl])
 	var fb := MissionProject.fractions_of(balanced["pts"])
 	var fl := MissionProject.fractions_of(lopsided["pts"])
 	_check(fl[1] > fb[1], "more science slider -> larger science fraction")
 	_check(float(no_tests["defects"]) > float(balanced["defects"]), "skipping the test sliders leaves more defects")
-	_check(float(no_tests["grade"]) < gb, "and a lower grade")
+	_check(ProjectDesk.project_grade(no_tests) < gb, "and a lower grade")
 	# monotonic: sweeping the payload (science) slider of phase 1 away from the ideal lowers the grade
 	var last := 11.0
 	var mono := true
 	for sci: int in [20, 50, 80, 100]:
 		var rest: int = 100 - sci
 		var h := _run_sounding(_state(5), [[rest / 2, sci, rest - rest / 2], [45, 20, 35], [20, 10, 70]])
-		mono = mono and float(h["grade"]) <= last + 1e-6
-		last = float(h["grade"])
+		mono = mono and ProjectDesk.project_grade(h) <= last + 1e-6
+		last = ProjectDesk.project_grade(h)
 	_check(mono, "grade falls steadily as the science slider moves past the ideal")
 	# a bigger team does more work: q rises, grade does not fall
 	var small := _run_sounding(_state(5), [[50, 20, 30], [45, 20, 35], [20, 10, 70]], ["a"])
-	_check(float(small["grade"]) < gb, "one Cometling alone grades lower than the team (%.2f)" % float(small["grade"]))
+	_check(ProjectDesk.project_grade(small) < gb, "one Cometling alone grades lower than the team (%.2f)" % ProjectDesk.project_grade(small))
 
 
 # ------------------------------------------------------------ determinism, save / load
@@ -248,6 +249,11 @@ func _test_expectation_rises() -> void:
 	s.project_history.append({"type": "demo_sat", "week": s.weeks, "grade": 9.0})
 	var e2 := MissionProject.expected_points(s, "sounding", s.project_history)
 	_check(absf(e2 - e0 * 1.1 * (1.0 + 0.03 * 4.0)) < 1e-4, "the best recent grade raises it too")
+	# a failed flight's mission grade is cut, but the expectation reads the project grade
+	var t := _state()
+	t.project_history.append({"type": "demo_sat", "week": t.weeks, "grade": 9.0 * 0.35, "grade_project": 9.0, "outcome": "fail"})
+	_check(absf(MissionProject.expected_points(t, "sounding", t.project_history) - e0 * (1.0 + 0.03 * 4.0)) < 1e-4,
+		"a rocket failure does not lower the expectation (it uses grade_project)")
 	s.weeks = 5 * 52 + 200
 	_check(MissionProject.expected_points(s, "sounding", s.project_history) > e2, "a later era expects more")
 	_check(ProjectDesk.next_code(s, "sounding") == "SND-02", "codes count up per type")
@@ -296,6 +302,59 @@ func _test_contract_and_errors() -> void:
 	_check(ProjectDesk.start_error(s, "sounding", "suborbital", []) == "TY_PJ_ERR_TEAM", "a project needs a team")
 	s.cash = 100.0
 	_check(ProjectDesk.start_error(s, "sounding", "suborbital", ["b"]) == "TY_PJ_ERR_CASH", "and the money for it")
+
+
+# ------------------------------------------------------------ the mission grade counts the flight
+## A well-built sounding forced to fail keeps at most launch.outcome_grade.fail (0.35) of its
+## project grade as the mission grade, and the review shows that; forced to succeed, the
+## mission grade is the project grade. Old saves without grade_project are converted on load.
+func _test_outcome_grade() -> void:
+	print("mission grade")
+	var sl := [[50, 20, 30], [45, 20, 35], [20, 10, 70]]
+	ProjectDesk.dev_force_outcome = "fail"
+	var sf := _state(5)
+	var hf := _run_sounding(sf, sl)
+	ProjectDesk.dev_force_outcome = "success"
+	var ss := _state(5)
+	var hs := _run_sounding(ss, sl)
+	ProjectDesk.dev_force_outcome = ""
+	var gpf := ProjectDesk.project_grade(hf)
+	print("    failed: mission %.2f of project %.2f   success: mission %.2f of project %.2f" % [float(hf.get("grade", 0)), gpf,
+		float(hs.get("grade", 0)), ProjectDesk.project_grade(hs)])
+	_check(hf.get("outcome") == "fail" and not hf.get("success", true) and hs.get("success", false), "forced outcomes: a failure and a success")
+	_check(hf.has("grade_project") and gpf >= 5.5, "the failed project was well built (project grade %.2f)" % gpf)
+	_check(float(hf["grade"]) <= 0.35 * gpf + 1e-6, "a failed launch keeps at most 0.35 of the project grade (%.2f)" % float(hf["grade"]))
+	_check(absf(ProjectDesk.project_grade(hs) - gpf) < 1e-6, "the launch roll does not change the project grade")
+	_check(absf(float(hs["grade"]) - ProjectDesk.project_grade(hs)) < 1e-6, "a full success keeps the project grade as the mission grade")
+	# the review: the big number is the mission grade, the project grade under it only when cut
+	TranslationServer.set_locale("pt_BR")
+	for i in 2:
+		var failed := i == 0
+		var h: Dictionary = hf if failed else hs
+		var scr := (load("res://scenes/tycoon/ui/screens/project_review.tscn") as PackedScene).instantiate()
+		get_root().add_child(scr)
+		scr.bind(sf if failed else ss, null, null)
+		scr.open_with({"project_id": String(h["id"])})
+		await create_timer(1.2).timeout
+		var shown := String((scr.get_node("%Grade") as Label).text)
+		_check(shown == "%.1f" % float(h["grade"]), "review (%s): the big number is the mission grade (%s)" % ["fail" if failed else "success", shown])
+		_check(String((scr.get_node("%GradeCaption") as Label).text) == "TY_PJ_GRADE_MISSION", "review: captioned as the mission grade")
+		var gp := scr.get_node("%GradeProject") as Label
+		if failed:
+			_check(gp.visible and gp.text.contains("%.1f" % gpf), "review (fail): the project grade under it (%s)" % gp.text)
+		else:
+			_check(not gp.visible, "review (success): no project line when the grades agree")
+		scr.queue_free()
+		await process_frame
+	# saves from before grade_project
+	var so := _state()
+	ProjectDesk.restore(so, {"project_history": [{"id": "OLD-1", "type": "sounding", "grade": 8.0, "outcome": "fail"},
+		{"id": "OLD-2", "type": "sounding", "grade": 7.0, "outcome": "full"}]})
+	var o1 := ProjectDesk.history_entry(so, "OLD-1")
+	var o2 := ProjectDesk.history_entry(so, "OLD-2")
+	_check(absf(ProjectDesk.project_grade(o1) - 8.0) < 1e-6 and absf(float(o1["grade"]) - 8.0 * 0.35) < 1e-6,
+		"an old failed entry: project grade kept, mission grade cut on load")
+	_check(absf(float(o2["grade"]) - 7.0) < 1e-6 and absf(ProjectDesk.project_grade(o2) - 7.0) < 1e-6, "an old success is unchanged")
 
 
 func _check(ok: bool, msg: String) -> void:

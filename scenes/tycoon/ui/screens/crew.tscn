@@ -7,13 +7,20 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="5_seg"]
 [ext_resource type="Shader" path="res://ui/cometworks/visor_mask.gdshader" id="6_mask"]
 [ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="7_creature"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="8_nav"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="9_stack"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="10_tabs"]
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_mood_face.gd" id="11_face"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_portrait_studio.tscn" id="12_studio"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_normal.tres" id="13_tile"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_hover.tres" id="14_tile_hover"]
+[ext_resource type="StyleBox" path="res://ui/cometworks/nav/tile_pressed.tres" id="15_tile_on"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hq.svg" id="16_hq"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 [ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
-
-[sub_resource type="ButtonGroup" id="tabs_group"]
 
 [sub_resource type="StyleBoxFlat" id="visor_ring"]
 bg_color = Color(0.8667, 0.8275, 1, 1)
@@ -22,14 +29,31 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.1686, 0.1647, 0.3608, 1)
-corner_radius_top_left = 90
-corner_radius_top_right = 90
-corner_radius_bottom_right = 90
-corner_radius_bottom_left = 90
+corner_radius_top_left = 140
+corner_radius_top_right = 140
+corner_radius_bottom_right = 140
+corner_radius_bottom_left = 140
 corner_detail = 24
 shadow_color = Color(0.1686, 0.1647, 0.3608, 1)
 shadow_offset = Vector2(0, 5)
 anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="mini_ring"]
+bg_color = Color(0.8667, 0.8275, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+corner_detail = 20
+shadow_color = Color(0.1686, 0.1647, 0.3608, 1)
+shadow_offset = Vector2(0, 3)
+anti_aliasing = true
+
 [sub_resource type="StyleBoxFlat" id="visor_glow"]
 draw_center = false
 border_width_left = 2
@@ -37,12 +61,44 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 0.55)
-corner_radius_top_left = 90
-corner_radius_top_right = 90
-corner_radius_bottom_right = 90
-corner_radius_bottom_left = 90
+corner_radius_top_left = 140
+corner_radius_top_right = 140
+corner_radius_bottom_right = 140
+corner_radius_bottom_left = 140
 corner_detail = 24
 anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="level_badge"]
+content_margin_left = 8.0
+content_margin_top = 1.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="activity_chip"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 3.0
+bg_color = Color(0.9333, 0.9098, 1, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+corner_detail = 8
+anti_aliasing = true
+
 [sub_resource type="ShaderMaterial" id="visor_mat"]
 shader = ExtResource("6_mask")
 
@@ -107,7 +163,7 @@ theme_type_variation = &"CwPanel"
 
 [node name="HBox" type="HBoxContainer" parent="Layout/Head"]
 layout_mode = 2
-theme_override_constants/separation = 22
+theme_override_constants/separation = 20
 
 [node name="Icon" type="TextureRect" parent="Layout/Head/HBox"]
 custom_minimum_size = Vector2(30, 30)
@@ -117,90 +173,83 @@ texture = ExtResource("3_crew")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Titles" type="VBoxContainer" parent="Layout/Head/HBox"]
+[node name="NavBar" parent="Layout/Head/HBox" instance=ExtResource("8_nav")]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 0
-
-[node name="Title" type="Label" parent="Layout/Head/HBox/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 26
-text = "TY_CREW_TITLE"
-
-[node name="Subtitle" type="Label" parent="Layout/Head/HBox/Titles"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "TY_CREW_SUBTITLE"
+stack = NodePath("../../../Pages")
+subtitle = "TY_CREW_SUBTITLE"
 
 [node name="Spacer" type="Control" parent="Layout/Head/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Staff" type="VBoxContainer" parent="Layout/Head/HBox"]
+[node name="Summary" type="HBoxContainer" parent="Layout/Head/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 22
+
+[node name="Staff" type="VBoxContainer" parent="Layout/Head/HBox/Summary"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Layout/Head/HBox/Staff"]
+[node name="Caption" type="Label" parent="Layout/Head/HBox/Summary/Staff"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_STAFF"
 
-[node name="StaffValue" type="Label" parent="Layout/Head/HBox/Staff"]
+[node name="StaffValue" type="Label" parent="Layout/Head/HBox/Summary/Staff"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "6 / 8"
 
-[node name="Payroll" type="VBoxContainer" parent="Layout/Head/HBox"]
+[node name="Payroll" type="VBoxContainer" parent="Layout/Head/HBox/Summary"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Layout/Head/HBox/Payroll"]
+[node name="Caption" type="Label" parent="Layout/Head/HBox/Summary/Payroll"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_PAYROLL"
 
-[node name="PayrollValue" type="Label" parent="Layout/Head/HBox/Payroll"]
+[node name="PayrollValue" type="Label" parent="Layout/Head/HBox/Summary/Payroll"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "27 500 cr"
 
-[node name="Morale" type="VBoxContainer" parent="Layout/Head/HBox"]
+[node name="Morale" type="VBoxContainer" parent="Layout/Head/HBox/Summary"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="Caption" type="Label" parent="Layout/Head/HBox/Morale"]
+[node name="Caption" type="Label" parent="Layout/Head/HBox/Summary/Morale"]
 layout_mode = 2
+tooltip_text = "TY_CREW_MORALE_TIP"
+mouse_filter = 1
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_MORALE_AVG"
 
-[node name="AvgMoraleValue" type="Label" parent="Layout/Head/HBox/Morale"]
+[node name="Row" type="HBoxContainer" parent="Layout/Head/HBox/Summary/Morale"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AvgFace" type="Control" parent="Layout/Head/HBox/Summary/Morale/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("11_face")
+
+[node name="AvgMoraleValue" type="Label" parent="Layout/Head/HBox/Summary/Morale/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "72"
-
-[node name="Market" type="VBoxContainer" parent="Layout/Head/HBox"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 0
-
-[node name="Caption" type="Label" parent="Layout/Head/HBox/Market"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_MARKET"
-
-[node name="MarketValue" type="Label" parent="Layout/Head/HBox/Market"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "3 · novos em 2 sem"
 
 [node name="Sep" type="VSeparator" parent="Layout/Head/HBox"]
 layout_mode = 2
@@ -208,32 +257,34 @@ layout_mode = 2
 [node name="Tabs" type="HBoxContainer" parent="Layout/Head/HBox"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 4
+theme_override_constants/separation = 6
+script = ExtResource("10_tabs")
+stack = NodePath("../../../Pages")
 
 [node name="RosterTab" type="Button" parent="Layout/Head/HBox/Tabs"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwKey"
 toggle_mode = true
 button_pressed = true
-button_group = SubResource("tabs_group")
 text = "TY_CREW_TAB_ROSTER"
+metadata/page = &"Roster"
 
 [node name="HireTab" type="Button" parent="Layout/Head/HBox/Tabs"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwKey"
 toggle_mode = true
-button_group = SubResource("tabs_group")
 text = "TY_CREW_TAB_HIRE"
+metadata/page = &"Hire"
 
 [node name="CloseButton" type="Button" parent="Layout/Head/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_vertical = 4
 tooltip_text = "TY_CREW_CLOSE_TIP"
@@ -241,695 +292,327 @@ focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "×"
 
-[node name="Body" type="HBoxContainer" parent="Layout"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="List" type="PanelContainer" parent="Layout/Body"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwPanel"
-
-[node name="ListBox" type="VBoxContainer" parent="Layout/Body/List"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="RosterPage" type="VBoxContainer" parent="Layout/Body/List/ListBox"]
+[node name="Pages" type="Container" parent="Layout"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 6
+script = ExtResource("9_stack")
 
-[node name="Heads" type="HBoxContainer" parent="Layout/Body/List/ListBox/RosterPage"]
+[node name="Roster" type="PanelContainer" parent="Layout/Pages"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_type_variation = &"CwPanel"
+metadata/title = "TY_CREW_TITLE"
 
-[node name="TabGap" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(3, 0)
+[node name="VBox" type="VBoxContainer" parent="Layout/Pages/Roster"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Filters" type="HFlowContainer" parent="Layout/Pages/Roster/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="FilterAll" type="Button" parent="Layout/Pages/Roster/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+button_pressed = true
+text = "Todos · 6"
+
+[node name="ProfChipTemplate" type="Button" parent="Layout/Pages/Roster/VBox/Filters"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "2 · Piloto"
+icon = ExtResource("4_star")
+expand_icon = true
+
+[node name="Gap" type="Control" parent="Layout/Pages/Roster/VBox/Filters"]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BulbGap" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(16, 0)
+[node name="FilterFree" type="Button" parent="Layout/Pages/Roster/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+tooltip_text = "TY_CREW_FILTER_FREE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_CREW_FILTER_FREE"
+
+[node name="FilterNap" type="Button" parent="Layout/Pages/Roster/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+tooltip_text = "TY_CREW_FILTER_NAP_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_CREW_FILTER_NAP"
+
+[node name="Gap2" type="Control" parent="Layout/Pages/Roster/VBox/Filters"]
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Name" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(200, 0)
+[node name="SortKey" type="Button" parent="Layout/Pages/Roster/VBox/Filters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_NAME"
+tooltip_text = "TY_CREW_SORT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_CREW_SORT_LEVEL"
 
-[node name="Level" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(36, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_LEVEL"
-horizontal_alignment = 1
-
-[node name="XP" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(104, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_XP"
-
-[node name="Skill" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-tooltip_text = "TY_CREW_SKILL_TIP"
-mouse_filter = 1
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_SKILL"
-
-[node name="Curiosity" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-tooltip_text = "TY_CREW_CURIOSITY_TIP"
-mouse_filter = 1
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_CURIOSITY"
-
-[node name="Courage" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-tooltip_text = "TY_CREW_COURAGE_TIP"
-mouse_filter = 1
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_COURAGE"
-
-[node name="Morale" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-tooltip_text = "TY_CREW_MORALE_TIP"
-mouse_filter = 1
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_MORALE"
-
-[node name="Salary" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_SALARY"
-horizontal_alignment = 2
-
-[node name="Doing" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Heads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COL_ASSIGNED"
-
-[node name="Sep" type="HSeparator" parent="Layout/Body/List/ListBox/RosterPage"]
-layout_mode = 2
-
-[node name="Scroll" type="ScrollContainer" parent="Layout/Body/List/ListBox/RosterPage"]
+[node name="Scroll" type="ScrollContainer" parent="Layout/Pages/Roster/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Rows" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll"]
+[node name="Pad" type="MarginContainer" parent="Layout/Pages/Roster/VBox/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
 
-[node name="RowTemplate" type="Button" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows"]
+[node name="Grid" type="HFlowContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="CardTemplate" type="Button" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(214, 268)
 layout_mode = 2
+tooltip_text = "TY_CREW_OPEN_TIP"
 focus_mode = 0
-theme_type_variation = &"CwRow"
-toggle_mode = true
+theme_override_styles/normal = ExtResource("13_tile")
+theme_override_styles/hover = ExtResource("14_tile_hover")
+theme_override_styles/pressed = ExtResource("15_tile_on")
+theme_override_styles/hover_pressed = ExtResource("15_tile_on")
+theme_override_styles/focus = ExtResource("14_tile_hover")
 
-[node name="HBox" type="HBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate"]
+[node name="Box" type="VBoxContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -10.0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = -12.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 5
 
-[node name="Tab" type="ColorRect" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(3, 0)
+[node name="Visor" type="Control" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
+custom_minimum_size = Vector2(124, 124)
 layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
-color = Color(1, 0.5412, 0.2392, 1)
 
-[node name="Bulb" type="TextureRect" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
+[node name="Ring" type="Panel" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("mini_ring")
+
+[node name="Fallback" type="TextureRect" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor"]
 self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -26.0
+offset_right = 26.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Leader" type="TextureRect" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Bulb"]
+[node name="Portrait" type="TextureRect" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Leader" type="TextureRect" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor"]
 visible = false
 self_modulate = Color(1, 0.8235, 0.3608, 1)
-layout_mode = 0
-offset_left = 1.0
-offset_top = -15.0
-offset_right = 15.0
-offset_bottom = -1.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -26.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 26.0
+grow_horizontal = 0
 mouse_filter = 2
 texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Who" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 4
+[node name="Level" type="PanelContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -26.0
+offset_right = 6.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 mouse_filter = 2
-theme_override_constants/separation = 0
+theme_override_styles/panel = SubResource("level_badge")
 
-[node name="Name" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Who"]
+[node name="Text" type="Label" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Visor/Level"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Bopi Starkin"
-clip_text = true
-
-[node name="Prof" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Who"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
 theme_override_font_sizes/font_size = 13
-text = "Engenheiro(a) de sistemas"
-clip_text = true
-
-[node name="Level" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(36, 0)
-layout_mode = 2
-theme_type_variation = &"CwMono"
-text = "3"
+text = "Nv 3"
 horizontal_alignment = 1
 
-[node name="XP" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(104, 0)
+[node name="Name" type="Label" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "Mibup Zoomdot"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Prof" type="HBoxContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Bulb" type="TextureRect" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Prof"]
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+custom_minimum_size = Vector2(13, 13)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/separation = 4
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/XP"]
-custom_minimum_size = Vector2(0, 5)
+[node name="Name" type="Label" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Prof"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 13
+text = "Engenheiro(a) de sistemas"
+text_overrun_behavior = 3
+
+[node name="Mood" type="HBoxContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 10
+theme_override_constants/separation = 6
+alignment = 1
 
-[node name="Text" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/XP"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
-theme_override_font_sizes/font_size = 12
-text = "245 XP"
-
-[node name="Skill" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(40, 0)
+[node name="Face" type="Control" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Mood"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/separation = 3
+script = ExtResource("11_face")
 
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Skill"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "72"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Skill"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 5
-gap = 1.0
-
-[node name="Curiosity" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(40, 0)
+[node name="Bar" type="Control" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Mood"]
+custom_minimum_size = Vector2(96, 7)
 layout_mode = 2
 size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 3
-
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Curiosity"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "64"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Curiosity"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 5
-gap = 1.0
-
-[node name="Courage" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 3
-
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Courage"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "51"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Courage"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 5
-gap = 1.0
-
-[node name="Morale" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(118, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 4
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Morale"]
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
 mouse_filter = 2
 script = ExtResource("5_seg")
 value = 0.7
 color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 10
 
-[node name="Text" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Morale"]
+[node name="Activity" type="PanelContainer" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box"]
 layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 12
-text = "70 · Contente"
-
-[node name="Salary" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "5 000 cr"
-horizontal_alignment = 2
-
-[node name="Doing" type="VBoxContainer" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+size_flags_horizontal = 1
 mouse_filter = 2
-theme_override_constants/separation = 1
+theme_override_styles/panel = SubResource("activity_chip")
 
-[node name="Task" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Doing"]
-layout_mode = 2
-text = "SAT-07"
-clip_text = true
-
-[node name="Chip" type="Label" parent="Layout/Body/List/ListBox/RosterPage/Scroll/Rows/RowTemplate/HBox/Doing"]
+[node name="Text" type="Label" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid/CardTemplate/Box/Activity"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "EM PROJETO"
-clip_text = true
+theme_override_font_sizes/font_size = 13
+text = "Em projeto · SND-02"
+horizontal_alignment = 1
+text_overrun_behavior = 3
 
-[node name="HirePage" type="VBoxContainer" parent="Layout/Body/List/ListBox"]
+[node name="RosterEmpty" type="Label" parent="Layout/Pages/Roster/VBox/Scroll/Pad/Grid"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="MarketHead" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="MarketTitle" type="Label" parent="Layout/Body/List/ListBox/HirePage/MarketHead"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwTitle"
-text = "TY_CREW_MARKET_TITLE"
-
-[node name="MarketLimit" type="Label" parent="Layout/Body/List/ListBox/HirePage/MarketHead"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
 theme_type_variation = &"CwDim"
-text = "Equipe 6 / 8 · sede nível 1"
-
-[node name="MarketNext" type="Label" parent="Layout/Body/List/ListBox/HirePage/MarketHead"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"CwMonoSmall"
-theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
-text = "Nova lista em 2 sem"
-
-[node name="Sep" type="HSeparator" parent="Layout/Body/List/ListBox/HirePage"]
-layout_mode = 2
-
-[node name="Cands" type="VBoxContainer" parent="Layout/Body/List/ListBox/HirePage"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="CandTemplate" type="Button" parent="Layout/Body/List/ListBox/HirePage/Cands"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 112)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwRow"
-toggle_mode = true
-
-[node name="HBox" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 16
-
-[node name="Tab" type="ColorRect" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-custom_minimum_size = Vector2(3, 0)
-layout_mode = 2
-mouse_filter = 2
-color = Color(0.3529, 0.6588, 1, 1)
-
-[node name="Bulb" type="TextureRect" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-self_modulate = Color(0.3529, 0.6588, 1, 1)
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("4_star")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Who" type="VBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-custom_minimum_size = Vector2(240, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 2
-
-[node name="Name" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Who"]
-layout_mode = 2
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 19
-text = "Kolu Moonpip"
-clip_text = true
-
-[node name="Prof" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Who"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "Cientista"
-
-[node name="Level" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Who"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "NÍVEL 1 · 0 XP"
-
-[node name="Traits" type="VBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-custom_minimum_size = Vector2(270, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 6
-
-[node name="Skill" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Cap" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Skill"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_SKILL"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Skill"]
-custom_minimum_size = Vector2(0, 6)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 10
-
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Skill"]
-custom_minimum_size = Vector2(30, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "72"
-horizontal_alignment = 2
-
-[node name="Curiosity" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Cap" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Curiosity"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_CURIOSITY"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Curiosity"]
-custom_minimum_size = Vector2(0, 6)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 10
-
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Curiosity"]
-custom_minimum_size = Vector2(30, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "?"
-horizontal_alignment = 2
-
-[node name="Courage" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Cap" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Courage"]
-custom_minimum_size = Vector2(92, 0)
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COURAGE"
-
-[node name="Bar" type="Control" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Courage"]
-custom_minimum_size = Vector2(0, 6)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("5_seg")
-color = Color(0.3098, 0.6627, 0.9412, 1)
-segments = 10
-
-[node name="Value" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Traits/Courage"]
-custom_minimum_size = Vector2(30, 0)
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "?"
-horizontal_alignment = 2
-
-[node name="Money" type="VBoxContainer" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 1
-
-[node name="AskCap" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Money"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_ASK"
-
-[node name="Ask" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Money"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "4 000 cr / mês"
-
-[node name="FeeCap" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Money"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_FEE"
-
-[node name="Fee" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox/Money"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "8 000 cr"
-
-[node name="Reveal" type="Label" parent="Layout/Body/List/ListBox/HirePage/Cands/CandTemplate/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "2 ocultos"
-horizontal_alignment = 2
+text = "TY_CREW_EMPTY_FILTER"
 autowrap_mode = 3
 
-[node name="EmptyMarket" type="Label" parent="Layout/Body/List/ListBox/HirePage"]
-unique_name_in_owner = true
+[node name="Sheet" type="HBoxContainer" parent="Layout/Pages"]
 visible = false
-layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "TY_CREW_EMPTY_MARKET"
-
-[node name="Spacer" type="Control" parent="Layout/Body/List/ListBox/HirePage"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="Rules" type="HBoxContainer" parent="Layout/Body/List/ListBox/HirePage"]
 layout_mode = 2
 theme_override_constants/separation = 10
+metadata/title = "TY_CREW_SHEET"
 
-[node name="Mark" type="TextureRect" parent="Layout/Body/List/ListBox/HirePage/Rules"]
-self_modulate = Color(0.6392, 0.6824, 0.8392, 1)
-custom_minimum_size = Vector2(14, 14)
-layout_mode = 2
-size_flags_vertical = 0
-texture = ExtResource("4_star")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Text" type="Label" parent="Layout/Body/List/ListBox/HirePage/Rules"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-text = "TY_CREW_MARKET_RULES"
-autowrap_mode = 3
-
-[node name="Composition" type="VBoxContainer" parent="Layout/Body/List/ListBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Sep" type="HSeparator" parent="Layout/Body/List/ListBox/Composition"]
-layout_mode = 2
-
-[node name="Head" type="HBoxContainer" parent="Layout/Body/List/ListBox/Composition"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Title" type="Label" parent="Layout/Body/List/ListBox/Composition/Head"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_CREW_COMPOSITION"
-
-[node name="Hint" type="Label" parent="Layout/Body/List/ListBox/Composition/Head"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_CREW_COMPOSITION_HINT"
-horizontal_alignment = 2
-
-[node name="Profs" type="HFlowContainer" parent="Layout/Body/List/ListBox/Composition"]
-layout_mode = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 6
-
-[node name="ProfTemplate" type="PanelContainer" parent="Layout/Body/List/ListBox/Composition/Profs"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_type_variation = &"CwChip"
-
-[node name="HBox" type="HBoxContainer" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="Bulb" type="TextureRect" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
-self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(14, 14)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("4_star")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Count" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "2"
-
-[node name="Name" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "Engenheiro(a) de sistemas"
-
-[node name="Arrow" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "→"
-
-[node name="Bar" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Engenharia"
-
-[node name="Card" type="PanelContainer" parent="Layout/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(460, 0)
+[node name="Left" type="PanelContainer" parent="Layout/Pages/Sheet"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="CardBox" type="VBoxContainer" parent="Layout/Body/Card"]
+[node name="VBox" type="VBoxContainer" parent="Layout/Pages/Sheet/Left"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
-[node name="CardScroll" type="ScrollContainer" parent="Layout/Body/Card/CardBox"]
+[node name="Visor" type="Control" parent="Layout/Pages/Sheet/Left/VBox"]
+custom_minimum_size = Vector2(250, 250)
 layout_mode = 2
-horizontal_scroll_mode = 0
-size_flags_vertical = 3
-
-[node name="Pad" type="MarginContainer" parent="Layout/Body/Card/CardBox/CardScroll"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBox" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="Top" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="Visor" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top"]
-custom_minimum_size = Vector2(172, 172)
-layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="Ring" type="Panel" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
+[node name="Ring" type="Panel" parent="Layout/Pages/Sheet/Left/VBox/Visor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -939,58 +622,61 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("visor_ring")
 
-[node name="Portrait" type="SubViewportContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
+[node name="Portrait" type="SubViewportContainer" parent="Layout/Pages/Sheet/Left/VBox/Visor"]
 material = SubResource("visor_mat")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="Viewport" type="SubViewport" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait"]
+[node name="Viewport" type="SubViewport" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait"]
 own_world_3d = true
 world_3d = SubResource("portrait_world")
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 2
-size = Vector2i(164, 164)
+size = Vector2i(240, 240)
 render_target_update_mode = 4
 
-[node name="Key" type="DirectionalLight3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Key" type="DirectionalLight3D" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport"]
 transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 2, 2)
 light_color = Color(1, 0.886, 0.749, 1)
 light_energy = 1.25
 
-[node name="Rim" type="OmniLight3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Rim" type="OmniLight3D" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.2, -0.8)
 light_color = Color(0.749, 0.914, 1, 1)
 light_energy = 1.6
 omni_range = 3.0
 
-[node name="Camera3D" type="Camera3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Camera3D" type="Camera3D" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 0.994522, 0.104528, 0, -0.104528, 0.994522, 0, 0.78, 1.75)
 fov = 34.0
 near = 0.05
 far = 10.0
 
-[node name="Plinth" type="MeshInstance3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
+[node name="CwOutline" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport/Camera3D" instance=ExtResource("cw_outline")]
+
+[node name="Plinth" type="MeshInstance3D" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
 mesh = SubResource("plinth_mesh")
 surface_material_override/0 = SubResource("plinth_mat")
 
-[node name="Creature" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport" instance=ExtResource("7_creature")]
+[node name="Creature" parent="Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport" instance=ExtResource("7_creature")]
+unique_name_in_owner = true
 transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
 listen_to_events = false
 cull_distance = 20.0
 
-[node name="Glow" type="Panel" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
+[node name="Glow" type="Panel" parent="Layout/Pages/Sheet/Left/VBox/Visor"]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.5412, 0.2392, 1)
 layout_mode = 1
@@ -1006,48 +692,45 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("visor_glow")
 
-[node name="Id" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_constants/separation = 4
-
-[node name="CardName" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="CardName" type="Label" parent="Layout/Pages/Sheet/Left/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 28
 text = "Bopi Starkin"
+horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ProfRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="ProfRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
-[node name="ProfBulb" type="TextureRect" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/ProfRow"]
+[node name="ProfBulb" type="TextureRect" parent="Layout/Pages/Sheet/Left/VBox/ProfRow"]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(14, 14)
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CardProf" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/ProfRow"]
+[node name="CardProf" type="Label" parent="Layout/Pages/Sheet/Left/VBox/ProfRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 16
 text = "Engenheiro(a) de sistemas"
 
-[node name="LeaderRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="LeaderRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
-[node name="Crown" type="TextureRect" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
+[node name="Crown" type="TextureRect" parent="Layout/Pages/Sheet/Left/VBox/LeaderRow"]
 self_modulate = Color(1, 0.8235, 0.3608, 1)
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
@@ -1056,87 +739,178 @@ texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
+[node name="Badge" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LeaderRow"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "TY_LEADER_BADGE"
 
-[node name="EditLeader" type="Button" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
+[node name="EditLeader" type="Button" parent="Layout/Pages/Sheet/Left/VBox/LeaderRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "TY_LEADER_EDIT"
 
-[node name="CardLook" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="CardLook" type="Label" parent="Layout/Pages/Sheet/Left/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "Cores: Céu de Sala Limpa"
+horizontal_alignment = 1
 
-[node name="LevelRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="Status" type="PanelContainer" parent="Layout/Pages/Sheet/Left/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("activity_chip")
+
+[node name="SheetStatus" type="Label" parent="Layout/Pages/Sheet/Left/VBox/Status"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "Em projeto · SND-02"
+horizontal_alignment = 1
+
+[node name="LevelGap" type="Control" parent="Layout/Pages/Sheet/Left/VBox"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LevelBox" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="LevelRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox/LevelBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Caption" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
+[node name="Caption" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LevelBox/LevelRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_LEVEL"
 
-[node name="CardLevel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
+[node name="CardLevel" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LevelBox/LevelRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 34
 text = "3"
 
-[node name="CardLevelMax" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
+[node name="CardLevelMax" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LevelBox/LevelRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "/ 6"
 
-[node name="CardXPBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="XP" type="VBoxContainer" parent="Layout/Pages/Sheet/Left/VBox/LevelBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="CardXPBar" type="Control" parent="Layout/Pages/Sheet/Left/VBox/LevelBox/XP"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 6)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 20
 
-[node name="CardXP" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
+[node name="CardXP" type="Label" parent="Layout/Pages/Sheet/Left/VBox/LevelBox/XP"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "45 / 100 XP para o nível 4"
 
-[node name="Sep" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="Spacer" type="Control" parent="Layout/Pages/Sheet/Left/VBox"]
 layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="Traits" type="GridContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="Note" type="Label" parent="Layout/Pages/Sheet/Left/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Actions" type="HBoxContainer" parent="Layout/Pages/Sheet/Left/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="FireButton" type="Button" parent="Layout/Pages/Sheet/Left/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwDanger"
+text = "TY_CREW_FIRE"
+
+[node name="HireButton" type="Button" parent="Layout/Pages/Sheet/Left/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_CREW_HIRE"
+
+[node name="Right" type="PanelContainer" parent="Layout/Pages/Sheet"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwPanel"
+
+[node name="Scroll" type="ScrollContainer" parent="Layout/Pages/Sheet/Right"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Pad" type="MarginContainer" parent="Layout/Pages/Sheet/Right/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TraitsTitle" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CREW_TRAITS"
+
+[node name="Traits" type="GridContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 layout_mode = 2
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 9
 columns = 3
 
-[node name="SkillLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
-custom_minimum_size = Vector2(110, 0)
+[node name="SkillLabel" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 tooltip_text = "TY_CREW_SKILL_TIP"
 mouse_filter = 1
 text = "TY_CREW_SKILL"
 
-[node name="SkillBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="SkillBar" type="Control" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1145,7 +919,7 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="SkillValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="SkillValue" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
@@ -1153,15 +927,15 @@ theme_type_variation = &"CwMonoSmall"
 text = "72"
 horizontal_alignment = 2
 
-[node name="CuriosityLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CuriosityLabel" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 layout_mode = 2
 tooltip_text = "TY_CREW_CURIOSITY_TIP"
 mouse_filter = 1
 text = "TY_CREW_CURIOSITY"
 
-[node name="CuriosityBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CuriosityBar" type="Control" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1170,22 +944,22 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="CuriosityValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CuriosityValue" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "64"
 horizontal_alignment = 2
 
-[node name="CourageLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CourageLabel" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 layout_mode = 2
 tooltip_text = "TY_CREW_COURAGE_TIP"
 mouse_filter = 1
 text = "TY_CREW_COURAGE"
 
-[node name="CourageBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CourageBar" type="Control" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1194,23 +968,23 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="CourageValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="CourageValue" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "51"
 horizontal_alignment = 2
 
-[node name="MoraleLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="MoraleLabel" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "TY_CREW_MORALE_TIP"
 mouse_filter = 1
 text = "TY_CREW_MORALE"
 
-[node name="MoraleBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="MoraleBar" type="Control" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1220,95 +994,108 @@ value = 0.7
 color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 20
 
-[node name="MoraleValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
+[node name="MoraleValue" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "70"
 horizontal_alignment = 2
 
-[node name="Mood" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="MoodRow" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoodFace" type="Control" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/MoodRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("11_face")
+
+[node name="Mood" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/MoodRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
 text = "Livre para entrar num projeto."
 autowrap_mode = 3
 
-[node name="Sep2" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="Sep2" type="HSeparator" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 layout_mode = 2
 
-[node name="Facts" type="GridContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="Facts" type="GridContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 layout_mode = 2
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 6
 columns = 2
 
-[node name="Cap1" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Cap1" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(110, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_COL_SALARY"
 
-[node name="Val1" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Val1" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "5 000 cr / mês"
 
-[node name="Cap2" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Cap2" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_ASSIGNED"
 
-[node name="Val2" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Val2" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "—"
 
-[node name="Cap3" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Cap3" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_HIRED"
 
-[node name="Val3" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
+[node name="Val3" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "Equipe fundadora"
 
-[node name="SpecSection" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
+[node name="SpecSection" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Sep" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
+[node name="Sep" type="HSeparator" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
+[node name="Title" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_SPECS"
 
-[node name="Slots" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
+[node name="Slots" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SlotTemplate" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots"]
+[node name="SlotTemplate" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Head" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Head" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Tier" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
+[node name="Tier" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -1316,13 +1103,13 @@ theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 theme_override_font_sizes/font_size = 13
 text = "Grau I · nível 3"
 
-[node name="Value" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
+[node name="Value" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
 text = "Ainda não escolhida"
 
-[node name="Desc" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Desc" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwDim"
@@ -1330,11 +1117,11 @@ theme_override_font_sizes/font_size = 13
 text = "Libera no nível 3."
 autowrap_mode = 3
 
-[node name="Options" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Options" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="OptionTemplate" type="Button" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Options"]
+[node name="OptionTemplate" type="Button" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Options"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1343,39 +1130,269 @@ theme_override_font_sizes/font_size = 13
 text = "Garimpeiro(a) de dados"
 clip_text = true
 
-[node name="Spacer" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="Note" type="Label" parent="Layout/Body/Card/CardBox"]
+[node name="History" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Sep" type="HSeparator" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CREW_HISTORY"
+
+[node name="HistTemplate" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Code" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History/HistTemplate"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "SND-01"
+
+[node name="What" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History/HistTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Sondagem · Suborbital"
+text_overrun_behavior = 3
+
+[node name="Result" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History/HistTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Sucesso · 7.2"
+horizontal_alignment = 2
+
+[node name="HistEmpty" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/History"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
-theme_override_font_sizes/font_size = 13
+text = "TY_CREW_HISTORY_EMPTY"
 autowrap_mode = 3
 
-[node name="Actions" type="HBoxContainer" parent="Layout/Body/Card/CardBox"]
+[node name="Hire" type="PanelContainer" parent="Layout/Pages"]
+visible = false
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_type_variation = &"CwPanel"
+metadata/title = "TY_CREW_TAB_HIRE"
 
-[node name="FireButton" type="Button" parent="Layout/Body/Card/CardBox/Actions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 36)
+[node name="VBox" type="VBoxContainer" parent="Layout/Pages/Hire"]
 layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwDanger"
-text = "TY_CREW_FIRE"
+theme_override_constants/separation = 12
 
-[node name="HireButton" type="Button" parent="Layout/Body/Card/CardBox/Actions"]
+[node name="MarketHead" type="HBoxContainer" parent="Layout/Pages/Hire/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarketTitle" type="Label" parent="Layout/Pages/Hire/VBox/MarketHead"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_CREW_MARKET_TITLE"
+
+[node name="MarketLimit" type="Label" parent="Layout/Pages/Hire/VBox/MarketHead"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+text = "6 de 8 vagas"
+
+[node name="MarketNext" type="Label" parent="Layout/Pages/Hire/VBox/MarketHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "novos em 4 sem"
+horizontal_alignment = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Layout/Pages/Hire/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Pad" type="MarginContainer" parent="Layout/Pages/Hire/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="Cands" type="HFlowContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="CandTemplate" type="Button" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+tooltip_text = "TY_CREW_CAND_OPEN_TIP"
 focus_mode = 0
-theme_type_variation = &"CwPrimary"
-text = "TY_CREW_HIRE"
+theme_override_styles/normal = ExtResource("13_tile")
+theme_override_styles/hover = ExtResource("14_tile_hover")
+theme_override_styles/pressed = ExtResource("15_tile_on")
+theme_override_styles/hover_pressed = ExtResource("15_tile_on")
+theme_override_styles/focus = ExtResource("14_tile_hover")
+
+[node name="Box" type="VBoxContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = -14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Visor" type="Control" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+custom_minimum_size = Vector2(112, 112)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("mini_ring")
+
+[node name="Fallback" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box/Visor"]
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Name" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "Kotimi Starnub"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Prof" type="HBoxContainer" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Bulb" type="TextureRect" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box/Prof"]
+self_modulate = Color(1, 0.6039, 0.3608, 1)
+custom_minimum_size = Vector2(13, 13)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box/Prof"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
+theme_override_font_sizes/font_size = 13
+text = "Piloto"
+
+[node name="Level" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
+text = "Nível 2 · 140 XP"
+horizontal_alignment = 1
+
+[node name="Ask" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "5 200 cr / mês"
+horizontal_alignment = 1
+
+[node name="Fee" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Taxa de contratação 12 000 cr"
+horizontal_alignment = 1
+
+[node name="Reveal" type="Label" parent="Layout/Pages/Hire/VBox/Scroll/Pad/Cands/CandTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "2 traços escondidos"
+horizontal_alignment = 1
+
+[node name="EmptyMarket" type="Label" parent="Layout/Pages/Hire/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_CREW_EMPTY_MARKET"
+autowrap_mode = 3
+
+[node name="Rules" type="HBoxContainer" parent="Layout/Pages/Hire/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Mark" type="TextureRect" parent="Layout/Pages/Hire/VBox/Rules"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("16_hq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Layout/Pages/Hire/VBox/Rules"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_CREW_MARKET_RULES"
+autowrap_mode = 3
+
+[node name="Studio" parent="." instance=ExtResource("12_studio")]
+unique_name_in_owner = true
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
@@ -1384,7 +1401,7 @@ panel = NodePath("../Layout")
 
 [node name="CwCascade" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Layout/Body")
+target = NodePath("../Layout")
 offset = Vector2(0, 14)
 delay = 0.1
 step = 0.06
@@ -1394,20 +1411,23 @@ curve = 1
 
 [node name="CwRoster" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Layout/Body/List/ListBox/RosterPage/Scroll/Rows")
-offset = Vector2(-12, 0)
+target = NodePath("../Layout/Pages/Roster/VBox/Scroll/Pad/Grid")
+offset = Vector2(0, 14)
+from_scale = Vector2(0.96, 0.96)
 delay = 0.16
-step = 0.025
-seconds = 0.26
+step = 0.035
+seconds = 0.28
 max_delay = 0.45
+on_poke = true
 
 [node name="CwCands" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Layout/Body/List/ListBox/HirePage/Cands")
-offset = Vector2(-12, 0)
-delay = 0.16
-step = 0.03
-seconds = 0.26
+target = NodePath("../Layout/Pages/Hire/VBox/Scroll/Pad/Cands")
+offset = Vector2(0, 14)
+from_scale = Vector2(0.96, 0.96)
+delay = 0.12
+step = 0.04
+seconds = 0.28
 max_delay = 0.45
 on_visible = true
 
@@ -1418,5 +1438,3 @@ lift = Vector2(0, -1)
 hover_scale = Vector2(1.015, 1.015)
 glow = 1.08
 sweep_on_focus = true
-
-[node name="CwOutline" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Camera3D" instance=ExtResource("cw_outline")]

@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
 [ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 [ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hangar.svg" id="hg_icon"]
 
 [sub_resource type="ShaderMaterial" id="pad_mat"]
 shader = ExtResource("cw_toon_solid")
@@ -330,6 +331,64 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
+
+[node name="HangarCard" type="PanelContainer" parent="Panel/Margin/VBox/Body/Mid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Mid/HangarCard"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("hg_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="HangarTitle" type="Label" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 15
+text = "TY_HG_BUILD_CAPTION"
+
+[node name="HangarLine" type="Label" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_HG_BUILD_HINT"
+autowrap_mode = 3
+
+[node name="HangarQuick" type="Button" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "TY_HG_QUICK_BUTTON"
+
+[node name="HangarOpen" type="Button" parent="Panel/Margin/VBox/Body/Mid/HangarCard/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_HG_BUILD_BUTTON"
 
 [node name="BuildCaption" type="Label" parent="Panel/Margin/VBox/Body/Mid"]
 layout_mode = 2

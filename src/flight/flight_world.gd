@@ -16,8 +16,18 @@ extends Node3D
 ## is the cached patched-conic prediction, recomputed only when its inputs change (node
 ## edits, thrust, SOI change, staging, horizon reached), never every frame. On-rails warp
 ## follows the predicted conics exactly, crossing SOI boundaries at their computed times.
+##
+## Embedded (inside the tycoon's main mode, TycoonModes): with `embedded` set before it enters
+## the tree, "Revert to launch" / "Revert to hangar" emit exit_requested ("restart" / "hangar")
+## instead of changing scenes. `mission_mode` is a piloted mission launch: no reverts, the pause
+## menu's and the report's hangar keys become "End and back to the campus" / "Finish the
+## mission" (exit_requested "done" with the last report, or "cancel" before liftoff). A
+## mission in FlightSession.mission puts its payload_kg on the rocket.
 
 signal flight_ended(report: Dictionary)
+## Embedded only: "restart" (fly again), "hangar" (back to the hangar), "done" (a mission
+## flight is over: `report` is its last flight report) or "cancel" (left before liftoff).
+signal exit_requested(what: String, report: Dictionary)
 
 const DT := 0.02
 const MAX_STEPS_PER_FRAME := 400
@@ -51,6 +61,10 @@ const MAX_CHUNKS := 380
 const DEBRIS_RANGE := 40000.0
 
 @export var auto_start_autopilot := false
+## Inside the tycoon (TycoonModes): signals instead of scene changes (set before _ready).
+@export var embedded := false
+## A piloted mission launch (embedded): no reverts; the way out finishes the mission.
+@export var mission_mode := false
 ## prints per-frame timings of the main loop (debug)
 @export var profile := false
 var _prof := [0, 0, 0, 0, 0]
@@ -119,6 +133,9 @@ var _sample_timer := 0.0
 var _q_peak := 0.0
 var _maxq_announced := false
 var _space_announced := false
+## bodies whose sphere of influence the vessel entered (FlightSolar indices)
+var _visited := {}
+var _last_report: Dictionary = {}
 
 @onready var sky: FlightSky = $WorldEnvironment
 @onready var sun: DirectionalLight3D = $Sun
@@ -158,6 +175,7 @@ func _ready() -> void:
 		hv.free()
 	active = FlightVessel.new()
 	active.name = "Active"
+	active.payload_kg = float(FlightSession.mission.get("payload_kg", 0.0))
 	vessels.add_child(active)
 	active.setup_from_scene(ps)
 	active.place_on_pad(PAD_TOP, _pad_up, -_east)
@@ -181,7 +199,26 @@ func _ready() -> void:
 	hud.action.connect(_on_hud_action)
 	if auto_start_autopilot or FlightSession.auto_ascent:
 		set_autopilot(true)
+	if embedded and mission_mode:
+		_setup_mission_hud()
 	_place_world()
+	var goal := String(FlightSession.mission.get("goal", ""))
+	if mission_mode and goal != "":
+		hud.toast.call_deferred(tr("TY_HG_CHOICE_PILOT_GOAL") % goal, MarginPalette.ACCENT)
+
+
+## A piloted mission launch: the reverts go, the hangar keys lead out of the flight.
+func _setup_mission_hud() -> void:
+	for n in ["%BtnRevertLaunch", "%BtnRLaunch"]:
+		var b := hud.get_node_or_null(n) as Control
+		if b:
+			b.visible = false
+	var abort := hud.get_node_or_null("%BtnRevertHangar") as Button
+	if abort:
+		abort.text = tr("TY_HG_FL_ABORT")
+	var done := hud.get_node_or_null("%BtnRHangar") as Button
+	if done:
+		done.text = tr("TY_HG_FL_CONCLUDE")
 
 
 func _reset_stats() -> void:
@@ -477,12 +514,33 @@ func _exit_rails() -> void:
 
 
 func revert_to_launch() -> void:
+	if embedded:
+		if not mission_mode:
+			exit_requested.emit("restart", {})
+		return
 	get_tree().reload_current_scene()
 
 
 func revert_to_hangar() -> void:
+	if embedded:
+		if mission_mode:
+			finish_mission()
+		else:
+			exit_requested.emit("hangar", _last_report)
+		return
 	FlightSession.return_to_hangar = true
 	get_tree().change_scene_to_file(FlightSession.HANGAR_SCENE)
+
+
+## Mission mode's way out: before liftoff it is a cancel; after it the flight ends (if it has
+## not) and its report goes to the host.
+func finish_mission() -> void:
+	if not launched:
+		exit_requested.emit("cancel", {})
+		return
+	if not ended:
+		end_flight("orbit" if _orbit_announced else ("crash" if active.crashed else "abort"))
+	exit_requested.emit("done", _last_report)
 
 
 func _on_hud_action(what: String) -> void:
@@ -723,6 +781,14 @@ func end_flight(result: String) -> void:
 	report["samples_t"] = samples_t
 	report["samples_alt"] = samples_alt
 	report["samples_v"] = samples_v
+	report["launched"] = launched
+	var dv_left := 0.0
+	if not active.crashed:
+		for r: Dictionary in active.remaining_dv():
+			dv_left += float(r.get("dv_vac", r.get("dv", 0.0)))
+	report["dv_left"] = dv_left
+	report["reached_moon"] = _visited.has(sys.moon)
+	_last_report = report
 	hud.show_report(report)
 	flight_ended.emit(report)
 
@@ -1000,6 +1066,7 @@ func _switch_soi(new_body: int) -> void:
 	active.prev.rebase(off, sys.mu[new_body], sys.radius[new_body], air, home)
 	var entering := sys.parent[new_body] == soi
 	soi = new_body
+	_visited[new_body] = true
 	for d in debris:
 		d.queue_free()
 	debris.clear()

@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_nav_bar.gd" id="1_nav"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="3_left"]
+
+[node name="NavBar" type="HBoxContainer"]
+size_flags_vertical = 4
+theme = ExtResource("2_theme")
+theme_override_constants/separation = 12
+script = ExtResource("1_nav")
+
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_NAV_BACK_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+icon = ExtResource("3_left")
+icon_alignment = 1
+expand_icon = true
+metadata/cw_sfx_press = &"ui_back"
+
+[node name="Trail" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Crumbs" type="HBoxContainer" parent="Trail"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CrumbTemplate" type="HBoxContainer" parent="Trail/Crumbs"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Link" type="Button" parent="Trail/Crumbs/CrumbTemplate"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+tooltip_text = "TY_NAV_CRUMB_TIP"
+focus_mode = 0
+theme_type_variation = &"CwLink"
+theme_override_font_sizes/font_size = 14
+text = "Equipe"
+
+[node name="Sep" type="Label" parent="Trail/Crumbs/CrumbTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "›"
+
+[node name="Title" type="Label" parent="Trail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+text = "Equipe"
+
+[node name="Sub" type="Label" parent="Trail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Os Cometinhos que fazem a agência"

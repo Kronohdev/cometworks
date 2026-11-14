@@ -31,7 +31,8 @@ const CAMERAS := {
 	"res://scenes/tycoon/launch/launch_sequence.tscn": ["Stage/Spectators/CrewCam", "Stage/CamRig/ShotCam"],
 	"res://scenes/tycoon/ui/screens/leader_creator.tscn": ["Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Camera3D"],
 	"res://scenes/tycoon/ui/screens/rocket_designer.tscn": ["Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/PreviewCam"],
-	"res://scenes/tycoon/ui/screens/crew.tscn": ["Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Camera3D"],
+	"res://scenes/tycoon/ui/screens/crew.tscn": ["Layout/Pages/Sheet/Left/VBox/Visor/Portrait/Viewport/Camera3D"],
+	"res://scenes/tycoon/ui/cw_portrait_studio.tscn": ["Camera3D"],
 	"res://scenes/hangar.tscn": ["CameraRig/Camera3D"],
 }
 const SHOT_DIRS := ["res://scenes/menu/shots", "res://scenes/cutscenes/shots"]

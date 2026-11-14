@@ -71,7 +71,7 @@ text = "TY_PJ_NEW_TITLE"
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 28
-text = "TY_PJ_NEW_SUB"
+text = "TY_PJ_NEW_SUB2"
 
 [node name="Kind" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
 layout_mode = 2
@@ -417,6 +417,14 @@ theme_override_font_sizes/font_size = 13
 text = "Unknown until you fly it"
 autowrap_mode = 3
 
+[node name="IdealHint" type="Label" parent="Panel/Margin/VBox/Body/TypeCol/Brief/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_PJ_IDEAL_HIDDEN"
+autowrap_mode = 3
+
 [node name="SepB" type="VSeparator" parent="Panel/Margin/VBox/Body"]
 layout_mode = 2
 
@@ -424,6 +432,42 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
+
+[node name="BriefBox" type="PanelContainer" parent="Panel/Margin/VBox/Body/RightCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/BriefBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/RightCol/BriefBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_BF_GOAL"
+
+[node name="BriefGoal" type="Label" parent="Panel/Margin/VBox/Body/RightCol/BriefBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 16
+text = "Prove there is water in the Moon's dark craters."
+autowrap_mode = 3
+
+[node name="BriefTerms" type="Label" parent="Panel/Margin/VBox/Body/RightCol/BriefBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "40 sem · 1 200 000 cr"
+
+[node name="BriefHint" type="Label" parent="Panel/Margin/VBox/Body/RightCol/BriefBox/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_PJ_BRIEF_HINT"
+autowrap_mode = 3
 
 [node name="ContractsCaption" type="Label" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2
@@ -473,106 +517,13 @@ autowrap_mode = 3
 [node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2
 
-[node name="TeamHead" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol"]
+[node name="Steps" type="Label" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamHead"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "TY_PJ_STEP_TEAM"
-
-[node name="TeamIdeal" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamHead"]
-unique_name_in_owner = true
-layout_mode = 2
+size_flags_vertical = 10
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
-text = "ideal team: 2"
-
-[node name="TeamCount" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamHead"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-text = "4 / 6"
-
-[node name="TeamHint" type="Label" parent="Panel/Margin/VBox/Body/RightCol"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_PJ_TEAM_HINT"
+text = "TY_PJ_STEPS"
 autowrap_mode = 3
-
-[node name="TeamScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body/RightCol"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="Team" type="GridContainer" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
-columns = 2
-
-[node name="StaffTemplate" type="Button" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_type_variation = &"CwRow"
-toggle_mode = true
-
-[node name="Row" type="HBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = 8.0
-offset_right = -12.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Tab" type="ColorRect" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate/Row"]
-custom_minimum_size = Vector2(3, 0)
-layout_mode = 2
-mouse_filter = 2
-color = Color(1, 0.5412, 0.2392, 1)
-
-[node name="Names" type="VBoxContainer" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate/Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_constants/separation = 0
-alignment = 1
-
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate/Row/Names"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "Vega Lumo"
-text_overrun_behavior = 3
-
-[node name="Prof" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate/Row/Names"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "Systems engineer"
-text_overrun_behavior = 3
-
-[node name="Level" type="Label" parent="Panel/Margin/VBox/Body/RightCol/TeamScroll/Team/StaffTemplate/Row"]
-layout_mode = 2
-size_flags_vertical = 1
-theme_type_variation = &"CwMonoSmall"
-text = "Lv 1"
-horizontal_alignment = 2
-vertical_alignment = 1
 
 [node name="Estimate" type="PanelContainer" parent="Panel/Margin/VBox/Body/RightCol"]
 layout_mode = 2
@@ -670,7 +621,7 @@ custom_minimum_size = Vector2(240, 44)
 layout_mode = 2
 focus_mode = 0
 theme_type_variation = &"CwPrimary"
-text = "TY_PJ_NEXT_ROCKET"
+text = "TY_PL_NEXT"
 
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
@@ -712,15 +663,6 @@ target = NodePath("../Panel/Margin/VBox/Body/RightCol/Contracts")
 offset = Vector2(10, 0)
 delay = 0.26
 step = 0.03
-seconds = 0.26
-max_delay = 0.45
-
-[node name="CwTeam" type="Node" parent="."]
-script = ExtResource("cwm_stagger")
-target = NodePath("../Panel/Margin/VBox/Body/RightCol/TeamScroll/Team")
-offset = Vector2(10, 0)
-delay = 0.3
-step = 0.02
 seconds = 0.26
 max_delay = 0.45
 

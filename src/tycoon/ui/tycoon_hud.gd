@@ -8,6 +8,8 @@ extends Control
 ## edited in the editor. This script only fills data.
 
 signal build_requested(lot_id: String)
+## the lot panel's "Abrir o hangar" (the workshop): TycoonMain opens the hangar (TycoonModes)
+signal hangar_requested(lot_id: String)
 signal screen_opened(screen_name: String)
 signal screen_closed(screen_name: String)
 
@@ -30,8 +32,11 @@ func _ready() -> void:
 	%BuildButton.pressed.connect(func() -> void:
 		if lot_id != "":
 			build_requested.emit(lot_id))
+	%HangarButton.pressed.connect(func() -> void:
+		if lot_id != "":
+			hangar_requested.emit(lot_id))
 	%NewProject.pressed.connect(func() -> void:
-		if not open_screen("new_project"):
+		if not open_screen("briefings"):  # the mission board, then New project
 			flash_hint(tr("TY_SOON_PROJECT")))
 	for b in %VBox.get_children():
 		if b is Button and b.name != "Build":
@@ -230,6 +235,8 @@ func show_lot(id: String) -> void:
 	%LotLevel.text = tr("TY_LOT_FOR_SALE") if lv == 0 and wl == 0 else tr("TY_LEVEL") % lv
 	(%LevelBar as CwSegmentBar).value = lv / 3.0
 	%Desc.text = tr(String(bt.get("desc_key", "")))
+	# the workshop, once built, opens the hangar
+	%HangarButton.visible = kind == "workshop" and lv > 0
 	var nx := state.next_level(id)
 	var btn: Button = %BuildButton
 	btn.tooltip_text = ""
@@ -287,6 +294,18 @@ func close_screen() -> void:
 			%Screens.remove_child(c)
 		screen_closed.emit(String(c.get_meta("screen_name", "")))
 	_mark_rail("")
+
+
+## Esc (or a back key) on the open screen: a screen with pages goes up one page (its own
+## go_back() first, else its deepest CwPageStack showing a sub page); at its top level the
+## screen closes.
+func screen_back() -> void:
+	for c in %Screens.get_children():
+		if c.has_method("go_back") and bool(c.call("go_back")):
+			return
+		if CwPageStack.back_in(c):
+			return
+	close_screen()
 
 
 ## Lights the rail key of the screen on show (the rail keys are toggles; only one is lit).

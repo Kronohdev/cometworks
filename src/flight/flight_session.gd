@@ -18,6 +18,10 @@ static var return_to_hangar := false
 static var auto_ascent := false
 ## Loose subassemblies left floating in the hangar (packed part trees), restored on return.
 static var hangar_loose: Array = []
+## Optional tycoon mission the hangar builds for (empty in the free workshop):
+## {"title": String, "target": String, "dv_needed": float (m/s), "payload_kg": float,
+##  "budget_musd": float, "crewed": bool}
+static var mission: Dictionary = {}
 
 
 static func has_vessel() -> bool:

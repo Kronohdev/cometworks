@@ -61,6 +61,7 @@
       "rover": "lunar", "crewed_flight": "heavy", "crewed_landing": "lunar", "sample_return": "lunar",
       "base_module": "lunar", "isru": "lunar", "comet_mission": "lunar"},
     "pad_rollout_weeks": 6,
+    "outcome_grade": {"fail": 0.35, "partial": 0.8, "full": 1.0, "exceptional": 1.0},
     "payload_base": 0.55,
     "payload_rel": 0.45,
     "payload_defect": 0.03,

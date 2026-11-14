@@ -48,6 +48,9 @@ As abas e seções aparecem só onde fazem sentido (Campanha, Projetos e Telas s
 - Concluir a fase do projeto em andamento, concluir o desenvolvimento, abrir o Design Review.
 - Próximo lançamento: sorteio, sucesso, parcial ou falha (vale para um lançamento).
 - Lançar teste agora: um foguete de sondagem suborbital com quem estiver livre, já no ar.
+- Missões e descobertas: revelar todas as descobertas do caderno (proporções, instrumentos,
+  ambientes, combinações), abrir o quadro de missões ou o caderno, e gerar qualquer pedido
+  (`data/tycoon/briefings.json`, qualquer era, mesmo já cumprido) direto no topo do quadro.
 - Rever a cinemática: escolha o destino e o resultado (sucesso, parcial, falha).
 - Todas as peças de foguete liberadas.
 

@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3]
+
+[resource]
+Label/colors/font_color = Color(1, 0.9647, 0.902, 1)
+Label/colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 1)
+CwCaps/colors/font_color = Color(0.8118, 0.7647, 1, 1)
+CwCapsAccent/colors/font_color = Color(0.6157, 0.9412, 0.8314, 1)
+CwDim/colors/font_color = Color(0.8118, 0.7647, 1, 1)
+CwMonoSmall/colors/font_color = Color(0.8118, 0.7647, 1, 1)

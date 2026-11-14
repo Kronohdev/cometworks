@@ -50,6 +50,7 @@ func _ready() -> void:
 	add_child(flow)
 	flow.bind(state, clock, hud)
 	camera.tour_source = _tour_shots
+	camera.input_gate = func() -> bool: return hud.current_screen() == ""  # no camera input under a screen
 	camera.follow_changed.connect(_on_follow_changed)
 	camera.tour_changed.connect(func(on: bool) -> void:
 		if on:
@@ -122,12 +123,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-			click(mb.position)
+			click(mb.position, mb.double_click)
 
 
 ## A left click on the campus: a Cometling first (follow it), then a lot (show it and frame
-## it), else empty ground (let go of the Cometling, close the panel).
-func click(screen: Vector2) -> void:
+## it), else empty ground (let go of the Cometling, close the panel; a double-click glides
+## the camera there).
+func click(screen: Vector2, double := false) -> void:
 	var who := camera.pick(screen, campus.cometlings())
 	if who:
 		hud.close_lot()
@@ -140,6 +142,8 @@ func click(screen: Vector2) -> void:
 	else:
 		hud.close_lot()
 		camera.release()
+		if double:
+			camera.glide_to_screen(screen)
 
 
 func _lot_size(lot_id: String) -> Vector2:

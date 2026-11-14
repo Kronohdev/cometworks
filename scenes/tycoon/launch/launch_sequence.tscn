@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="Theme" path="res://ui/cometworks_on_dark.tres" id="cw_on_dark"]
 [ext_resource type="Script" path="res://src/tycoon/launch/launch_sequence.gd" id="1_4hsj6"]
 [ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e1.glb" id="2_7djwy"]
 [ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e2.glb" id="3_tgqty"]
@@ -3716,9 +3717,9 @@ offset_right = 700.0
 offset_bottom = 250.0
 theme_type_variation = &"CwDisplay"
 theme_override_font_sizes/font_size = 84
-theme_override_colors/font_color = Color(1, 0.654902, 0.4, 1)
-theme_override_colors/font_outline_color = Color(0.04, 0.05, 0.15, 0.85)
-theme_override_constants/outline_size = 14
+theme_override_colors/font_color = Color(1, 0.8235, 0.3608, 1)
+theme_override_colors/font_outline_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_constants/outline_size = 18
 text = "TY_LAUNCH_IGNITION"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -3737,7 +3738,8 @@ layout_mode = 0
 anchor_right = 1.0
 offset_top = -92.0
 mouse_filter = 2
-color = Color(0.035, 0.043, 0.13, 0.97)
+theme = ExtResource("cw_on_dark")
+color = Color(0.1059, 0.0941, 0.2706, 0.97)
 
 [node name="Info" type="HBoxContainer" parent="Overlay/Frame/BarTop" unique_id=2088267561]
 layout_mode = 0
@@ -3776,7 +3778,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 17
-theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+theme_override_colors/font_color = Color(0.8118, 0.7647, 1, 1)
 text = "Sounding rocket  →  Suborbital"
 
 [node name="When" type="HBoxContainer" parent="Overlay/Frame/BarTop/Info" unique_id=699735873]
@@ -3820,6 +3822,7 @@ period = 1.6
 [node name="Text" type="Label" parent="Overlay/Frame/BarTop/Info/When/Live/Row" unique_id=1460786150]
 layout_mode = 2
 theme_type_variation = &"CwBody"
+theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
 theme_override_font_sizes/font_size = 14
 text = "TY_LAUNCH_LIVE"
 
@@ -3830,7 +3833,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = 92.0
 mouse_filter = 2
-color = Color(0.035, 0.043, 0.13, 0.97)
+theme = ExtResource("cw_on_dark")
+color = Color(0.1059, 0.0941, 0.2706, 0.97)
 
 [node name="Thread" type="TextureRect" parent="Overlay/Frame/BarBottom" unique_id=516404687]
 layout_mode = 0
@@ -3887,7 +3891,7 @@ alignment = 1
 layout_mode = 2
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 26
-theme_override_colors/font_color = Color(0.24705882, 0.8784314, 0.77254903, 1)
+theme_override_colors/font_color = Color(0.6157, 0.9412, 0.8314, 1)
 text = "T−"
 
 [node name="Digits" type="Label" parent="Overlay/Frame/BarBottom/Countdown" unique_id=1178215013]
@@ -3929,7 +3933,8 @@ theme_type_variation = &"CwHintPill"
 [node name="Text" type="Label" parent="Overlay/Frame/BarBottom/Skip" unique_id=1307894275]
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 14
 text = "TY_LAUNCH_SKIP"
 
 [node name="Cards" type="Control" parent="Overlay/Frame" unique_id=1210895260]
@@ -3991,7 +3996,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
 text = "TY_LAUNCH_KICK_SUCCESS"
 
 [node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Head" unique_id=1142875543]
@@ -4004,7 +4009,7 @@ theme_type_variation = &"CwHintPill"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
 text = "TY_LAUNCH_TAG_SUCCESS"
 
 [node name="Title" type="Label" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=989256895]
@@ -4017,7 +4022,7 @@ text = "SND-01"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "Sounding rocket  →  Suborbital"
 
 [node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox" unique_id=773482690]
@@ -4041,7 +4046,7 @@ text = "TY_LAUNCH_GRADE"
 layout_mode = 2
 theme_type_variation = &"CwDisplay"
 theme_override_font_sizes/font_size = 64
-theme_override_colors/font_color = Color(0.35686275, 0.8392157, 0.5568628, 1)
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
 text = "7.4"
 
 [node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Stats/Grade/GradeValue" unique_id=880622805]
@@ -4080,10 +4085,10 @@ layout_mode = 2
 alignment = 2
 
 [node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Foot" unique_id=847775137]
-custom_minimum_size = Vector2(140, 0)
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwPrimary"
 text = "TY_LAUNCH_CONTINUE"
 
 [node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardSuccess/Margin/VBox/Foot/Continue" unique_id=479290210]
@@ -4141,7 +4146,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "TY_LAUNCH_KICK_PARTIAL"
 
 [node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Head" unique_id=430912592]
@@ -4154,7 +4159,7 @@ theme_type_variation = &"CwHintPill"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "TY_LAUNCH_TAG_PARTIAL"
 
 [node name="Title" type="Label" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1610730395]
@@ -4167,7 +4172,7 @@ text = "SND-01"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "Sounding rocket  →  Suborbital"
 
 [node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox" unique_id=1043126677]
@@ -4191,7 +4196,7 @@ text = "TY_LAUNCH_GRADE"
 layout_mode = 2
 theme_type_variation = &"CwDisplay"
 theme_override_font_sizes/font_size = 64
-theme_override_colors/font_color = Color(1, 0.77254903, 0.2784314, 1)
+theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "7.4"
 
 [node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Stats/Grade/GradeValue" unique_id=1658078046]
@@ -4230,10 +4235,10 @@ layout_mode = 2
 alignment = 2
 
 [node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Foot" unique_id=1179462301]
-custom_minimum_size = Vector2(140, 0)
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwPrimary"
 text = "TY_LAUNCH_CONTINUE"
 
 [node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardPartial/Margin/VBox/Foot/Continue" unique_id=2004642977]
@@ -4291,7 +4296,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwHeading"
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
 text = "TY_LAUNCH_KICK_FAIL"
 
 [node name="Tag" type="PanelContainer" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Head" unique_id=1503053758]
@@ -4304,7 +4309,7 @@ theme_type_variation = &"CwHintPill"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
 text = "TY_LAUNCH_TAG_FAIL"
 
 [node name="Title" type="Label" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=870609719]
@@ -4317,7 +4322,7 @@ text = "SND-01"
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.7647, 0.7882, 0.9176, 1)
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "Sounding rocket  →  Suborbital"
 
 [node name="Sep" type="HSeparator" parent="Overlay/Frame/Cards/CardFail/Margin/VBox" unique_id=2007530640]
@@ -4341,7 +4346,7 @@ text = "TY_LAUNCH_GRADE"
 layout_mode = 2
 theme_type_variation = &"CwDisplay"
 theme_override_font_sizes/font_size = 64
-theme_override_colors/font_color = Color(1, 0.36078432, 0.42352942, 1)
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
 text = "7.4"
 
 [node name="Ticker" type="Node" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Stats/Grade/GradeValue" unique_id=120156130]
@@ -4389,10 +4394,10 @@ layout_mode = 2
 alignment = 2
 
 [node name="Continue" type="Button" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Foot" unique_id=1211615658]
-custom_minimum_size = Vector2(140, 0)
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_type_variation = &"CwPrimary"
 text = "TY_LAUNCH_CONTINUE"
 
 [node name="Motion" type="Node" parent="Overlay/Frame/Cards/CardFail/Margin/VBox/Foot/Continue" unique_id=1903270301]

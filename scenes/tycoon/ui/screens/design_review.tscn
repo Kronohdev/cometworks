@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/crew.svg" id="cw_crew_icon"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/design_review_screen.gd" id="1_scr"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="2_seg"]
@@ -416,6 +417,15 @@ theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 16
 text = "“The biggest risk is the new family. Worth fixing.”"
 autowrap_mode = 3
+
+[node name="AdvisorFace" type="TextureRect" parent="Panel/Margin/VBox/Body/Right"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("cw_crew_icon")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RocketCard" type="PanelContainer" parent="Panel/Margin/VBox/Body/Right"]
 layout_mode = 2

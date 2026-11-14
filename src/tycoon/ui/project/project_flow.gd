@@ -101,6 +101,15 @@ func queued() -> Array[String]:
 	return out
 
 
+## Dev only (src/dev/cw_dev.gd skips phases): forgets the phase screens of a project, waiting or
+## on show, so the next screen (its next phase, its Design Review) comes up at once.
+func dev_drop_phases(project_id: String) -> void:
+	_queue.assign(_queue.filter(func(n: Dictionary) -> bool:
+		return not (String(n["name"]) == "project_phase" and String(n["args"].get("project_id", "")) == project_id)))
+	if hud.current_screen() == "project_phase":
+		hud.close_screen()
+
+
 func _enqueue(entry: Dictionary) -> void:
 	if String(entry["name"]) not in FIRST:
 		_queue.append(entry)

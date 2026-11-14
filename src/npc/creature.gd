@@ -55,6 +55,9 @@ const ONESHOTS := {"wave": 2.2, "cheer": 2.4, "jump": 1.0, "surprise": 1.1, "nod
 const EMOTES := ["heart", "star", "exclaim", "question", "note", "wrench", "rocket", "zzz",
 	"idea", "sweat", "happy", "sparkle", "chat", "fire", "check", "planet"]
 const EXPRESSIONS := ["neutral", "happy", "joy", "content", "sad", "surprised", "sleepy", "grumpy", "worried"]
+## the events react() knows (the dev menu lists them)
+const REACTIONS := ["part_placed", "part_removed", "vessel_cleared", "launch", "success", "failure", "hello", "hired",
+	"staged", "level_up", "good_news", "bad_news", "idea", "tired", "scared", "poke"]
 ## Role -> antenna glow colour (palette: ACCENT, HAZARD, ACCENT_2, SUCCESS).
 const ROLE_GLOW := {"pilot": Color("#f59a36"), "engineer": Color("#f2b705"),
 	"scientist": Color("#5fb0d8"), "ground": Color("#7ee08a")}
@@ -83,6 +86,11 @@ const _FIDGET_LEN := {"look_around": 2.6, "head_tilt": 1.8, "toe_bounce": 1.6, "
 		glow_color = v
 		_apply_colors()
 @export var body_material: Material
+## Eyes, happy eyes and mouths (flat painted light, drawn over the head voxels they sit in);
+## falls back to body_material when empty.
+@export var face_material: Material
+## Eyelids (skin light, drawn over the eyes); falls back to body_material when empty.
+@export var lid_material: Material
 ## Randomizes rhythm, blinks and idle habits so a crowd never moves in sync.
 @export var personality_seed := 0
 ## Loop action at start (see LOOP_ACTIONS).
@@ -361,6 +369,10 @@ func _ready() -> void:
 			_meshes.append(g)
 			if body_material:
 				g.material_override = body_material
+			if face_material and _under_any(g, [eye_l, eye_r, happy_l, happy_r, mouth]):
+				g.material_override = face_material
+			elif lid_material and _under_any(g, [lid_l, lid_r]):
+				g.material_override = lid_material
 			g.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			g.visibility_range_end = cull_distance
 			g.visibility_range_end_margin = 4.0
@@ -644,6 +656,13 @@ func effective_glow() -> Color:
 
 
 # ================================================================== look & role
+static func _under_any(n: Node, parents: Array) -> bool:
+	for p: Node in parents:
+		if p and p.is_ancestor_of(n):
+			return true
+	return false
+
+
 func _apply_colors() -> void:
 	if not _ready_done:
 		return

@@ -11,7 +11,7 @@ MENU_FAIR_TIP,"The hackathon demo: the full campaign, one week per second.","A d
 MENU_WORKSHOP,Rocket workshop,Oficina de foguetes
 MENU_WORKSHOP_HINT,Free building in the hangar,Montagem livre no hangar
 MENU_OPTIONS,Options,Opções
-MENU_OPTIONS_HINT,Language · display · sound · style,Idioma · tela · som · estilo
+MENU_OPTIONS_HINT,Language · display · sound · style · camera,Idioma · tela · som · estilo · câmera
 MENU_QUIT,Quit,Sair
 MENU_QUIT_HINT,See you at perihelion,Até o periélio
 MENU_KEYS,↑↓ choose   Enter open   Esc back,↑↓ escolher   Enter abrir   Esc voltar
@@ -46,3 +46,21 @@ MENU_OPT_STYLE_CLASSIC,Classic,Clássico
 MENU_OPT_OUTLINES,Outlines,Contornos
 MENU_OPT_ON,On,Ligados
 MENU_OPT_OFF,Off,Desligados
+MENU_OPT_CAM_ROTATE,Camera turn,Giro da câmera
+MENU_OPT_CAM_ZOOM,Camera zoom,Zoom da câmera
+MENU_OPT_CAM_INVERT,Invert,Inverter
+MENU_OPT_CAM_INV_TURN,Turn,Giro
+MENU_OPT_CAM_INV_TILT,Tilt,Inclinação
+MENU_OPT_CAM_INV_ZOOM,Zoom,Zoom
+MENU_OPT_CAM_ORBIT,Turn with,Girar com
+MENU_OPT_CAM_MIDDLE,Wheel button,Botão da roda
+MENU_OPT_CAM_RIGHT,Right button,Botão direito
+MENU_OPT_CAM_EDGE,Edge scroll,Rolar na borda
+MENU_OPT_CAM_EDGE_ON,On,Ligado
+MENU_OPT_CAM_EDGE_OFF,Off,Desligado
+MENU_OPT_PAGE_GENERAL,General,Geral
+MENU_OPT_PAGE_CAMERA,Camera,Câmera
+MENU_OPT_AA,Anti-aliasing,Antisserrilhado
+MENU_OPT_AA_SMAA,SMAA,SMAA
+MENU_OPT_AA_MSAA4,MSAA 4x,MSAA 4x
+MENU_OPT_AA_OFF,Off,Desligado

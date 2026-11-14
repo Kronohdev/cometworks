@@ -16,6 +16,8 @@ signal era_changed(era: int)
 const BUILDINGS_DIR := "res://scenes/tycoon/buildings/%s.tscn"
 ## how mowed the lawns are per era (shaders/campus_terrain.gdshader `tidy`)
 const TIDY := [0.0, 0.25, 0.55, 0.8, 1.0]
+## metadata of the extra walkers the dev menu spawns (no staff member; the crowd sync keeps them)
+const DEV_EXTRA := &"dev_extra"
 
 @export_group("Walkers")
 ## cost of walking a metre on the roads and the plaza (the cheapest ground)
@@ -330,7 +332,8 @@ func all_spots() -> Array[Dictionary]:
 ## members nap, new hires walk in from the Gate marker. More staff than authored Cometlings:
 ## the last one is duplicated.
 func _sync_crowd() -> void:
-	var walkers: Array[Node] = $Crowd.get_children()
+	var walkers: Array[Node] = []
+	walkers.assign($Crowd.get_children().filter(func(w: Node) -> bool: return not w.has_meta(DEV_EXTRA)))
 	while walkers.size() < state.staff.size():
 		var copy := walkers[walkers.size() - 1].duplicate()
 		$Crowd.add_child(copy)
@@ -383,6 +386,71 @@ func cometlings() -> Array[Node3D]:
 		if w is Node3D and (w as Node3D).visible:
 			out.append(w)
 	return out
+
+
+# ------------------------------------------------------------ dev menu (src/dev/cw_dev.gd)
+## Dev only: `n` more Cometlings walking the campus (copies of the first Crowd walker, no staff
+## member behind them, random looks), to test crowds. Returns them.
+func dev_spawn_walkers(n: int) -> Array[Node3D]:
+	var out: Array[Node3D] = []
+	var crowd := $Crowd
+	if crowd.get_child_count() == 0:
+		return out
+	var src := crowd.get_child(0)
+	for i in n:
+		var w := src.duplicate() as Node3D
+		w.set_meta(DEV_EXTRA, true)
+		crowd.add_child(w)
+		w.visible = true
+		w.set_process(true)
+		w.call("setup", self, _rng.randi(), _rng.randi_range(0, 8), ["ground", "pilot", "engineer", "scientist"][_rng.randi() % 4])
+		w.set("member_id", "")
+		w.call("set_leader", {})
+		w.position = Vector3(_rng.randf_range(-20.0, 20.0), w.position.y, _rng.randf_range(-15.0, 15.0))
+		w.call("place_free")
+		out.append(w)
+	return out
+
+
+## Dev only: the walkers dev_spawn_walkers() added leave.
+func dev_clear_walkers() -> int:
+	var n := 0
+	for w in $Crowd.get_children():
+		if w.has_meta(DEV_EXTRA):
+			release_spot(w)
+			w.queue_free()
+			n += 1
+	return n
+
+
+## Dev only: shows / hides the walk grid over the campus (CampusNav.debug_image(): red blocked,
+## orange near a wall, blue road, clear lawn) on a flat overlay.
+func dev_show_nav(on: bool) -> void:
+	var old := get_node_or_null("DevNavOverlay")
+	if old:
+		old.free()
+	if not on or nav == null:
+		return
+	var tex := ImageTexture.create_from_image(nav.debug_image())
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.no_depth_test = true
+	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	mat.albedo_texture = tex
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(nav.nx, nav.nz) * CampusNav.CELL
+	var mi := MeshInstance3D.new()
+	mi.name = "DevNavOverlay"
+	mi.mesh = plane
+	mi.material_override = mat
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)
+	mi.position = Vector3(nav.origin.x + plane.size.x * 0.5, 0.2, nav.origin.y + plane.size.y * 0.5)
+
+
+func dev_nav_shown() -> bool:
+	return get_node_or_null("DevNavOverlay") != null
 
 
 ## The staff member a Crowd Cometling stands for ({"name", "profession", ...}), {} if none.

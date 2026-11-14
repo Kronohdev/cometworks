@@ -4,6 +4,8 @@ extends SceneTree
 ## with the plain environment effects off (SSIL, SSAO, glow, fog), to see what each one costs.
 ## The cartoon look is measured too: without the ink outlines (scenes/fx/cw_outline.tscn) and
 ## in the classic style (cw_toon = 0, no outlines); the player's settings are not touched.
+## Also: the window's anti-aliasing (MSAA 4x, off, the old FXAA against the default SMAA),
+## a sun shadow map twice the project size and full-size SSAO.
 ## Run windowed: godot --path . --resolution 1600x900 --script res://tests/bench_campus_art.gd
 
 var main: TycoonMain
@@ -26,6 +28,17 @@ func _initialize() -> void:
 	await _frames(30)
 	var campus := main.campus
 	await _measure("all layers")
+	# anti-aliasing of the window ("all layers" runs with the player's choice, SMAA by default)
+	var msaa := get_root().msaa_3d
+	var ssaa := get_root().screen_space_aa
+	for m: Array in [["MSAA 4x", Viewport.MSAA_4X, Viewport.SCREEN_SPACE_AA_DISABLED],
+			["AA off", Viewport.MSAA_DISABLED, Viewport.SCREEN_SPACE_AA_DISABLED],
+			["FXAA (the old setting)", Viewport.MSAA_DISABLED, Viewport.SCREEN_SPACE_AA_FXAA]]:
+		get_root().msaa_3d = m[1]
+		get_root().screen_space_aa = m[2]
+		await _measure("all, %s" % m[0])
+	get_root().msaa_3d = msaa
+	get_root().screen_space_aa = ssaa
 	var outline := cam.get_node_or_null("CwOutline") as Node3D
 	if outline:
 		outline.visible = false
@@ -44,6 +57,13 @@ func _initialize() -> void:
 	for layer in ["Nature", "Dressing", "Life"]:
 		(campus.get_node(layer) as Node3D).visible = true
 	var env := (campus.get_node("WorldEnvironment") as WorldEnvironment).environment
+	var shadow := int(ProjectSettings.get_setting("rendering/lights_and_shadows/directional_shadow/size"))
+	RenderingServer.directional_shadow_atlas_set_size(shadow * 2, true)
+	await _measure("all, sun shadow map %d" % (shadow * 2))
+	RenderingServer.directional_shadow_atlas_set_size(shadow, true)
+	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_MEDIUM, false, 0.5, 2, 50.0, 300.0)
+	await _measure("all, SSAO medium full size")
+	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_LOW, true, 0.5, 2, 50.0, 300.0)
 	env.ssil_enabled = false
 	await _measure("all, SSIL off")
 	env.ssao_enabled = false

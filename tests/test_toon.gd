@@ -4,7 +4,10 @@ extends SceneTree
 ##     the include's toon_* uniforms and the shader's own ones)
 ##   * the shader globals exist in project.godot with sane values
 ##   * the Style / Outlines options toggle the cw_toon global and the outline nodes, live,
-##     and persist in user://settings.cfg (the player's own file is restored afterwards)
+##     and persist in user://settings.cfg (the player's own file is restored afterwards); so
+##     does the anti-aliasing (SMAA by default, MSAA 4x, off; FXAA never on)
+##   * Cometling eyes, happy eyes and mouths use the face material (flat painted light, depth
+##     bias over the head, no rim / glint), eyelids the lid material
 ##   * the main cameras carry the outline: campus, menu shots, launch, leader creator, rocket
 ##     designer, crew portrait, hangar and every cutscene shot
 ##   * the Cometling, campus and prop materials are toon materials
@@ -28,7 +31,7 @@ const CAMERAS := {
 	"res://scenes/tycoon/launch/launch_sequence.tscn": ["Stage/Spectators/CrewCam", "Stage/CamRig/ShotCam"],
 	"res://scenes/tycoon/ui/screens/leader_creator.tscn": ["Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Camera3D"],
 	"res://scenes/tycoon/ui/screens/rocket_designer.tscn": ["Panel/Margin/VBox/Body/Right/PreviewBay/Preview/Viewport/World/PreviewCam"],
-	"res://scenes/tycoon/ui/screens/crew.tscn": ["Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport/Camera3D"],
+	"res://scenes/tycoon/ui/screens/crew.tscn": ["Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Camera3D"],
 	"res://scenes/hangar.tscn": ["CameraRig/Camera3D"],
 }
 const SHOT_DIRS := ["res://scenes/menu/shots", "res://scenes/cutscenes/shots"]
@@ -41,6 +44,7 @@ func _initialize() -> void:
 	_check_globals()
 	_check_materials()
 	_check_cameras()
+	await _check_faces()
 	await _check_option()
 	print("RESULT: ", "PASS" if _failures == 0 else "FAIL (%d)" % _failures)
 	quit(1 if _failures else 0)
@@ -102,6 +106,18 @@ func _check_materials() -> void:
 	var om := load("res://scenes/fx/cw_outline_material.tres") as ShaderMaterial
 	var min_r := float(om.get_shader_parameter("crease_min_roughness"))
 	_expect(float(cm.get_shader_parameter("roughness")) < min_r, "Cometlings get no crease lines")
+	# Cometling faces: flat painted light, pulled over the head voxels, no rim slivers or glint
+	var fm := load("res://scenes/npc/creature_face_material.tres") as ShaderMaterial
+	var lm := load("res://scenes/npc/creature_lid_material.tres") as ShaderMaterial
+	_expect(fm != null and fm.shader == cm.shader and lm != null and lm.shader == cm.shader, "face / lid materials share the Cometling shader")
+	if fm and lm:
+		_expect(float(fm.get_shader_parameter("face_flat")) == 1.0, "faces are lit flat")
+		_expect(float(fm.get_shader_parameter("face_depth_bias")) > 0.01, "faces drawn over the head voxels")
+		_expect(float(fm.get_shader_parameter("face_depth_bias")) == float(lm.get_shader_parameter("face_depth_bias")),
+			"lids keep the same bias as the eyes (they still close over them)")
+		_expect(float(fm.get_shader_parameter("toon_rim")) == 0.0 and float(fm.get_shader_parameter("toon_specular")) == 0.0,
+			"no rim or glint on the faces")
+		_expect(float(fm.get_shader_parameter("roughness")) < min_r, "faces get no crease lines")
 	_expect(float((load("res://assets/campus/nature/foliage.tres") as ShaderMaterial).get_shader_parameter("roughness_value")) < min_r,
 		"trees get no crease lines")
 	_expect(float((load("res://assets/campus/campus_voxel.tres") as ShaderMaterial).get_shader_parameter("roughness_value")) >= min_r,
@@ -114,6 +130,32 @@ func _check_materials() -> void:
 		_expect(text.contains("cw_toon_solid.gdshader"), "%s uses cw_toon_solid" % path)
 		var plain := RegEx.create_from_string("\\[sub_resource type=\"StandardMaterial3D\" id=\"[^\"]+\"\\]\\n(albedo_color = [^\\n]+\\n)?roughness = ")
 		_expect(plain.search(text) == null, "%s has no plain lit StandardMaterial3D left" % path)
+
+
+## Every face part of a live Cometling wears the right material.
+func _check_faces() -> void:
+	var cm := load("res://scenes/npc/creature_material.tres") as ShaderMaterial
+	var fm := load("res://scenes/npc/creature_face_material.tres") as ShaderMaterial
+	var lm := load("res://scenes/npc/creature_lid_material.tres") as ShaderMaterial
+	var cr := (load("res://scenes/npc/creature.tscn") as PackedScene).instantiate() as Cometling
+	cr.listen_to_events = false
+	get_root().add_child(cr)
+	await process_frame
+	var eye_mesh := cr.eye_l.find_children("*", "MeshInstance3D", true, false)
+	var happy_mesh := cr.happy_l.find_children("*", "MeshInstance3D", true, false)
+	var lid_mesh := cr.lid_l.find_children("*", "MeshInstance3D", true, false)
+	var head_mesh := cr.neck.get_node("Mesh").find_children("*", "MeshInstance3D", true, false)
+	_expect(not eye_mesh.is_empty() and (eye_mesh[0] as MeshInstance3D).material_override == fm, "eyes use the face material")
+	_expect(not happy_mesh.is_empty() and (happy_mesh[0] as MeshInstance3D).material_override == fm, "happy eyes use the face material")
+	_expect(not lid_mesh.is_empty() and (lid_mesh[0] as MeshInstance3D).material_override == lm, "lids use the lid material")
+	var mouths := cr.mouth.find_children("*", "MeshInstance3D", true, false)
+	var mouth_ok := not mouths.is_empty()
+	for m in mouths:
+		mouth_ok = mouth_ok and (m as MeshInstance3D).material_override == fm
+	_expect(mouth_ok, "mouths use the face material")
+	_expect(not head_mesh.is_empty() and (head_mesh[0] as MeshInstance3D).material_override == cm, "the head keeps the body material")
+	cr.queue_free()
+	await process_frame
 
 
 func _outline_of(cam: Node) -> CwOutline:
@@ -189,6 +231,22 @@ func _check_option() -> void:
 	_expect(MenuSettings.toon_style(), "outlines off keeps the cartoon light")
 	MenuSettings.set_outlines(true)
 	_expect(outline.visible, "outlines on again")
+	# anti-aliasing: SMAA by default (sharp, no FXAA blur), switchable live, persisted
+	_expect(int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa_3d")) == Viewport.MSAA_DISABLED,
+		"project: no MSAA (its samples catch the voxel face cracks)")
+	_expect(int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/screen_space_aa")) == Viewport.SCREEN_SPACE_AA_SMAA,
+		"project: SMAA, not FXAA")
+	_expect(CwLook.AA_DEFAULT == "smaa", "SMAA is the default choice")
+	for mode: String in CwLook.AA_MODES:
+		MenuSettings.set_antialiasing(mode)
+		_expect(MenuSettings.antialiasing() == mode, "AA %s reads back" % mode)
+		_expect(get_root().msaa_3d == CwLook.aa_msaa(mode), "AA %s: window MSAA" % mode)
+		_expect(get_root().screen_space_aa == CwLook.aa_screen_space(mode), "AA %s: window screen-space AA" % mode)
+		_expect(get_root().screen_space_aa != Viewport.SCREEN_SPACE_AA_FXAA, "AA %s: no FXAA" % mode)
+	cfg.load(path)
+	_expect(String(cfg.get_value(CwLook.SECTION, "antialiasing", "")) == "off", "AA choice persists")
+	MenuSettings.set_antialiasing("bogus")
+	_expect(MenuSettings.antialiasing() == "smaa", "unknown AA falls back to SMAA")
 	# a scene's tints go back to the project values
 	CwLook.set_global(&"cw_shadow_tint", Color.RED)
 	CwLook.reset_tints()
@@ -207,6 +265,17 @@ func _check_option() -> void:
 	panel.outlines_off.pressed.emit()
 	_expect(not outline.visible, "panel: outlines off")
 	panel.outlines_on.pressed.emit()
+	panel.aa_msaa4.pressed.emit()
+	_expect(get_root().msaa_3d == Viewport.MSAA_4X and get_root().screen_space_aa == Viewport.SCREEN_SPACE_AA_DISABLED,
+		"panel: MSAA 4x applied live")
+	panel.aa_off.pressed.emit()
+	_expect(get_root().msaa_3d == Viewport.MSAA_DISABLED and get_root().screen_space_aa == Viewport.SCREEN_SPACE_AA_DISABLED,
+		"panel: AA off applied live")
+	panel.aa_smaa.pressed.emit()
+	_expect(get_root().msaa_3d == Viewport.MSAA_DISABLED and get_root().screen_space_aa == Viewport.SCREEN_SPACE_AA_SMAA,
+		"panel: SMAA applied live")
+	panel.sync()
+	_expect(panel.aa_smaa.button_pressed and not panel.aa_off.button_pressed, "panel: AA buttons show the choice")
 	panel.queue_free()
 	cam.queue_free()
 	await process_frame

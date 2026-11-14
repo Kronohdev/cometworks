@@ -65,7 +65,8 @@ func next() -> void:
 func _request(path: String) -> void:
 	if _requested.has(path) or ResourceLoader.has_cached(path):
 		return
-	if ResourceLoader.load_threaded_request(path, "PackedScene", true) == OK:
+	# one loader thread: sub-threads crashed Godot 4.6 now and then while the shots changed
+	if ResourceLoader.load_threaded_request(path, "PackedScene", false) == OK:
 		_requested[path] = true
 
 

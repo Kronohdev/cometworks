@@ -1,11 +1,12 @@
 class_name RaceScreen
 extends Control
 ## The race to the Moon (scenes/tycoon/ui/screens/race.tscn, GDD section 13): the 15
-## milestones as stations on an engraved track from the home world past the Moon to the
-## Mother-Ice, one lane per agency with its marker and what it took when, the rival cards
-## with their personalities, and the detail of the milestone under the cursor. All the
-## look is in the scene; this script fills data, places the station / lane templates on
-## the track (CwRaceTrack.station_pos) and follows the hover.
+## milestones as stations on a rail from the home world to the Mother-Ice (names alternate
+## above and below the line, so each has two stations of room), one row per agency with
+## what it took when, a plain-words legend, the rival cards in a scrolling row and the detail
+## of the milestone under the cursor. All the look is in the scene; this script fills data,
+## places the station / lane templates on the track (CwRaceTrack.station_pos) and follows
+## the hover.
 
 var state: TycoonState
 var clock: TycoonClock
@@ -48,6 +49,7 @@ func refresh() -> void:
 	%CometValue.text = "T− %02da %02ds" % [left / state.weeks_per_year(), left % state.weeks_per_year()]
 	track.count = r.milestones.size()
 	track.reached = r.frontier()
+	track.current_era = state.era()
 	_fill_eras()
 	_fill_stations()
 	_fill_lanes()
@@ -55,7 +57,6 @@ func refresh() -> void:
 	if selected < 0:
 		selected = mini(r.next_of(RaceDirector.PLAYER), r.milestones.size() - 1)
 	_fill_detail(selected)
-	_place_body_labels()
 
 
 static func initials(name: String) -> String:
@@ -109,8 +110,11 @@ func _fill_stations() -> void:
 		mk.ring_color = CwPalette.TEXT if i == selected else CwPalette.AURORA_TEAL
 		var info := st.get_node("Info") as VBoxContainer
 		var above := i % 2 == 1
+		# names alternate above / below the line: each one has two stations of room
+		var lw := minf(track.station_gap() * 2.0 - 8.0, 200.0)
 		info.alignment = BoxContainer.ALIGNMENT_END if above else BoxContainer.ALIGNMENT_BEGIN
-		info.position = Vector2(-info.size.x * 0.5, -info.size.y - 16.0 if above else 16.0)
+		info.size = Vector2(lw, info.size.y)
+		info.position = Vector2(-lw * 0.5, -info.size.y - 16.0 if above else 16.0)
 		# above the line the claim sits next to the marker, below it the number does
 		info.move_child(info.get_node("Num"), info.get_child_count() - 1 if above else 0)
 		(info.get_node("Num") as Label).text = "%02d" % (i + 1)
@@ -130,15 +134,6 @@ func _fill_stations() -> void:
 			hit.set_meta("wired", true)
 			hit.mouse_entered.connect(func() -> void: select(int(st.get_meta("index"))))
 		st.set_meta("index", i)
-
-
-func _place_body_labels() -> void:
-	var mc := track.moon_center()
-	var moon_l: Label = %MoonLabel
-	moon_l.position = Vector2(mc.x - moon_l.size.x * 0.5, mc.y + track.moon_radius() - 22.0)
-	var comet_l: Label = %CometLabel
-	var ch := track.comet_head()
-	comet_l.position = Vector2(ch.x - comet_l.size.x + 16.0, ch.y + 18.0)
 
 
 func select(i: int) -> void:
@@ -214,18 +209,13 @@ func _fill_cells(cells: Control, id: String, col: Color, dx: float, height: floa
 			year_l.add_theme_color_override("font_color", CwPalette.ink(Color(col, 0.9) if first else CwPalette.TEXT_DIM))
 			last_x = x
 	var rail := cells.get_node("Rail") as ColorRect
-	rail.position = Vector2(track.station_pos(0).x + dx, y - 0.5)
-	rail.size = Vector2(track.station_pos(n - 1).x - track.station_pos(0).x, 1.0)
+	rail.position = Vector2(track.station_pos(0).x + dx, y - 1.5)
+	rail.size = Vector2(track.station_pos(n - 1).x - track.station_pos(0).x, 3.0)
 	var prog := cells.get_node("Progress") as ColorRect
 	var target_x := track.station_pos(mini(next, n - 1)).x + dx if next < n else last_x
-	prog.color = Color(col, 0.55)
-	prog.position = Vector2(track.station_pos(0).x + dx, y - 1.0)
-	prog.size = Vector2(maxf(target_x - prog.position.x, 0.0), 2.0)
-	var tag := cells.get_node("Tag") as PanelContainer
-	(tag.get_node("Initials") as Label).text = _agency_initials(id)
-	tag.self_modulate = col
-	tag.position = Vector2(target_x + 13.0, y - tag.size.y * 0.5)
-	tag.visible = next < n
+	prog.color = Color(col, 0.75)
+	prog.position = Vector2(track.station_pos(0).x + dx, y - 2.0)
+	prog.size = Vector2(maxf(target_x - prog.position.x, 0.0), 4.0)
 
 
 # ------------------------------------------------------------ rival cards
@@ -252,7 +242,7 @@ func _fill_cards() -> void:
 		var next := r.next_of(id)
 		(v.get_node("Now/Value") as Label).text = tr(String(r.milestones[next].get("short_key", ""))) if next < r.milestones.size() else tr("TY_RACE_ALL_DONE")
 		(v.get_node("Foot/Motto") as Label).text = tr(String(p.get("motto_key", "")))
-		(v.get_node("Foot/Setbacks") as Label).text = "%s %d" % [tr("TY_RACE_SETBACKS").to_upper(), int(r.rival_state(id).get("fails", 0))]
+		(v.get_node("Foot/Setbacks") as Label).text = "%s: %d" % [tr("TY_RACE_SETBACKS"), int(r.rival_state(id).get("fails", 0))]
 
 
 # ------------------------------------------------------------ detail

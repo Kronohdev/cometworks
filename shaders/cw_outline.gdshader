@@ -25,6 +25,8 @@ global uniform float cw_outline_strength;
 group_uniforms Lines;
 // sample offset in pixels of the internal render (1 = thinnest line)
 uniform float line_width : hint_range(0.5, 3.0) = 1.5;
+// ignore 1-pixel depth holes (voxel face cracks seen by MSAA samples): no ink speckles
+uniform bool despeckle = true;
 // relative depth Laplacian that starts a line, and where it is full strength
 uniform float depth_threshold : hint_range(0.001, 0.5) = 0.07;
 uniform float depth_full : hint_range(0.001, 1.0) = 0.2;
@@ -91,6 +93,16 @@ void fragment() {
 	float dr = texture(depth_tex, uv + vec2(px.x, 0.0)).r;
 	float dd = texture(depth_tex, uv - vec2(0.0, px.y)).r;
 	float du = texture(depth_tex, uv + vec2(0.0, px.y)).r;
+	// lone far pixels (the hairline cracks between voxel faces that MSAA samples see through)
+	// are not silhouettes: each tap takes the nearer of itself and the pixel past it, so a
+	// 1-pixel hole is filled while a real edge (background on both) still draws its line
+	if (despeckle) {
+		vec2 px2 = 2.0 / VIEWPORT_SIZE;
+		dl = max(dl, texture(depth_tex, uv - vec2(px.x + px2.x, 0.0)).r);
+		dr = max(dr, texture(depth_tex, uv + vec2(px.x + px2.x, 0.0)).r);
+		dd = max(dd, texture(depth_tex, uv - vec2(0.0, px.y + px2.y)).r);
+		du = max(du, texture(depth_tex, uv + vec2(0.0, px.y + px2.y)).r);
+	}
 	// reverse Z: larger raw depth = nearer. Negative Laplacian = this pixel stands in front.
 	float lap_x = (dl + dr - 2.0 * dc) / dc;
 	float lap_y = (dd + du - 2.0 * dc) / dc;

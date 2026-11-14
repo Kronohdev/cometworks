@@ -25,6 +25,8 @@ const DATA_PATH := "res://data/tycoon/crew.json"
 const TRAITS := ["skill", "curiosity", "courage"]
 
 static var _data: Dictionary = {}
+## dev menu only (src/dev/cw_dev.gd): hiring ignores the staff limit of the buildings
+static var dev_ignore_limit := false
 
 
 static func data() -> Dictionary:
@@ -322,6 +324,15 @@ static func add_xp(s: TycoonState, staff_id: String, xp: float) -> int:
 
 
 # ------------------------------------------------------------ hiring market
+## Dev only (src/dev/cw_dev.gd): a fresh set of candidates now, as at the start of a month.
+static func dev_refresh_market(s: TycoonState) -> void:
+	ensure(s)
+	var r := _rng(s)
+	_new_market(s, r)
+	_store(s, r)
+	s.changed.emit()
+
+
 static func _new_market(s: TycoonState, r: RandomNumberGenerator) -> void:
 	var profs: Array = []
 	for p: Dictionary in s.pdata.get("professions", []):
@@ -398,7 +409,7 @@ static func can_hire(s: TycoonState, cand_id: String) -> String:
 	var c := find_candidate(s, cand_id)
 	if c.is_empty():
 		return "TY_CREW_ERR_NONE"
-	if s.staff.size() >= staff_limit(s):
+	if s.staff.size() >= staff_limit(s) and not dev_ignore_limit:
 		return "TY_CREW_ERR_LIMIT"
 	if s.cash < hire_fee(s, c):
 		return "TY_CREW_ERR_CASH"

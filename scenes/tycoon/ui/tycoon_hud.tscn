@@ -54,9 +54,9 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 16.0
-offset_top = 12.0
+offset_top = 10.0
 offset_right = -16.0
-offset_bottom = 84.0
+offset_bottom = 80.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_type_variation = &"CwBare"
@@ -502,51 +502,57 @@ icon = ExtResource("12_settings")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Race" type="PanelContainer" parent="."]
+[node name="Side" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = -340.0
 offset_top = 104.0
 offset_right = -16.0
-offset_bottom = 400.0
+offset_bottom = -116.0
 grow_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Race" type="PanelContainer" parent="Side"]
+layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Race"]
+[node name="VBox" type="VBoxContainer" parent="Side/Race"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="Race/VBox"]
+[node name="Title" type="Label" parent="Side/Race/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 19
 text = "TY_RACE_TITLE"
 
-[node name="Rows" type="VBoxContainer" parent="Race/VBox"]
+[node name="Rows" type="VBoxContainer" parent="Side/Race/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 7
 
-[node name="RaceRowTemplate" type="VBoxContainer" parent="Race/VBox/Rows"]
+[node name="RaceRowTemplate" type="VBoxContainer" parent="Side/Race/VBox/Rows"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Head" type="HBoxContainer" parent="Race/VBox/Rows/RaceRowTemplate"]
+[node name="Head" type="HBoxContainer" parent="Side/Race/VBox/Rows/RaceRowTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Dot" type="Panel" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+[node name="Dot" type="Panel" parent="Side/Race/VBox/Rows/RaceRowTemplate/Head"]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_type_variation = &"CwDot"
 
-[node name="Emblem" type="TextureRect" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+[node name="Emblem" type="TextureRect" parent="Side/Race/VBox/Rows/RaceRowTemplate/Head"]
 visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -555,19 +561,19 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+[node name="Name" type="Label" parent="Side/Race/VBox/Rows/RaceRowTemplate/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
 text = "Cometworks"
 text_overrun_behavior = 3
 
-[node name="Count" type="Label" parent="Race/VBox/Rows/RaceRowTemplate/Head"]
+[node name="Count" type="Label" parent="Side/Race/VBox/Rows/RaceRowTemplate/Head"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "0/15"
 
-[node name="Bar" type="Control" parent="Race/VBox/Rows/RaceRowTemplate"]
+[node name="Bar" type="Control" parent="Side/Race/VBox/Rows/RaceRowTemplate"]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 mouse_filter = 2
@@ -576,25 +582,30 @@ value = 0.2
 track_tint = 0.12
 pill = true
 
-[node name="Sep" type="HSeparator" parent="Race/VBox"]
+[node name="Sep" type="HSeparator" parent="Side/Race/VBox"]
 layout_mode = 2
 
-[node name="RadioTitle" type="Label" parent="Race/VBox"]
+[node name="RadioTitle" type="Label" parent="Side/Race/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 19
 text = "TY_RADIO_TITLE"
 
-[node name="News" type="VBoxContainer" parent="Race/VBox"]
+[node name="NewsScroll" type="ScrollContainer" parent="Side/Race/VBox"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="News" type="VBoxContainer" parent="Side/Race/VBox/NewsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="NewsTemplate" type="Label" parent="Race/VBox/News"]
+[node name="NewsTemplate" type="Label" parent="Side/Race/VBox/NewsScroll/News"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(282, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "Bem-vindos à Cometworks!"
@@ -625,7 +636,7 @@ theme_override_constants/separation = 8
 [node name="StripTemplate" type="PanelContainer" parent="Bottom/Strips"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(236, 0)
 layout_mode = 2
 theme_type_variation = &"CwStrip"
 
@@ -666,60 +677,55 @@ text = "TY_NEW_PROJECT"
 icon = ExtResource("20_rocket")
 expand_icon = true
 
-[node name="LotPanel" type="PanelContainer" parent="."]
+[node name="Gap" type="Control" parent="Side"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="LotPanel" type="PanelContainer" parent="Side"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -340.0
-offset_top = -362.0
-offset_right = -16.0
-offset_bottom = -104.0
-grow_horizontal = 0
-grow_vertical = 0
+layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="Motion" type="Node" parent="LotPanel"]
+[node name="Motion" type="Node" parent="Side/LotPanel"]
 script = ExtResource("15_motion")
 from_side = 3
 
-[node name="VBox" type="VBoxContainer" parent="LotPanel"]
+[node name="VBox" type="VBoxContainer" parent="Side/LotPanel"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Head" type="HBoxContainer" parent="LotPanel/VBox"]
+[node name="Head" type="HBoxContainer" parent="Side/LotPanel/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Icon" type="TextureRect" parent="LotPanel/VBox/Head"]
+[node name="Icon" type="TextureRect" parent="Side/LotPanel/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Titles" type="VBoxContainer" parent="LotPanel/VBox/Head"]
+[node name="Titles" type="VBoxContainer" parent="Side/LotPanel/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="LotName" type="Label" parent="LotPanel/VBox/Head/Titles"]
+[node name="LotName" type="Label" parent="Side/LotPanel/VBox/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 text = "Laboratório"
+autowrap_mode = 3
 
-[node name="LotLevel" type="Label" parent="LotPanel/VBox/Head/Titles"]
+[node name="LotLevel" type="Label" parent="Side/LotPanel/VBox/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "Lote vazio"
 
-[node name="Close" type="Button" parent="LotPanel/VBox/Head"]
+[node name="Close" type="Button" parent="Side/LotPanel/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
@@ -729,7 +735,7 @@ theme_type_variation = &"CwKey"
 icon = ExtResource("27_close")
 icon_alignment = 1
 
-[node name="LevelBar" type="Control" parent="LotPanel/VBox"]
+[node name="LevelBar" type="Control" parent="Side/LotPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -740,31 +746,30 @@ value = 0.333
 segments = 3
 gap = 5.0
 
-[node name="Desc" type="Label" parent="LotPanel/VBox"]
+[node name="Desc" type="Label" parent="Side/LotPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(290, 0)
 layout_mode = 2
 theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 15
 text = "Pesquisa: pontos de P&D."
 autowrap_mode = 3
 
-[node name="Cost" type="HBoxContainer" parent="LotPanel/VBox"]
+[node name="Cost" type="HBoxContainer" parent="Side/LotPanel/VBox"]
 layout_mode = 2
 
-[node name="Caption" type="Label" parent="LotPanel/VBox/Cost"]
+[node name="Caption" type="Label" parent="Side/LotPanel/VBox/Cost"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCaps"
 text = "TY_NEXT_LEVEL"
 
-[node name="CostValue" type="Label" parent="LotPanel/VBox/Cost"]
+[node name="CostValue" type="Label" parent="Side/LotPanel/VBox/Cost"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "120 000 cr · 6 sem"
 
-[node name="BuildButton" type="Button" parent="LotPanel/VBox"]
+[node name="BuildButton" type="Button" parent="Side/LotPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -897,19 +902,19 @@ wiggle_degrees = 9.0
 wiggle_seconds = 0.5
 wiggle_count = 2.5
 
-[node name="CwAppear" type="Node" parent="Race"]
+[node name="CwAppear" type="Node" parent="Side/Race"]
 script = ExtResource("cwm_appear")
 offset = Vector2(24, 0)
 seconds = 0.4
 delay = 0.18
 curve = 1
 
-[node name="CwGrow" type="Node" parent="Race/VBox/Rows/RaceRowTemplate/Bar"]
+[node name="CwGrow" type="Node" parent="Side/Race/VBox/Rows/RaceRowTemplate/Bar"]
 script = ExtResource("cwm_grow")
 delay = 0.45
 index_delay = 0.08
 
-[node name="CwAppear" type="Node" parent="Race/VBox/News/NewsTemplate"]
+[node name="CwAppear" type="Node" parent="Side/Race/VBox/NewsScroll/News/NewsTemplate"]
 script = ExtResource("cwm_appear")
 on_poke = true
 offset = Vector2(26, 0)
@@ -981,7 +986,7 @@ tint = Color(0.85, 0.8, 1, 1)
 beat_seconds = 0.5
 pivot = Vector2(0, 0.5)
 
-[node name="CwButtons" type="Node" parent="LotPanel"]
+[node name="CwButtons" type="Node" parent="Side/LotPanel"]
 script = ExtResource("cwm_btn")
 scope = 1
 press_scale = Vector2(1.03, 0.92)

@@ -65,7 +65,7 @@ ssao_radius = 1.6
 ssao_intensity = 1.5
 glow_enabled = true
 glow_intensity = 0.7
-glow_bloom = 0.05
+glow_bloom = 0.0
 glow_hdr_threshold = 1.0
 fog_enabled = true
 fog_light_color = Color(0.42, 0.36, 0.5, 1)
@@ -78,7 +78,7 @@ adjustment_saturation = 1.12
 dof_blur_far_enabled = true
 dof_blur_far_distance = 110.0
 dof_blur_far_transition = 80.0
-dof_blur_amount = 0.05
+dof_blur_amount = 0.02
 
 [node name="ShotCampus" type="Node3D" node_paths=PackedStringArray("campus", "camera", "path", "look_target")]
 script = ExtResource("1_shot")

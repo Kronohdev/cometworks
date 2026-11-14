@@ -1,0 +1,1529 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/dev/cw_dev.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Theme" path="res://scenes/dev/dev_theme.tres" id="3_dev"]
+
+[sub_resource type="ButtonGroup" id="bg_time_scale"]
+
+[sub_resource type="ButtonGroup" id="bg_turbo"]
+
+[sub_resource type="ButtonGroup" id="bg_force"]
+
+[sub_resource type="ButtonGroup" id="bg_creature_target"]
+
+[sub_resource type="ButtonGroup" id="bg_draw"]
+
+[node name="CwDev" type="CanvasLayer"]
+layer = 128
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="Panel" type="PanelContainer" parent="Root" groups=["cw_dev_shield"]]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 104.0
+offset_top = 100.0
+offset_right = 556.0
+offset_bottom = 620.0
+custom_minimum_size = Vector2(452, 0)
+theme = ExtResource("3_dev")
+theme_type_variation = &"DevPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 13
+tooltip_text = "Arraste para mover"
+
+[node name="Title" type="Label" parent="Root/Panel/VBox/Header"]
+layout_mode = 2
+theme_type_variation = &"DevTitle"
+text = "Dev"
+
+[node name="Keys" type="Label" parent="Root/Panel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DevChip"
+text = "F1"
+
+[node name="Fps" type="Label" parent="Root/Panel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"DevChipLilac"
+text = "60 fps"
+
+[node name="Spacer" type="Control" parent="Root/Panel/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="PauseTree" type="Button" parent="Root/Panel/VBox/Header"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Pausar"
+toggle_mode = true
+tooltip_text = "Pausa a árvore de cenas (get_tree().paused)"
+metadata/action = "pause_tree"
+
+[node name="Collapse" type="Button" parent="Root/Panel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "–"
+tooltip_text = "Recolher / expandir"
+
+[node name="Close" type="Button" parent="Root/Panel/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "×"
+tooltip_text = "Fechar (F1)"
+
+[node name="Body" type="VBoxContainer" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Context" type="Label" parent="Root/Panel/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Cena: —"
+
+[node name="Tabs" type="TabContainer" parent="Root/Panel/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 410)
+theme_type_variation = &"DevTabs"
+current_tab = 0
+
+[node name="Geral" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Perf" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Perf"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Desempenho"
+
+[node name="Well" type="PanelContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Perf"]
+layout_mode = 2
+theme_type_variation = &"DevWell"
+
+[node name="PerfText" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Perf/Well"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevMono"
+text = "—"
+
+[node name="Go" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Ir para"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go"]
+layout_mode = 2
+
+[node name="Menu" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Menu principal"
+metadata/action = "goto"
+metadata/arg = "menu"
+
+[node name="New" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Nova campanha"
+tooltip_text = "Pelo criador de líder"
+metadata/action = "goto"
+metadata/arg = "new"
+
+[node name="Direct" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Campanha direta"
+tooltip_text = "Sem criador de líder nem abertura"
+metadata/action = "goto"
+metadata/arg = "direct"
+
+[node name="Fair" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Modo feira"
+metadata/action = "goto"
+metadata/arg = "fair"
+
+[node name="Hangar" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Hangar"
+metadata/action = "goto"
+metadata/arg = "hangar"
+
+[node name="Flight" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Voo de teste"
+metadata/action = "goto"
+metadata/arg = "flight"
+
+[node name="Reload" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Recarregar cena"
+metadata/action = "reload"
+
+[node name="TimeScale" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Velocidade do motor (Engine.time_scale)"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale"]
+layout_mode = 2
+
+[node name="TS0" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "0,25×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 0.25
+
+[node name="TS1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "0,5×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 0.5
+
+[node name="TS2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "1×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 1.0
+
+[node name="TS3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "2×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 2.0
+
+[node name="TS4" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "4×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 4.0
+
+[node name="TS5" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/TimeScale/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "8×"
+toggle_mode = true
+button_group = SubResource("bg_time_scale")
+metadata/action = "time_scale"
+metadata/arg = 8.0
+
+[node name="Look" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Visual"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look"]
+layout_mode = 2
+
+[node name="Toon" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Estilo cartoon"
+toggle_mode = true
+metadata/action = "toon"
+
+[node name="Outlines" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Contornos"
+toggle_mode = true
+metadata/action = "outlines"
+
+[node name="Motion" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Reduzir movimento"
+toggle_mode = true
+metadata/action = "reduce_motion"
+
+[node name="Audio" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Áudio"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio"]
+layout_mode = 2
+
+[node name="Mute" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Mudo"
+toggle_mode = true
+metadata/action = "mute"
+
+[node name="Master" type="HBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Master"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 0)
+text = "Geral"
+
+[node name="Slider" type="HSlider" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Master"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.8
+metadata/action = "volume"
+metadata/arg = "volume"
+
+[node name="Value" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Master"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_type_variation = &"DevMono"
+text = ""
+horizontal_alignment = 2
+
+[node name="Music" type="HBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Music"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 0)
+text = "Música"
+
+[node name="Slider" type="HSlider" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Music"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.7
+metadata/action = "volume"
+metadata/arg = "music_volume"
+
+[node name="Value" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Music"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_type_variation = &"DevMono"
+text = ""
+horizontal_alignment = 2
+
+[node name="Sfx" type="HBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Sfx"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 0)
+text = "Efeitos"
+
+[node name="Slider" type="HSlider" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Sfx"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.9
+metadata/action = "volume"
+metadata/arg = "sfx_volume"
+
+[node name="Value" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Audio/Sfx"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_type_variation = &"DevMono"
+text = ""
+horizontal_alignment = 2
+
+[node name="Capture" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Capture"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Captura"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Capture"]
+layout_mode = 2
+
+[node name="Shot" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Capture/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Screenshot"
+tooltip_text = "Salva em user://screenshots/"
+metadata/action = "screenshot"
+
+[node name="UserDir" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Capture/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Abrir user://"
+metadata/action = "open_user_dir"
+
+[node name="Campanha" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/contexts = PackedStringArray("tycoon")
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Money" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Dinheiro, reputação e hype"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money"]
+layout_mode = 2
+
+[node name="Cash100k" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "+100 mil"
+metadata/action = "cash"
+metadata/arg = 100000
+
+[node name="Cash1M" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "+1 mi"
+metadata/action = "cash"
+metadata/arg = 1000000
+
+[node name="CashMinus" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "−100 mil"
+metadata/action = "cash"
+metadata/arg = -100000
+
+[node name="RepUp" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rep +5"
+metadata/action = "reputation"
+metadata/arg = 5
+
+[node name="RepDown" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rep −5"
+metadata/action = "reputation"
+metadata/arg = -5
+
+[node name="HypeUp" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Hype +5"
+metadata/action = "hype"
+metadata/arg = 5
+
+[node name="HypeDown" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Money/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Hype −5"
+metadata/action = "hype"
+metadata/arg = -5
+
+[node name="Time" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Calendário"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time"]
+layout_mode = 2
+
+[node name="Week" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "+1 semana"
+metadata/action = "skip"
+metadata/arg = "week"
+
+[node name="Month" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "+1 mês"
+metadata/action = "skip"
+metadata/arg = "month"
+
+[node name="Year" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "+1 ano"
+metadata/action = "skip"
+metadata/arg = "year"
+
+[node name="Speed0" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Pausa"
+metadata/action = "speed"
+metadata/arg = 0
+
+[node name="Speed1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Vel. 1"
+metadata/action = "speed"
+metadata/arg = 1
+
+[node name="Speed2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Vel. 2"
+metadata/action = "speed"
+metadata/arg = 2
+
+[node name="Speed3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Time/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Vel. 3"
+metadata/action = "speed"
+metadata/arg = 3
+
+[node name="Turbo" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Turbo do relógio (além da velocidade 3)"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo"]
+layout_mode = 2
+
+[node name="Turbo1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "×1"
+toggle_mode = true
+button_group = SubResource("bg_turbo")
+metadata/action = "turbo"
+metadata/arg = 1.0
+
+[node name="Turbo2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "×2"
+toggle_mode = true
+button_group = SubResource("bg_turbo")
+metadata/action = "turbo"
+metadata/arg = 2.0
+
+[node name="Turbo4" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "×4"
+toggle_mode = true
+button_group = SubResource("bg_turbo")
+metadata/action = "turbo"
+metadata/arg = 4.0
+
+[node name="Turbo8" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "×8"
+toggle_mode = true
+button_group = SubResource("bg_turbo")
+metadata/action = "turbo"
+metadata/arg = 8.0
+
+[node name="Turbo16" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Turbo/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "×16"
+toggle_mode = true
+button_group = SubResource("bg_turbo")
+metadata/action = "turbo"
+metadata/arg = 16.0
+
+[node name="Era" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Era e cometa"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era"]
+layout_mode = 2
+
+[node name="Era1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Era 1"
+metadata/action = "era"
+metadata/arg = 1
+
+[node name="Era2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Era 2"
+metadata/action = "era"
+metadata/arg = 2
+
+[node name="Era3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Era 3"
+metadata/action = "era"
+metadata/arg = 3
+
+[node name="Era4" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Era 4"
+metadata/action = "era"
+metadata/arg = 4
+
+[node name="Era5" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Era 5"
+metadata/action = "era"
+metadata/arg = 5
+
+[node name="CometNear" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Cometa em 2 sem."
+tooltip_text = "Contagem do cometa quase no fim"
+metadata/action = "comet"
+metadata/arg = 2
+
+[node name="CometNow" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Era/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevDanger"
+text = "Cometa agora"
+tooltip_text = "O cometa passa: final, cena e placar"
+metadata/action = "comet"
+metadata/arg = 0
+
+[node name="Campus" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Campus"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Campus e pesquisa"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Campus"]
+layout_mode = 2
+
+[node name="BuildAll" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Campus/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Construir tudo"
+tooltip_text = "Todos os lotes no nível máximo, já prontos"
+metadata/action = "build_all"
+
+[node name="ResearchAll" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Campus/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Toda a pesquisa"
+metadata/action = "research_all"
+
+[node name="Crew" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Equipe"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew"]
+layout_mode = 2
+
+[node name="Hire" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Contratar aleatório"
+metadata/action = "hire"
+
+[node name="Morale" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Moral máxima"
+metadata/action = "morale"
+
+[node name="LevelUp" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Todos sobem nível"
+metadata/action = "level_up"
+
+[node name="Market" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Crew/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Novos candidatos"
+metadata/action = "market"
+
+[node name="Race" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Contratos e corrida"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race"]
+layout_mode = 2
+
+[node name="Contract" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Aceitar contrato"
+metadata/action = "contract"
+
+[node name="Milestone" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Próximo marco"
+metadata/action = "milestone"
+
+[node name="Day" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Dia e noite"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day"]
+layout_mode = 2
+
+[node name="Phase" type="HBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Phase"]
+layout_mode = 2
+custom_minimum_size = Vector2(64, 0)
+text = "Fase"
+
+[node name="Slider" type="HSlider" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Phase"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.0
+metadata/action = "day_phase"
+metadata/arg = ""
+
+[node name="Value" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Phase"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_type_variation = &"DevMono"
+text = ""
+horizontal_alignment = 2
+
+[node name="DayFollow" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Seguir relógio"
+metadata/action = "day"
+metadata/arg = -1.0
+
+[node name="DayGold" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Dourada"
+metadata/action = "day"
+metadata/arg = 0.0
+
+[node name="DayDusk" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Anoitecer"
+metadata/action = "day"
+metadata/arg = 0.3
+
+[node name="DayNight" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Noite"
+metadata/action = "day"
+metadata/arg = 0.45
+
+[node name="DayDawn" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Day/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Amanhecer"
+metadata/action = "day"
+metadata/arg = 0.8
+
+[node name="Save" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Salvar e carregar"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save"]
+layout_mode = 2
+
+[node name="Save1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Salvar 1"
+metadata/action = "save"
+metadata/arg = "1"
+
+[node name="Save2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Salvar 2"
+metadata/action = "save"
+metadata/arg = "2"
+
+[node name="Save3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Salvar 3"
+metadata/action = "save"
+metadata/arg = "3"
+
+[node name="Load1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Carregar 1"
+metadata/action = "load"
+metadata/arg = "1"
+
+[node name="Load2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Carregar 2"
+metadata/action = "load"
+metadata/arg = "2"
+
+[node name="Load3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Carregar 3"
+metadata/action = "load"
+metadata/arg = "3"
+
+[node name="LoadAuto" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Save/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Carregar auto"
+metadata/action = "load"
+metadata/arg = "auto"
+
+[node name="Projetos" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/contexts = PackedStringArray("tycoon")
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Current" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Projeto em andamento"
+
+[node name="ProjectInfo" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevMono"
+text = "—"
+autowrap_mode = 3
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current"]
+layout_mode = 2
+
+[node name="Phase" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Concluir fase"
+metadata/action = "finish_phase"
+
+[node name="Dev" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Concluir desenvolvimento"
+metadata/action = "finish_dev"
+
+[node name="Review" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Current/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Abrir Design Review"
+metadata/action = "open_review"
+
+[node name="Force" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Próximo lançamento"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force"]
+layout_mode = 2
+
+[node name="ForceRoll" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Sorteio"
+toggle_mode = true
+button_group = SubResource("bg_force")
+metadata/action = "force"
+metadata/arg = ""
+
+[node name="ForceSuccess" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Sucesso"
+toggle_mode = true
+button_group = SubResource("bg_force")
+metadata/action = "force"
+metadata/arg = "success"
+
+[node name="ForcePartial" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Parcial"
+toggle_mode = true
+button_group = SubResource("bg_force")
+metadata/action = "force"
+metadata/arg = "partial"
+
+[node name="ForceFail" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Falha"
+toggle_mode = true
+button_group = SubResource("bg_force")
+metadata/action = "force"
+metadata/arg = "fail"
+
+[node name="QuickLaunch" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Force/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Lançar teste agora"
+tooltip_text = "Um foguete de sondagem suborbital, já no ar"
+metadata/action = "quick_launch"
+
+[node name="Replay" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Rever a cinemática"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay"]
+layout_mode = 2
+
+[node name="LaunchTarget" type="OptionButton" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay/Flow"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+tooltip_text = "Destino"
+
+[node name="ReplaySuccess" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Sucesso"
+metadata/action = "replay"
+metadata/arg = "success"
+
+[node name="ReplayPartial" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Parcial"
+metadata/action = "replay"
+metadata/arg = "partial"
+
+[node name="ReplayFail" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Replay/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Falha"
+metadata/action = "replay"
+metadata/arg = "fail"
+
+[node name="Rockets" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Rockets"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Foguetes"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Rockets"]
+layout_mode = 2
+
+[node name="Parts" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Rockets/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Todas as peças"
+metadata/action = "rocket_parts"
+
+[node name="Cenas" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Play" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Play"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Tocar cena"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Play"]
+layout_mode = 2
+metadata/fill = "cutscenes"
+
+[node name="Control" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Controle"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control"]
+layout_mode = 2
+
+[node name="Skip" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Pular a cena"
+metadata/action = "cutscene_skip"
+
+[node name="Reset" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Esquecer as vistas"
+tooltip_text = "Limpa TycoonState.story"
+metadata/action = "cutscene_reset"
+
+[node name="Enabled" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Cenas ligadas"
+toggle_mode = true
+metadata/action = "cutscenes_enabled"
+
+[node name="LaunchCine" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Control/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Cinemática de lançamento"
+toggle_mode = true
+metadata/action = "launch_cinematic"
+
+[node name="Telas" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/contexts = PackedStringArray("tycoon")
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Telas"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Open" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Telas/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Open"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Abrir tela da HUD"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Open"]
+layout_mode = 2
+metadata/fill = "screens"
+
+[node name="Events" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Telas/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Eventos"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events"]
+layout_mode = 2
+
+[node name="Paper" type="Button" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Jornal"
+metadata/action = "newspaper"
+
+[node name="Finale" type="Button" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Final"
+metadata/action = "finale"
+
+[node name="Score" type="Button" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Placar final"
+metadata/action = "final_score"
+
+[node name="CloseScreen" type="Button" parent="Root/Panel/VBox/Body/Tabs/Telas/Page/Events/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Fechar tela"
+metadata/action = "close_screen"
+
+[node name="Cometinhos" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/contexts = PackedStringArray("cometlings")
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Target" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Target"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Quem"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Target"]
+layout_mode = 2
+
+[node name="Followed" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Target/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Seguido"
+toggle_mode = true
+button_group = SubResource("bg_creature_target")
+tooltip_text = "O Cometinho que a câmera segue (clique num deles)"
+metadata/action = "creature_target"
+metadata/arg = "followed"
+
+[node name="All" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Target/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Todos"
+toggle_mode = true
+button_group = SubResource("bg_creature_target")
+metadata/action = "creature_target"
+metadata/arg = "all"
+
+[node name="CreatureInfo" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Target/Flow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevMono"
+text = "—"
+
+[node name="Actions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Actions"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Ações"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Actions"]
+layout_mode = 2
+metadata/fill = "actions"
+
+[node name="Emotes" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Emotes"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Emotes"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Emotes"]
+layout_mode = 2
+metadata/fill = "emotes"
+
+[node name="Expressions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Expressions"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Expressões"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Expressions"]
+layout_mode = 2
+metadata/fill = "expressions"
+
+[node name="Reactions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Reactions"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Reações"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Reactions"]
+layout_mode = 2
+metadata/fill = "reactions"
+
+[node name="Crowd" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page"]
+layout_mode = 2
+metadata/contexts = PackedStringArray("tycoon")
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Multidão"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd"]
+layout_mode = 2
+
+[node name="SpawnCount" type="SpinBox" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd/Flow"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 50.0
+value = 5.0
+custom_minimum_size = Vector2(84, 0)
+tooltip_text = "Quantos"
+
+[node name="Spawn" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Criar"
+metadata/action = "spawn"
+
+[node name="SpawnClear" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Remover extras"
+metadata/action = "spawn_clear"
+
+[node name="Nav" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cometinhos/Page/Crowd/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Grade de caminhada"
+toggle_mode = true
+metadata/action = "nav_debug"
+
+[node name="Log" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Page" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Log"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Debug" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Log/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Depuração"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug"]
+layout_mode = 2
+
+[node name="Collisions" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Colisões"
+toggle_mode = true
+tooltip_text = "Vale para o que for criado depois (recarregue a cena)"
+metadata/action = "collisions"
+
+[node name="Draw0" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Normal"
+toggle_mode = true
+button_group = SubResource("bg_draw")
+metadata/action = "draw"
+metadata/arg = 0
+
+[node name="Draw1" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Sem luz"
+toggle_mode = true
+button_group = SubResource("bg_draw")
+metadata/action = "draw"
+metadata/arg = 1
+
+[node name="Draw2" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Luz"
+toggle_mode = true
+button_group = SubResource("bg_draw")
+metadata/action = "draw"
+metadata/arg = 2
+
+[node name="Draw3" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Overdraw"
+toggle_mode = true
+button_group = SubResource("bg_draw")
+metadata/action = "draw"
+metadata/arg = 3
+
+[node name="Draw4" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Debug/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Wireframe"
+toggle_mode = true
+button_group = SubResource("bg_draw")
+metadata/action = "draw"
+metadata/arg = 4
+
+[node name="Lines" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Log/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Avisos e erros"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines"]
+layout_mode = 2
+
+[node name="Clear" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Limpar"
+metadata/action = "log_clear"
+
+[node name="Copy" type="Button" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Copiar"
+metadata/action = "log_copy"
+
+[node name="LogList" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="LogEmpty" type="Label" parent="Root/Panel/VBox/Body/Tabs/Log/Page/Lines/LogList"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Nada por aqui. Bom sinal!"
+
+[node name="Status" type="Label" parent="Root/Panel/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = " "
+text_overrun_behavior = 3
+
+[node name="Templates" type="Control" parent="Root/Panel/VBox"]
+layout_mode = 2
+visible = false
+
+[node name="ButtonTemplate" type="Button" parent="Root/Panel/VBox/Templates"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "ação"
+
+[node name="LogRowTemplate" type="Label" parent="Root/Panel/VBox/Templates"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(410, 0)
+theme_type_variation = &"DevMono"
+text = "linha"
+autowrap_mode = 3

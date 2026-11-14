@@ -11,6 +11,10 @@ extends RefCounted
 ##   state.projects          the bottom-strip view the HUD draws (code, phase, progress, colour)
 ## TycoonState.advance_week() calls ProjectDesk.advance_week(self) once per week.
 
+## Dev menu only (src/dev/cw_dev.gd): the outcome the next launch() takes, whatever the roll:
+## "success" (at least "full"), "partial" or "fail"; "" rolls as usual. Used once, then cleared.
+static var dev_force_outcome := ""
+
 
 # ------------------------------------------------------------ queries
 static func find(state: TycoonState, project_id: String) -> MissionProject:
@@ -358,6 +362,45 @@ static func scrub(state: TycoonState, project_id: String) -> bool:
 	return true
 
 
+# ------------------------------------------------------------ dev menu (src/dev/cw_dev.gd)
+## Dev only: works the project's current phase to its end at once (no week passes, nothing is
+## paid). Then, as a week would: the next phase asks for its sliders (project_phase_started)
+## or development ends (the Design Review waits, or it launches with the gate off). A project
+## in its review's fixes or rebuild counts them down to the end. False if there is nothing to do.
+static func dev_finish_phase(state: TycoonState, project_id: String) -> bool:
+	var p := find(state, project_id)
+	if p == null or p.review_state == "waiting":
+		return false
+	if p.review_state != "":
+		p.review_weeks = 1
+		_review_week(state, p)
+		sync_strips(state)
+		state.changed.emit()
+		return true
+	var new_phase := false
+	while not p.is_done() and not new_phase:
+		new_phase = p.work_week(state)
+	if p.is_done():
+		_development_done(state, p)
+	else:
+		sync_strips(state)
+		state.project_phase_started.emit(p.id, p.phase)
+	sync_strips(state)
+	state.changed.emit()
+	return true
+
+
+## Dev only: dev_finish_phase() until the project leaves development (its Design Review).
+static func dev_finish_development(state: TycoonState, project_id: String) -> bool:
+	var any := false
+	for i in 4:
+		var p := find(state, project_id)
+		if p == null or p.review_state == "waiting":
+			break
+		any = dev_finish_phase(state, project_id) or any
+	return any
+
+
 # ------------------------------------------------------------ launch and review (GDD 6.6)
 ## Chance of success (DesignReview.odds with the project's review fixes):
 ##   rocket  = the product of (1 - p) of the rocket's risks: components, the family's flight
@@ -406,6 +449,10 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 	LaunchPads.launched(state, pad, rocket["parts"])
 	var roll := state.rng.randf()
 	var success := roll < float(chance["total"])
+	var forced := dev_force_outcome
+	dev_force_outcome = ""
+	if forced != "":
+		success = forced != "fail"
 	var cause := {}
 	if not success:
 		cause = DesignReview.pick_cause(chance["risks"], state.rng.randf())
@@ -421,6 +468,10 @@ static func launch(state: TycoonState, p: MissionProject) -> Dictionary:
 			var bi := ProjectRules.BARS.find(bar)
 			if bi >= 0 and bars[bi] < float(c["min_bars"][bar]):
 				outcome = "partial"
+		if forced == "partial":
+			outcome = "partial"
+		elif forced == "success" and outcome == "partial":
+			outcome = "full"
 	# the family's heritage, and the recovered stage's refund after a good flight
 	RocketFamilies.record_flight(state, String(rocket["family"]), success)
 	var refund := float(RocketDesigner.stats(rocket["parts"])["refund"]) if success else 0.0

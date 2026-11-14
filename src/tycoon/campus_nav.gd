@@ -188,6 +188,21 @@ func finish() -> void:
 			_astar.set_point_weight_scale(id, road_cost * k)
 
 
+## Debug picture of the grid (dev menu, Campus.dev_show_nav): one pixel per cell, row 0 at the
+## lowest z; blocked red, near a footprint orange, road blue, lawn clear.
+func debug_image() -> Image:
+	var img := Image.create(maxi(nx, 1), maxi(nz, 1), false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	for idx in _flags.size():
+		var f := _flags[idx]
+		if f == 0:
+			continue
+		var c := Color(0.95, 0.2, 0.25, 0.7) if f & F_SOLID else (Color(1.0, 0.6, 0.15, 0.45) if f & F_NEAR
+			else Color(0.3, 0.55, 1.0, 0.35))
+		img.set_pixel(idx % nx, idx / nx, c)
+	return img
+
+
 # ------------------------------------------------------------ queries
 ## True when a walker's centre may stand at `p` (campus x, z): inside the grid, not blocked.
 func is_free(p: Vector2) -> bool:

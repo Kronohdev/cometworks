@@ -35,7 +35,7 @@ TY_LOT_FOR_SALE,Lot for sale,Lote à venda
 TY_LEVEL,Level %d,Nível %d
 TY_WEEKS,%d wk,%d sem
 TY_WEEKS_LEFT,%d weeks left,faltam %d semanas
-TY_CAMPUS_HINT,"Click a Cometling to follow it or a building to see it · right-drag to move · wheel zooms to the cursor · Q / E to turn · Space pauses","Clique num Cometinho para segui-lo ou num prédio para vê-lo · arraste com o botão direito para mover · a roda dá zoom no cursor · Q / E para girar · Espaço pausa"
+TY_CAMPUS_HINT,"Click a Cometling to follow it or a building to see it · right-drag moves · wheel-button drag or Q / E turns · wheel zooms · WASD pans · F frames · Home resets · Space pauses","Clique num Cometinho para segui-lo ou num prédio para vê-lo · botão direito move · roda pressionada (ou Q / E) gira · roda dá zoom · WASD move · F enquadra · Home volta · Espaço pausa"
 TY_BUILD_HINT,Click an empty lot (glowing posts) to buy it and build,Clique num lote vazio (postes acesos) para comprar e construir
 TY_BUILD_STARTED,Construction started: %s,Obra iniciada: %s
 TY_BUILT_HINT,%s is ready,%s ficou pronto
@@ -68,7 +68,7 @@ TY_B_FACTORY,Factory,Fábrica
 TY_B_FACTORY_DESC,Series production: cheaper and faster repeated units.,Produção em série: unidades repetidas mais baratas e rápidas.
 TY_CAM_FOLLOWING,Following,Seguindo
 TY_CAM_COMETLING,Cometling,Cometinho
-TY_CAM_FOLLOW_HINT,Esc or click the ground to let go · wheel zooms · Q / E turn,Esc ou clique no chão para soltar · a roda dá zoom · Q / E giram
+TY_CAM_FOLLOW_HINT,"Esc or click the ground to let go · wheel-button drag orbits · wheel zooms · F re-frames","Esc ou clique no chão para soltar · roda pressionada gira ao redor · roda dá zoom · F reenquadra"
 TY_CAM_TOUR,Cinematic tour,Passeio cinematográfico
 TY_CAM_TOUR_TITLE,A day at Cometworks,Um dia na Cometworks
 TY_CAM_TOUR_HINT,Move the mouse or press a key to take over,Mexa o mouse ou aperte uma tecla para assumir

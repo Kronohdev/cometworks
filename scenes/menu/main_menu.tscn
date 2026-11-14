@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/settings.svg" id="14_settings"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/door.svg" id="15_door"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
-[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_selection_marker.gd" id="cwm_marker"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_shimmer.gd" id="cwm_shimmer"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
@@ -236,21 +235,6 @@ theme_override_font_sizes/font_size = 12
 text = "MENU_KEYS"
 horizontal_alignment = 1
 vertical_alignment = 2
-
-[node name="SelectionMarker" type="Control" parent="UI/Root"]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 310.0
-offset_right = 83.0
-offset_bottom = 340.0
-mouse_filter = 2
-script = ExtResource("cwm_marker")
-items = NodePath("../MenuPanel/VBox")
-color = Color(1, 0.6039, 0.3608, 1)
-color_end = Color(0.702, 0.6118, 1, 1)
-bar_width = 6.0
-gap = -9.0
-glow = 0.0
 
 [node name="OptionsPanel" parent="UI/Root" instance=ExtResource("7_options")]
 unique_name_in_owner = true

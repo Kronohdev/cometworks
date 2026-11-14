@@ -18,7 +18,7 @@ var _fire_armed := ""
 var _note := ""
 var _shown_look := ""
 
-@onready var creature: Cometling = $Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport/Creature
+@onready var creature: Cometling = $Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Creature
 
 
 func _ready() -> void:
@@ -104,7 +104,8 @@ func refresh() -> void:
 	_fill_composition()
 
 
-## Footer: how many Cometlings of each profession, and the project bar each one favours.
+## Footer: a chip per profession with how many Cometlings have it and the project bar it
+## favours, in full words (the chips flow onto a second line when the row is full).
 func _fill_composition() -> void:
 	var profs: Array = state.pdata.get("professions", [])
 	var cells := TycoonHUD._copies(%ProfTemplate, profs.size())
@@ -114,7 +115,7 @@ func _fill_composition() -> void:
 		for m in state.staff:
 			n += 1 if m.get("profession", "") == p["id"] else 0
 		var col := Color(String(p.get("color", "#8c9ab5")))
-		var cell := cells[i]
+		var cell := cells[i].get_node("HBox")
 		(cell.get_node("Bulb") as TextureRect).self_modulate = col if n > 0 else CwPalette.LINE
 		var count := cell.get_node("Count") as Label
 		count.text = str(n)
@@ -124,7 +125,7 @@ func _fill_composition() -> void:
 		name_l.add_theme_color_override("font_color", CwPalette.TEXT if n > 0 else CwPalette.TEXT_DIM)
 		var bar := String(p.get("primary", "eng"))
 		var bar_l := cell.get_node("Bar") as Label
-		bar_l.text = tr("TY_CREW_BAR_" + bar.to_upper())
+		bar_l.text = tr("TY_BAR_" + bar.to_upper())
 		bar_l.add_theme_color_override("font_color", CwPalette.ink(CwPalette.BARS.get(bar, CwPalette.TEXT_DIM)))
 
 

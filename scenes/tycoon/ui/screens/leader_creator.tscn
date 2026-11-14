@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="Theme" path="res://ui/cometworks_on_dark.tres" id="cw_on_dark"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/leader_creator.gd" id="2_script"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_starfield.gd" id="3_stars"]
@@ -13,27 +14,51 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/shield.svg" id="11_rel"]
 [ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
 [ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_button_style.gd" id="cw_btn_style"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_pulse.gd" id="cwm_pulse"]
+[ext_resource type="FontFile" path="res://ui/fonts/fredoka/Fredoka-Variable.ttf" id="f_fredoka"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/palette.svg" id="i_palette"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/build.svg" id="i_build"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/race.svg" id="i_race"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/dice.svg" id="i_dice"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/check.svg" id="i_check"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="i_left"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_right.svg" id="i_right"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="i_rocket"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/flame.svg" id="i_flame"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/research.svg" id="i_research"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/contracts.svg" id="i_contracts"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/twinkle.svg" id="i_twinkle"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_role.svg" id="h_role"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_none.svg" id="h_none"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_crown.svg" id="h_crown"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_propeller.svg" id="h_propeller"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_beanie.svg" id="h_beanie"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_flower.svg" id="h_flower"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/hat_bow.svg" id="h_bow"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/emblems/comet.svg" id="e_comet"]
+[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/emotes.png" id="emote_sheet"]
 
-[sub_resource type="Gradient" id="stage_glow"]
-offsets = PackedFloat32Array(0, 0.55, 1)
-colors = PackedColorArray(0.5294, 0.4627, 0.851, 1, 0.2706, 0.2275, 0.5686, 1, 0.1569, 0.1333, 0.3725, 1)
+[sub_resource type="FontVariation" id="f_name"]
+base_font = ExtResource("f_fredoka")
+variation_opentype = {
+2003265652: 600
+}
 
-[sub_resource type="GradientTexture2D" id="stage_tex"]
-gradient = SubResource("stage_glow")
+[sub_resource type="Gradient" id="glow_grad"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(0.7608, 0.6745, 1, 0.62, 0.5098, 0.4275, 0.9098, 0.28, 0.2706, 0.2275, 0.5686, 0)
+
+[sub_resource type="GradientTexture2D" id="glow_tex"]
+gradient = SubResource("glow_grad")
 width = 256
 height = 256
 fill = 1
-fill_from = Vector2(0.5, 0.62)
-fill_to = Vector2(0.5, -0.15)
-
-[sub_resource type="Gradient" id="aurora"]
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(0.4353, 0.8784, 0.7451, 1, 0.702, 0.6118, 1, 1, 1, 0.6039, 0.3608, 1)
-
-[sub_resource type="GradientTexture2D" id="thread"]
-gradient = SubResource("aurora")
-width = 256
-height = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
 
 [sub_resource type="StyleBoxFlat" id="swatch_fill"]
 bg_color = Color(1, 1, 1, 1)
@@ -42,16 +67,169 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.1686, 0.1647, 0.3608, 1)
-corner_radius_top_left = 11
-corner_radius_top_right = 11
-corner_radius_bottom_right = 11
-corner_radius_bottom_left = 11
-corner_detail = 12
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="disc"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="ribbon"]
+content_margin_left = 12.0
+content_margin_top = 3.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="bonus_pill"]
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 12.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.8824, 0.8, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8275, 0.3529, 0.149, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBox" id="sw_normal"]
+script = ExtResource("cw_btn_style")
+face_top = Color(1, 0.9922, 0.9725, 1)
+face_bottom = Color(0.9647, 0.9216, 0.851, 1)
+lip_color = Color(0.851, 0.7608, 0.6118, 1)
+lip = 4.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 2.5
+outline_body = true
+shine_color = Color(1, 1, 1, 0)
+gloss_color = Color(1, 1, 1, 0)
+corner_radius = 40.0
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 3)
+shadow_size = 4
+padding = Vector4(6, 6, 6, 10)
+
+[sub_resource type="StyleBox" id="sw_hover"]
+script = ExtResource("cw_btn_style")
+face_top = Color(1, 1, 1, 1)
+face_bottom = Color(1, 0.9569, 0.8863, 1)
+lip_color = Color(0.851, 0.7608, 0.6118, 1)
+lip = 4.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 2.5
+outline_body = true
+shine_color = Color(1, 1, 1, 0)
+gloss_color = Color(1, 1, 1, 0)
+lift = 2.0
+corner_radius = 40.0
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 5)
+shadow_size = 6
+padding = Vector4(6, 4, 6, 12)
+
+[sub_resource type="StyleBox" id="sw_on"]
+script = ExtResource("cw_btn_style")
+face_top = Color(0.6157, 0.9373, 0.8314, 1)
+face_bottom = Color(0.4353, 0.8784, 0.7451, 1)
+lip_color = Color(0.1843, 0.6431, 0.5255, 1)
+lip = 4.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 3.0
+outline_body = true
+shine_color = Color(1, 1, 1, 0.7)
+gloss_color = Color(1, 1, 1, 0)
+corner_radius = 40.0
+glow_color = Color(0.4353, 0.8784, 0.7451, 0.55)
+glow_size = 9
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 3)
+shadow_size = 4
+padding = Vector4(6, 6, 6, 10)
+
+[sub_resource type="StyleBox" id="tile_normal"]
+script = ExtResource("cw_btn_style")
+face_top = Color(1, 0.9922, 0.9725, 1)
+face_bottom = Color(0.9647, 0.9216, 0.851, 1)
+lip_color = Color(0.851, 0.7608, 0.6118, 1)
+lip = 5.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 2.5
+outline_body = true
+shine_color = Color(1, 1, 1, 0)
+gloss_color = Color(1, 1, 1, 0)
+corner_radius = 18.0
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 3)
+shadow_size = 4
+padding = Vector4(8, 6, 8, 11)
+
+[sub_resource type="StyleBox" id="tile_hover"]
+script = ExtResource("cw_btn_style")
+face_top = Color(1, 1, 1, 1)
+face_bottom = Color(1, 0.9569, 0.8863, 1)
+lip_color = Color(0.851, 0.7608, 0.6118, 1)
+lip = 5.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 2.5
+outline_body = true
+shine_color = Color(1, 1, 1, 0)
+gloss_color = Color(1, 1, 1, 0)
+lift = 2.0
+corner_radius = 18.0
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 5)
+shadow_size = 6
+padding = Vector4(8, 4, 8, 13)
+
+[sub_resource type="StyleBox" id="tile_on"]
+script = ExtResource("cw_btn_style")
+face_top = Color(0.8667, 0.9686, 0.9333, 1)
+face_bottom = Color(0.6588, 0.9255, 0.8392, 1)
+lip_color = Color(0.1843, 0.6431, 0.5255, 1)
+lip = 5.0
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+border_width = 3.0
+outline_body = true
+shine_color = Color(1, 1, 1, 0.7)
+gloss_color = Color(1, 1, 1, 0)
+corner_radius = 18.0
+glow_color = Color(0.4353, 0.8784, 0.7451, 0.5)
+glow_size = 8
+shadow_color = Color(0.102, 0.0941, 0.2745, 0.22)
+shadow_offset = Vector2(0, 3)
+shadow_size = 4
+padding = Vector4(8, 6, 8, 11)
 
 [sub_resource type="StyleBoxFlat" id="chip_eng"]
-content_margin_left = 7.0
-content_margin_top = 2.0
-content_margin_right = 9.0
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
 bg_color = Color(1, 0.8824, 0.8, 1)
 border_width_left = 1
@@ -65,9 +243,9 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="chip_sci"]
-content_margin_left = 7.0
-content_margin_top = 2.0
-content_margin_right = 9.0
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
 bg_color = Color(0.8588, 0.9294, 1, 1)
 border_width_left = 1
@@ -81,9 +259,9 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="chip_ops"]
-content_margin_left = 7.0
-content_margin_top = 2.0
-content_margin_right = 9.0
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
 bg_color = Color(0.8667, 0.9686, 0.9333, 1)
 border_width_left = 1
@@ -97,9 +275,9 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="chip_rel"]
-content_margin_left = 7.0
-content_margin_top = 2.0
-content_margin_right = 9.0
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 8.0
 content_margin_bottom = 2.0
 bg_color = Color(0.9333, 0.9098, 1, 1)
 border_width_left = 1
@@ -111,6 +289,8 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="ButtonGroup" id="tab_group"]
 
 [sub_resource type="ButtonGroup" id="body_group"]
 
@@ -132,103 +312,129 @@ corner_radius_bottom_left = 10
 background_mode = 1
 background_color = Color(0, 0, 0, 0)
 ambient_light_source = 2
-ambient_light_color = Color(0.62, 0.68, 0.84, 1)
-ambient_light_energy = 0.6
+ambient_light_color = Color(0.66, 0.68, 0.88, 1)
+ambient_light_energy = 0.55
 tonemap_mode = 3
 tonemap_white = 8.0
 glow_enabled = true
-glow_intensity = 0.5
-glow_bloom = 0.05
+glow_intensity = 0.45
+glow_bloom = 0.04
 
 [sub_resource type="World3D" id="stage_world"]
 environment = SubResource("stage_env")
 
-[sub_resource type="CylinderMesh" id="plinth_mesh"]
-top_radius = 0.72
-bottom_radius = 0.78
-height = 0.14
+[sub_resource type="SphereMesh" id="knoll_mesh"]
+radius = 1.15
+height = 2.3
 radial_segments = 48
-rings = 1
+rings = 24
 
-[sub_resource type="ShaderMaterial" id="plinth_mat"]
+[sub_resource type="ShaderMaterial" id="grass_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.4392, 0.8196, 0.4902, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="island_mesh"]
+top_radius = 1.1
+bottom_radius = 0.16
+height = 1.0
+radial_segments = 9
+rings = 2
+
+[sub_resource type="ShaderMaterial" id="dirt_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.8, 0.5765, 0.4392, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="BoxMesh" id="stem_mesh"]
+size = Vector3(0.025, 0.14, 0.025)
+
+[sub_resource type="BoxMesh" id="bloom_mesh"]
+size = Vector3(0.085, 0.06, 0.085)
+
+[sub_resource type="BoxMesh" id="rock_mesh"]
+size = Vector3(0.17, 0.11, 0.14)
+
+[sub_resource type="ShaderMaterial" id="stem_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.3608, 0.749, 0.451, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="pink_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(1, 0.5608, 0.7216, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="butter_mat"]
 shader = ExtResource("cw_toon_solid")
 shader_parameter/albedo = Color(1, 0.8235, 0.3608, 1)
-shader_parameter/roughness = 0.75
+shader_parameter/roughness = 0.9
 
-[sub_resource type="CylinderMesh" id="step_mesh"]
-top_radius = 1.0
-bottom_radius = 1.04
-height = 0.08
-radial_segments = 48
-rings = 1
-
-[sub_resource type="ShaderMaterial" id="step_mat"]
+[sub_resource type="ShaderMaterial" id="lilac_mat"]
 shader = ExtResource("cw_toon_solid")
 shader_parameter/albedo = Color(0.702, 0.6118, 1, 1)
 shader_parameter/roughness = 0.9
 
-[sub_resource type="TorusMesh" id="ring_mesh"]
-inner_radius = 0.73
-outer_radius = 0.76
-rings = 64
-ring_segments = 6
+[sub_resource type="ShaderMaterial" id="rock_mat"]
+shader = ExtResource("cw_toon_solid")
+shader_parameter/albedo = Color(0.6588, 0.6392, 0.8196, 1)
+shader_parameter/roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="ring_mat"]
+[sub_resource type="Gradient" id="blob_grad"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.1686, 0.1647, 0.3608, 0.38, 0.1686, 0.1647, 0.3608, 0.2, 0.1686, 0.1647, 0.3608, 0)
+
+[sub_resource type="GradientTexture2D" id="blob_tex"]
+gradient = SubResource("blob_grad")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="blob_mat"]
+transparency = 1
 shading_mode = 0
-albedo_color = Color(1, 0.9647, 0.902, 1)
-emission_enabled = true
-emission = Color(1, 0.9647, 0.902, 1)
-emission_energy_multiplier = 2.0
+albedo_texture = SubResource("blob_tex")
 
-[sub_resource type="CylinderMesh" id="rocket_body"]
-top_radius = 0.09
-bottom_radius = 0.1
-height = 0.62
-radial_segments = 12
-rings = 1
+[sub_resource type="PlaneMesh" id="blob_mesh"]
+material = SubResource("blob_mat")
+size = Vector2(0.95, 0.75)
 
-[sub_resource type="CylinderMesh" id="rocket_nose"]
-top_radius = 0.0
-bottom_radius = 0.09
-height = 0.2
-radial_segments = 12
-rings = 1
+[sub_resource type="StandardMaterial3D" id="twinkle_mat"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("i_twinkle")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
-[sub_resource type="BoxMesh" id="rocket_fin"]
-size = Vector3(0.03, 0.16, 0.12)
+[sub_resource type="QuadMesh" id="twinkle_quad"]
+material = SubResource("twinkle_mat")
+size = Vector2(0.1, 0.1)
 
-[sub_resource type="BoxMesh" id="rocket_window"]
-size = Vector3(0.07, 0.07, 0.03)
+[sub_resource type="QuadMesh" id="burst_quad"]
+material = SubResource("twinkle_mat")
+size = Vector2(0.14, 0.14)
 
-[sub_resource type="ShaderMaterial" id="white_mat"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(0.93, 0.95, 1, 1)
-shader_parameter/roughness = 0.6
+[sub_resource type="Gradient" id="twinkle_ramp"]
+offsets = PackedFloat32Array(0, 0.25, 0.7, 1)
+colors = PackedColorArray(1, 0.9647, 0.902, 0, 1, 0.9647, 0.902, 1, 1, 0.9647, 0.902, 0.85, 1, 0.9647, 0.902, 0)
 
-[sub_resource type="ShaderMaterial" id="orange_mat"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(1, 0.5412, 0.2392, 1)
-shader_parameter/roughness = 0.6
+[sub_resource type="Gradient" id="burst_ramp"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.9, 1, 1, 1, 0)
 
-[sub_resource type="ShaderMaterial" id="window_mat"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(0.749, 0.91, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/emission = Color(0.749, 0.91, 1, 1)
-shader_parameter/emission_energy = 0.8
+[sub_resource type="Gradient" id="burst_colors"]
+offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
+colors = PackedColorArray(0.4353, 0.8784, 0.7451, 1, 0.702, 0.6118, 1, 1, 1, 0.6039, 0.3608, 1, 1, 0.8235, 0.3608, 1)
 
-[sub_resource type="BoxMesh" id="crate_mesh"]
-size = Vector3(0.22, 0.22, 0.22)
-
-[sub_resource type="ShaderMaterial" id="crate_mat"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(0.557, 0.486, 1, 1)
-shader_parameter/roughness = 0.8
-
-[sub_resource type="ShaderMaterial" id="crate_mat2"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(1, 0.773, 0.278, 1)
-shader_parameter/roughness = 0.8
+[sub_resource type="Curve" id="burst_scale"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.2, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="LeaderCreator" type="Control"]
 layout_mode = 3
@@ -239,6 +445,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_theme")
 script = ExtResource("2_script")
+profession_icons = Dictionary[String, Texture2D]({
+"flight_controller": ExtResource("10_ops"),
+"pilot": ExtResource("i_rocket"),
+"propulsion_engineer": ExtResource("i_flame"),
+"researcher": ExtResource("i_research"),
+"scientist": ExtResource("9_sci"),
+"systems_engineer": ExtResource("8_eng"),
+"test_technician": ExtResource("i_contracts")
+})
+hat_icons = Dictionary[String, Texture2D]({
+"beanie": ExtResource("h_beanie"),
+"bow": ExtResource("h_bow"),
+"crown": ExtResource("h_crown"),
+"flower": ExtResource("h_flower"),
+"none": ExtResource("h_none"),
+"propeller": ExtResource("h_propeller"),
+"role": ExtResource("h_role")
+})
+strength_icons = Dictionary[String, Texture2D]({
+"courage": ExtResource("i_flame"),
+"curiosity": ExtResource("i_research"),
+"skill": ExtResource("5_star")
+})
+emote_sheet = ExtResource("emote_sheet")
 
 [node name="Sky" type="Control" parent="."]
 layout_mode = 1
@@ -247,12 +477,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("3_stars")
 star_seed = 61
 stars = 520
 
 [node name="Comet" type="Control" parent="."]
-modulate = Color(1, 1, 1, 0.55)
+modulate = Color(1, 1, 1, 0.6)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -261,9 +492,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_comet")
-head = Vector2(0.9, 0.12)
-direction = Vector2(-1, -0.12)
-length = 700.0
+head = Vector2(0.45, 0.3)
+direction = Vector2(-0.6, -1)
+length = 220.0
 art_scale = 2.0
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -274,109 +505,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 22
+theme_override_constants/margin_top = 18
 theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 22
+theme_override_constants/margin_bottom = 20
 
 [node name="Layout" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 0
 
-[node name="Head" type="HBoxContainer" parent="Margin/Layout"]
+[node name="Body" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
-theme_override_constants/separation = 16
+size_flags_vertical = 3
+theme_override_constants/separation = 26
 
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Head"]
+[node name="Stage" type="MarginContainer" parent="Margin/Layout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.15
+
+[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Stage"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box"]
+layout_mode = 2
+theme = ExtResource("cw_on_dark")
+theme_override_constants/separation = 14
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Head"]
 self_modulate = Color(1, 0.8235, 0.3608, 1)
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("5_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Titles" type="VBoxContainer" parent="Margin/Layout/Head"]
+[node name="Titles" type="VBoxContainer" parent="Margin/Layout/Body/Stage/Box/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 0
+theme_override_constants/separation = -2
 
-[node name="Title" type="Label" parent="Margin/Layout/Head/Titles"]
+[node name="Title" type="Label" parent="Margin/Layout/Body/Stage/Box/Head/Titles"]
 layout_mode = 2
 theme_type_variation = &"CwHeading"
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
 text = "TY_LEADER_TITLE"
 
-[node name="Subtitle" type="Label" parent="Margin/Layout/Head/Titles"]
+[node name="Subtitle" type="Label" parent="Margin/Layout/Body/Stage/Box/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 text = "TY_LEADER_SUBTITLE"
-
-[node name="Thread" type="TextureRect" parent="Margin/Layout"]
-modulate = Color(1, 1, 1, 0.7)
-custom_minimum_size = Vector2(0, 2)
-layout_mode = 2
-texture = SubResource("thread")
-expand_mode = 1
-
-[node name="Body" type="HBoxContainer" parent="Margin/Layout"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 14
-
-[node name="Stage" type="PanelContainer" parent="Margin/Layout/Body"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.78
-theme_type_variation = &"CwPanel"
-
-[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Stage"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Top" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box"]
-layout_mode = 2
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Stage/Box/Top"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_PREVIEW"
-
-[node name="DragHint" type="Label" parent="Margin/Layout/Body/Stage/Box/Top"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "TY_LEADER_DRAG"
+text_overrun_behavior = 3
 
 [node name="Window" type="Control" parent="Margin/Layout/Body/Stage/Box"]
+custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Backdrop" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Window"]
+[node name="Glow" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Window"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -40.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("stage_tex")
+texture = SubResource("glow_tex")
 expand_mode = 1
-
-[node name="Stars" type="Control" parent="Margin/Layout/Body/Stage/Box/Window"]
-modulate = Color(1, 1, 1, 0.5)
-clip_contents = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 0.55
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("3_stars")
-star_seed = 7
-stars = 140
-grid = false
-background = Color(0, 0, 0, 0)
+stretch_mode = 5
 
 [node name="Preview" type="SubViewportContainer" parent="Margin/Layout/Body/Stage/Box/Window"]
 unique_name_in_owner = true
@@ -395,89 +596,151 @@ world_3d = SubResource("stage_world")
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 2
-size = Vector2i(560, 560)
+size = Vector2i(760, 640)
 render_target_update_mode = 4
 
 [node name="Key" type="DirectionalLight3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
 transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 2, 2)
-light_color = Color(1, 0.886, 0.749, 1)
-light_energy = 1.2
+light_color = Color(1, 0.906, 0.792, 1)
+light_energy = 1.25
+shadow_enabled = true
+shadow_opacity = 0.55
+directional_shadow_max_distance = 10.0
 
 [node name="Fill" type="OmniLight3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0.9, 1.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.0, 1.4)
 light_color = Color(0.2471, 0.8784, 0.7725, 1)
-light_energy = 0.9
-omni_range = 4.0
+light_energy = 0.8
+omni_range = 4.5
 
 [node name="Rim" type="OmniLight3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.5, -1.1)
-light_color = Color(0.5569, 0.4863, 1, 1)
-light_energy = 2.2
-omni_range = 3.5
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.6, -1.2)
+light_color = Color(0.702, 0.6118, 1, 1)
+light_energy = 2.6
+omni_range = 3.6
+
+[node name="RimWarm" type="OmniLight3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 1.2, -1.1)
+light_color = Color(1, 0.6039, 0.3608, 1)
+light_energy = 1.6
+omni_range = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 0.992546, 0.121869, 0, -0.121869, 0.992546, 0, 1.08, 4.3)
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.9925, 0.1219, 0, -0.1219, 0.9925, 0, 0.77, 3.75)
 fov = 30.0
 near = 0.05
 far = 20.0
 
-[node name="Step" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
-mesh = SubResource("step_mesh")
-surface_material_override/0 = SubResource("step_mat")
+[node name="CwOutline" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Camera3D" instance=ExtResource("cw_outline")]
 
-[node name="Plinth" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, 0)
-mesh = SubResource("plinth_mesh")
-surface_material_override/0 = SubResource("plinth_mat")
+[node name="Island" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, 0, 0)
 
-[node name="Ring" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0, 0)
-mesh = SubResource("ring_mesh")
-surface_material_override/0 = SubResource("ring_mat")
+[node name="Knoll" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(1, 0, 0, 0, 0.42, 0, 0, 0, 1, 0, -0.483, 0)
+mesh = SubResource("knoll_mesh")
+surface_material_override/0 = SubResource("grass_mat")
 
-[node name="Rocket" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(0.9, 0, 0.1, 0, 1, 0, -0.1, 0, 0.9, -1.25, -0.14, -1.1)
+[node name="Rock" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.98, 0)
+mesh = SubResource("island_mesh")
+surface_material_override/0 = SubResource("dirt_mat")
 
-[node name="Body" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
-mesh = SubResource("rocket_body")
-surface_material_override/0 = SubResource("white_mat")
+[node name="FlowerA" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, -0.13, 0.42)
 
-[node name="Nose" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77, 0)
-mesh = SubResource("rocket_nose")
-surface_material_override/0 = SubResource("orange_mat")
+[node name="Stem" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+mesh = SubResource("stem_mesh")
+surface_material_override/0 = SubResource("stem_mat")
 
-[node name="Window" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0.09)
-mesh = SubResource("rocket_window")
-surface_material_override/0 = SubResource("window_mat")
+[node name="Bloom" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerA"]
+transform = Transform3D(0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, 0, 0.15, 0)
+mesh = SubResource("bloom_mesh")
+surface_material_override/0 = SubResource("pink_mat")
 
-[node name="FinL" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11, 0.1, 0)
-mesh = SubResource("rocket_fin")
-surface_material_override/0 = SubResource("orange_mat")
+[node name="FlowerB" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.7, -0.14, 0.3)
 
-[node name="FinR" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11, 0.1, 0)
-mesh = SubResource("rocket_fin")
-surface_material_override/0 = SubResource("orange_mat")
+[node name="Stem" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+mesh = SubResource("stem_mesh")
+surface_material_override/0 = SubResource("stem_mat")
 
-[node name="FinB" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Rocket"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0.1, -0.11)
-mesh = SubResource("rocket_fin")
-surface_material_override/0 = SubResource("orange_mat")
+[node name="Bloom" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("bloom_mesh")
+surface_material_override/0 = SubResource("butter_mat")
 
-[node name="CrateA" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 1.2, -0.03, -0.75)
-mesh = SubResource("crate_mesh")
-surface_material_override/0 = SubResource("crate_mat")
+[node name="FlowerC" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -0.32, -0.13, -0.66)
 
-[node name="CrateB" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
-transform = Transform3D(0.7, 0, 0.1, 0, 0.7, 0, -0.1, 0, 0.7, 1.12, 0.16, -0.72)
-mesh = SubResource("crate_mesh")
-surface_material_override/0 = SubResource("crate_mat2")
+[node name="Stem" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerC"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+mesh = SubResource("stem_mesh")
+surface_material_override/0 = SubResource("stem_mat")
+
+[node name="Bloom" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island/FlowerC"]
+transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0, 0.15, 0)
+mesh = SubResource("bloom_mesh")
+surface_material_override/0 = SubResource("lilac_mat")
+
+[node name="Pebble" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0.78, -0.16, -0.28)
+mesh = SubResource("rock_mesh")
+surface_material_override/0 = SubResource("rock_mat")
+
+[node name="Pebble2" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Island"]
+transform = Transform3D(0.55, 0, 0.2, 0, 0.55, 0, -0.2, 0, 0.55, 0.9, -0.2, -0.05)
+mesh = SubResource("rock_mesh")
+surface_material_override/0 = SubResource("rock_mat")
+
+[node name="Blob" type="MeshInstance3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008, 0)
+cast_shadow = 0
+mesh = SubResource("blob_mesh")
+
+[node name="Twinkles" type="CPUParticles3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.5)
+amount = 18
+lifetime = 3.5
+preprocess = 3.5
+mesh = SubResource("twinkle_quad")
+emission_shape = 3
+emission_box_extents = Vector3(1.4, 0.75, 0.4)
+direction = Vector3(0, 1, 0)
+spread = 25.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.04
+initial_velocity_max = 0.14
+scale_amount_min = 0.5
+scale_amount_max = 1.2
+color_ramp = SubResource("twinkle_ramp")
+
+[node name="Burst" type="CPUParticles3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.2)
+emitting = false
+amount = 18
+lifetime = 0.9
+one_shot = true
+explosiveness = 0.95
+mesh = SubResource("burst_quad")
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -1.2, 0)
+initial_velocity_min = 0.9
+initial_velocity_max = 1.6
+damping_min = 1.0
+damping_max = 2.0
+scale_amount_min = 0.6
+scale_amount_max = 1.2
+scale_amount_curve = SubResource("burst_scale")
+color_ramp = SubResource("burst_ramp")
+color_initial_ramp = SubResource("burst_colors")
 
 [node name="Turntable" type="Node3D" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport"]
 unique_name_in_owner = true
@@ -489,358 +752,576 @@ listen_to_events = false
 cull_distance = 30.0
 
 [node name="Emote" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Turntable/Creature"]
-offset = Vector2(30, 4)
+offset = Vector2(68, -54)
+pixel_size = 0.0085
 
-[node name="NameRow" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 10
-
-[node name="Crown" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/NameRow"]
-self_modulate = Color(1, 0.8235, 0.3608, 1)
-custom_minimum_size = Vector2(22, 22)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("5_star")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PreviewName" type="Label" parent="Margin/Layout/Body/Stage/Box/NameRow"]
+[node name="NameTag" type="PanelContainer" parent="Margin/Layout/Body/Stage/Box/Window"]
 unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwHeading"
-text = "Pipoca Estelar"
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -130.0
+offset_right = 230.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwPanel"
 
-[node name="InfoRow" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box"]
+[node name="VBox" type="VBoxContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag"]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 8
 
-[node name="PreviewBulb" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/InfoRow"]
+[node name="RibbonRow" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="Ribbon" type="PanelContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/RibbonRow"]
 unique_name_in_owner = true
-self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(14, 14)
+self_modulate = Color(1, 0.7, 0.55, 1)
+layout_mode = 2
+theme_override_styles/panel = SubResource("ribbon")
+
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/RibbonRow/Ribbon"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PreviewBulb" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/RibbonRow/Ribbon/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("5_star")
+texture = ExtResource("8_eng")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PreviewProf" type="Label" parent="Margin/Layout/Body/Stage/Box/InfoRow"]
+[node name="PreviewProf" type="Label" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/RibbonRow/Ribbon/Row"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"CwBody"
 theme_override_font_sizes/font_size = 15
 text = "Engenheiro(a) de sistemas"
 
-[node name="Sep" type="Label" parent="Margin/Layout/Body/Stage/Box/InfoRow"]
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox"]
 layout_mode = 2
-theme_type_variation = &"CwDim"
-text = "·"
+theme_override_constants/separation = 10
 
-[node name="PreviewAgencyDot" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/InfoRow"]
+[node name="NameEdit" type="LineEdit" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/Row"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(12, 12)
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("f_name")
+theme_override_font_sizes/font_size = 27
+placeholder_text = "TY_LEADER_NAME_PLACEHOLDER"
+alignment = 1
+max_length = 24
+
+[node name="RandomName" type="Button" parent="Margin/Layout/Body/Stage/Box/Window/NameTag/VBox/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 54)
+layout_mode = 2
+tooltip_text = "TY_LEADER_RANDOM_NAME"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 34
+icon = ExtResource("i_dice")
+icon_alignment = 1
+
+[node name="Foot" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="Margin/Layout/Body/Stage/Box/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 52)
+layout_mode = 2
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 22
+text = "TY_LEADER_BACK"
+icon = ExtResource("i_left")
+
+[node name="DragHint" type="PanelContainer" parent="Margin/Layout/Body/Stage/Box/Foot"]
+modulate = Color(1, 1, 1, 0.9)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Stage/Box/Foot/DragHint"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Foot/DragHint/Row"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("6_crew")
+mouse_filter = 2
+texture = ExtResource("i_left")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PreviewAgency" type="Label" parent="Margin/Layout/Body/Stage/Box/InfoRow"]
-unique_name_in_owner = true
+[node name="Label" type="Label" parent="Margin/Layout/Body/Stage/Box/Foot/DragHint/Row"]
 layout_mode = 2
 theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 15
-text = "Cometworks"
+text = "TY_LEADER_DRAG"
 
-[node name="Options" type="PanelContainer" parent="Margin/Layout/Body"]
+[node name="Icon2" type="TextureRect" parent="Margin/Layout/Body/Stage/Box/Foot/DragHint/Row"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("i_right")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RandomAll" type="Button" parent="Margin/Layout/Body/Stage/Box/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 52)
+layout_mode = 2
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 30
+text = "TY_LEADER_RANDOM_ALL"
+icon = ExtResource("i_dice")
+
+[node name="Side" type="VBoxContainer" parent="Margin/Layout/Body"]
+custom_minimum_size = Vector2(660, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="TabsBox" type="PanelContainer" parent="Margin/Layout/Body/Side"]
+layout_mode = 2
+theme_type_variation = &"CwSegmented"
+
+[node name="Tabs" type="HBoxContainer" parent="Margin/Layout/Body/Side/TabsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Look" type="Button" parent="Margin/Layout/Body/Side/TabsBox/Tabs"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+theme_override_constants/icon_max_width = 28
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("tab_group")
+text = "TY_LEADER_TAB_LOOK"
+icon = ExtResource("i_palette")
+
+[node name="Job" type="Button" parent="Margin/Layout/Body/Side/TabsBox/Tabs"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+theme_override_constants/icon_max_width = 28
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+button_group = SubResource("tab_group")
+text = "TY_LEADER_TAB_JOB"
+icon = ExtResource("i_build")
+
+[node name="Way" type="Button" parent="Margin/Layout/Body/Side/TabsBox/Tabs"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+theme_override_constants/icon_max_width = 28
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+button_group = SubResource("tab_group")
+text = "TY_LEADER_TAB_WAY"
+icon = ExtResource("6_crew")
+
+[node name="Agency" type="Button" parent="Margin/Layout/Body/Side/TabsBox/Tabs"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwSegment"
+theme_override_constants/icon_max_width = 28
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+button_group = SubResource("tab_group")
+text = "TY_LEADER_TAB_AGENCY"
+icon = ExtResource("i_race")
+
+[node name="Card" type="PanelContainer" parent="Margin/Layout/Body/Side"]
+layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="Scroll" type="ScrollContainer" parent="Margin/Layout/Body/Options"]
+[node name="VBox" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card"]
 layout_mode = 2
-horizontal_scroll_mode = 0
+theme_override_constants/separation = 10
 
-[node name="Sections" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll"]
+[node name="Pages" type="MarginContainer" parent="Margin/Layout/Body/Side/Card/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 556)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LookPage" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages"]
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage"]
+layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Who" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
+[node name="Title" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Head"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_LEADER_TAB_LOOK"
 
-[node name="Name" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Who"]
+[node name="Hint" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+size_flags_vertical = 8
+theme_type_variation = &"CwDim"
+text = "TY_LEADER_LOOK_HINT"
+horizontal_alignment = 2
+text_overrun_behavior = 3
 
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Name"]
+[node name="Colors" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Body" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Body"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "TY_LEADER_NAME"
-
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Name"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="NameEdit" type="LineEdit" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Name/Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "TY_LEADER_NAME_PLACEHOLDER"
-max_length = 24
-
-[node name="RandomName" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Name/Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwSecondary"
-text = "TY_LEADER_RANDOM_NAME"
-
-[node name="Agency" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Who"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Agency"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_AGENCY"
-
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Agency"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="AgencyEdit" type="LineEdit" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Agency/Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "TY_LEADER_AGENCY_PLACEHOLDER"
-max_length = 28
-
-[node name="RandomAgency" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Who/Agency/Row"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwSecondary"
-text = "TY_LEADER_RANDOM_AGENCY"
-
-[node name="Look" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Body" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Look"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.2
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Body"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
 text = "TY_LEADER_BODY"
 
-[node name="BodySwatches" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Body"]
+[node name="BodySwatches" type="GridContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Body"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 6
 
-[node name="BodyTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Body/BodySwatches"]
+[node name="BodyTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Body/BodySwatches"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(30, 30)
+custom_minimum_size = Vector2(48, 52)
 layout_mode = 2
 focus_mode = 0
-theme_type_variation = &"CwKey"
+theme_override_styles/normal = SubResource("sw_normal")
+theme_override_styles/hover = SubResource("sw_hover")
+theme_override_styles/pressed = SubResource("sw_on")
+theme_override_styles/hover_pressed = SubResource("sw_on")
+theme_override_styles/focus = SubResource("sw_normal")
 toggle_mode = true
 button_group = SubResource("body_group")
 
-[node name="Fill" type="Panel" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Body/BodySwatches/BodyTemplate"]
+[node name="Fill" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Body/BodySwatches/BodyTemplate"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("swatch_fill")
 
-[node name="Spot" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Look"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Spot"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_SPOT"
-
-[node name="SpotSwatches" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Spot"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="SpotTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Spot/SpotSwatches"]
-unique_name_in_owner = true
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Body/BodySwatches/BodyTemplate"]
 visible = false
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("spot_group")
-
-[node name="Fill" type="Panel" parent="Margin/Layout/Body/Options/Scroll/Sections/Look/Spot/SpotSwatches/SpotTemplate"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -16.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 16.0
+grow_horizontal = 0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("swatch_fill")
-
-[node name="Hat" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Hat"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_HAT"
-
-[node name="Hats" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Hat"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="HatTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Hat/Hats"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("hat_group")
-text = "TY_LEADER_HAT_CROWN"
-
-[node name="Profession" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Head"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_PROFESSION"
-
-[node name="Hint" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Head"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_LEADER_PROFESSION_HINT"
-
-[node name="Grid" type="GridContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession"]
-layout_mode = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 4
-columns = 3
-
-[node name="ProfTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_type_variation = &"CwRow"
-toggle_mode = true
-button_group = SubResource("prof_group")
-
-[node name="HBox" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -8.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Tab" type="ColorRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox"]
-custom_minimum_size = Vector2(4, 0)
-layout_mode = 2
-mouse_filter = 2
-color = Color(1, 0.5412, 0.2392, 1)
-
-[node name="Bulb" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox"]
-self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-texture = ExtResource("5_star")
+texture = ExtResource("i_check")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox"]
+[node name="Spot" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 10
 
-[node name="Name" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text"]
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Spot"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_SPOT"
+
+[node name="SpotSwatches" type="GridContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Spot"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 5
+
+[node name="SpotTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Spot/SpotSwatches"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(48, 52)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("sw_normal")
+theme_override_styles/hover = SubResource("sw_hover")
+theme_override_styles/pressed = SubResource("sw_on")
+theme_override_styles/hover_pressed = SubResource("sw_on")
+theme_override_styles/focus = SubResource("sw_normal")
+toggle_mode = true
+button_group = SubResource("spot_group")
+
+[node name="Fill" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Spot/SpotSwatches/SpotTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("swatch_fill")
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Colors/Spot/SpotSwatches/SpotTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -16.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 16.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Hat" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_HAT"
+
+[node name="Hats" type="HFlowContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 12
+alignment = 1
+
+[node name="HatTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat/Hats"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(146, 112)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("hat_group")
+
+[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat/Hats/HatTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat/Hats/HatTemplate/Box"]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("h_crown")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat/Hats/HatTemplate/Box"]
 layout_mode = 2
 theme_type_variation = &"CwBody"
-theme_override_font_sizes/font_size = 16
-text = "Engenheiro(a) de sistemas"
-clip_text = true
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_HAT_CROWN"
+horizontal_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Favours" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text"]
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/LookPage/Hat/Hats/HatTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="JobPage" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_LEADER_TAB_JOB"
+
+[node name="Hint" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_type_variation = &"CwDim"
+text = "TY_LEADER_PROFESSION_HINT"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="JobLocked" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Head"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwCapsAccent"
+text = "TY_LEADER_LOCKED"
+
+[node name="Grid" type="HFlowContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 12
+alignment = 1
+
+[node name="ProfTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(150, 142)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/disabled = SubResource("tile_normal")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("prof_group")
+
+[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = -6.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Disc" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box"]
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc")
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Disc"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_eng")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 15
+text = "Engenheiro(a) de propulsão"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="Favours" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 6
+alignment = 1
 
-[node name="Lead" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_LEADER_FAVOURS"
-
-[node name="Eng" type="PanelContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours"]
+[node name="Eng" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("chip_eng")
 
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Eng"]
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Eng"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Eng/Row"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Eng/Row"]
+custom_minimum_size = Vector2(13, 13)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -848,26 +1329,26 @@ texture = ExtResource("8_eng")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Eng/Row"]
+[node name="Label" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Eng/Row"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "TY_BAR_ENG"
 
-[node name="Sci" type="PanelContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours"]
+[node name="Sci" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours"]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("chip_sci")
 
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Sci"]
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Sci"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Sci/Row"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Sci/Row"]
+custom_minimum_size = Vector2(13, 13)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -875,26 +1356,26 @@ texture = ExtResource("9_sci")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Sci/Row"]
+[node name="Label" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Sci/Row"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "TY_BAR_SCI"
 
-[node name="Ops" type="PanelContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours"]
+[node name="Ops" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours"]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("chip_ops")
 
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Ops"]
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Ops"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Ops/Row"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Ops/Row"]
+custom_minimum_size = Vector2(13, 13)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -902,26 +1383,26 @@ texture = ExtResource("10_ops")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Ops/Row"]
+[node name="Label" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Ops/Row"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "TY_BAR_OPS"
 
-[node name="Rel" type="PanelContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours"]
+[node name="Rel" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours"]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("chip_rel")
 
-[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Rel"]
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Rel"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Rel/Row"]
-custom_minimum_size = Vector2(14, 14)
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Rel/Row"]
+custom_minimum_size = Vector2(13, 13)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -929,28 +1410,664 @@ texture = ExtResource("11_rel")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Grid/ProfTemplate/HBox/Text/Favours/Rel/Row"]
+[node name="Label" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate/Box/Favours/Rel/Row"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.7608, 0.7098, 1, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+theme_override_font_sizes/font_size = 12
 text = "TY_BAR_REL"
 
-[node name="Detail" type="PanelContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession"]
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Grid/ProfTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Detail" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage"]
 layout_mode = 2
 theme_type_variation = &"CwPanelInset"
 
-[node name="VBox" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail"]
+[node name="HBox" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail"]
 layout_mode = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 14
 
-[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox"]
+[node name="DetailDisc" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox"]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("disc")
+
+[node name="DetailIcon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/DetailDisc"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_eng")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="DetailBulb" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox/Head"]
+[node name="DetailName" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text/Head"]
 unique_name_in_owner = true
-self_modulate = Color(1, 0.6039, 0.3608, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 20
+text = "Engenheiro(a) de sistemas"
+text_overrun_behavior = 3
+
+[node name="DetailSpec" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+text = "Já chega especializado(a): Líder de integração"
+text_overrun_behavior = 3
+
+[node name="DetailSpecDesc" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "15% menos defeitos no seu trabalho."
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="StartRow" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text"]
+layout_mode = 2
+
+[node name="Pill" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text/StartRow"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("bonus_pill")
+
+[node name="DetailStart" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/JobPage/Detail/HBox/Text/StartRow/Pill"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_colors/font_color = Color(0.7686, 0.3176, 0.0745, 1)
+theme_override_font_sizes/font_size = 15
+text = "Bônus de fundação: +3 de reputação"
+
+[node name="WayPage" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_LEADER_TAB_WAY"
+
+[node name="Hint" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_type_variation = &"CwDim"
+text = "TY_LEADER_WAY_HINT"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="WayLocked" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Head"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"CwCapsAccent"
+text = "TY_LEADER_LOCKED"
+
+[node name="Strength" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_STRENGTH"
+
+[node name="Strengths" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StrengthTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/disabled = SubResource("tile_normal")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("strength_group")
+
+[node name="Box" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths/StrengthTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths/StrengthTemplate/Box"]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths/StrengthTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 19
+text = "TY_LEADER_STR_SKILL"
+horizontal_alignment = 1
+
+[node name="Tip" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths/StrengthTemplate/Box"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 13
+text = "TY_CREW_SKILL_TIP"
+horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 3
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength/Strengths/StrengthTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StrengthHint" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Strength"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "Habilidade começa em 85, os outros traços em 60"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Quirk" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_QUIRK"
+
+[node name="Quirks" type="GridContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="QuirkTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("quirk_group")
+
+[node name="Box" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = -12.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Emote" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate/Box"]
+texture_filter = 1
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate/Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Name" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate/Box/Text"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 18
+text = "TY_LEADER_QUIRK_CHEERFUL"
+text_overrun_behavior = 3
+
+[node name="Tip" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate/Box/Text"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_LEADER_QUIRK_CHEERFUL_TIP"
+text_overrun_behavior = 3
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/WayPage/Quirk/Quirks/QuirkTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AgencyPage" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Head" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Head"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_LEADER_TAB_AGENCY"
+
+[node name="Name" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Name"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_AGENCY_PLACEHOLDER"
+
+[node name="Row" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Name"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AgencyEdit" type="LineEdit" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Name/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("f_name")
+theme_override_font_sizes/font_size = 20
+placeholder_text = "TY_LEADER_AGENCY_PLACEHOLDER"
+max_length = 28
+
+[node name="RandomAgency" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Name/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 28
+text = "TY_LEADER_RANDOM_AGENCY"
+icon = ExtResource("i_dice")
+
+[node name="Color" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Color"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_AGENCY_COLOR"
+
+[node name="AgencySwatches" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Color"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AgencyTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Color/AgencySwatches"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(58, 62)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("sw_normal")
+theme_override_styles/hover = SubResource("sw_hover")
+theme_override_styles/pressed = SubResource("sw_on")
+theme_override_styles/hover_pressed = SubResource("sw_on")
+theme_override_styles/focus = SubResource("sw_normal")
+toggle_mode = true
+button_group = SubResource("agency_group")
+
+[node name="Fill" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Color/AgencySwatches/AgencyTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("swatch_fill")
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Color/AgencySwatches/AgencyTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -16.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 16.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Emblem" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "TY_LEADER_EMBLEM"
+
+[node name="Emblems" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EmblemTemplate" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem/Emblems"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(90, 86)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("tile_normal")
+theme_override_styles/hover = SubResource("tile_hover")
+theme_override_styles/pressed = SubResource("tile_on")
+theme_override_styles/hover_pressed = SubResource("tile_on")
+theme_override_styles/focus = SubResource("tile_normal")
+toggle_mode = true
+button_group = SubResource("emblem_group")
+
+[node name="Disc" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem/Emblems/EmblemTemplate"]
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.0
+offset_top = -31.0
+offset_right = 29.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc")
+
+[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem/Emblems/EmblemTemplate/Disc"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("e_comet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Check" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Emblem/Emblems/EmblemTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("i_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Flag" type="PanelContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage"]
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PreviewAgencyDisc" type="Panel" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag/HBox"]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("disc")
+
+[node name="PreviewAgencyDot" type="TextureRect" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag/HBox/PreviewAgencyDisc"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("e_comet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="PreviewAgency" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 21
+text = "Cometworks"
+text_overrun_behavior = 3
+
+[node name="Caption" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage/Flag/HBox/Text"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_LEADER_AGENCY_PREVIEW"
+text_overrun_behavior = 3
+
+[node name="Nav" type="HBoxContainer" parent="Margin/Layout/Body/Side/Card/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PrevButton" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Nav"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 20
+text = "TY_LEADER_PREV"
+icon = ExtResource("i_left")
+
+[node name="StepLabel" type="Label" parent="Margin/Layout/Body/Side/Card/VBox/Nav"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwCaps"
+text = "Passo 1 de 4"
+horizontal_alignment = 1
+
+[node name="NextButton" type="Button" parent="Margin/Layout/Body/Side/Card/VBox/Nav"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 20
+text = "TY_LEADER_NEXT"
+icon = ExtResource("i_right")
+icon_alignment = 2
+
+[node name="Summary" type="PanelContainer" parent="Margin/Layout/Body/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/Layout/Body/Side/Summary"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SummaryDisc" type="Panel" parent="Margin/Layout/Body/Side/Summary/HBox"]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.5412, 0.2392, 1)
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("disc")
+
+[node name="SummaryEmblem" type="TextureRect" parent="Margin/Layout/Body/Side/Summary/HBox/SummaryDisc"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("e_comet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Layout/Body/Side/Summary/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="SummaryName" type="Label" parent="Margin/Layout/Body/Side/Summary/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 22
+text = "Pipoca Estelar"
+text_overrun_behavior = 3
+
+[node name="SummaryLine" type="Label" parent="Margin/Layout/Body/Side/Summary/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 15
+text = "Engenheiro(a) de sistemas · Cometworks"
+text_overrun_behavior = 3
+
+[node name="Bonus" type="HBoxContainer" parent="Margin/Layout/Body/Side/Summary/HBox/Text"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Star" type="TextureRect" parent="Margin/Layout/Body/Side/Summary/HBox/Text/Bonus"]
+self_modulate = Color(1, 0.8235, 0.3608, 1)
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
@@ -958,219 +2075,32 @@ texture = ExtResource("5_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="DetailName" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox/Head"]
+[node name="SummaryBonus" type="Label" parent="Margin/Layout/Body/Side/Summary/HBox/Text/Bonus"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"CwTitle"
-theme_override_font_sizes/font_size = 17
-text = "Engenheiro(a) de sistemas"
+theme_type_variation = &"CwBody"
+theme_override_colors/font_color = Color(0.7686, 0.3176, 0.0745, 1)
+theme_override_font_sizes/font_size = 15
+text = "bônus de fundação +3 de reputação"
+text_overrun_behavior = 3
 
-[node name="DetailLocked" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox/Head"]
+[node name="StartButton" type="Button" parent="Margin/Layout/Body/Side/Summary/HBox"]
 unique_name_in_owner = true
-visible = false
+custom_minimum_size = Vector2(220, 64)
 layout_mode = 2
-theme_type_variation = &"CwCapsAccent"
-text = "TY_LEADER_LOCKED"
-
-[node name="DetailSpec" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "Já chega especializado(a): Líder de integração"
-
-[node name="DetailSpecDesc" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "15% menos defeitos no seu trabalho."
-autowrap_mode = 3
-
-[node name="DetailStart" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Profession/Detail/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
-theme_override_font_sizes/font_size = 14
-text = "Bônus de fundação: +3 de reputação"
-
-[node name="Personality" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Strength" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Strength"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_STRENGTH"
-
-[node name="Strengths" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Strength"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="StrengthTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Strength/Strengths"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("strength_group")
-text = "TY_LEADER_STR_SKILL"
-
-[node name="StrengthHint" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Strength"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "Habilidade começa em 85, os outros traços em 60"
-autowrap_mode = 3
-
-[node name="Quirk" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Quirk"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_QUIRK"
-
-[node name="Quirks" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Quirk"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="QuirkTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Personality/Quirk/Quirks"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("quirk_group")
-text = "TY_LEADER_QUIRK_CHEERFUL"
-
-[node name="Flag" type="HBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="AgencyColor" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/AgencyColor"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_AGENCY_COLOR"
-
-[node name="AgencySwatches" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/AgencyColor"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="AgencyTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/AgencyColor/AgencySwatches"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("agency_group")
-
-[node name="Fill" type="Panel" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/AgencyColor/AgencySwatches/AgencyTemplate"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("swatch_fill")
-
-[node name="Emblem" type="VBoxContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 6
-
-[node name="Caption" type="Label" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/Emblem"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_LEADER_EMBLEM"
-
-[node name="Emblems" type="HFlowContainer" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/Emblem"]
-layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-
-[node name="EmblemTemplate" type="Button" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/Emblem/Emblems"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(38, 30)
-layout_mode = 2
-focus_mode = 0
-theme_type_variation = &"CwKey"
-toggle_mode = true
-button_group = SubResource("emblem_group")
-
-[node name="Icon" type="TextureRect" parent="Margin/Layout/Body/Options/Scroll/Sections/Flag/Emblem/Emblems/EmblemTemplate"]
-self_modulate = Color(1, 0.5412, 0.2392, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 5.0
-offset_right = -8.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Foot" type="HBoxContainer" parent="Margin/Layout"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="BackButton" type="Button" parent="Margin/Layout/Foot"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 44)
-layout_mode = 2
-theme_type_variation = &"CwSecondary"
-text = "TY_LEADER_BACK"
-
-[node name="Spacer" type="Control" parent="Margin/Layout/Foot"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="RandomAll" type="Button" parent="Margin/Layout/Foot"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(170, 44)
-layout_mode = 2
-theme_type_variation = &"CwSecondary"
-text = "TY_LEADER_RANDOM_ALL"
-
-[node name="StartButton" type="Button" parent="Margin/Layout/Foot"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(240, 44)
-layout_mode = 2
+size_flags_vertical = 4
 theme_type_variation = &"CwPrimary"
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 23
 text = "TY_LEADER_START"
+icon = ExtResource("i_rocket")
+
+[node name="CwPulse" type="Node" parent="Margin/Layout/Body/Side/Summary"]
+script = ExtResource("cwm_pulse")
+peak_scale = Vector2(1.025, 1.025)
+glow = 1.08
+beat_seconds = 0.35
 
 [node name="Fade" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -1201,6 +2131,74 @@ theme_type_variation = &"CwTitle"
 text = "TY_LEADER_LOADING"
 horizontal_alignment = 1
 
-[editable path="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Turntable/Creature"]
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -2)
+hover_scale = Vector2(1.04, 1.04)
+glow = 1.08
 
-[node name="CwOutline" parent="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Camera3D" instance=ExtResource("cw_outline")]
+[node name="CwStageIn" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Margin/Layout/Body/Stage")
+offset = Vector2(-24, 0)
+seconds = 0.4
+curve = 1
+
+[node name="CwSideIn" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Margin/Layout/Body/Side")
+offset = Vector2(24, 0)
+seconds = 0.4
+delay = 0.08
+curve = 1
+
+[node name="CwLookIn" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Margin/Layout/Body/Side/Card/VBox/Pages/LookPage")
+on_ready = false
+on_visible = true
+animate_added = false
+offset = Vector2(0, 12)
+delay = 0.0
+step = 0.05
+seconds = 0.26
+curve = 1
+
+[node name="CwJobIn" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Margin/Layout/Body/Side/Card/VBox/Pages/JobPage")
+on_ready = false
+on_visible = true
+animate_added = false
+offset = Vector2(0, 12)
+delay = 0.0
+step = 0.05
+seconds = 0.26
+curve = 1
+
+[node name="CwWayIn" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Margin/Layout/Body/Side/Card/VBox/Pages/WayPage")
+on_ready = false
+on_visible = true
+animate_added = false
+offset = Vector2(0, 12)
+delay = 0.0
+step = 0.05
+seconds = 0.26
+curve = 1
+
+[node name="CwAgencyIn" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Margin/Layout/Body/Side/Card/VBox/Pages/AgencyPage")
+on_ready = false
+on_visible = true
+animate_added = false
+offset = Vector2(0, 12)
+delay = 0.0
+step = 0.05
+seconds = 0.26
+curve = 1
+
+[editable path="Margin/Layout/Body/Stage/Box/Window/Preview/Viewport/Turntable/Creature"]

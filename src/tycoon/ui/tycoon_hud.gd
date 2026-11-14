@@ -198,6 +198,8 @@ func _fill_strips() -> void:
 	for i in items.size():
 		var it := items[i]
 		var pc := strips[i] as PanelContainer
+		# a few strips get room for their whole title; a full row shares the bar
+		pc.custom_minimum_size.x = 300.0 if items.size() <= 3 else (%StripTemplate as Control).custom_minimum_size.x
 		# the strip's style comes from the theme (CwStrip); only the tab colour changes per strip
 		var st := pc.get_theme_stylebox("panel").duplicate() as CwPanelStyle
 		if st:

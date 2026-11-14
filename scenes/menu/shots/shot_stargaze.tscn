@@ -48,7 +48,7 @@ ssao_radius = 0.6
 ssao_intensity = 1.4
 glow_enabled = true
 glow_intensity = 0.7
-glow_bloom = 0.04
+glow_bloom = 0.0
 glow_hdr_threshold = 0.9
 fog_enabled = true
 fog_light_color = Color(0.13, 0.15, 0.3, 1)
@@ -61,7 +61,7 @@ adjustment_saturation = 1.08
 dof_blur_far_enabled = true
 dof_blur_far_distance = 14.0
 dof_blur_far_transition = 20.0
-dof_blur_amount = 0.06
+dof_blur_amount = 0.025
 
 [sub_resource type="ShaderMaterial" id="hill_far"]
 shader = ExtResource("cw_toon_solid")

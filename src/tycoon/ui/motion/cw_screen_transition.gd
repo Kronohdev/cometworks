@@ -119,13 +119,15 @@ func play_out() -> float:
 	if bd:
 		_tween.tween_method(_backdrop_at.bind(bd), 1.0, 0.0, s)
 	for c in _parts():
+		var ref: WeakRef = weakref(c)
 		_tween.tween_method(func(k: float) -> void:
-			if not is_instance_valid(c):
+			var c2 := ref.get_ref() as Control
+			if c2 == null:
 				return
 			if reduced:
-				CwMotion.set_channel(c, &"screen", Vector2.ZERO, Vector2.ONE, 0.0, 1.0 - k)
+				CwMotion.set_channel(c2, &"screen", Vector2.ZERO, Vector2.ONE, 0.0, 1.0 - k)
 			else:
-				CwMotion.set_channel(c, &"screen", out_slide * k, Vector2.ONE.lerp(out_scale, k), 0.0, 1.0 - k),
+				CwMotion.set_channel(c2, &"screen", out_slide * k, Vector2.ONE.lerp(out_scale, k), 0.0, 1.0 - k),
 			0.0, 1.0, s).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	return s
 

@@ -1,18 +1,27 @@
 extends SceneTree
 ## Windowed screenshots of the leader creator (scenes/tycoon/ui/screens/leader_creator.tscn):
-##   leader_01_default      the creator as "Nova campanha" opens it
-##   leader_02_pilot        a pilot in coral with a crown, turned on the turntable
-##   leader_03_researcher   a researcher with the propeller cap (and the other language)
+##   leader_01_look         the creator as "Nova campanha" opens it (tab 1, look)
+##   leader_02_job          a pilot in coral with a crown, turned on the turntable (tab 2, job)
+##   leader_03_way          strength and personality (tab 3)
+##   leader_04_agency       the agency's name, race colour and emblem (tab 4)
+##   leader_04b_react       right after a change: hop, emote bubble, face and sparkles
 ##   leader_hat_<id>        close-ups of the preview with each hat
-##   leader_04_campus       the campaign started: the camera follows the leader on the campus
-##   leader_05_crew         the crew screen on the leader (badge, edit button)
-##   leader_06_edit         the creator opened from the crew screen (profession locked)
-##   leader_07_race         the race screen, the player's lane with the agency emblem
+##   leader_05_researcher   a researcher with the propeller cap (and the other language)
+##   leader_06_campus       the campaign started: the camera follows the leader on the campus
 ##   leader_campus_hat_<id> each hat on the campus, with a speech bubble beside the gold star
-## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_leader_creator.gd -- <out_dir> [pt|en]
+##   leader_07_crew         the crew screen on the leader (badge, edit button)
+##   leader_08_edit         the creator opened from the crew screen (profession locked)
+##   leader_09_race         the race screen, the player's lane with the agency emblem
+## Every creator shot also checks the fit: no visible control may poke out of the window
+## (prints "FIT ok" or "FIT overflow <node> <rect>").
+## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_leader_creator.gd -- <out_dir> [pt|en] [creator]
+## "creator" takes only the four tabs (suffixed with the window size), for checking the
+## layout at many sizes.
 
 var out_dir := "user://"
 var lang := "pt"
+var only_creator := false
+var overflows := 0
 
 
 func _initialize() -> void:
@@ -21,6 +30,7 @@ func _initialize() -> void:
 		out_dir = args[0]
 	if args.size() > 1:
 		lang = args[1]
+	only_creator = args.size() > 2 and args[2] == "creator"
 	var other := "en" if lang == "pt" else "pt"
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	TranslationServer.set_locale("pt_BR" if lang == "pt" else "en")
@@ -29,7 +39,8 @@ func _initialize() -> void:
 	get_root().add_child(cr)
 	cr.set_leader_name("Pipoca Estelar" if lang == "pt" else "Sprinkle Starling")
 	await _frames(70)
-	await _shot("leader_01_default_" + lang)
+	var size_tag := "_%dx%d" % [DisplayServer.window_get_size().x, DisplayServer.window_get_size().y] if only_creator else ""
+	await _creator_shot(cr, "leader_01_look_" + lang + size_tag)
 	cr.pick("profession", "pilot")
 	cr.pick("body", "#ffa3a3")
 	cr.pick("spot", "#3fe0c5")
@@ -40,9 +51,27 @@ func _initialize() -> void:
 	cr.pick("emblem", "rocket")
 	cr.leader["agency_name"] = "Cauda Brilhante" if lang == "pt" else "Bright Tail Agency"
 	cr.refresh()
+	cr.show_page(1)
 	cr.set("_yaw", -0.5)
 	await _frames(80)
-	await _shot("leader_02_pilot_" + lang)
+	await _creator_shot(cr, "leader_02_job_" + lang + size_tag)
+	cr.show_page(2)
+	await _frames(50)
+	await _creator_shot(cr, "leader_03_way_" + lang + size_tag)
+	cr.show_page(3)
+	await _frames(50)
+	await _creator_shot(cr, "leader_04_agency_" + lang + size_tag)
+	# a change: the Cometling reacts (move, emote bubble, face, sparkle burst)
+	cr.show_page(0)
+	cr.pick("hat", "flower")
+	await _frames(24)
+	await _shot("leader_04b_react_" + lang + size_tag)
+	if only_creator:
+		print("FIT TOTAL: %d overflow(s)" % overflows)
+		print("LEADER SCREENSHOTS DONE")
+		quit()
+		return
+	cr.show_page(0)
 	for h in ["crown", "propeller", "beanie", "flower", "bow", "none", "role"]:
 		cr.pick("hat", h)
 		cr.set("_yaw", 0.35)
@@ -55,8 +84,9 @@ func _initialize() -> void:
 	cr.pick("spot", "#ffcc55")
 	cr.pick("hat", "propeller")
 	cr.pick("strength", "curiosity")
+	cr.show_page(1)
 	await _frames(80)
-	await _shot("leader_03_researcher_" + other)
+	await _creator_shot(cr, "leader_05_researcher_" + other)
 	TranslationServer.set_locale("pt_BR" if lang == "pt" else "en")
 	var leader := cr.leader.duplicate()
 	leader["hat"] = "crown"
@@ -76,7 +106,7 @@ func _initialize() -> void:
 			main.camera.follow(w)
 			lw = w
 	await _frames(200)
-	await _shot("leader_04_campus_" + lang)
+	await _shot("leader_06_campus_" + lang)
 	# each hat as the campus camera sees it (a crop around the followed leader)
 	if lw:
 		var c := lw.get_node("Creature") as Cometling
@@ -91,13 +121,19 @@ func _initialize() -> void:
 	main.camera.release()
 	main.hud.open_screen("crew", {"staff_id": TycoonLeader.ID})
 	await _frames(40)
-	await _shot("leader_05_crew_" + lang)
+	await _shot("leader_07_crew_" + lang)
 	main.hud.open_screen("leader_creator")
-	await _frames(60)
-	await _shot("leader_06_edit_" + lang)
+	await _frames(30)
+	var ed := main.hud.get_node("%Screens").get_child(0) as LeaderCreator
+	if ed:
+		ed.show_page(1)
+	await _frames(40)
+	if ed:
+		await _creator_shot(ed, "leader_08_edit_" + lang)
 	main.hud.open_screen("race")
 	await _frames(40)
-	await _shot("leader_07_race_" + lang)
+	await _shot("leader_09_race_" + lang)
+	print("FIT TOTAL: %d overflow(s)" % overflows)
 	print("LEADER SCREENSHOTS DONE")
 	quit()
 
@@ -105,6 +141,40 @@ func _initialize() -> void:
 func _frames(k: int) -> void:
 	for i in k:
 		await process_frame
+
+
+## A creator shot plus the fit check.
+func _creator_shot(cr: Control, shot_name: String) -> void:
+	await _shot(shot_name)
+	_check_fit(cr, shot_name)
+
+
+## Every visible control of the creator stays inside the window (the sky and the glow are
+## backdrops, they may bleed).
+func _check_fit(cr: Control, shot_name: String) -> void:
+	var view := Rect2(Vector2.ZERO, cr.get_viewport_rect().size).grow(1.0)
+	var bad: Array[String] = []
+	var stack: Array[Node] = [cr]
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n is Control:
+			var c := n as Control
+			if not c.is_visible_in_tree() or c.name in ["Sky", "Comet", "Glow", "Fade"]:
+				continue
+			if not view.encloses(c.get_global_rect()):
+				bad.append("%s %s" % [cr.get_path_to(c), c.get_global_rect()])
+			# a control squeezed below its own minimum size overflows its parent
+			var min_size := c.get_combined_minimum_size()
+			if c.size.x + 1.0 < min_size.x or c.size.y + 1.0 < min_size.y:
+				bad.append("%s squeezed %s < %s" % [cr.get_path_to(c), c.size, min_size])
+		for k in n.get_children():
+			stack.append(k)
+	if bad.is_empty():
+		print("FIT ok %s" % shot_name)
+	else:
+		overflows += bad.size()
+		for b in bad.slice(0, 8):
+			print("FIT overflow %s: %s" % [shot_name, b])
 
 
 func _shot(shot_name: String) -> void:

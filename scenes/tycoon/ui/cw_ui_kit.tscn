@@ -20,7 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.03922, 0.05098, 0.149, 1)
+color = Color(0.5608, 0.6588, 0.8471, 1)
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -69,7 +69,7 @@ text = "Laboratório de P&D · nível 2"
 [node name="Caps" type="Label" parent="Margin/Columns/Left/Type/V"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "REPUTAÇÃO · FASE 2/3"
+text = "Reputação · fase 2/3"
 
 [node name="Body" type="Label" parent="Margin/Columns/Left/Type/V"]
 custom_minimum_size = Vector2(440, 0)
@@ -115,7 +115,7 @@ theme_override_constants/separation = 10
 [node name="Caps" type="Label" parent="Margin/Columns/Left/Buttons/V"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "BOTÕES"
+text = "Botões"
 
 [node name="Row" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
 layout_mode = 2
@@ -204,7 +204,7 @@ text = "Auto-staging"
 [node name="Toggle2" type="CheckButton" parent="Margin/Columns/Left/Buttons/V/Row3"]
 layout_mode = 2
 theme_type_variation = &"CwToggle"
-text = "PILOTO"
+text = "Piloto"
 
 [node name="Row4" type="HBoxContainer" parent="Margin/Columns/Left/Buttons/V"]
 layout_mode = 2
@@ -246,7 +246,7 @@ theme_override_constants/separation = 8
 [node name="Caps" type="Label" parent="Margin/Columns/Left/Bars/V"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "BARRAS DE QUALIDADE"
+text = "Barras de qualidade"
 
 [node name="Eng" type="ProgressBar" parent="Margin/Columns/Left/Bars/V"]
 custom_minimum_size = Vector2(0, 10)
@@ -326,7 +326,7 @@ theme_override_constants/separation = 12
 [node name="Caps" type="Label" parent="Margin/Columns/Mid/Tabs/Equipe/Sliders"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-text = "SALÁRIO"
+text = "Salário"
 
 [node name="HSlider" type="HSlider" parent="Margin/Columns/Mid/Tabs/Equipe/Sliders"]
 layout_mode = 2
@@ -363,7 +363,7 @@ theme_override_constants/separation = 26
 layout_mode = 2
 size_flags_vertical = 0
 theme_type_variation = &"CwCaps"
-text = "FASES"
+text = "Fases"
 
 [node name="T1" type="VSlider" parent="Margin/Columns/Mid/Throttles/H"]
 custom_minimum_size = Vector2(28, 150)
@@ -428,7 +428,7 @@ layout_mode = 2
 [node name="Caps" type="Label" parent="Margin/Columns/Right/Card/V"]
 layout_mode = 2
 theme_type_variation = &"CwCapsAccent"
-text = "CONTRATO"
+text = "Contrato"
 
 [node name="Title" type="Label" parent="Margin/Columns/Right/Card/V"]
 layout_mode = 2
@@ -475,11 +475,61 @@ layout_mode = 2
 theme_type_variation = &"CwDim"
 text = "Fase 2/3 · semana 4"
 
-[node name="Rich" type="RichTextLabel" parent="Margin/Columns/Right"]
-custom_minimum_size = Vector2(0, 90)
+[node name="Bubble" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwBubble"
+
+[node name="Rich" type="RichTextLabel" parent="Margin/Columns/Right/Bubble"]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 bbcode_enabled = true
 text = "[b]Rádio da Cauda[/b]: a Aurora Rubra lançou um [i]orbitador[/i]. Caixa: [code]-120 000 cr[/code]."
+fit_content = true
+
+[node name="Lilac" type="PanelContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_type_variation = &"CwPanelLilac"
+
+[node name="H" type="HBoxContainer" parent="Margin/Columns/Right/Lilac"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Caps" type="Label" parent="Margin/Columns/Right/Lilac/H"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "Cometa"
+
+[node name="Stat" type="Label" parent="Margin/Columns/Right/Lilac/H"]
+layout_mode = 2
+theme_type_variation = &"CwStat"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "T− 12a 22s"
+
+[node name="Chips" type="HBoxContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Chip" type="PanelContainer" parent="Margin/Columns/Right/Chips"]
+layout_mode = 2
+theme_type_variation = &"CwChip"
+
+[node name="L" type="Label" parent="Margin/Columns/Right/Chips/Chip"]
+layout_mode = 2
+text = "Ciência"
+
+[node name="Verdict" type="PanelContainer" parent="Margin/Columns/Right/Chips"]
+layout_mode = 2
+theme_type_variation = &"CwVerdict"
+
+[node name="L" type="Label" parent="Margin/Columns/Right/Chips/Verdict"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+text = "Pode chegar"
+
+[node name="OnDark" type="Label" parent="Margin/Columns/Right/Chips"]
+layout_mode = 2
+theme_type_variation = &"CwOnDark"
+text = "Sobre o campus"
 
 [node name="Tree" type="Tree" parent="Margin/Columns/Right"]
 custom_minimum_size = Vector2(0, 120)

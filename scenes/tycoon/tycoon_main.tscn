@@ -14,7 +14,7 @@ dof_blur_far_distance = 12.0
 dof_blur_far_transition = 14.0
 dof_blur_near_distance = 4.0
 dof_blur_near_transition = 3.0
-dof_blur_amount = 0.06
+dof_blur_amount = 0.02
 
 [sub_resource type="Curve" id="dc_sun_elev"]
 min_value = -15
@@ -149,6 +149,7 @@ attributes = SubResource("cam_attr")
 fov = 31.0
 far = 1600.0
 script = ExtResource("3_cam")
+tilt_shift_amount = 0.02
 
 [node name="CwOutline" parent="Camera" instance=ExtResource("cw_outline")]
 

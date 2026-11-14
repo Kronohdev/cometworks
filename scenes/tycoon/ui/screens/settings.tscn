@@ -227,6 +227,12 @@ size_flags_vertical = 0
 [node name="Index" parent="Panel/Margin/VBox/Body/Options/Margin/VBox/Head" index="2"]
 visible = false
 
+[node name="Sep2" parent="Panel/Margin/VBox/Body/Options/Margin/VBox" index="3"]
+visible = false
+
+[node name="Foot" parent="Panel/Margin/VBox/Body/Options/Margin/VBox" index="4"]
+visible = false
+
 [node name="CwTransition" type="Node" parent="."]
 script = ExtResource("cwm_screen")
 backdrop = NodePath("../Backdrop")

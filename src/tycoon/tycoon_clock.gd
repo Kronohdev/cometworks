@@ -9,6 +9,8 @@ signal speed_changed(speed: int)
 ## 0 = paused, 1..3 = speeds
 var speed := 1
 var fair_mode := false
+## dev menu only (src/dev/cw_dev.gd): weeks run this many times faster at any speed (1 = normal)
+var dev_turbo := 1.0
 var _seconds: Array = [0.0, 6.0, 3.0, 1.0]
 var _fair_seconds := 1.0
 var _acc := 0.0
@@ -35,7 +37,7 @@ func toggle_pause() -> void:
 func seconds_per_week() -> float:
 	if speed == 0:
 		return INF
-	return _fair_seconds if fair_mode else float(_seconds[speed])
+	return (_fair_seconds if fair_mode else float(_seconds[speed])) / maxf(dev_turbo, 0.01)
 
 
 ## Real seconds elapsed -> whole weeks to simulate now (at most 4 per frame, so a hitch

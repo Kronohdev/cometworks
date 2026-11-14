@@ -115,14 +115,17 @@ func _scan(n: Node) -> void:
 
 
 func _on_added(n: Node) -> void:
-	# template copies come in whole: their buttons are ready a moment later
+	# template copies come in whole: their buttons are ready a moment later (held weakly: a
+	# list refresh can free the copy before then)
+	var ref: WeakRef = weakref(n)
 	(func() -> void:
+		var n2 := ref.get_ref() as Node
 		# (a screen moved out to play its exit re-enters the tree: it no longer processes)
-		if not is_instance_valid(n) or not n.is_inside_tree() or not n is Control or not is_inside_tree() or not can_process():
+		if n2 == null or not n2.is_inside_tree() or not n2 is Control or not is_inside_tree() or not can_process():
 			return
-		if n is BaseButton:
-			_attach(n as Control)
-		_scan(n)).call_deferred()
+		if n2 is BaseButton:
+			_attach(n2 as Control)
+		_scan(n2)).call_deferred()
 
 
 func _attach(c: Control) -> void:
@@ -278,10 +281,12 @@ func _wiggle(c: Control, st: State) -> void:
 	if st.wiggle_t and st.wiggle_t.is_running():
 		return
 	st.wiggle_t = create_tween()
+	var ref: WeakRef = weakref(c)
 	st.wiggle_t.tween_method(func(t: float) -> void:
-		if is_instance_valid(c):
+		var c2 := ref.get_ref() as Control
+		if c2:
 			var a := deg_to_rad(wiggle_degrees) * sin(t * TAU * wiggle_count) * (1.0 - t) * (1.0 - t)
-			CwMotion.set_channel(c, &"wiggle", Vector2.ZERO, Vector2.ONE, a), 0.0, 1.0, wiggle_seconds)
+			CwMotion.set_channel(c2, &"wiggle", Vector2.ZERO, Vector2.ONE, a), 0.0, 1.0, wiggle_seconds)
 
 
 # ------------------------------------------------------------------ focus sweep

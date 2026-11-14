@@ -190,6 +190,7 @@ theme_override_font_sizes/font_size = 58
 text = "TY_FIN_TITLE"
 
 [node name="Thread" type="TextureRect" parent="Text"]
+visible = false
 custom_minimum_size = Vector2(420, 2)
 layout_mode = 2
 size_flags_horizontal = 0

@@ -162,11 +162,34 @@ func _initialize() -> void:
 		if card == solo.get_node("%ProfTemplate"):
 			continue
 		var shown: Array[String] = []
-		for chip in card.get_node("HBox/Text/Favours").get_children():
+		for chip in card.get_node("Box/Favours").get_children():
 			if chip is PanelContainer and chip.visible:
 				shown.append(String(chip.name))
 		chips_ok = chips_ok and shown.size() == 1
 	_check(chips_ok, "profession cards show exactly one bar chip")
+	# one tab on show at a time, the selected choices wear their check badge
+	var shown_pages := 0
+	for pg in solo.get_node("%Pages").get_children():
+		shown_pages += 1 if (pg as Control).visible else 0
+	_check(shown_pages == 1 and solo.get_node("%Pages").get_child(0).visible, "the creator opens on the first tab only")
+	solo.show_page(2)
+	_check(solo.page == 2 and solo.get_node("%Pages").get_child(2).visible and not solo.get_node("%Pages").get_child(0).visible
+		and (solo.get_node("%Tabs").get_child(2) as Button).button_pressed, "a tab shows its page and lights its key")
+	solo.show_page(9)
+	_check(solo.page == 3, "the steps stop at the last tab")
+	var checks := 0
+	for b in solo.get_node("%HatTemplate").get_parent().get_children():
+		if b.has_meta("from_template") and (b.get_node("Check") as CanvasItem).visible:
+			checks += 1
+			_check(String(b.get_meta("value")) == String(solo.leader["hat"]), "the checked hat is the leader's")
+	_check(checks == 1, "exactly one hat tile is checked")
+	var quirk_icons := true
+	for b in solo.get_node("%QuirkTemplate").get_parent().get_children():
+		if b.has_meta("from_template"):
+			quirk_icons = quirk_icons and (b.get_node("Box/Emote") as TextureRect).texture != null
+	_check(quirk_icons, "personality chips show their emote")
+	_check(String(solo.get_node("%SummaryName").text) == String(solo.leader["name"])
+		and String(solo.get_node("%SummaryBonus").text) != "", "the summary card names the leader and the founding bonus")
 	solo.queue_free()
 	_end()
 

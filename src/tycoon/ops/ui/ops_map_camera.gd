@@ -17,7 +17,12 @@ extends Camera3D
 ## cover what the camera looks at
 @export var screen_offset := Vector2(-0.08, 0.07)
 
+## the framing is tuned for 16:9; a narrower view (16:10, 4:3) keeps the same width and
+## shows more above and below instead of cropping the sides
+@export var design_aspect := 16.0 / 9.0
+
 var focus := Vector3.ZERO
+var _base_fov := -1.0
 var _focus_now := Vector3.ZERO
 var _dist_now := 24.0
 var _yaw_now := -0.6
@@ -68,7 +73,19 @@ func _apply() -> void:
 	var dir := Vector3(cos(_pitch_now) * sin(_yaw_now), sin(_pitch_now), cos(_pitch_now) * cos(_yaw_now))
 	var eye := _focus_now + dir * _dist_now
 	look_at_from_position(eye, _focus_now, Vector3.UP)
+	# a narrower view than the design keeps the design's width (fov turns horizontal)
+	if _base_fov < 0.0:
+		_base_fov = fov
+	var vp := get_viewport().get_visible_rect().size if get_viewport() else Vector2(16, 9)
+	var aspect := vp.x / maxf(vp.y, 1.0)
+	var half_h := tan(deg_to_rad(_base_fov) * 0.5) * _dist_now
+	if aspect < design_aspect - 0.01:
+		keep_aspect = Camera3D.KEEP_WIDTH
+		fov = rad_to_deg(2.0 * atan(tan(deg_to_rad(_base_fov) * 0.5) * design_aspect))
+		half_h = tan(deg_to_rad(_base_fov) * 0.5) * design_aspect / aspect * _dist_now
+	else:
+		keep_aspect = Camera3D.KEEP_HEIGHT
+		fov = _base_fov
 	# shift the image so the focus sits off-centre (h_offset / v_offset are in world units)
-	var half_h := tan(deg_to_rad(fov) * 0.5) * _dist_now
-	h_offset = -screen_offset.x * 2.0 * half_h * 16.0 / 9.0
+	h_offset = -screen_offset.x * 2.0 * half_h * aspect
 	v_offset = -screen_offset.y * 2.0 * half_h

@@ -1,7 +1,9 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="Script" path="res://src/npc/creature.gd" id="script"]
 [ext_resource type="Material" path="res://scenes/npc/creature_material.tres" id="mat"]
+[ext_resource type="Material" path="res://scenes/npc/creature_face_material.tres" id="face_mat"]
+[ext_resource type="Material" path="res://scenes/npc/creature_lid_material.tres" id="lid_mat"]
 [ext_resource type="Material" path="res://scenes/npc/blob_shadow.tres" id="shadow_mat"]
 [ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/emotes.png" id="emotes"]
 [ext_resource type="PackedScene" path="res://assets/voxel/creatures/acc_backpack.glb" id="g_acc_backpack"]
@@ -44,6 +46,8 @@ orientation = 1
 [node name="Creature" type="Node3D"]
 script = ExtResource("script")
 body_material = ExtResource("mat")
+face_material = ExtResource("face_mat")
+lid_material = ExtResource("lid_mat")
 
 [node name="Shadow" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0.01)

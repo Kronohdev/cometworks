@@ -1,7 +1,8 @@
 class_name MenuSettings
 extends RefCounted
 ## Player options of the main menu (language, fullscreen, master / music / effects volume,
-## visual style and outlines - the last two stored by CwLook under [graphics]),
+## visual style, outlines and anti-aliasing - the last three stored by CwLook under [graphics];
+## the campus camera's sensitivity / invert / buttons / edge pan under [camera]),
 ## kept in user://settings.cfg under [menu] next to the graphics quality
 ## (src/core/graphics_quality.gd). apply() runs when the menu opens, so the choice sticks
 ## between sessions; the volumes are also applied by the sound player (CwSfx) on start.
@@ -15,6 +16,12 @@ const LOCALES := ["en", "pt"]
 const BUS_KEYS := {"Master": "volume", "Music": "music_volume", "SFX": "sfx_volume", "UI": "sfx_volume",
 	"Ambience": "sfx_volume"}
 const VOLUME_DEFAULTS := {"volume": 0.8, "music_volume": 0.7, "sfx_volume": 0.9}
+## campus camera options (CampusCamera.apply_settings), kept under [camera]: sensitivities are
+## multipliers, orbit_button is the mouse button that turns the view ("middle" or "right", the
+## other one pans), edge_scroll pans at the screen edges
+const CAMERA_SECTION := "camera"
+const CAMERA_DEFAULTS := {"rotate_sensitivity": 1.0, "zoom_sensitivity": 1.0, "invert_rotate": false,
+	"invert_tilt": false, "invert_zoom": false, "orbit_button": "middle", "edge_scroll": false}
 
 ## bus name -> its authored volume (dB) in the bus layout, read once
 static var _base_db := {}
@@ -137,6 +144,30 @@ static func outlines() -> bool:
 
 static func set_outlines(on: bool) -> void:
 	CwLook.set_outlines(on)
+
+
+## A campus camera option (CAMERA_DEFAULTS when never saved).
+static func camera_value(key: String) -> Variant:
+	return _cfg().get_value(CAMERA_SECTION, key, CAMERA_DEFAULTS.get(key))
+
+
+## Saves a campus camera option and applies it to the cameras in the game right now.
+static func set_camera_value(key: String, value: Variant) -> void:
+	var cfg := _cfg()
+	cfg.set_value(CAMERA_SECTION, key, value)
+	cfg.save(PATH)
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree:
+		tree.call_group(CampusCamera.GROUP, "load_settings")
+
+
+## Anti-aliasing of the 3D view: "smaa", "msaa4" or "off" (applied live, CwLook).
+static func antialiasing() -> String:
+	return CwLook.antialiasing()
+
+
+static func set_antialiasing(mode: String) -> void:
+	CwLook.set_antialiasing(mode)
 
 
 static func _set_window_fullscreen(on: bool) -> void:

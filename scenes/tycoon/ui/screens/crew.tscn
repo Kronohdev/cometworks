@@ -75,12 +75,11 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 86.0
-offset_top = 88.0
+offset_left = 100.0
+offset_top = 94.0
 offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 2
-grow_vertical = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_screen")
 
@@ -845,47 +844,52 @@ theme_override_font_sizes/font_size = 13
 text = "TY_CREW_COMPOSITION_HINT"
 horizontal_alignment = 2
 
-[node name="Profs" type="GridContainer" parent="Layout/Body/List/ListBox/Composition"]
+[node name="Profs" type="HFlowContainer" parent="Layout/Body/List/ListBox/Composition"]
 layout_mode = 2
-theme_override_constants/h_separation = 30
+theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
-columns = 4
 
-[node name="ProfTemplate" type="HBoxContainer" parent="Layout/Body/List/ListBox/Composition/Profs"]
+[node name="ProfTemplate" type="PanelContainer" parent="Layout/Body/List/ListBox/Composition/Profs"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 7
+theme_type_variation = &"CwChip"
 
-[node name="Bulb" type="TextureRect" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
+[node name="HBox" type="HBoxContainer" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Bulb" type="TextureRect" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
 self_modulate = Color(1, 0.6039, 0.3608, 1)
-custom_minimum_size = Vector2(12, 12)
+custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Count" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
-custom_minimum_size = Vector2(18, 0)
+[node name="Count" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 13
 text = "2"
 
-[node name="Name" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
+[node name="Name" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
 text = "Engenheiro(a) de sistemas"
-clip_text = true
 
-[node name="Bar" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate"]
+[node name="Arrow" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "→"
+
+[node name="Bar" type="Label" parent="Layout/Body/List/ListBox/Composition/Profs/ProfTemplate/HBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
-text = "ENG"
+theme_override_font_sizes/font_size = 13
+text = "Engenharia"
 
 [node name="Card" type="PanelContainer" parent="Layout/Body"]
 unique_name_in_owner = true
@@ -893,20 +897,39 @@ custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Layout/Body/Card"]
+[node name="CardBox" type="VBoxContainer" parent="Layout/Body/Card"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Top" type="HBoxContainer" parent="Layout/Body/Card/VBox"]
+[node name="CardScroll" type="ScrollContainer" parent="Layout/Body/Card/CardBox"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+size_flags_vertical = 3
+
+[node name="Pad" type="MarginContainer" parent="Layout/Body/Card/CardBox/CardScroll"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Top" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Visor" type="Control" parent="Layout/Body/Card/VBox/Top"]
+[node name="Visor" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top"]
 custom_minimum_size = Vector2(172, 172)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Ring" type="Panel" parent="Layout/Body/Card/VBox/Top/Visor"]
+[node name="Ring" type="Panel" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -916,7 +939,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("visor_ring")
 
-[node name="Portrait" type="SubViewportContainer" parent="Layout/Body/Card/VBox/Top/Visor"]
+[node name="Portrait" type="SubViewportContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
 material = SubResource("visor_mat")
 layout_mode = 1
 anchors_preset = 15
@@ -931,7 +954,7 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="Viewport" type="SubViewport" parent="Layout/Body/Card/VBox/Top/Visor/Portrait"]
+[node name="Viewport" type="SubViewport" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait"]
 own_world_3d = true
 world_3d = SubResource("portrait_world")
 transparent_bg = true
@@ -940,34 +963,34 @@ msaa_3d = 2
 size = Vector2i(164, 164)
 render_target_update_mode = 4
 
-[node name="Key" type="DirectionalLight3D" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Key" type="DirectionalLight3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
 transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 2, 2)
 light_color = Color(1, 0.886, 0.749, 1)
 light_energy = 1.25
 
-[node name="Rim" type="OmniLight3D" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Rim" type="OmniLight3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 1.2, -0.8)
 light_color = Color(0.749, 0.914, 1, 1)
 light_energy = 1.6
 omni_range = 3.0
 
-[node name="Camera3D" type="Camera3D" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Camera3D" type="Camera3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 0.994522, 0.104528, 0, -0.104528, 0.994522, 0, 0.78, 1.75)
 fov = 34.0
 near = 0.05
 far = 10.0
 
-[node name="Plinth" type="MeshInstance3D" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport"]
+[node name="Plinth" type="MeshInstance3D" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
 mesh = SubResource("plinth_mesh")
 surface_material_override/0 = SubResource("plinth_mat")
 
-[node name="Creature" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport" instance=ExtResource("7_creature")]
+[node name="Creature" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport" instance=ExtResource("7_creature")]
 transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
 listen_to_events = false
 cull_distance = 20.0
 
-[node name="Glow" type="Panel" parent="Layout/Body/Card/VBox/Top/Visor"]
+[node name="Glow" type="Panel" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor"]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.5412, 0.2392, 1)
 layout_mode = 1
@@ -983,13 +1006,13 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("visor_glow")
 
-[node name="Id" type="VBoxContainer" parent="Layout/Body/Card/VBox/Top"]
+[node name="Id" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/separation = 4
 
-[node name="CardName" type="Label" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="CardName" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
@@ -997,11 +1020,11 @@ theme_override_font_sizes/font_size = 26
 text = "Bopi Starkin"
 autowrap_mode = 3
 
-[node name="ProfRow" type="HBoxContainer" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="ProfRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="ProfBulb" type="TextureRect" parent="Layout/Body/Card/VBox/Top/Id/ProfRow"]
+[node name="ProfBulb" type="TextureRect" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/ProfRow"]
 unique_name_in_owner = true
 self_modulate = Color(1, 0.6039, 0.3608, 1)
 custom_minimum_size = Vector2(14, 14)
@@ -1011,20 +1034,20 @@ texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CardProf" type="Label" parent="Layout/Body/Card/VBox/Top/Id/ProfRow"]
+[node name="CardProf" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/ProfRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
 theme_override_font_sizes/font_size = 15
 text = "Engenheiro(a) de sistemas"
 
-[node name="LeaderRow" type="HBoxContainer" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="LeaderRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Crown" type="TextureRect" parent="Layout/Body/Card/VBox/Top/Id/LeaderRow"]
+[node name="Crown" type="TextureRect" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
 self_modulate = Color(1, 0.8235, 0.3608, 1)
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
@@ -1033,14 +1056,14 @@ texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Badge" type="Label" parent="Layout/Body/Card/VBox/Top/Id/LeaderRow"]
+[node name="Badge" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "TY_LEADER_BADGE"
 
-[node name="EditLeader" type="Button" parent="Layout/Body/Card/VBox/Top/Id/LeaderRow"]
+[node name="EditLeader" type="Button" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LeaderRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
@@ -1048,38 +1071,38 @@ focus_mode = 0
 theme_type_variation = &"CwKey"
 text = "TY_LEADER_EDIT"
 
-[node name="CardLook" type="Label" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="CardLook" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "Cores: Céu de Sala Limpa"
 
-[node name="LevelRow" type="HBoxContainer" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="LevelRow" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Caption" type="Label" parent="Layout/Body/Card/VBox/Top/Id/LevelRow"]
+[node name="Caption" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_LEVEL"
 
-[node name="CardLevel" type="Label" parent="Layout/Body/Card/VBox/Top/Id/LevelRow"]
+[node name="CardLevel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_font_sizes/font_size = 28
 text = "3"
 
-[node name="CardLevelMax" type="Label" parent="Layout/Body/Card/VBox/Top/Id/LevelRow"]
+[node name="CardLevelMax" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id/LevelRow"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "/ 6"
 
-[node name="CardXPBar" type="Control" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="CardXPBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
@@ -1088,30 +1111,30 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 20
 
-[node name="CardXP" type="Label" parent="Layout/Body/Card/VBox/Top/Id"]
+[node name="CardXP" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Id"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 13
 text = "45 / 100 XP para o nível 4"
 
-[node name="Sep" type="HSeparator" parent="Layout/Body/Card/VBox"]
+[node name="Sep" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 
-[node name="Traits" type="GridContainer" parent="Layout/Body/Card/VBox"]
+[node name="Traits" type="GridContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 9
 columns = 3
 
-[node name="SkillLabel" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="SkillLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 tooltip_text = "TY_CREW_SKILL_TIP"
 mouse_filter = 1
 text = "TY_CREW_SKILL"
 
-[node name="SkillBar" type="Control" parent="Layout/Body/Card/VBox/Traits"]
+[node name="SkillBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
@@ -1122,7 +1145,7 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="SkillValue" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="SkillValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
@@ -1130,13 +1153,13 @@ theme_type_variation = &"CwMonoSmall"
 text = "72"
 horizontal_alignment = 2
 
-[node name="CuriosityLabel" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CuriosityLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 layout_mode = 2
 tooltip_text = "TY_CREW_CURIOSITY_TIP"
 mouse_filter = 1
 text = "TY_CREW_CURIOSITY"
 
-[node name="CuriosityBar" type="Control" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CuriosityBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
@@ -1147,20 +1170,20 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="CuriosityValue" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CuriosityValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "64"
 horizontal_alignment = 2
 
-[node name="CourageLabel" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CourageLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 layout_mode = 2
 tooltip_text = "TY_CREW_COURAGE_TIP"
 mouse_filter = 1
 text = "TY_CREW_COURAGE"
 
-[node name="CourageBar" type="Control" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CourageBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
@@ -1171,21 +1194,21 @@ script = ExtResource("5_seg")
 color = Color(0.3098, 0.6627, 0.9412, 1)
 segments = 10
 
-[node name="CourageValue" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="CourageValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "51"
 horizontal_alignment = 2
 
-[node name="MoraleLabel" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="MoraleLabel" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "TY_CREW_MORALE_TIP"
 mouse_filter = 1
 text = "TY_CREW_MORALE"
 
-[node name="MoraleBar" type="Control" parent="Layout/Body/Card/VBox/Traits"]
+[node name="MoraleBar" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
@@ -1197,14 +1220,14 @@ value = 0.7
 color = Color(0.1843, 0.7686, 0.6275, 1)
 segments = 20
 
-[node name="MoraleValue" type="Label" parent="Layout/Body/Card/VBox/Traits"]
+[node name="MoraleValue" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Traits"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "70"
 horizontal_alignment = 2
 
-[node name="Mood" type="Label" parent="Layout/Body/Card/VBox"]
+[node name="Mood" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -1212,80 +1235,80 @@ theme_type_variation = &"CwDim"
 text = "Livre para entrar num projeto."
 autowrap_mode = 3
 
-[node name="Sep2" type="HSeparator" parent="Layout/Body/Card/VBox"]
+[node name="Sep2" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 
-[node name="Facts" type="GridContainer" parent="Layout/Body/Card/VBox"]
+[node name="Facts" type="GridContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 6
 columns = 2
 
-[node name="Cap1" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Cap1" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_COL_SALARY"
 
-[node name="Val1" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Val1" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "5 000 cr / mês"
 
-[node name="Cap2" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Cap2" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_ASSIGNED"
 
-[node name="Val2" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Val2" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "—"
 
-[node name="Cap3" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Cap3" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_HIRED"
 
-[node name="Val3" type="Label" parent="Layout/Body/Card/VBox/Facts"]
+[node name="Val3" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "Equipe fundadora"
 
-[node name="SpecSection" type="VBoxContainer" parent="Layout/Body/Card/VBox"]
+[node name="SpecSection" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Sep" type="HSeparator" parent="Layout/Body/Card/VBox/SpecSection"]
+[node name="Sep" type="HSeparator" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Layout/Body/Card/VBox/SpecSection"]
+[node name="Title" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_CREW_SPECS"
 
-[node name="Slots" type="VBoxContainer" parent="Layout/Body/Card/VBox/SpecSection"]
+[node name="Slots" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SlotTemplate" type="VBoxContainer" parent="Layout/Body/Card/VBox/SpecSection/Slots"]
+[node name="SlotTemplate" type="VBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Head" type="HBoxContainer" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Head" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Tier" type="Label" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate/Head"]
+[node name="Tier" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
@@ -1293,13 +1316,13 @@ theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 theme_override_font_sizes/font_size = 13
 text = "Grau I · nível 3"
 
-[node name="Value" type="Label" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate/Head"]
+[node name="Value" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
 text = "Ainda não escolhida"
 
-[node name="Desc" type="Label" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Desc" type="Label" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_type_variation = &"CwDim"
@@ -1307,11 +1330,11 @@ theme_override_font_sizes/font_size = 13
 text = "Libera no nível 3."
 autowrap_mode = 3
 
-[node name="Options" type="HBoxContainer" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate"]
+[node name="Options" type="HBoxContainer" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="OptionTemplate" type="Button" parent="Layout/Body/Card/VBox/SpecSection/Slots/SlotTemplate/Options"]
+[node name="OptionTemplate" type="Button" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/SpecSection/Slots/SlotTemplate/Options"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1320,12 +1343,12 @@ theme_override_font_sizes/font_size = 13
 text = "Garimpeiro(a) de dados"
 clip_text = true
 
-[node name="Spacer" type="Control" parent="Layout/Body/Card/VBox"]
+[node name="Spacer" type="Control" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Note" type="Label" parent="Layout/Body/Card/VBox"]
+[node name="Note" type="Label" parent="Layout/Body/Card/CardBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -1334,11 +1357,11 @@ theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 3
 
-[node name="Actions" type="HBoxContainer" parent="Layout/Body/Card/VBox"]
+[node name="Actions" type="HBoxContainer" parent="Layout/Body/Card/CardBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="FireButton" type="Button" parent="Layout/Body/Card/VBox/Actions"]
+[node name="FireButton" type="Button" parent="Layout/Body/Card/CardBox/Actions"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
@@ -1346,7 +1369,7 @@ focus_mode = 0
 theme_type_variation = &"CwDanger"
 text = "TY_CREW_FIRE"
 
-[node name="HireButton" type="Button" parent="Layout/Body/Card/VBox/Actions"]
+[node name="HireButton" type="Button" parent="Layout/Body/Card/CardBox/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1396,4 +1419,4 @@ hover_scale = Vector2(1.015, 1.015)
 glow = 1.08
 sweep_on_focus = true
 
-[node name="CwOutline" parent="Layout/Body/Card/VBox/Top/Visor/Portrait/Viewport/Camera3D" instance=ExtResource("cw_outline")]
+[node name="CwOutline" parent="Layout/Body/Card/CardBox/CardScroll/Pad/VBox/Top/Visor/Portrait/Viewport/Camera3D" instance=ExtResource("cw_outline")]

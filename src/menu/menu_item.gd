@@ -30,6 +30,8 @@ func _ready() -> void:
 			grab_focus())
 	focus_entered.connect(_light.bind(true))
 	focus_exited.connect(_light.bind(false))
+	# the menu enables Continue after loading the save: relight the hint when the row redraws
+	draw.connect(func() -> void: _light(has_focus()))
 	_light(false)
 
 

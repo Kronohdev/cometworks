@@ -35,7 +35,9 @@ func _fade(w: Node) -> void:
 	var reduced := CwMotion.reduced()
 	var tw := create_tween().set_parallel(true)
 	for c in parts:
+		var ref: WeakRef = weakref(c)
 		tw.tween_method(func(k: float) -> void:
-			if is_instance_valid(c):
-				CwMotion.set_channel(c, &"tip", Vector2.ZERO if reduced else rise * (1.0 - k), Vector2.ONE, 0.0, k),
+			var c2 := ref.get_ref() as Control
+			if c2:
+				CwMotion.set_channel(c2, &"tip", Vector2.ZERO if reduced else rise * (1.0 - k), Vector2.ONE, 0.0, k),
 			0.0, 1.0, seconds).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

@@ -54,3 +54,18 @@ TY_LEADER_EDIT,Edit leader,Editar líder
 TY_LEADER_TAG,Leader · %s,Líder · %s
 TY_LEADER_ERR_FIRE,"The leader is you: no firing yourself","O líder é você: não dá para se demitir"
 TY_LEADER_NEWS_FOUNDED,%s founds the %s agency,%s funda a agência %s
+TY_LEADER_TAB_LOOK,Look,Aparência
+TY_LEADER_TAB_JOB,Job,Profissão
+TY_LEADER_TAB_WAY,Character,Jeito
+TY_LEADER_TAB_AGENCY,Agency,Agência
+TY_LEADER_NEXT,Next,Próximo
+TY_LEADER_PREV,Previous,Anterior
+TY_LEADER_STEP,Step %d of %d,Passo %d de %d
+TY_LEADER_SUMMARY_BONUS,founding bonus %s,bônus de fundação %s
+TY_LEADER_QUIRK_CHEERFUL_TIP,Celebrates every little win,Comemora cada conquista
+TY_LEADER_QUIRK_DREAMER_TIP,Head up in the stars,Vive com a cabeça nas estrelas
+TY_LEADER_QUIRK_TINKERER_TIP,Always building something,Sempre inventando alguma coisa
+TY_LEADER_QUIRK_CALM_TIP,Nothing ruffles them,Nada tira do sério
+TY_LEADER_AGENCY_PREVIEW,How the rivals see you in the race,Assim os rivais veem você na corrida
+TY_LEADER_LOOK_HINT,Pick the colours and a hat,Escolha as cores e um chapéu
+TY_LEADER_WAY_HINT,"What your leader is best at, and how they act",No que seu líder é bom e como se comporta

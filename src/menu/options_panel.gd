@@ -1,10 +1,13 @@
 class_name MenuOptionsPanel
 extends PanelContainer
 ## Options of the main menu (scenes/menu/options_panel.tscn): language EN / PT, window or
-## fullscreen, master, music and effects volume, the visual style (Cartoon / Classic, CwLook)
-## and the ink outlines. Layout and styles live in the scene; this script reads and
-## writes MenuSettings and emits `closed` on Back / Esc. Motion: full or reduced (the UI
+## fullscreen, master, music and effects volume, the visual style (Cartoon / Classic, CwLook),
+## the ink outlines and the anti-aliasing (SMAA / MSAA 4x / off, applied live). Layout and
+## styles live in the scene; this script reads and writes MenuSettings and emits `closed` on Back / Esc. Motion: full or reduced (the UI
 ## motion components, src/tycoon/ui/motion/, keep only short fades when reduced).
+## The Camera page (the header tabs; Grid rows with metadata page = "camera") holds the campus
+## camera's turn and zoom sensitivity, invert turn / tilt / zoom, which mouse button turns
+## (the other pans) and edge scrolling (MenuSettings.set_camera_value, applied live).
 
 signal closed
 
@@ -25,9 +28,29 @@ signal closed
 @onready var style_classic: Button = %StyleClassic
 @onready var outlines_on: Button = %OutlinesOn
 @onready var outlines_off: Button = %OutlinesOff
+@onready var cam_rotate: HSlider = %CamRotate
+@onready var cam_rotate_value: Label = %CamRotateValue
+@onready var cam_zoom: HSlider = %CamZoom
+@onready var cam_zoom_value: Label = %CamZoomValue
+@onready var invert_rotate: Button = %InvertRotate
+@onready var invert_tilt: Button = %InvertTilt
+@onready var invert_zoom: Button = %InvertZoom
+@onready var orbit_middle: Button = %OrbitMiddle
+@onready var orbit_right: Button = %OrbitRight
+@onready var edge_on: Button = %EdgeOn
+@onready var edge_off: Button = %EdgeOff
+@onready var page_general: Button = %PageGeneral
+@onready var page_camera: Button = %PageCamera
+@onready var grid: GridContainer = $Margin/VBox/Grid
+@onready var aa_smaa: Button = %AASmaa
+@onready var aa_msaa4: Button = %AAMsaa4
+@onready var aa_off: Button = %AAOff
 
 
 func _ready() -> void:
+	page_general.pressed.connect(show_page.bind(""))
+	page_camera.pressed.connect(show_page.bind("camera"))
+	show_page("")
 	lang_en.pressed.connect(MenuSettings.set_locale.bind("en"))
 	lang_pt.pressed.connect(MenuSettings.set_locale.bind("pt"))
 	win.pressed.connect(MenuSettings.set_fullscreen.bind(false))
@@ -52,6 +75,22 @@ func _ready() -> void:
 		sync())
 	outlines_on.pressed.connect(MenuSettings.set_outlines.bind(true))
 	outlines_off.pressed.connect(MenuSettings.set_outlines.bind(false))
+	cam_rotate.value_changed.connect(func(v: float) -> void:
+		MenuSettings.set_camera_value("rotate_sensitivity", v / 100.0)
+		_show_camera())
+	cam_zoom.value_changed.connect(func(v: float) -> void:
+		MenuSettings.set_camera_value("zoom_sensitivity", v / 100.0)
+		_show_camera())
+	invert_rotate.toggled.connect(func(on: bool) -> void: MenuSettings.set_camera_value("invert_rotate", on))
+	invert_tilt.toggled.connect(func(on: bool) -> void: MenuSettings.set_camera_value("invert_tilt", on))
+	invert_zoom.toggled.connect(func(on: bool) -> void: MenuSettings.set_camera_value("invert_zoom", on))
+	orbit_middle.pressed.connect(MenuSettings.set_camera_value.bind("orbit_button", "middle"))
+	orbit_right.pressed.connect(MenuSettings.set_camera_value.bind("orbit_button", "right"))
+	edge_on.pressed.connect(MenuSettings.set_camera_value.bind("edge_scroll", true))
+	edge_off.pressed.connect(MenuSettings.set_camera_value.bind("edge_scroll", false))
+	aa_smaa.pressed.connect(MenuSettings.set_antialiasing.bind("smaa"))
+	aa_msaa4.pressed.connect(MenuSettings.set_antialiasing.bind("msaa4"))
+	aa_off.pressed.connect(MenuSettings.set_antialiasing.bind("off"))
 	back.pressed.connect(func() -> void: closed.emit())
 	sync()
 
@@ -79,7 +118,23 @@ func sync() -> void:
 	# outlines belong to the cartoon style
 	outlines_on.disabled = not toon
 	outlines_off.disabled = not toon
+	cam_rotate.set_value_no_signal(roundf(float(MenuSettings.camera_value("rotate_sensitivity")) * 100.0))
+	cam_zoom.set_value_no_signal(roundf(float(MenuSettings.camera_value("zoom_sensitivity")) * 100.0))
+	invert_rotate.set_pressed_no_signal(bool(MenuSettings.camera_value("invert_rotate")))
+	invert_tilt.set_pressed_no_signal(bool(MenuSettings.camera_value("invert_tilt")))
+	invert_zoom.set_pressed_no_signal(bool(MenuSettings.camera_value("invert_zoom")))
+	var right := String(MenuSettings.camera_value("orbit_button")) == "right"
+	orbit_right.set_pressed_no_signal(right)
+	orbit_middle.set_pressed_no_signal(not right)
+	var edge := bool(MenuSettings.camera_value("edge_scroll"))
+	edge_on.set_pressed_no_signal(edge)
+	edge_off.set_pressed_no_signal(not edge)
+	var aa := MenuSettings.antialiasing()
+	aa_smaa.set_pressed_no_signal(aa == "smaa")
+	aa_msaa4.set_pressed_no_signal(aa == "msaa4")
+	aa_off.set_pressed_no_signal(aa == "off")
 	_show_volume()
+	_show_camera()
 
 
 func focus_first() -> void:
@@ -90,6 +145,19 @@ func _show_volume() -> void:
 	volume_value.text = "%3d %%" % int(volume.value)
 	music_value.text = "%3d %%" % int(music_volume.value)
 	sfx_value.text = "%3d %%" % int(sfx_volume.value)
+
+
+## Shows one page of the options grid: "" the general rows, "camera" the camera rows.
+func show_page(page: String) -> void:
+	for c in grid.get_children():
+		(c as CanvasItem).visible = String(c.get_meta("page", "")) == page
+	page_camera.set_pressed_no_signal(page == "camera")
+	page_general.set_pressed_no_signal(page != "camera")
+
+
+func _show_camera() -> void:
+	cam_rotate_value.text = "%3d %%" % int(cam_rotate.value)
+	cam_zoom_value.text = "%3d %%" % int(cam_zoom.value)
 
 
 func _unhandled_input(event: InputEvent) -> void:

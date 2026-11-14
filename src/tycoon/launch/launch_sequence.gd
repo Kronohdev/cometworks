@@ -573,8 +573,8 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if _phase == "" or _phase == "done":
-		return
+	if _phase == "" or _phase == "done" or CwDevMenu.blocks_mouse(event):
+		return  # (clicks on the dev menu are the menu's, not a skip)
 	var hit := false
 	if event is InputEventKey and event.pressed and not event.echo:
 		hit = (event as InputEventKey).keycode in [KEY_ESCAPE, KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]

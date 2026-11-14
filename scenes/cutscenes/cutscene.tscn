@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="Theme" path="res://ui/cometworks_on_dark.tres" id="cw_on_dark"]
 [ext_resource type="Script" path="res://src/cutscene/cutscene.gd" id="1_cs"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
 
@@ -179,15 +180,16 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("cw_on_dark")
 theme_override_constants/separation = 6
 alignment = 1
 
 [node name="CardKicker" type="Label" parent="Frame/Card"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"CwBody"
-theme_override_colors/font_color = Color(0.5608, 0.9412, 0.8118, 1)
-theme_override_colors/font_outline_color = Color(0.035, 0.043, 0.13, 0.75)
+theme_type_variation = &"CwTitle"
+theme_override_colors/font_color = Color(0.6157, 0.9412, 0.8314, 1)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 0.8)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 22
 text = "Uma história dos Cometinhos"
@@ -197,7 +199,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDisplay"
-theme_override_colors/font_outline_color = Color(0.035, 0.043, 0.13, 0.8)
+theme_override_colors/font_outline_color = Color(0.1059, 0.0941, 0.2706, 0.85)
 theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 72
 text = "A Mãe-Gelo"
@@ -214,7 +216,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.035, 0.043, 0.13, 1)
+color = Color(0.1059, 0.0941, 0.2706, 1)
 
 [node name="BarTop" type="ColorRect" parent="Frame"]
 unique_name_in_owner = true
@@ -224,7 +226,8 @@ anchor_right = 1.0
 offset_top = -104.0
 grow_horizontal = 2
 mouse_filter = 2
-color = Color(0.035, 0.043, 0.13, 1)
+theme = ExtResource("cw_on_dark")
+color = Color(0.1059, 0.0941, 0.2706, 1)
 
 [node name="SkipRow" type="HBoxContainer" parent="Frame/BarTop"]
 layout_mode = 1
@@ -291,7 +294,8 @@ offset_bottom = 104.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
-color = Color(0.035, 0.043, 0.13, 1)
+theme = ExtResource("cw_on_dark")
+color = Color(0.1059, 0.0941, 0.2706, 1)
 
 [node name="Thread" type="TextureRect" parent="Frame/BarBottom"]
 layout_mode = 1
@@ -314,9 +318,9 @@ anchor_bottom = 1.0
 offset_top = 6.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"CwBody"
+theme_type_variation = &"CwTitle"
 theme_override_constants/line_spacing = 2
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 26
 text = "De cada floquinho da cauda dela nasce um Cometinho."
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -117,9 +117,10 @@ TY_RACE_REQUIRES,Needs first: %s,Precisa antes: %s
 TY_RACE_REWARD,%s · reputation +%d · hype +%d,%s · reputação +%d · hype +%d
 TY_RACE_VICTORY,Victory: +%d points in the final score,Vitória: +%d pontos na pontuação final
 TY_RACE_CLOSE,Close,Fechar
-TY_RACE_LEGEND_FIRST,first,primeiro
-TY_RACE_LEGEND_LATER,later,depois
-TY_RACE_LEGEND_NEXT,next goal,próxima meta
+TY_RACE_LEGEND_FIRST,got there first,chegou primeiro
+TY_RACE_LEGEND_LATER,got there later,chegou depois
+TY_RACE_LEGEND_NEXT,chasing now,próximo marco
+TY_RACE_LEGEND_YEAR,number = the year it got there,número = ano em que chegou
 TY_RACE_HOVER_HINT,Point at a milestone to read it,Aponte para um marco para ler
 TY_PAPER_NAME,The Tail Echo,O Eco da Cauda
 TY_PAPER_TAGLINE,The comet tail's most trusted rumours since year 1,Os boatos mais confiáveis da cauda desde o ano 1

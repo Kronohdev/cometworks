@@ -24,8 +24,11 @@ const AUTOLOAD := "CwAudio"
 @export_group("Music")
 ## seconds of a music crossfade
 @export_range(0.0, 10.0, 0.1) var music_fade := 2.5
-## how far the music dips under a stinger
-@export_range(-40.0, 0.0, 0.5, "suffix:dB") var stinger_duck_db := -16.0
+## how much the next loop overlaps the one leaving: 0 = the old loop fades out first and the
+## new one comes in after it (two songs never sound together), 1 = a full crossfade
+@export_range(0.0, 1.0, 0.05) var music_overlap := 0.15
+## how far the music dips under a stinger (a jingle is music too: keep the loop well under it)
+@export_range(-40.0, 0.0, 0.5, "suffix:dB") var stinger_duck_db := -30.0
 @export_group("Pools")
 ## UI / 2D one-shots that can sound at once
 @export_range(2, 32) var one_shot_voices := 10
@@ -67,6 +70,7 @@ var _decks: Array[AudioStreamPlayer] = []
 var _deck_gain := [0.0, 0.0]
 var _deck_target := [0.0, 0.0]
 var _deck_db := [0.0, 0.0]
+var _deck_delay := [0.0, 0.0]   # seconds before a deck starts fading in
 var _deck := 0
 var _fade_speed := 0.4
 var _ducks := {}           # key -> dB
@@ -341,6 +345,9 @@ func play_music(track: StringName, fade := -1.0) -> void:
 	_music_name = track
 	var out := _deck
 	_deck_target[out] = 0.0
+	_deck_delay[out] = 0.0
+	# the new loop waits until the old one has mostly faded (see music_overlap)
+	var wait := fade * (1.0 - music_overlap) * float(_deck_gain[out])
 	if track == &"":
 		_fade_speed = 1.0 / maxf(fade, 0.01)
 		return
@@ -355,9 +362,11 @@ func play_music(track: StringName, fade := -1.0) -> void:
 	_deck_db[_deck] = s.volume_db
 	_deck_gain[_deck] = 0.0
 	_deck_target[_deck] = 1.0
+	_deck_delay[_deck] = wait
 	_fade_speed = 1.0 / maxf(fade, 0.01)
 	d.volume_db = -80.0
-	_start(d)
+	if wait <= 0.0:
+		_start(d)   # else it starts when its wait is over, from the top of the loop
 	plays[track] = int(plays.get(track, 0)) + 1
 	played.emit(track)
 
@@ -397,7 +406,12 @@ func _process(delta: float) -> void:
 	_duck_now = move_toward(_duck_now, want, delta * (40.0 if want < _duck_now else 12.0))
 	for i in _decks.size():
 		var d: AudioStreamPlayer = _decks[i]
-		_deck_gain[i] = move_toward(float(_deck_gain[i]), float(_deck_target[i]), delta * _fade_speed)
+		if float(_deck_delay[i]) > 0.0:
+			_deck_delay[i] = maxf(0.0, float(_deck_delay[i]) - delta)
+			if float(_deck_delay[i]) <= 0.0 and float(_deck_target[i]) > 0.0 and not d.playing:
+				_start(d)
+		else:
+			_deck_gain[i] = move_toward(float(_deck_gain[i]), float(_deck_target[i]), delta * _fade_speed)
 		var g := float(_deck_gain[i])
 		if g <= 0.0005:
 			if d.playing and float(_deck_target[i]) <= 0.0:

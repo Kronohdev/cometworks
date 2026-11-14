@@ -1760,6 +1760,9 @@ pattern_radius = 2.5
 grain = 0
 bevel_color = Color(1.0000, 1.0000, 1.0000, 0.9)
 padding = Vector4(16, 10, 16, 13)
+tail_side = 2
+tail_size = 13
+tail_offset = 26
 
 [sub_resource type="StyleBox" id="sb_box"]
 script = ExtResource("1_cw_panel_s")

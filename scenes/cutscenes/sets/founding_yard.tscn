@@ -50,7 +50,7 @@ ssao_radius = 0.8
 ssao_intensity = 1.5
 glow_enabled = true
 glow_intensity = 0.7
-glow_bloom = 0.04
+glow_bloom = 0.0
 glow_hdr_threshold = 0.95
 fog_enabled = true
 fog_light_color = Color(0.7, 0.5, 0.48, 1)
@@ -63,7 +63,7 @@ adjustment_saturation = 1.1
 dof_blur_far_enabled = true
 dof_blur_far_distance = 12.0
 dof_blur_far_transition = 20.0
-dof_blur_amount = 0.06
+dof_blur_amount = 0.025
 
 [sub_resource type="ShaderMaterial" id="cradle"]
 shader = ExtResource("cw_toon_solid")

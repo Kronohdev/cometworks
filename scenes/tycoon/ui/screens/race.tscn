@@ -39,12 +39,11 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 86.0
-offset_top = 88.0
+offset_left = 100.0
+offset_top = 94.0
 offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_type_variation = &"CwPanelTop"
 
 [node name="Margin" type="MarginContainer" parent="Panel"]
@@ -90,69 +89,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Legend" type="HBoxContainer" parent="Panel/Margin/VBox/Head"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 6
-
-[node name="First" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("4_marker")
-fill = Color(0.749, 0.9098, 1, 1)
-outline = Color(0.1686, 0.1647, 0.3608, 1)
-radius = 6.0
-
-[node name="FirstText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_RACE_LEGEND_FIRST"
-
-[node name="Gap" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Later" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("4_marker")
-fill = Color(0.749, 0.9098, 1, 0.35)
-outline = Color(0.1843, 0.4706, 0.8, 1)
-radius = 4.5
-
-[node name="LaterText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_RACE_LEGEND_LATER"
-
-[node name="Gap2" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Next" type="Control" parent="Panel/Margin/VBox/Head/Legend"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-script = ExtResource("4_marker")
-outline = Color(0.549, 0.5373, 0.702, 1)
-radius = 4.0
-ring = true
-
-[node name="NextText" type="Label" parent="Panel/Margin/VBox/Head/Legend"]
-layout_mode = 2
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 13
-text = "TY_RACE_LEGEND_NEXT"
-
 [node name="Sep" type="VSeparator" parent="Panel/Margin/VBox/Head"]
 layout_mode = 2
 
@@ -187,45 +123,25 @@ layout_mode = 2
 [node name="Track" type="Control" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true
 clip_contents = true
-custom_minimum_size = Vector2(0, 272)
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("3_track")
 
 [node name="HomeLabel" type="Label" parent="Panel/Margin/VBox/Track"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 238.0
-offset_right = 160.0
-offset_bottom = 254.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -24.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.75)
 text = "TY_RACE_HOME"
-
-[node name="MoonLabel" type="Label" parent="Panel/Margin/VBox/Track"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 700.0
-offset_top = 240.0
-offset_right = 800.0
-offset_bottom = 256.0
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 0.8)
-text = "TY_RACE_MOON"
-horizontal_alignment = 1
-
-[node name="CometLabel" type="Label" parent="Panel/Margin/VBox/Track"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 1300.0
-offset_top = 100.0
-offset_right = 1420.0
-offset_bottom = 116.0
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.85)
-text = "TY_RACE_COMET"
-horizontal_alignment = 2
 
 [node name="Eras" type="Control" parent="Panel/Margin/VBox/Track"]
 layout_mode = 1
@@ -273,10 +189,10 @@ radius = 7.0
 
 [node name="Info" type="VBoxContainer" parent="Panel/Margin/VBox/Track/Stations/StationTemplate"]
 layout_mode = 0
-offset_left = -74.0
+offset_left = -76.0
 offset_top = 16.0
-offset_right = 74.0
-offset_bottom = 82.0
+offset_right = 76.0
+offset_bottom = 62.0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
@@ -297,6 +213,7 @@ autowrap_mode = 3
 max_lines_visible = 2
 
 [node name="First" type="Label" parent="Panel/Margin/VBox/Track/Stations/StationTemplate/Info"]
+visible = false
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 12
@@ -324,7 +241,7 @@ theme_override_constants/separation = 4
 [node name="LaneTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Lanes"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(0, 34)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_constants/separation = 10
 
@@ -369,9 +286,9 @@ mouse_filter = 2
 [node name="Rail" type="ColorRect" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
 layout_mode = 0
 offset_right = 100.0
-offset_bottom = 1.0
+offset_bottom = 3.0
 mouse_filter = 2
-color = Color(0.1804, 0.2275, 0.4706, 1)
+color = Color(0.902, 0.8275, 0.702, 1)
 
 [node name="Progress" type="ColorRect" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
 layout_mode = 0
@@ -406,20 +323,96 @@ theme_override_font_sizes/font_size = 12
 text = "07"
 horizontal_alignment = 1
 
-[node name="Tag" type="PanelContainer" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells"]
-layout_mode = 0
-offset_right = 28.0
-offset_bottom = 16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("tag_style")
-
-[node name="Initials" type="Label" parent="Panel/Margin/VBox/Lanes/LaneTemplate/Cells/Tag"]
+[node name="Legend" type="HBoxContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_colors/font_color = Color(0.03922, 0.05098, 0.149, 1)
-theme_override_font_sizes/font_size = 12
-text = "CW"
-horizontal_alignment = 1
+theme_override_constants/separation = 6
+
+[node name="Indent" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(234, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="First" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+fill = Color(0.1843, 0.4706, 0.8, 1)
+outline = Color(0.1843, 0.4706, 0.8, 1)
+radius = 6.0
+
+[node name="FirstText" type="Label" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_FIRST"
+
+[node name="Gap" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Later" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+fill = Color(0.1843, 0.4706, 0.8, 0.35)
+outline = Color(0.1843, 0.4706, 0.8, 0.7)
+radius = 4.5
+
+[node name="LaterText" type="Label" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_LATER"
+
+[node name="Gap2" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Next" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("4_marker")
+outline = Color(0.549, 0.5373, 0.702, 1)
+radius = 3.0
+ring = true
+ring_color = Color(0.1843, 0.4706, 0.8, 1)
+
+[node name="NextText" type="Label" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_NEXT"
+
+[node name="Gap3" type="Control" parent="Panel/Margin/VBox/Legend"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="YearText" type="Label" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_LEGEND_YEAR"
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Hint" type="Label" parent="Panel/Margin/VBox/Legend"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+theme_override_font_sizes/font_size = 13
+text = "TY_RACE_HOVER_HINT"
 
 [node name="Bottom" type="HBoxContainer" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -431,59 +424,61 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals"]
+[node name="RivalScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Bottom/Rivals"]
 layout_mode = 2
-theme_type_variation = &"CwCaps"
-text = "TY_RACE_RIVALS"
+size_flags_vertical = 3
 
-[node name="Cards" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals"]
+[node name="Cards" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="CardTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards"]
+[node name="CardTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(270, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Head"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwTitle"
 theme_override_font_sizes/font_size = 18
 text = "Aurora Rubra"
+text_overrun_behavior = 3
 
-[node name="Initials" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Head"]
+[node name="Initials" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Head"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "AR"
 
-[node name="Pers" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Pers" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1686, 0.1647, 0.3608, 1)
 theme_override_font_sizes/font_size = 13
 text = "Bold: launches early and takes risks"
 autowrap_mode = 3
 
-[node name="Grid" type="GridContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Grid" type="GridContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 4
 columns = 2
 
-[node name="StrCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+[node name="StrCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Grid"]
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 size_flags_vertical = 0
@@ -491,7 +486,7 @@ theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
 text = "TY_RACE_STRENGTH"
 
-[node name="Str" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+[node name="Str" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
@@ -499,14 +494,14 @@ theme_override_font_sizes/font_size = 13
 text = "First to the crewed milestones"
 autowrap_mode = 3
 
-[node name="WeakCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+[node name="WeakCap" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Grid"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_type_variation = &"CwCaps"
 theme_override_colors/font_color = Color(0.7608, 0.4549, 0, 1)
 text = "TY_RACE_WEAKNESS"
 
-[node name="Weak" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Grid"]
+[node name="Weak" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
@@ -514,125 +509,134 @@ theme_override_font_sizes/font_size = 13
 text = "Fails often"
 autowrap_mode = 3
 
-[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 
-[node name="Now" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Now" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Caption" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Now"]
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Now"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RACE_NOW"
 
-[node name="Value" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Now"]
+[node name="Value" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Now"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
 text = "Robotic landing"
-clip_text = true
+text_overrun_behavior = 3
 
-[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox"]
+[node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Motto" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Foot"]
+[node name="Motto" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Foot"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
 theme_override_colors/font_color = Color(0.1843, 0.4706, 0.8, 0.7)
 theme_override_font_sizes/font_size = 13
 text = "Light it first, ask later."
-clip_text = true
+text_overrun_behavior = 3
 
-[node name="Setbacks" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/Cards/CardTemplate/VBox/Foot"]
+[node name="Setbacks" type="Label" parent="Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards/CardTemplate/VBox/Foot"]
 layout_mode = 2
+size_flags_vertical = 0
 theme_type_variation = &"CwMonoSmall"
 theme_override_font_sizes/font_size = 12
-text = "SETBACKS 2"
+text = "Setbacks: 2"
 
 [node name="Detail" type="PanelContainer" parent="Panel/Margin/VBox/Bottom"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 0)
+custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail"]
+[node name="DetailScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Bottom/Detail"]
 layout_mode = 2
-theme_override_constants/separation = 5
+horizontal_scroll_mode = 0
 
-[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="Head" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="DNum" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head"]
+[node name="DNum" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Head"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 theme_override_colors/font_color = Color(0.898, 0.3961, 0.1098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "08"
 
-[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head"]
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="DEra" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head/Titles"]
+[node name="DEra" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "Era 3 · Lua robótica"
 
-[node name="DName" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Head/Titles"]
+[node name="DName" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Head/Titles"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwTitle"
 text = "First robotic landing"
+autowrap_mode = 3
 
-[node name="DReward" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="DReward" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "500 000 cr · reputation +8 · hype +20"
+autowrap_mode = 3
 
-[node name="HowCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="HowCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RACE_HOW"
 
-[node name="DHow" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="DHow" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Complete: Lander / Rover → Lunar surface / Lunar pole (partial success or better)"
 autowrap_mode = 3
 
-[node name="DExpect" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="DExpect" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "Rivals expected in years 11–16"
+autowrap_mode = 3
 
-[node name="WhoCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="WhoCap" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RACE_WHO"
 
-[node name="Claims" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="Claims" type="VBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="ClaimTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims"]
+[node name="ClaimTemplate" type="HBoxContainer" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Claims"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Marker" type="Control" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+[node name="Marker" type="Control" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Claims/ClaimTemplate"]
 custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
@@ -640,25 +644,26 @@ mouse_filter = 2
 script = ExtResource("4_marker")
 radius = 5.0
 
-[node name="Order" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+[node name="Order" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Claims/ClaimTemplate"]
 custom_minimum_size = Vector2(34, 0)
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 text = "1º"
 
-[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Claims/ClaimTemplate"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
 text = "Aurora Rubra"
+text_overrun_behavior = 3
 
-[node name="When" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox/Claims/ClaimTemplate"]
+[node name="When" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox/Claims/ClaimTemplate"]
 layout_mode = 2
 theme_type_variation = &"CwMonoSmall"
 theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
 text = "Year 12 · week 30"
 
-[node name="DNobody" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/VBox"]
+[node name="DNobody" type="Label" parent="Panel/Margin/VBox/Bottom/Detail/DetailScroll/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
@@ -691,7 +696,7 @@ max_delay = 0.45
 
 [node name="CwRivals" type="Node" parent="."]
 script = ExtResource("cwm_stagger")
-target = NodePath("../Panel/Margin/VBox/Bottom/Rivals/Cards")
+target = NodePath("../Panel/Margin/VBox/Bottom/Rivals/RivalScroll/Cards")
 offset = Vector2(0, 10)
 delay = 0.35
 step = 0.06

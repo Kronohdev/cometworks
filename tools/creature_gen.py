@@ -777,6 +777,8 @@ def write_scene():
     ext, nodes = [], []
     ext.append('[ext_resource type="Script" path="res://src/npc/creature.gd" id="script"]')
     ext.append('[ext_resource type="Material" path="res://scenes/npc/creature_material.tres" id="mat"]')
+    ext.append('[ext_resource type="Material" path="res://scenes/npc/creature_face_material.tres" id="face_mat"]')
+    ext.append('[ext_resource type="Material" path="res://scenes/npc/creature_lid_material.tres" id="lid_mat"]')
     ext.append('[ext_resource type="Material" path="res://scenes/npc/blob_shadow.tres" id="shadow_mat"]')
     ext.append('[ext_resource type="Texture2D" path="res://assets/voxel/creatures/ui/emotes.png" id="emotes"]')
     glbs = sorted({g for _, _, _, g, _ in RIG if g})
@@ -784,7 +786,8 @@ def write_scene():
         ext.append(f'[ext_resource type="PackedScene" path="res://assets/voxel/creatures/{g}.glb" id="g_{g}"]')
     sub = ['[sub_resource type="QuadMesh" id="shadow_quad"]\nsize = Vector2(0.62, 0.5)\norientation = 1']
     nodes.append('[node name="Creature" type="Node3D"]\nscript = ExtResource("script")\n'
-                 'body_material = ExtResource("mat")')
+                 'body_material = ExtResource("mat")\nface_material = ExtResource("face_mat")\n'
+                 'lid_material = ExtResource("lid_mat")')
     nodes.append('[node name="Shadow" type="MeshInstance3D" parent="."]\n'
                  'transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0.01)\n'
                  'cast_shadow = 0\nmesh = SubResource("shadow_quad")\n'

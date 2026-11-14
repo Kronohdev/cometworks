@@ -82,6 +82,20 @@ var _shadow_box := StyleBoxFlat.new()
 	set(v):
 		pattern_radius = v
 		emit_changed()
+## speech-bubble tail: 0 none, 1 on the left edge, 2 on the bottom edge
+@export_enum("None", "Left", "Bottom") var tail_side := 0:
+	set(v):
+		tail_side = v
+		emit_changed()
+## tail length (px) and where it starts along its edge (px from the top / left)
+@export_range(0.0, 40.0, 1.0) var tail_size := 12.0:
+	set(v):
+		tail_size = v
+		emit_changed()
+@export var tail_offset := 22.0:
+	set(v):
+		tail_offset = v
+		emit_changed()
 ## soft light just inside the border (glass edge), brightest along the top; alpha 0 = none
 @export var rim_color := Color(0, 0, 0, 0):
 	set(v):
@@ -154,7 +168,19 @@ func _outline(r: Rect2) -> PackedVector2Array:
 	else:
 		_arc(p, Vector2(r.end.x - k, r.position.y + k), k, -PI * 0.5, steps)
 	_arc(p, r.end - Vector2(k, k), k, 0.0, steps)
+	if tail_side == 2 and tail_size > 0.0:
+		# a little tail pointing down, between the bottom corners
+		var tx := clampf(r.position.x + tail_offset, r.position.x + k, r.end.x - k - tail_size * 1.4)
+		p.append(Vector2(tx + tail_size * 1.3, r.end.y))
+		p.append(Vector2(tx + tail_size * 0.15, r.end.y + tail_size))
+		p.append(Vector2(tx, r.end.y))
 	_arc(p, Vector2(r.position.x + k, r.end.y - k), k, PI * 0.5, steps)
+	if tail_side == 1 and tail_size > 0.0:
+		# a little tail pointing left, below the top corner
+		var ty := clampf(r.position.y + tail_offset, r.position.y + k, r.end.y - k - tail_size * 1.4)
+		p.append(Vector2(r.position.x, ty + tail_size * 1.3))
+		p.append(Vector2(r.position.x - tail_size, ty + tail_size * 0.2))
+		p.append(Vector2(r.position.x, ty))
 	return p
 
 
@@ -337,6 +363,8 @@ func _draw_grain(ci: RID, poly: PackedVector2Array, rect: Rect2) -> void:
 
 
 func _get_draw_rect(rect: Rect2) -> Rect2:
+	if tail_side != 0:
+		rect = rect.grow_individual(tail_size if tail_side == 1 else 0.0, 0.0, 0.0, tail_size if tail_side == 2 else 0.0)
 	if shadow_blur > 0:
 		return rect.grow(float(shadow_blur) + maxf(shadow_offset, lip) + 2.0)
 	return rect.grow_individual(1, 1, shadow_offset + 1.0, maxf(shadow_offset, lip) + 1.0)

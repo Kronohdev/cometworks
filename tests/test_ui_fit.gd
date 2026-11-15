@@ -11,10 +11,8 @@ extends SceneTree
 ##   - the race track's milestone labels do not overlap each other nor the planet / Moon art
 ##   - the launch watch on the flight's map: its card, the map bar and the hint pill apart
 ## The logical size is set with the root's content scale (aspect ignore) so this runs headless.
-## --ui-scale=1.3 runs it at a text size of the Accessibility options (CwAccess.UI_SCALES): the
-## root's content_scale_factor, so every logical size is that much smaller.
 ## Run: godot --headless --path . --script res://tests/test_ui_fit.gd
-##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --ui-scale=1.3 --verbose]
+##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --verbose]
 
 const BASE := Vector2(1600, 900)
 const SIZES: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1080),
@@ -42,8 +40,6 @@ var main: TycoonMain
 var hud: TycoonHUD
 var _args := {}
 var _only: PackedStringArray = []
-## the text size under test (the root's content_scale_factor; 1.0 = 100 %)
-static var ui_scale := 1.0
 
 
 func _initialize() -> void:
@@ -51,9 +47,6 @@ func _initialize() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a == "--verbose":
 			_verbose = true
-		elif a.begins_with("--ui-scale="):
-			ui_scale = clampf(float(a.trim_prefix("--ui-scale=")), 0.5, 2.0)
-			print("text size %d %%" % roundi(ui_scale * 100.0))
 		elif a.begins_with("--screens="):
 			_only = a.trim_prefix("--screens=").split(",")
 		elif a.begins_with("--sizes="):
@@ -188,20 +181,16 @@ static func _on_root(c: Control) -> Rect2:
 	return r
 
 
-## canvas_items + expand: the smaller side keeps the base size, the other grows; a text size
-## above 100 % (ui_scale) shrinks the logical size by as much.
+## canvas_items + expand: the smaller side keeps the base size, the other grows.
 static func logical_size(phys: Vector2i) -> Vector2i:
-	var s := minf(phys.x / BASE.x, phys.y / BASE.y) * ui_scale
+	var s := minf(phys.x / BASE.x, phys.y / BASE.y)
 	return Vector2i(roundi(phys.x / s), roundi(phys.y / s))
 
 
-## The view becomes `sz` logical px: the content scale size times the text size, divided again
-## by the root's content_scale_factor (how the game applies the text size, CwAccess).
 func _set_logical(sz: Vector2i) -> void:
 	var r := get_root()
 	r.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
-	r.content_scale_factor = ui_scale
-	r.content_scale_size = Vector2i((Vector2(sz) * ui_scale).round())
+	r.content_scale_size = sz
 
 
 func _frames(k: int) -> void:
@@ -385,9 +374,8 @@ func _check_hud(vp: Vector2i) -> void:
 	var top := hud.get_node("TopStrip") as Control
 	var tr := top.get_global_rect()
 	_check(tr.position.y >= 0.0 and tr.end.y <= 96.0, "%s: top bar whole at the top (%s)" % [tag, tr])
-	# (at a large text size the bar is drawn smaller to fit: CwUiFit scales it)
-	_check(top.get_combined_minimum_size().x * top.scale.x <= view.size.x - 24.0,
-		"%s: top bar content fits the width (%.0f of %.0f)" % [tag, top.get_combined_minimum_size().x * top.scale.x, view.size.x])
+	_check(top.get_combined_minimum_size().x <= view.size.x - 24.0,
+		"%s: top bar content fits the width (%.0f of %.0f)" % [tag, top.get_combined_minimum_size().x, view.size.x])
 	# (screens still playing their exit sit under the HUD for a moment: not part of it)
 	var skip: Array = [hud.get_node("%Screens")]
 	for c in hud.get_children():

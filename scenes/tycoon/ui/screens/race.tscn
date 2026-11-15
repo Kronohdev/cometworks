@@ -61,7 +61,6 @@ theme = ExtResource("1_theme")
 script = ExtResource("2_script")
 
 [node name="Panel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(1360, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

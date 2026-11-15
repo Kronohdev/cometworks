@@ -72,10 +72,6 @@ func _ready() -> void:
 	_hint_default = CwKeys.hint("TY_CAMPUS_HINT")   # names the keys bound now (CwKeys)
 	%Hint.text = _hint_default
 	add_to_group(CwKeys.GROUP)
-	# text sizes above 100 % (CwAccess) shrink the logical view: keep the blocks inside it
-	CwUiFit.watch([$TopStrip, $Rail, $Side, $Bottom, $HintBox, %LotPanel], fit_layout)
-	get_viewport().size_changed.connect(func() -> void: CwUiFit.now(fit_layout))
-	fit_layout.call_deferred()
 
 
 func bind(s: TycoonState, c: TycoonClock) -> void:
@@ -363,7 +359,6 @@ func open_screen(screen_name: String, args := {}) -> bool:
 	var scr := (load(path) as PackedScene).instantiate()
 	scr.set_meta("screen_name", screen_name)
 	%Screens.add_child(scr)
-	_fit_screen(scr)
 	if scr.has_method("bind"):
 		scr.call("bind", state, clock, self)
 	if not args.is_empty() and scr.has_method("open_with"):
@@ -394,55 +389,6 @@ func screen_back() -> void:
 		if CwPageStack.back_in(c):
 			return
 	close_screen()
-
-
-## Screens docked between the top bar and the rail (the others cover the HUD).
-const DOCKED: Array[String] = ["crew", "research", "contracts", "finance", "race", "settings"]
-
-
-## Keeps the HUD's blocks inside the view at any text size (CwUiFit; at 100 % nothing moves):
-## the top bar across the top, the rail and the side column below it, the hint between the
-## rail and the side column above the bottom row, and the open screen in its room.
-func fit_layout() -> void:
-	if not is_inside_tree():
-		return
-	var view := CwUiFit.view_of(self)
-	var top := $TopStrip as Control
-	CwUiFit.fit(top, Rect2(view.position.x + CwUiFit.MARGIN, 0.0, view.size.x - CwUiFit.MARGIN * 2.0, 96.0))
-	var band := top.get_global_rect().end.y + CwUiFit.MARGIN
-	var bottom := ($Bottom as Control).get_global_rect()
-	var below := Rect2(view.position.x, band, view.size.x, view.end.y - band)
-	CwUiFit.fit($Rail, below)
-	CwUiFit.fit($Side, Rect2(below.position, Vector2(below.size.x, bottom.position.y - CwUiFit.MARGIN - band)))
-	var rail := ($Rail as Control).get_global_rect()
-	var side := ($Side as Control).get_global_rect()
-	var left := rail.end.x + CwUiFit.MARGIN
-	CwUiFit.fit($HintBox, Rect2(left, band, side.position.x - CwUiFit.MARGIN - left, view.end.y - band))
-	for c in %Screens.get_children():
-		_fit_screen(c)
-
-
-## The open screen's room: below the top bar and right of the rail when it is docked, else
-## the whole view.
-func screen_region(screen_name: String) -> Rect2:
-	var view := CwUiFit.view_of(self)
-	if screen_name not in DOCKED:
-		return view
-	var top := ($TopStrip as Control).get_global_rect().end.y + CwUiFit.MARGIN
-	var left := ($Rail as Control).get_global_rect().end.x + CwUiFit.MARGIN
-	return Rect2(left, top, view.end.x - left, view.end.y - top)
-
-
-func _fit_screen(node: Variant) -> void:
-	var scr := node as Control if is_instance_valid(node) else null
-	if scr == null or not scr.is_inside_tree() or not scr.has_meta("screen_name"):
-		return
-	var blocks: Array = []
-	for c in scr.get_children():
-		if c is Control and String(c.name) not in CwUiFit.BACKDROPS:
-			blocks.append(c)
-	CwUiFit.watch(blocks, _fit_screen.bind(scr))
-	CwUiFit.fit_screen(scr, screen_region(String(scr.get_meta("screen_name"))))
 
 
 ## Lights the rail key of the screen on show (the rail keys are toggles; only one is lit).

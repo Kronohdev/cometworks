@@ -31,8 +31,6 @@
 
 [sub_resource type="ButtonGroup" id="quality_group"]
 
-[sub_resource type="ButtonGroup" id="text_size_group"]
-
 [sub_resource type="ButtonGroup" id="colorblind_group"]
 
 [node name="OptionsPanel" type="PanelContainer"]
@@ -727,60 +725,6 @@ toggle_mode = true
 button_group = SubResource("quality_group")
 text = "MENU_OPT_QUALITY_HIGH"
 
-[node name="TextSizeLabel" type="Label" parent="Margin/VBox/Grid"]
-visible = false
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 15
-text = "MENU_OPT_TEXT_SIZE"
-metadata/page = "access"
-
-[node name="TextSize" type="HBoxContainer" parent="Margin/VBox/Grid"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 6
-metadata/page = "access"
-
-[node name="Text90" type="Button" parent="Margin/VBox/Grid/TextSize"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-theme_type_variation = &"CwMenuKey"
-toggle_mode = true
-button_group = SubResource("text_size_group")
-text = "90 %"
-auto_translate_mode = 2
-
-[node name="Text100" type="Button" parent="Margin/VBox/Grid/TextSize"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-theme_type_variation = &"CwMenuKey"
-toggle_mode = true
-button_group = SubResource("text_size_group")
-text = "100 %"
-auto_translate_mode = 2
-
-[node name="Text115" type="Button" parent="Margin/VBox/Grid/TextSize"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-theme_type_variation = &"CwMenuKey"
-toggle_mode = true
-button_group = SubResource("text_size_group")
-text = "115 %"
-auto_translate_mode = 2
-
-[node name="Text130" type="Button" parent="Margin/VBox/Grid/TextSize"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-theme_type_variation = &"CwMenuKey"
-toggle_mode = true
-button_group = SubResource("text_size_group")
-text = "130 %"
-auto_translate_mode = 2
-
 [node name="ColorblindLabel" type="Label" parent="Margin/VBox/Grid"]
 visible = false
 layout_mode = 2
@@ -871,6 +815,7 @@ text = "MENU_OPT_KEYS_RESET"
 
 [node name="KeysHint" type="Label" parent="Margin/VBox/Grid/Keys/KeysFoot"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwMonoSmall"

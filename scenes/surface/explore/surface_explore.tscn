@@ -190,7 +190,7 @@ autowrap_mode = 3
 
 [node name="ChStatus" type="Label" parent="UI/Root/ChallengeCard/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(228, 0)
+custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "TY_SX_CH_MOON_DASH_DESC"

@@ -93,18 +93,6 @@ func _ready() -> void:
 	card.visible = false
 	%Use.pressed.connect(accept_vessel)
 	%Back.pressed.connect(close_mode)
-	port.size_changed.connect(_fit_port_ui)
-
-
-## Text sizes above 100 % (CwAccess) shrink the window's logical view, and %Port follows its
-## container: the hangar's and the flight's own UI, drawn for 1600x900 and up, keep laying out
-## at the port's size times the text size and are drawn scaled into it (they stay at 100 %).
-func _fit_port_ui() -> void:
-	var f := get_tree().root.content_scale_factor if is_inside_tree() else 1.0
-	var want := Vector2i((Vector2(port.size) * f).round()) if f > 1.0 else Vector2i.ZERO
-	if port.size_2d_override != want:
-		port.size_2d_override = want
-		port.size_2d_override_stretch = want != Vector2i.ZERO
 
 
 func bind(m: TycoonMain) -> void:

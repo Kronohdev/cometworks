@@ -458,7 +458,7 @@ metadata/title = "TY_SET_TAB_ACCESS"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-rows = PackedStringArray("TextSizeLabel", "TextSize", "ColorblindLabel", "Colorblind", "KeysLabel", "Keys")
+rows = PackedStringArray("ColorblindLabel", "Colorblind", "KeysLabel", "Keys")
 
 [node name="Head" parent="Panel/Margin/VBox/Pages/Access/OptionsAccess/Margin/VBox" index="0"]
 visible = false

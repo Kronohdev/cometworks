@@ -4,8 +4,11 @@ extends CanvasLayer
 ## the scene; this script only fills data and duplicates its hidden templates (objective rows,
 ## tool buttons, map markers, toasts). Texts: i18n/rover_strings.csv.
 ##   mission card   body, rover, gravity / sun / radio delay, the objectives (done ones ticked)
-##   mini-map       a top-down orthographic camera over the rover (its own SubViewport) with a
-##                  star per point of interest (gold: an objective, dim: done / already used)
+##   mini-map       a top-down orthographic camera over the rover (its own SubViewport, north = -Z
+##                  up) with a star per point of interest (gold: an objective, dim: done / already
+##                  used) and the rover's arrow pointing where it drives; it heads the top-right
+##                  SideColumn, whose SideSlot takes other surface cards (side_slot(): the
+##                  free-play challenge card) stacked under it
 ##   gauges         battery, power in / out, speed, distance, science, what the rover is doing
 ##   tools          one button per tool of the design (keys 1..7), F uses the right one on the
 ##                  point of interest in reach (the prompt says which)
@@ -19,6 +22,10 @@ const TOOL_ICONS := {"photo": "planet", "panorama": "planet", "scan": "star", "d
 	"weather": "comet", "drone": "twinkle", "hop": "rocket"}
 const ICONS := "res://ui/cometworks/icons/%s.svg"
 const TONE_ICONS := {"good": "check", "bad": "shield", "warn": "flame", "star": "star", "science": "research"}
+## group of the rover HUD (SurfaceExplore docks its challenge card in side_slot())
+const GROUP := &"rover_hud"
+## the arrow texture (icons/pointer.svg) points down the screen at rotation 0
+const ARROW_REST := PI
 const TOAST_TIME := 3.2
 const MAX_TOASTS := 4
 
@@ -36,6 +43,7 @@ var _complete_shown := false
 
 
 func _ready() -> void:
+	add_to_group(GROUP)
 	%Continue.pressed.connect(func() -> void: set_paused(false))
 	%Leave.pressed.connect(func() -> void: leave_requested.emit())
 
@@ -62,6 +70,18 @@ func bind(r: RoverController, s: SurfaceSession, profile: PlanetSurfaceProfile) 
 	_fill_objectives()
 	_fill_tools()
 	refresh_markers()
+
+
+## The column under the mini-map where other surface HUDs stack their cards.
+func side_slot() -> Control:
+	return %SideSlot
+
+
+## Screen rotation of the mini-map arrow for a rover heading `yaw` (forward = (-sin, 0, -cos)).
+## The map camera looks straight down with -Z up and +X right, so the forward vector on the map
+## is (-sin yaw, -cos yaw); the texture rests pointing down (+Y), hence ARROW_REST.
+static func map_arrow_rotation(yaw: float) -> float:
+	return wrapf(ARROW_REST - yaw, -PI, PI)
 
 
 func set_paused(on: bool) -> void:
@@ -291,7 +311,7 @@ func _update_map() -> void:
 	var px := sz.x / cam.size
 	var arrow := %RoverArrow as Control
 	arrow.position = sz * 0.5 - arrow.size * 0.5
-	arrow.rotation = -rover.yaw
+	arrow.rotation = map_arrow_rotation(rover.yaw)
 	for i in _poi_list.size():
 		if i >= _markers.size():
 			break

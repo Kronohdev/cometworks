@@ -110,8 +110,9 @@ theme_override_font_sizes/font_size = 12
 text = "RV_H_FREE_DRIVE"
 autowrap_mode = 3
 
-[node name="MapPanel" type="PanelContainer" parent="Root"]
+[node name="SideColumn" type="VBoxContainer" parent="Root"]
 unique_name_in_owner = true
+editor_description = "Top-right column: the mini-map, then SideSlot, where other HUDs of the surface stack their cards (the free-play challenge card, SurfaceExplore) so they never overlap the map."
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -122,25 +123,32 @@ offset_right = -16.0
 offset_bottom = 300.0
 grow_horizontal = 0
 mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="MapPanel" type="PanelContainer" parent="Root/SideColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Root/MapPanel"]
+[node name="VBox" type="VBoxContainer" parent="Root/SideColumn/MapPanel"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="MapCaption" type="Label" parent="Root/MapPanel/VBox"]
+[node name="MapCaption" type="Label" parent="Root/SideColumn/MapPanel/VBox"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "RV_H_MAP"
 
-[node name="MapBox" type="Control" parent="Root/MapPanel/VBox"]
+[node name="MapBox" type="Control" parent="Root/SideColumn/MapPanel/VBox"]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(228, 228)
 layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="MapView" type="SubViewportContainer" parent="Root/MapPanel/VBox/MapBox"]
+[node name="MapView" type="SubViewportContainer" parent="Root/SideColumn/MapPanel/VBox/MapBox"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -151,13 +159,13 @@ grow_vertical = 2
 mouse_filter = 2
 stretch = true
 
-[node name="MapPort" type="SubViewport" parent="Root/MapPanel/VBox/MapBox/MapView"]
+[node name="MapPort" type="SubViewport" parent="Root/SideColumn/MapPanel/VBox/MapBox/MapView"]
 unique_name_in_owner = true
 handle_input_locally = false
 size = Vector2i(228, 228)
 render_target_update_mode = 4
 
-[node name="MapCam" type="Camera3D" parent="Root/MapPanel/VBox/MapBox/MapView/MapPort"]
+[node name="MapCam" type="Camera3D" parent="Root/SideColumn/MapPanel/VBox/MapBox/MapView/MapPort"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 120, 0)
 environment = SubResource("Env_map")
@@ -166,7 +174,7 @@ size = 160.0
 near = 1.0
 far = 600.0
 
-[node name="Markers" type="Control" parent="Root/MapPanel/VBox/MapBox"]
+[node name="Markers" type="Control" parent="Root/SideColumn/MapPanel/VBox/MapBox"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -176,7 +184,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarkerTemplate" type="TextureRect" parent="Root/MapPanel/VBox/MapBox/Markers"]
+[node name="MarkerTemplate" type="TextureRect" parent="Root/SideColumn/MapPanel/VBox/MapBox/Markers"]
 unique_name_in_owner = true
 visible = false
 modulate = Color(1, 0.824, 0.361, 1)
@@ -189,7 +197,7 @@ texture = ExtResource("4_star")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RoverArrow" type="TextureRect" parent="Root/MapPanel/VBox/MapBox/Markers"]
+[node name="RoverArrow" type="TextureRect" parent="Root/SideColumn/MapPanel/VBox/MapBox/Markers"]
 unique_name_in_owner = true
 modulate = Color(0.435, 0.878, 0.745, 1)
 layout_mode = 0
@@ -203,7 +211,7 @@ texture = ExtResource("5_pointer")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MapHint" type="Label" parent="Root/MapPanel/VBox"]
+[node name="MapHint" type="Label" parent="Root/SideColumn/MapPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(228, 0)
 layout_mode = 2
@@ -211,6 +219,12 @@ theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 11
 text = "RV_H_MAP_HINT"
 autowrap_mode = 3
+
+[node name="SideSlot" type="VBoxContainer" parent="Root/SideColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
 
 [node name="Gauges" type="PanelContainer" parent="Root"]
 layout_mode = 1

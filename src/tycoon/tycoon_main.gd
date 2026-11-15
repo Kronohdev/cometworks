@@ -61,7 +61,7 @@ var conference: ConferenceFlow
 
 
 func _ready() -> void:
-	CwAccess.ensure_applied()   # text size, colour-blind colours, keys, graphics quality
+	CwAccess.ensure_applied()   # colour-blind colours, keys, graphics quality
 	state = TycoonSave.load_state(load_slot) if load_slot != "" else null
 	if state == null:
 		state = TycoonState.new_campaign(campaign_seed, _roster_staff(), difficulty)

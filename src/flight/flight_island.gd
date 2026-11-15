@@ -58,6 +58,29 @@ func _strip() -> void:
 	var sky_life := campus.get_node_or_null("Terrain/SkyLife") as Node3D
 	if sky_life:
 		sky_life.visible = false
+	_particles_local(true)
+
+
+## The campus' fx (chimney smoke, lab puffs, antenna rings, fireflies, foot dust, pad steam) are
+## world-space GPUParticles3D: their particles keep the frame they were emitted in. Under a flight
+## the island is turned, scaled to the rocket and moved every frame around the floating origin
+## (and a lent campus is asleep, so its particles are frozen), so those particles end up drawn
+## away from their buildings: white puffs and rings scattered over the sea, seen from above.
+## While the campus is the island they live in their emitter's frame (moving and scaling with it);
+## restart() drops the ones emitted in the campus frame. give_back() undoes it.
+func _particles_local(on: bool) -> void:
+	for n in campus.find_children("*", "GPUParticles3D", true, false):
+		var g := n as GPUParticles3D
+		if on == g.local_coords or (not on and not g.has_meta("flight_world_coords")):
+			continue
+		if on:
+			g.set_meta("flight_world_coords", true)
+		else:
+			g.remove_meta("flight_world_coords")
+		g.local_coords = on
+		var was_emitting := g.emitting
+		g.restart()   # (restart() also switches emitting on: an idle one-shot stays idle)
+		g.emitting = was_emitting
 
 
 ## Gets the pad of `lot` ready for the flight: the scene's own pad building shows its first era
@@ -147,6 +170,7 @@ func give_back() -> Node3D:
 	var sky_life := campus.get_node_or_null("Terrain/SkyLife") as Node3D
 	if sky_life:
 		sky_life.visible = true
+	_particles_local(false)
 	var c := campus
 	if c.get_parent() == self:
 		remove_child(c)

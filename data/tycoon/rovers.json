@@ -1,21 +1,21 @@
 {
   "version": 1,
-  "_doc": "Rover and robot builder (src/rover/rover_design.gd). A design is one chassis plus parts. Parts with a 'payload' id are the payload planner's own modules (data/tycoon/payload.json: their mass, power, gen, store and cost come from there, so the rover and the planner agree); the others (chassis, arm, drone, weather station, sample cache) are the rover's own and travel in the plan as one 'rover:' payload module (RoverDesign.payload_code). 'option' needs that research option (unlocked['option:<id>']), 'tech' that research tech (unlocked[<tech>]). 'tool' is the surface action the part gives (SurfaceSession.ACTIONS). 'mounts' are the chassis' Marker3D names it can sit on, first free wins. 'scene' is the editor-authored voxel part (scenes/rover/parts/). Units: kg, W, Wh, cr, m/s, degrees. Texts: RV_PART_<ID> / RV_PART_<ID>_DESC in i18n/rover_strings.csv.",
+  "_doc": "Rover and robot builder (src/rover/rover_design.gd). A design is one chassis plus parts. Parts with a 'payload' id are the payload planner's own modules (data/tycoon/payload.json: their mass, power, gen, store and cost come from there, so the rover and the planner agree); the others (chassis, arm, drone, weather station, sample cache) are the rover's own and travel in the plan as one 'rover:' payload module (RoverDesign.payload_code). 'option' needs that research option (unlocked['option:<id>']), 'tech' that research tech (unlocked[<tech>]). 'tool' is the surface action the part gives (SurfaceSession.ACTIONS). 'mounts' are the chassis' Marker3D names it can sit on, first free wins. 'scene' is the editor-authored voxel part (scenes/rover/parts/). 'step' is the tallest rise the chassis drives over (m), 'clearance' the belly height above its wheels' contact (m). Units: kg, W, Wh, cr, m/s, degrees. Texts: RV_PART_<ID> / RV_PART_<ID>_DESC in i18n/rover_strings.csv.",
   "slots": ["chassis", "power", "instrument", "comms"],
   "time_scale": 20.0,
   "chassis": [
     {"id": "wheels4", "icon": "build", "mass": 18, "cost": 20000, "drive_power": 20, "speed": 4.0, "climb": 24, "step": 0.9,
      "bays": 3, "power_bays": 2, "grip": 1.0, "scene": "res://scenes/rover/parts/chassis_wheels4.tscn",
-     "wheelbase": 2.0, "track": 1.6},
+     "wheelbase": 2.0, "track": 1.6, "clearance": 0.44},
     {"id": "wheels6", "icon": "build", "mass": 30, "cost": 45000, "drive_power": 28, "speed": 5.0, "climb": 32, "step": 1.1,
      "bays": 5, "power_bays": 2, "grip": 1.15, "tech": "rover_mobility", "scene": "res://scenes/rover/parts/chassis_wheels6.tscn",
-     "wheelbase": 2.6, "track": 1.8},
+     "wheelbase": 2.6, "track": 1.8, "clearance": 0.44},
     {"id": "walker", "icon": "crew", "mass": 42, "cost": 80000, "drive_power": 45, "speed": 2.6, "climb": 46, "step": 1.6,
      "bays": 4, "power_bays": 2, "grip": 1.4, "tech": "mission_automation", "scene": "res://scenes/rover/parts/chassis_walker.tscn",
-     "wheelbase": 2.2, "track": 1.8},
+     "wheelbase": 2.2, "track": 1.8, "clearance": 0.78},
     {"id": "hopper", "icon": "rocket", "mass": 26, "cost": 60000, "drive_power": 12, "speed": 1.8, "climb": 16, "step": 0.6,
      "bays": 3, "power_bays": 1, "grip": 0.9, "tech": "guided_descent", "scene": "res://scenes/rover/parts/chassis_hopper.tscn",
-     "wheelbase": 1.6, "track": 1.6, "hop": {"height": 5.0, "speed": 6.0, "wh": 3.0, "max_gravity": 4.0}}
+     "wheelbase": 1.6, "track": 1.6, "clearance": 0.5, "hop": {"height": 5.0, "speed": 6.0, "wh": 3.0, "max_gravity": 4.0}}
   ],
   "parts": [
     {"id": "solar", "slot": "power", "payload": "solar_body", "icon": "star", "scene": "res://scenes/rover/parts/solar_small.tscn", "mounts": ["Power", "Back"]},

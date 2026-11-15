@@ -14,7 +14,11 @@ extends Camera3D
 ##             Home goes back to the start view.
 ##             Every value eases on a critically damped spring (no overshoot, no jitter) and
 ##             drags keep their momentum when flung. Limits are soft (rubber band), never hard
-##             stops. The camera keeps above the ground and over building footprints
+##             stops: every move of the pivot (drag, keys, fling, orbit, zoom to the cursor) goes
+##             through _soft_move, so it can never get more than bounds_softness past the island.
+##             Ground rays near the horizon are not trusted (ground_reach), frames are capped at
+##             MAX_DT and flings at MAX_*_SPEED, so a hitch or alt-tab never throws the view.
+##             The camera keeps above the ground and over building footprints
 ##             (min_height, building_clearance) by raising its pitch, so it never clips.
 ## Follow      follow(cometling) glides in on an eased arc and frames the Cometling from a low,
 ##             close 3/4 angle with lead room in its walking direction, a soft spring lag and a
@@ -47,6 +51,19 @@ enum Mode { FREE, FOLLOW, TOUR, CINEMATIC }
 
 ## group of every campus camera: MenuSettings asks them to reload the preferences
 const GROUP := &"campus_camera"
+## longest frame the camera simulates in one step: a hitch (loading, alt-tab, a slow frame in
+## the build) slows the camera down for a frame instead of making it jump or flick
+const MAX_DT := 0.05
+## shortest frame used to measure a drag's speed (two motion events in a tiny frame would
+## otherwise give a huge fling)
+const MIN_VELOCITY_DT := 1.0 / 120.0
+## how far (log distance) the zoom may ever be past min / max distance, even rubber-banding
+const ZOOM_SLACK := 0.3
+## fastest fling (orbit degrees per second; pan in camera distances per second)
+const MAX_ORBIT_SPEED := 360.0
+## most mouse travel (pixels) one motion event may turn the orbit by
+const MAX_ORBIT_PX_PER_EVENT := 100.0
+const MAX_PAN_SPEED := 3.0
 
 @export_group("Start view")
 ## ground point the free view orbits at the start (Home comes back here)
@@ -94,8 +111,12 @@ const GROUP := &"campus_camera"
 @export_group("Pan")
 ## soft pan limits (the plateau): x, z, width, depth
 @export var bounds := Rect2(-70, -55, 150, 110)
-## how far (m) a drag can pull past the bounds before it gets very stiff
+## farthest (m) the view's pivot can ever be pulled past the bounds: moves past the edge are
+## rubber-banded towards this limit (never reached, never a hard stop) and spring back
 @export var bounds_softness := 10.0
+## ground points under the cursor farther than this many camera distances from the pivot
+## (near the horizon) are not used to pan or to zoom towards: the ray is too flat to trust
+@export_range(0.5, 6.0, 0.1) var ground_reach := 2.5
 ## spring stiffness of keyboard / momentum / framing moves (1/s)
 @export_range(1.0, 40.0, 0.5) var pan_smoothing := 10.0
 @export var drag_momentum := true
@@ -358,6 +379,11 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		if _drag_button != MOUSE_BUTTON_NONE:
 			_end_drag()
+		# no fling carried across alt-tab either
+		_pan_vel = Vector3.ZERO
+		_focus_vel = Vector3.ZERO
+		_orbit_vel = Vector2.ZERO
+		_key_vel = Vector2.ZERO
 
 
 # ------------------------------------------------------------ preferences
@@ -620,7 +646,13 @@ func _input(event: InputEvent) -> void:
 	# a drag that started on the campus follows the mouse everywhere (also over the HUD)
 	if _drag_button != MOUSE_BUTTON_NONE:
 		if event is InputEventMouseMotion:
-			_drag_to((event as InputEventMouseMotion).position)
+			var mm := event as InputEventMouseMotion
+			if (int(mm.button_mask) & (1 << (int(_drag_button) - 1))) == 0:
+				# the button came up where we never saw it (outside the window, while the
+				# window had no focus): the drag is over, do not follow the jump back
+				_end_drag()
+			else:
+				_drag_to(mm.position)
 		elif event is InputEventMouseButton and not event.pressed \
 				and (event as InputEventMouseButton).button_index == _drag_button:
 			_drag_to((event as InputEventMouseButton).position)
@@ -649,7 +681,8 @@ func _unhandled_input(event: InputEvent) -> void:
 					var notch := zoom_step * zoom_sensitivity * f * (-1.0 if invert_zoom else 1.0)
 					_zoom(-notch if mb.button_index == MOUSE_BUTTON_WHEEL_UP else notch, mb.position)
 			MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_MIDDLE:
-				if mb.pressed and _drag_button == MOUSE_BUTTON_NONE:
+				# a drag that starts over a HUD control is the HUD's, never the camera's
+				if mb.pressed and _drag_button == MOUSE_BUTTON_NONE and not _over_ui():
 					_begin_drag(mb)
 	elif event is InputEventMagnifyGesture:
 		var mg := event as InputEventMagnifyGesture
@@ -708,14 +741,27 @@ func _drag_to(m: Vector2) -> void:
 	if rel == Vector2.ZERO:
 		return
 	_drag_last = m
+	if _anchor_on:
+		# a wheel notch during a pan keeps the grabbed ground under the moving cursor
+		_anchor_screen = m
+	# a jump of more than half the window in one event is the pointer warping (the window got
+	# the mouse back, a capture ended), not the hand moving: start again from here
+	var vs := _view_size()
+	if rel.length() > maxf(vs.x, vs.y) * 0.5:
+		return
 	_drag_moved += rel.length()
 	_drag_frame_px += rel.length()
 	if _drag_orbit:
+		# after a hitch the motion of a whole slow frame arrives as one event: turn at most
+		# MAX_ORBIT_PX_PER_EVENT worth at once instead of spinning the view round in one frame
+		var orel := rel.limit_length(MAX_ORBIT_PX_PER_EVENT)
 		var s := rotate_sensitivity
-		var dyaw := -rel.x * drag_rotate_speed * s * (-1.0 if invert_rotate else 1.0)
-		var dpitch := rel.y * drag_pitch_speed * s * (-1.0 if invert_tilt else 1.0)
+		var dyaw := -orel.x * drag_rotate_speed * s * (-1.0 if invert_rotate else 1.0)
+		var dpitch := orel.y * drag_pitch_speed * s * (-1.0 if invert_tilt else 1.0)
 		if mode == Mode.TOUR:
 			_take_over_from_follow()
+			# the pivot picked at the press belonged to the old free view
+			_orbit_pivot = _cur_focus
 		_orbit_accum += _orbit(dyaw, dpitch)
 		return
 	if mode != Mode.FREE:
@@ -723,17 +769,52 @@ func _drag_to(m: Vector2) -> void:
 			return
 		_take_over_from_follow()
 	_apply(_free_pose(), Vector3.ZERO)
-	var a: Variant = _ground_hit(m - rel)
-	var b: Variant = _ground_hit(m)
-	if a == null or b == null:
-		return
-	var shift: Vector3 = a - b
-	shift.y = 0.0
-	shift = _resist(shift)
-	_goal_focus += shift
+	var shift := _pan_shift(m - rel, m)
+	var before := _goal_focus
+	_goal_focus = _soft_move(_goal_focus, shift)
+	shift = _goal_focus - before
 	_cur_focus = _goal_focus
 	_focus_vel = Vector3.ZERO
 	_pan_accum += shift
+	# a glide still running (from a follow shot, a double-click) moves with the hand, so the
+	# shot never lags behind the drag and then catches up with a flick
+	if _glide_t < 1.0 and _glide_from != null:
+		_glide_from.focus += shift
+
+
+## How far a grab-the-ground pan moves the pivot when the cursor goes from `a` to `b`: the
+## ground under the cursor follows it. Near the horizon the ground rays are too flat (a pixel
+## spans hundreds of metres there), so it pans by the scale at the pivot instead, and one
+## event never moves more than about a camera distance.
+func _pan_shift(a: Vector2, b: Vector2) -> Vector3:
+	var d := exp(_cur_logd)
+	var reach := d * ground_reach
+	var ha: Variant = _ground_hit(a)
+	var hb: Variant = _ground_hit(b)
+	var shift := Vector3.ZERO
+	if ha != null and hb != null and _flat_dist(ha, _cur_focus) <= reach and _flat_dist(hb, _cur_focus) <= reach:
+		shift = ha - hb
+	else:
+		var rel := b - a
+		var vs := _view_size()
+		var mpp := 2.0 * d * tan(deg_to_rad(fov) * 0.5) / maxf(vs.y, 1.0)
+		var y := deg_to_rad(_cur_yaw)
+		var right := Vector3(cos(y), 0, -sin(y))
+		var fwd := Vector3(-sin(y), 0, -cos(y))
+		var sp := maxf(sin(deg_to_rad(_free_pose().pitch)), 0.35)
+		shift = (-right * rel.x + fwd * rel.y / sp) * mpp
+	shift.y = 0.0
+	return shift.limit_length(d)
+
+
+static func _flat_dist(a: Vector3, b: Vector3) -> float:
+	return Vector2(a.x - b.x, a.z - b.z).length()
+
+
+func _view_size() -> Vector2:
+	if not is_inside_tree():
+		return Vector2(1280, 720)
+	return get_viewport().get_visible_rect().size
 
 
 func _end_drag() -> void:
@@ -766,21 +847,30 @@ func _orbit(dyaw: float, dpitch: float) -> Vector2:
 		return Vector2(dyaw, dp)
 	if mode != Mode.FREE:
 		return Vector2.ZERO
+	# turning moves the ground point under the cursor: a zoom anchor would fight the orbit
+	_anchor_on = false
 	if dyaw != 0.0:
 		# the whole rig turns about the pivot's vertical axis, so the pivot stays put on screen
+		# (an off-centre pivot near the edge would swing the view off the island: the turn
+		# still happens, the move is rubber-banded like a pan)
 		var a := deg_to_rad(dyaw)
-		_cur_focus = _orbit_pivot + (_cur_focus - _orbit_pivot).rotated(Vector3.UP, a)
-		_goal_focus = _orbit_pivot + (_goal_focus - _orbit_pivot).rotated(Vector3.UP, a)
+		_cur_focus = _soft_move(_cur_focus, _orbit_pivot + (_cur_focus - _orbit_pivot).rotated(Vector3.UP, a) - _cur_focus)
+		_goal_focus = _soft_move(_goal_focus, _orbit_pivot + (_goal_focus - _orbit_pivot).rotated(Vector3.UP, a) - _goal_focus)
 		_focus_vel = _focus_vel.rotated(Vector3.UP, a)
 		_pan_vel = _pan_vel.rotated(Vector3.UP, a)
 		_cur_yaw += dyaw
 		_goal_yaw += dyaw
+		if _glide_t < 1.0 and _glide_from != null:
+			_glide_from.yaw += dyaw
+			_glide_from.focus = _orbit_pivot + (_glide_from.focus - _orbit_pivot).rotated(Vector3.UP, a)
 	var base := _zoom_pitch(_zoom_t(exp(_cur_logd)))
 	var before := clampf(base + _cur_pitch_off, pitch_min_deg, pitch_max_deg)
 	var total := clampf(before + dpitch, pitch_min_deg, pitch_max_deg)
 	_cur_pitch_off = total - base
 	_goal_pitch_off = _cur_pitch_off
 	_pitch_vel = 0.0
+	if _glide_t < 1.0 and _glide_from != null:
+		_glide_from.pitch += total - before
 	return Vector2(dyaw, total - before)
 
 
@@ -797,14 +887,24 @@ func _zoom(step_log: float, screen: Vector2) -> void:
 	if (g < lo and step_log < 0.0) or (g > hi and step_log > 0.0):
 		var over := (lo - g) if g < lo else (g - hi)
 		step_log *= zoom_overshoot / (1.0 + over * 6.0)
-	_goal_logd += step_log
-	if zoom_to_cursor:
-		_apply(_free_pose(), Vector3.ZERO)
-		var hit: Variant = _ground_hit(screen)
-		_anchor_on = hit != null
-		if _anchor_on:
-			_anchor_world = hit
-			_anchor_screen = screen
+	_goal_logd = clampf(_goal_logd + step_log, lo - ZOOM_SLACK, hi + ZOOM_SLACK)
+	if not zoom_to_cursor:
+		return
+	var orbiting := _drag_button != MOUSE_BUTTON_NONE and _drag_orbit
+	if orbiting:
+		_anchor_on = false   # zooms to the centre while turning (the orbit owns the cursor)
+		return
+	if _drag_button != MOUSE_BUTTON_NONE:
+		screen = _drag_last   # panning: the grabbed ground is under the cursor
+	_apply(_free_pose(), Vector3.ZERO)
+	var hit: Variant = _ground_hit(screen)
+	# zooming towards a point near the horizon (a top corner at a low pitch) or out over the
+	# sea would drag the view off the island: zoom towards the centre of the screen instead
+	_anchor_on = hit != null and _flat_dist(hit, _cur_focus) <= exp(_cur_logd) * ground_reach \
+		and _soft_rect().has_point(Vector2(hit.x, hit.z))
+	if _anchor_on:
+		_anchor_world = hit
+		_anchor_screen = screen
 
 
 func _rotate(deg: float) -> void:
@@ -812,12 +912,14 @@ func _rotate(deg: float) -> void:
 		_user_yaw += deg
 		_idle_center += deg
 		return
+	_anchor_on = false
 	_goal_yaw += deg
 
 
 # ------------------------------------------------------------ frame
 func _process(delta: float) -> void:
-	var dt := minf(delta, 0.1)
+	# a hitch is simulated as one short frame: no spring, glide or fling can leap ahead
+	var dt := clampf(delta, 0.0, MAX_DT)
 	_time += dt
 	if mode == Mode.CINEMATIC:
 		_update_cinematic(dt)
@@ -869,10 +971,14 @@ func _update_drag(dt: float) -> void:
 	_drag_still = _drag_still + dt if _drag_frame_px < 0.5 else 0.0
 	_drag_frame_px = 0.0
 	if dt > 0.0:
+		# frame-rate independent smoothing of the drag speed (0.4 / 0.35 per frame at 60 fps),
+		# measured over at least MIN_VELOCITY_DT and capped, so a fling is never a leap
+		var vdt := maxf(dt, MIN_VELOCITY_DT)
 		if _drag_orbit:
-			_orbit_vel = _orbit_vel.lerp(_orbit_accum / dt, 0.4)
+			_orbit_vel = _orbit_vel.lerp(_orbit_accum / vdt, 1.0 - exp(-dt * 30.6)).limit_length(MAX_ORBIT_SPEED)
 		else:
-			_pan_vel = _pan_vel.lerp(_pan_accum / dt, 0.35)
+			_pan_vel = _pan_vel.lerp(_pan_accum / vdt, 1.0 - exp(-dt * 25.8)) \
+				.limit_length(exp(_cur_logd) * MAX_PAN_SPEED)
 	_pan_accum = Vector3.ZERO
 	_orbit_accum = Vector2.ZERO
 
@@ -924,23 +1030,33 @@ func _update_keys(dt: float) -> void:
 		var y := deg_to_rad(_cur_yaw)
 		var right := Vector3(cos(y), 0, -sin(y))
 		var back := Vector3(sin(y), 0, cos(y))
-		_goal_focus += _resist((right * _key_vel.x + back * _key_vel.y) * exp(_cur_logd) * dt)
+		_goal_focus = _soft_move(_goal_focus, (right * _key_vel.x + back * _key_vel.y) * exp(_cur_logd) * dt)
 		_anchor_on = false
 
 
 func _update_free(dt: float) -> void:
 	# orbit momentum after a flung orbit drag
 	if _drag_button == MOUSE_BUTTON_NONE and _orbit_vel.length() > 0.05:
-		_orbit(_orbit_vel.x * dt, _orbit_vel.y * dt)
-		_orbit_vel *= exp(-dt * orbit_friction)
+		var ofr := maxf(orbit_friction, 0.01)
+		var turn := _orbit_vel * (1.0 - exp(-dt * ofr)) / ofr
+		_orbit(turn.x, turn.y)
+		_orbit_vel *= exp(-dt * ofr)
 	elif _drag_button == MOUSE_BUTTON_NONE:
 		_orbit_vel = Vector2.ZERO
 	var panning := _drag_button != MOUSE_BUTTON_NONE and not _drag_orbit
 	# momentum, then the soft bounds pull the goal back in; the view springs after the goal
 	if not panning:
 		if _pan_vel.length() > 0.01:
-			_goal_focus += _resist(_pan_vel * dt)
-			_pan_vel *= exp(-dt * momentum_friction)
+			# exact glide of a velocity decaying at momentum_friction over dt (any frame rate
+			# lands at the same place)
+			var fr := maxf(momentum_friction, 0.01)
+			var step := _pan_vel * (1.0 - exp(-dt * fr)) / fr
+			var was := _goal_focus
+			_goal_focus = _soft_move(_goal_focus, step)
+			# a fling into the edge loses the speed the rubber band ate
+			var got := _goal_focus - was
+			_pan_vel = Vector3(_pan_vel.x * _kept(step.x, got.x), 0, _pan_vel.z * _kept(step.z, got.z))
+			_pan_vel *= exp(-dt * fr)
 		else:
 			_pan_vel = Vector3.ZERO
 		var inside := _clamp_focus(_goal_focus)
@@ -951,8 +1067,10 @@ func _update_free(dt: float) -> void:
 	var lo := log(min_distance)
 	var hi := log(max_distance)
 	_goal_logd = lerpf(_goal_logd, clampf(_goal_logd, lo, hi), 1.0 - exp(-dt * soft_return))
+	_goal_logd = clampf(_goal_logd, lo - ZOOM_SLACK, hi + ZOOM_SLACK)
+	var logd_before := _cur_logd
 	var z := spring_step(_cur_logd, _logd_vel, _goal_logd, zoom_smoothing, dt)
-	_cur_logd = z.x
+	_cur_logd = clampf(z.x, lo - ZOOM_SLACK, hi + ZOOM_SLACK)
 	_logd_vel = z.y
 	var r := spring_step(_cur_yaw, _yaw_vel, _goal_yaw, rotate_sharpness, dt)
 	_cur_yaw = r.x
@@ -966,11 +1084,21 @@ func _update_free(dt: float) -> void:
 		# keep the ground point that was under the cursor under the cursor
 		_apply(_free_pose(), Vector3.ZERO)
 		var hit: Variant = _ground_hit(_anchor_screen)
-		if hit != null:
+		var d := exp(_cur_logd)
+		if hit == null or _flat_dist(hit, _cur_focus) > d * ground_reach:
+			_anchor_on = false   # the cursor's ray went flat (the view tilted up): let go
+		else:
 			var shift: Vector3 = _anchor_world - hit
 			shift.y = 0.0
-			_cur_focus += shift
-			_goal_focus += shift
+			# zooming by a factor k towards a point r away moves the pivot about r * (1 - k):
+			# anything much larger is a bad ray, not a zoom step
+			var most := d * (ground_reach * 1.5 * absf(_cur_logd - logd_before) + 0.02)
+			if shift.length() > most:
+				shift = shift.limit_length(most)
+				_anchor_on = false
+			_cur_focus = _soft_move(_cur_focus, shift)
+			_goal_focus = _soft_move(_goal_focus, shift)
+	_keep_sane()
 
 
 ## The free view as a pose: pitch, lens and aim height follow the zoom, plus the player's tilt.
@@ -1000,6 +1128,9 @@ func _zoom_t(d: float) -> float:
 ## Sets the free view's goal and eased values at once (the caller started a glide from the
 ## shot on screen, so the move is eased by the glide rather than the springs).
 func _snap_free(f: Vector3, yaw: float, logd: float, pitch_off: float) -> void:
+	var r := _soft_rect()
+	f = Vector3(clampf(f.x, r.position.x, r.end.x), 0.0, clampf(f.z, r.position.y, r.end.y))
+	logd = clampf(logd, log(min_distance) - ZOOM_SLACK, log(max_distance) + ZOOM_SLACK)
 	_goal_focus = f
 	_cur_focus = f
 	_goal_yaw = yaw
@@ -1427,17 +1558,74 @@ func _clamp_focus(f: Vector3) -> Vector3:
 	return Vector3(clampf(f.x, bounds.position.x, bounds.end.x), f.y, clampf(f.z, bounds.position.y, bounds.end.y))
 
 
-## A pan step, damped when it goes further past the soft bounds.
-func _resist(step: Vector3) -> Vector3:
-	var f := _goal_focus
-	var c := _clamp_focus(f)
-	var over := Vector3(f.x - c.x, 0, f.z - c.z)
-	var out := step
-	if over.x * step.x > 0.0:
-		out.x *= 1.0 / pow(1.0 + absf(over.x) / maxf(bounds_softness, 0.1), 2.0)
-	if over.z * step.z > 0.0:
-		out.z *= 1.0 / pow(1.0 + absf(over.z) / maxf(bounds_softness, 0.1), 2.0)
-	return out
+## The pan bounds grown by the rubber band: the pivot never leaves this rectangle (x / z).
+func _soft_rect() -> Rect2:
+	return bounds.grow(maxf(bounds_softness, 0.0))
+
+
+## Moves a pivot by `step` (x / z) with the soft bounds: inside the bounds it moves freely, past
+## them the move is rubber-banded towards bounds_softness and never reaches it. Exact for any
+## split of the step (a move in one go or in many small frames lands at the same place), so
+## it does not depend on the frame rate, and moving back in is never resisted.
+func _soft_move(f: Vector3, step: Vector3) -> Vector3:
+	return Vector3(_soft_axis(f.x, step.x, bounds.position.x, bounds.end.x),
+		f.y, _soft_axis(f.z, step.z, bounds.position.y, bounds.end.y))
+
+
+func _soft_axis(v: float, step: float, lo: float, hi: float) -> float:
+	var n := v + step
+	var s := maxf(bounds_softness, 0.01)
+	if step > 0.0 and n > hi:
+		var start := maxf(v, hi)          # the part of the step inside the bounds is free
+		var o := start - hi
+		if o >= s:
+			return v
+		return hi + s - (s - o) * exp(-(n - start) / s)
+	if step < 0.0 and n < lo:
+		var start := minf(v, lo)
+		var o := lo - start
+		if o >= s:
+			return v
+		return lo - s + (s - o) * exp(-(start - n) / s)
+	return n
+
+
+## The share of a fling's speed on one axis the rubber band left (moved / wanted, 0..1).
+static func _kept(wanted: float, got: float) -> float:
+	if absf(wanted) < 1e-6:
+		return 1.0
+	return clampf(got / wanted, 0.0, 1.0)
+
+
+## Safety net after every free-view update: no NaN / inf ever reaches the transform, the pivot
+## stays on the island (the rubber band keeps it well inside this already) and the zoom within
+## its slack.
+func _keep_sane() -> void:
+	var r := _soft_rect().grow(0.5)
+	for f: Vector3 in [_cur_focus, _goal_focus]:
+		if not f.is_finite():
+			_cur_focus = _clamp_focus(Vector3(focus.x, 0, focus.z))
+			_goal_focus = _cur_focus
+			_focus_vel = Vector3.ZERO
+			_pan_vel = Vector3.ZERO
+			break
+	_cur_focus = Vector3(clampf(_cur_focus.x, r.position.x, r.end.x), 0.0, clampf(_cur_focus.z, r.position.y, r.end.y))
+	_goal_focus = Vector3(clampf(_goal_focus.x, r.position.x, r.end.x), 0.0, clampf(_goal_focus.z, r.position.y, r.end.y))
+	if not _focus_vel.is_finite():
+		_focus_vel = Vector3.ZERO
+	if not _pan_vel.is_finite():
+		_pan_vel = Vector3.ZERO
+	var lo := log(min_distance) - ZOOM_SLACK
+	var hi := log(max_distance) + ZOOM_SLACK
+	if is_nan(_cur_logd) or is_nan(_goal_logd):
+		_cur_logd = log(maxf(distance, 0.5))
+		_goal_logd = _cur_logd
+		_logd_vel = 0.0
+	_cur_logd = clampf(_cur_logd, lo, hi)
+	_goal_logd = clampf(_goal_logd, lo, hi)
+	for name: StringName in [&"_cur_yaw", &"_goal_yaw", &"_cur_pitch_off", &"_goal_pitch_off", &"_yaw_vel", &"_pitch_vel", &"_logd_vel"]:
+		if not is_finite(float(get(name))):
+			set(name, 0.0)
 
 
 static func _nearest_equivalent(deg: float, ref: float) -> float:

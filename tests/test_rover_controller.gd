@@ -20,6 +20,7 @@ func _initialize() -> void:
 	_check(RoverController != null, "RoverController loaded")
 	_test_flat()
 	_test_slopes()
+	_test_steps()
 	_test_air()
 	_test_power()
 	_test_tools()
@@ -88,9 +89,17 @@ func _test_slopes() -> void:
 	_check(r.pitch > deg_to_rad(5.0), "noses up on the ramp (%.1f°)" % rad_to_deg(r.pitch))
 	var steep := func(_x: float, z: float) -> float: return floorf(10.0 - minf(z + 6.0, 0.0) * tan(deg_to_rad(38.0)))
 	var w4 := _rover(_basic(), 3.71, steep)
-	_run(w4, 10.0)
-	_check(w4.position.z > -14.0, "4 wheels cannot climb 38° (z %.1f)" % w4.position.z)
-	_check(w4.slipping or w4.blocked, "its wheels slip or it is blocked")
+	var top_z := 0.0
+	var slipped := false
+	w4.throttle = 1.0
+	for i in 600:
+		w4.physics_step(1.0 / 60.0)
+		top_z = minf(top_z, w4.position.z)
+		slipped = slipped or w4.slipping or w4.blocked
+	# its momentum carries it a few metres up, then it slides back down
+	_check(top_z > -18.0 and w4.position.z > -15.0 and w4.speed < 0.5,
+		"4 wheels cannot climb 38° (got to z %.1f, now %.1f at %.2f m/s)" % [top_z, w4.position.z, w4.speed])
+	_check(slipped, "its wheels slip or it is blocked")
 	var walker := _rover(RoverDesign.make("w", "walker", ["rtg", "camera", "beacon"]), 3.71, steep)
 	_run(walker, 14.0)
 	_check(walker.position.z < -14.0, "the walker climbs 38° (z %.1f)" % walker.position.z)
@@ -98,6 +107,100 @@ func _test_slopes() -> void:
 	var b := _rover(_basic(), 1.62, wall)
 	_run(b, 8.0)
 	_check(b.position.z > -8.0 and b.position.z < -3.0 and absf(b.speed) < 0.5, "a 6 m wall stops it (z %.1f)" % b.position.z)
+
+
+## Voxel steps and walls at full speed, straight and at angles, for every chassis: the rover
+## climbs single blocks (over the half-block step slabs), is stopped by walls 2+ blocks tall, and
+## no part of it (wheels, body, belly) ever ends up inside the voxels.
+func _test_steps() -> void:
+	# a 1-block step every 4 m going up along -Z
+	var stairs := func(_x: float, z: float) -> float: return 10.0 + maxf(floorf(-z / 4.0), 0.0)
+	# 2-block wall at z = -8
+	var wall2 := func(_x: float, z: float) -> float: return 10.0 if z > -8.0 else 12.0
+	# a crater-like ring: 1-block terraces then a 3-block rim wall
+	var crater := func(x: float, z: float) -> float:
+		var d := Vector2(x, z + 14.0).length()
+		return 10.0 + (0.0 if d > 9.0 else 1.0) + (0.0 if d > 6.0 else 3.0)
+	for ch in ["wheels4", "wheels6", "walker", "hopper"]:
+		var design := RoverDesign.make("s", ch, ["rtg", "camera", "beacon"])
+		# straight up the stairs
+		var r := _rover(design, 1.62, stairs)
+		var worst := _drive_checked(r, 14.0, 0.0)
+		_check(worst < 0.03, "%s: never inside the blocks on the stairs (worst %.2f m)" % [ch, worst])
+		_check(r.position.z < -9.0 and r.position.y > 12.0, "%s climbs 1-block steps (z %.1f, y %.1f)" % [ch, r.position.z, r.position.y])
+		# diagonally up the stairs
+		var rd := _rover(design, 1.62, stairs)
+		rd.place(0.0, 0.0, 0.6)
+		worst = _drive_checked(rd, 14.0, 0.0)
+		_check(worst < 0.03, "%s: never inside the blocks on the stairs at an angle (worst %.2f m)" % [ch, worst])
+		_check(rd.position.y > 11.5, "%s climbs steps at an angle (y %.1f)" % [ch, rd.position.y])
+		# into a 2-block wall at full speed, at several angles and frame rates
+		for a in [0.0, 0.5, -0.9]:
+			for hz in [60.0, 12.0]:
+				var w := _rover(design, 1.62, wall2)
+				w.place(0.0, 0.0, a)
+				worst = _drive_checked(w, 10.0, 0.0, 1.0 / hz)
+				var front := w.position + w.forward() * w.footprint().x
+				_check(worst < 0.03 and w.position.y < 10.6,
+					"%s: a 2-block wall stops it (heading %.1f, %d Hz: y %.2f, worst %.2f m)" % [ch, a, hz, w.position.y, worst])
+				_check(front.z > -8.0 - 0.6, "%s: does not pass into the wall (front z %.2f)" % [ch, front.z])
+		# the crater: terraces climbable, the rim wall not, steering along it
+		var c := _rover(design, 1.62, crater)
+		worst = _drive_checked(c, 6.0, 0.0)
+		worst = maxf(worst, _drive_checked(c, 8.0, 0.7))
+		worst = maxf(worst, _drive_checked(c, 8.0, -0.4))
+		_check(worst < 0.03, "%s: never inside the crater rim (worst %.2f m)" % [ch, worst])
+		_check(c.position.y < 11.6, "%s does not climb the 3-block rim (y %.1f)" % [ch, c.position.y])
+
+
+## Drives for `seconds` (throttle 1, `steer`) and returns how deep the rover ever was inside
+## the voxels: the wheels under the surface, the belly or the footprint below a block top.
+func _drive_checked(r: RoverController, seconds: float, steer: float, dt := 1.0 / 60.0) -> float:
+	r.throttle = 1.0
+	r.steer = steer
+	var worst := 0.0
+	var t := 0.0
+	while t < seconds:
+		r.physics_step(dt)
+		t += dt
+		worst = maxf(worst, _inside(r))
+	return worst
+
+
+## How far (m) any part of the rover is inside the voxels now: each wheel's bottom under the
+## surface below it, the belly (contact plane + clearance) under a block top, the outline's
+## lower edge (contact plane + the chassis' step) under a block top.
+static func _inside(r: RoverController) -> float:
+	var f := r.forward()
+	var rt := r.right()
+	var kp := tan(r.pitch)
+	var kr := tan(r.roll)
+	var y := r.position.y
+	var worst := 0.0
+	var wb := float(r.chassis.get("wheelbase", 2.0))
+	var tw := float(r.chassis.get("track", 1.6))
+	for sa in [-1.0, 1.0]:
+		for sb in [-1.0, 1.0]:
+			var a: float = sa * wb * 0.5
+			var b: float = sb * tw * 0.5
+			var q := r.position + f * a + rt * b
+			worst = maxf(worst, r.surface(q.x, q.z) - (y + a * kp - b * kr))
+	for j in 9:
+		for i in 7:
+			var a := -wb * 0.5 + wb * j / 8.0
+			var b := -tw * 0.375 + tw * 0.75 * i / 6.0
+			var q := r.position + f * a + rt * b
+			worst = maxf(worst, r.surface(q.x, q.z) - (y + a * kp - b * kr + r.clearance()))
+	var fp := r.footprint()
+	for j in 13:
+		for i in 9:
+			if j != 0 and j != 12 and i != 0 and i != 8:
+				continue
+			var a := -fp.x + fp.x * 2.0 * j / 12.0
+			var b := -fp.y + fp.y * 2.0 * i / 8.0
+			var q := r.position + f * a + rt * b
+			worst = maxf(worst, r.surface(q.x, q.z) - (y + a * kp - b * kr + r.step_rise()))
+	return worst
 
 
 func _test_air() -> void:

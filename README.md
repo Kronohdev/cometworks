@@ -32,7 +32,7 @@ Projeto desenvolvido para o **NASA Space Apps Challenge 2026** (desafio *Space M
 - **Equipe com memória**: cada Cometinho lembra das missões em que trabalhou e ganha marcos.
 - **Fotos das missões**: missões com câmera mandam fotos para o álbum da agência.
 - **Pesquisa, finanças e falência**: árvore de pesquisa, contratos, orçamento e empréstimos.
-- **Acessibilidade**: tamanho do texto, modo para daltônicos, troca de teclas e presets
+- **Acessibilidade**: modo para daltônicos, troca de teclas e presets
   gráficos (Baixo / Médio / Alto).
 
 ## Como rodar

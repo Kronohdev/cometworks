@@ -22,6 +22,7 @@ var world: Node3D
 
 func _initialize() -> void:
 	await _bare()
+	await _robust()
 	await _campus()
 	print("RESULT: ", "PASS" if _failures == 0 else "FAIL (%d)" % _failures)
 	quit(1 if _failures else 0)
@@ -340,6 +341,248 @@ func _bare() -> void:
 	await process_frame
 
 
+# ------------------------------------------------------------ robustness
+## Stress cases: the pivot never leaves the island's soft bounds, the zoom stays in its range
+## and the view never jumps, whatever the mouse does and however uneven the frames are.
+func _robust() -> void:
+	# --- a pan drag from near the horizon (low pitch, cursor at the top of the screen): the
+	# ground rays there span hundreds of metres per pixel
+	await _new_cam()
+	var vs := _view_size()
+	_drag(MOUSE_BUTTON_MIDDLE, _centre(), Vector2(0, -3000), 10)   # tilt down to pitch_min
+	_step(2.0)
+	var worst := 0.0
+	var outside := false
+	# just under the horizon line: the first screen row whose ray meets the ground
+	var top := Vector2(vs.x * 0.5, 0.0)
+	cam._apply(cam._free_pose(), Vector3.ZERO)
+	while top.y < vs.y and cam._ground_hit(top) == null:
+		top.y += 1.0
+	top.y += 1.0
+	var start := cam.view_focus()
+	_press(MOUSE_BUTTON_RIGHT, top, true)
+	for i in 40:
+		var f0 := cam.view_focus()
+		_motion(top + Vector2(0, 2.0 * (i + 1)))
+		_step(DT)
+		worst = maxf(worst, cam.view_focus().distance_to(f0) / cam.view_distance())
+		outside = outside or not _in_soft(cam.view_focus())
+	var moved := cam.view_focus().distance_to(start)
+	_press(MOUSE_BUTTON_RIGHT, top + Vector2(0, 80), false)
+	_step(2.0)
+	_check(not outside and worst <= 1.0, "a pan drag near the horizon stays on the island (biggest step %.3f distances)" % worst)
+	_check(moved > 0.5, "...and still pans (%.1f m)" % moved)
+
+	# --- a pointer warp in the middle of a drag (focus regained) does not throw the view
+	await _new_cam()
+	var c := _centre()
+	_press(MOUSE_BUTTON_RIGHT, c, true)
+	_motion(c + Vector2(10, 0))
+	_step(DT)
+	var f1 := cam.view_focus()
+	_motion(c + Vector2(vs.x * 0.9, vs.y * 0.6))
+	_step(DT)
+	_check(cam.view_focus().distance_to(f1) < 0.5, "a pointer warp mid-drag is ignored (moved %.2f m)" % cam.view_focus().distance_to(f1))
+	# the button came up outside the window: the next motion (no button held) ends the drag
+	_step(0.3)   # held still: no fling
+	_hover(c + Vector2(-300, 0))
+	_step(DT)
+	_check(not cam.is_dragging(), "a motion without the drag button ends a drag whose release was missed")
+	var f2 := cam.view_focus()
+	_motion(c + Vector2(-200, 0))
+	_step(0.5)
+	_check(cam.view_focus().distance_to(f2) < 0.05, "...and nothing pans after it (%.2f m)" % cam.view_focus().distance_to(f2))
+
+	# --- zoom at the screen corners, at several pitches and headings
+	await _new_cam()
+	var corners := [Vector2(1, 1), Vector2(vs.x - 2, 1), Vector2(1, vs.y - 2), Vector2(vs.x - 2, vs.y - 2)]
+	var corner_bad := 0
+	var corner_jump := 0.0
+	var tilt := [0.0, -3000.0, -150.0, 3000.0]
+	for t in tilt.size():
+		for k in 2:
+			await _new_cam()
+			cam._goal_yaw = 38.0 + 97.0 * k
+			cam._cur_yaw = cam._goal_yaw
+			_step(0.1)
+			if tilt[t] != 0.0:
+				_drag(MOUSE_BUTTON_MIDDLE, _centre(), Vector2(0, tilt[t]), 10)
+			for corner: Vector2 in corners:
+				for dir in [true, false, true]:
+					for n in 25:
+						var p0 := cam.global_position
+						_wheel(corner, dir)
+						cam._process(DT)
+						corner_jump = maxf(corner_jump, cam.global_position.distance_to(p0) / cam.view_distance())
+						if not _in_soft(cam.view_focus()) or not _zoom_ok():
+							corner_bad += 1
+					for n in 30:
+						var p1 := cam.global_position
+						cam._process(DT)
+						corner_jump = maxf(corner_jump, cam.global_position.distance_to(p1) / cam.view_distance())
+						if not _in_soft(cam.view_focus()) or not _zoom_ok():
+							corner_bad += 1
+	_check(corner_bad == 0, "zooming at the screen corners keeps the view on the island (%d bad frames)" % corner_bad)
+	_check(corner_jump < 0.3, "...without a jump (biggest %.2f distances per frame)" % corner_jump)
+	# a bottom corner at the normal pitch still zooms towards the cursor
+	await _new_cam()
+	var bc := Vector2(vs.x * 0.12, vs.y * 0.88)
+	var bground: Vector3 = cam._ground_hit(bc)
+	for i in 3:
+		_wheel(bc, true)
+		_step(0.05)
+	_step(2.0)
+	cam._apply(cam._free_pose(), Vector3.ZERO)
+	_check(cam.unproject_position(bground).distance_to(bc) < 6.0, "...and still zooms towards a corner on the ground (drift %.1f px)" % cam.unproject_position(bground).distance_to(bc))
+
+	# --- many thousands of random drags, zooms and turns at uneven frame times
+	await _new_cam()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 20261115
+	var dts := [DT, DT, DT, DT, 1.0 / 144.0, 1.0 / 30.0, 0.0005, 0.1, 0.25]
+	var bad_bounds := 0
+	var bad_zoom := 0
+	var bad_num := 0
+	var max_idle_jump := 0.0
+	var max_jump := 0.0
+	var held := MOUSE_BUTTON_NONE
+	var m := _centre()
+	var steps := 12000
+	for i in steps:
+		var p0 := cam.global_position
+		var acted := false
+		var r := rng.randf()
+		if held == MOUSE_BUTTON_NONE and r < 0.06:
+			held = MOUSE_BUTTON_RIGHT if rng.randf() < 0.6 else MOUSE_BUTTON_MIDDLE
+			m = _rand_point(rng, vs)
+			_press(held, m, true, rng.randf() < 0.15)
+			acted = true
+		elif held != MOUSE_BUTTON_NONE and r < 0.04:
+			_press(held, m, false)
+			held = MOUSE_BUTTON_NONE
+			acted = true
+		elif held != MOUSE_BUTTON_NONE and r < 0.75:
+			var step := Vector2(rng.randfn(0.0, 25.0), rng.randfn(0.0, 25.0))
+			if rng.randf() < 0.01:
+				# the pointer warps to the far corner (the window got the mouse back)
+				step = Vector2(0.0 if m.x > vs.x * 0.5 else vs.x - 1.0, 0.0 if m.y > vs.y * 0.5 else vs.y - 1.0) - m
+			elif rng.randf() < 0.02:
+				step *= 8.0   # a fast flick, or a slow frame's motion arriving at once
+			m = (m + step).clamp(Vector2(-200, -200), vs + Vector2(200, 200))
+			_motion(m, held)
+			acted = true
+		if rng.randf() < 0.08:
+			var at := _rand_point(rng, vs) if held == MOUSE_BUTTON_NONE else m
+			for n in rng.randi_range(1, 4):
+				_wheel(at, rng.randf() < 0.5)
+			acted = true
+		if rng.randf() < 0.004:
+			_key(KEY_Q if rng.randf() < 0.5 else KEY_E)
+			acted = true
+		var dt: float = dts[rng.randi() % dts.size()]
+		cam._process(dt)
+		var jump := cam.global_position.distance_to(p0) / cam.view_distance()
+		max_jump = maxf(max_jump, jump)
+		if not acted:
+			max_idle_jump = maxf(max_idle_jump, jump)
+		if not _in_soft(cam.view_focus()) or not _in_soft(cam._goal_focus):
+			bad_bounds += 1
+		if not _zoom_ok():
+			bad_zoom += 1
+		if not cam.global_transform.origin.is_finite() or not cam.global_basis.x.is_finite() or cam.global_position.y < 0.3:
+			bad_num += 1
+	if held != MOUSE_BUTTON_NONE:
+		_press(held, m, false)
+	_step(1.0)
+	_check(bad_bounds == 0, "%d random steps: the pivot never leaves the island's soft bounds (%d bad)" % [steps, bad_bounds])
+	_check(bad_zoom == 0, "...the zoom stays within its range (%d bad)" % bad_zoom)
+	_check(bad_num == 0, "...the camera stays valid and above the ground (%d bad)" % bad_num)
+	# a frame without input moves at most what the fastest fling covers in the longest step
+	var idle_limit := CampusCamera.MAX_DT * (deg_to_rad(CampusCamera.MAX_ORBIT_SPEED) + CampusCamera.MAX_PAN_SPEED) + 0.03
+	_check(max_idle_jump < idle_limit, "...frames without input never jump, even after 0.25 s hitches (biggest %.3f distances, limit %.2f)" % [max_idle_jump, idle_limit])
+	# a pan event moves the pivot one camera distance at most (a 300 px flick can do that)
+	_check(max_jump < 1.25, "...and no input throws the view (biggest %.3f distances per frame)" % max_jump)
+	_step(5.0)
+	var fs := cam.view_focus()
+	_check(cam.bounds.grow(0.5).has_point(Vector2(fs.x, fs.z)), "...and springs back inside the bounds when let go (%.1f, %.1f)" % [fs.x, fs.z])
+
+	# --- a hitch right after a fling: no leap
+	await _new_cam()
+	_drag(MOUSE_BUTTON_RIGHT, _centre(), Vector2(400, 0), 6, true)
+	var before := cam.view_focus()
+	cam._process(0.25)
+	_check(cam.view_focus().distance_to(before) < cam.view_distance() * 0.2,
+		"a 0.25 s hitch after a fling moves the view only a frame's worth (%.1f m)" % cam.view_focus().distance_to(before))
+	for i in 600:
+		cam._process(DT)
+	var b0 := cam.view_focus()
+	await _new_cam()
+	_drag(MOUSE_BUTTON_RIGHT, _centre(), Vector2(400, 0), 6, true)
+	for i in 300:
+		cam._process(DT * 2.0)
+	_check(cam.view_focus().distance_to(b0) < 1.5, "a fling lands at the same place at 30 and 60 fps (%.2f m apart)" % cam.view_focus().distance_to(b0))
+
+	# --- drag during follow: a pan takes over smoothly (no lag then catch-up), an orbit keeps
+	# following; a wheel while following only changes the follow zoom
+	await _new_cam()
+	var walker := Node3D.new()
+	world.add_child(walker)
+	walker.global_position = Vector3(20, 0, 12)
+	cam.follow(walker)
+	_step(0.5)   # still gliding in
+	var grab := _centre() + Vector2(-40, 30)
+	var prev := cam.global_position
+	var flick := 0.0
+	_press(MOUSE_BUTTON_RIGHT, grab, true)
+	for i in 30:
+		_motion(grab + Vector2(6.0 * (i + 1), 0))
+		cam._process(DT if i % 7 else 0.25)
+		flick = maxf(flick, cam.global_position.distance_to(prev))
+		prev = cam.global_position
+	_press(MOUSE_BUTTON_RIGHT, grab + Vector2(180, 0), false)
+	for i in 120:
+		cam._process(DT)
+		flick = maxf(flick, cam.global_position.distance_to(prev))
+		prev = cam.global_position
+	_check(cam.mode == CampusCamera.Mode.FREE, "a pan drag during follow lets go")
+	_check(flick < 3.0, "...without a flick (biggest move %.2f m per frame)" % flick)
+	_check(_in_soft(cam.view_focus()), "...and the view stays on the island")
+	cam.follow(walker)
+	_step(2.5)
+	var fy: float = cam._fpose.yaw
+	_press(MOUSE_BUTTON_MIDDLE, _centre(), true)
+	for i in 10:
+		_motion(_centre() + Vector2(-10.0 * (i + 1), 0), MOUSE_BUTTON_MIDDLE)
+		_wheel(_centre(), false)
+		cam._process(DT)
+	_press(MOUSE_BUTTON_MIDDLE, _centre() + Vector2(-100, 0), false)
+	_step(0.5)
+	_check(cam.is_following() and cam._fpose.yaw > fy + 15.0 and cam._follow_zoom > 1.2,
+		"an orbit drag with the wheel during follow keeps following, turns and zooms")
+	world.queue_free()
+	world = null
+	await process_frame
+
+
+func _in_soft(f: Vector3) -> bool:
+	return cam.bounds.grow(cam.bounds_softness + 0.6).has_point(Vector2(f.x, f.z))
+
+
+func _zoom_ok() -> bool:
+	var d := cam.view_distance()
+	return d >= cam.min_distance * exp(-0.31) and d <= cam.max_distance * exp(0.31)
+
+
+## A random screen point: often a corner or an edge, sometimes over the horizon band at the top.
+func _rand_point(rng: RandomNumberGenerator, vs: Vector2) -> Vector2:
+	var r := rng.randf()
+	if r < 0.2:
+		return Vector2(rng.randi_range(0, 1) * (vs.x - 1), rng.randi_range(0, 1) * (vs.y - 1))
+	if r < 0.35:
+		return Vector2(rng.randf() * vs.x, rng.randf() * 8.0)
+	return Vector2(rng.randf() * vs.x, rng.randf() * vs.y)
+
+
 # ------------------------------------------------------------ campus
 func _campus() -> void:
 	var main := (load("res://scenes/tycoon/tycoon_main.tscn") as PackedScene).instantiate() as TycoonMain
@@ -370,6 +613,24 @@ func _campus() -> void:
 	_wheel(_centre(), true)
 	await _frames(2)
 	_check(cam._goal_logd < g1, "the wheel over the campus zooms")
+
+	# a drag that starts over a HUD panel is not the camera's
+	if panel:
+		await _wait(1.5)
+		var pc := panel.get_global_rect().get_center()
+		var fp := cam.view_focus()
+		var yp := cam.view_yaw()
+		_hover(pc)
+		await _frames(1)
+		for b: MouseButton in [MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_MIDDLE]:
+			_press(b, pc, true)
+			for i in 8:
+				_motion(pc + Vector2(-25.0 * (i + 1), 15.0 * (i + 1)), b)
+				await _frames(1)
+			_press(b, pc + Vector2(-200, 120), false)
+			await _frames(2)
+		_check(not cam.is_dragging() and cam.view_focus().distance_to(fp) < 0.05 and absf(cam.view_yaw() - yp) < 0.05,
+			"a drag that starts over a HUD panel moves nothing")
 
 	# an open screen keeps the keys from the camera
 	await _wait(1.5)   # the zoom settles first

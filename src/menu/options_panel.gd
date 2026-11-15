@@ -13,10 +13,10 @@ extends PanelContainer
 ## only show in the in-game settings, which list them in `rows`.
 ## Graphics quality Baixo / Médio / Alto (GraphicsQuality, applied live; Baixo also turns the
 ## anti-aliasing off, so the AA keys grey out). The Accessibility page (metadata page =
-## "access"): text size 90 / 100 / 115 / 130 % and the colour-blind friendly colours
-## (CwAccess), and the key list (CwKeys): one row per action, copies of the hidden
-## KeyTemplate; pressing a row's key waits for the next key (Esc cancels), a key another action
-## had is swapped onto it, "Restore keys" puts the defaults back.
+## "access"): the colour-blind friendly colours (CwAccess) and the key list (CwKeys): one
+## row per action, copies of the hidden KeyTemplate; pressing a row's key waits for the next
+## key (Esc cancels), a key another action had is swapped onto it, "Restore keys" puts the
+## defaults back.
 
 signal closed
 
@@ -69,8 +69,6 @@ signal closed
 @onready var page_access: Button = %PageAccess
 @onready var quality_buttons := {GraphicsQuality.Level.LOW: %QualityLow, GraphicsQuality.Level.MEDIUM: %QualityMedium,
 	GraphicsQuality.Level.HIGH: %QualityHigh}
-## text size buttons, in CwAccess.UI_SCALES order
-@onready var text_buttons: Array[Button] = [%Text90, %Text100, %Text115, %Text130]
 @onready var colorblind_on: Button = %ColorblindOn
 @onready var colorblind_off: Button = %ColorblindOff
 @onready var key_template: Control = %KeyTemplate
@@ -139,8 +137,6 @@ func _ready() -> void:
 		(quality_buttons[l] as Button).pressed.connect(func() -> void:
 			GraphicsQuality.set_level(l)
 			sync())
-	for i in text_buttons.size():
-		text_buttons[i].pressed.connect(CwAccess.set_ui_scale.bind(CwAccess.UI_SCALES[i]))
 	colorblind_on.pressed.connect(CwAccess.set_colorblind.bind(true))
 	colorblind_off.pressed.connect(CwAccess.set_colorblind.bind(false))
 	%KeysReset.pressed.connect(func() -> void:
@@ -205,9 +201,6 @@ func sync() -> void:
 	# the "Baixo" level turns the anti-aliasing off whatever the choice
 	for b: Button in [aa_smaa, aa_msaa4, aa_off]:
 		b.disabled = GraphicsQuality.max_aa() != ""
-	var ui := CwAccess.ui_scale()
-	for i in text_buttons.size():
-		text_buttons[i].set_pressed_no_signal(is_equal_approx(CwAccess.UI_SCALES[i], ui))
 	var cb := CwAccess.colorblind()
 	colorblind_on.set_pressed_no_signal(cb)
 	colorblind_off.set_pressed_no_signal(not cb)
@@ -282,7 +275,7 @@ func _show_volume() -> void:
 
 
 ## Shows one page of the options grid: "" the general rows, "camera" the camera rows,
-## "access" the accessibility rows (text size, colour-blind, keys).
+## "access" the accessibility rows (colour-blind, keys).
 func show_page(page: String) -> void:
 	if not rows.is_empty():
 		for c in grid.get_children():

@@ -144,6 +144,23 @@ func _test_greedy_known() -> void:
 	m = _mesh(pyr, 3, false)
 	_check(m["naive_faces"] == 9 + 8, "pillar naive = 9 tops + 4 sides x 2 voxels (got %d)" % m["naive_faces"])
 	_check(m["quads"] == 5 + 8, "pillar quads = 5 greedy tops + 4 sides x 2 colors (top voxel, subsurface) (got %d)" % m["quads"])
+	# step slabs: a 1-block rise gets a half-block slab (top 0.5 m deep + riser), a 2-block one none
+	var slabs := VoxelGreedyMesher.build(step["heights"], step["tops"], step["subs"], n, 1.0,
+		{"palette": PackedColorArray([Color.WHITE]), "ao": true, "sub_voxels": 2, "steps": true})
+	var sa := _analyze(slabs)
+	_check(is_equal_approx(sa["top"], 16.0 + 2.0), "step slab adds 4 x 0.5 m² of top at +0.5 m (got %s)" % sa["top"])
+	_check(is_equal_approx(sa["side"], 4.0 + 2.0), "step slab adds a 4 x 0.5 m riser (got %s)" % sa["side"])
+	_check(sa["bad"] == 0, "step slab winding clockwise (%d bad)" % sa["bad"])
+	var wall := _grid(n, func(i: int, _j: int) -> int: return 3 if i <= 2 else 1)
+	var wm := VoxelGreedyMesher.build(wall["heights"], wall["tops"], wall["subs"], n, 1.0,
+		{"palette": PackedColorArray([Color.WHITE]), "ao": false, "sub_voxels": 2, "steps": true})
+	_check(is_equal_approx(_analyze(wm)["top"], 16.0), "no slab in front of a 2-block wall")
+	# a lone 1-block bump: slabs on its 4 sides, corners trimmed (no overlapping tops)
+	var bump := _grid(3, func(i: int, j: int) -> int: return 2 if i == 2 and j == 2 else 1)
+	var bm := VoxelGreedyMesher.build(bump["heights"], bump["tops"], bump["subs"], 3, 1.0,
+		{"palette": PackedColorArray([Color.WHITE]), "ao": true, "sub_voxels": 2, "steps": true})
+	var ba := _analyze(bm)
+	_check(is_equal_approx(ba["top"], 9.0 + 4.0 * 0.5) and ba["bad"] == 0, "bump: 4 slabs of 0.5 m² (top %s, %d bad)" % [ba["top"], ba["bad"]])
 	# skirts add border faces only
 	m = _mesh(flat, n, false, 2)
 	_check(m["naive_faces"] == 16 + 4 * 4 * 2, "skirt adds 2 voxels on each border column side (got %d)" % m["naive_faces"])

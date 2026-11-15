@@ -6,7 +6,7 @@ extends RefCounted
 ## kept in user://settings.cfg under [menu] next to the graphics quality
 ## (src/core/graphics_quality.gd). apply() runs when the menu opens, so the choice sticks
 ## between sessions; the volumes are also applied by the sound player (CwSfx) on start.
-## The accessibility options (text size, colour-blind mode, key bindings) and the graphics
+## The accessibility options (colour-blind mode, key bindings) and the graphics
 ## quality live in CwAccess, CwKeys and GraphicsQuality, in the same file.
 ## Volumes scale the buses of default_bus_layout.tres: the levels authored there are the
 ## 100 % mix, the sliders only turn them down.
@@ -49,7 +49,7 @@ static func apply() -> void:
 		_set_window_fullscreen(bool(cfg.get_value(SECTION, "fullscreen", false)))
 	apply_audio()
 	CwLook.apply()
-	CwAccess.apply()   # text size, colour-blind colours, keys, graphics quality
+	CwAccess.apply()   # colour-blind colours, keys, graphics quality
 
 
 ## Applies the saved volumes to the audio buses.

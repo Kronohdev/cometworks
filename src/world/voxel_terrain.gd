@@ -14,6 +14,8 @@ extends Node3D
 ##  4. Old chunks are removed only once the area they cover is fully shown by
 ##     newer chunks (no holes while LOD changes), or when out of range.
 ##  5. Collision: separate 1 m trimesh chunks within collision_radius of the focus.
+## The 1 m LOD adds half-block step slabs in front of every 1-block rise (VoxelGreedyMesher
+## "steps"), which RoverController.surface() drives on.
 ## Culling: every chunk is its own MeshInstance3D, so Godot frustum-culls per
 ## chunk; chunks beyond view_distance are never built; buried faces are never
 ## meshed; far LODs do not cast shadows.
@@ -400,6 +402,8 @@ func _mesh_opts(lod: int, collision: bool) -> Dictionary:
 		"strata_m": generator.strata_thickness,
 		"collision": collision,
 		"props": props,
+		# half-block step slabs on the 1 m voxels (the rover drives the same shape)
+		"steps": lod == 0,
 	}
 
 

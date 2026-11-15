@@ -7,7 +7,7 @@ extends Control
 ##   Save   the save slots (save, load, the monthly autosave)
 ##   Image  window / fullscreen, graphics quality (Baixo / Médio / Alto), style, outlines, AA
 ##   Sound  the three volumes
-##   Access text size, colour-blind friendly colours, the key list (CwAccess, CwKeys)
+##   Access colour-blind friendly colours, the key list (CwAccess, CwKeys)
 ## The foot also opens the Conquistas (achievements) and this campaign's Estatísticas (stats).
 ## The options rows come from the main menu's options panel (scenes/menu/options_panel.tscn
 ## with MenuSettings), instanced once per tab with the other rows hidden in the scene. Back to

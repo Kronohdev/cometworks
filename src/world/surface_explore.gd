@@ -55,6 +55,7 @@ var _bound := false
 var _scan_t := 0.0
 var _card_t := 0.0
 var _ch_focus: Dictionary = {}
+var _card_home: Array = []
 var _ch_msg := ""
 var _ch_msg_t := 0.0
 var _hidden_layers: Array[CanvasLayer] = []
@@ -65,6 +66,11 @@ var _paused_explorer: Node
 
 @onready var photo_cam: Camera3D = $PhotoCamera
 @onready var ui: CanvasLayer = $UI
+## the challenge card (held here: with a rover it moves under the rover HUD's mini-map)
+@onready var ch_card: Control = %ChallengeCard
+@onready var _ch_name: Label = %ChName
+@onready var _ch_status: Label = %ChStatus
+@onready var _ch_timer: Label = %ChTimer
 
 
 # ------------------------------------------------------------ data
@@ -107,7 +113,7 @@ static func collectible_type(type_id: String) -> Dictionary:
 func _ready() -> void:
 	planet = _find_planet()
 	%Card.visible = false
-	%ChallengeCard.visible = false
+	ch_card.visible = false
 	%Log.visible = false
 	%Photo.visible = false
 	%LogClose.pressed.connect(close_log)
@@ -171,7 +177,41 @@ func _refresh_explorer() -> void:
 		var drone := not is_rover()
 		%Help.visible = drone
 		%Back.visible = drone
+		_dock_challenge_card()
 		_fill_chip()
+
+
+## With a rover the challenge card stacks under the rover HUD's mini-map (its SideSlot, group
+## RoverHUD.GROUP) instead of its own top-right spot, so the two never overlap; back without one.
+func _dock_challenge_card() -> void:
+	var slot: Control = null
+	if is_rover():
+		for h in get_tree().get_nodes_in_group(RoverHUD.GROUP):
+			if h.has_method("side_slot"):
+				slot = h.call("side_slot")
+				break
+	var home := ui.get_node("Root") as Control
+	var target := slot if slot else home
+	if ch_card.get_parent() == target:
+		return
+	if _card_home.is_empty():
+		# its spot in this scene (anchors and offsets), to put it back
+		_card_home = [ch_card.anchor_left, ch_card.anchor_top, ch_card.anchor_right, ch_card.anchor_bottom,
+			ch_card.offset_left, ch_card.offset_top, ch_card.offset_right, ch_card.offset_bottom]
+	ch_card.reparent(target, false)
+	if slot:
+		ch_card.layout_mode = 2  # a container child: the slot lays it out
+		return
+	ch_card.layout_mode = 1
+	for i in 4:
+		ch_card.set_anchor(i as Side, float(_card_home[i]))
+		ch_card.set_offset(i as Side, float(_card_home[i + 4]))
+
+
+func _exit_tree() -> void:
+	# docked in a HUD that may outlive this node: take it along
+	if ch_card and is_instance_valid(ch_card) and not is_ancestor_of(ch_card):
+		ch_card.queue_free()
 
 
 ## The explorer is the drive scene's rover (it reaches places and uses tools itself).
@@ -422,20 +462,20 @@ func _fill_challenge_card(delta: float) -> void:
 	_ch_msg_t = maxf(_ch_msg_t - delta, 0.0)
 	var ch := _ch_focus
 	var active := not ch.is_empty() and (String(ch["phase"]) in ["armed", "running", "carry"] or _ch_msg_t > 0.0)
-	%ChallengeCard.visible = active and not photo_mode
+	ch_card.visible = active and not photo_mode and ui_visible
 	if not active:
 		return
 	var e: Dictionary = ch["entry"]
-	%ChName.text = tr(String(e.get("name_key", "")))
+	_ch_name.text = tr(String(e.get("name_key", "")))
 	var phase := String(ch["phase"])
 	var timer := ""
 	if String(e.get("type", "")) == "reach_before" and phase == "running":
 		var left := float(e.get("time_s", 120.0)) - float(ch["t"])
 		timer = "%d:%02d" % [int(maxf(left, 0.0)) / 60, int(maxf(left, 0.0)) % 60]
-		%ChStatus.text = tr("TY_SX_CH_RUNNING") % tr(_poi_name(String(e.get("target", ""))))
+		_ch_status.text = tr("TY_SX_CH_RUNNING") % tr(_poi_name(String(e.get("target", ""))))
 	elif String(e.get("type", "")) == "jump" and phase == "armed" and float(ch["air"]) > 0.0:
 		timer = "%.1f s" % float(ch["air"])
-		%ChStatus.text = tr("TY_SX_CH_JUMP_AIR") % float(e.get("air_s", 1.0))
+		_ch_status.text = tr("TY_SX_CH_JUMP_AIR") % float(e.get("air_s", 1.0))
 	elif _ch_msg != "" and _ch_msg_t > 0.0:
 		var text := tr(_ch_msg)
 		if _ch_msg == "TY_SX_CH_JUMP_SHORT":
@@ -446,11 +486,11 @@ func _fill_challenge_card(delta: float) -> void:
 			text = text % float(e.get("air_s", 1.0))
 		elif _ch_msg == "TY_SX_CH_CARRY":
 			text = text % tr(_poi_name(String(e.get("to", ""))))
-		%ChStatus.text = text
+		_ch_status.text = text
 	else:
-		%ChStatus.text = tr(String(e.get("desc_key", "")))
-	%ChTimer.text = timer
-	%ChTimer.visible = timer != ""
+		_ch_status.text = tr(String(e.get("desc_key", "")))
+	_ch_timer.text = timer
+	_ch_timer.visible = timer != ""
 
 
 func _poi_name(id: String) -> String:

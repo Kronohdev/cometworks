@@ -81,7 +81,6 @@ MENU_OPT_QUALITY,Graphics,Gráficos
 MENU_OPT_QUALITY_LOW,Low,Baixo
 MENU_OPT_QUALITY_MEDIUM,Medium,Médio
 MENU_OPT_QUALITY_HIGH,High,Alto
-MENU_OPT_TEXT_SIZE,Text size,Tamanho do texto
 MENU_OPT_COLORBLIND,Colour-blind,Daltonismo
 MENU_OPT_KEYS,Keys,Teclas
 MENU_OPT_KEYS_RESET,Restore keys,Restaurar teclas

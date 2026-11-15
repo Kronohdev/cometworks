@@ -12,6 +12,9 @@ extends RefCounted
 ## Underground faces are never generated (only the exposed shell), and border
 ## columns get "skirts" extending down `skirt` voxels to hide cracks between
 ## chunks of different LOD.
+## Step slabs (option "steps", the 1 m LOD): a half-block slab sits on the half of a column
+## next to a neighbour exactly one block higher, so every 1-block step reads (and drives, see
+## RoverController.surface) as two half steps; taller rises stay sheer walls.
 ## Vertex colors = linear palette color × AO (same AO curve as tools/voxel_gen.py);
 ## the per-voxel color jitter is done in shaders/surface_terrain.gdshader.
 
@@ -24,6 +27,8 @@ const AO_SRGB := [0.5, 0.68, 0.84, 1.0]
 ## Canonical slot = (a+1)/2 + 2*(b+1)/2 for the two in-plane axes (vertical, tangent).
 const MAP_A := [0, 1, 3, 2]  # top (a=x,b=z), -X, +Z
 const MAP_B := [0, 2, 3, 1]  # +X, -Z
+## slab riser AO: the bottom corners (vertical slot a = -1) one level darker
+const SLAB_RISER_AO := 2 | (3 << 2) | (2 << 4) | (3 << 6)
 
 var _v := PackedVector3Array()
 var _n := PackedVector3Array()
@@ -35,7 +40,7 @@ var _ao_f := PackedFloat32Array()
 
 ## heights/tops/subs: (n+2)² arrays. s: voxel size (m). Options:
 ##   palette (PackedColorArray), ao (bool), ao_strength (0..1), skirt (voxels),
-##   sub_voxels (int), strata_m (float), collision (bool).
+##   sub_voxels (int), strata_m (float), collision (bool), steps (bool: half-block step slabs).
 ## Returns {arrays, quads, naive_faces, faces (PackedVector3Array, if collision)}.
 static func build(heights: PackedInt32Array, tops: PackedInt32Array, subs: PackedInt32Array, n: int,
 		s: float, opts: Dictionary) -> Dictionary:
@@ -164,6 +169,8 @@ static func build(heights: PackedInt32Array, tops: PackedInt32Array, subs: Packe
 			for comp in open:
 				st._emit_side(comp, open[comp], dir, sl, s, normal, cmap)
 				quads += 1
+	if opts.get("steps", false):
+		st._step_slabs(heights, tops, n, s)
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = st._v
@@ -175,6 +182,100 @@ static func build(heights: PackedInt32Array, tops: PackedInt32Array, subs: Packe
 	if opts.get("collision", false):
 		out["faces"] = triangle_faces(st._v, st._i)
 	return out
+
+
+## Half-block slabs in front of every rise of exactly one block (interior columns; the border
+## ring only answers "is the neighbour higher"). A slab covers the half of the column next to the
+## higher neighbour: its top at h + 0.5, its riser facing away, its ends where nothing hides them.
+## Slabs along Z give way to slabs along X in a column's corners (no overlapping faces).
+func _step_slabs(heights: PackedInt32Array, tops: PackedInt32Array, n: int, s: float) -> void:
+	var w := n + 2
+	var hs := s * 0.5
+	for j in n:
+		for i in n:
+			var k := (j + 1) * w + (i + 1)
+			var h := heights[k]
+			var px := heights[k + 1] == h + 1
+			var mx := heights[k - 1] == h + 1
+			var pz := heights[k + w] == h + 1
+			var mz := heights[k - w] == h + 1
+			if not (px or mx or pz or mz):
+				continue
+			var col := tops[k]
+			var x0 := i * s
+			var z0 := j * s
+			var y0 := h * s
+			var y1 := y0 + hs
+			# X slabs: the full column depth along Z
+			for side in [1, -1]:
+				if not (px if side == 1 else mx):
+					continue
+				var sx0 := x0 + (hs if side == 1 else 0.0)
+				# ends (-Z / +Z): hidden by a neighbour at h+1 or by its own slab on this side
+				var end_m := heights[k - w] <= h and not (heights[k - w] == h and heights[k - w + side] == h + 1)
+				var end_p := heights[k + w] <= h and not (heights[k + w] == h and heights[k + w + side] == h + 1)
+				_slab(sx0, z0, sx0 + hs, z0 + s, y0, y1, col, side == -1, side == 1, end_m, end_p)
+			# Z slabs: trimmed where an X slab already covers the corner
+			for side in [1, -1]:
+				if not (pz if side == 1 else mz):
+					continue
+				var a0 := x0 + (hs if mx else 0.0)
+				var a1 := x0 + s - (hs if px else 0.0)
+				if a1 - a0 < hs * 0.5:
+					continue
+				var sz0 := z0 + (hs if side == 1 else 0.0)
+				var end_m := not mx and heights[k - 1] <= h and not (heights[k - 1] == h and heights[k - 1 + side * w] == h + 1)
+				var end_p := not px and heights[k + 1] <= h and not (heights[k + 1] == h and heights[k + 1 + side * w] == h + 1)
+				_slab_z(a0, sz0, a1, sz0 + hs, y0, y1, col, side == -1, side == 1, end_m, end_p)
+
+
+## A slab along Z (rises in X): top, the riser on -X (riser_mx) or +X (riser_px), ends on -Z / +Z.
+func _slab(x0: float, z0: float, x1: float, z1: float, y0: float, y1: float, col: int,
+		riser_px: bool, riser_mx: bool, end_mz: bool, end_pz: bool) -> void:
+	var lx := x1 - x0
+	var lz := z1 - z0
+	var hg := y1 - y0
+	# top: brighter at the riser edge, a touch of AO against the wall behind it
+	_quad(Vector3(x0, y1, z0), Vector3(0, 0, lz), Vector3(lx, 0, 0), Vector3.UP, col,
+		_slab_top_ao(riser_mx, riser_px, false, false), MAP_A)
+	if riser_px:
+		_quad(Vector3(x1, y0, z0), Vector3(0, hg, 0), Vector3(0, 0, lz), Vector3.RIGHT, col, SLAB_RISER_AO, MAP_B)
+	if riser_mx:
+		_quad(Vector3(x0, y0, z0), Vector3(0, 0, lz), Vector3(0, hg, 0), Vector3.LEFT, col, SLAB_RISER_AO, MAP_A)
+	if end_mz:
+		_quad(Vector3(x0, y0, z0), Vector3(0, hg, 0), Vector3(lx, 0, 0), Vector3.FORWARD, col, 0xFF, MAP_B)
+	if end_pz:
+		_quad(Vector3(x0, y0, z1), Vector3(lx, 0, 0), Vector3(0, hg, 0), Vector3.BACK, col, 0xFF, MAP_A)
+
+
+## A slab along X (rises in Z): top, the riser on -Z (riser_mz) or +Z (riser_pz), ends on -X / +X.
+func _slab_z(x0: float, z0: float, x1: float, z1: float, y0: float, y1: float, col: int,
+		riser_pz: bool, riser_mz: bool, end_mx: bool, end_px: bool) -> void:
+	var lx := x1 - x0
+	var lz := z1 - z0
+	var hg := y1 - y0
+	_quad(Vector3(x0, y1, z0), Vector3(0, 0, lz), Vector3(lx, 0, 0), Vector3.UP, col,
+		_slab_top_ao(false, false, riser_mz, riser_pz), MAP_A)
+	if riser_pz:
+		_quad(Vector3(x0, y0, z1), Vector3(lx, 0, 0), Vector3(0, hg, 0), Vector3.BACK, col, SLAB_RISER_AO, MAP_A)
+	if riser_mz:
+		_quad(Vector3(x0, y0, z0), Vector3(0, hg, 0), Vector3(lx, 0, 0), Vector3.FORWARD, col, SLAB_RISER_AO, MAP_B)
+	if end_mx:
+		_quad(Vector3(x0, y0, z0), Vector3(0, 0, lz), Vector3(0, hg, 0), Vector3.LEFT, col, 0xFF, MAP_A)
+	if end_px:
+		_quad(Vector3(x1, y0, z0), Vector3(0, hg, 0), Vector3(0, 0, lz), Vector3.RIGHT, col, 0xFF, MAP_B)
+
+
+## Top AO of a slab: the corners against the wall (away from the riser) one level darker.
+## Canonical slots for the top: bit pair (a + 1) / 2 + 2 * (b + 1) / 2 with a = x, b = z.
+static func _slab_top_ao(riser_mx: bool, riser_px: bool, riser_mz: bool, riser_pz: bool) -> int:
+	var ao := 0
+	for slot in 4:
+		var sx := 1 if (slot & 1) else -1
+		var sz := 1 if (slot & 2) else -1
+		var against := (riser_mx and sx == 1) or (riser_px and sx == -1) or (riser_mz and sz == 1) or (riser_pz and sz == -1)
+		ao |= (2 if against else 3) << (slot * 2)
+	return ao
 
 
 ## De-indexes a triangle mesh into the face list ConcavePolygonShape3D wants.

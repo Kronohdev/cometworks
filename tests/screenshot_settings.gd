@@ -1,10 +1,9 @@
 extends SceneTree
 ## Windowed screenshots of the settings (the in-game settings screen and the main menu's
-## options): their Accessibility and Image tabs, the Access tab at 130 % text, and the race
-## screen in colour-blind mode (shape cues on the agency markers).
-##   set_01_access        in-game settings, Access tab (text size, colour-blind, keys)
+## options): their Accessibility and Image tabs, and the race screen in colour-blind mode
+## (shape cues on the agency markers).
+##   set_01_access        in-game settings, Access tab (colour-blind, keys)
 ##   set_02_image         in-game settings, Image tab (graphics Baixo / Médio / Alto)
-##   set_03_access_130    the Access tab at 130 % text
 ##   set_04_race_cb       the race screen with colour-blind colours and cues
 ##   set_05_menu_access   the main menu's options, Access page
 ## user://settings.cfg is put back at the end.
@@ -36,7 +35,6 @@ func _initialize() -> void:
 	while main.hud.current_screen() != "":
 		main.hud.close_screen()
 		await _frames(2)
-	CwAccess.set_ui_scale(1.0)
 	main.hud.open_screen("settings", {"tab": "Access"})
 	await _wait(1.0)
 	await _shot("set_01_access")
@@ -46,13 +44,6 @@ func _initialize() -> void:
 	await _wait(1.0)
 	await _shot("set_02_image")
 	main.hud.close_screen()
-	await _frames(4)
-	CwAccess.set_ui_scale(1.3)
-	main.hud.open_screen("settings", {"tab": "Access"})
-	await _wait(1.0)
-	await _shot("set_03_access_130")
-	main.hud.close_screen()
-	CwAccess.set_ui_scale(1.0)
 	await _frames(4)
 	# a few claims on the track so the markers carry colours
 	for rid in ["aurora", "nimbo", "quietude"]:

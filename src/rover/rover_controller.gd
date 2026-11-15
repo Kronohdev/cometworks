@@ -2,13 +2,20 @@ class_name RoverController
 extends Node3D
 ## The rover on a planet surface (scenes/rover/rover.tscn): a custom kinematic controller made
 ## for the voxel terrain, simple and fun rather than a rigid body.
-##   ground   the 1 m voxel tops (height_fn, the terrain's get_height) smoothed bilinearly between
-##            cell centres and over the wheel patch, so 1 m steps read as slopes; pitch and roll
-##            come from the wheels' heights, the body follows the ground at that tilt
+##   ground   surface(): the 1 m voxel tops (height_fn, the terrain's get_height) plus the half-block
+##            step slabs the terrain draws in front of every rise of exactly one block
+##            (VoxelGreedyMesher "steps"), so a 1 m step is two 0.5 m steps; each wheel rides the
+##            highest surface under its patch, eased by distance (it rolls up a slab, never pops),
+##            and ignores rises of 2+ blocks (walls); pitch and roll come from the four wheels, the
+##            belly rides over anything that pokes up between them (never inside the blocks)
 ##   motion   throttle / steer accelerate along the heading; traction is limited by the body's
-##            gravity (floaty on the Moon) and by the chassis' climb angle: past it the wheels slip
-##            and the rover slides back; a probe ahead stops it at walls; drive off a crest faster
-##            than gravity pulls and it flies (low gravity jumps), the hopper hops on purpose
+##            gravity (floaty on the Moon) and by the chassis' climb angle (judged on ground(), the
+##            ground smoothed over 6 m): past it the wheels slip and the rover slides back; the move
+##            is split in substeps of SUBSTEP m and the rover's footprint (wheels and body) may not
+##            enter ground higher than its contact plane + the chassis' step (a wall): it slides
+##            along the wall or stops at its face, turning into one is refused too, at any speed or
+##            frame rate; drive off a crest faster than gravity pulls and it flies (low gravity
+##            jumps), the hopper hops on purpose
 ##   power    battery Wh += (panels x sunlight + RTG - idle - instruments - drive) x game time
 ##            (rovers.json time_scale game seconds per real second); empty: it only crawls on what
 ##            the panels give
@@ -35,6 +42,17 @@ const TOOL_BUSY := {&"photo": 0.6, &"panorama": 3.0, &"scan": 1.2, &"drill": 3.0
 const TOOL_RANGE := {&"photo": 30.0, &"panorama": 0.0, &"scan": 14.0, &"drill": 0.0, &"sample": 0.0, &"weather": 0.0,
 	&"drone": 160.0}
 const GROUND_CELL := 24.0
+## height of the terrain's step slab in front of a rise of exactly one block (m)
+const STEP_SLAB := 0.5
+## a wheel feels the surface this far around its contact point (m), lower by distance x WHEEL_EASE
+const WHEEL_REACH := 0.5
+const WHEEL_EASE := 1.0
+## the longest move checked against walls at once (m)
+const SUBSTEP := 0.2
+## a rise above this under a wheel is a wall, not something it rolls onto (m)
+const WALL_RISE := 1.05
+## the ground falling this far below the body's ballistic path lifts the wheels off (m)
+const LIFT_OFF := 0.3
 
 @export var model_path: NodePath = ^"Model"
 ## read the keyboard (off for tests and the automatic mode)
@@ -126,7 +144,9 @@ func place(x: float, z: float, heading := 0.0) -> void:
 	speed = 0.0
 	vy = 0.0
 	airborne = false
-	position = Vector3(x, ground(x, z), z)
+	var c := contact(Vector3(x, 0.0, z), heading)
+	position = Vector3(x, c["center"], z)
+	_pose_from(c)
 	_orient(1.0)
 
 
@@ -180,24 +200,140 @@ func ground_bilinear(x: float, z: float) -> float:
 	return lerpf(a, b, tz)
 
 
-## The ground a wheel feels at (x, z): the bilinear ground averaged over its patch.
+## The ground smoothed over a 1 m patch (bilinear between cell centres): slopes, the camera.
 func ground(x: float, z: float) -> float:
 	return 0.25 * (ground_bilinear(x - 0.5, z - 0.5) + ground_bilinear(x + 0.5, z - 0.5)
 		+ ground_bilinear(x - 0.5, z + 0.5) + ground_bilinear(x + 0.5, z + 0.5))
 
 
-## {"center", "front", "rear", "left", "right"} ground heights under the wheels at p with heading.
-func contact(p: Vector3) -> Dictionary:
-	var f := forward()
-	var r := right()
-	var hl := float(chassis.get("wheelbase", 2.0)) * 0.5
-	var ht := float(chassis.get("track", 1.6)) * 0.5
-	var fl := ground(p.x + f.x * hl - r.x * ht, p.z + f.z * hl - r.z * ht)
-	var fr := ground(p.x + f.x * hl + r.x * ht, p.z + f.z * hl + r.z * ht)
-	var rl := ground(p.x - f.x * hl - r.x * ht, p.z - f.z * hl - r.z * ht)
-	var rr := ground(p.x - f.x * hl + r.x * ht, p.z - f.z * hl + r.z * ht)
-	return {"center": (fl + fr + rl + rr) * 0.25, "front": (fl + fr) * 0.5, "rear": (rl + rr) * 0.5,
-		"left": (fl + rl) * 0.5, "right": (fr + rr) * 0.5}
+## The solid surface at (x, z) exactly as the terrain draws it: the column's voxel top, or half
+## a block higher on the half of the column next to a neighbour exactly one block higher (the
+## step slab, see VoxelGreedyMesher "steps").
+func surface(x: float, z: float) -> float:
+	var ix := floori(x)
+	var iz := floori(z)
+	var h := _voxel_top(ix, iz)
+	var nx := _voxel_top(ix + (1 if x - ix >= 0.5 else -1), iz)
+	var nz := _voxel_top(ix, iz + (1 if z - iz >= 0.5 else -1))
+	if absf(nx - h - 1.0) < 0.05 or absf(nz - h - 1.0) < 0.05:
+		return h + STEP_SLAB
+	return h
+
+
+## The height a wheel rides at on (x, z): the highest surface within WHEEL_REACH, eased by its
+## distance (so the wheel rolls up a slab or a step instead of popping); rises taller than
+## WALL_RISE are walls and do not lift it.
+func wheel_ground(x: float, z: float) -> float:
+	var base := surface(x, z)
+	var best := base
+	var st := WHEEL_REACH * 0.5
+	for j in 5:
+		for i in 5:
+			if i == 2 and j == 2:
+				continue
+			var ox := (i - 2) * st
+			var oz := (j - 2) * st
+			var d := sqrt(ox * ox + oz * oz)
+			if d > WHEEL_REACH + 0.001:
+				continue
+			var h := surface(x + ox, z + oz)
+			if h - base > WALL_RISE:
+				continue
+			best = maxf(best, h - d * WHEEL_EASE)
+	return best
+
+
+## Belly height above the wheels' contact plane (m).
+func clearance() -> float:
+	return float(chassis.get("clearance", 0.44))
+
+
+## Footprint half extents (along, across): the wheels and the body.
+func footprint() -> Vector2:
+	return Vector2(float(chassis.get("wheelbase", 2.0)) * 0.5 + 0.08, float(chassis.get("track", 1.6)) * 0.5 + 0.17)
+
+
+## {"center", "front", "rear", "left", "right", "lift"} ground heights under the wheels at p with
+## heading `heading` (default: the rover's): the wheels' heights, raised by "lift" where the
+## ground under the body pokes above the belly.
+func contact(p: Vector3, heading := NAN) -> Dictionary:
+	var a := yaw if is_nan(heading) else heading
+	var f := Vector3(-sin(a), 0.0, -cos(a))
+	var r := Vector3(cos(a), 0.0, -sin(a))
+	var wb := float(chassis.get("wheelbase", 2.0))
+	var tw := float(chassis.get("track", 1.6))
+	var hl := wb * 0.5
+	var ht := tw * 0.5
+	var fl := wheel_ground(p.x + f.x * hl - r.x * ht, p.z + f.z * hl - r.z * ht)
+	var fr := wheel_ground(p.x + f.x * hl + r.x * ht, p.z + f.z * hl + r.z * ht)
+	var rl := wheel_ground(p.x - f.x * hl - r.x * ht, p.z - f.z * hl - r.z * ht)
+	var rr := wheel_ground(p.x - f.x * hl + r.x * ht, p.z - f.z * hl + r.z * ht)
+	var c := {"center": (fl + fr + rl + rr) * 0.25, "front": (fl + fr) * 0.5, "rear": (rl + rr) * 0.5,
+		"left": (fl + rl) * 0.5, "right": (fr + rr) * 0.5, "lift": 0.0}
+	# the belly: what pokes up between the wheels lifts the whole rover (it rides on it)
+	var kp: float = (c["front"] - c["rear"]) / wb
+	var kr: float = (c["left"] - c["right"]) / tw
+	var top: float = c["center"] + clearance()
+	var lift := 0.0
+	# the four wheels are not always on one plane: it rests on the highest ones (none sinks)
+	for w in [[hl, -ht, fl], [hl, ht, fr], [-hl, -ht, rl], [-hl, ht, rr]]:
+		lift = maxf(lift, float(w[2]) - (float(c["center"]) + float(w[0]) * kp - float(w[1]) * kr))
+	var na := maxi(ceili(wb / 0.25), 2)
+	var nb := maxi(ceili(tw * 0.75 / 0.25), 2)
+	# between two samples the plane can dip by up to this under a block edge: keep that margin
+	var margin := absf(kp) * wb / na + absf(kr) * tw * 0.75 / nb
+	for j in na + 1:
+		var al := -hl + wb * j / na
+		for i in nb + 1:
+			var bl := -tw * 0.375 + tw * 0.75 * i / nb
+			var h := surface(p.x + f.x * al + r.x * bl, p.z + f.z * al + r.z * bl)
+			lift = maxf(lift, h + margin - (top + al * kp - bl * kr))
+	if lift > 0.0:
+		for k in ["center", "front", "rear", "left", "right"]:
+			c[k] = float(c[k]) + lift
+		c["lift"] = lift
+	return c
+
+
+## True when the rover's footprint at (p, heading) enters ground higher than the plane
+## y + along * kp - across * kr plus `rise` (a wall), sampled every 0.5 m around its outline
+## and along its middle.
+func hits_wall(p: Vector3, heading: float, y: float, kp: float, kr: float, rise: float) -> bool:
+	var f := Vector3(-sin(heading), 0.0, -cos(heading))
+	var r := Vector3(cos(heading), 0.0, -sin(heading))
+	var fp := footprint()
+	var na := maxi(ceili(fp.x * 2.0 / 0.5), 2)
+	var nb := maxi(ceili(fp.y * 2.0 / 0.5), 2)
+	for j in na + 1:
+		var al := -fp.x + fp.x * 2.0 * j / na
+		var edge_a := j == 0 or j == na
+		for i in nb + 1:
+			if not edge_a and i != 0 and i != nb and i * 2 != nb:
+				continue
+			var bl := -fp.y + fp.y * 2.0 * i / nb
+			var h := surface(p.x + f.x * al + r.x * bl, p.z + f.z * al + r.z * bl)
+			if h > y + al * kp - bl * kr + rise:
+				return true
+	return false
+
+
+## The slope (radians, + uphill) along `fw` over 6 m centred on p, on the surface the wheels
+## drive (walls taller than WALL_RISE, which stop the rover, do not count as a slope).
+func drive_slope(p: Vector3, fw: Vector3) -> float:
+	var prev := surface(p.x - fw.x * 3.0, p.z - fw.z * 3.0)
+	var rise := 0.0
+	for k in range(1, 13):
+		var d := -3.0 + k * 0.5
+		var h := surface(p.x + fw.x * d, p.z + fw.z * d)
+		if absf(h - prev) <= WALL_RISE:
+			rise += h - prev
+		prev = h
+	return atan2(rise, 6.0)
+
+
+## The tallest rise the footprint drives onto (m), from the chassis' step.
+func step_rise() -> float:
+	return clampf(float(chassis.get("step", 0.9)) * 0.7, 0.6, 1.15)
 
 
 # ------------------------------------------------------------ simulation
@@ -234,12 +370,6 @@ func physics_step(dt: float) -> void:
 		busy_tool = &""
 	drone_flying = maxf(drone_flying - dt, 0.0)
 	var p := position
-	var c := contact(p)
-	var wb := float(chassis.get("wheelbase", 2.0))
-	var tw := float(chassis.get("track", 1.6))
-	if not airborne:
-		pitch = atan2(c["front"] - c["rear"], wb)
-		roll = atan2(c["left"] - c["right"], tw)
 	# power
 	var vmax := max_speed()
 	var drive_w := float(chassis.get("drive_power", 20.0)) * clampf(absf(speed) / maxf(vmax, 0.1), 0.0, 1.0)
@@ -277,8 +407,7 @@ func physics_step(dt: float) -> void:
 		# climbing: past the chassis' climb angle the wheels cannot hold the slope
 		# the slope the climb is judged on: 6 m along the heading, so one voxel step is a bump
 		var climb := deg_to_rad(float(chassis.get("climb", 25.0)))
-		var fw := forward()
-		var along := atan2(ground(p.x + fw.x * 3.0, p.z + fw.z * 3.0) - ground(p.x - fw.x * 3.0, p.z - fw.z * 3.0), 6.0)
+		var along := drive_slope(p, forward())
 		slope = along
 		var grav_acc := -g * sin(along)
 		if absf(along) > climb:
@@ -292,24 +421,41 @@ func physics_step(dt: float) -> void:
 		# steering: turns harder at speed, in place for legs
 		var turn := 1.25 if String(design.get("chassis", "")) != "walker" else 0.9
 		var sp := clampf(absf(speed) / 1.5, 0.3, 1.0)
-		if busy <= 0.0:
-			yaw -= steer * turn * sp * dt * (1.0 if speed >= -0.05 else -1.0)
-	# move
-	var step := forward() * speed * dt
-	var np := p + step
-	if not airborne and speed > 0.05:
-		# a wall ahead: the probe 1 m past the front wheels rises too steeply
-		var fwd := forward()
-		var hl := wb * 0.5
-		var h0 := ground(np.x + fwd.x * hl, np.z + fwd.z * hl)
-		var h1 := ground(np.x + fwd.x * (hl + 2.0), np.z + fwd.z * (hl + 2.0))
-		# one voxel step is fine (the chassis' step height), a ledge taller than that plus what
-		# its climb angle takes over 2 m is a wall
-		var wall := float(chassis.get("step", 0.9)) + 2.0 * tan(deg_to_rad(float(chassis.get("climb", 25.0))))
-		if h1 - h0 > wall:
+		if busy <= 0.0 and steer != 0.0:
+			var want := yaw - steer * turn * sp * dt * (1.0 if speed >= -0.05 else -1.0)
+			# turning a corner of the rover into a wall is refused (unless it is already stuck in one)
+			if not _hits_from(p, want) or _hits_from(p, yaw):
+				yaw = want
+	# move: substeps short enough that no wall is skipped, the footprint stops at a wall's face
+	# or slides along it
+	var np := p
+	var total := speed * dt
+	var n := clampi(ceili(absf(total) / SUBSTEP), 1, 64)
+	var fw2 := forward()
+	for i in n:
+		var stepv := fw2 * (total / n)
+		var q := np + stepv
+		if not _hits_from(q, yaw):
+			np = q
+			continue
+		if _hits_from(np, yaw):
+			np = q  # already stuck in a wall (spawned in one): let it drive out
+			continue
+		# slide: keep the part of the step along the wall
+		var qx := np + Vector3(stepv.x, 0.0, 0.0)
+		var qz := np + Vector3(0.0, 0.0, stepv.z)
+		var ox := absf(stepv.x) > 0.001 and not _hits_from(qx, yaw)
+		var oz := absf(stepv.z) > 0.001 and not _hits_from(qz, yaw)
+		if ox and (not oz or absf(stepv.x) >= absf(stepv.z)):
+			np = qx
+			speed *= 1.0 - minf(dt * 4.0, 0.5) / n
+		elif oz:
+			np = qz
+			speed *= 1.0 - minf(dt * 4.0, 0.5) / n
+		else:
 			blocked = true
-			np = p
 			speed = 0.0
+			break
 	var c2 := contact(np)
 	var gy: float = c2["center"]
 	if airborne:
@@ -322,15 +468,33 @@ func physics_step(dt: float) -> void:
 			airborne = false
 			landed.emit(impact)
 	else:
-		var gvy := (gy - p.y) / dt
-		# the ground falls away faster than gravity can pull: fly
-		if gvy < vy - g * dt - 0.4 and absf(speed) > 1.0:
+		# the ground falls away faster than gravity can pull: the springs stretch a little (the
+		# body glides over the dips between steps), past LIFT_OFF the wheels leave it: fly
+		var vyb := vy - g * dt
+		var yb := p.y + vyb * dt
+		if yb > gy + LIFT_OFF and absf(speed) > 0.5:
 			airborne = true
-			vy = maxf(vy, 0.0) if vy > 0.0 else vy
-			np.y = p.y + vy * dt
+			vy = vyb
+			np.y = yb
+		elif yb > gy:
+			vy = vyb
+			np.y = yb
 		else:
-			vy = clampf(gvy, -20.0, 20.0)
+			# what carries on if the ground drops away: the climb of the slope driven (not the
+			# jolt of a wheel rolling up a step, nor the belly riding onto a block)
+			vy = clampf((gy - p.y) / dt, -20.0, maxf(speed * sin(slope), 0.0) + 0.2)
 			np.y = gy
+	if not airborne:
+		_pose_from(c2)
+	else:
+		# in the air the body levels out to the ground below, fully once it is close (so a wheel
+		# never dips into a step it flies over)
+		var p0 := pitch
+		var r0 := roll
+		_pose_from(c2)
+		var w := 1.0 if np.y - gy < 0.8 else clampf(dt * 3.0, 0.0, 1.0)
+		pitch = lerpf(p0, pitch, w)
+		roll = lerpf(r0, roll, w)
 	distance += Vector2(np.x - p.x, np.z - p.z).length()
 	position = np
 	_orient(clampf(dt * 10.0, 0.0, 1.0))
@@ -338,8 +502,28 @@ func physics_step(dt: float) -> void:
 	_check_drive_objectives()
 
 
+## True when the footprint at (q, heading) runs into a wall, judged from the current pose: on the
+## ground, the contact plane (pitch, roll) plus the chassis' step; in the air, the rover's height
+## plus a slab.
+func _hits_from(q: Vector3, heading: float) -> bool:
+	if airborne:
+		return hits_wall(q, heading, position.y, 0.0, 0.0, STEP_SLAB + 0.05)
+	var kp := tan(pitch)
+	var kr := tan(roll)
+	var d := q - position
+	var y := position.y + d.dot(forward()) * kp - d.dot(right()) * kr
+	return hits_wall(q, heading, y, kp, kr, step_rise())
+
+
+## pitch and roll from a contact() (roll + = the left side higher).
+func _pose_from(c: Dictionary) -> void:
+	pitch = atan2(float(c["front"]) - float(c["rear"]), float(chassis.get("wheelbase", 2.0)))
+	roll = atan2(float(c["left"]) - float(c["right"]), float(chassis.get("track", 1.6)))
+
+
 func _orient(w: float) -> void:
-	var target := Basis(Vector3.UP, yaw) * Basis(Vector3.RIGHT, pitch) * Basis(Vector3.BACK, roll)
+	# roll + raises the left side: a turn about the rover's back axis by -roll
+	var target := Basis(Vector3.UP, yaw) * Basis(Vector3.RIGHT, pitch) * Basis(Vector3.BACK, -roll)
 	var cur := transform.basis.orthonormalized()
 	transform.basis = cur.slerp(target.orthonormalized(), w) if w < 1.0 else target
 

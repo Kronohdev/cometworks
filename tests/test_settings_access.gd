@@ -1,12 +1,13 @@
 extends SceneTree
 ## Accessibility options and the graphics quality (CwAccess, CwKeys, GraphicsQuality):
-##   - text size: set, snapped to the steps, saved, and applied as the root's content scale
+##   - the retired UI text size: an old saved "ui_scale" is dropped, never applied (the root's
+##     content scale stays 1), and the options offer no text size row
 ##   - graphics quality: saved, read back after a "restart", and applied to a small scene and
 ##     to scenes added later (the watch): render scale, AA, SSAO / SSIL / glow, lamps, foliage
 ##   - colour-blind mode: saved, swaps the agency and kind colours, every agency a shape cue
 ##   - keys: a rebind is saved and restored, a taken key swaps, the actions answer the new key,
 ##     Restore keys puts the defaults back
-##   - the options panel's buttons drive all of it (quality, text size, colour-blind, a key row)
+##   - the options panel's buttons drive all of it (quality, colour-blind, a key row)
 ## user://settings.cfg is put back at the end.
 ## Run: godot --headless --path . --script res://tests/test_settings_access.gd
 
@@ -23,7 +24,7 @@ func _initialize() -> void:
 		DirAccess.remove_absolute(SETTINGS)
 	CwAccess.ensure_applied()
 	await process_frame
-	_text_size()
+	_retired_text_size()
 	await _quality()
 	_colorblind()
 	_keys()
@@ -54,18 +55,20 @@ static func _saved(section: String, key: String) -> Variant:
 	return cfg.get_value(section, key) if cfg.has_section_key(section, key) else null
 
 
-func _text_size() -> void:
-	print("text size")
-	_check(is_equal_approx(CwAccess.ui_scale(), 1.0), "the text size starts at 100 %")
-	CwAccess.set_ui_scale(1.3)
-	_check(is_equal_approx(float(_saved("access", "ui_scale")), 1.3), "130 %% is saved")
-	_check(is_equal_approx(root.content_scale_factor, 1.3), "130 %% scales the root (%s)" % root.content_scale_factor)
-	CwAccess.set_ui_scale(1.2)
-	_check(is_equal_approx(CwAccess.ui_scale(), 1.15), "1.2 snaps to 115 %% (%s)" % CwAccess.ui_scale())
-	CwAccess.set_ui_scale(0.9)
-	_check(is_equal_approx(root.content_scale_factor, 0.9), "90 % scales the root")
-	CwAccess.set_ui_scale(1.0)
-	_check(is_equal_approx(root.content_scale_factor, 1.0), "back to 100 %")
+func _retired_text_size() -> void:
+	print("retired text size")
+	# a settings file from a build that still had the option, at 130 %
+	var cfg := ConfigFile.new()
+	cfg.set_value("access", "ui_scale", 1.3)
+	cfg.save(SETTINGS)
+	CwAccess.apply()
+	_check(is_equal_approx(root.content_scale_factor, 1.0),
+		"an old saved text size is not applied (%s)" % root.content_scale_factor)
+	_check(_saved("access", "ui_scale") == null, "the old text size is dropped from the file")
+	var fit_class := ProjectSettings.get_global_class_list().any(
+		func(d: Dictionary) -> bool: return String(d["class"]) == "CwUiFit")
+	_check(not fit_class and not CwAccess.new().has_method(&"set_ui_scale"), "no text size API is left")
+	DirAccess.remove_absolute(SETTINGS)
 
 
 ## A stand-in for the campus: an environment with every effect, a shadowed sun, a lamp of the
@@ -207,16 +210,14 @@ func _panel() -> void:
 	root.add_child(panel)
 	await process_frame
 	panel.show_page("access")
-	_check((panel.grid.get_node("TextSize") as Control).visible and not (panel.grid.get_node("Lang") as Control).visible,
+	_check((panel.grid.get_node("Colorblind") as Control).visible and not (panel.grid.get_node("Lang") as Control).visible,
 		"the Access page shows its rows")
+	_check(panel.grid.get_node_or_null("TextSize") == null, "the Access page has no text size row")
 	(panel.quality_buttons[GraphicsQuality.Level.LOW] as Button).emit_signal("pressed")
 	_check(GraphicsQuality.current() == GraphicsQuality.Level.LOW, "the Baixo key sets Baixo")
 	_check(panel.aa_smaa.disabled, "Baixo greys out the AA keys")
 	(panel.quality_buttons[GraphicsQuality.Level.HIGH] as Button).emit_signal("pressed")
 	_check(not panel.aa_smaa.disabled, "Alto lets the AA be chosen")
-	panel.text_buttons[2].emit_signal("pressed")
-	_check(is_equal_approx(CwAccess.ui_scale(), 1.15), "the 115 % key sets 115 %")
-	panel.text_buttons[1].emit_signal("pressed")
 	panel.colorblind_on.emit_signal("pressed")
 	_check(CwAccess.colorblind(), "the colour-blind key turns it on")
 	panel.colorblind_off.emit_signal("pressed")

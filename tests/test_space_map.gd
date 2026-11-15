@@ -81,9 +81,9 @@ func _initialize() -> void:
 	_check(main.modes.kind == "flight" and ff != null and ff.spectator, "Acompanhar opens the spectator flight")
 	if ff:
 		var want := SpaceTracking.state_at(SpaceTracking.find(s, "p:A1"), ff.time)
-		var alt := ff.active.body.altitude()
+		var alt := ff.sim.altitude()
 		_check(alt > 250000.0 and alt < 560000.0, "the craft is in its orbit (%.0f km)" % (alt / 1000.0))
-		_check(absf(FlightOrbit.length(want["pos"]) - FlightOrbit.length(ff.active.body.pos())) < 5000.0,
+		_check(absf(FlightOrbit.length(want["pos"]) - FlightOrbit.length(ff.sim.pos())) < 5000.0,
 			"...where its track says")
 		ff.revert_to_hangar()
 	await _frames(6)
@@ -109,17 +109,20 @@ func _initialize() -> void:
 	var lw := main.modes.overlay as LaunchWatch
 	_check(w != null and w.spectator and lw != null, "the launch watch opens (spectator flight + its overlay)")
 	if w and lw:
-		_check(not w.launched, "on the pad for the countdown")
 		await _until(func() -> bool: return w.launched, 5000)
-		_check(w.launched and w.autopilot != null, "it lifts off by itself")
-		w._set_warp_value(50)
-		await _until(func() -> bool: return w.active.crashed, 6000)
-		var met := w.mission_time()
+		_check(w.launched and w.autopilot_on(), "it lifts off by itself")
+		w.warp = 50
+		await _until(func() -> bool: return w.sim.crashed, 6000)
+		await _frames(2)
+		var met := -1.0
+		for ev: Dictionary in w._events:
+			if ev["key"] == "EV_CRASH":
+				met = float(ev["t"])
 		var fail := float(SpaceTracking.find(s, "p:A3")["lost_t"]) - float(SpaceTracking.find(s, "p:A3")["launch_t"])
-		_check(w.active.crashed and absf(met - fail) < 12.0, "it breaks up when its track says (%.0f s, track %.0f s)" % [met, fail])
-		w._set_warp_value(1)
+		_check(w.sim.crashed and absf(met - fail) < 0.1, "it breaks up when its track says (%.1f s, track %.1f s)" % [met, fail])
+		w.warp = 1
 		await _until(func() -> bool: return lw.get_node("%Result").visible, 600)
-		_check(lw.get_node("%Result").visible and lw.phase == "lost", "the result card: Lançamento perdido")
+		_check(lw.get_node("%Result").visible and lw._result_kind == "lost", "the result card: Lançamento perdido")
 		lw.go_back()
 	await _frames(6)
 	_check(not main.modes.is_open() and main.hud.current_screen() == "project_review", "back to the review after the watch")

@@ -37,10 +37,14 @@ uniform float strata_scale : hint_range(0.1, 4.0) = 0.6;
 // grass lip on the side faces: metres below this height are earth / rock
 uniform float lip_height = 0.0;
 uniform float lip_depth : hint_range(0.0, 2.0) = 0.35;
+// the island meshes (tools/build_campus_island.gd) carry each column's top height in UV2.x:
+// the grass lip and the earth band then follow every terrace instead of one lip_height
+uniform bool lip_from_uv2 = false;
 uniform float roughness_value : hint_range(0.0, 1.0) = 0.95;
 
 varying vec3 wpos;
 varying vec3 wnrm;
+varying float top_y;
 
 float hash12(vec2 p) {
 	vec3 p3 = fract(vec3(p.xyx) * 0.1031);
@@ -70,6 +74,7 @@ float fbm(vec2 p) {
 void vertex() {
 	wpos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	wnrm = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
+	top_y = lip_from_uv2 ? UV2.x + MODEL_MATRIX[3].y : lip_height;
 }
 
 vec3 grass_color(vec2 p) {
@@ -112,7 +117,7 @@ void fragment() {
 	} else {
 		col = rock_color(wpos, n);
 		// earth band, then a grass lip along the top edge
-		float depth = lip_height - wpos.y;
+		float depth = top_y - wpos.y;
 		float soil_band = 1.0 - smoothstep(lip_depth, lip_depth + 0.9 + vnoise(wpos.xz * 0.7) * 0.6, depth);
 		col = mix(col, soil, soil_band);
 		float lip = 1.0 - smoothstep(lip_depth * 0.6, lip_depth, depth + vnoise(wpos.xz * 2.1) * 0.12);

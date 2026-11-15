@@ -293,8 +293,8 @@ func _test_campus() -> void:
 	await _frames(4)
 	_check(modes.test_flight and modes.mode_node is FlightWorld, "Launch opens a test flight in place of the hangar")
 	var fw := modes.mode_node as FlightWorld
-	_check(fw != null and is_equal_approx(fw.active.payload_kg, 300.0), "the flight carries the mission payload")
-	_check(fw != null and fw.active.mass > 254794.0 + 299.0, "...in its mass (%.0f kg)" % (fw.active.mass if fw else 0.0))
+	_check(fw != null and is_equal_approx(fw.sim.craft.payload_kg, 300.0), "the flight carries the mission payload")
+	_check(fw != null and fw.sim.craft.mass() > 254794.0 + 299.0, "...in its mass (%.0f kg)" % (fw.sim.craft.mass() if fw else 0.0))
 	if fw:
 		fw.revert_to_hangar()
 	await _frames(4)

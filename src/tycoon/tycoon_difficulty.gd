@@ -9,6 +9,7 @@ extends RefCounted
 ##                RaceDirector.claim (prizes)
 ##   expectation  MissionProject.expected_points (what the press expects)
 ##   rival_speed  RaceDirector (the rivals' monthly attempt chance)
+##   bankrupt_line  Bankruptcy.threshold (X of the bankruptcy line −X, era-1 credits; not a factor)
 
 const PATH := "res://data/tycoon/difficulty.json"
 const NORMAL := "normal"

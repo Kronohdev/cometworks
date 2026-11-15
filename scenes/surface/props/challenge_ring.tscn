@@ -1,0 +1,128 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/butter.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/glow_ring.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_dark.tres" id="m2"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m3"]
+[ext_resource type="Script" path="res://src/world/surface_challenge.gd" id="s_root"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(0.5, 0.12, 0.22)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(0.08, 2.4, 0.08)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(0.6, 0.4, 0.03)
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(0.15, 0.1, 0.02)
+
+[node name="ChallengeRing" type="Node3D"]
+editor_description = "Start ring of a free-play challenge (SurfaceChallenge): the rule lives in data/surface_explore.json."
+script = ExtResource("s_root")
+
+[node name="Stud0" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 3, 0.06, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3827, 0, 0.9239, 0, 1, 0, -0.9239, 0, 0.3827, 2.772, 0.06, 1.148)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, 0.7071, 2.121, 0.06, 2.121)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9239, 0, 0.3827, 0, 1, 0, -0.3827, 0, 0.9239, 1.148, 0.06, 2.772)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9239, 0, -0.3827, 0, 1, 0, 0.3827, 0, 0.9239, -1.148, 0.06, 2.772)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7071, 0, -0.7071, 0, 1, 0, 0.7071, 0, 0.7071, -2.121, 0.06, 2.121)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3827, 0, -0.9239, 0, 1, 0, 0.9239, 0, 0.3827, -2.772, 0.06, 1.148)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -3, 0.06, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud9" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.3827, 0, -0.9239, 0, 1, 0, 0.9239, 0, -0.3827, -2.772, 0.06, -1.148)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud10" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.7071, 0, -0.7071, 0, 1, 0, 0.7071, 0, -0.7071, -2.121, 0.06, -2.121)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud11" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9239, 0, -0.3827, 0, 1, 0, 0.3827, 0, -0.9239, -1.148, 0.06, -2.772)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud12" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.06, -3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud13" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9239, 0, 0.3827, 0, 1, 0, -0.3827, 0, -0.9239, 1.148, 0.06, -2.772)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud14" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, -0.7071, 2.121, 0.06, -2.121)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Stud15" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.3827, 0, 0.9239, 0, 1, 0, -0.9239, 0, -0.3827, 2.772, 0.06, -1.148)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -3.4)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 2.15, -3.4)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="FlagCheck1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 2.25, -3.38)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="FlagCheck2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47, 2.25, -3.38)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="FlagCheck3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 2.05, -3.38)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m2")

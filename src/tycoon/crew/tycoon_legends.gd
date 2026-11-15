@@ -64,6 +64,27 @@ static func is_legend(m: Dictionary) -> bool:
 	return String(m.get("legend", "")) != ""
 
 
+## The Lenda's own Cometling scene (legends.json `scene`: scenes/npc/legends/<id>.tscn, a
+## LegendCometling), "" while it has none: it then wears the shared Cometling with its colours
+## and hat (look). TycoonLeader.dress swaps the body wherever a Lenda shows.
+static func scene_path(id: String) -> String:
+	var p := String(legend(id).get("scene", ""))
+	return p if p != "" and ResourceLoader.exists(p) else ""
+
+
+static func has_scene(id: String) -> bool:
+	return scene_path(id) != ""
+
+
+## A new instance of the Lenda's own Cometling (null without a scene).
+static func instance(id: String) -> LegendCometling:
+	var p := scene_path(id)
+	if p == "":
+		return null
+	var ps := load(p) as PackedScene
+	return ps.instantiate() as LegendCometling if ps else null
+
+
 ## The look of a Lenda as a staff-like dictionary (portrait studio, TycoonLeader.dress).
 static func look(id: String) -> Dictionary:
 	var l := legend(id)

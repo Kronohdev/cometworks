@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/surface_dust_devil.gd" id="1_devil"]
+
+[sub_resource type="Curve" id="scale_curve"]
+_data = [Vector2(0, 0.35), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="scale_tex"]
+curve = SubResource("scale_curve")
+
+[sub_resource type="Gradient" id="fade"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(0.62, 0.4, 0.27, 0, 0.62, 0.4, 0.27, 0.5, 0.58, 0.37, 0.25, 0.32, 0.58, 0.37, 0.25, 0)
+
+[sub_resource type="GradientTexture1D" id="fade_tex"]
+gradient = SubResource("fade")
+
+[sub_resource type="ParticleProcessMaterial" id="column"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.5
+emission_ring_radius = 1.6
+emission_ring_inner_radius = 0.8
+direction = Vector3(0, 1, 0)
+spread = 6.0
+initial_velocity_min = 7.0
+initial_velocity_max = 10.0
+orbit_velocity_min = 0.35
+orbit_velocity_max = 0.5
+radial_velocity_min = 0.25
+radial_velocity_max = 0.6
+gravity = Vector3(0, 0, 0)
+scale_min = 1.2
+scale_max = 2.4
+scale_curve = SubResource("scale_tex")
+color_ramp = SubResource("fade_tex")
+
+[sub_resource type="Gradient" id="soft_g"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="soft"]
+gradient = SubResource("soft_g")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="puff"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("soft")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="quad"]
+material = SubResource("puff")
+size = Vector2(2.4, 2.4)
+
+[sub_resource type="ParticleProcessMaterial" id="skirt"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.3
+emission_ring_radius = 3.5
+emission_ring_inner_radius = 1.5
+direction = Vector3(0, 1, 0)
+spread = 40.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.5
+orbit_velocity_min = 0.2
+orbit_velocity_max = 0.3
+gravity = Vector3(0, -0.5, 0)
+scale_min = 2.0
+scale_max = 3.5
+color_ramp = SubResource("fade_tex")
+
+[node name="DustDevil" type="Node3D"]
+editor_description = "A drifting Martian dust devil (visual only)."
+script = ExtResource("1_devil")
+
+[node name="Column" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 220
+lifetime = 4.5
+preprocess = 4.0
+visibility_aabb = AABB(-12, -2, -12, 24, 50, 24)
+process_material = SubResource("column")
+draw_pass_1 = SubResource("quad")
+
+[node name="Skirt" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 60
+lifetime = 2.5
+preprocess = 2.0
+visibility_aabb = AABB(-8, -2, -8, 16, 8, 16)
+process_material = SubResource("skirt")
+draw_pass_1 = SubResource("quad")

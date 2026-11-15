@@ -1,6 +1,6 @@
 class_name FlightPlume
 extends Node3D
-## Engine plume (layout and materials in scenes/flight/engine_plume.tscn). FlightVessel
+## Engine plume (layout and materials in scenes/flight/engine_plume.tscn). FlightModel
 ## parents one to every engine at its nozzle and calls set_state() each step; this script
 ## only scales the authored cones and fills the shader's instance uniforms.
 

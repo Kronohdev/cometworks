@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/rover/rover_drive.gd" id="1_drive"]
+[ext_resource type="PackedScene" path="res://scenes/rover/rover.tscn" id="2_rover"]
+[ext_resource type="Script" path="res://src/rover/rover_camera.gd" id="3_cam"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="4_outline"]
+[ext_resource type="PackedScene" path="res://scenes/rover/rover_hud.tscn" id="5_hud"]
+
+[node name="RoverDrive" type="Node"]
+script = ExtResource("1_drive")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Rover" parent="." instance=ExtResource("2_rover")]
+
+[node name="ChaseCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.94, 0.342, 0, -0.342, 0.94, 0, 4, 9)
+current = true
+fov = 62.0
+near = 0.1
+far = 6000.0
+script = ExtResource("3_cam")
+
+[node name="Outline" parent="ChaseCamera" instance=ExtResource("4_outline")]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

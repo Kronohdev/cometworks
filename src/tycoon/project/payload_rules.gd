@@ -40,6 +40,8 @@ static func modules() -> Array:
 
 static func module(id: String) -> Dictionary:
 	data()
+	if id.begins_with(RoverDesign.CODE_PREFIX):  # a rover's own parts (RoverDesign.payload_code)
+		return RoverDesign.code_module(id)
 	return _by_id.get(id, {})
 
 
@@ -52,10 +54,14 @@ static func modules_of(kind: String) -> Array[Dictionary]:
 
 
 static func name_key(id: String) -> String:
+	if id.begins_with(RoverDesign.CODE_PREFIX):
+		return "TY_PL_M_ROVER"
 	return "TY_PL_M_" + id.to_upper()
 
 
 static func is_available(state: TycoonState, id: String) -> bool:
+	if id.begins_with(RoverDesign.CODE_PREFIX):
+		return RoverDesign.code_available(state, id)
 	var m := module(id)
 	if m.is_empty():
 		return false

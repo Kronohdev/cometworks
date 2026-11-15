@@ -1,0 +1,156 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/butter.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/foil_gold.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/lens.tres" id="m2"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/lilac.tres" id="m3"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_dark.tres" id="m4"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m5"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/paint_cream.tres" id="m6"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/paint_white.tres" id="m7"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/solar_blue.tres" id="m8"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(2, 0.7, 2)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(2.08, 0.18, 2.08)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(1.3, 0.5, 1.3)
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(0.6, 0.5, 0.06)
+
+[sub_resource type="BoxMesh" id="box4"]
+size = Vector3(0.5, 0.22, 0.04)
+
+[sub_resource type="BoxMesh" id="box5"]
+size = Vector3(0.7, 0.36, 0.7)
+
+[sub_resource type="BoxMesh" id="box6"]
+size = Vector3(0.08, 0.9, 0.08)
+
+[sub_resource type="BoxMesh" id="box7"]
+size = Vector3(0.24, 0.24, 0.24)
+
+[sub_resource type="BoxMesh" id="box8"]
+size = Vector3(1.1, 0.06, 0.8)
+
+[sub_resource type="BoxMesh" id="box9"]
+size = Vector3(0.3, 0.06, 0.08)
+
+[sub_resource type="BoxMesh" id="box10"]
+size = Vector3(0.5, 0.08, 0.5)
+
+[sub_resource type="BoxMesh" id="box11"]
+size = Vector3(0.35, 1, 0.05)
+
+[sub_resource type="BoxMesh" id="box12"]
+size = Vector3(0.12, 1.407, 0.12)
+
+[sub_resource type="BoxMesh" id="box13"]
+size = Vector3(0.5, 0.12, 0.5)
+
+[node name="LanderCometworks" type="Node3D"]
+editor_description = "Our lander (Cometworks): the delivery target of the sample challenges."
+
+[node name="Deck" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m6")
+
+[node name="Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Dome" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m7")
+
+[node name="Hatch" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 1.05)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Window" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0.66)
+mesh = SubResource("box4")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="Engine" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+mesh = SubResource("box5")
+surface_material_override/0 = ExtResource("m4")
+
+[node name="Mast" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 2.45, -0.4)
+mesh = SubResource("box6")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Bulb" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 2.95, -0.4)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Panel" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9689, -0.2474, 0, 0.2474, 0.9689, 0, 0, 0, 1, -1.55, 1.4, 0)
+mesh = SubResource("box8")
+surface_material_override/0 = ExtResource("m8")
+
+[node name="PanelArm" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 1.32, 0)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Dish" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8776, 0.4794, 0, -0.4794, 0.8776, 0.5, 2.2, 0.45)
+mesh = SubResource("box10")
+surface_material_override/0 = ExtResource("m7")
+
+[node name="Ladder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9689, -0.2474, 0, 0.2474, 0.9689, 0, 0.65, 1.25)
+mesh = SubResource("box11")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Leg0" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7071, -0.4975, 0.5025, 0, 0.7107, 0.7035, -0.7071, -0.4975, 0.5025, 1.2, 0.62, 1.2)
+mesh = SubResource("box12")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Pad0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 0.06, 1.55)
+mesh = SubResource("box13")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7071, 0.4975, -0.5025, 0, 0.7107, 0.7035, 0.7071, -0.4975, 0.5025, -1.2, 0.62, 1.2)
+mesh = SubResource("box12")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Pad1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55, 0.06, 1.55)
+mesh = SubResource("box13")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Leg2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.7071, 0.4975, -0.5025, 0, 0.7107, 0.7035, 0.7071, 0.4975, -0.5025, -1.2, 0.62, -1.2)
+mesh = SubResource("box12")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Pad2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55, 0.06, -1.55)
+mesh = SubResource("box13")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Leg3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.7071, -0.4975, 0.5025, 0, 0.7107, 0.7035, -0.7071, 0.4975, -0.5025, 1.2, 0.62, -1.2)
+mesh = SubResource("box12")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Pad3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 0.06, -1.55)
+mesh = SubResource("box13")
+surface_material_override/0 = ExtResource("m1")

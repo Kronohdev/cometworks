@@ -1,0 +1,481 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/surface_explore.gd" id="1_explore"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="3_planet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/journal.svg" id="4_journal"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/twinkle.svg" id="5_twinkle"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="6_back"]
+
+[node name="Explore" type="Node"]
+script = ExtResource("1_explore")
+
+[node name="PhotoCamera" type="Camera3D" parent="." groups=["surface_keep_camera"]]
+fov = 62.0
+near = 0.1
+far = 9000.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Root" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="Chip" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 16.0
+offset_right = 250.0
+offset_bottom = 54.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Row" type="HBoxContainer" parent="UI/Root/Chip"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="UI/Root/Chip/Row"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_planet")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Found" type="Label" parent="UI/Root/Chip/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_SX_CHIP_PLACES"
+
+[node name="Dot" type="Label" parent="UI/Root/Chip/Row"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "·"
+
+[node name="Collected" type="Label" parent="UI/Root/Chip/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "TY_SX_CHIP_FINDS"
+
+[node name="Dot2" type="Label" parent="UI/Root/Chip/Row"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "·"
+
+[node name="Hints" type="Label" parent="UI/Root/Chip/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_SX_CHIP_KEYS"
+
+[node name="Card" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_top = 66.0
+offset_right = 260.0
+offset_bottom = 186.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanelRaised"
+
+[node name="Margin" type="MarginContainer" parent="UI/Root/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Head" type="HBoxContainer" parent="UI/Root/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="UI/Root/Card/Margin/VBox/Head"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_twinkle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardKicker" type="Label" parent="UI/Root/Card/Margin/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "TY_SX_CARD_NEW"
+
+[node name="CardTitle" type="Label" parent="UI/Root/Card/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "TY_SX_MOON_EAGLE"
+autowrap_mode = 3
+
+[node name="CardFact" type="Label" parent="UI/Root/Card/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(490, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+text = "TY_SX_MOON_EAGLE_FACT"
+autowrap_mode = 3
+
+[node name="CardFoot" type="Label" parent="UI/Root/Card/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_SX_CARD_SCIENCE"
+
+[node name="ChallengeCard" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -268.0
+offset_top = 316.0
+offset_right = -16.0
+offset_bottom = 420.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="Margin" type="MarginContainer" parent="UI/Root/ChallengeCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/ChallengeCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Caption" type="Label" parent="UI/Root/ChallengeCard/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SX_CH_CAPTION"
+
+[node name="ChName" type="Label" parent="UI/Root/ChallengeCard/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 17
+text = "TY_SX_CH_MOON_DASH"
+autowrap_mode = 3
+
+[node name="ChStatus" type="Label" parent="UI/Root/ChallengeCard/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(228, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_CH_MOON_DASH_DESC"
+autowrap_mode = 3
+
+[node name="ChTimer" type="Label" parent="UI/Root/ChallengeCard/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+text = "1:30"
+
+[node name="Log" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -320.0
+offset_right = 380.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelRaised"
+
+[node name="Margin" type="MarginContainer" parent="UI/Root/Log"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/Log/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Head" type="HBoxContainer" parent="UI/Root/Log/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="UI/Root/Log/Margin/VBox/Head"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_journal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LogTitle" type="Label" parent="UI/Root/Log/Margin/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_SX_LOG_TITLE"
+
+[node name="LogClose" type="Button" parent="UI/Root/Log/Margin/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_SX_LOG_CLOSE"
+
+[node name="LogSummary" type="Label" parent="UI/Root/Log/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_LOG_SUMMARY"
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="UI/Root/Log/Margin/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="UI/Root/Log/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="PlacesCaption" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SX_LOG_PLACES"
+
+[node name="Places" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlaceTemplate" type="PanelContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List/Places"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List/Places/PlaceTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Places/PlaceTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 16
+text = "TY_SX_MOON_EAGLE"
+
+[node name="Fact" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Places/PlaceTemplate/VBox"]
+custom_minimum_size = Vector2(660, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_MOON_EAGLE_FACT"
+autowrap_mode = 3
+
+[node name="Source" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Places/PlaceTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_SX_LOG_SOURCE"
+text_overrun_behavior = 3
+
+[node name="FindsCaption" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SX_LOG_FINDS"
+
+[node name="Finds" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="FindTemplate" type="HBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List/Finds"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Finds/FindTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "TY_SX_COL_METEORITE"
+
+[node name="Count" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Finds/FindTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "0 / 3"
+
+[node name="ChallengesCaption" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_SX_LOG_CHALLENGES"
+
+[node name="Challenges" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChallengeTemplate" type="PanelContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List/Challenges"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"CwPanelInset"
+
+[node name="VBox" type="VBoxContainer" parent="UI/Root/Log/Margin/VBox/Scroll/List/Challenges/ChallengeTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Challenges/ChallengeTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 16
+text = "TY_SX_CH_MOON_DASH"
+
+[node name="Desc" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Challenges/ChallengeTemplate/VBox"]
+custom_minimum_size = Vector2(660, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_CH_MOON_DASH_DESC"
+autowrap_mode = 3
+
+[node name="State" type="Label" parent="UI/Root/Log/Margin/VBox/Scroll/List/Challenges/ChallengeTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_SX_LOG_DONE"
+
+[node name="Photo" type="Control" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="ReferenceRect" parent="UI/Root/Photo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 28.0
+offset_right = -28.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 0.96, 0.86, 0.7)
+border_width = 2.0
+editor_only = false
+
+[node name="HintPanel" type="PanelContainer" parent="UI/Root/Photo"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -96.0
+offset_right = 330.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="PhotoHint" type="Label" parent="UI/Root/Photo/HintPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_PHOTO_HINT"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Flash" type="ColorRect" parent="UI/Root/Photo"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Help" type="PanelContainer" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -60.0
+offset_right = 380.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="HelpText" type="Label" parent="UI/Root/Help"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_SX_DRONE_HELP"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Back" type="Button" parent="UI/Root"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 156.0
+offset_bottom = 58.0
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 20
+text = "TY_SX_BACK"
+icon = ExtResource("6_back")

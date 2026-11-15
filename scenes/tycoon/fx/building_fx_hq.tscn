@@ -1,0 +1,219 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/building_fx.gd" id="1_fx"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="2_toon"]
+
+[sub_resource type="ShaderMaterial" id="mat_pole"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.9, 0.9, 0.92, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.3
+
+[sub_resource type="ShaderMaterial" id="mat_dark"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.22, 0.24, 0.3, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="mat_flag_a"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.25, 0.88, 0.77, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="mat_flag_b"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(1, 0.54, 0.24, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="mat_head"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(1, 0.86, 0.35, 1)
+shader_parameter/roughness = 0.4
+shader_parameter/emission = Color(1, 0.8, 0.3, 1)
+shader_parameter/emission_energy = 0.6
+
+[sub_resource type="ShaderMaterial" id="mat_tail"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.56, 0.49, 1, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="mesh_pole"]
+material = SubResource("mat_pole")
+top_radius = 0.06
+bottom_radius = 0.08
+height = 6.4
+radial_segments = 8
+rings = 1
+
+[sub_resource type="BoxMesh" id="mesh_foot"]
+material = SubResource("mat_dark")
+size = Vector3(0.7, 0.3, 0.7)
+
+[sub_resource type="BoxMesh" id="mesh_cross"]
+material = SubResource("mat_dark")
+size = Vector3(1.1, 0.05, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_flag_a"]
+material = SubResource("mat_flag_a")
+size = Vector3(0.6, 1.0, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_flag_b"]
+material = SubResource("mat_flag_b")
+size = Vector3(0.6, 1.0, 0.05)
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("mat_head")
+radius = 0.2
+height = 0.4
+radial_segments = 10
+rings = 5
+
+[sub_resource type="BoxMesh" id="mesh_tail"]
+material = SubResource("mat_tail")
+size = Vector3(0.7, 0.14, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_tail2"]
+material = SubResource("mat_flag_a")
+size = Vector3(0.55, 0.1, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_eye"]
+material = SubResource("mat_dark")
+size = Vector3(0.05, 0.08, 0.42)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pole/WindTurn/Flag/Seg1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="anim_wave"]
+resource_name = "wave"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pole/WindTurn/Flag/Seg1:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.18, 0), Vector3(0, -0.18, 0), Vector3(0, 0.18, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pole/WindTurn/Flag/Seg1/Seg2:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.9, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.35, 0), Vector3(0, 0.35, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pole/WindTurn/Flag/Seg1/Seg2/Seg3:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.4, 0), Vector3(0, 0.4, 0), Vector3(0, -0.4, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"wave": SubResource("anim_wave")
+}
+
+[node name="HqFx" type="Node3D"]
+script = ExtResource("1_fx")
+
+[node name="Pole" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6, 0, 4.4)
+
+[node name="Foot" type="MeshInstance3D" parent="Pole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("mesh_foot")
+
+[node name="Mast" type="MeshInstance3D" parent="Pole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+mesh = SubResource("mesh_pole")
+
+[node name="Cross" type="MeshInstance3D" parent="Pole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.15, 0)
+mesh = SubResource("mesh_cross")
+
+[node name="Cross2" type="MeshInstance3D" parent="Pole"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 6.15, 0)
+mesh = SubResource("mesh_cross")
+
+[node name="WindTurn" type="Node3D" parent="Pole" groups=["cw_wind_vane"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
+
+[node name="Head" type="MeshInstance3D" parent="Pole/WindTurn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0)
+mesh = SubResource("mesh_head")
+
+[node name="Eyes" type="MeshInstance3D" parent="Pole/WindTurn/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.03, 0)
+mesh = SubResource("mesh_eye")
+
+[node name="Tail" type="MeshInstance3D" parent="Pole/WindTurn"]
+transform = Transform3D(0.995, 0.1, 0, -0.1, 0.995, 0, 0, 0, 1, 0.12, 0.03, 0)
+mesh = SubResource("mesh_tail")
+
+[node name="Tail2" type="MeshInstance3D" parent="Pole/WindTurn"]
+transform = Transform3D(0.98, -0.2, 0, 0.2, 0.98, 0, 0, 0, 1, 0.1, 0.12, 0)
+mesh = SubResource("mesh_tail2")
+
+[node name="Flag" type="Node3D" parent="Pole/WindTurn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -1.1, 0)
+
+[node name="Seg1" type="Node3D" parent="Pole/WindTurn/Flag"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Pole/WindTurn/Flag/Seg1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, 0)
+mesh = SubResource("mesh_flag_a")
+
+[node name="Seg2" type="Node3D" parent="Pole/WindTurn/Flag/Seg1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pole/WindTurn/Flag/Seg1/Seg2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, 0)
+mesh = SubResource("mesh_flag_b")
+
+[node name="Seg3" type="Node3D" parent="Pole/WindTurn/Flag/Seg1/Seg2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pole/WindTurn/Flag/Seg1/Seg2/Seg3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, 0)
+mesh = SubResource("mesh_flag_a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}
+autoplay = "wave"
+metadata/constant = true

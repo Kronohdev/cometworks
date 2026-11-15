@@ -1,0 +1,21 @@
+keys,en,pt
+RT_LIMB_ROCKETRY,Rocketry,Foguetes
+RT_LIMB_COMMS,Comms,Comunicação
+RT_LIMB_CORE,Core,Tronco
+RT_LIMB_SCIENCE,Science,Ciência
+RT_LIMB_CREW,Crew,Tripulação
+RT_LIMB_EXPLORATION,Exploration,Exploração
+RT_MONEY,Money,Dinheiro
+RT_NO_MONEY,none,nenhum
+RT_MONEY_PAID,paid,pago
+RT_MIST,"In the mist · opens in year %d","Na névoa · abre no ano %d"
+RT_FIT,Fit,Tudo
+RT_FIT_TIP,"See the whole tree","Ver a árvore inteira"
+RT_ZOOM_IN_TIP,"Zoom in (mouse wheel)","Aproximar (roda do mouse)"
+RT_ZOOM_OUT_TIP,"Zoom out (mouse wheel)","Afastar (roda do mouse)"
+RT_SELECT_TIP,"Show this technology","Mostrar esta tecnologia"
+RT_MORE,"Full sheet","Ficha completa"
+RT_MORE_TIP,"The technology's full sheet: what comes after it, who works in the lab, licensing","A ficha completa: o que vem depois, quem está no laboratório, licenciar"
+RT_CARD_TIP,"%s · click to see it, double-click to fund it, drag to move the tree","%s · clique para ver, clique duplo para financiar, arraste para mover a árvore"
+RT_ERA_N,Era %d,Era %d
+RT_NO_CASH,"Needs %s in cash to start","Precisa de %s em caixa para começar"

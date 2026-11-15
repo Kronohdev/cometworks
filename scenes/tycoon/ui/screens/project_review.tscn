@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/project/project_review_screen.gd" id="1_scr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
 
 [node name="ProjectReview" type="Control"]
 layout_mode = 3
@@ -1110,3 +1111,62 @@ lift = Vector2(0, -1)
 hover_scale = Vector2(1.02, 1.02)
 glow = 1.08
 sweep_on_focus = true
+
+[node name="CwBadge" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Header/Badge")
+from_scale = Vector2(1.8, 1.8)
+offset = Vector2(0, 0)
+from_degrees = -12.0
+seconds = 0.3
+delay = 0.55
+curve = 2
+
+[node name="CwGrade" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Scroll/Middle/Body/Left/GradeRow/Grade")
+from_scale = Vector2(0.5, 0.5)
+offset = Vector2(0, 0)
+seconds = 0.32
+delay = 0.3
+curve = 2
+
+[node name="CwCard0" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card0/Sheet")
+offset = Vector2(0, -26)
+from_scale = Vector2(0.7, 0.7)
+from_degrees = -10.0
+seconds = 0.36
+delay = 0.42
+curve = 3
+
+[node name="CwCard1" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card1/Sheet")
+offset = Vector2(0, -26)
+from_scale = Vector2(0.7, 0.7)
+from_degrees = -4.0
+seconds = 0.36
+delay = 0.54
+curve = 3
+
+[node name="CwCard2" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card2/Sheet")
+offset = Vector2(0, -26)
+from_scale = Vector2(0.7, 0.7)
+from_degrees = 2.0
+seconds = 0.36
+delay = 0.66
+curve = 3
+
+[node name="CwCard3" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Panel/Margin/VBox/Scroll/Middle/Body/Right/Papers/Card3/Sheet")
+offset = Vector2(0, -26)
+from_scale = Vector2(0.7, 0.7)
+from_degrees = 8.0
+seconds = 0.36
+delay = 0.78
+curve = 3

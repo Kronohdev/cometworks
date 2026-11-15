@@ -6,7 +6,8 @@ extends Control
 ## Everything you see is authored in the scene and keyed in its AnimationPlayer:
 ##   Stage            3D, placed on the launch pad: the rocket (engine flame, glowing trail,
 ##                    smoke trail), pad steam, ignition smoke and sparks, the ignition flash,
-##                    the failure "poof", confetti, the shot camera (ShotCam) and a few
+##                    the failure "poof" (a puff of smoke and twinkling stars, no debris),
+##                    confetti and fireworks for a success, the shot camera (ShotCam) and a few
 ##                    spectator Cometlings. PreviewPad is the pad itself, for the editor only.
 ##   Overlay          a CanvasLayer over the HUD in the theme's look: letterbox bars (the clock
 ##                    sits in the bottom one, the skip hint is a pill), captions that pop
@@ -37,6 +38,15 @@ extends Control
 ## the Cometlings cheer, and lets the player skip (click, Esc or Space: to the card, then out).
 ## The game clock is paused by ProjectFlow while a "launch" screen is up.
 ## Players can turn the sequence off in the settings (LaunchSequence.set_enabled()).
+##
+## One continuous launch (inside the tycoon, TycoonModes): at T-0 the career flight starts
+## (TycoonModes.start_launch: a CareerFlight of the project's real rocket, flying the outcome
+## this result already is) and every outcome climbs off the pad here ("flight_success" for all:
+## a failure happens up in the sky, at its second). `handoff_time` into the climb the camera
+## punches through a white cloud (PunchLayer/Punch) and comes out in the 3D flight
+## (TycoonModes.open_launch_flight), on the same shot, the campus itself under the rocket:
+## the flight goes on up to orbit and beyond. Leaving it ("Voltar ao campus") brings the team
+## and the result card back here; the flight goes on in the background, on the Solar System map.
 
 signal finished
 
@@ -86,6 +96,12 @@ const DESIGNED_ROCKET := "res://scenes/tycoon/launch/designed_rocket.tscn"
 @export_group("Timing")
 ## seconds the result card stays after the "result" animation before the sequence ends by itself
 @export var result_hold := 2.5
+@export_group("Flight")
+## seconds into the climb when the camera goes through the cloud into the 3D flight
+@export var handoff_time := 4.3
+## seconds the cloud takes to cover the screen, and to clear in the flight
+@export var punch_in := 0.25
+@export var punch_out := 0.7
 @export_group("Crowd")
 ## campus Cometlings closer than this to the pad (m) cheer too
 @export var cheer_radius := 45.0
@@ -124,6 +140,11 @@ var _rig_size := 1.0      # the shot rig's size for this rocket (rig_zoom 1)
 var _rocket_height := 7.0
 ## the designed rocket flying (null for a result without a design)
 var designed: DesignedRocket
+## the tycoon's modes (the live flight) and the career flight of this launch
+var modes: TycoonModes
+var run: CareerFlight
+## "" (not yet), "campus" (climbing here), "punch", "flight" (in the 3D flight), "back"
+var flight_phase := ""
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var stage: Node3D = $Stage
@@ -180,6 +201,7 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 	if main:
 		camera = main.camera
 		campus = main.campus
+		modes = main.modes
 
 
 ## HUD screen hook: {"result": <mission_launched result>}.
@@ -470,13 +492,71 @@ func _fill_texts() -> void:
 func _on_animation_finished(anim_name: StringName) -> void:
 	match String(anim_name):
 		"countdown":
-			anim.play("flight_" + kind)
+			if _live():
+				_start_flight()
+				anim.play("flight_success")
+			else:
+				anim.play("flight_" + kind)
 		"flight_success", "flight_partial", "flight_fail":
 			_show_result()
 		"result":
 			_hold = result_hold
 		"outro":
 			_finish()
+
+
+## The launch goes on in the 3D flight (inside the tycoon, with a real flight to show).
+func _live() -> bool:
+	return modes != null and is_instance_valid(modes) and modes.main != null and not result.is_empty()
+
+
+## T-0: the career flight lifts off with this rocket; until the handoff it climbs here and this
+## screen advances it.
+func _start_flight() -> void:
+	if run != null or not _live():
+		return
+	run = modes.start_launch(result)
+	if run:
+		modes.launch_hold += 1
+		flight_phase = "campus"
+
+
+func _release_flight() -> void:
+	if flight_phase in ["campus", "punch"] and modes and is_instance_valid(modes):
+		modes.launch_hold = maxi(modes.launch_hold - 1, 0)
+
+
+## Through the cloud into the 3D flight, the camera where it is now.
+func _handoff() -> void:
+	if flight_phase != "campus":
+		return
+	flight_phase = "punch"
+	var punch := get_node_or_null("%Punch") as CanvasItem
+	var tw := create_tween()
+	if punch:
+		tw.tween_property(punch, "modulate:a", 1.0, punch_in)
+	tw.tween_callback(func() -> void:
+		var off := shot_cam.global_position - (rocket.global_position + Vector3(0, _rocket_height * 0.5, 0))
+		_release_flight()
+		if modes.open_launch_flight(off, _on_flight_closed, false, shot_cam.fov):
+			flight_phase = "flight"
+			anim.pause()
+			$Overlay.visible = false
+		else:
+			flight_phase = "back"
+		if punch:
+			create_tween().tween_property(punch, "modulate:a", 0.0, punch_out))
+
+
+## The player left the flight (or it ended): back to the team and the result card.
+func _on_flight_closed() -> void:
+	flight_phase = "back"
+	$Overlay.visible = true
+	# the modes let the campus camera go meanwhile: back on the team's shot
+	if camera and is_instance_valid(camera):
+		camera.begin_cinematic(crew_cam, 0.0)
+	_crowd("success" if kind != "fail" else "failure")
+	_show_result()
 
 
 func _show_result() -> void:
@@ -516,6 +596,11 @@ func _outro() -> void:
 func skip() -> void:
 	match _phase:
 		"show":
+			if _live() and flight_phase in ["", "campus"]:
+				# the flight goes on without being watched
+				_start_flight()
+				_release_flight()
+				flight_phase = "back"
 			var flight := "flight_" + kind
 			anim.play(flight)
 			anim.seek(anim.current_animation_length, true)
@@ -550,6 +635,7 @@ func _restore() -> void:
 
 
 func _exit_tree() -> void:
+	_release_flight()
 	if _phase != "done":
 		_phase = "done"
 		_restore()
@@ -557,6 +643,14 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	if flight_phase == "campus" and run:
+		# the flight climbs with the campus show until the handoff
+		run.advance(delta)
+		run.take_pending()
+		if anim.current_animation == "flight_success" and anim.current_animation_position >= handoff_time:
+			_handoff()
+	if flight_phase in ["punch", "flight"]:
+		return
 	if camera and camera.is_cinematic():
 		camera.cinematic_shake = shake
 	cam_rig.scale = Vector3.ONE * lerpf(1.0, _rig_size, rig_zoom)
@@ -573,6 +667,8 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if flight_phase in ["punch", "flight"] or (modes and is_instance_valid(modes) and modes.is_open()):
+		return  # the 3D flight has the keys
 	if _phase == "" or _phase == "done" or CwDevMenu.blocks_mouse(event):
 		return  # (clicks on the dev menu are the menu's, not a skip)
 	var hit := false
@@ -624,6 +720,9 @@ func _crowd(event: String) -> void:
 func _crowd_mood() -> void:
 	if kind == "success":
 		($Stage/Spectators/Confetti as GPUParticles3D).restart()
+		var fw := get_node_or_null("Stage/Spectators/Fireworks") as FxOneShot
+		if fw:
+			fw.play()   # fireworks over the team (scenes/tycoon/fx/fireworks.tscn)
 	var i := 0
 	for sp in spectators.get_children():
 		var cr := sp as Cometling

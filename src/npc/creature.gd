@@ -366,6 +366,11 @@ func _ready() -> void:
 	for mi in find_children("*", "GeometryInstance3D", true, false):
 		if mi is MeshInstance3D and mi.get_parent() != self:   # skip the blob shadow
 			var g := mi as MeshInstance3D
+			if _keeps_material(g):   # a part with a material of its own (LegendCometling outfits)
+				g.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				g.visibility_range_end = cull_distance
+				g.visibility_range_end_margin = 4.0
+				continue
 			_meshes.append(g)
 			if body_material:
 				g.material_override = body_material
@@ -406,6 +411,12 @@ func _ready() -> void:
 	_last_neck = neck.global_position if is_inside_tree() else Vector3.ZERO
 	_last_yaw = _yaw_now()
 	_animate(0.0)
+
+
+## True for a mesh that keeps the material it has instead of the shared skin (and gets no skin
+## tints); scenes built on the Cometling with parts of their own override it.
+func _keeps_material(_mesh: MeshInstance3D) -> bool:
+	return false
 
 
 func _exit_tree() -> void:

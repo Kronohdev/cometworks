@@ -1,0 +1,632 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/rover/rover_hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="4_star"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/pointer.svg" id="5_pointer"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="6_planet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/antenna.svg" id="7_antenna"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/check.svg" id="8_check"]
+
+[sub_resource type="Environment" id="Env_map"]
+background_mode = 1
+background_color = Color(0.118, 0.114, 0.29, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.8
+
+[node name="RoverHUD" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="MissionCard" type="PanelContainer" parent="Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 372.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/MissionCard"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Root/MissionCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.898, 0.396, 0.11, 1)
+text = "RV_H_CAPTION"
+
+[node name="Title" type="Label" parent="Root/MissionCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "Tatu"
+text_overrun_behavior = 3
+
+[node name="Facts" type="Label" parent="Root/MissionCard/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "RV_H_FACTS"
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="Root/MissionCard/VBox"]
+layout_mode = 2
+
+[node name="ObjTitle" type="Label" parent="Root/MissionCard/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_OBJECTIVES"
+
+[node name="Objectives" type="VBoxContainer" parent="Root/MissionCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="ObjTemplate" type="HBoxContainer" parent="Root/MissionCard/VBox/Objectives"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Mark" type="TextureRect" parent="Root/MissionCard/VBox/Objectives/ObjTemplate"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Root/MissionCard/VBox/Objectives/ObjTemplate"]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+text = "RV_OBJ_REACH"
+autowrap_mode = 3
+
+[node name="ObjEmpty" type="Label" parent="Root/MissionCard/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "RV_H_FREE_DRIVE"
+autowrap_mode = 3
+
+[node name="MapPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -268.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 300.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/MapPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MapCaption" type="Label" parent="Root/MapPanel/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_MAP"
+
+[node name="MapBox" type="Control" parent="Root/MapPanel/VBox"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(228, 228)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MapView" type="SubViewportContainer" parent="Root/MapPanel/VBox/MapBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="MapPort" type="SubViewport" parent="Root/MapPanel/VBox/MapBox/MapView"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(228, 228)
+render_target_update_mode = 4
+
+[node name="MapCam" type="Camera3D" parent="Root/MapPanel/VBox/MapBox/MapView/MapPort"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 120, 0)
+environment = SubResource("Env_map")
+projection = 1
+size = 160.0
+near = 1.0
+far = 600.0
+
+[node name="Markers" type="Control" parent="Root/MapPanel/VBox/MapBox"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarkerTemplate" type="TextureRect" parent="Root/MapPanel/VBox/MapBox/Markers"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 0.824, 0.361, 1)
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 18.0
+pivot_offset = Vector2(9, 9)
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RoverArrow" type="TextureRect" parent="Root/MapPanel/VBox/MapBox/Markers"]
+unique_name_in_owner = true
+modulate = Color(0.435, 0.878, 0.745, 1)
+layout_mode = 0
+offset_left = 103.0
+offset_top = 103.0
+offset_right = 125.0
+offset_bottom = 125.0
+pivot_offset = Vector2(11, 11)
+mouse_filter = 2
+texture = ExtResource("5_pointer")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MapHint" type="Label" parent="Root/MapPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(228, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 11
+text = "RV_H_MAP_HINT"
+autowrap_mode = 3
+
+[node name="Gauges" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -214.0
+offset_right = 440.0
+offset_bottom = -16.0
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Gauges"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BatteryRow" type="HBoxContainer" parent="Root/Gauges/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BatteryCaption" type="Label" parent="Root/Gauges/VBox/BatteryRow"]
+custom_minimum_size = Vector2(76, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_BATTERY"
+vertical_alignment = 1
+
+[node name="BatteryBar" type="Control" parent="Root/Gauges/VBox/BatteryRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 18)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.8
+color = Color(0.0549, 0.565, 0.467, 1)
+segments = 12
+
+[node name="BatteryValue" type="Label" parent="Root/Gauges/VBox/BatteryRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "80%"
+horizontal_alignment = 2
+
+[node name="PowerLine" type="Label" parent="Root/Gauges/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "RV_H_POWER"
+
+[node name="Numbers" type="HBoxContainer" parent="Root/Gauges/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="SpeedBox" type="VBoxContainer" parent="Root/Gauges/VBox/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="SpeedCaption" type="Label" parent="Root/Gauges/VBox/Numbers/SpeedBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_SPEED"
+
+[node name="Speed" type="Label" parent="Root/Gauges/VBox/Numbers/SpeedBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+text = "0 km/h"
+
+[node name="DistBox" type="VBoxContainer" parent="Root/Gauges/VBox/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="DistCaption" type="Label" parent="Root/Gauges/VBox/Numbers/DistBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_DIST"
+
+[node name="Distance" type="Label" parent="Root/Gauges/VBox/Numbers/DistBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+text = "0 m"
+
+[node name="SciBox" type="VBoxContainer" parent="Root/Gauges/VBox/Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="SciCaption" type="Label" parent="Root/Gauges/VBox/Numbers/SciBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_SCIENCE"
+
+[node name="Science" type="Label" parent="Root/Gauges/VBox/Numbers/SciBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+theme_override_colors/font_color = Color(0.184, 0.471, 0.8, 1)
+text = "0"
+
+[node name="Status" type="Label" parent="Root/Gauges/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+text = "RV_ST_READY"
+autowrap_mode = 3
+
+[node name="DelayRow" type="HBoxContainer" parent="Root/Gauges/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DelayIcon" type="TextureRect" parent="Root/Gauges/VBox/DelayRow"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_antenna")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Delay" type="Label" parent="Root/Gauges/VBox/DelayRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "RV_H_DELAY"
+
+[node name="ToolsPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -268.0
+offset_top = -300.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_type_variation = &"CwPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/ToolsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ToolsCaption" type="Label" parent="Root/ToolsPanel/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "RV_H_TOOLS"
+
+[node name="Tools" type="VBoxContainer" parent="Root/ToolsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="ToolTemplate" type="Button" parent="Root/ToolsPanel/VBox/Tools"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+theme_override_font_sizes/font_size = 13
+text = "RV_TOOL_PHOTO"
+icon = ExtResource("6_planet")
+alignment = 0
+expand_icon = true
+
+[node name="Prompt" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -112.0
+offset_right = 200.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwHintPill"
+
+[node name="PromptText" type="Label" parent="Root/Prompt"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "RV_PROMPT"
+horizontal_alignment = 1
+
+[node name="Help" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -60.0
+offset_right = 380.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"CwOnDark"
+theme_override_font_sizes/font_size = 12
+text = "RV_H_CONTROLS"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Toasts" type="VBoxContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -240.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="ToastTemplate" type="PanelContainer" parent="Root/Toasts"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"CwBubble"
+
+[node name="Row" type="HBoxContainer" parent="Root/Toasts/ToastTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Root/Toasts/ToastTemplate/Row"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="Root/Toasts/ToastTemplate/Row"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "RV_MSG_PHOTO"
+autowrap_mode = 3
+
+[node name="Sending" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -158.0
+offset_right = 170.0
+offset_bottom = -122.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwChip"
+
+[node name="Row" type="HBoxContainer" parent="Root/Sending"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Root/Sending/Row"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_antenna")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SendingText" type="Label" parent="Root/Sending/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+text = "RV_H_SENDING"
+
+[node name="Complete" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.0
+offset_top = 210.0
+offset_right = 230.0
+offset_bottom = 270.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"CwPanelButter"
+
+[node name="Row" type="HBoxContainer" parent="Root/Complete"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Root/Complete/Row"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_check")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CompleteText" type="Label" parent="Root/Complete/Row"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "RV_H_ALL_DONE"
+
+[node name="Pause" type="Control" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root/Pause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.118, 0.114, 0.29, 0.55)
+
+[node name="Card" type="PanelContainer" parent="Root/Pause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -120.0
+offset_right = 240.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelRaised"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Pause/Card"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PauseTitle" type="Label" parent="Root/Pause/Card/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "RV_H_PAUSE_TITLE"
+
+[node name="PauseSummary" type="Label" parent="Root/Pause/Card/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "RV_H_SUMMARY"
+autowrap_mode = 3
+
+[node name="PauseNote" type="Label" parent="Root/Pause/Card/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "RV_H_LEAVE_NOTE"
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Root/Pause/Card/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Continue" type="Button" parent="Root/Pause/Card/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "RV_H_CONTINUE"
+
+[node name="Leave" type="Button" parent="Root/Pause/Card/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "RV_H_LEAVE"

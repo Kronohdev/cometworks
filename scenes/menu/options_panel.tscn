@@ -16,6 +16,8 @@
 
 [sub_resource type="ButtonGroup" id="outline_group"]
 
+[sub_resource type="ButtonGroup" id="weather_group"]
+
 [sub_resource type="ButtonGroup" id="orbit_group"]
 
 [sub_resource type="ButtonGroup" id="edge_group"]
@@ -370,6 +372,34 @@ layout_mode = 2
 theme_type_variation = &"CwMenuKey"
 toggle_mode = true
 button_group = SubResource("outline_group")
+text = "MENU_OPT_OFF"
+
+[node name="WeatherLabel" type="Label" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 15
+text = "FX_OPT_WEATHER"
+
+[node name="Weather" type="HBoxContainer" parent="Margin/VBox/Grid"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="WeatherOn" type="Button" parent="Margin/VBox/Grid/Weather"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("weather_group")
+text = "MENU_OPT_ON"
+
+[node name="WeatherOff" type="Button" parent="Margin/VBox/Grid/Weather"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"CwMenuKey"
+toggle_mode = true
+button_group = SubResource("weather_group")
 text = "MENU_OPT_OFF"
 
 [node name="CamRotateLabel" type="Label" parent="Margin/VBox/Grid"]

@@ -81,6 +81,7 @@ func _test_briefings_load() -> void:
 	var ids := {}
 	var s := _state(1, 5)
 	var csv := FileAccess.get_file_as_string("res://i18n/tycoon_project_strings.csv")
+	csv += FileAccess.get_file_as_string("res://i18n/rover_strings.csv")  # the rover briefings (src/rover/)
 	var bad := 0
 	for b: Dictionary in all:
 		var id := String(b["id"])

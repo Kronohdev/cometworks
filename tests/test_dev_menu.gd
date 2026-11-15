@@ -252,6 +252,24 @@ func _campus() -> void:
 		_check(main.hud.current_screen() == ev, "the %s opens" % ev)
 		await _close_all(main)
 
+	# rovers (src/rover/): a test mission on the Moon, driving it, a sandbox rover, the workshop
+	var rmsg := _run("rover_test_mission")
+	_check(not dev._rover_mission(s).is_empty(), "a rover test mission lands on the Moon (%s)" % rmsg)
+	_run("rover_drive_mission")
+	await _frames(4)
+	_check(main.modes.kind == "surface", "Controlar o rover opens the surface inside the campus")
+	main.modes.close_mode()
+	await _frames(2)
+	_run("rover_surface", "mars")
+	await _frames(4)
+	_check(main.modes.kind == "surface", "a sandbox rover on Mars")
+	main.modes.close_mode()
+	await _frames(2)
+	_run("rover_builder")
+	await _frames(2)
+	_check(main.hud.current_screen() == "rover_builder", "the rover workshop opens")
+	await _close_all(main)
+
 	# Cometlings
 	_check(not _tab_hidden("Cometinhos"), "the Cometling tab shows on the campus")
 	_run("creature_target", "all")

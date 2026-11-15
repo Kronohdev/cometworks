@@ -1,0 +1,230 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/building_fx.gd" id="1_fx"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="2_toon"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_glow.tres" id="3_glow"]
+
+[sub_resource type="ShaderMaterial" id="mat_crane"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(1, 0.74, 0.2, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="mat_dark"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.22, 0.24, 0.3, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="mat_crate"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.70, 0.50, 0.30, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="mat_cab"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(0.25, 0.70, 0.78, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="BoxMesh" id="mesh_base"]
+material = SubResource("mat_dark")
+size = Vector3(1.2, 0.4, 1.2)
+
+[sub_resource type="BoxMesh" id="mesh_mast"]
+material = SubResource("mat_crane")
+size = Vector3(0.36, 5.6, 0.36)
+
+[sub_resource type="BoxMesh" id="mesh_jib"]
+material = SubResource("mat_crane")
+size = Vector3(4.6, 0.3, 0.3)
+
+[sub_resource type="BoxMesh" id="mesh_cab"]
+material = SubResource("mat_cab")
+size = Vector3(0.7, 0.6, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_weight"]
+material = SubResource("mat_dark")
+size = Vector3(0.7, 0.55, 0.55)
+
+[sub_resource type="BoxMesh" id="mesh_cable"]
+material = SubResource("mat_dark")
+size = Vector3(0.04, 1, 0.04)
+
+[sub_resource type="BoxMesh" id="mesh_crate"]
+material = SubResource("mat_crate")
+size = Vector3(0.75, 0.6, 0.75)
+
+[sub_resource type="Gradient" id="grad_spark"]
+offsets = PackedFloat32Array(0, 0.35, 1)
+colors = PackedColorArray(1, 1, 0.85, 1, 1, 0.7, 0.25, 1, 1, 0.38, 0.1, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_spark"]
+gradient = SubResource("grad_spark")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_spark"]
+emission_shape = 1
+emission_sphere_radius = 0.06
+direction = Vector3(0, 1, 0.3)
+spread = 75.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, -8, 0)
+scale_min = 0.6
+scale_max = 1.3
+color_ramp = SubResource("gradtex_spark")
+
+[sub_resource type="BoxMesh" id="mesh_spark"]
+material = ExtResource("3_glow")
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crane/Jib:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crane/Jib/Hook:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(2.6, -1.2, 0)]
+}
+
+[sub_resource type="Animation" id="anim_work"]
+resource_name = "work"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crane/Jib:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 4, 6, 8.5, 10),
+"transitions": PackedFloat32Array(1, -2, 1, -2, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0.95, 0), Vector3(0, 0.95, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crane/Jib/Hook:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.4, 4.2, 5.8, 8.6, 10),
+"transitions": PackedFloat32Array(-2, 1, -2, 1, 1, 1),
+"update": 0,
+"values": [Vector3(2.6, -3.3, 0), Vector3(2.6, -1.2, 0), Vector3(2.6, -1.2, 0), Vector3(2.6, -2.9, 0), Vector3(2.6, -1.2, 0), Vector3(2.6, -3.3, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeldLight:visible")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.6, 0.7, 1.4, 1.5, 1.6, 2.5, 2.7, 3.3, 3.4, 4.6, 4.8, 5.2, 6.6, 6.7, 6.9, 8.0, 8.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"work": SubResource("anim_work")
+}
+
+[node name="WorkshopFx" type="Node3D"]
+script = ExtResource("1_fx")
+
+[node name="Crane" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2, 0, 7.8)
+
+[node name="Base" type="MeshInstance3D" parent="Crane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("mesh_base")
+
+[node name="Mast" type="MeshInstance3D" parent="Crane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+mesh = SubResource("mesh_mast")
+
+[node name="Jib" type="Node3D" parent="Crane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 0)
+
+[node name="Arm" type="MeshInstance3D" parent="Crane/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 0, 0)
+mesh = SubResource("mesh_jib")
+
+[node name="Cab" type="MeshInstance3D" parent="Crane/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.45, 0.45)
+mesh = SubResource("mesh_cab")
+
+[node name="Weight" type="MeshInstance3D" parent="Crane/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, -0.1, 0)
+mesh = SubResource("mesh_weight")
+
+[node name="Hook" type="Node3D" parent="Crane/Jib"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, -1.2, 0)
+
+[node name="Crate" type="MeshInstance3D" parent="Crane/Jib/Hook"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("mesh_crate")
+
+[node name="Cable" type="MeshInstance3D" parent="Crane/Jib/Hook"]
+transform = Transform3D(1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("mesh_cable")
+
+[node name="Sparks" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.15, -4.3)
+cast_shadow = 0
+amount = 20
+lifetime = 0.6
+explosiveness = 0.5
+visibility_aabb = AABB(-3, -2, -3, 6, 5, 6)
+process_material = SubResource("ppm_spark")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/interior = true
+
+[node name="Sparks2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 1.7, -2.2)
+cast_shadow = 0
+amount = 24
+lifetime = 0.6
+explosiveness = 0.65
+visibility_aabb = AABB(-3, -2, -3, 6, 5, 6)
+process_material = SubResource("ppm_spark")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/interior = true
+
+[node name="WeldLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 2.0, -1.8)
+light_color = Color(0.6, 0.85, 1, 1)
+light_energy = 2.0
+omni_range = 5.0
+metadata/interior = true
+metadata/idle = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}
+autoplay = "work"

@@ -1,7 +1,8 @@
 extends SceneTree
 ## Esc always takes you back one step:
 ##   campus (src/tycoon/tycoon_main.gd): an open screen closes, then the lot panel, then the
-##   followed Cometling is let go; with nothing open Esc brings up the pause menu (the
+##   followed Cometling is let go (a story sign's card closes like any screen); with nothing
+##   open Esc brings up the pause menu (the
 ##   settings screen), which holds the clock still and gives its speed back when it closes
 ##   a conversation with a Cometling (src/tycoon/talk/cometling_dialogue.gd): Esc closes the
 ##   box first, and only it (the camera keeps following the Cometling)
@@ -65,6 +66,14 @@ func _campus() -> void:
 	_press(KEY_ESCAPE)
 	await _frames(2)
 	_check(main.hud.current_screen() == "", "Esc closes an open screen first")
+
+	# a story sign's card (StorySigns) is a screen like the others
+	main.open_sign("welcome")
+	await _frames(2)
+	_check(main.hud.current_screen() == "sign", "a story sign opens its card")
+	_press(KEY_ESCAPE)
+	await _frames(2)
+	_check(main.hud.current_screen() == "", "Esc closes the sign card, without opening the pause menu")
 
 	var lot: String = main.state.lot_ids()[0]
 	main.hud.show_lot(lot)

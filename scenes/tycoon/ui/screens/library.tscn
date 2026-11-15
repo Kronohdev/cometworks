@@ -176,6 +176,23 @@ focus_mode = 0
 theme_type_variation = &"CwSecondary"
 text = "TUT_LIB_RESET"
 
+[node name="MenusGradual" type="CheckButton" parent="Panel/Margin/VBox/Body/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_MENUS_GRADUAL_TIP"
+focus_mode = 0
+button_pressed = true
+text = "TY_SET_MENUS_GRADUAL"
+
+[node name="KnowHow" type="Button" parent="Panel/Margin/VBox/Body/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_UNL_ALL_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_UNL_ALL"
+autowrap_mode = 3
+
 [node name="Status" type="Label" parent="Panel/Margin/VBox/Body/Side"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)

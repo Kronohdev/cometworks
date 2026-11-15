@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/salt_red.tres" id="m0"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(0.3, 0.25, 0.25)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(0.3, 0.37, 0.25)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(0.3, 0.49, 0.25)
+
+[node name="SaltCrust" type="Node3D"]
+editor_description = "Reddish salty crust along a Europa streak."
+
+[node name="Crystal0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.12, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7648, 0, 0.6442, 0, 1, 0, -0.6442, 0, 0.7648, 0.8413, 0.2, 0.7086)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.17, 0, 0.9854, 0, 1, 0, -0.9854, 0, 0.17, 0.2719, 0.12, 1.577)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.5048, 0, 0.8632, 0, 1, 0, -0.8632, 0, -0.5048, -0.3029, 0.2, 0.5179)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9422, 0, 0.335, 0, 1, 0, -0.335, 0, -0.9422, -1.036, 0.12, 0.3685)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9365, 0, -0.3508, 0, 1, 0, 0.3508, 0, -0.9365, -1.498, 0.2, -0.5613)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal6" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.4903, 0, -0.8716, 0, 1, 0, 0.8716, 0, -0.4903, -0.2942, 0.12, -0.5229)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1865, 0, -0.9825, 0, 1, 0, 0.9825, 0, 0.1865, 0.2052, 0.2, -1.081)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Crystal8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7756, 0, -0.6313, 0, 1, 0, 0.6313, 0, 0.7756, 1.241, 0.12, -1.01)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m0")

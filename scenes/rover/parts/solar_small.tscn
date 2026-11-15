@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/solar.tres" id="m_solar"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.08, 0.2, 0.08)
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(1, 0.05, 0.8)
+
+[sub_resource type="BoxMesh" id="Box_3"]
+size = Vector3(0.92, 0.06, 0.72)
+
+[node name="SolarSmall" type="Node3D"]
+
+[node name="Post" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 0.22, 0)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Cells" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9781, 0.2079, 0, -0.2079, 0.9781, 0, 0.23, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_solar")

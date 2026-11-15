@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/surface/planet_surface.tscn" id="1_surface"]
 [ext_resource type="Resource" path="res://resources/planets/moon.tres" id="2_profile"]
 [ext_resource type="PackedScene" path="res://scenes/surface/fly_camera.tscn" id="3_cam"]
+[ext_resource type="Script" path="res://src/world/surface_terrain_feature.gd" id="4_feature"]
+[ext_resource type="Script" path="res://src/world/surface_poi.gd" id="5_poi"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/boulder_split.tscn" id="p_boulder"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/homage_descent_stage.tscn" id="p_descent"]
+[ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_explore.tscn" id="p_explore"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/collectible.tscn" id="p_find"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/lander_cometworks.tscn" id="p_lander"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/homage_lunokhod.tscn" id="p_lunokhod"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/homage_footprints.tscn" id="p_prints"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/challenge_ring.tscn" id="p_ring"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/survey_stake.tscn" id="p_stake"]
 
 [node name="MoonSurface" instance=ExtResource("1_surface")]
 profile = ExtResource("2_profile")
@@ -10,3 +21,237 @@ focus_path = NodePath("FlyCamera")
 
 [node name="FlyCamera" parent="." instance=ExtResource("3_cam")]
 terrain_path = NodePath("../Terrain")
+
+[node name="Features" type="Node3D" parent="."]
+editor_description = "Authored landforms (SurfaceTerrainFeature): move one and the terrain rebuilds."
+
+[node name="HomageSiteFlat" type="Marker3D" parent="Features"]
+position = Vector3(-110, 0, 60)
+script = ExtResource("4_feature")
+shape = 7
+size_a = 16
+size_b = 26
+height = 0
+param_1 = 0
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 1
+
+[node name="BigCrater" type="Marker3D" parent="Features"]
+position = Vector3(165, 0, -45)
+script = ExtResource("4_feature")
+shape = 0
+size_a = 46
+size_b = 8
+height = 17
+param_1 = 4.5
+param_2 = 0
+material = 1
+material_shade = 2
+variant = 3
+
+[node name="SmallCrater" type="Marker3D" parent="Features"]
+position = Vector3(-190, 0, -75)
+script = ExtResource("4_feature")
+shape = 0
+size_a = 16
+size_b = 8
+height = 6
+param_1 = 1.6
+param_2 = 0
+material = 1
+material_shade = 2
+variant = 7
+
+[node name="Rille" type="Marker3D" parent="Features"]
+position = Vector3(-30, 0, -175)
+rotation = Vector3(0, 0.35, 0)
+script = ExtResource("4_feature")
+shape = 1
+size_a = 280
+size_b = 10
+height = 7
+param_1 = 24
+param_2 = 160
+material = 7
+material_shade = 0
+variant = 1
+
+[node name="WrinkleRidge" type="Marker3D" parent="Features"]
+position = Vector3(70, 0, 175)
+rotation = Vector3(0, -0.25, 0)
+script = ExtResource("4_feature")
+shape = 3
+size_a = 190
+size_b = 16
+height = 4.5
+param_1 = 0
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 1
+
+[node name="JumpRamp" type="Marker3D" parent="Features"]
+position = Vector3(48, 0, 58)
+rotation = Vector3(0, -0.6, 0)
+script = ExtResource("4_feature")
+shape = 6
+size_a = 8
+size_b = 3.5
+height = 2.6
+param_1 = 0
+param_2 = 0
+material = 9
+material_shade = 1
+variant = 1
+
+[node name="Content" type="Node3D" parent="."]
+editor_description = "Points of interest (SurfacePoi), finds (collectible.tscn), challenge rings and effects. Only x / z and the yaw matter: everything sits on the ground by itself."
+
+[node name="Spawn" type="Marker3D" parent="Content" groups=["surface_spawn"]]
+position = Vector3(4, 0, 8)
+gizmo_extents = 2.0
+
+[node name="Places" type="Node3D" parent="Content"]
+
+[node name="Lander" type="Node3D" parent="Content/Places"]
+position = Vector3(-8, 0, -4)
+rotation = Vector3(0, 0.4, 0)
+script = ExtResource("5_poi")
+entry_id = &"moon_lander"
+
+[node name="SetPiece" parent="Content/Places/Lander" instance=ExtResource("p_lander")]
+
+[node name="EagleHomage" type="Node3D" parent="Content/Places"]
+position = Vector3(-110, 0, 60)
+rotation = Vector3(0, 0.3, 0)
+script = ExtResource("5_poi")
+entry_id = &"moon_eagle_homage"
+
+[node name="SetPiece" parent="Content/Places/EagleHomage" instance=ExtResource("p_descent")]
+
+[node name="Stake" parent="Content/Places/EagleHomage" instance=ExtResource("p_stake")]
+position = Vector3(5.5, 0, -3)
+
+[node name="Footprints" type="Node3D" parent="Content/Places"]
+position = Vector3(-104, 0, 66)
+rotation = Vector3(0, 0.3, 0)
+script = ExtResource("5_poi")
+entry_id = &"moon_footprints"
+
+[node name="SetPiece" parent="Content/Places/Footprints" instance=ExtResource("p_prints")]
+
+[node name="LunokhodHomage" type="Node3D" parent="Content/Places"]
+position = Vector3(-165, 0, -12)
+rotation = Vector3(0, 1.1, 0)
+script = ExtResource("5_poi")
+entry_id = &"moon_lunokhod_homage"
+
+[node name="SetPiece" parent="Content/Places/LunokhodHomage" instance=ExtResource("p_lunokhod")]
+
+[node name="Stake" parent="Content/Places/LunokhodHomage" instance=ExtResource("p_stake")]
+position = Vector3(2.5, 0, 2)
+
+[node name="CraterRim" type="Node3D" parent="Content/Places"]
+position = Vector3(121, 0, -33)
+script = ExtResource("5_poi")
+entry_id = &"moon_bright_crater"
+
+[node name="Stake" parent="Content/Places/CraterRim" instance=ExtResource("p_stake")]
+
+[node name="Rille" type="Node3D" parent="Content/Places"]
+position = Vector3(-18, 0, -140)
+script = ExtResource("5_poi")
+entry_id = &"moon_rille"
+
+[node name="Stake" parent="Content/Places/Rille" instance=ExtResource("p_stake")]
+
+[node name="Ridge" type="Node3D" parent="Content/Places"]
+position = Vector3(70, 0, 175)
+script = ExtResource("5_poi")
+entry_id = &"moon_ridge"
+
+[node name="Stake" parent="Content/Places/Ridge" instance=ExtResource("p_stake")]
+
+[node name="Regolith" type="Node3D" parent="Content/Places"]
+position = Vector3(62, 0, -62)
+script = ExtResource("5_poi")
+entry_id = &"moon_regolith"
+
+[node name="Stake" parent="Content/Places/Regolith" instance=ExtResource("p_stake")]
+position = Vector3(1.5, 0, 0)
+
+[node name="Boulder" type="Node3D" parent="Content/Places"]
+position = Vector3(-60, 0, -92)
+rotation = Vector3(0, 0.6, 0)
+script = ExtResource("5_poi")
+entry_id = &"moon_boulder"
+
+[node name="SetPiece" parent="Content/Places/Boulder" instance=ExtResource("p_boulder")]
+
+[node name="Stake" parent="Content/Places/Boulder" instance=ExtResource("p_stake")]
+position = Vector3(3.5, 0, 2.5)
+
+[node name="EarthView" type="Node3D" parent="Content/Places"]
+position = Vector3(-60, 0, 140)
+script = ExtResource("5_poi")
+entry_id = &"moon_earth_view"
+
+[node name="Stake" parent="Content/Places/EarthView" instance=ExtResource("p_stake")]
+
+[node name="Finds" type="Node3D" parent="Content"]
+
+[node name="Meteorite1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(35, 0, -30)
+type = 0
+
+[node name="Meteorite2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-75, 0, 20)
+type = 0
+
+[node name="Meteorite3" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(140, 0, 60)
+type = 0
+
+[node name="OddRock1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(95, 0, -95)
+type = 2
+
+[node name="OddRock2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-140, 0, 95)
+type = 2
+
+[node name="OddRock3" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-30, 0, -120)
+type = 2
+
+[node name="Crumb1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(20, 0, 95)
+type = 3
+lore_index = 0
+
+[node name="Crumb2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-200, 0, -40)
+type = 3
+lore_index = 1
+
+[node name="Crumb3" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(110, 0, 150)
+type = 3
+lore_index = 2
+
+[node name="Challenges" type="Node3D" parent="Content"]
+
+[node name="DashStart" parent="Content/Challenges" instance=ExtResource("p_ring")]
+position = Vector3(10, 0, -14)
+entry_id = &"moon_rim_dash"
+radius = 6
+
+[node name="HopStart" parent="Content/Challenges" instance=ExtResource("p_ring")]
+position = Vector3(38, 0, 51)
+rotation = Vector3(0, -0.6, 0)
+entry_id = &"moon_hop"
+radius = 6
+
+[node name="Explore" parent="." instance=ExtResource("p_explore")]

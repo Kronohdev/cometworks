@@ -54,13 +54,35 @@ func _initialize() -> void:
 		var at := c.position_at(t_arr)
 		var moon := sys.pos_rel(sys.moon, sys.earth, t_arr)
 		var miss := FlightOrbit.length(_sub(at, moon))
-		_check(miss < 1000000.0, "the transfer meets the Moon (miss %.0f km)" % (miss / 1000.0))
+		# it arrives at the height of its lunar orbit, so the Moon's leg starts where it ends
+		var lo := FlightOrbit.length(PackedFloat64Array([float(legs[2]["r"][0]), float(legs[2]["r"][1]), float(legs[2]["r"][2])]))
+		_check(absf(miss - lo) < 1000.0 and miss < 2.5e6, "the transfer meets the Moon at its orbit's height (%.0f km)" % (miss / 1000.0))
 		_check(SpaceTracking.status_at(lt, (float(tli["t0"]) + t_arr) * 0.5) == "flight", "em voo on the way")
 		var st := SpaceTracking.state_at(lt, t_arr + 86400.0)
 		_check(int(st["body"]) == sys.moon and String(st["status"]) == "orbit", "then in orbit around the Moon")
 		var rl := FlightOrbit.length(st["pos"])
 		_check(absf(rl - sys.radius[sys.moon] - 100000.0) < 5000.0, "lunar orbit at 100 km")
 		_check(t_arr - float(lt["launch_t"]) < 30.0 * 86400.0, "arrives within a month of the launch")
+	# the launch watch's departure burn from an eastward parking orbit: a pass, not a hit
+	var rp0 := sys.radius[sys.earth] + 200000.0
+	var east := FlightWorld.EAST.normalized()
+	var r0 := PackedFloat64Array([0.0, rp0, 0.0])
+	var vc := sqrt(sys.mu[sys.earth] / rp0)
+	var v0 := PackedFloat64Array([east.x * vc, east.y * vc, east.z * vc])
+	var t_now := SpaceTracking.now(s)
+	var dep := SpaceTracking.departure("lunar_orbit", r0, v0, t_now)
+	_check(not dep.is_empty() and String(dep["to"]) == "moon" and float(dep["t"]) - t_now < 20.0 * 86400.0,
+		"lunar departure planned within 20 days (%.1f d of waiting for the Moon's node)" % ((float(dep.get("t", 0.0)) - t_now) / 86400.0))
+	if not dep.is_empty():
+		var pc := FlightConic.from_state(r0, v0, sys.mu[sys.earth], t_now)
+		var sd := pc.state_at(float(dep["t"]))
+		var dv: Vector3 = dep["dv"]
+		var tr2 := FlightTrajectory.predict(sys, sys.earth, PackedFloat64Array([sd[0], sd[1], sd[2]]),
+			PackedFloat64Array([sd[3] + dv.x, sd[4] + dv.y, sd[5] + dv.z]), float(dep["t"]))
+		var enc := tr2.encounter_summary(sys)
+		var pe_alt := float(enc.get("pe_alt", -1.0))
+		_check(not enc.is_empty() and int(enc["body"]) == sys.moon and pe_alt > 50000.0 and pe_alt < 8.0e6,
+			"the burn meets the Moon and passes it (periapsis %.0f km, Δv %.0f m/s)" % [pe_alt / 1000.0, dv.length()])
 	# landing
 	s.mission_launched.emit({"project_id": "T5", "code": "POU-01", "type": "lander", "target": "lunar_surface",
 		"success": true, "outcome": "full"})

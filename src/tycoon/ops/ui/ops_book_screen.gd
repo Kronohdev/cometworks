@@ -242,6 +242,9 @@ func _fill_mission(a: Dictionary) -> void:
 	var y1: Array = TycoonOpsFmt.year_week(state, int(a.get("end_week", 0)))
 	%MDates.text = tr("TY_BOOK_DATES") % [y0[0], y0[1], y1[0], y1[1]]
 	%MLesson.text = lesson_text(a.get("lesson", {}))
+	# a rover mission: what it did on the surface (src/rover/rover_missions.gd)
+	%MSurface.visible = a.has("surface")
+	%MSurface.text = RoverMissions.summary_text(a.get("surface", {}))
 	%MGrade.text = "%.1f" % float(a.get("grade", 0.0))
 	%MScience.text = "%.1f" % float(a.get("science", 0.0))
 	var ret := clampf(float(a.get("return", 0.0)), 0.0, 1.0)

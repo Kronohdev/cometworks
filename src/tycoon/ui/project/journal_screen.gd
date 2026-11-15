@@ -73,6 +73,10 @@ func refresh() -> void:
 	if state == null:
 		return
 	%Count.text = "%d" % Discovery.count(state)
+	# the story signs read around the island, out of those already uncovered (StorySigns)
+	var signs := get_node_or_null("%SignCount") as Label
+	if signs:
+		signs.text = "%d/%d" % [StorySigns.read_count(state), StorySigns.unlocked_count(state)]
 	_fill_types()
 	var targets := _targets()
 	if not target_id in targets:

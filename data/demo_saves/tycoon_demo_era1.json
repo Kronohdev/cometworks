@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"saved_at": 1794609915,
+	"saved_at": 1794652338,
 	"slot": "demo_era1",
 	"summary": {
 		"agency": "Cometworks",
@@ -397,6 +397,12 @@
 
 		},
 		"tutorials": {
+
+		},
+		"signs": {
+
+		},
+		"rovers": {
 
 		}
 	}

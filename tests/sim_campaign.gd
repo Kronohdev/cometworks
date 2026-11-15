@@ -16,11 +16,15 @@ extends SceneTree
 ##   fair     the "average" player at the fair: one project at a time, acts only when the game
 ##            would pause anyway (every 4 weeks of 1 s, and at every phase screen)
 ##   grinder  the greedy exploit check: any contract that pays, as many projects as people allow
+##   spender  the loan abuser: spends down to nothing (no reserve), builds and hires on credit,
+##            as many projects as people allow, takes every loan (checks Bankruptcy bites)
 ## Run: godot --headless --path . --script res://tests/sim_campaign.gd [-- seeds=4 bots=good,average,fair diff=normal]
 ##   seeds=N        campaigns per bot (seeds 1..N, default 4); seed0=K starts at seed K
-##   bots=a,b       which bots (default good,average,fair,grinder)
+##   bots=a,b       which bots (default good,average,fair,grinder,spender)
 ##   diff=a,b       difficulty levels (default normal; easy,normal,hard for all three)
 ##   verbose=1      one line per launch
+## Bankruptcy (src/tycoon/finance/bankruptcy.gd) is on: a campaign can end early. The report
+## counts the warnings, emergency loans and bankruptcies, and how close each bot came to the line.
 
 const PLAYER := "player"
 ## techs whose research year the report shows
@@ -35,7 +39,7 @@ const BUILD_ORDER := [["lab", 1], ["training", 1], ["hq", 2], ["antenna", 1], ["
 
 var _seeds := 4
 var _seed0 := 1
-var _bots: Array[String] = ["good", "average", "fair", "grinder"]
+var _bots: Array[String] = ["good", "average", "fair", "grinder", "spender"]
 var _diffs: Array[String] = ["normal"]
 var _verbose := false
 var _bot := ""
@@ -87,16 +91,25 @@ func play(seed_value: int, bot: String, diff: String) -> Dictionary:
 	rng.seed = hash("bot:%d:%s" % [seed_value, bot])
 	_bot = bot
 	var ctx := {"bot": bot, "rng": rng, "stops": {}, "projects": 0, "neg_weeks": 0, "min_cash": s.cash,
-		"loans": 0, "era_cash": [], "era_rows": [], "launches": [], "tech_weeks": {}}
+		"loans": 0, "era_cash": [], "era_rows": [], "launches": [], "tech_weeks": {}, "line_ratio": 0.0, "month_ratio": 0.0,
+		"warnings": 0, "emergency_year": 0, "bankrupt_year": 0, "bankrupt_reason": ""}
+	s.cash_warning.connect(func(_l: int) -> void: ctx["warnings"] = int(ctx["warnings"]) + 1)
+	s.emergency_loan.connect(func(_i: Dictionary) -> void: ctx["emergency_year"] = s.year())
+	s.bankrupt.connect(func(i: Dictionary) -> void:
+		ctx["bankrupt_year"] = s.year()
+		ctx["bankrupt_reason"] = String(i.get("reason", "")))
 	var every := 4 if bot == "fair" else 1
 	var era0 := s.era()
-	while not s.is_over():
+	while not s.is_over() and not Bankruptcy.is_bankrupt(s):
 		if s.weeks % every == 0:
 			_manage(s, ctx)
 		_sliders(s, ctx)
 		var n_hist := s.project_history.size()
 		var issue0 := _issue(s)
+		var month0 := s._month_of(s.weeks)
 		s.advance_week()
+		if s._month_of(s.weeks) != month0:   # a month end: what the bankruptcy line looks at
+			ctx["month_ratio"] = minf(float(ctx["month_ratio"]), s.cash / Bankruptcy.threshold(s))
 		for i in range(n_hist, s.project_history.size()):
 			var h: Dictionary = s.project_history[i]
 			_stop(ctx, "review")
@@ -111,12 +124,13 @@ func play(seed_value: int, bot: String, diff: String) -> Dictionary:
 		if s.cash < 0.0:
 			ctx["neg_weeks"] = int(ctx["neg_weeks"]) + 1
 		ctx["min_cash"] = minf(float(ctx["min_cash"]), s.cash)
+		ctx["line_ratio"] = minf(float(ctx["line_ratio"]), s.cash / Bankruptcy.threshold(s))
 		for tid in TRACK_TECHS:
 			if not (ctx["tech_weeks"] as Dictionary).has(tid) and TycoonResearch.is_done(s, tid):
 				ctx["tech_weeks"][tid] = s.weeks
 		if _verbose and s.week() == 1:
 			_year_ledger(s)
-		if s.era() != era0 or s.is_over():
+		if s.era() != era0 or s.is_over() or Bankruptcy.is_bankrupt(s):
 			_era_row(s, ctx, era0)
 			era0 = s.era()
 	for m in s.mission_archive:
@@ -192,6 +206,8 @@ func _manage(s: TycoonState, ctx: Dictionary) -> void:
 
 
 func _reserve(s: TycoonState) -> float:
+	if _bot == "spender":
+		return 0.0   # no cushion at all: the loans will sort it out
 	return 4.0 * (s.monthly_salaries() + s.monthly_upkeep()) + 60000.0
 
 
@@ -393,7 +409,7 @@ func _candidates(s: TycoonState) -> Array[Dictionary]:
 		flying[p.type_id + "|" + p.target_id] = true
 	var reserve := _reserve(s)
 	var fair := String(_bot) == "fair"
-	var grinder := String(_bot) == "grinder"
+	var grinder := String(_bot) in ["grinder", "spender"]
 	# how often each type flew in the press's memory (the expectation rises with repeats)
 	var repeats := {}
 	var window := int(ProjectRules.section("grade").get("repeat_window_weeks", 104))
@@ -561,6 +577,21 @@ func report(bot: String, diff: String, runs: Array[Dictionary]) -> void:
 		loans += int(r["loans"])
 	print("  lowest cash: median %s, worst %s · weeks in the red: median %.0f · loans taken: %d" % [
 		_cr(_median(min_cash)), _cr(_min(min_cash)), _median(neg), loans])
+	var ratio: Array[float] = []
+	var mratio: Array[float] = []
+	var warned := 0
+	var emerg: Array[String] = []
+	var broke: Array[String] = []
+	for r in runs:
+		ratio.append(float(r["line_ratio"]))
+		mratio.append(float(r["month_ratio"]))
+		warned += 1 if int(r["warnings"]) > 0 else 0
+		if int(r["emergency_year"]) > 0:
+			emerg.append("y%d" % int(r["emergency_year"]))
+		if int(r["bankrupt_year"]) > 0:
+			broke.append("y%d %s" % [int(r["bankrupt_year"]), r["bankrupt_reason"]])
+	print("  bankruptcy: closest to the line (cash / X; -1 = on it) any week median %.2f worst %.2f, at month ends median %.2f worst %.2f · warned in %d of %d · emergency loans %d %s · bankrupt %d %s" % [
+		_median(ratio), _min(ratio), _median(mratio), _min(mratio), warned, runs.size(), emerg.size(), str(emerg), broke.size(), str(broke)])
 	# press expectation vs points
 	print("press expectation vs the points teams made (per era, all launches):")
 	for e in range(1, 6):

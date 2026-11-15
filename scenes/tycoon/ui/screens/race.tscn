@@ -767,6 +767,18 @@ theme_override_font_sizes/font_size = 14
 text = "TY_LEG_WHO_OPEN"
 underline = 1
 
+[node name="LeaderTalk" type="LinkButton" parent="Panel/Margin/VBox/Pages/Agency/ACard/VBox/LeaderBox/Text/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "TY_LT_TALK_RIVAL_TIP"
+focus_mode = 0
+theme_override_colors/font_color = Color(0.851, 0.396, 0.141, 1)
+theme_override_colors/font_hover_color = Color(0.1843, 0.4706, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "TY_DLG_TALK"
+underline = 1
+
 [node name="LeaderWay" type="Label" parent="Panel/Margin/VBox/Pages/Agency/ACard/VBox/LeaderBox/Text"]
 unique_name_in_owner = true
 layout_mode = 2

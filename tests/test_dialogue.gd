@@ -208,7 +208,8 @@ func _trees() -> void:
 			break
 	_check(DialogueRun.tree_for(m) == "cometling", "a Cometling talks with the default tree")
 	_check(DialogueRun.tree_for(TycoonLeader.member(s)) == "leader", "the leader talks to themselves")
-	_check(DialogueRun.tree_for({"legend": "katia"}) == "legend", "a Lenda has the Lendas' tree")
+	_check(DialogueRun.tree_for({"legend": "katia"}) == "lenda_katia", "a Lenda has her own tree (by_legend)")
+	_check(DialogueRun.tree_for({"legend": "someone_new"}) == "legend", "a Lenda without one has the Lendas' tree")
 	_check(DialogueRun.tree_for({"legend": "halleyzinho"}) == "halleyzinho", "a Lenda can have her own tree (by_legend)")
 	var node := Node3D.new()
 	node.set_meta("talk_tree", "halleyzinho")
@@ -291,7 +292,7 @@ func _trees() -> void:
 	lr.start(rng)
 	lr.choose(_index_of(lr, "TY_DLG_ASK_WHO"))
 	_check(lr.text().contains(tr("TY_LEG_KATIA_REAL")), "a Lenda tells who inspired her: \"%s\"" % lr.text().left(60))
-	_check("told_who" in lr.ctx["flags"], "...and remembers she told it (flag)")
+	_check("who" in lr.ctx["flags"], "...and remembers she told it (flag)")
 	var h := DialogueRun.new(s, {}, "halleyzinho", "halleyzinho")
 	h.start(rng)
 	_check(h.node_id == "hello" and _choice_keys(h).has("TY_DLG_H_ASK_LESSON"), "Vovô has his own tree")

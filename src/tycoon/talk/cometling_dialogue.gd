@@ -17,6 +17,10 @@ extends Control
 ## Any node can be talked to: a campus Cometling (its staff entry picks the tree: default,
 ## leader or a Lenda's) or a node with metadata talk_tree (and talk_id / talk_name), like Vovô's
 ## bench (group "talkers").
+## The Lendas who are not on the campus talk from where they show up (open_legend): a mentor
+## from its bubble on a briefing, a rival leader from its agency's page on the race board (the
+## screens ask through TycoonHUD.talk_to_legend). The box opens over the screen, the Lenda's
+## own body in the portrait, and closes with that screen.
 
 signal opened(who: Node3D)
 signal closed(who: Node3D)
@@ -40,6 +44,8 @@ var _shown := 0.0
 var _paused_by_us := false
 var _resume_speed := 1
 var _halley := false
+## the Lenda talking from a screen (open_legend), "" for a campus talk
+var _legend := ""
 
 @onready var box: PanelContainer = %Box
 @onready var text_label: Label = %Text
@@ -70,6 +76,10 @@ func bind(m: Node) -> void:
 			var cam: Node = m.get("camera")
 			open(cam.call("followed") if cam else null))
 		hud.screen_opened.connect(func(_n: String) -> void: close())
+		hud.screen_closed.connect(func(_n: String) -> void:
+			if _legend != "":
+				close())
+		hud.legend_talk_requested.connect(func(id: String, where: String) -> void: open_legend(id, where))
 	var cam2: Node = m.get("camera")
 	if cam2 and cam2.has_signal("follow_changed"):
 		cam2.connect("follow_changed", func(who: Node3D) -> void:
@@ -139,14 +149,51 @@ func open(who: Node3D) -> bool:
 	return true
 
 
+## Opens a conversation with Lenda `id` where it shows up away from the campus ("briefing",
+## "race"): its own tree, its look in the portrait. False when it has no tree or something holds
+## the screen (a cutscene, a lesson, the launch).
+func open_legend(id: String, where := "briefing") -> bool:
+	if state == null or TycoonLegends.legend(id).is_empty() or Cutscenes.is_playing():
+		return false
+	var tut: Node = main.get("tutorial") if main else null
+	if tut and bool(tut.call("is_showing")):
+		return false
+	var chatter: Node = main.get("chatter") if main else null
+	var world: Dictionary = chatter.call("world") if chatter else {}
+	var r := DialogueRun.for_legend(state, id, where, world)
+	if r.tree.is_empty():
+		return false
+	if is_open():
+		close()
+	run = r
+	_legend = id
+	speaker = null
+	run.start(rng)
+	_fill_head(run.member if not run.member.is_empty() else TycoonLegends.look(id))
+	_pause_clock()
+	box.visible = true
+	_portraits_live(true)
+	_show_line()
+	CwSfx.play(&"ui_open")
+	opened.emit(null)
+	return true
+
+
+## The Lenda talking from a screen ("" for a campus talk or none).
+func legend_id() -> String:
+	return _legend
+
+
 ## Closes the box; the Cometling walks on and what the tree asked for happens.
 func close() -> void:
 	if run == null:
 		return
 	var who := speaker
 	var after := run.after.duplicate()
+	var from_screen := _legend != ""
 	run = null
 	speaker = null
+	_legend = ""
 	_typing = false
 	box.visible = false
 	_portraits_live(false)
@@ -157,7 +204,7 @@ func close() -> void:
 		if c:
 			c.clear_look()
 	_resume_clock()
-	if hud:
+	if hud and not from_screen:
 		hud.set_talking(false, is_instance_valid(who) and can_talk(who))
 	for a: Dictionary in after:
 		if a.has("say") and is_instance_valid(who):
@@ -224,7 +271,8 @@ func _fill_choices() -> void:
 
 func _fill_head(m: Dictionary) -> void:
 	var who := speaker
-	_halley = who.has_meta("talk_id") and String(who.get_meta("talk_id")) == "halleyzinho"
+	# Vovô keeps his own portrait, on his bench or from his briefing bubble
+	_halley = _legend == "halleyzinho" or (who != null and who.has_meta("talk_id") and String(who.get_meta("talk_id")) == "halleyzinho")
 	portrait.visible = not _halley
 	halley_portrait.visible = _halley
 	%Name.text = String(run.vars.get("name", ""))
@@ -238,8 +286,9 @@ func _fill_head(m: Dictionary) -> void:
 	elif TycoonLegends.is_legend(m):
 		role = tr(TycoonLegends.key(String(m["legend"]), "ROLE"))
 	%Role.text = role
-	%Mood.visible = not m.is_empty()
-	TycoonLeader.dress(portrait_creature, m)
+	%Mood.visible = not run.member.is_empty()
+	# a Lenda wears her own body: dress() swaps the portrait's Cometling for it
+	portrait_creature = TycoonLeader.dress(portrait_creature, m)
 	portrait_creature.glow_color = TycoonCrew.profession_color(state, String(m.get("profession", "")))
 	portrait_creature.play("idle")
 
@@ -302,7 +351,7 @@ func _finish_typing() -> void:
 func _process(delta: float) -> void:
 	if run == null:
 		return
-	if not is_instance_valid(speaker) or not speaker.is_visible_in_tree():
+	if _legend == "" and (not is_instance_valid(speaker) or not speaker.is_visible_in_tree()):
 		close()
 		return
 	var on_mode := main != null and main.get("modes") != null and bool(main.get("modes").call("is_open"))

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/surface_campus_button.gd" id="1_button"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/tent.svg" id="2_icon"]
+[ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_picker.tscn" id="3_picker"]
+
+[node name="SurfacesButton" type="Button"]
+custom_minimum_size = Vector2(66, 0)
+tooltip_text = "TY_SX_PICK_BUTTON_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+icon = ExtResource("2_icon")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("1_button")
+
+[node name="Picker" parent="." instance=ExtResource("3_picker")]

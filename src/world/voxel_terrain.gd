@@ -76,6 +76,11 @@ signal profile_applied
 
 var generator: VoxelTerrainGenerator
 var props: VoxelPropLibrary
+## Authored terrain features (SurfaceTerrainFeature.to_feature() dicts) the PlanetSurface
+## collects from its scene; applied with the profile (set_features rebuilds).
+var features: Array = []
+## Discs (x, z, radius) kept free of props: set pieces, points of interest (PlanetSurface).
+var prop_exclusions := PackedVector3Array()
 
 var _epoch := 0
 var _chunks := {}  # Vector3i(cx, cz, lod) -> MeshInstance3D
@@ -138,6 +143,13 @@ func _on_profile_changed() -> void:
 	rebuild()
 
 
+## New authored features: drops every chunk and regenerates.
+func set_features(list: Array) -> void:
+	features = list
+	if is_inside_tree() and profile:
+		_apply_profile()
+
+
 ## Drops every chunk and regenerates from the current profile.
 func rebuild() -> void:
 	if is_inside_tree():
@@ -148,7 +160,11 @@ func _apply_profile() -> void:
 	_epoch += 1
 	_clear_all()
 	generator = VoxelTerrainGenerator.new(profile) if profile else null
+	if generator and not features.is_empty():
+		generator.set_features(features)
 	props = VoxelPropLibrary.new(profile) if profile and props_enabled else null
+	if props:
+		props.exclusions = prop_exclusions
 	_timer = update_interval
 	profile_applied.emit()
 

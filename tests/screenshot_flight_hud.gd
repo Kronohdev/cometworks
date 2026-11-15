@@ -66,9 +66,9 @@ func _manual() -> void:
 	print("then: %s" % tips.current)
 	await _shot("hud_02_ignite")
 	world.stage()
-	world.active.set_sas(FlightVessel.Sas.HOLD)
+	world.sim.craft.sas = FlightCraft.Sas.HOLD
 	world.cam.set_view(2.3, 0.05, 110.0, true)
-	await _until(func() -> bool: return world.active.body.altitude() > 700.0, 40.0)
+	await _until(func() -> bool: return world.sim.altitude() > 700.0, 40.0)
 	await _frames(12)
 	print("tip climbing: %s, coach %s" % [tips.current, world.hud.get("_now_key")])
 	await _shot("hud_03_turn")
@@ -77,29 +77,29 @@ func _manual() -> void:
 	world.scripted_input = Vector3(-1, 0, 0)
 	await _until(func() -> bool: return world.hud.get("_pitch") < 77.0, 8.0)
 	world.scripted_input = Vector3.ZERO
-	world.active.set_sas(FlightVessel.Sas.HOLD)
+	world.sim.craft.sas = FlightCraft.Sas.HOLD
 	await _frames(10)
 	print("tilted: coach %s" % world.hud.get("_now_key"))
-	var b := world.active.body
+	var b := world.sim
 	await _until(func() -> bool: return rad_to_deg(asin(b.vertical_speed() / maxf(b.speed(), 1.0))) < world.hud.get("_pitch") + 1.5, 30.0)
 	await _frames(4)
 	print("caught up: coach %s" % world.hud.get("_now_key"))
-	world.active.set_sas(FlightVessel.Sas.PROGRADE)
+	world.sim.craft.sas = FlightCraft.Sas.PROGRADE
 	await _frames(10)
 	print("W: heading %.0f -> %.0f, pitch %.0f (east = 90)" % [h0, _heading(), world.hud.get("_pitch")])
 	# burn the first stage dry (prograde hold), boosters drop by themselves
 	world.debug_warp = 6.0
-	await _until(func() -> bool: return FlightTips.stage_empty(world._telemetry()) or world.active.crashed, 120.0)
+	await _until(func() -> bool: return FlightTips.stage_empty(world._telemetry()) or world.sim.crashed, 120.0)
 	world.debug_warp = 1.0
 	world.cam.set_view(-2.2, 0.2, 90.0, true)
 	await _frames(20)
-	print("stage empty: tip %s, coach %s, alt %.1f km" % [tips.current, world.hud.get("_now_key"), world.active.body.altitude() / 1000.0])
+	print("stage empty: tip %s, coach %s, alt %.1f km" % [tips.current, world.hud.get("_now_key"), world.sim.altitude() / 1000.0])
 	_check_layout("stage")
 	await _shot("hud_04_stage")
 	world.stage()
 	world.set_autopilot(true)
 	world.debug_warp = 10.0
-	await _until(func() -> bool: return world.active.body.altitude() > 95000.0 or world.active.crashed, 160.0)
+	await _until(func() -> bool: return world.sim.altitude() > 95000.0 or world.sim.crashed, 160.0)
 	world.debug_warp = 1.0
 	world.hud.set_tele_collapsed(false)
 	world.cam.set_view(-2.5, 0.24, 40.0, true)
@@ -116,16 +116,15 @@ func _map() -> void:
 	var v := sqrt(FlightOrbit.MU / r)
 	var up := Vector3.UP
 	var east := FlightWorld.EAST.normalized()
-	world.set_orbit_state(sys.earth, PackedFloat64Array([up.x * r, up.y * r, up.z * r]),
+	world.sim.set_orbit_state(sys.earth, PackedFloat64Array([up.x * r, up.y * r, up.z * r]),
 		PackedFloat64Array([east.x * v, east.y * v, east.z * v]))
-	world.active.body.q = Quaternion(Vector3.UP, east)
-	world.active.prev.copy_from(world.active.body)
-	while world.active.current_stage < world.active.stage_count - 1:
-		for d in world.active.activate_next_stage():
-			d.queue_free()
-	world.active.throttle = 0.0
-	world.active.set_sas(FlightVessel.Sas.PROGRADE)
-	world._orbit_announced = true
+	world.sim.q = Quaternion(Vector3.UP, east)
+	pass
+	while world.sim.craft.current_stage < world.sim.craft.stage_count - 1:
+		world.sim.stage()
+	world.sim.craft.throttle = 0.0
+	world.sim.craft.sas = FlightCraft.Sas.PROGRADE
+	world.sim.in_orbit = true
 	await _frames(10)
 	var n := world.plan.add(world.time + 1500.0, Vector3(3120.0, 0, 0))
 	world.target_body = sys.moon
@@ -150,7 +149,7 @@ func _report_mission() -> void:
 	world.stage()
 	world.set_autopilot(true)
 	world.debug_warp = 20.0
-	await _until(func() -> bool: return world.ended or world.active.crashed, 300.0)
+	await _until(func() -> bool: return world.ended or world.sim.crashed, 300.0)
 	world.debug_warp = 1.0
 	await _until(func() -> bool: return world.ended, 20.0)
 	await _frames(30)
@@ -161,11 +160,11 @@ func _report_mission() -> void:
 func _report_lost() -> void:
 	await _start()
 	world.stage()
-	world.active.set_sas(FlightVessel.Sas.OFF)
+	world.sim.craft.sas = FlightCraft.Sas.OFF
 	await _until(func() -> bool: return world.mission_time() > 8.0, 30.0)
 	world.debug_warp = 2.0
 	world.scripted_input = Vector3(-1, 0, 0.3)
-	await _until(func() -> bool: return world.active.crashed or world.mission_time() > 90.0, 90.0)
+	await _until(func() -> bool: return world.sim.crashed or world.mission_time() > 90.0, 90.0)
 	world.scripted_input = Vector3.ZERO
 	world.debug_warp = 1.0
 	await _until(func() -> bool: return world.ended, 10.0)

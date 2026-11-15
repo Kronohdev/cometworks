@@ -10,8 +10,10 @@
 [ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="cw_outline"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/integrated/tycoon_modes.tscn" id="modes"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/tutorial.tscn" id="tutorial"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/unlocks.tscn" id="unlocks"]
 [ext_resource type="Script" path="res://src/tycoon/campus_halley.gd" id="campus_halley"]
 [ext_resource type="PackedScene" path="res://scenes/npc/halleyzinho.tscn" id="halley"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/campus_effects.tscn" id="effects"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/talk/campus_chatter.tscn" id="chatter"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/talk/dialogue_box.tscn" id="talk_box"]
 
@@ -156,6 +158,7 @@ fov = 31.0
 far = 1600.0
 script = ExtResource("3_cam")
 tilt_shift_amount = 0.02
+bounds = Rect2(-75, -58, 172, 126)
 
 [node name="CwOutline" parent="Camera" instance=ExtResource("cw_outline")]
 
@@ -192,6 +195,8 @@ shadow_tint = SubResource("dc_shadow_tint")
 rim_color = SubResource("dc_rim_color")
 outline_color = SubResource("dc_outline_color")
 
+[node name="Effects" parent="." instance=ExtResource("effects")]
+
 [node name="Audio" parent="." node_paths=PackedStringArray("day_cycle") instance=ExtResource("audio_campus")]
 day_cycle = NodePath("../DayCycle")
 
@@ -209,6 +214,8 @@ layer = 20
 
 [node name="TutorialLayer" type="CanvasLayer" parent="."]
 layer = 30
+
+[node name="Unlocks" parent="TutorialLayer" instance=ExtResource("unlocks")]
 
 [node name="Tutorial" parent="TutorialLayer" instance=ExtResource("tutorial")]
 

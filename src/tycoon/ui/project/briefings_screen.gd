@@ -3,8 +3,8 @@ extends CwScreen
 ## the briefings on offer (BriefingDesk) as cards on the left; the chosen one on the right in
 ## story form, its goal, deadline, budget, reward and era, and what the staff can tell about
 ## it (curious scientists, seasoned engineers, veterans, the journal: Discovery.briefing_hints)
-## and the Lendas who mentor the agency (TycoonLegends.mentor_hints: portrait, name, line and a
-## key to their "Quem inspirou" card).
+## and the Lendas who mentor the agency (TycoonLegends.mentor_hints: portrait, name, line, a
+## key to their "Quem inspirou" card and "Conversar": a talk with them in the dialogue box).
 ## The briefing never says how to solve it. "Accept and plan" goes to New project (target and
 ## type) with the briefing; "Free project" goes there without one. Everything visual is in the
 ## scene; cards and hint rows are copies of its hidden templates.
@@ -126,6 +126,12 @@ func _fill_detail() -> void:
 		if not who.has_meta("wired"):
 			who.set_meta("wired", true)
 			who.pressed.connect(func() -> void: _open_legend(String(row.get_meta("legend"))))
+		var talk := row.get_node("Row/VBox/Head/Talk") as LinkButton
+		if not talk.has_meta("wired"):
+			talk.set_meta("wired", true)
+			talk.pressed.connect(func() -> void:
+				if hud:
+					hud.talk_to_legend(String(row.get_meta("legend")), "briefing"))
 	_fill_mentor_portraits()
 	%NoHints.visible = hints.is_empty() and mentors.is_empty()
 	var card := String(b.get("card", ""))

@@ -6,8 +6,8 @@ extends Control
 ##              one row per agency with what it took when, a plain-words legend, the milestone
 ##              under the cursor in one line and the agencies as tiles
 ##   Milestone  one milestone: era, reward, how to get it, when rivals are expected, who took it
-##   Agency     one agency: its leader (a Lenda, TycoonLegends: portrait, name, way, a line and
-##              a key to its "Quem inspirou" card), personality, strength / weakness, what it
+##   Agency     one agency: its leader (a Lenda, TycoonLegends: portrait, name, way, a line, a
+##              key to its "Quem inspirou" card and "Conversar": a talk with them, the dialogue box), personality, strength / weakness, what it
 ##              chases now, its motto and setbacks, and the milestones it took
 ## Click a station (or the line's key) for its milestone, a lane head or a tile for its agency.
 ## All the look is in the scene; this script fills data, places the station / lane templates
@@ -34,6 +34,10 @@ func _ready() -> void:
 		var lid := TycoonLegends.rival_leader_id(agency)
 		if hud and lid != "":
 			hud.open_screen("book", {"legend": lid}))
+	# the rival leader can be talked to right here (friendly rivalry, changes with the race)
+	%LeaderTalk.pressed.connect(func() -> void:
+		if hud:
+			hud.talk_to_legend(TycoonLegends.rival_leader_id(agency), "race"))
 
 
 ## The selected milestone's page (the line's key, tests, dev menu).

@@ -1,0 +1,350 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/emergency_loan_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/coin.svg" id="2_icon"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/halley_portrait.tscn" id="3_halley"]
+
+[sub_resource type="StyleBoxFlat" id="badge"]
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.169, 0.165, 0.361, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="bubble"]
+bg_color = Color(1, 0.9922, 0.9725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.169, 0.165, 0.361, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 4
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[node name="EmergencyLoanScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.55)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -250.0
+offset_right = 380.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+custom_minimum_size = Vector2(716, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="IconStack" type="Control" parent="Panel/Margin/VBox/Header"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Badge" type="Panel" parent="Panel/Margin/VBox/Header/IconStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("badge")
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Header/IconStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 11.0
+offset_right = -13.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Kicker" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
+text = "BK_LOAN_KICKER"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 32
+autowrap_mode = 3
+text = "BK_LOAN_TITLE"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="Label" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+custom_minimum_size = Vector2(600, 0)
+autowrap_mode = 3
+text = "BK_LOAN_BODY"
+
+[node name="Terms" type="GridContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="Amount" type="VBoxContainer" parent="Panel/Margin/VBox/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Terms/Amount"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "BK_LOAN_AMOUNT"
+
+[node name="Amount" type="Label" parent="Panel/Margin/VBox/Terms/Amount"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
+text = "1 200 000 cr"
+
+[node name="Payment" type="VBoxContainer" parent="Panel/Margin/VBox/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Terms/Payment"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "BK_LOAN_PAYMENT"
+
+[node name="Payment" type="Label" parent="Panel/Margin/VBox/Terms/Payment"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 20
+text = "60 000 cr / mês"
+
+[node name="Rate" type="VBoxContainer" parent="Panel/Margin/VBox/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Terms/Rate"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "BK_LOAN_RATE"
+
+[node name="Rate" type="Label" parent="Panel/Margin/VBox/Terms/Rate"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 20
+text = "1.5% ao mês"
+
+[node name="Deadline" type="VBoxContainer" parent="Panel/Margin/VBox/Terms"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Terms/Deadline"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "BK_LOAN_DEADLINE"
+
+[node name="Deadline" type="Label" parent="Panel/Margin/VBox/Terms/Deadline"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.851, 0.2275, 0.3608, 1)
+text = "24 meses · ano 9, semana 12"
+
+[node name="Rules" type="PanelContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/VBox/Rules"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Rules/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Rules/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "BK_LOAN_RULES"
+
+[node name="RuleLine" type="Label" parent="Panel/Margin/VBox/Rules/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(560, 0)
+autowrap_mode = 3
+text = "BK_LOAN_RULE_LINE"
+
+[node name="RuleRed" type="Label" parent="Panel/Margin/VBox/Rules/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+custom_minimum_size = Vector2(560, 0)
+autowrap_mode = 3
+text = "BK_LOAN_RULE_RED"
+
+[node name="Halley" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Portrait" parent="Panel/Margin/VBox/Halley" instance=ExtResource("3_halley")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(136, 136)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Bubble" type="PanelContainer" parent="Panel/Margin/VBox/Halley"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("bubble")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Halley/Bubble"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Halley/Bubble/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "BK_HALLEY_NAME"
+
+[node name="HalleyLine" type="Label" parent="Panel/Margin/VBox/Halley/Bubble/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+custom_minimum_size = Vector2(240, 0)
+autowrap_mode = 3
+text = "BK_LOAN_HALLEY"
+
+[node name="Actions" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="ToFinance" type="Button" parent="Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "BK_LOAN_FINANCE"
+
+[node name="Ok" type="Button" parent="Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "BK_LOAN_OK"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.94, 0.94)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.05
+seconds = 0.3
+animate_added = false
+curve = 1
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

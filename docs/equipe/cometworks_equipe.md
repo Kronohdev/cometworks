@@ -849,7 +849,7 @@ O bloco **O que este voo ensinou** lista até cinco lições, sempre concretas: 
 
 **Pesquisa.** Pesquisadores no laboratório produzem pontos de pesquisa (PP) toda semana, e metade da ciência que as missões baixam também vira PP. São 30 tecnologias, 6 por era, em nove ramos (capítulo 6). Uma tecnologia pronta pode ser **licenciada** a uma rival por dinheiro na hora; a rival ganha a tecnologia e corre um pouco mais rápido.
 
-![A árvore de pesquisa, uma coluna por era.](img/ui_pesquisa.jpg)
+![A árvore de pesquisa: o tronco no meio, as eras subindo das raízes, e o caminho de pré-requisitos aceso sob o mouse.](img/ui_pesquisa.jpg)
 
 **Contratos.** Além do quadro de missões, existe o quadro de contratos clássico: de 3 a 6 ofertas por mês, de sete clientes (três do governo, quatro comerciais) e desafios Space Apps. Cada contrato pede notas mínimas em certas barras. Nota 8 ou mais rende +25% de bônus; falha ou atraso custam 30% de multa e reputação. As rivais podem assinar ofertas comerciais antes de você.
 
@@ -864,7 +864,11 @@ O bloco **O que este voo ensinou** lista até cinco lições, sempre concretas: 
 | Prêmios de marco | o primeiro leva o prêmio inteiro; os seguintes, 30% |
 | Empréstimo | depois de três fins de mês no vermelho, o governo oferece: 200 mil × fator da era, em 24 parcelas a 1% ao mês |
 
-Sai: salários, manutenção dos prédios (2% do custo por mês), projetos (6 000 cr por semana de desenvolvimento, vezes o fator da era), lançamentos (o preço da unidade do foguete) e multas. Não existe *game over* por dinheiro.
+Sai: salários, manutenção dos prédios (2% do custo por mês), projetos (6 000 cr por semana de desenvolvimento, vezes o fator da era), lançamentos (o preço da unidade do foguete) e multas.
+
+**Falência.** Existe uma linha abaixo de zero: −600 mil cr no Normal (−900 mil no Fácil, −400 mil no Difícil), vezes um fator da era (1; 2,2; 3; 4,5; 6,5), porque os orçamentos crescem. Na metade do caminho até ela o HUD avisa ("Caixa · falência perto", em vermelho, com a moeda pulsando), a Rádio da Cauda dá a notícia e o Vovô Halleyzinho aparece com uma lição. O primeiro mês que fecha além da linha traz um **empréstimo de emergência**, uma vez só: cobre a dívida e deixa um colchão de 40% da linha, em 24 parcelas a 1,5% ao mês, com uma tela que explica os termos e o prazo. Se outro mês fechar além da linha, ou se a agência fechar 6 meses seguidos além da metade da linha antes de quitar (calote), é falência: o jogo termina com a pontuação, o que aconteceu, uma palavra do Vovô, "Tentar de novo" e "Menu principal", e a carreira fica guardada nos recordes. Salvamentos antigos começam com o empréstimo de emergência sem usar.
+
+![Falência: a pontuação, o que aconteceu e o Vovô consolando.](img/ui_falencia.jpg)
 
 ## O campus e as cinco eras
 
@@ -1379,6 +1383,8 @@ A caixa de ferramentas da agência: as 30 tecnologias, os destinos com o Δv de 
 
 Seis tecnologias por era, em nove ramos. Dá para pesquisar uma era à frente da atual, desde que os pré-requisitos estejam prontos. Custos em pontos de pesquisa (PP) e semanas.
 
+Na tela, a árvore cresce de baixo para cima: a era 1 nas raízes, cada era uma faixa acima da outra, e da esquerda para a direita os galhos (Foguetes, Comunicação, o Tronco com as tecnologias de laboratório, Ciência, Tripulação, Exploração). Cada pré-requisito é um galho do cartão de baixo até o de cima. As posições saem dos pré-requisitos (`tree` em `data/tycoon/research.json`; uma tecnologia pode fixar a sua com `tree_pos`), então tecnologia nova entra sozinha. Galhos prontos ficam verdes e crescem quando a pesquisa termina, o galho da pesquisa em andamento corre com seiva colorida, as disponíveis pulsam, a que está sendo pesquisada tem um anel de progresso e faíscas, e as eras fora de alcance ficam na névoa. Passar o mouse acende o caminho de pré-requisitos; clicar mostra a ficha ao lado (custo, tempo, previsão, o que abre, o que pede) com Financiar / Pôr na fila; roda do mouse aproxima e arrastar move.
+
 | Era | Tecnologia | Ramo | Custo | O que abre |
 | --- | --- | --- | --- | --- |
 | 1 | Foguete orbital | Propulsão | 90 PP · 4 sem | órbita baixa; estágio Falcão, superior Kestrel-V, 2 sólidos, Coifa P |
@@ -1778,13 +1784,25 @@ Números da simulação (4 campanhas por jogador, mediana):
 
 **Modo feira.** O relógio sozinho já dá 1.300 s (21,7 min). O robô da feira faz uns 65 projetos, e cada projeto custa umas 4 a 5 paradas (escolher, três fases, revisão, lançamento): a estimativa fica em 2 h 15. Para caber em 40 a 60 minutos, quem apresenta pode fazer uns 20 projetos, ou começar de um salvamento de era.
 
+**Falência.** A simulação ganhou um quinto robô, o **gastador** (gasta até o zero sem reserva, constrói e contrata no crédito e pega todo empréstimo), e conta avisos, empréstimos de emergência e falências. A linha ficou em −600 mil × fator da era no Normal, com a era 2 em ×2,2 (a era em que o robô bom mais aperta). "Mais perto da linha" é o menor caixa ÷ a linha da época (−1 = em cima dela).
+
+| Normal | Campanhas | Mais perto da linha (mediana / pior) | Avisados | Empréstimo de emergência | Falência |
+| --- | --- | --- | --- | --- | --- |
+| mediano | 8 | −0,28 / −0,66 | 2 | 0 | 0 |
+| feira | 4 | −0,33 / −0,81 | 1 | 0 | 0 |
+| bom | 4 | −0,39 / −1,00 | 2 | 1 (ano 9) | 0 |
+| moedor | 4 | −0,98 / −1,10 | 4 | 3 (anos 5, 8, 8) | 3 (anos 7, 9, 9) |
+| gastador | 4 | −1,06 / −1,10 | 4 | 4 (anos 3, 5, 5, 5) | 4 (anos 4, 6, 7, 7) |
+
+No Fácil (linha −900 mil) o mediano nem chega perto (pior −0,04) e o gastador ainda quebra em 3 de 4; no Difícil (linha −400 mil) o mediano é avisado em 3 de 4 campanhas (pior −0,75), sem empréstimo de emergência, e o gastador quebra em todas, entre os anos 4 e 7. A pontuação final do mediano não mudou (1 086 no Normal).
+
 Perguntas para o time:
 
 - A Aurora falha em 37,5% das tentativas (na prática 34% a 45%, porque o elástico a faz tentar mais quando está atrás). Divertido nas manchetes; frustrante nunca, porque a falha só atrasa ela.
 - As rivais parecem lentas contra um jogador competente: o mediano termina em primeiro em todas as campanhas no Normal e o robô bom pega 12 a 15 marcos. O Difícil (rivais ×1,2) aperta, mas talvez o Normal mereça rivais um pouco mais rápidas.
 - O dinheiro do fim ainda sobra muito (o placar só conta até 5 mi). Baixar mais o orçamento das eras 4 e 5, ou dar onde gastar (prédios de nível 4, megaprojetos)?
 - A equipe sobe de nível rápido: média de nível 5 já na era 2. Talvez 150 de XP por nível depois do 3.
-- Uma agência no vermelho pode ficar anos assim, emprestando de novo. O GDD fala em falência possível no Difícil.
+- Uma agência no vermelho podia ficar anos assim, emprestando de novo. Agora existe falência (abaixo), em todas as dificuldades, com a linha mais funda no Fácil.
 - O modo feira não corta nada do jogo: dá para reduzir as paradas (manter os sliders da fase anterior, revisão automática) se a apresentação precisar.
 
 ## Hangar e voo

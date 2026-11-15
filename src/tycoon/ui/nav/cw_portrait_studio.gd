@@ -50,7 +50,7 @@ func _run() -> void:
 	_busy = true
 	while not _queue.is_empty():
 		var q: Dictionary = _queue.pop_front()
-		TycoonLeader.dress(creature, q["m"])
+		creature = TycoonLeader.dress(creature, q["m"])   # a Lenda with a scene: its own body
 		creature.glow_color = q["glow"]
 		creature.play("idle")
 		# two frames: the new colours land, then the photo

@@ -1,0 +1,804 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/campus_effects.gd" id="1_fx"]
+[ext_resource type="Script" path="res://src/tycoon/fx/campus_weather.gd" id="2_weather"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="3_toon"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_ring.tres" id="4_ring"]
+[ext_resource type="Material" path="res://assets/campus/nature/foliage.tres" id="5_foliage"]
+[ext_resource type="Material" path="res://assets/campus/nature/grass.tres" id="6_grass"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/roof_birds.tscn" id="7_birds"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_hq.tscn" id="b_hq"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_workshop.tscn" id="b_workshop"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_lab.tscn" id="b_lab"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_control.tscn" id="b_control"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_antenna.tscn" id="b_antenna"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_factory.tscn" id="b_factory"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/building_fx_training.tscn" id="b_training"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/construction_fx.tscn" id="8_works"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/level_up_fx.tscn" id="9_levelup"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/fireworks.tscn" id="10_fireworks"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/fx/foot_dust.tscn" id="11_dust"]
+[ext_resource type="Texture2D" path="res://assets/campus/fx/cloud_shadow.png" id="12_shadow"]
+
+[sub_resource type="Curve" id="night_curve"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.22, 0.1), 0.0, 0.0, 0, 0, Vector2(0.36, 0.8), 0.0, 0.0, 0, 0, Vector2(0.45, 1), 0.0, 0.0, 0, 0, Vector2(0.62, 1), 0.0, 0.0, 0, 0, Vector2(0.74, 0.6), 0.0, 0.0, 0, 0, Vector2(0.84, 0.1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[sub_resource type="StandardMaterial3D" id="mat_rain"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.82, 0.88, 1, 0.42)
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="mesh_rain"]
+material = SubResource("mat_rain")
+size = Vector2(0.035, 0.9)
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_rain"]
+emission_shape = 3
+emission_box_extents = Vector3(34, 2, 34)
+direction = Vector3(0.12, -1, 0.05)
+spread = 2.0
+initial_velocity_min = 20.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, -9.8, 0)
+
+[sub_resource type="Curve" id="curve_splash"]
+_data = [Vector2(0, 0.2), 0.0, 2.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="curvetex_splash"]
+curve = SubResource("curve_splash")
+
+[sub_resource type="Gradient" id="grad_splash"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.85, 0.9, 1, 0.7, 0.85, 0.9, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_splash"]
+gradient = SubResource("grad_splash")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_splash"]
+emission_shape = 3
+emission_box_extents = Vector3(28, 0, 28)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.45
+scale_curve = SubResource("curvetex_splash")
+color_ramp = SubResource("gradtex_splash")
+
+[sub_resource type="PlaneMesh" id="mesh_splash"]
+material = ExtResource("4_ring")
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="mat_cloud"]
+render_priority = 0
+shader = ExtResource("3_toon")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/emission = Color(0.25, 0.25, 0.3, 1)
+shader_parameter/emission_energy = 0.4
+
+[sub_resource type="Gradient" id="grad_star"]
+offsets = PackedFloat32Array(0, 0.08, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.75, 0.9, 1, 0.9, 0.5, 0.7, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="gradtex_star"]
+gradient = SubResource("grad_star")
+width = 256
+height = 8
+
+[sub_resource type="StandardMaterial3D" id="mat_star"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("gradtex_star")
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="mesh_star"]
+material = SubResource("mat_star")
+size = Vector2(34, 0.7)
+center_offset = Vector3(17, 0, 0)
+
+[sub_resource type="Animation" id="anim_star_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Streak:transparency")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Streak:visible")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="anim_star"]
+resource_name = "streak"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Streak:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-140, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Streak:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.7, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 0.0, 0.1, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Streak:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.2, 1, 1), Vector3(1, 1, 1), Vector3(0.6, 0.6, 0.6)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Streak:visible")
+tracks/3/interp = 0
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Streak/Cross:transparency")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.7, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [1.0, 0.0, 0.1, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="lib_star"]
+_data = {
+&"RESET": SubResource("anim_star_reset"),
+&"streak": SubResource("anim_star")
+}
+
+[sub_resource type="SphereMesh" id="sphere_6_5"]
+radius = 6.5
+height = 10.4
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_7_4"]
+radius = 7.4
+height = 11.84
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_7_7"]
+radius = 7.7
+height = 12.32
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_0"]
+radius = 8.0
+height = 12.8
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_1"]
+radius = 8.1
+height = 12.96
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_2"]
+radius = 8.2
+height = 13.12
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_3"]
+radius = 8.3
+height = 13.28
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_4"]
+radius = 8.4
+height = 13.44
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_5"]
+radius = 8.5
+height = 13.6
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_8_7"]
+radius = 8.7
+height = 13.92
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_1"]
+radius = 9.1
+height = 14.56
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_3"]
+radius = 9.3
+height = 14.88
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_4"]
+radius = 9.4
+height = 15.04
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_5"]
+radius = 9.5
+height = 15.2
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_6"]
+radius = 9.6
+height = 15.36
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_7"]
+radius = 9.7
+height = 15.52
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_9_9"]
+radius = 9.9
+height = 15.84
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_10_0"]
+radius = 10.0
+height = 16.0
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_10_1"]
+radius = 10.1
+height = 16.16
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_10_3"]
+radius = 10.3
+height = 16.48
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_10_8"]
+radius = 10.8
+height = 17.28
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_11_0"]
+radius = 11.0
+height = 17.6
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_11_3"]
+radius = 11.3
+height = 18.08
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_11_5"]
+radius = 11.5
+height = 18.4
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_11_7"]
+radius = 11.7
+height = 18.72
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_12_0"]
+radius = 12.0
+height = 19.2
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_12_3"]
+radius = 12.3
+height = 19.68
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_12_6"]
+radius = 12.6
+height = 20.16
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_12_9"]
+radius = 12.9
+height = 20.64
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_13_0"]
+radius = 13.0
+height = 20.8
+radial_segments = 12
+rings = 6
+
+[sub_resource type="SphereMesh" id="sphere_13_1"]
+radius = 13.1
+height = 20.96
+radial_segments = 12
+rings = 6
+
+[node name="Effects" type="Node3D"]
+script = ExtResource("1_fx")
+building_fx = Dictionary[String, PackedScene]({
+"antenna": ExtResource("b_antenna"),
+"control": ExtResource("b_control"),
+"factory": ExtResource("b_factory"),
+"hq": ExtResource("b_hq"),
+"lab": ExtResource("b_lab"),
+"training": ExtResource("b_training"),
+"workshop": ExtResource("b_workshop")
+})
+construction_fx = ExtResource("8_works")
+level_up_fx = ExtResource("9_levelup")
+fireworks = ExtResource("10_fireworks")
+foot_dust = ExtResource("11_dust")
+
+[node name="Weather" type="Node3D" parent="."]
+script = ExtResource("2_weather")
+foliage_materials = Array[ShaderMaterial]([ExtResource("5_foliage"), ExtResource("6_grass")])
+night = SubResource("night_curve")
+
+[node name="Rain" type="GPUParticles3D" parent="Weather"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0)
+cast_shadow = 0
+emitting = false
+amount = 900
+lifetime = 1.1
+transform_align = 3
+visibility_aabb = AABB(-45, -45, -45, 90, 60, 90)
+process_material = SubResource("ppm_rain")
+draw_pass_1 = SubResource("mesh_rain")
+
+[node name="Splashes" type="GPUParticles3D" parent="Weather"]
+cast_shadow = 0
+emitting = false
+amount = 140
+lifetime = 0.35
+visibility_aabb = AABB(-35, -2, -35, 70, 4, 70)
+process_material = SubResource("ppm_splash")
+draw_pass_1 = SubResource("mesh_splash")
+
+[node name="Clouds" type="Node3D" parent="Weather"]
+
+[node name="Cloud1" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.4, 0, -97.8)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 159.5, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud1/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.2, -0.5, 0.8)
+cast_shadow = 0
+mesh = SubResource("sphere_9_6")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud1/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 2.4, -0.8)
+cast_shadow = 0
+mesh = SubResource("sphere_9_6")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud1/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3, 2.3, 0.7)
+cast_shadow = 0
+mesh = SubResource("sphere_12_9")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud1/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3, 1.9, -4.4)
+cast_shadow = 0
+mesh = SubResource("sphere_8_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(48, 60, 29)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud2" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -144.1, 0, -78.1)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 156.7, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud2/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.8, -0.3, -3.8)
+cast_shadow = 0
+mesh = SubResource("sphere_7_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud2/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7, 2.9, 0.8)
+cast_shadow = 0
+mesh = SubResource("sphere_11_5")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud2/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 4.7, -4.4)
+cast_shadow = 0
+mesh = SubResource("sphere_8_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud2/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4, 2.4, -0.7)
+cast_shadow = 0
+mesh = SubResource("sphere_7_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(38, 60, 23)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud3" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.4, 0, -13.1)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 149.0, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud3/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6, 0.2, 0.7)
+cast_shadow = 0
+mesh = SubResource("sphere_8_2")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud3/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 5.6, -2.1)
+cast_shadow = 0
+mesh = SubResource("sphere_13_1")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud3/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7, 4.1, 2.6)
+cast_shadow = 0
+mesh = SubResource("sphere_9_1")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud3/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.7, -0.8, 1.7)
+cast_shadow = 0
+mesh = SubResource("sphere_9_1")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(44, 60, 26)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud4" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, 0, 105.1)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 149.4, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.1, 1.5, 3.0)
+cast_shadow = 0
+mesh = SubResource("sphere_6_5")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9, 3.3, 2.0)
+cast_shadow = 0
+mesh = SubResource("sphere_8_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 3.5, 0.8)
+cast_shadow = 0
+mesh = SubResource("sphere_11_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 5.6, 3.9)
+cast_shadow = 0
+mesh = SubResource("sphere_10_1")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff5" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7, 3.8, 1.1)
+cast_shadow = 0
+mesh = SubResource("sphere_10_8")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff6" type="MeshInstance3D" parent="Weather/Clouds/Cloud4/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1, 0.4, 2.4)
+cast_shadow = 0
+mesh = SubResource("sphere_7_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(54, 60, 32)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud5" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.4, 0, -1.0)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 145.0, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud5/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.3, 3.4, 3.2)
+cast_shadow = 0
+mesh = SubResource("sphere_9_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud5/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.8, 4.1, -1.4)
+cast_shadow = 0
+mesh = SubResource("sphere_12_6")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud5/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 2.8, -3.2)
+cast_shadow = 0
+mesh = SubResource("sphere_9_5")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud5/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.7, 4.4, 0.9)
+cast_shadow = 0
+mesh = SubResource("sphere_9_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff5" type="MeshInstance3D" parent="Weather/Clouds/Cloud5/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0, 1.1, -1.3)
+cast_shadow = 0
+mesh = SubResource("sphere_8_3")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(53, 60, 32)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud6" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 145.0, 0, 53.3)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 155.5, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4, 2.7, -0.4)
+cast_shadow = 0
+mesh = SubResource("sphere_9_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8, 5.4, 0.6)
+cast_shadow = 0
+mesh = SubResource("sphere_10_3")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 4.4, -1.0)
+cast_shadow = 0
+mesh = SubResource("sphere_9_3")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 4.2, -3.9)
+cast_shadow = 0
+mesh = SubResource("sphere_11_3")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff5" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.0, 4.8, 0.4)
+cast_shadow = 0
+mesh = SubResource("sphere_13_0")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff6" type="MeshInstance3D" parent="Weather/Clouds/Cloud6/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.1, -0.6, -2.9)
+cast_shadow = 0
+mesh = SubResource("sphere_7_7")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(64, 60, 38)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud7" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.0, 0, 127.5)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 158.1, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud7/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.7, 3.2, 4.9)
+cast_shadow = 0
+mesh = SubResource("sphere_8_0")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud7/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 2.4, -4.0)
+cast_shadow = 0
+mesh = SubResource("sphere_10_0")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud7/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 6.1, -3.4)
+cast_shadow = 0
+mesh = SubResource("sphere_8_5")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud7/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.9, 4.6, -3.5)
+cast_shadow = 0
+mesh = SubResource("sphere_11_0")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff5" type="MeshInstance3D" parent="Weather/Clouds/Cloud7/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2, 1.6, 4.8)
+cast_shadow = 0
+mesh = SubResource("sphere_9_4")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(47, 60, 28)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="Cloud8" type="Node3D" parent="Weather/Clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.8, 0, -66.9)
+
+[node name="Puffs" type="Node3D" parent="Weather/Clouds/Cloud8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 151.0, 0)
+
+[node name="Puff1" type="MeshInstance3D" parent="Weather/Clouds/Cloud8/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1, 0.1, 0.4)
+cast_shadow = 0
+mesh = SubResource("sphere_8_1")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff2" type="MeshInstance3D" parent="Weather/Clouds/Cloud8/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 5.1, 2.9)
+cast_shadow = 0
+mesh = SubResource("sphere_12_0")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff3" type="MeshInstance3D" parent="Weather/Clouds/Cloud8/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8, 3.2, -1.0)
+cast_shadow = 0
+mesh = SubResource("sphere_12_3")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Puff4" type="MeshInstance3D" parent="Weather/Clouds/Cloud8/Puffs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4, 1.5, 2.3)
+cast_shadow = 0
+mesh = SubResource("sphere_9_9")
+surface_material_override/0 = SubResource("mat_cloud")
+
+[node name="Shadow" type="Decal" parent="Weather/Clouds/Cloud8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+size = Vector3(43, 60, 26)
+texture_albedo = ExtResource("12_shadow")
+modulate = Color(1, 1, 1, 0)
+upper_fade = 0.05
+lower_fade = 0.05
+
+[node name="ShootingStar" type="Node3D" parent="Weather"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 150, -300)
+
+[node name="Streak" type="MeshInstance3D" parent="Weather/ShootingStar"]
+visible = false
+cast_shadow = 0
+transparency = 1.0
+mesh = SubResource("mesh_star")
+
+[node name="Cross" type="MeshInstance3D" parent="Weather/ShootingStar/Streak"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+cast_shadow = 0
+transparency = 1.0
+mesh = SubResource("mesh_star")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weather/ShootingStar"]
+libraries = {
+&"": SubResource("lib_star")
+}
+
+[node name="Birds" type="Node3D" parent="."]
+
+[node name="Lamp1" parent="Birds" instance=ExtResource("7_birds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4.38, -2.5)
+
+[node name="Lamp2" parent="Birds" instance=ExtResource("7_birds")]
+transform = Transform3D(-0.5, 0, 0.866, 0, 1, 0, -0.866, 0, -0.5, 7, 4.38, 6.5)
+phase = 0.9
+
+[node name="Lamp3" parent="Birds" instance=ExtResource("7_birds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 4.38, -2.2)
+phase = 1.7
+
+[node name="Lamp4" parent="Birds" instance=ExtResource("7_birds")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -26, 4.38, 6.2)
+phase = 0.4

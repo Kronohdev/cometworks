@@ -1,17 +1,43 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod2.glb" id="1_nucleus"]
-[ext_resource type="Shader" path="res://shaders/menu_comet_tail.gdshader" id="2_tail"]
+[ext_resource type="Shader" path="res://shaders/comet_tail.gdshader" id="2_tail"]
 [ext_resource type="Shader" path="res://shaders/menu_glow.gdshader" id="3_glow"]
-[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="cw_toon_solid"]
+[ext_resource type="Shader" path="res://shaders/comet_nucleus.gdshader" id="4_ice"]
+[ext_resource type="Shader" path="res://shaders/comet_coma.gdshader" id="5_coma"]
+[ext_resource type="Shader" path="res://shaders/comet_sparkle.gdshader" id="6_spark"]
+[ext_resource type="Shader" path="res://shaders/comet_face.gdshader" id="7_face"]
 
 [sub_resource type="ShaderMaterial" id="ice"]
-shader = ExtResource("cw_toon_solid")
-shader_parameter/albedo = Color(0.9, 0.97, 1, 1)
-shader_parameter/use_vertex_color = true
-shader_parameter/roughness = 0.7
-shader_parameter/emission = Color(0.7, 0.95, 1, 1)
-shader_parameter/emission_energy = 0.9
+shader = ExtResource("4_ice")
+shader_parameter/ice_color = Color(0.97, 0.99, 1, 1)
+shader_parameter/shade_color = Color(0.74, 0.87, 1, 1)
+shader_parameter/crust_color = Color(0.56, 0.5, 0.74, 1)
+shader_parameter/crust_amount = 0.42
+shader_parameter/crust_scale = 2.6
+shader_parameter/glint_density = 0.05
+shader_parameter/glint_strength = 2.4
+shader_parameter/glint_scale = 14.0
+shader_parameter/sun_glow = Color(1, 0.86, 0.62, 1)
+shader_parameter/sun_glow_strength = 0.25
+shader_parameter/inner_glow = Color(0.55, 0.85, 1, 1)
+shader_parameter/inner_glow_strength = 0.35
+shader_parameter/vertex_color_mix = 0.2
+shader_parameter/rim_strength = 1.1
+shader_parameter/rim_color = Color(0.62, 0.95, 1, 1)
+
+[sub_resource type="QuadMesh" id="face_quad"]
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="face_mat"]
+render_priority = 3
+shader = ExtResource("7_face")
+shader_parameter/ink = Color(0.17, 0.2, 0.42, 1)
+shader_parameter/blush = Color(1, 0.58, 0.7, 1)
+shader_parameter/opacity = 1.0
+shader_parameter/awake = 0.0
+shader_parameter/peek_every = 7.0
+shader_parameter/smile = 1.0
 
 [sub_resource type="QuadMesh" id="tail_quad"]
 size = Vector2(1, 1)
@@ -20,110 +46,245 @@ center_offset = Vector3(0.5, 0, 0)
 [sub_resource type="ShaderMaterial" id="ion_mat"]
 render_priority = 1
 shader = ExtResource("2_tail")
-shader_parameter/head_color = Color(0.85, 1, 0.98, 1)
-shader_parameter/color_a = Color(0.247, 0.878, 0.773, 1)
-shader_parameter/color_b = Color(0.557, 0.486, 1, 1)
-shader_parameter/color_c = Color(0.557, 0.486, 1, 1)
-shader_parameter/intensity = 0.75
+shader_parameter/head_color = Color(0.85, 0.97, 1, 1)
+shader_parameter/near_color = Color(0.5, 0.86, 1, 1)
+shader_parameter/mid_color = Color(0.28, 0.55, 1, 1)
+shader_parameter/far_color = Color(0.38, 0.34, 0.95, 1)
+shader_parameter/intensity = 1.35
 shader_parameter/width_start = 0.05
 shader_parameter/width_end = 0.3
 shader_parameter/bend = 0.0
+shader_parameter/rays = 0.0
+shader_parameter/ray_count = 11.0
 shader_parameter/streaks = 0.85
-shader_parameter/flow_speed = 0.06
-shader_parameter/fade_power = 1.2
-shader_parameter/gradient_scale = 1.0
+shader_parameter/streak_scale = 5.0
+shader_parameter/flow_speed = 0.22
+shader_parameter/kinks = 0.12
+shader_parameter/edge_bright = 0.0
+shader_parameter/fade_power = 1.1
+shader_parameter/gradient_scale = 0.9
+shader_parameter/bands = 0.0
 
 [sub_resource type="ShaderMaterial" id="dust_mat"]
 render_priority = 1
 shader = ExtResource("2_tail")
-shader_parameter/head_color = Color(0.9, 0.97, 1, 1)
-shader_parameter/color_a = Color(0.247, 0.878, 0.773, 1)
-shader_parameter/color_b = Color(0.557, 0.486, 1, 1)
-shader_parameter/color_c = Color(1, 0.541, 0.239, 1)
+shader_parameter/head_color = Color(1, 0.97, 0.88, 1)
+shader_parameter/near_color = Color(1, 0.9, 0.62, 1)
+shader_parameter/mid_color = Color(1, 0.74, 0.4, 1)
+shader_parameter/far_color = Color(0.96, 0.5, 0.36, 1)
 shader_parameter/intensity = 1.0
 shader_parameter/width_start = 0.07
 shader_parameter/width_end = 0.5
-shader_parameter/bend = -0.55
-shader_parameter/streaks = 0.5
-shader_parameter/flow_speed = 0.03
+shader_parameter/bend = -0.8
+shader_parameter/rays = 0.7
+shader_parameter/ray_count = 13.0
+shader_parameter/streaks = 0.3
+shader_parameter/streak_scale = 3.0
+shader_parameter/flow_speed = 0.04
+shader_parameter/kinks = 0.0
+shader_parameter/edge_bright = 1.0
 shader_parameter/fade_power = 1.5
-shader_parameter/gradient_scale = 0.9
+shader_parameter/gradient_scale = 0.85
+shader_parameter/bands = 0.0
+
+[sub_resource type="ShaderMaterial" id="jet_mat"]
+render_priority = 2
+shader = ExtResource("2_tail")
+shader_parameter/head_color = Color(1, 1, 1, 1)
+shader_parameter/near_color = Color(0.82, 0.97, 1, 1)
+shader_parameter/mid_color = Color(0.6, 0.9, 1, 1)
+shader_parameter/far_color = Color(0.45, 0.75, 1, 1)
+shader_parameter/intensity = 0.9
+shader_parameter/width_start = 0.08
+shader_parameter/width_end = 0.5
+shader_parameter/bend = 0.25
+shader_parameter/rays = 0.0
+shader_parameter/ray_count = 11.0
+shader_parameter/streaks = 0.6
+shader_parameter/streak_scale = 3.0
+shader_parameter/flow_speed = 0.8
+shader_parameter/kinks = 0.0
+shader_parameter/edge_bright = 0.0
+shader_parameter/fade_power = 1.6
+shader_parameter/gradient_scale = 1.0
+shader_parameter/bands = 0.0
 
 [sub_resource type="QuadMesh" id="glow_quad"]
 size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="coma_mat"]
 render_priority = 2
-shader = ExtResource("3_glow")
-shader_parameter/glow_color = Color(0.55, 0.92, 0.95, 1)
-shader_parameter/intensity = 0.5
-shader_parameter/core = 0.0
-shader_parameter/falloff = 3.2
+shader = ExtResource("5_coma")
+shader_parameter/core_color = Color(1, 0.98, 0.9, 1)
+shader_parameter/inner_color = Color(0.55, 1, 0.86, 1)
+shader_parameter/outer_color = Color(0.32, 0.72, 1, 1)
+shader_parameter/intensity = 0.8
+shader_parameter/falloff = 4.0
+shader_parameter/core = 0.04
+shader_parameter/core_strength = 0.6
+shader_parameter/hood = 0.4
+shader_parameter/stretch = 0.9
+shader_parameter/bands = 0.0
+shader_parameter/shimmer = 0.18
 
 [sub_resource type="ShaderMaterial" id="core_mat"]
 render_priority = 2
 shader = ExtResource("3_glow")
-shader_parameter/glow_color = Color(0.85, 0.97, 1, 1)
-shader_parameter/intensity = 1.4
-shader_parameter/core = 0.04
+shader_parameter/glow_color = Color(0.9, 0.98, 1, 1)
+shader_parameter/intensity = 1.2
+shader_parameter/core = 0.05
 shader_parameter/falloff = 7.0
 
-[sub_resource type="Gradient" id="spark_ramp"]
-offsets = PackedFloat32Array(0, 0.1, 0.5, 1)
-colors = PackedColorArray(0.8, 1, 0.97, 0, 0.247, 0.878, 0.773, 1, 0.557, 0.486, 1, 0.8, 1, 0.541, 0.239, 0)
+[sub_resource type="ShaderMaterial" id="fleck_mat"]
+render_priority = 2
+shader = ExtResource("6_spark")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/star = 0.0
+shader_parameter/sharpness = 14.0
+shader_parameter/twinkle_speed = 5.0
 
-[sub_resource type="GradientTexture1D" id="spark_ramp_tex"]
-gradient = SubResource("spark_ramp")
+[sub_resource type="QuadMesh" id="fleck_mesh"]
+material = SubResource("fleck_mat")
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="star_mat"]
+render_priority = 3
+shader = ExtResource("6_spark")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/intensity = 2.6
+shader_parameter/star = 1.0
+shader_parameter/sharpness = 16.0
+shader_parameter/twinkle_speed = 6.0
+
+[sub_resource type="QuadMesh" id="star_mesh"]
+material = SubResource("star_mat")
+size = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="dust_ramp"]
+offsets = PackedFloat32Array(0, 0.12, 0.55, 1)
+colors = PackedColorArray(1, 0.97, 0.9, 0, 1, 0.9, 0.6, 1, 1, 0.72, 0.38, 0.7, 0.95, 0.5, 0.35, 0)
+
+[sub_resource type="GradientTexture1D" id="dust_ramp_tex"]
+gradient = SubResource("dust_ramp")
 
 [sub_resource type="ParticleProcessMaterial" id="spark_process"]
 emission_shape = 1
 emission_sphere_radius = 0.8
 direction = Vector3(1, 0, 0)
-spread = 8.0
+spread = 9.0
 initial_velocity_min = 3.0
 initial_velocity_max = 7.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.5
-scale_max = 1.4
-color_ramp = SubResource("spark_ramp_tex")
+gravity = Vector3(0, -0.15, 0)
+scale_min = 0.08
+scale_max = 0.22
+color_ramp = SubResource("dust_ramp_tex")
 
-[sub_resource type="StandardMaterial3D" id="spark_mat"]
-transparency = 1
-blend_mode = 1
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_color = Color(2, 2, 2, 1)
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
+[sub_resource type="Gradient" id="jet_ramp"]
+offsets = PackedFloat32Array(0, 0.15, 0.6, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.9, 0.98, 1, 1, 0.6, 0.9, 1, 0.55, 0.45, 0.75, 1, 0)
 
-[sub_resource type="SphereMesh" id="spark_mesh"]
-material = SubResource("spark_mat")
-radius = 0.06
-height = 0.12
-radial_segments = 6
-rings = 3
+[sub_resource type="GradientTexture1D" id="jet_ramp_tex"]
+gradient = SubResource("jet_ramp")
+
+[sub_resource type="Curve" id="jet_scale"]
+_data = [Vector2(0, 0.4), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="jet_scale_tex"]
+curve = SubResource("jet_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="jet_process"]
+emission_shape = 1
+emission_sphere_radius = 0.05
+direction = Vector3(-1, 0.25, 0)
+spread = 10.0
+initial_velocity_min = 1.3
+initial_velocity_max = 2.0
+gravity = Vector3(1.9, 0, 0)
+damping_min = 0.2
+damping_max = 0.4
+scale_min = 0.035
+scale_max = 0.07
+scale_curve = SubResource("jet_scale_tex")
+color_ramp = SubResource("jet_ramp_tex")
+
+[sub_resource type="ParticleProcessMaterial" id="jet_process_b"]
+emission_shape = 1
+emission_sphere_radius = 0.05
+direction = Vector3(-1, -0.35, 0.2)
+spread = 8.0
+initial_velocity_min = 1.1
+initial_velocity_max = 1.7
+gravity = Vector3(1.7, 0, 0)
+damping_min = 0.2
+damping_max = 0.4
+scale_min = 0.03
+scale_max = 0.06
+scale_curve = SubResource("jet_scale_tex")
+color_ramp = SubResource("jet_ramp_tex")
+
+[sub_resource type="Gradient" id="glint_ramp"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(0.85, 1, 1, 0, 0.9, 1, 1, 1, 1, 0.95, 0.8, 1, 1, 0.9, 0.7, 0)
+
+[sub_resource type="GradientTexture1D" id="glint_ramp_tex"]
+gradient = SubResource("glint_ramp")
+
+[sub_resource type="Curve" id="glint_scale"]
+_data = [Vector2(0, 0), 0.0, 3.0, 0, 0, Vector2(0.4, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="glint_scale_tex"]
+curve = SubResource("glint_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="glint_process"]
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3(1, 0, 0)
+spread = 180.0
+initial_velocity_min = 0.05
+initial_velocity_max = 0.3
+gravity = Vector3(0.2, 0, 0)
+scale_min = 0.25
+scale_max = 0.6
+scale_curve = SubResource("glint_scale_tex")
+color_ramp = SubResource("glint_ramp_tex")
 
 [node name="MaeGelo" type="Node3D"]
 
-[node name="Nucleus" parent="." instance=ExtResource("1_nucleus")]
-transform = Transform3D(0.55, 0.1, 0, -0.08, 0.42, 0.05, 0, -0.04, 0.48, 0, 0, 0)
+[node name="Nucleus" type="Node3D" parent="."]
 
-[node name="moon_lod2" parent="Nucleus" index="0"]
+[node name="LobeBig" parent="Nucleus" instance=ExtResource("1_nucleus")]
+transform = Transform3D(0.52, 0.06, 0, -0.05, 0.46, 0.04, 0, -0.03, 0.5, 0.06, -0.14, 0)
+
+[node name="moon_lod2" parent="Nucleus/LobeBig" index="0"]
 material_override = SubResource("ice")
 cast_shadow = 0
 
+[node name="LobeSmall" parent="Nucleus" instance=ExtResource("1_nucleus")]
+transform = Transform3D(0.34, -0.05, 0.02, 0.05, 0.33, 0, -0.02, 0, 0.35, -0.12, 0.44, 0.04)
+
+[node name="moon_lod2" parent="Nucleus/LobeSmall" index="0"]
+material_override = SubResource("ice")
+cast_shadow = 0
+
+[node name="Face" type="MeshInstance3D" parent="Nucleus"]
+transform = Transform3D(0.66, 0, 0, 0, 0.66, 0, 0, 0, 0.66, 0.04, -0.1, 0.6)
+visible = false
+cast_shadow = 0
+mesh = SubResource("face_quad")
+surface_material_override/0 = SubResource("face_mat")
+
 [node name="IonTail" type="MeshInstance3D" parent="."]
-transform = Transform3D(70, 0, 0, 0, 7, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(75, 0, 0, 0, 6, 0, 0, 0, 1, 0, 0, 0)
 cast_shadow = 0
 custom_aabb = AABB(0, -0.6, -4, 1, 1.2, 8)
 mesh = SubResource("tail_quad")
 surface_material_override/0 = SubResource("ion_mat")
 
 [node name="DustTail" type="MeshInstance3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 20, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(52, 0, 0, 0, 22, 0, 0, 0, 1, 0, 0, 0)
 cast_shadow = 0
 custom_aabb = AABB(0, -0.6, -8, 1, 1.2, 16)
 mesh = SubResource("tail_quad")
@@ -136,15 +297,58 @@ mesh = SubResource("glow_quad")
 surface_material_override/0 = SubResource("coma_mat")
 
 [node name="Core" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0, 0)
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("glow_quad")
 surface_material_override/0 = SubResource("core_mat")
 
 [node name="Sparks" type="GPUParticles3D" parent="."]
-amount = 90
+amount = 110
 lifetime = 7.0
 preprocess = 7.0
 visibility_aabb = AABB(-4, -12, -12, 60, 24, 24)
 process_material = SubResource("spark_process")
-draw_pass_1 = SubResource("spark_mesh")
+draw_pass_1 = SubResource("fleck_mesh")
+
+[node name="JetA" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48, -0.08, 0.12)
+amount = 60
+lifetime = 2.2
+preprocess = 2.2
+local_coords = true
+visibility_aabb = AABB(-3, -2, -2, 6, 4, 4)
+process_material = SubResource("jet_process")
+draw_pass_1 = SubResource("fleck_mesh")
+
+[node name="JetB" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.5, -0.06)
+amount = 40
+lifetime = 2.0
+preprocess = 2.0
+local_coords = true
+visibility_aabb = AABB(-3, -2, -2, 6, 4, 4)
+process_material = SubResource("jet_process_b")
+draw_pass_1 = SubResource("fleck_mesh")
+
+[node name="JetGlowA" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.5, -0.12, 0, 0.36, -0.5, 0, 0, 0, 1, -0.46, -0.08, 0.12)
+cast_shadow = 0
+custom_aabb = AABB(0, -0.6, -1, 1, 1.2, 2)
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("jet_mat")
+
+[node name="JetGlowB" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.2, 0.1, 0, -0.42, -0.4, 0, 0, 0, 1, -0.38, 0.5, -0.06)
+cast_shadow = 0
+custom_aabb = AABB(0, -0.6, -1, 1, 1.2, 2)
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("jet_mat")
+
+[node name="Glints" type="GPUParticles3D" parent="."]
+amount = 22
+lifetime = 3.0
+preprocess = 3.0
+local_coords = true
+visibility_aabb = AABB(-4, -4, -4, 8, 8, 8)
+process_material = SubResource("glint_process")
+draw_pass_1 = SubResource("star_mesh")

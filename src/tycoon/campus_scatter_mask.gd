@@ -7,3 +7,6 @@ extends Resource
 ## nodes to refresh them.
 
 @export var avoid: Array[Rect2] = []
+## when it has 3 points or more: nothing is scattered outside this polygon (world XZ), e.g. the
+## island's flat top (written by tools/build_campus_island.gd)
+@export var inside: PackedVector2Array = PackedVector2Array()

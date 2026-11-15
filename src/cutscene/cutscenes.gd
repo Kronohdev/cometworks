@@ -10,11 +10,15 @@ extends RefCounted
 ##                    promise to go next time
 ## Each plays once per campaign (TycoonState.story keeps the beats seen: "opening",
 ## "ending"), unless replayed from the pause menu ("Rewatch the opening"), and players can
-## turn them off in the settings (user://settings.cfg, next to the launch cinematic).
+## turn them off in the settings (user://settings.cfg, next to the launch cinematic). Vovô Edmundo
+## narrates them (narration_enabled; his lines in data/story/narration.json).
 
 const SETTINGS_PATH := "user://settings.cfg"
 const SETTINGS_SECTION := "tycoon"
 const SETTINGS_KEY := "cutscenes"
+## Vovô Edmundo's narration of the scenes (on by default)
+const NARRATION_KEY := "narration"
+const NARRATION_PATH := "res://data/story/narration.json"
 const DIR := "res://scenes/cutscenes/"
 const OPENING := "opening"
 const OPENING_SHORT := "opening_short"
@@ -26,6 +30,7 @@ const BEATS := {OPENING: "opening", OPENING_SHORT: "opening", ENDING_COMET: "end
 
 ## the cutscene playing now (null when none)
 static var current: Cutscene
+static var _narration: Dictionary = {}
 
 
 static func path(id: String) -> String:
@@ -43,6 +48,32 @@ static func set_enabled(on: bool) -> void:
 	cfg.load(SETTINGS_PATH)
 	cfg.set_value(SETTINGS_SECTION, SETTINGS_KEY, on)
 	cfg.save(SETTINGS_PATH)
+
+
+## Does Vovô Edmundo narrate the scenes? (user://settings.cfg [tycoon] narration)
+static func narration_enabled() -> bool:
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH)
+	return bool(cfg.get_value(SETTINGS_SECTION, NARRATION_KEY, true))
+
+
+static func set_narration_enabled(on: bool) -> void:
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH)
+	cfg.set_value(SETTINGS_SECTION, NARRATION_KEY, on)
+	cfg.save(SETTINGS_PATH)
+
+
+## Vovô's narration (data/story/narration.json): {storybook line key: {"key", "pose", "face"}}.
+static func narration() -> Dictionary:
+	if _narration.is_empty():
+		_narration = TycoonState.load_json(NARRATION_PATH).get("lines", {})
+	return _narration
+
+
+## Vovô's version of a storybook line ({} when he has none).
+static func narration_line(line_key: String) -> Dictionary:
+	return narration().get(line_key, {})
 
 
 static func beat(id: String) -> String:

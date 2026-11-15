@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/solar.tres" id="m_solar"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.1, 0.35, 0.1)
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(2.6, 0.06, 0.08)
+
+[sub_resource type="BoxMesh" id="Box_3"]
+size = Vector3(1.05, 0.04, 0.9)
+
+[sub_resource type="BoxMesh" id="Box_4"]
+size = Vector3(0.97, 0.05, 0.82)
+
+[node name="SolarWing" type="Node3D"]
+
+[node name="Post" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17, 0)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Spar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="WingL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.38, 0)
+
+[node name="Frame" type="MeshInstance3D" parent="WingL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Cells" type="MeshInstance3D" parent="WingL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
+mesh = SubResource("Box_4")
+surface_material_override/0 = ExtResource("m_solar")
+
+[node name="WingR" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.38, 0)
+
+[node name="Frame" type="MeshInstance3D" parent="WingR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Cells" type="MeshInstance3D" parent="WingR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
+mesh = SubResource("Box_4")
+surface_material_override/0 = ExtResource("m_solar")

@@ -23,15 +23,27 @@ extends CanvasLayer
 ## given back on exit (the free workshop of the main menu keeps its own vessel);
 ## FlightSession.mission holds the mission while the hangar is open and is cleared on exit.
 ##
+## The live launch (one continuous flight, CareerFlight):
+##   start_launch        LaunchSequence at T-0: the project's real rocket (its hangar vessel, or
+##                       one LaunchVessels builds from the design) lifts off from the campus pad;
+##                       the run flies the outcome the career gave and is kept in `launch_run`
+##   open_launch_flight  the handoff: the same run in the 3D flight, the live campus lent as the
+##                       island under the pad (given back when the flight closes); "Voltar ao
+##                       campus" closes the view and the run goes on with the calendar
+##                       (_tick_launch), on the Solar System map, until it rides its track
 ## Missions in space (SpaceTracking, src/tycoon/tracking/), the same flight scene in its
 ## spectator / map-only modes with an overlay scene of ours on its HUD:
-##   open_watch      the review's "Acompanhar o lançamento": the project's rocket flies from the
-##                   pad the outcome the simulation gave (LaunchWatch, launch_watch_overlay.tscn)
+##   open_watch      the review's "Acompanhar o lançamento": the live run if it still flies, else
+##                   that launch again from the pad as it went (LaunchWatch, a replay)
 ##   open_space_map  the campus' "Mapa do Sistema Solar" (M): the flight's map alone with every
 ##                   tracked mission (SpaceMapOverlay, space_map_overlay.tscn); the clock keeps
 ##                   running (a screen that opens meanwhile closes the map so it is seen)
-##   open_follow     the map's "Acompanhar": that craft up close in the 3D flight, at its place
-##                   and time; leaving it goes back to the map
+##   open_follow     the map's "Acompanhar": the live run while it flies, else that craft up
+##                   close where its track has it now; leaving it goes back to the map
+##
+## Rovers on a planet surface (src/rover/): open_surface runs scenes/surface/rover_drive.tscn in its
+## embedded mode for a SurfaceSession (a mission's "Controlar o rover", the workshop's test drive);
+## its "Voltar à Terra" closes the mode and hands the session's result to the caller.
 
 signal opened(kind: String)
 signal closed(kind: String)
@@ -40,6 +52,7 @@ const HANGAR_SCENE := "res://scenes/hangar.tscn"
 const FLIGHT_SCENE := "res://scenes/flight/flight.tscn"
 const WATCH_OVERLAY := "res://scenes/tycoon/tracking/launch_watch_overlay.tscn"
 const MAP_OVERLAY := "res://scenes/tycoon/tracking/space_map_overlay.tscn"
+const SURFACE_SCENE := "res://scenes/surface/rover_drive.tscn"
 ## the example rocket a design without a hangar vessel flies as (up to low orbit / beyond)
 const WATCH_SMALL := "res://scenes/examples/andorinha.tscn"
 const WATCH_BIG := "res://scenes/examples/garca.tscn"
@@ -47,7 +60,7 @@ const SMALL_TARGETS: Array[String] = ["suborbital", "leo", "sso"]
 const STATE_COLORS := {"green": CwPalette.AURORA_TEAL, "yellow": CwPalette.WARNING, "red": CwPalette.DANGER}
 
 var main: TycoonMain
-## "" (closed), "hangar", "flight" or "map" (the solar-system map)
+## "" (closed), "hangar", "flight", "map" (the solar-system map) or "surface" (a rover drive)
 var kind := ""
 ## the overlay scene of ours on the flight's HUD (LaunchWatch / SpaceMapOverlay), or null
 var overlay: Node = null
@@ -62,6 +75,13 @@ var _card_dirty := true
 var _card_timer := 0.0
 var _hidden: Array[Node] = []
 var _closed_frame := -1
+## the career launch flying now (CareerFlight): kept while the player is elsewhere
+var launch_run: CareerFlight = null
+## > 0 while something else advances the live launch (the campus cinematic before the handoff)
+var launch_hold := 0
+## the campus lent to the flight as its island (given back when the flight closes)
+var _lent_campus: Node3D = null
+var _lent_index := 0
 
 @onready var view: SubViewportContainer = %View
 @onready var port: SubViewport = %Port
@@ -179,10 +199,12 @@ func open_project_flight(project_id: String, on_done: Callable, on_cancel := Cal
 
 
 # ------------------------------------------------------------ missions in space
-## The rocket a launch flies as in the 3D flight: the hangar vessel of its design, else an example
-## rocket of its size (Andorinha up to low orbit, Garça beyond).
+## The rocket a launch flies as: the project's hangar vessel, else one LaunchVessels builds from
+## the design with hangar parts (its stages, boosters and fairing), else an example rocket.
 static func watch_vessel(s: TycoonState, parts: Dictionary, target: String) -> PackedScene:
 	var ps: PackedScene = HangarRocket.scene_for(s, parts) if not parts.is_empty() else null
+	if ps == null and not parts.is_empty():
+		ps = LaunchVessels.for_design(parts, target)
 	if ps == null:
 		ps = load(WATCH_SMALL if target in SMALL_TARGETS else WATCH_BIG)
 	return ps
@@ -193,9 +215,53 @@ static func _vessel_name(s: TycoonState, rocket: Dictionary) -> String:
 	return String(fam.get("name", rocket.get("name", "")))
 
 
-## "Acompanhar o lançamento" (the review of a launched project): its rocket lifts off from the pad
-## and flies the outcome the launch had (LaunchWatch drives it); the screen that asked stays
-## underneath, so the review is still there when the player comes back.
+## The mission payload (kg) a track's launch carries.
+static func _payload_of(s: TycoonState, tr: Dictionary) -> float:
+	var m := HangarRocket.mission_for(s, String(tr.get("type", "")), String(tr.get("target", "leo")), 0.0, "")
+	return float(m.get("payload_kg", 0.0))
+
+
+## A career launch lifts off (LaunchSequence at T-0): its flight starts now and goes on, watched
+## or not (the campus advances it with the calendar). Returns the run.
+func start_launch(result: Dictionary) -> CareerFlight:
+	if main == null:
+		return null
+	var s := main.state
+	SpaceTracking.sync(s)
+	var pid := String(result.get("project_id", ""))
+	var tr := SpaceTracking.for_project(s, pid)
+	if tr.is_empty():
+		tr = SpaceTracking.add_player(s, result, s.weeks)
+	if launch_run and launch_run.track_id == String(tr["id"]):
+		return launch_run
+	# the track starts at this very moment of the calendar (the launch screen holds the clock),
+	# so the flight's clock is the campus clock
+	SpaceTracking.retime(tr, SpaceTracking.now(s, main.clock.week_fraction()))
+	var rocket: Dictionary = result.get("rocket", {})
+	var target := String(tr.get("target", "leo"))
+	launch_run = CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target), _payload_of(s, tr),
+		_vessel_name(s, rocket), String(result.get("cause_key", "")))
+	launch_run.mission = {"code": String(result.get("code", "")), "pad": String(result.get("pad", "pad"))}
+	return launch_run
+
+
+## The live launch in the 3D view (LaunchSequence's handoff, or "Acompanhar" while it flies).
+## `cam_offset`: where the campus camera was, from the rocket (campus axes, campus units), so
+## the view starts on the same shot. Closing it lets the flight go on in the background.
+func open_launch_flight(cam_offset := Vector3.ZERO, on_close := Callable(), back_to_map := false, cam_fov := 55.0) -> bool:
+	if is_open() or main == null or launch_run == null:
+		return false
+	var tr := launch_run.track()
+	var entry := ProjectDesk.history_entry(main.state, String(tr.get("project_id", "")))
+	return open_flight({"run": launch_run, "vessel": launch_run.vessel_scene, "name": launch_run.vessel_name,
+		"spectator": true, "pad": String(launch_run.mission.get("pad", "pad")), "cam_offset": cam_offset, "cam_fov": cam_fov,
+		"overlay": WATCH_OVERLAY, "overlay_args": {"mode": "live", "track": tr, "entry": entry, "run": launch_run,
+			"back_to_map": back_to_map},
+		"on_close": on_close})
+
+
+## "Acompanhar o lançamento" (the review of a launched project): the live flight if it is the one
+## still flying, else its launch again from the pad as it went (the track is not touched).
 func open_watch(project_id: String) -> bool:
 	if is_open() or main == null:
 		return false
@@ -213,12 +279,17 @@ func open_watch_track(track_id: String) -> bool:
 	var tr := SpaceTracking.find(s, track_id)
 	if tr.is_empty():
 		return false
+	if launch_run and launch_run.track_id == track_id and not launch_run.settled():
+		return open_launch_flight()
 	var entry := ProjectDesk.history_entry(s, String(tr.get("project_id", "")))
 	var rocket: Dictionary = entry.get("rocket", {})
 	var target := String(tr.get("target", "leo"))
-	return open_flight({"vessel": watch_vessel(s, rocket.get("parts", {}), target), "name": _vessel_name(s, rocket),
-		"spectator": true, "overlay": WATCH_OVERLAY,
-		"overlay_args": {"mode": "launch", "track": tr, "entry": entry}})
+	var run := CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target), _payload_of(s, tr),
+		_vessel_name(s, rocket), String(entry.get("cause_key", "")))
+	run.replay = true
+	return open_flight({"run": run, "vessel": run.vessel_scene, "name": run.vessel_name, "spectator": true,
+		"pad": String(entry.get("pad", "pad")), "overlay": WATCH_OVERLAY,
+		"overlay_args": {"mode": "launch", "track": tr, "entry": entry, "run": run}})
 
 
 ## The campus' solar-system map: every tracked mission on the flight's map, the clock running.
@@ -236,8 +307,8 @@ func open_space_map(focus_id := "") -> bool:
 	return true
 
 
-## The map's "Acompanhar": the craft up close in the 3D flight, at its place now; leaving goes back
-## to the map on it.
+## The map's "Acompanhar": the craft up close in the 3D flight, where its track has it now (the
+## live launch itself while it still flies); leaving goes back to the map on it.
 func open_follow(track_id: String) -> bool:
 	if main == null:
 		return false
@@ -246,20 +317,29 @@ func open_follow(track_id: String) -> bool:
 	if tr.is_empty():
 		return false
 	var t := SpaceTracking.now(s, _map_frac())
-	if not SpaceTracking.can_follow(tr, t):
+	var live := launch_run != null and launch_run.track_id == track_id and not launch_run.sim.crashed \
+		and not launch_run.settled()
+	if not live and not SpaceTracking.can_follow(tr, t):
 		return false
 	if kind == "map":
 		close_mode()
 	if is_open():
 		return false
+	var back := func() -> void: open_space_map.call_deferred(track_id)
+	if live:
+		launch_run.advance_to(t, 60.0)
+		launch_run.take_pending()
+		launch_run.take_dropped()
+		return open_launch_flight(Vector3.ZERO, back, true)
 	var entry := ProjectDesk.history_entry(s, String(tr.get("project_id", "")))
 	var rocket: Dictionary = entry.get("rocket", {})
-	var st := SpaceTracking.state_at(tr, t)
-	return open_flight({"vessel": watch_vessel(s, rocket.get("parts", {}), "lunar_orbit"),
-		"name": String(tr.get("code", "")), "spectator": true, "time": t,
-		"setup": func(f: FlightWorld) -> void: _place_follow(f, st),
-		"overlay": WATCH_OVERLAY, "overlay_args": {"mode": "follow", "track": tr, "entry": entry},
-		"on_close": func() -> void: open_space_map.call_deferred(track_id)})
+	var run := CareerFlight.following(s, tr, t, watch_vessel(s, rocket.get("parts", {}), "lunar_orbit"),
+		String(tr.get("code", "")))
+	if run == null:
+		return false
+	return open_flight({"run": run, "vessel": run.vessel_scene, "name": String(tr.get("code", "")), "spectator": true,
+		"overlay": WATCH_OVERLAY, "overlay_args": {"mode": "follow", "track": tr, "entry": entry, "run": run},
+		"on_close": back})
 
 
 ## The fraction of the week the map shows (its overlay keeps it while the clock is paused).
@@ -269,20 +349,18 @@ func _map_frac() -> float:
 	return main.clock.week_fraction() if main else 0.0
 
 
-## Puts the followed craft where the track says, its spent stages gone (the spacecraft, not the
-## whole rocket), engines off.
-static func _place_follow(f: FlightWorld, st: Dictionary) -> void:
-	var v := f.active
-	for i in 8:
-		if v.current_stage >= v.stage_count - 1:
-			break
-		for d in v.activate_next_stage():
-			d.queue_free()
-	v.throttle = 0.0
-	f.launched = true
-	f.set_orbit_state(int(st["body"]), st["pos"], st["vel"])
-	v.set_sas(FlightVessel.Sas.PROGRADE)
-	f.cam.set_view(2.4, 0.25, clampf(v.length * 2.5, 18.0, 120.0), true)
+## The live launch flies on while the player is on the campus: it follows the calendar (a few
+## milliseconds a frame) until it rides its track or ends.
+func _tick_launch() -> void:
+	if launch_run == null or main == null or launch_hold > 0:
+		return
+	if kind == "flight" and mode_node is FlightWorld and (mode_node as FlightWorld).run == launch_run:
+		return
+	var t := SpaceTracking.now(main.state, main.clock.week_fraction())
+	if launch_run.sim.t < t and not launch_run.settled():
+		launch_run.advance_to(t, 3.0)
+		launch_run.take_pending()
+		launch_run.take_dropped()
 
 
 # ------------------------------------------------------------ open / close
@@ -363,7 +441,7 @@ func _enter(hold_clock := true) -> void:
 	if _held_speed > 0:
 		main.clock.set_speed(0)
 	_hidden.clear()
-	for n in [main.campus, main.get_node_or_null("Audio"), main.get_node_or_null("DayCycle")]:
+	for n in [main.campus, main.get_node_or_null("Audio"), main.get_node_or_null("DayCycle"), main.get_node_or_null("Effects")]:
 		if n:
 			_hidden.append(n)
 			n.process_mode = Node.PROCESS_MODE_DISABLED
@@ -403,6 +481,7 @@ func _leave() -> void:
 ## Lets go of the mode on show. It may be the one asking (its Esc, its button), so it only
 ## stops and hides now and is freed at the end of the frame.
 func _clear_port() -> void:
+	_return_campus()
 	if mode_node and is_instance_valid(mode_node):
 		mode_node.process_mode = Node.PROCESS_MODE_DISABLED
 		if mode_node is Node3D:
@@ -412,6 +491,25 @@ func _clear_port() -> void:
 		mode_node.queue_free()
 	mode_node = null
 	overlay = null
+
+
+## The campus lent to a flight comes home (its sky, lights and pad rocket as they were).
+func _return_campus() -> void:
+	if _lent_campus == null:
+		return
+	var c := _lent_campus
+	_lent_campus = null
+	if mode_node is FlightWorld and is_instance_valid(mode_node) and (mode_node as FlightWorld).island:
+		var back := (mode_node as FlightWorld).island.give_back()
+		if back:
+			c = back
+	if c.get_parent():
+		c.get_parent().remove_child(c)
+	main.add_child(c)
+	main.move_child(c, clampi(_lent_index, 0, main.get_child_count() - 1))
+	c.transform = Transform3D.IDENTITY
+	FlightIsland.restore_env(c)
+	c.visible = not visible
 
 
 func _show_hangar() -> void:
@@ -443,9 +541,19 @@ func _show_flight(mission_flight: bool) -> void:
 	f.mission_mode = mission_flight
 	f.spectator = bool(_ctx.get("spectator", false))
 	f.map_only = bool(_ctx.get("map_only", false))
-	if _ctx.has("time"):
-		f.time = float(_ctx["time"])
+	if _ctx.get("run") is FlightRun:
+		f.run = _ctx["run"]
+	f.pad_lot = String(_ctx.get("pad", "pad"))
+	if not f.map_only and main and main.campus and main.campus.is_inside_tree():
+		# the live campus is the island under the flight (given back in _clear_port)
+		_lent_campus = main.campus
+		_lent_index = _lent_campus.get_index()
+		_lent_campus.get_parent().remove_child(_lent_campus)
+		_lent_campus.visible = true
+		f.lent_island = _lent_campus
 	port.add_child(f)
+	if (_ctx.get("cam_offset", Vector3.ZERO) as Vector3) != Vector3.ZERO:
+		f.start_from_campus_camera(_ctx["cam_offset"], float(_ctx.get("cam_fov", 55.0)))
 	mode_node = f
 	f.exit_requested.connect(_on_flight_exit)
 	var setup: Callable = _ctx.get("setup", Callable())
@@ -514,6 +622,7 @@ func _fill_card_static() -> void:
 
 
 func _process(delta: float) -> void:
+	_tick_launch()
 	if kind != "hangar" or not card.visible:
 		return
 	_card_timer -= delta
@@ -561,3 +670,36 @@ func refresh_card() -> void:
 
 static func _mass_text(kg: float) -> String:
 	return ("%.2f t" if kg < 1000.0 else "%.1f t") % (kg / 1000.0)
+
+
+# ------------------------------------------------------------ rovers (src/rover/)
+## A rover on a planet surface for `session` (SurfaceSession, already started); "Voltar à Terra"
+## closes the mode and calls on_done(result). The map, if open, closes first.
+func open_surface(session: SurfaceSession, on_done := Callable()) -> bool:
+	if main == null or session == null:
+		return false
+	if kind == "map":
+		close_mode()
+	if is_open():
+		return false
+	SurfaceSession.current = session
+	_ctx = {"on_done": on_done}
+	_enter()
+	kind = "surface"
+	test_flight = false
+	_clear_port()
+	card.visible = false
+	var d := (load(SURFACE_SCENE) as PackedScene).instantiate()
+	d.set("embedded", true)
+	port.add_child(d)
+	mode_node = d
+	d.connect("exit_requested", _on_surface_exit)
+	opened.emit(kind)
+	return true
+
+
+func _on_surface_exit(result: Dictionary) -> void:
+	var cb: Callable = _ctx.get("on_done", Callable())
+	close_mode()
+	if cb.is_valid():
+		cb.call(result)

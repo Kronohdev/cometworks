@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/campus/island/props_toon.tres" id="1_6kodp"]
+[ext_resource type="ArrayMesh" path="res://assets/campus/island/boat_fishing.res" id="2_3q28y"]
+
+[sub_resource type="Animation" id="Animation_tr4be"]
+length = 4.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.12, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.1, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.05), Vector3(0.02, 0, 0.05), Vector3(0, 0, -0.05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4tnks"]
+_data = {
+&"bob": SubResource("Animation_tr4be")
+}
+
+[node name="FishingBoat" type="Node3D" unique_id=1253587037]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1239880408]
+material_override = ExtResource("1_6kodp")
+mesh = ExtResource("2_3q28y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=52181321]
+libraries/ = SubResource("AnimationLibrary_4tnks")
+autoplay = &"bob"

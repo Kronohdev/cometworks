@@ -6,6 +6,9 @@ extends Control
 ## (SpaceTracking): a marker per craft in its agency's colour (the rivals' too), its path drawn
 ## with the map's own lines (FlightMap.new_line), the list panel to jump between them and the
 ## selected one's card ("Acompanhar" opens it up close in the 3D flight, TycoonModes.open_follow).
+## The header also shows the real calendar date of that time (the planets are where they really
+## are that day, FlightSolar on the ephemeris) and how far the comet Mae-Gelo is from the Sun.
+## Bodies are drawn at readable sizes (FlightMap.readable); distances and orbits stay real.
 ## The map's time is the campus calendar (FlightWorld.clock_source): the clock keeps running at
 ## its speed (the header's keys change it, pause included), so the crafts and the planets move.
 ## Orbits too fast to follow at that speed (a low orbit goes round dozens of times a second) turn
@@ -57,6 +60,7 @@ func _ready() -> void:
 	%FilterMine.pressed.connect(set_filter.bind("mine"))
 	%FilterRivals.pressed.connect(set_filter.bind("rivals"))
 	%Watch.pressed.connect(watch_selected)
+	%Drive.pressed.connect(drive_selected)
 	%Release.pressed.connect(select.bind(""))
 	%Detail.visible = false
 
@@ -75,10 +79,14 @@ func bind(m: TycoonModes, w: FlightWorld, args: Dictionary) -> void:
 	var hint := map.get_node_or_null("%Hint") as Control
 	if hint:
 		hint.visible = false   # the flight map's maneuver hint: nothing to plan here
+		var pill := hint.get_parent() as Control
+		if pill and pill != map.overlay:
+			pill.visible = false   # its pill too (it would sit there empty)
 	SpaceTracking.sync(state)
 	state.changed.connect(_mark_dirty)
 	clock.speed_changed.connect(_press_speed)
 	_press_speed(clock.speed)
+	map.set_readable(true)
 	map.set_scale_mode(1, true)
 	var focus := String(args.get("focus", ""))
 	if focus != "" and not SpaceTracking.find(state, focus).is_empty():
@@ -283,6 +291,10 @@ func _process(delta: float) -> void:
 	if _text_timer <= 0.0 or _list_dirty:
 		_text_timer = 0.25
 		%DateValue.text = "%02d · %02d" % [state.year(), state.week()]
+		var sys := FlightSolar.get_system()
+		%RealDate.text = SolarSystemOverlay.date_text(sys.date_at(t))
+		if sys.comet >= 0:
+			%Comet.text = tr("SSM_COMET_NOW") % comet_distance_text(sys.distance_at(sys.comet, t))
 		if _list_dirty:
 			_fill_list()
 		_refresh_rows(t)
@@ -393,6 +405,30 @@ func _fill_detail() -> void:
 	%Watch.disabled = not ok
 	%WatchNote.visible = not ok
 	%WatchNote.text = tr("TY_TRK_WATCH_LOST") if status == "lost" else tr("TY_TRK_WATCH_NO")
+	# a rover mission on the surface: drive it (src/rover/rover_missions.gd)
+	%Drive.visible = RoverMissions.can_drive(state, RoverMissions.mission_of_track(state, trk))
+
+
+## "Controlar o rover": the selected rover mission's surface; back to the map on it afterwards.
+func drive_selected() -> void:
+	var trk := SpaceTracking.find(state, selected) if state else {}
+	var m := RoverMissions.mission_of_track(state, trk)
+	if modes == null or not RoverMissions.can_drive(state, m):
+		return
+	var mid := String(m["id"])
+	var tid := selected
+	var s := RoverMissions.start_drive(state, mid)
+	var md := modes
+	var st := state
+	md.open_surface(s, func(r: Dictionary) -> void:
+		RoverMissions.apply_result(st, mid, r)
+		md.open_space_map.call_deferred(tid))
+
+
+## "31,6 UA" / "0,92 AU": the comet's distance from the Sun.
+static func comet_distance_text(m: float) -> String:
+	var au := m / 1.495978707e11
+	return "%s %s" % [SolarSystemOverlay.num(au, 2 if au < 10.0 else 1), TranslationServer.translate("SSM_AU")]
 
 
 # ------------------------------------------------------------ words (also the launch watch's)

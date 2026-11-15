@@ -11,3 +11,6 @@ shader_parameter/specular_value = 0.25
 shader_parameter/edge_darkening = 0.07
 shader_parameter/edge_fade_distance = 120.0
 shader_parameter/debug_lod = false
+shader_parameter/toon_shadow_fill = 1.0
+shader_parameter/toon_softness = 1.4
+shader_parameter/toon_wrap = 0.15

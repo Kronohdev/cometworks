@@ -7,7 +7,8 @@ extends Node3D
 ##
 ## Walking: the campus keeps a walk grid (src/tycoon/campus_nav.gd) built from what stands on
 ## it (building walk masks, props, dressing, scattered trees and rocks; nodes with metadata
-## walk_through = true are ignored) and rebuilt when a building or the era changes. Each spot
+## walk_through = true are ignored), kept inside the island's flat top (Terrain/Plateau's
+## walk_outline, scenes/tycoon/campus_island.tscn) and rebuilt when a building or the era changes. Each spot
 ## is claimed by one Cometling at a time, so nobody walks onto someone else.
 
 signal lot_clicked(lot_id: String)
@@ -46,6 +47,8 @@ var _claims := {}         # spot key -> the Cometling walking to or standing at 
 
 @onready var lots: Node3D = $Lots
 @onready var roads: Node3D = $Roads
+## the story signs around the island (scenes/tycoon/campus_signs.tscn), null in scenes without them
+@onready var signs: CampusSigns = get_node_or_null("Signs") as CampusSigns
 
 
 func _ready() -> void:
@@ -71,6 +74,8 @@ func bind(s: TycoonState) -> void:
 	state = s
 	state.changed.connect(sync)
 	sync()
+	if signs:
+		signs.bind(state)
 
 
 ## Rebuilds what changed: buildings on lots, construction scaffolds, era looks, crowd size.
@@ -208,10 +213,18 @@ func build_nav() -> CampusNav:
 			hi = hi.max(Vector2(p.x, p.z))
 		rect = Rect2(lo, hi - lo)
 	n.setup(rect)
+	# the island's flat top: off it the ground drops to the terraces, the beach and the sea
+	if plateau and plateau.has_meta("walk_outline"):
+		var pxf := inv * plateau.global_transform
+		var outline := PackedVector2Array()
+		for q: Vector2 in plateau.get_meta("walk_outline"):
+			var w := pxf * Vector3(q.x, 0.0, q.y)
+			outline.append(Vector2(w.x, w.z))
+		n.block_outside(outline)
 	for c in roads.get_children():
 		if c is MeshInstance3D:
 			n.add_road(inv * (c as Node3D).global_transform, (c as MeshInstance3D).get_aabb())
-	for group in ["Props", "Dressing", "Nature"]:
+	for group in ["Props", "Dressing", "Nature", "Signs"]:
 		var g := get_node_or_null(group) as Node3D
 		if g and g.visible:
 			_add_footprints(n, g, inv)

@@ -57,6 +57,29 @@
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod0.glb" id="g_pluto0"]
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod1.glb" id="g_pluto1"]
 [ext_resource type="PackedScene" path="res://assets/voxel/planets/pluto_lod2.glb" id="g_pluto2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/phobos_lod0.glb" id="g_phobos0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/phobos_lod1.glb" id="g_phobos1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/phobos_lod2.glb" id="g_phobos2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/deimos_lod0.glb" id="g_deimos0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/deimos_lod1.glb" id="g_deimos1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/deimos_lod2.glb" id="g_deimos2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/io_lod0.glb" id="g_io0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/io_lod1.glb" id="g_io1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/io_lod2.glb" id="g_io2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/ganymede_lod0.glb" id="g_ganymede0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/ganymede_lod1.glb" id="g_ganymede1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/ganymede_lod2.glb" id="g_ganymede2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/callisto_lod0.glb" id="g_callisto0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/callisto_lod1.glb" id="g_callisto1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/callisto_lod2.glb" id="g_callisto2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/titan_lod0.glb" id="g_titan0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/titan_lod1.glb" id="g_titan1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/titan_lod2.glb" id="g_titan2"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mae_gelo_lod0.glb" id="g_mae_gelo0"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mae_gelo_lod1.glb" id="g_mae_gelo1"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mae_gelo_lod2.glb" id="g_mae_gelo2"]
+[ext_resource type="Shader" path="res://shaders/map_comet_tail.gdshader" id="sh_map_tail"]
+[ext_resource type="Shader" path="res://shaders/map_dots.gdshader" id="sh_map_dots"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("sh_flight_map_sky")
@@ -173,6 +196,56 @@ shader = ExtResource("sh_solar_atmosphere")
 shader_parameter/atmo_color = Color(0.435294, 0.611765, 1.0, 1)
 shader_parameter/intensity = 1.1
 shader_parameter/power = 2.6
+
+[sub_resource type="QuadMesh" id="tail_quad"]
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="mat_ion_tail"]
+render_priority = 1
+shader = ExtResource("sh_map_tail")
+shader_parameter/head_color = Color(0.86, 0.97, 1, 1)
+shader_parameter/tail_color = Color(0.45, 0.78, 1, 1)
+shader_parameter/tip_color = Color(0.56, 0.49, 1, 1)
+shader_parameter/intensity = 1.5
+shader_parameter/width_start = 0.03
+shader_parameter/width_end = 0.22
+shader_parameter/bend = 0.0
+shader_parameter/streaks = 0.75
+shader_parameter/flow_speed = 0.08
+shader_parameter/fade_power = 1.1
+shader_parameter/min_px = 14.0
+
+[sub_resource type="ShaderMaterial" id="mat_dust_tail"]
+render_priority = 1
+shader = ExtResource("sh_map_tail")
+shader_parameter/head_color = Color(1, 0.98, 0.9, 1)
+shader_parameter/tail_color = Color(1, 0.88, 0.66, 1)
+shader_parameter/tip_color = Color(1, 0.64, 0.42, 1)
+shader_parameter/intensity = 1.1
+shader_parameter/width_start = 0.06
+shader_parameter/width_end = 0.6
+shader_parameter/bend = 0.35
+shader_parameter/streaks = 0.35
+shader_parameter/flow_speed = 0.03
+shader_parameter/fade_power = 1.6
+shader_parameter/min_px = 22.0
+
+[sub_resource type="ShaderMaterial" id="mat_dots"]
+render_priority = 1
+shader = ExtResource("sh_map_dots")
+shader_parameter/px = 1.9
+shader_parameter/fade = 1.0
+
+[sub_resource type="MultiMesh" id="belt_mm"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("quad2")
+
+[sub_resource type="MultiMesh" id="trojan_mm"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("quad2")
 
 [node name="MapView" type="Control"]
 layout_mode = 3
@@ -830,6 +903,324 @@ visibility_range_end = 442076
 visibility_range_end_margin = 53049.1
 visibility_range_fade_mode = 1
 
+[node name="Phobos" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "phobos"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Phobos"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Phobos/Tilt" instance=ExtResource("g_phobos0")]
+transform = Transform3D(9.51073, 0, 0, 0, 9.51073, 0, 0, 0, 9.51073, 0, 0, 0)
+
+[node name="phobos_lod0" parent="Container/MapViewport/World/Bodies/Phobos/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 133.15
+visibility_range_end_margin = 15.978
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Phobos/Tilt" instance=ExtResource("g_phobos1")]
+transform = Transform3D(9.51073, 0, 0, 0, 9.51073, 0, 0, 0, 9.51073, 0, 0, 0)
+
+[node name="phobos_lod1" parent="Container/MapViewport/World/Bodies/Phobos/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 133.15
+visibility_range_begin_margin = 15.978
+visibility_range_end = 437.494
+visibility_range_end_margin = 52.4992
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Phobos/Tilt" instance=ExtResource("g_phobos2")]
+transform = Transform3D(9.51073, 0, 0, 0, 9.51073, 0, 0, 0, 9.51073, 0, 0, 0)
+
+[node name="phobos_lod2" parent="Container/MapViewport/World/Bodies/Phobos/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 437.494
+visibility_range_begin_margin = 52.4992
+visibility_range_end = 3804.29
+visibility_range_end_margin = 456.515
+visibility_range_fade_mode = 1
+
+[node name="Deimos" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "deimos"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Deimos"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Deimos/Tilt" instance=ExtResource("g_deimos0")]
+transform = Transform3D(5.4386, 0, 0, 0, 5.4386, 0, 0, 0, 5.4386, 0, 0, 0)
+
+[node name="deimos_lod0" parent="Container/MapViewport/World/Bodies/Deimos/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 76.1404
+visibility_range_end_margin = 9.13684
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Deimos/Tilt" instance=ExtResource("g_deimos1")]
+transform = Transform3D(5.4386, 0, 0, 0, 5.4386, 0, 0, 0, 5.4386, 0, 0, 0)
+
+[node name="deimos_lod1" parent="Container/MapViewport/World/Bodies/Deimos/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 76.1404
+visibility_range_begin_margin = 9.13684
+visibility_range_end = 250.175
+visibility_range_end_margin = 30.0211
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Deimos/Tilt" instance=ExtResource("g_deimos2")]
+transform = Transform3D(5.4386, 0, 0, 0, 5.4386, 0, 0, 0, 5.4386, 0, 0, 0)
+
+[node name="deimos_lod2" parent="Container/MapViewport/World/Bodies/Deimos/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 250.175
+visibility_range_begin_margin = 30.0211
+visibility_range_end = 2175.44
+visibility_range_end_margin = 261.053
+visibility_range_fade_mode = 1
+
+[node name="Io" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "io"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Io"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Io/Tilt" instance=ExtResource("g_io0")]
+transform = Transform3D(1744.83, 0, 0, 0, 1744.83, 0, 0, 0, 1744.83, 0, 0, 0)
+
+[node name="io_lod0" parent="Container/MapViewport/World/Bodies/Io/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 24427.6
+visibility_range_end_margin = 2931.31
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Io/Tilt" instance=ExtResource("g_io1")]
+transform = Transform3D(1744.83, 0, 0, 0, 1744.83, 0, 0, 0, 1744.83, 0, 0, 0)
+
+[node name="io_lod1" parent="Container/MapViewport/World/Bodies/Io/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 24427.6
+visibility_range_begin_margin = 2931.31
+visibility_range_end = 80262.1
+visibility_range_end_margin = 9631.45
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Io/Tilt" instance=ExtResource("g_io2")]
+transform = Transform3D(1744.83, 0, 0, 0, 1744.83, 0, 0, 0, 1744.83, 0, 0, 0)
+
+[node name="io_lod2" parent="Container/MapViewport/World/Bodies/Io/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 80262.1
+visibility_range_begin_margin = 9631.45
+visibility_range_end = 697931
+visibility_range_end_margin = 83751.7
+visibility_range_fade_mode = 1
+
+[node name="Ganymede" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "ganymede"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Ganymede"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt" instance=ExtResource("g_ganymede0")]
+transform = Transform3D(2457.18, 0, 0, 0, 2457.18, 0, 0, 0, 2457.18, 0, 0, 0)
+
+[node name="ganymede_lod0" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 34400.6
+visibility_range_end_margin = 4128.07
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt" instance=ExtResource("g_ganymede1")]
+transform = Transform3D(2457.18, 0, 0, 0, 2457.18, 0, 0, 0, 2457.18, 0, 0, 0)
+
+[node name="ganymede_lod1" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 34400.6
+visibility_range_begin_margin = 4128.07
+visibility_range_end = 113030
+visibility_range_end_margin = 13563.6
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt" instance=ExtResource("g_ganymede2")]
+transform = Transform3D(2457.18, 0, 0, 0, 2457.18, 0, 0, 0, 2457.18, 0, 0, 0)
+
+[node name="ganymede_lod2" parent="Container/MapViewport/World/Bodies/Ganymede/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 113030
+visibility_range_begin_margin = 13563.6
+visibility_range_end = 982873
+visibility_range_end_margin = 117945
+visibility_range_fade_mode = 1
+
+[node name="Callisto" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "callisto"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Callisto"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Callisto/Tilt" instance=ExtResource("g_callisto0")]
+transform = Transform3D(2225.58, 0, 0, 0, 2225.58, 0, 0, 0, 2225.58, 0, 0, 0)
+
+[node name="callisto_lod0" parent="Container/MapViewport/World/Bodies/Callisto/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 31158.1
+visibility_range_end_margin = 3738.97
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Callisto/Tilt" instance=ExtResource("g_callisto1")]
+transform = Transform3D(2225.58, 0, 0, 0, 2225.58, 0, 0, 0, 2225.58, 0, 0, 0)
+
+[node name="callisto_lod1" parent="Container/MapViewport/World/Bodies/Callisto/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 31158.1
+visibility_range_begin_margin = 3738.97
+visibility_range_end = 102377
+visibility_range_end_margin = 12285.2
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Callisto/Tilt" instance=ExtResource("g_callisto2")]
+transform = Transform3D(2225.58, 0, 0, 0, 2225.58, 0, 0, 0, 2225.58, 0, 0, 0)
+
+[node name="callisto_lod2" parent="Container/MapViewport/World/Bodies/Callisto/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 102377
+visibility_range_begin_margin = 12285.2
+visibility_range_end = 890231
+visibility_range_end_margin = 106828
+visibility_range_fade_mode = 1
+
+[node name="Titan" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "titan"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/Titan"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/Titan/Tilt" instance=ExtResource("g_titan0")]
+transform = Transform3D(2527.96, 0, 0, 0, 2527.96, 0, 0, 0, 2527.96, 0, 0, 0)
+
+[node name="titan_lod0" parent="Container/MapViewport/World/Bodies/Titan/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 35391.5
+visibility_range_end_margin = 4246.98
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/Titan/Tilt" instance=ExtResource("g_titan1")]
+transform = Transform3D(2527.96, 0, 0, 0, 2527.96, 0, 0, 0, 2527.96, 0, 0, 0)
+
+[node name="titan_lod1" parent="Container/MapViewport/World/Bodies/Titan/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 35391.5
+visibility_range_begin_margin = 4246.98
+visibility_range_end = 116286
+visibility_range_end_margin = 13954.4
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/Titan/Tilt" instance=ExtResource("g_titan2")]
+transform = Transform3D(2527.96, 0, 0, 0, 2527.96, 0, 0, 0, 2527.96, 0, 0, 0)
+
+[node name="titan_lod2" parent="Container/MapViewport/World/Bodies/Titan/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 116286
+visibility_range_begin_margin = 13954.4
+visibility_range_end = 1011185.1
+visibility_range_end_margin = 121342
+visibility_range_fade_mode = 1
+
+[node name="MaeGelo" type="Node3D" parent="Container/MapViewport/World/Bodies"]
+metadata/body_id = "mae_gelo"
+
+[node name="Tilt" type="Node3D" parent="Container/MapViewport/World/Bodies/MaeGelo"]
+
+[node name="LOD0" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt" instance=ExtResource("g_mae_gelo0")]
+transform = Transform3D(6.72269, 0, 0, 0, 6.72269, 0, 0, 0, 6.72269, 0, 0, 0)
+
+[node name="mae_gelo_lod0" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt/LOD0" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_end = 94.1176
+visibility_range_end_margin = 11.2941
+visibility_range_fade_mode = 1
+
+[node name="LOD1" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt" instance=ExtResource("g_mae_gelo1")]
+transform = Transform3D(6.72269, 0, 0, 0, 6.72269, 0, 0, 0, 6.72269, 0, 0, 0)
+
+[node name="mae_gelo_lod1" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt/LOD1" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 94.1176
+visibility_range_begin_margin = 11.2941
+visibility_range_end = 309.244
+visibility_range_end_margin = 37.1092
+visibility_range_fade_mode = 1
+
+[node name="LOD2" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt" instance=ExtResource("g_mae_gelo2")]
+transform = Transform3D(6.72269, 0, 0, 0, 6.72269, 0, 0, 0, 6.72269, 0, 0, 0)
+
+[node name="mae_gelo_lod2" parent="Container/MapViewport/World/Bodies/MaeGelo/Tilt/LOD2" index="0"]
+material_override = SubResource("mat_planet")
+cast_shadow = 0
+visibility_range_begin = 309.244
+visibility_range_begin_margin = 37.1092
+visibility_range_end = 2689.08
+visibility_range_end_margin = 322.689
+visibility_range_fade_mode = 1
+
+[node name="Coma" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/MaeGelo"]
+transform = Transform3D(400000, 0, 0, 0, 400000, 0, 0, 0, 400000, 0, 0, 0)
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("quad2")
+surface_material_override/0 = SubResource("mat_glow")
+instance_shader_parameters/glow_color = Color(0.72, 0.93, 1, 1)
+instance_shader_parameters/min_px = 16.0
+instance_shader_parameters/intensity = 1.25
+instance_shader_parameters/core = 0.08
+
+[node name="IonTail" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/MaeGelo"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("mat_ion_tail")
+
+[node name="DustTail" type="MeshInstance3D" parent="Container/MapViewport/World/Bodies/MaeGelo"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("tail_quad")
+surface_material_override/0 = SubResource("mat_dust_tail")
+
+[node name="AsteroidBelt" type="MultiMeshInstance3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_dots")
+multimesh = SubResource("belt_mm")
+metadata/count = 2600
+metadata/inner_au = 2.1
+metadata/outer_au = 3.3
+metadata/color_a = Color(0.62, 0.58, 0.52, 0.55)
+metadata/color_b = Color(0.85, 0.77, 0.62, 0.7)
+
+[node name="Trojans" type="MultiMeshInstance3D" parent="Container/MapViewport/World"]
+unique_name_in_owner = true
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_dots")
+multimesh = SubResource("trojan_mm")
+metadata/count = 700
+metadata/color_a = Color(0.6, 0.66, 0.56, 0.55)
+metadata/color_b = Color(0.8, 0.82, 0.64, 0.7)
+
 [node name="Orbits" type="Node3D" parent="Container/MapViewport/World"]
 unique_name_in_owner = true
 
@@ -920,6 +1311,62 @@ material_override = SubResource("mat_line")
 instance_shader_parameters/line_color = Color(0.771, 0.700, 0.618, 0.5)
 instance_shader_parameters/line_width = 1.4
 metadata/body_id = "pluto"
+
+[node name="Phobos" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.529, 0.500, 0.476, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "phobos"
+
+[node name="Deimos" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.591, 0.559, 0.529, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "deimos"
+
+[node name="Io" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.935, 0.826, 0.447, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "io"
+
+[node name="Ganymede" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.703, 0.671, 0.626, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "ganymede"
+
+[node name="Callisto" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.515, 0.479, 0.444, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "callisto"
+
+[node name="Titan" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.841, 0.656, 0.421, 0.50)
+instance_shader_parameters/line_width = 1.4
+metadata/body_id = "titan"
+
+[node name="MaeGelo" type="MeshInstance3D" parent="Container/MapViewport/World/Orbits"]
+cast_shadow = 0
+extra_cull_margin = 16384.0
+material_override = SubResource("mat_line")
+instance_shader_parameters/line_color = Color(0.718, 0.788, 0.826, 0.70)
+instance_shader_parameters/line_width = 1.8
+metadata/body_id = "mae_gelo"
 
 [node name="Trajectory" type="Node3D" parent="Container/MapViewport/World"]
 unique_name_in_owner = true
@@ -1128,7 +1575,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = -230.0
+offset_top = -272.0
 offset_right = 392.0
 offset_bottom = -72.0
 grow_vertical = 0
@@ -1221,6 +1668,20 @@ focus_mode = 0
 theme_type_variation = &"CwKey"
 toggle_mode = true
 text = "FL_MAP_SCALE_SOLAR"
+
+[node name="View" type="HBoxContainer" parent="Overlay/MapBar/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnReadable" type="Button" parent="Overlay/MapBar/VBox/View"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "SSM_READABLE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "SSM_READABLE"
 
 [node name="Info" type="Label" parent="Overlay/MapBar/VBox"]
 unique_name_in_owner = true

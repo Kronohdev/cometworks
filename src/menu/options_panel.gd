@@ -2,7 +2,8 @@ class_name MenuOptionsPanel
 extends PanelContainer
 ## Options of the main menu (scenes/menu/options_panel.tscn): language EN / PT, window or
 ## fullscreen, master, music and effects volume, the visual style (Cartoon / Classic, CwLook),
-## the ink outlines and the anti-aliasing (SMAA / MSAA 4x / off, applied live). Layout and
+## the ink outlines, the anti-aliasing (SMAA / MSAA 4x / off, applied live) and the campus
+## weather (rain and clouds on / off, MenuSettings.set_weather, applied live). Layout and
 ## styles live in the scene; this script reads and writes MenuSettings and emits `closed` on Back / Esc. Motion: full or reduced (the UI
 ## motion components, src/tycoon/ui/motion/, keep only short fades when reduced).
 ## The Camera page (the header tabs; Grid rows with metadata page = "camera") holds the campus
@@ -52,6 +53,8 @@ signal closed
 @onready var aa_smaa: Button = %AASmaa
 @onready var aa_msaa4: Button = %AAMsaa4
 @onready var aa_off: Button = %AAOff
+@onready var weather_on: Button = %WeatherOn
+@onready var weather_off: Button = %WeatherOff
 ## the in-game rows (metadata page = "tycoon", shown only where `rows` lists them): the
 ## Cometlings' speech bubbles on / off and how chatty they are (ChatterBook)
 @onready var bubbles_on: Button = %BubblesOn
@@ -103,6 +106,8 @@ func _ready() -> void:
 	aa_smaa.pressed.connect(MenuSettings.set_antialiasing.bind("smaa"))
 	aa_msaa4.pressed.connect(MenuSettings.set_antialiasing.bind("msaa4"))
 	aa_off.pressed.connect(MenuSettings.set_antialiasing.bind("off"))
+	weather_on.pressed.connect(MenuSettings.set_weather.bind(true))
+	weather_off.pressed.connect(MenuSettings.set_weather.bind(false))
 	bubbles_on.pressed.connect(func() -> void:
 		ChatterBook.set_enabled(true)
 		sync())
@@ -153,6 +158,9 @@ func sync() -> void:
 	aa_smaa.set_pressed_no_signal(aa == "smaa")
 	aa_msaa4.set_pressed_no_signal(aa == "msaa4")
 	aa_off.set_pressed_no_signal(aa == "off")
+	var weather := MenuSettings.weather()
+	weather_on.set_pressed_no_signal(weather)
+	weather_off.set_pressed_no_signal(not weather)
 	var talk := ChatterBook.enabled()
 	bubbles_on.set_pressed_no_signal(talk)
 	bubbles_off.set_pressed_no_signal(not talk)

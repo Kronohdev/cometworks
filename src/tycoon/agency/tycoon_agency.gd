@@ -5,7 +5,7 @@ extends RefCounted
 ## monthly bills were paid, so this sees the new week. Order inside a week:
 ##   research (PP in, funded tech draws) -> contracts (deadlines, rivals) -> on a new month:
 ##   close the ledger month, donations and loan instalment, the yearly government budget,
-##   then a fresh contract board.
+##   the bankruptcy line (Bankruptcy), then a fresh contract board.
 
 
 static func week(s: TycoonState) -> void:
@@ -18,4 +18,6 @@ static func week(s: TycoonState) -> void:
 		TycoonFinance.monthly(s)
 		if s.week() == 1 and s.year() >= 2:
 			TycoonFinance.yearly(s)
+		Bankruptcy.month_end(s)   # the emergency loan's instalment, then the bankruptcy line
+	Bankruptcy.weekly(s)   # warnings when the cash nears the line
 	TycoonContracts.ensure_offers(s)

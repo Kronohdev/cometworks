@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "_doc": "Free play on the planet surfaces (src/world/surface_explore.gd, scenes/surface/*_surface.tscn). Per body: how it unlocks in the career (a finished mission of one of `types` at one of `targets`, or `always`), its points of interest (the SurfacePoi nodes placed in the body's scene name them by `id`), the collectibles' facts and the challenges. Texts are i18n keys of i18n/surface_explore_strings.csv; every fact has a `source` (an official page that covers it). `science` is credited once per career (or once per free-play log); in the career research_per_science of it becomes research points. Actions are the rover tools that work at a POI (photo, scan, drill, sample); `reach` is the radius in metres. Challenge types: reach_before (from the challenge node to POI `target` within `time_s`, and before the battery runs out), jump (leave the ramp at the challenge node and stay `air_s` seconds in the air), deliver (a sample from POI `from` to POI `to`), find_all (every POI of the body found), collect_all (every collectible picked up).",
+  "research_per_science": 0.5,
+  "collectible_types": {
+    "meteorite": {"name_key": "TY_SX_COL_METEORITE", "desc_key": "TY_SX_COL_METEORITE_DESC", "science": 4},
+    "ice": {"name_key": "TY_SX_COL_ICE", "desc_key": "TY_SX_COL_ICE_DESC", "science": 3},
+    "odd_rock": {"name_key": "TY_SX_COL_ODD_ROCK", "desc_key": "TY_SX_COL_ODD_ROCK_DESC", "science": 3},
+    "comet_crumb": {"name_key": "TY_SX_COL_CRUMB", "desc_key": "TY_SX_COL_CRUMB_DESC", "science": 2}
+  },
+  "crumb_lore": ["TY_SX_LORE_1", "TY_SX_LORE_2", "TY_SX_LORE_3", "TY_SX_LORE_4", "TY_SX_LORE_5", "TY_SX_LORE_6"],
+  "bodies": {
+    "moon": {
+      "name_key": "TY_SX_BODY_MOON",
+      "unlock": {"targets": ["lunar_surface", "lunar_pole"], "types": ["lander", "rover", "crewed_landing", "sample_return", "base_module", "isru"]},
+      "collect_facts": {"odd_rock": "TY_SX_MOON_COL_ODD_ROCK", "meteorite": "TY_SX_MOON_COL_METEORITE"},
+      "pois": [
+        {"id": "moon_lander", "kind": "lander", "name_key": "TY_SX_POI_LANDER", "fact_key": "TY_SX_POI_LANDER_FACT", "science": 2, "actions": ["photo"], "reach": 9, "source": "https://science.nasa.gov/moon/"},
+        {"id": "moon_eagle_homage", "kind": "landing_site", "name_key": "TY_SX_MOON_EAGLE", "fact_key": "TY_SX_MOON_EAGLE_FACT", "science": 15, "actions": ["photo", "scan"], "reach": 10, "source": "https://www.nasa.gov/mission/apollo-11/"},
+        {"id": "moon_footprints", "kind": "footprints", "name_key": "TY_SX_MOON_STEPS", "fact_key": "TY_SX_MOON_STEPS_FACT", "science": 6, "actions": ["photo"], "reach": 6, "source": "https://science.nasa.gov/moon/"},
+        {"id": "moon_lunokhod_homage", "kind": "rover", "name_key": "TY_SX_MOON_LUNOKHOD", "fact_key": "TY_SX_MOON_LUNOKHOD_FACT", "science": 12, "actions": ["photo", "scan"], "reach": 8, "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-095A"},
+        {"id": "moon_bright_crater", "kind": "crater_rim", "name_key": "TY_SX_MOON_CRATER", "fact_key": "TY_SX_MOON_CRATER_FACT", "science": 10, "actions": ["photo", "scan"], "reach": 10, "source": "https://www.lroc.asu.edu/"},
+        {"id": "moon_rille", "kind": "rille", "name_key": "TY_SX_MOON_RILLE", "fact_key": "TY_SX_MOON_RILLE_FACT", "science": 10, "actions": ["photo", "scan"], "reach": 12, "source": "https://www.nasa.gov/mission/apollo-15/"},
+        {"id": "moon_ridge", "kind": "ridge", "name_key": "TY_SX_MOON_RIDGE", "fact_key": "TY_SX_MOON_RIDGE_FACT", "science": 8, "actions": ["photo", "scan"], "reach": 12, "source": "https://www.lroc.asu.edu/"},
+        {"id": "moon_regolith", "kind": "sample_site", "name_key": "TY_SX_MOON_REGOLITH", "fact_key": "TY_SX_MOON_REGOLITH_FACT", "science": 8, "actions": ["sample", "drill", "scan"], "reach": 7, "source": "https://science.nasa.gov/moon/"},
+        {"id": "moon_boulder", "kind": "rock", "name_key": "TY_SX_MOON_BOULDER", "fact_key": "TY_SX_MOON_BOULDER_FACT", "science": 8, "actions": ["scan", "drill", "photo"], "reach": 9, "source": "https://www.nasa.gov/mission/apollo-17/"},
+        {"id": "moon_earth_view", "kind": "vista", "name_key": "TY_SX_MOON_EARTHRISE", "fact_key": "TY_SX_MOON_EARTHRISE_FACT", "science": 5, "actions": ["photo"], "reach": 10, "source": "https://science.nasa.gov/moon/"}
+      ],
+      "challenges": [
+        {"id": "moon_rim_dash", "type": "reach_before", "target": "moon_bright_crater", "time_s": 120, "name_key": "TY_SX_CH_MOON_DASH", "desc_key": "TY_SX_CH_MOON_DASH_DESC", "science": 10},
+        {"id": "moon_hop", "type": "jump", "air_s": 1.8, "name_key": "TY_SX_CH_MOON_HOP", "desc_key": "TY_SX_CH_MOON_HOP_DESC", "science": 6},
+        {"id": "moon_delivery", "type": "deliver", "from": "moon_regolith", "to": "moon_lander", "name_key": "TY_SX_CH_MOON_DELIVERY", "desc_key": "TY_SX_CH_MOON_DELIVERY_DESC", "science": 8},
+        {"id": "moon_all_places", "type": "find_all", "name_key": "TY_SX_CH_FIND_ALL", "desc_key": "TY_SX_CH_FIND_ALL_DESC", "science": 15},
+        {"id": "moon_all_finds", "type": "collect_all", "name_key": "TY_SX_CH_COLLECT_ALL", "desc_key": "TY_SX_CH_COLLECT_ALL_DESC", "science": 10}
+      ]
+    },
+    "mars": {
+      "name_key": "TY_SX_BODY_MARS",
+      "unlock": {"targets": ["mars_surface"], "types": ["lander", "rover", "crewed_landing", "sample_return", "base_module", "isru"]},
+      "collect_facts": {"meteorite": "TY_SX_MARS_COL_METEORITE", "ice": "TY_SX_MARS_COL_ICE"},
+      "pois": [
+        {"id": "mars_lander", "kind": "lander", "name_key": "TY_SX_POI_LANDER", "fact_key": "TY_SX_POI_LANDER_FACT", "science": 2, "actions": ["photo"], "reach": 9, "source": "https://science.nasa.gov/mars/"},
+        {"id": "mars_viking_homage", "kind": "landing_site", "name_key": "TY_SX_MARS_VIKING", "fact_key": "TY_SX_MARS_VIKING_FACT", "science": 15, "actions": ["photo", "scan"], "reach": 10, "source": "https://science.nasa.gov/mission/viking-1/"},
+        {"id": "mars_sojourner_homage", "kind": "rover", "name_key": "TY_SX_MARS_SOJOURNER", "fact_key": "TY_SX_MARS_SOJOURNER_FACT", "science": 12, "actions": ["photo", "scan"], "reach": 7, "source": "https://science.nasa.gov/mission/mars-pathfinder/"},
+        {"id": "mars_layers", "kind": "outcrop", "name_key": "TY_SX_MARS_LAYERS", "fact_key": "TY_SX_MARS_LAYERS_FACT", "science": 12, "actions": ["photo", "scan", "drill"], "reach": 12, "source": "https://science.nasa.gov/mission/msl-curiosity/"},
+        {"id": "mars_channel", "kind": "channel", "name_key": "TY_SX_MARS_CHANNEL", "fact_key": "TY_SX_MARS_CHANNEL_FACT", "science": 12, "actions": ["sample", "scan", "photo"], "reach": 12, "source": "https://science.nasa.gov/mission/msl-curiosity/"},
+        {"id": "mars_dunes", "kind": "dune", "name_key": "TY_SX_MARS_DUNES", "fact_key": "TY_SX_MARS_DUNES_FACT", "science": 8, "actions": ["photo", "scan", "sample"], "reach": 12, "source": "https://science.nasa.gov/mission/msl-curiosity/"},
+        {"id": "mars_blueberries", "kind": "rock", "name_key": "TY_SX_MARS_BERRIES", "fact_key": "TY_SX_MARS_BERRIES_FACT", "science": 10, "actions": ["scan", "drill", "photo"], "reach": 7, "source": "https://science.nasa.gov/mission/mer-opportunity/"},
+        {"id": "mars_dust_devil", "kind": "dust_devil", "name_key": "TY_SX_MARS_DEVIL", "fact_key": "TY_SX_MARS_DEVIL_FACT", "science": 8, "actions": ["photo"], "reach": 14, "source": "https://science.nasa.gov/mission/mer-spirit/"},
+        {"id": "mars_sunset_view", "kind": "vista", "name_key": "TY_SX_MARS_SUNSET", "fact_key": "TY_SX_MARS_SUNSET_FACT", "science": 5, "actions": ["photo"], "reach": 10, "source": "https://science.nasa.gov/mars/facts/"}
+      ],
+      "challenges": [
+        {"id": "mars_channel_dash", "type": "reach_before", "target": "mars_channel", "time_s": 150, "name_key": "TY_SX_CH_MARS_DASH", "desc_key": "TY_SX_CH_MARS_DASH_DESC", "science": 10},
+        {"id": "mars_hop", "type": "jump", "air_s": 1.1, "name_key": "TY_SX_CH_MARS_HOP", "desc_key": "TY_SX_CH_MARS_HOP_DESC", "science": 6},
+        {"id": "mars_delivery", "type": "deliver", "from": "mars_channel", "to": "mars_lander", "name_key": "TY_SX_CH_MARS_DELIVERY", "desc_key": "TY_SX_CH_MARS_DELIVERY_DESC", "science": 8},
+        {"id": "mars_all_places", "type": "find_all", "name_key": "TY_SX_CH_FIND_ALL", "desc_key": "TY_SX_CH_FIND_ALL_DESC", "science": 15},
+        {"id": "mars_all_finds", "type": "collect_all", "name_key": "TY_SX_CH_COLLECT_ALL", "desc_key": "TY_SX_CH_COLLECT_ALL_DESC", "science": 10}
+      ]
+    },
+    "europa": {
+      "name_key": "TY_SX_BODY_EUROPA",
+      "unlock": {"targets": ["europa_surface"], "types": ["lander", "rover", "sample_return"]},
+      "collect_facts": {"ice": "TY_SX_EUROPA_COL_ICE"},
+      "pois": [
+        {"id": "europa_lander", "kind": "lander", "name_key": "TY_SX_POI_LANDER", "fact_key": "TY_SX_POI_LANDER_FACT", "science": 2, "actions": ["photo"], "reach": 9, "source": "https://science.nasa.gov/jupiter/moons/europa/"},
+        {"id": "europa_double_ridge", "kind": "ridge", "name_key": "TY_SX_EUROPA_RIDGE", "fact_key": "TY_SX_EUROPA_RIDGE_FACT", "science": 10, "actions": ["photo", "scan"], "reach": 12, "source": "https://science.nasa.gov/jupiter/moons/europa/"},
+        {"id": "europa_chaos", "kind": "chaos", "name_key": "TY_SX_EUROPA_CHAOS", "fact_key": "TY_SX_EUROPA_CHAOS_FACT", "science": 12, "actions": ["photo", "scan", "drill"], "reach": 14, "source": "https://science.nasa.gov/jupiter/moons/europa/"},
+        {"id": "europa_plume", "kind": "vent", "name_key": "TY_SX_EUROPA_PLUME", "fact_key": "TY_SX_EUROPA_PLUME_FACT", "science": 15, "actions": ["photo", "scan", "sample"], "reach": 14, "source": "https://science.nasa.gov/mission/europa-clipper/"},
+        {"id": "europa_salt", "kind": "salt", "name_key": "TY_SX_EUROPA_SALT", "fact_key": "TY_SX_EUROPA_SALT_FACT", "science": 10, "actions": ["scan", "sample", "drill"], "reach": 8, "source": "https://science.nasa.gov/jupiter/moons/europa/"},
+        {"id": "europa_young_crater", "kind": "crater_rim", "name_key": "TY_SX_EUROPA_CRATER", "fact_key": "TY_SX_EUROPA_CRATER_FACT", "science": 8, "actions": ["photo", "scan"], "reach": 10, "source": "https://science.nasa.gov/jupiter/moons/europa/"},
+        {"id": "europa_ocean", "kind": "ice", "name_key": "TY_SX_EUROPA_OCEAN", "fact_key": "TY_SX_EUROPA_OCEAN_FACT", "science": 10, "actions": ["drill", "scan"], "reach": 7, "source": "https://science.nasa.gov/mission/europa-clipper/"},
+        {"id": "europa_jupiter_view", "kind": "vista", "name_key": "TY_SX_EUROPA_JUPITER", "fact_key": "TY_SX_EUROPA_JUPITER_FACT", "science": 5, "actions": ["photo"], "reach": 10, "source": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html"}
+      ],
+      "challenges": [
+        {"id": "europa_plume_dash", "type": "reach_before", "target": "europa_plume", "time_s": 150, "name_key": "TY_SX_CH_EUROPA_DASH", "desc_key": "TY_SX_CH_EUROPA_DASH_DESC", "science": 10},
+        {"id": "europa_hop", "type": "jump", "air_s": 2.2, "name_key": "TY_SX_CH_EUROPA_HOP", "desc_key": "TY_SX_CH_EUROPA_HOP_DESC", "science": 6},
+        {"id": "europa_delivery", "type": "deliver", "from": "europa_salt", "to": "europa_lander", "name_key": "TY_SX_CH_EUROPA_DELIVERY", "desc_key": "TY_SX_CH_EUROPA_DELIVERY_DESC", "science": 8},
+        {"id": "europa_all_places", "type": "find_all", "name_key": "TY_SX_CH_FIND_ALL", "desc_key": "TY_SX_CH_FIND_ALL_DESC", "science": 15},
+        {"id": "europa_all_finds", "type": "collect_all", "name_key": "TY_SX_CH_COLLECT_ALL", "desc_key": "TY_SX_CH_COLLECT_ALL_DESC", "science": 10}
+      ]
+    },
+    "mercury": {
+      "name_key": "TY_SX_BODY_MERCURY",
+      "unlock": {"targets": ["mercury_surface"], "types": ["lander", "rover", "impactor"]},
+      "collect_facts": {},
+      "pois": [
+        {"id": "mercury_scarp", "kind": "scarp", "name_key": "TY_SX_MERCURY_SCARP", "fact_key": "TY_SX_MERCURY_SCARP_FACT", "science": 10, "actions": ["photo", "scan"], "reach": 12, "source": "https://science.nasa.gov/mercury/"},
+        {"id": "mercury_hollows", "kind": "hollows", "name_key": "TY_SX_MERCURY_HOLLOWS", "fact_key": "TY_SX_MERCURY_HOLLOWS_FACT", "science": 10, "actions": ["scan", "sample", "photo"], "reach": 12, "source": "https://science.nasa.gov/mission/messenger/"},
+        {"id": "mercury_ray_crater", "kind": "crater_rim", "name_key": "TY_SX_MERCURY_CRATER", "fact_key": "TY_SX_MERCURY_CRATER_FACT", "science": 8, "actions": ["photo", "scan"], "reach": 10, "source": "https://science.nasa.gov/mercury/"},
+        {"id": "mercury_messenger_homage", "kind": "impact", "name_key": "TY_SX_MERCURY_MESSENGER", "fact_key": "TY_SX_MERCURY_MESSENGER_FACT", "science": 12, "actions": ["photo", "scan"], "reach": 8, "source": "https://science.nasa.gov/mission/messenger/"}
+      ],
+      "challenges": [
+        {"id": "mercury_hop", "type": "jump", "air_s": 1.3, "name_key": "TY_SX_CH_MERCURY_HOP", "desc_key": "TY_SX_CH_MERCURY_HOP_DESC", "science": 6},
+        {"id": "mercury_all_places", "type": "find_all", "name_key": "TY_SX_CH_FIND_ALL", "desc_key": "TY_SX_CH_FIND_ALL_DESC", "science": 12}
+      ]
+    },
+    "earth": {
+      "name_key": "TY_SX_BODY_EARTH",
+      "always": true,
+      "unlock": {"targets": [], "types": []},
+      "collect_facts": {"meteorite": "TY_SX_EARTH_COL_METEORITE"},
+      "pois": [
+        {"id": "earth_test_yard", "kind": "test_yard", "name_key": "TY_SX_EARTH_YARD", "fact_key": "TY_SX_EARTH_YARD_FACT", "science": 4, "actions": ["photo", "scan"], "reach": 10, "source": "https://www.jpl.nasa.gov/"},
+        {"id": "earth_meteorite_hunt", "kind": "rock", "name_key": "TY_SX_EARTH_HUNT", "fact_key": "TY_SX_EARTH_HUNT_FACT", "science": 4, "actions": ["scan", "photo"], "reach": 8, "source": "https://curator.jsc.nasa.gov/antmet/"}
+      ],
+      "challenges": [
+        {"id": "earth_hop", "type": "jump", "air_s": 0.6, "name_key": "TY_SX_CH_EARTH_HOP", "desc_key": "TY_SX_CH_EARTH_HOP_DESC", "science": 3},
+        {"id": "earth_all_places", "type": "find_all", "name_key": "TY_SX_CH_FIND_ALL", "desc_key": "TY_SX_CH_FIND_ALL_DESC", "science": 5}
+      ]
+    }
+  }
+}

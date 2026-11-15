@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="1_toon"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.7882, 0.7686, 0.8471, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.4

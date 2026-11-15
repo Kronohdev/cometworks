@@ -33,35 +33,40 @@ hangar reloads the same vessel).
 
 ## Arquitetura / architecture
 
-- **Estado em dupla precisão.** `FlightBody` guarda posição e velocidade como floats do
-  GDScript (64 bits) num referencial inercial centrado na Terra (PCI, +Y = vertical da
-  plataforma). `Vector3` (32 bits) só é usado para direções, rotação e forças.
-- **Integrador.** Passo fixo de 0,02 s (50 Hz). Translação por *leapfrog* (kick-drift-kick,
-  simplético) para a gravidade, empuxo/arrasto/contato como impulso por passo. Rotação:
-  equações de Euler com inércia diagonal, quatérnio integrado com a rotação exata de ω·dt.
-  Renderização interpolada entre os dois últimos passos.
-- **Origem flutuante.** A cada quadro a origem do render = posição interpolada do foguete;
-  base de lançamento, fumaça, destroços e mapa são colocados em (PCI − origem). Padrões
-  de chão que usavam coordenadas de mundo foram copiados para `shaders/flight_site_*`
-  com um uniform `site_origin`, para não "escorregarem".
-- **Modelo físico** (`FlightVessel`): gravidade μ/r² (μ = 3,986004418e14, R = 6371 km, sem
-  rotação da Terra); atmosfera exponencial ρ0 = 1,225 kg/m³, H = 8,5 km, topo em 140 km;
-  arrasto axial pela área frontal (união dos discos das peças) com subida transônica do Cd;
-  força normal aplicada no centro de pressão (a estimativa de CoL do hangar, aletas pesam
-  4×) → torque estabilizante/desestabilizante; amortecimento aerodinâmico; empuxo com
-  vazão constante e Isp interpolado entre nível do mar e vácuo pela pressão; tanques
-  drenados por *pool* (mesma regra do `VesselMath`); massa, CoM e inércia atualizados;
-  sólidos queimam até o fim sem acelerador; `throttle_min`, número de reignições; torque de
-  controle = gimbal (`gimbal_deg` × empuxo × braço) + rodas de reação; SAS PD limitado pela
-  aceleração angular disponível. Contato com o solo: impacto > 8 m/s destrói.
-  Limites estruturais: q·sen(α) > 9 kPa, q > 90 kPa ou > 16 g.
-- **Estágios.** `FlightStaging` faz a mesma divisão da árvore que
-  `Vessel.compute_stages()` (testado), mas guardando as instâncias. Espaço: ignição do
-  estágio 1 e soltura das garras; depois, separa o estágio gasto (sub-árvore do desacoplador
-  vira um corpo separado com impulso de ejeção `ejection_impulse_kns`), acende o próximo;
-  boosters caem sozinhos quando esvaziam; a carenagem é ejetada na ignição do estágio 2
-  (a mesma hipótese do hangar). O Δv restante do HUD é calculado com o próprio
-  `VesselMath.analyze` usando o propelente que sobrou.
+- **Arquitetura (2026-11, refeita do zero).** Simulação sem nós, separada da apresentação:
+  - `FlightCraft` — o foguete do hangar como dados: grupos entre desacopladores
+    (`FlightStaging`, a mesma divisão de `Vessel.compute_stages()`), *pools* de propelente
+    (regra do `VesselMath`), motores (Isp nível do mar → vácuo pela pressão, vazão
+    constante, `throttle_min`, reignições, sólidos até o fim), carenagens, carga útil da
+    missão; massa, Δv restante (o próprio `VesselMath.analyze`).
+  - `FlightSim` — um ponto de massa com atitude, em dupla precisão, relativo ao corpo da
+    SOI atual (eixos PCI, +Y = vertical da plataforma, Terra sem rotação), relógio do
+    `FlightSolar` (segundos da campanha). Passo fixo de 0,02 s: gravidade por *leapfrog*,
+    empuxo pelo nariz, arrasto axial com subida transônica, garras até o empuxo vencer o
+    peso, contato com o solo (pouso suave fora da Terra, *splashdown* de uma cápsula),
+    limites estruturais (q·sen α, q, g), estágios e boosters vazios caindo. A atitude gira
+    até o comando a `turn_rate` (SAS / piloto automático) ou com a entrada do piloto. Nos
+    trilhos: cônicas exatas (`FlightTrajectory`) trocando de SOI nos tempos certos, ou as
+    pernas da trilha de carreira (`rails_source`). Determinística, bit a bit.
+  - `FlightGuide` — piloto automático: subida (programa de arfagem + malha fechada), corte e
+    circularização no apoapsis, saltos suborbitais, queimas planejadas com os motores
+    reais (cada uma encaixada na sua perna ao terminar). `FlightNodeExecutor` voa os nós de
+    manobra como outro guia.
+  - `FlightRun` — um voo inteiro (simulação + guia + diário de eventos): a vista o avança
+    com o tempo do quadro × aceleração; sem vista ele continua (a campanha avança um
+    `CareerFlight` com o calendário). `CareerFlight` voa o resultado que a carreira já deu
+    (falha no segundo da trilha, órbita parcial, sucesso; um foguete curto ganha o último
+    estágio completado) e, ao chegar à órbita, a trilha (`SpaceTracking.rebase`) passa a
+    ser o caminho voado — mapa e vista 3D mostram um só caminho.
+  - Apresentação: `FlightWorld` (origem flutuante na nave, ilha do campus sob a plataforma —
+    a do próprio campus, emprestada pelo `TycoonModes`, ou `flight_island.tscn` —, céu,
+    fumaça toon, peças caindo, desintegração, diretor de câmera com torre, rastro, separação
+    em câmera lenta e curvatura da Terra), `FlightModel` (as peças do hangar e as plumas),
+    `FlightHUD` / `FlightMap` (iguais por fora).
+  - Lançamento contínuo: `LaunchSequence` faz a contagem e a decolagem no campus, inicia o
+    `CareerFlight` no T-0 e, alguns segundos depois, atravessa uma nuvem (`PunchLayer`) para
+    a vista 3D do mesmo voo; "Voltar ao campus" traz a equipe e o cartão de resultado e o voo
+    segue no Mapa do Sistema Solar; "Acompanhar" abre o mesmo voo de novo.
 - **Cônicas encadeadas e manobras** (`docs/maneuvers.md`). O estado da nave é relativo ao
   corpo da esfera de influência atual (Terra no lançamento, Lua, Sol, planetas;
   `FlightSolar` a partir de `data/solar_system.json`); a física troca de SOI a cada passo e

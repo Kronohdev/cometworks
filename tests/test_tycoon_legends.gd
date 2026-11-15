@@ -4,7 +4,9 @@ extends SceneTree
 ## its year and leaves for good, hiring it (look, unique specialisation, team bonus), the
 ## mentors' lines on the briefings and their agency bonus, the rival leaders on the Tail Radio,
 ## the "Quem inspirou" cards, save / load and an old save without Lendas, and the scenes that
-## show them (golden card, mentor bubble, race face, encyclopedia pages).
+## show them (golden card, mentor bubble, race face, encyclopedia pages), and the Lendas' own
+## Cometlings (legends.json `scene`: each loads as a LegendCometling with its outfit, and
+## TycoonLeader.dress / swap_body put it where a Lenda shows and take it back).
 ## Run: godot --headless --path . --script res://tests/test_tycoon_legends.gd
 
 const SLOT := "test_legends"
@@ -30,6 +32,7 @@ func _initialize() -> void:
 	_check_rivals()
 	_check_cards_and_save()
 	_check_scenes()
+	await _check_bodies()
 	print("LEGENDS TESTS: %s (%d checks, %d failures)" % ["OK" if _failures == 0 else "FAIL", _checks, _failures])
 	quit(1 if _failures else 0)
 
@@ -265,6 +268,101 @@ func _check_scenes() -> void:
 			missing.append(h)
 	_check(missing.is_empty(), "every hat option has its model in leader_hat.tscn %s" % [missing])
 	hat.free()
+
+
+# ------------------------------------------------------------ the Lendas' own Cometlings
+## Lendas that must have their own scene already (the others may still be on the way: a scene
+## path whose file is not there yet is only reported).
+const MUST_HAVE_SCENE := ["katia", "albertinho", "cesinha", "valentina", "pontinha", "mariazinha", "margo", "nilo",
+	"mae", "halleyzinho"]
+
+
+func _check_bodies() -> void:
+	var holder := Node3D.new()
+	get_root().add_child(holder)
+	await process_frame   # the tree runs from the first frame on (nodes get _ready from then)
+	var bad: Array[String] = []
+	var loaded := 0
+	for l: Dictionary in TycoonLegends.all():
+		var id := String(l["id"])
+		var path := String(l.get("scene", ""))
+		if path == "" or not ResourceLoader.exists(path):
+			if id in MUST_HAVE_SCENE:
+				bad.append("%s: no scene" % id)
+			elif path != "":
+				print("  note  %s: scene %s not there yet" % [id, path])
+			continue
+		_check(TycoonLegends.scene_path(id) == path, "%s: scene_path finds %s" % [id, path])
+		var c := TycoonLegends.instance(id)
+		if c == null:
+			bad.append("%s: %s is not a LegendCometling" % [id, path])
+			continue
+		holder.add_child(c)
+		loaded += 1
+		if c.legend_id != id:
+			bad.append("%s: legend_id is '%s'" % [id, c.legend_id])
+		if c.habit_names.is_empty():
+			bad.append("%s: no habits" % id)
+		for h in c.habit_names:
+			if not c.knows_habit(h) or not c.play_habit(h):
+				bad.append("%s: habit %s does not play" % [id, h])
+		c.stop_shot()
+		# its outfit: meshes of its own that keep their own material, no profession gear
+		var own := 0
+		var skin := 0
+		for mi in c.find_children("*", "MeshInstance3D", true, false):
+			var m := mi as MeshInstance3D
+			if m.material_override == c.body_material or m.material_override == c.face_material 					or m.material_override == c.lid_material:
+				skin += 1
+			elif m.material_override != null:
+				own += 1
+		if own < 20 or skin < 10:
+			bad.append("%s: outfit meshes %d, skin meshes %d" % [id, own, skin])
+		for g in ["Rig/Hips/Neck/Helmet", "Rig/Hips/Neck/HardHat", "Rig/Hips/Neck/Goggles", "Rig/Hips/Vest",
+				"Rig/Hips/Belt", "Rig/Hips/Backpack", "Rig/Hips/Scarf"]:
+			var n := c.get_node_or_null(g) as Node3D
+			if n and n.visible:
+				bad.append("%s: shows %s" % [id, g])
+		c.talk(true)
+		if c.current_action() != "talk":
+			bad.append("%s: talk(true) does not talk" % id)
+		c.talk(false)
+		c.advance(0.5)
+	_check(bad.is_empty(), "%d Lenda scenes load as LegendCometlings with outfit, habits and talk %s" % [loaded, bad])
+	await process_frame
+	# dress / swap_body: a Lenda with a scene stands in for the shared Cometling and goes back
+	var plain := (load("res://scenes/npc/creature.tscn") as PackedScene).instantiate() as Cometling
+	plain.name = "Creature"
+	plain.listen_to_events = false
+	plain.position = Vector3(1, 0, 2)
+	holder.add_child(plain)
+	var lg := TycoonLegends.look("albertinho")
+	var c2 := TycoonLeader.dress(plain, lg)
+	_check(c2 is LegendCometling and c2.name == "Creature" and c2.get_parent() == holder and c2.position == Vector3(1, 0, 2)
+		and not c2.listen_to_events, "dress: Albertinho's own body takes the Cometling's place, name and settings")
+	var c3 := TycoonLeader.dress(c2, TycoonLegends.look("valentina"))
+	_check(c3 is LegendCometling and (c3 as LegendCometling).legend_id == "valentina" and c3.name == "Creature",
+		"dress: one Lenda's body swaps for another's")
+	var c4 := TycoonLeader.dress(c3, {"id": "x", "profession": "pilot", "variant": 2})
+	_check(not c4 is LegendCometling and c4.scene_file_path == "res://scenes/npc/creature.tscn" and c4.name == "Creature",
+		"dress: a member who is no Lenda gets the shared Cometling back")
+	var c5 := TycoonLeader.dress(c4, {"id": "y", "legend": "no_such_lenda", "profession": "pilot", "body": "#ffffff",
+		"spot": "#000000", "hat": "bow"})
+	_check(c5 == c4, "dress: a Lenda without a scene keeps the shared Cometling (colours and hat)")
+	await process_frame
+	# the campus walker: the Lenda walks in its own body, a reused walker gets the Cometling back
+	var w := (load("res://scenes/tycoon/campus_cometling.tscn") as PackedScene).instantiate()
+	holder.add_child(w)
+	var m := {"id": "s9", "legend": "nilo", "profession": "pilot", "body": "#aeeeb6", "spot": "#ffffff", "hat": "aviator"}
+	w.call("set_leader", m)
+	var wc: Node = w.get("creature")
+	_check(wc is LegendCometling and wc == w.get_node("Creature") and (wc as Node3D).scale.is_equal_approx(Vector3.ONE * 1.6),
+		"campus: a Lenda on campus walks in its own body (same node, same size)")
+	w.call("set_leader", {})
+	wc = w.get("creature")
+	_check(not wc is LegendCometling and wc == w.get_node("Creature"), "campus: the walker gets the shared Cometling back")
+	holder.queue_free()
+	await process_frame
 
 
 # ------------------------------------------------------------ helpers

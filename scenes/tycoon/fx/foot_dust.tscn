@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_smoke.tres" id="1_smoke"]
+
+[sub_resource type="Curve" id="curve_puff"]
+_data = [Vector2(0, 0.4), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="curvetex_puff"]
+curve = SubResource("curve_puff")
+
+[sub_resource type="Gradient" id="grad_dust"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.88, 0.8, 0.66, 0.85, 0.84, 0.78, 0.68, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_dust"]
+gradient = SubResource("grad_dust")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_dust"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.25
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 60.0
+flatness = 0.5
+initial_velocity_min = 0.3
+initial_velocity_max = 0.7
+gravity = Vector3(0, 0.2, 0)
+damping_min = 0.5
+damping_max = 1.0
+scale_min = 0.6
+scale_max = 1.0
+scale_curve = SubResource("curvetex_puff")
+color_ramp = SubResource("gradtex_dust")
+
+[sub_resource type="BoxMesh" id="mesh_dust"]
+material = ExtResource("1_smoke")
+size = Vector3(0.16, 0.16, 0.16)
+
+[node name="FootDust" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+cast_shadow = 0
+emitting = false
+amount = 8
+lifetime = 0.7
+visibility_aabb = AABB(-2, -0.5, -2, 4, 2, 4)
+process_material = SubResource("ppm_dust")
+draw_pass_1 = SubResource("mesh_dust")

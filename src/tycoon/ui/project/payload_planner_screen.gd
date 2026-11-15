@@ -28,6 +28,13 @@ func _ready() -> void:
 	super._ready()
 	%Next.pressed.connect(_next)
 	%Back.pressed.connect(_back)
+	# a rover mission builds its rover in the workshop (src/rover/rover_builder_screen.gd)
+	%RoverBuild.pressed.connect(func() -> void:
+		if hud:
+			hud.open_screen("rover_builder", args_out()))
+	%RoverRemove.pressed.connect(func() -> void:
+		payload.assign(payload.filter(func(x: String) -> bool: return not RoverDesign.is_code(x)))
+		refresh())
 
 
 ## args: {"type", "target", "contract_id", "briefing_id", "payload", "staff"}
@@ -110,6 +117,7 @@ func refresh() -> void:
 	_fill_gauges()
 	_fill_env()
 	_fill_info()
+	_fill_rover()
 	var err := plan_error()
 	%Error.text = tr(err) if err != "" else ""
 	%Next.disabled = err != ""
@@ -222,6 +230,26 @@ func gauge_text(gid: String, d: Dictionary) -> String:
 func _fill_env() -> void:
 	%EnvCaption.text = tr("TY_PL_ENV") % tr(String(state.mission_target(target_id).get("name_key", "")))
 	%EnvLine.text = Discovery.env_text(state, target_id, briefing_id)
+
+
+## The rover card: on surface missions, the workshop rover the payload carries (or none).
+func _fill_rover() -> void:
+	%RoverCard.visible = PayloadRules.is_surface(type_id) and SurfaceSession.body_for_target(target_id) != &""
+	if not %RoverCard.visible:
+		return
+	var d := RoverDesign.from_payload(payload)
+	%RoverRemove.visible = not d.is_empty()
+	if d.is_empty():
+		%RoverLine.text = tr("RV_PL_NONE")
+		%RoverBuild.text = tr("RV_PL_BUILD")
+	else:
+		var code := ""
+		for x in payload:
+			if RoverDesign.is_code(x):
+				code = x
+		%RoverLine.text = tr("RV_PL_HAS") % [String(d.get("name", "")), tr(RoverDesign.name_key(String(d["chassis"]))),
+			roundi(float(PayloadRules.module(code).get("mass", 0.0)))]
+		%RoverBuild.text = tr("RV_PL_EDIT")
 
 
 func _fill_info() -> void:

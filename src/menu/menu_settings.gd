@@ -133,6 +133,19 @@ static func set_reduce_motion(on: bool) -> void:
 	CwMotion.set_reduced(on)
 
 
+## Campus weather (rain, clouds, gusts; CampusWeather, src/tycoon/fx/campus_weather.gd): purely
+## visual, on by default. Applied live to the weather in the game right now.
+static func weather() -> bool:
+	return bool(_cfg().get_value(SECTION, "weather", true))
+
+
+static func set_weather(on: bool) -> void:
+	_store("weather", on)
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree:
+		tree.call_group(&"cw_weather", "load_settings")
+
+
 ## Visual style: true = Cartoon (toon light and ink outlines), false = Classic. Applied live to
 ## every material and outline (CwLook, src/core/cw_look.gd).
 static func toon_style() -> bool:

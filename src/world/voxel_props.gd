@@ -23,6 +23,9 @@ var count_variants := 0
 var _p_per_cell := 0.0
 var _weights := PackedFloat32Array()  # per material
 var _clear_r2 := 0.0
+## Discs kept free of props (x, z, radius): the set pieces and points of interest of the
+## surface scene, flattened sites and ramps (VoxelTerrain.prop_exclusions, read-only in jobs).
+var exclusions := PackedVector3Array()
 var _seed := 0
 var _sea := -1.0e9
 var _hi: Array = []  # [PackedVector3Array verts, normals, colors]
@@ -236,6 +239,13 @@ func append_chunk(out_v: PackedVector3Array, out_n: PackedVector3Array, out_c: P
 			var px := floorf(gx * cell + VoxelTerrainGenerator._u01(hs, 2) * cell) + 0.5
 			var pz := floorf(gz * cell + VoxelTerrainGenerator._u01(hs, 3) * cell) + 0.5
 			if px * px + pz * pz < _clear_r2:
+				continue
+			var blocked := false
+			for e in exclusions:
+				if (px - e.x) * (px - e.x) + (pz - e.y) * (pz - e.y) < e.z * e.z:
+					blocked = true
+					break
+			if blocked:
 				continue
 			var i := clampi(int(floorf((px - ox) / s)), 0, n - 1) + 1
 			var j := clampi(int(floorf((pz - oz) / s)), 0, n - 1) + 1

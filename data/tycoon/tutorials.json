@@ -1,5 +1,5 @@
 {
-	"_doc": "Vovô Edmundo Halleyzinho's lessons (TutorialBook, src/tycoon/tutorial/tutorial_book.gd). Lines are i18n keys in i18n/tycoon_tutorial_strings.csv.",
+	"_doc": "Vovô Edmundo Halleyzinho's lessons (TutorialBook, src/tycoon/tutorial/tutorial_book.gd). Lines are i18n keys in i18n/tycoon_tutorial_strings.csv. Lessons with trigger 'unlock' play when a new career unlocks a HUD menu (data/tycoon/menu_unlocks.json, HudUnlocker).",
 	"lessons": [
 		{
 			"id": "campus",
@@ -35,7 +35,7 @@
 					"line": "TUT_CAMPUS_6"
 				},
 				{
-					"line": "TUT_CAMPUS_7",
+					"line": "TUT_CAMPUS_7B",
 					"target": "hud:Rail"
 				},
 				{
@@ -510,6 +510,29 @@
 			]
 		},
 		{
+			"id": "money_trouble",
+			"title": "TUT_MONEY_TITLE",
+			"desc": "TUT_MONEY_DESC",
+			"icon": "finance",
+			"trigger": {
+				"on": "signal",
+				"signal": "cash_warning",
+				"min": 2
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_MONEY_1",
+					"target": "%CashValue",
+					"pose": "forehead"
+				},
+				{
+					"line": "TUT_MONEY_2",
+					"pose": "nod"
+				}
+			]
+		},
+		{
 			"id": "race",
 			"title": "TUT_RACE_TITLE",
 			"desc": "TUT_RACE_DESC",
@@ -618,6 +641,203 @@
 					"line": "TUT_LIBRARY_1",
 					"target": "%List",
 					"pose": "forehead"
+				}
+			]
+		},
+		{
+			"id": "unlock_crew",
+			"title": "TUT_UNLOCK_CREW_TITLE",
+			"desc": "TUT_UNLOCK_CREW_DESC",
+			"icon": "crew",
+			"trigger": {
+				"on": "unlock",
+				"item": "crew"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_CREW_1",
+					"target": "hud:Rail/VBox/Crew",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "unlock_hangar",
+			"title": "TUT_UNLOCK_HANGAR_TITLE",
+			"desc": "TUT_UNLOCK_HANGAR_DESC",
+			"icon": "hangar",
+			"trigger": {
+				"on": "unlock",
+				"item": "hangar"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_HANGAR_1",
+					"target": "hud:%HangarButton",
+					"pose": "point"
+				},
+				{
+					"line": "TUT_UNLOCK_HANGAR_2",
+					"target": "hud:%HangarButton",
+					"pose": "laugh"
+				}
+			]
+		},
+		{
+			"id": "unlock_map",
+			"title": "TUT_UNLOCK_MAP_TITLE",
+			"desc": "TUT_UNLOCK_MAP_DESC",
+			"icon": "map",
+			"trigger": {
+				"on": "unlock",
+				"item": "map"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_MAP_1",
+					"target": "hud:Rail/VBox/Map",
+					"pose": "point"
+				},
+				{
+					"line": "TUT_UNLOCK_MAP_2",
+					"target": "hud:%SolarMap",
+					"pose": "nod"
+				}
+			]
+		},
+		{
+			"id": "unlock_journal",
+			"title": "TUT_UNLOCK_JOURNAL_TITLE",
+			"desc": "TUT_UNLOCK_JOURNAL_DESC",
+			"icon": "journal",
+			"trigger": {
+				"on": "unlock",
+				"item": "journal"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_JOURNAL_1",
+					"target": "hud:Rail/VBox/Journal",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "unlock_research",
+			"title": "TUT_UNLOCK_RESEARCH_TITLE",
+			"desc": "TUT_UNLOCK_RESEARCH_DESC",
+			"icon": "research",
+			"trigger": {
+				"on": "unlock",
+				"item": "research"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_RESEARCH_1",
+					"target": "hud:Rail/VBox/Research",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "unlock_contracts",
+			"title": "TUT_UNLOCK_CONTRACTS_TITLE",
+			"desc": "TUT_UNLOCK_CONTRACTS_DESC",
+			"icon": "contracts",
+			"trigger": {
+				"on": "unlock",
+				"item": "contracts"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_CONTRACTS_1",
+					"target": "hud:Rail/VBox/Contracts",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "unlock_race",
+			"title": "TUT_UNLOCK_RACE_TITLE",
+			"desc": "TUT_UNLOCK_RACE_DESC",
+			"icon": "race",
+			"trigger": {
+				"on": "unlock",
+				"item": "race"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_RACE_1",
+					"target": "hud:Side/Race",
+					"pose": "point"
+				},
+				{
+					"line": "TUT_UNLOCK_RACE_2",
+					"target": "hud:Rail/VBox/Race",
+					"advance": {
+						"on": "click"
+					}
+				}
+			]
+		},
+		{
+			"id": "unlock_finance",
+			"title": "TUT_UNLOCK_FINANCE_TITLE",
+			"desc": "TUT_UNLOCK_FINANCE_DESC",
+			"icon": "finance",
+			"trigger": {
+				"on": "unlock",
+				"item": "finance"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_FINANCE_1",
+					"target": "hud:Rail/VBox/Finance",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
+				}
+			]
+		},
+		{
+			"id": "unlock_book",
+			"title": "TUT_UNLOCK_BOOK_TITLE",
+			"desc": "TUT_UNLOCK_BOOK_DESC",
+			"icon": "book",
+			"trigger": {
+				"on": "unlock",
+				"item": "book"
+			},
+			"replay": "",
+			"steps": [
+				{
+					"line": "TUT_UNLOCK_BOOK_1",
+					"target": "hud:Rail/VBox/Book",
+					"advance": {
+						"on": "click"
+					},
+					"pose": "point"
 				}
 			]
 		}

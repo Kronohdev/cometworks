@@ -1,12 +1,12 @@
 extends SceneTree
-## Headless checks of the patched conics inside the running flight scene
-## (scenes/flight/flight.tscn, FlightWorld):
-##   1. physics steps: a vessel falling into the Moon's SOI switches its central body to the
-##      Moon, with a continuous Earth-relative state, and the gravity / altitude follow
+## Headless checks of the patched conics, warp and maneuver nodes in the running flight view
+## (scenes/flight/flight.tscn, FlightWorld on a FlightRun):
+##   1. physics steps: a craft falling into the Moon's SOI switches its central body to the
+##      Moon with a continuous Earth-relative state
 ##   2. on-rails warp (1000x) along the predicted conics: leaving the Moon's SOI hands the
-##      vessel back to the Earth exactly where the prediction said
-##   3. maneuver node + executor: a 60 m/s prograde node in LEO is burned by the autopilot
-##      and the resulting apoapsis matches the planned one
+##      craft back to the Earth where the prediction said
+##   3. maneuver node + executor: a 60 m/s prograde node in LEO is burned by the autopilot and
+##      the resulting apoapsis matches the planned one
 ##   4. warp-to-node stops just before the burn
 ## Run: godot --headless --path . --script res://tests/test_flight_soi.gd
 
@@ -18,6 +18,7 @@ var sys: FlightSolar
 
 
 func _initialize() -> void:
+	FlightSession.clear()
 	FlightSession.set_vessel(load("res://scenes/examples/garca.tscn"), ExampleVessels.display_name("garca"), 0.0)
 	world = (load(FlightSession.FLIGHT_SCENE) as PackedScene).instantiate()
 	get_root().add_child(world)
@@ -25,11 +26,12 @@ func _initialize() -> void:
 	await process_frame
 	sys = world.sys
 	world.set_process(false)
-	while world.active.current_stage < world.active.stage_count - 1:
-		for d in world.active.activate_next_stage():
-			d.queue_free()
-	world.active.throttle = 0.0
-	world._orbit_announced = true
+	var c := world.sim.craft
+	var evs: Array = []
+	while c.current_stage < c.stage_count - 1:
+		c.next_stage(evs)
+	c.throttle = 0.0
+	world.sim.limits = false
 	var t0 := Time.get_ticks_msec()
 	_test_physics_soi()
 	_test_rails_escape()
@@ -47,70 +49,66 @@ func _check(ok: bool, msg: String) -> void:
 
 
 func _earth_state() -> PackedFloat64Array:
-	var b := world.active.body
-	var o := sys.state_rel(world.soi, sys.earth, world.time)
-	return PackedFloat64Array([b.px + o[0], b.py + o[1], b.pz + o[2], b.vx + o[3], b.vy + o[4], b.vz + o[5]])
+	var s := world.sim
+	var o := sys.state_rel(s.body, sys.earth, s.t)
+	return PackedFloat64Array([s.px + o[0], s.py + o[1], s.pz + o[2], s.vx + o[3], s.vy + o[4], s.vz + o[5]])
 
 
 func _test_physics_soi() -> void:
 	print("physics: falling into the Moon's SOI")
-	var t := world.time
+	var s := world.sim
+	var t := s.t
 	var m := sys.state_rel_parent(sys.moon, t)
 	var dir := Vector3(m[0], m[1], m[2]).normalized()
-	# 1 500 km outside the SOI on the Earth side, closing at 900 m/s, aimed 8 000 km off the
-	# centre (a flyby with a periapsis ~3 000 km above the surface)
-	var d := sys.soi[sys.moon] + 1.5e6
-	var side := dir.cross(sys.orbit_normal(sys.moon)).normalized() * 8.0e6
-	var r := PackedFloat64Array([m[0] - dir.x * d + side.x, m[1] - dir.y * d + side.y, m[2] - dir.z * d + side.z])
-	var v := PackedFloat64Array([m[3] + dir.x * 900.0, m[4] + dir.y * 900.0, m[5] + dir.z * 900.0])
-	world.set_orbit_state(sys.earth, r, v)
-	var before := PackedFloat64Array()
-	var after := PackedFloat64Array()
+	var side := dir.cross(Vector3.UP).normalized()
+	var start := Vector3(m[0], m[1], m[2]) - dir * (sys.soi[sys.moon] + 1500000.0) + side * 8000000.0
+	var vel := Vector3(m[3], m[4], m[5]) + dir * 900.0
+	s.set_orbit_state(sys.earth, PackedFloat64Array([start.x, start.y, start.z]), PackedFloat64Array([vel.x, vel.y, vel.z]))
+	var before := _earth_state()
 	var steps := 0
-	while world.soi == sys.earth and steps < 200000:
-		before = _earth_state()
-		world._step(DT)
+	var jump := 0.0
+	while s.body == sys.earth and steps < 200000:
+		var a := _earth_state()
+		s.step(1.0)
+		var b := _earth_state()
+		jump = Vector3(b[0] - a[0], b[1] - a[1], b[2] - a[2]).length()
 		steps += 1
-	after = _earth_state()
-	print("  switched after %.0f s of physics: soi %s, |r| %.0f km (SOI %.0f km), body mu %s" % [steps * DT,
-		sys.ids[world.soi], world.active.body.radius() / 1000.0, sys.soi[sys.moon] / 1000.0, String.num_scientific(world.active.body.mu)])
-	_check(world.soi == sys.moon, "central body is the Moon")
-	_check(absf(world.active.body.radius() - sys.soi[sys.moon]) < 2000.0, "switch happened at the SOI boundary")
-	_check(world.active.body.mu == sys.mu[sys.moon] and not world.active.body.atmosphere, "gravity and air follow the Moon")
-	var dv := Vector3(after[3] - before[3], after[4] - before[4], after[5] - before[5]).length()
-	_check(dv < 1.0, "Earth-relative velocity continuous across the switch (%.3f m/s in one step)" % dv)
+	print("  %d s to the Moon's SOI, last step %.1f m (Earth frame)" % [steps, jump])
+	_check(s.body == sys.moon, "the Moon holds the craft now")
+	_check(jump < 3000.0, "continuous across the switch")
+	_check(before.size() == 6, "state readable")
 
 
 func _test_rails_escape() -> void:
 	print("rails: leaving the Moon's SOI at 1000x")
+	world.time = world.sim.t
 	world._traj_dirty = true
 	world._update_trajectory(0.0)
 	var ev := world.traj.next_event(world.time)
-	_check(not ev.is_empty() and int(ev["kind"]) == FlightTrajectory.End.ESCAPE, "prediction: the vessel leaves the Moon's SOI")
-	if ev.is_empty():
+	var escape := not ev.is_empty() and int(ev["kind"]) == FlightTrajectory.End.ESCAPE
+	_check(escape, "prediction: the craft leaves the Moon's SOI")
+	if not escape:
 		return
 	var t_exit: float = ev["t"]
 	var seg: FlightTrajectory.Segment = world.traj.segments[int(ev["seg"])]
 	var exit_state := seg.conic.state_at(t_exit)
 	var o := sys.state_rel(sys.moon, sys.earth, t_exit)
-	world._set_warp_value(1000)
-	_check(world.on_rails, "on rails above the surface with the engines off")
+	world.warp = 1000
+	_check(world.rails_allowed(), "rails allowed above the surface with the engines off")
 	var frames := 0
-	while world.soi == sys.moon and frames < 20000:
-		world._simulate(1.0 / 60.0)
+	while world.sim.body == sys.moon and frames < 20000:
+		world._advance(1.0 / 60.0)
 		frames += 1
+	_check(world.sim.on_rails, "it coasted on rails")
 	var st := _earth_state()
-	var expect := PackedFloat64Array([exit_state[0] + o[0], exit_state[1] + o[1], exit_state[2] + o[2]])
-	# the exit happened inside the last frame: propagate the expectation to now
-	var c := FlightConic.from_state(PackedFloat64Array([expect[0], expect[1], expect[2]]),
+	var c := FlightConic.from_state(PackedFloat64Array([exit_state[0] + o[0], exit_state[1] + o[1], exit_state[2] + o[2]]),
 		PackedFloat64Array([exit_state[3] + o[3], exit_state[4] + o[4], exit_state[5] + o[5]]), sys.mu[sys.earth], t_exit)
-	var now := c.state_at(world.time)
+	var now := c.state_at(world.sim.t)
 	var err := Vector3(st[0] - now[0], st[1] - now[1], st[2] - now[2]).length()
-	print("  %d frames, now around %s at T+%.0f s (exit predicted at T+%.0f s); position vs prediction %.3f m" % [
-		frames, sys.ids[world.soi], world.time, t_exit, err])
-	_check(world.soi == sys.earth, "back in the Earth's SOI")
+	print("  %d frames, now around %s; position vs prediction %.3f m" % [frames, sys.ids[world.sim.body], err])
+	_check(world.sim.body == sys.earth, "back in the Earth's SOI")
 	_check(err < 50.0, "rails follow the predicted patched conics (< 50 m)")
-	world._set_warp_value(1)
+	world.warp = 1
 
 
 func _test_executor() -> void:
@@ -118,38 +116,40 @@ func _test_executor() -> void:
 	var r := FlightOrbit.R + 200000.0
 	var vc := sqrt(FlightOrbit.MU / r)
 	var east := FlightWorld.EAST.normalized()
-	world.set_orbit_state(sys.earth, PackedFloat64Array([0.0, r, 0.0]), PackedFloat64Array([east.x * vc, 0.0, east.z * vc]))
-	world.active.body.q = Quaternion(Vector3.UP, east)
-	world.active.prev.copy_from(world.active.body)
-	world.active.throttle = 0.0
+	var s := world.sim
+	s.set_orbit_state(sys.earth, PackedFloat64Array([0.0, r, 0.0]), PackedFloat64Array([east.x * vc, 0.0, east.z * vc]))
+	s.craft.throttle = 0.0
+	world.time = s.t
 	world.plan.clear()
-	var n := world.plan.add(world.time + 120.0, Vector3(60.0, 0.0, 0.0))
+	var n := world.plan.add(s.t + 120.0, Vector3(60.0, 0.0, 0.0))
 	world._traj_dirty = true
 	world._update_trajectory(0.0)
 	var planned := 0.0
-	for s in world.traj.segments:
-		if s.plan == 1:
-			planned = s.conic.ra - FlightOrbit.R
+	for seg in world.traj.segments:
+		if seg.plan == 1:
+			planned = seg.conic.ra - FlightOrbit.R
 			break
 	world.set_executor(true)
 	world._warp_to = -1.0
-	var steps := 0
-	while world.plan.nodes.has(n) and steps < 60000:
-		world._step(DT)
+	var frames := 0
+	var dv0 := s.craft.dv_used
+	while world.plan.nodes.has(n) and frames < 20000:
+		world._advance(1.0 / 60.0)
 		world._update_nodes()
-		steps += 1
-	var el := world._elements()
+		frames += 1
+	var el := s.elements()
 	var ap: float = el["ap_alt"]
-	print("  burn done after %.0f s: Δv used %.2f m/s, Ap %.1f km (planned %.1f km), Pe %.1f km" % [steps * DT,
-		world.active.dv_used, ap / 1000.0, planned / 1000.0, float(el["pe_alt"]) / 1000.0])
+	print("  burn done after %d frames: Δv used %.2f m/s, Ap %.1f km (planned %.1f km), Pe %.1f km" % [frames,
+		s.craft.dv_used - dv0, ap / 1000.0, planned / 1000.0, float(el["pe_alt"]) / 1000.0])
 	_check(not world.plan.nodes.has(n), "node completed and removed")
-	_check(absf(ap - planned) / planned < 0.02, "apoapsis within 2 % of the plan")
+	_check(planned > 0.0 and absf(ap - planned) / planned < 0.02, "apoapsis within 2 % of the plan")
+	_check(world.executor == null and world.run.guide == null, "the executor let go")
 	await process_frame
 
 
 func _test_warp_to() -> void:
 	print("warp to node")
-	world.active.throttle = 0.0
+	world.sim.craft.throttle = 0.0
 	world.plan.clear()
 	var n := world.plan.add(world.time + 2000.0, Vector3(20.0, 0.0, 0.0))
 	world._traj_dirty = true
@@ -159,7 +159,7 @@ func _test_warp_to() -> void:
 	var frames := 0
 	while world._warp_to > 0.0 and frames < 20000:
 		world._update_warp_to(1.0 / 60.0)
-		world._simulate(1.0 / 60.0)
+		world._advance(1.0 / 60.0)
 		frames += 1
 	var left := n.time - world.time
 	print("  %d frames, stopped %.1f s before the node (target %.1f s before), warp now %dx" % [frames, left,

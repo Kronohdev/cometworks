@@ -220,6 +220,14 @@ focus_mode = 0
 button_pressed = true
 text = "TY_SET_CUTSCENES"
 
+[node name="Narration" type="CheckButton" parent="Panel/Margin/VBox/Pages/Game"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_NARRATION_TIP"
+focus_mode = 0
+button_pressed = true
+text = "TY_SET_NARRATION"
+
 [node name="ReplayOpening" type="Button" parent="Panel/Margin/VBox/Pages/Game"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -331,7 +339,7 @@ metadata/title = "TY_SET_TAB_IMAGE"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA", "BubblesLabel", "Bubbles", "BubbleRateLabel", "BubbleRate")
+rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA", "WeatherLabel", "Weather", "BubblesLabel", "Bubbles", "BubbleRateLabel", "BubbleRate")
 
 [node name="Head" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="0"]
 visible = false

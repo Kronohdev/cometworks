@@ -6,7 +6,12 @@ extends CanvasLayer
 ## storybook frame: letterbox bars, the line typed out in the bottom bar, title cards, and
 ## the skip key. Like the main menu's attract loop (MenuDirector) each shot is loaded when
 ## it is needed and freed when it ends.
-## Everything you see is in cutscene.tscn (bars, caption, card, skip, fade) and its
+## Vovô Edmundo Halleyzinho narrates: while narration is on (Cutscenes.narration_enabled, the
+## settings' "Vovô Edmundo narra as cenas") each storybook line a shot says comes up in his own
+## words in the NarratorBox (scenes/story/narrator_box.tscn: his bubble with the live portrait,
+## typed out, a habit or a gesture per line) instead of the plain caption; the lines are in
+## data/story/narration.json and keep the shot's timing (a tap and a hold work the same).
+## Everything you see is in cutscene.tscn (bars, caption, card, skip, fade, narrator) and its
 ## AnimationPlayer ("intro": bars and fade in, "outro": bars out); each shot keys its own
 ## lines, cards, sounds and Cometlings (src/cutscene/cutscene_shot.gd).
 ## While it plays the game is paused (the tree; this layer keeps running) and the 3D of the
@@ -20,6 +25,8 @@ signal finished(skipped: bool)
 ## a line came up (translation key), for tests and tools
 signal line_shown(key: String)
 signal shot_started(shot: CutsceneShot, index: int)
+## Vovô's version of a line came up (its translation key), for tests and tools
+signal narrated(key: String)
 
 ## the shot scenes in order
 @export_file("*.tscn") var shots: PackedStringArray = []
@@ -38,6 +45,8 @@ signal shot_started(shot: CutsceneShot, index: int)
 @export_range(0.0, 1.0, 0.05) var hold_grace := 0.18
 ## pause the game while it plays
 @export var pause_game := true
+## Vovô Edmundo tells the lines that have his version (and narration is on in the settings)
+@export var narrated_by_halley := true
 ## letterbox: 0 = no bars, 1 = the bars in (keyed by the AnimationPlayer)
 @export_range(0.0, 1.0, 0.01) var bars := 0.0:
 	set(v):
@@ -69,6 +78,7 @@ var _held := false
 var _hold_t := 0.0
 var _requested := {}
 var _fade_tw: Tween
+var _narrating := false
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var frame: Control = %Frame
@@ -83,6 +93,7 @@ var _fade_tw: Tween
 @onready var card_kicker: Label = %CardKicker
 @onready var skip_button: Button = %Skip
 @onready var hold_fill: Control = %HoldFill
+@onready var narrator: NarratorBox = %Narrator
 
 
 func _ready() -> void:
@@ -197,6 +208,7 @@ func end() -> void:
 		shot = null
 	view.visible = false
 	hush()
+	narrator.hush()
 	card_box.modulate.a = 0.0
 	if _host_3d:
 		_host_3d.disable_3d = false
@@ -229,6 +241,7 @@ func advance() -> void:
 	if _typing:
 		_typing = false
 		line_label.visible_characters = -1
+		narrator.finish_typing()
 		return
 	var t := shot.next_line_time()
 	if t >= 0.0:
@@ -240,12 +253,30 @@ func advance() -> void:
 # ------------------------------------------------------------ the frame
 func say(key: String) -> void:
 	_line_key = key
-	line_label.text = fill(tr(key))
-	line_label.visible_characters = 0
-	line_label.modulate.a = 1.0
 	_type_t = 0.0
 	_typing = true
+	var n := narration(key)
+	_narrating = not n.is_empty()
+	if _narrating:
+		# Vovô tells it: his bubble instead of the caption
+		line_label.text = ""
+		line_label.visible_characters = -1
+		narrator.say(fill(tr(String(n["key"]))), String(n.get("pose", "")), String(n.get("face", "")))
+		narrated.emit(String(n["key"]))
+	else:
+		narrator.hush()
+		line_label.text = fill(tr(key))
+		line_label.visible_characters = 0
+		line_label.modulate.a = 1.0
 	line_shown.emit(key)
+
+
+## Vovô's version of storybook line `key` ({"key", "pose", "face"}), {} when he does not tell it
+## (no version, narration off in the settings or in this cutscene).
+func narration(key: String) -> Dictionary:
+	if not narrated_by_halley or not Cutscenes.narration_enabled():
+		return {}
+	return Cutscenes.narration_line(key)
 
 
 func hush() -> void:
@@ -312,7 +343,9 @@ func _fade_to(a: float, seconds: float) -> void:
 
 
 func _process(delta: float) -> void:
-	if _typing:
+	if _typing and _narrating:
+		_typing = narrator.is_typing()
+	elif _typing:
 		_type_t += delta
 		var n := int(_type_t * type_speed)
 		if n >= line_label.get_total_character_count():

@@ -1143,6 +1143,41 @@ text = "Acompanhar o último lançamento"
 tooltip_text = "Abre o lançamento acompanhado do projeto lançado por último"
 metadata/action = "watch_last"
 
+[node name="RoverCampaign" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/RoverCampaign"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Rovers da campanha"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/RoverCampaign"]
+layout_mode = 2
+
+[node name="RoverMission" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/RoverCampaign/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Missão rover de teste"
+tooltip_text = "Lança uma missão rover já pousada na Lua, com um rover da oficina (abre a pesquisa que ele precisa)"
+metadata/action = "rover_test_mission"
+
+[node name="RoverDrive" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/RoverCampaign/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Controlar o rover"
+tooltip_text = "Abre a superfície do primeiro rover da campanha que já pousou"
+metadata/action = "rover_drive_mission"
+
+[node name="RoverEnd" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/RoverCampaign/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Terminar a missão rover"
+tooltip_text = "Leva a missão rover até o fim (o que faltar o rover faz sozinho) e abre o arquivo"
+metadata/action = "rover_end_mission"
+
 [node name="Missions" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
 layout_mode = 2
 
@@ -1367,6 +1402,79 @@ theme_type_variation = &"DevToggle"
 text = "Cinemática de lançamento"
 toggle_mode = true
 metadata/action = "launch_cinematic"
+
+[node name="Rovers" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Rovers"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers"]
+layout_mode = 2
+
+[node name="RoverBuilder" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevHot"
+text = "Oficina de rovers"
+tooltip_text = "Abre a oficina de rovers (na campanha, como tela do campus; fora dela, a caixa de areia)"
+metadata/action = "rover_builder"
+
+[node name="RoverMoon" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover na Lua"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "moon"
+
+[node name="RoverMars" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover em Marte"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "mars"
+
+[node name="RoverMercury" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover em Mercúrio"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "mercury"
+
+[node name="RoverEuropa" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover em Europa"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "europa"
+
+[node name="RoverTitan" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover em Titã"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "titan"
+
+[node name="RoverEarth" type="Button" parent="Root/Panel/VBox/Body/Tabs/Cenas/Page/Rovers/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Rover na Terra"
+tooltip_text = "Larga um rover de teste nesta superfície, com os objetivos da caixa de areia"
+metadata/action = "rover_surface"
+metadata/arg = "earth"
 
 [node name="Telas" type="ScrollContainer" parent="Root/Panel/VBox/Body/Tabs"]
 layout_mode = 2

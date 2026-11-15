@@ -152,7 +152,7 @@ func _test_moon_encounter() -> void:
 	var at := (r1 + r2) * 0.5
 	var t_tr := PI * sqrt(at * at * at / MU)
 	# the vessel starts opposite the Moon's position at arrival
-	var th_moon := sys.phase[sys.moon] + sys.rate[sys.moon] * t_tr
+	var th_moon := sys.angle_at(sys.moon, t_tr)
 	var vp := sqrt(MU * (2.0 / r1 - 1.0 / at))
 	var s := leo_state(200000.0, th_moon - PI, vp / sqrt(MU / r1))
 	var tr := FlightTrajectory.predict(sys, sys.earth, s[0], s[1], 0.0)
@@ -338,7 +338,7 @@ func _test_timing() -> void:
 	var at := (r1 + r2) * 0.5
 	var t_tr := PI * sqrt(at * at * at / MU)
 	var vp := sqrt(MU * (2.0 / r1 - 1.0 / at))
-	var sm := leo_state(200000.0, sys.phase[sys.moon] + sys.rate[sys.moon] * t_tr - PI, vp / sqrt(MU / r1))
+	var sm := leo_state(200000.0, sys.angle_at(sys.moon, t_tr) - PI, vp / sqrt(MU / r1))
 	t0 = Time.get_ticks_usec()
 	for i in 10:
 		FlightTrajectory.predict(sys, sys.earth, sm[0], sm[1], 0.0)

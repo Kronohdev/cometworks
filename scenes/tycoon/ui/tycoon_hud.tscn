@@ -36,6 +36,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="cwm_ticker"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_tooltip_fade.gd" id="cwm_tipfade"]
+[ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_campus_button.tscn" id="sx_surfaces"]
 
 [sub_resource type="ButtonGroup" id="speed_group"]
 
@@ -386,10 +387,10 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 16.0
-offset_top = -300.0
+offset_top = -330.0
 offset_right = 88.0
-offset_bottom = 300.0
-grow_vertical = 2
+offset_bottom = -250.0
+grow_vertical = 1
 theme_type_variation = &"CwRail"
 
 [node name="VBox" type="VBoxContainer" parent="Rail"]
@@ -688,6 +689,9 @@ theme_type_variation = &"CwSecondary"
 icon = ExtResource("22_planet")
 icon_alignment = 1
 expand_icon = true
+
+[node name="Surfaces" parent="Bottom" instance=ExtResource("sx_surfaces")]
+layout_mode = 2
 
 [node name="NewProject" type="Button" parent="Bottom"]
 unique_name_in_owner = true

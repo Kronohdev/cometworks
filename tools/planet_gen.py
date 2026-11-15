@@ -71,6 +71,8 @@ LOD_VOXELS = {
     "sun": (46, 20, 9), "mercury": (32, 15, 7), "venus": (38, 17, 8), "earth": (46, 20, 9),
     "moon": (32, 15, 7), "mars": (40, 18, 8), "jupiter": (48, 21, 9), "europa": (30, 14, 7),
     "saturn": (46, 20, 9), "uranus": (38, 17, 8), "neptune": (38, 17, 8), "pluto": (26, 12, 6),
+    "io": (30, 14, 7), "ganymede": (32, 15, 7), "callisto": (30, 14, 7), "titan": (32, 15, 7),
+    "phobos": (20, 10, 5), "deimos": (18, 9, 5), "mae_gelo": (24, 11, 6),
 }
 RING_VOXELS = (88, 40, 18)   # voxels across the ring OUTER radius
 # voxel_gen's per-vertex AO levels (0..3 occluders), overridden per body kind: smooth
@@ -78,9 +80,10 @@ RING_VOXELS = (88, 40, 18)   # voxels across the ring OUTER radius
 AO_ROCKY = np.array([0.56, 0.72, 0.87, 1.0], np.float32)
 AO_SOFT = np.array([0.80, 0.88, 0.95, 1.0], np.float32)
 AO_BY_KIND = {"sun": AO_SOFT, "jupiter": AO_SOFT, "saturn": AO_SOFT, "uranus": AO_SOFT, "neptune": AO_SOFT,
-              "venus": AO_SOFT, "europa": AO_SOFT}
+              "venus": AO_SOFT, "europa": AO_SOFT, "titan": AO_SOFT, "io": AO_SOFT}
 # relief as a fraction of the radius (exaggerated: voxel worlds read better with steps)
-RELIEF = {"earth": 0.045, "moon": 0.06, "mercury": 0.06, "mars": 0.06, "europa": 0.02, "pluto": 0.05}
+RELIEF = {"earth": 0.045, "moon": 0.06, "mercury": 0.06, "mars": 0.06, "europa": 0.02, "pluto": 0.05,
+          "io": 0.03, "ganymede": 0.05, "callisto": 0.06, "phobos": 0.12, "deimos": 0.1, "mae_gelo": 0.14}
 
 
 # =================================================================== noise (vectorized)
@@ -260,7 +263,8 @@ class Rocky(Surface):
         super().__init__(body)
         self.relief = RELIEF.get(body["id"], 0.05)
         st = body["visual"]["style"]
-        n = {"mercury": 170, "moon": 140, "pluto": 45}.get(body["id"], 100)
+        n = {"mercury": 170, "moon": 140, "pluto": 45, "callisto": 190, "ganymede": 120, "phobos": 40,
+             "deimos": 25, "mae_gelo": 30}.get(body["id"], 100)
         self.cr = Craters(self.seed, n, 0.035, 0.33, rays=3 if "rays" in st else 0)
         self._cache = None
 
@@ -507,9 +511,49 @@ class Europa(Surface):
         return c
 
 
+class Io(Surface):
+    """Sulfur plains, dark volcanic calderas with red plume rings (Pele), white SO2 frost."""
+    relief = 0.03
+
+    def __init__(self, body):
+        super().__init__(body)
+        rng = np.random.default_rng(self.seed)
+        self.vents = random_dirs(rng, 34)
+        self.sizes = rng.uniform(0.025, 0.07, 34)
+
+    def color(self, P, h):
+        t = fbm(warp(P, 0.5, 1.8, self.seed + 1), 2.6, 5, self.seed + 2)
+        c = ramp([(0.25, "#c9a13a"), (0.45, "#e9c443"), (0.62, "#f3e27a"), (0.8, "#f7f1c8")], t)
+        lat, _lon = latlon(P)
+        c = mix(c, hexc("#a8743c"), sstep(50, 75, np.abs(np.degrees(lat))) * 0.6)   # darker poles
+        frost = sstep(0.62, 0.72, fbm(P, 5.0, 3, self.seed + 3))
+        c = mix(c, hexc("#f4f0dc"), frost * 0.5)
+        for k in range(len(self.vents)):
+            d = np.arccos(np.clip(P @ self.vents[k], -1, 1)) / self.sizes[k]
+            if k % 5 == 0:   # big plume deposit rings (red sulfur, Pele-like)
+                c = mix(c, hexc("#c4553a"), sstep(3.6, 3.0, d) * sstep(1.6, 2.4, d) * 0.75)
+            c = mix(c, hexc("#3a2a1c"), sstep(1.0, 0.55, d))
+            c = mix(c, hexc("#d98b2b"), sstep(1.5, 1.0, d) * sstep(0.5, 0.9, d) * 0.7)
+        return c
+
+
+class Titan(Surface):
+    """Thick orange haze: soft latitude bands, a darker north polar hood."""
+
+    def color(self, P, h):
+        lat, _lon = latlon(P)
+        la = np.degrees(lat)
+        q = warp(P * np.array([1.0, 2.2, 1.0]), 0.5, 1.2, self.seed)
+        t = fbm(q, 1.6, 4, self.seed + 1) * 0.35 + (la + 90) / 180 * 0.4
+        c = ramp([(0.2, "#b0732e"), (0.4, "#c98a3a"), (0.55, "#e0a24a"), (0.75, "#efbd6a")], t)
+        c = mix(c, hexc("#8c5a24"), sstep(55, 80, la) * 0.55)
+        return mix(c, hexc("#f3cf86"), sstep(-10, 10, la) * sstep(25, 10, la) * 0.2)
+
+
 PAINTERS = {"sun": Sun, "mercury": Rocky, "moon": Rocky, "pluto": Rocky, "earth": Earth, "mars": Mars,
             "venus": Venus, "jupiter": Banded, "saturn": Banded, "uranus": Banded, "neptune": Banded,
-            "europa": Europa}
+            "europa": Europa, "io": Io, "titan": Titan, "ganymede": Rocky, "callisto": Rocky,
+            "phobos": Rocky, "deimos": Rocky, "mae_gelo": Rocky}
 
 
 # =================================================================== voxelization

@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
 
 [sub_resource type="SystemFont" id="serif"]
 font_names = PackedStringArray("Georgia", "Times New Roman", "Noto Serif", "DejaVu Serif")
@@ -528,3 +529,30 @@ lift = Vector2(0, -1)
 hover_scale = Vector2(1.02, 1.02)
 glow = 1.08
 sweep_on_focus = true
+
+[node name="CwHeadline" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Paper/Content/VBox/Headline")
+from_scale = Vector2(1.35, 1.35)
+offset = Vector2(0, 0)
+pivot = Vector2(0.3, 0.5)
+seconds = 0.34
+delay = 0.34
+curve = 2
+
+[node name="CwKicker" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Paper/Content/VBox/Kicker")
+offset = Vector2(-18, 0)
+seconds = 0.26
+delay = 0.26
+
+[node name="CwPhoto" type="Node" parent="."]
+script = ExtResource("cwm_appear")
+target = NodePath("../Paper/Content/VBox/Body/Left/Photo")
+offset = Vector2(0, 16)
+from_scale = Vector2(0.85, 0.85)
+from_degrees = -8.0
+seconds = 0.42
+delay = 0.48
+curve = 3

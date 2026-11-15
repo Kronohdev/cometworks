@@ -22,6 +22,7 @@ extends CanvasLayer
 ## ProjectDesk.dev_force_outcome / dev_finish_phase(), Discovery.reveal_all(), BriefingDesk.spawn(),
 ## TycoonModes.open_project_hangar() / open_project_flight() (the hangar and the flight in the campus),
 ## TycoonModes.open_watch_track() / TycoonMain.open_space_map() (the missions in space, SpaceTracking),
+## TycoonModes.open_surface() / RoverMissions (rovers: the workshop, a rover on each surface, a test rover mission),
 ## TycoonClock.dev_turbo, TycoonCrew
 ## .dev_ignore_limit / dev_refresh_market(), Campus.dev_spawn_walkers() / dev_show_nav().
 
@@ -1132,6 +1133,130 @@ func _a_space_map(_arg: Variant) -> String:
 		return "o hangar / o voo já está aberto"
 	m.open_space_map()
 	return "mapa do Sistema Solar: %d missões" % SpaceTracking.missions(m.state).size() if m.modes.kind == "map" else "o mapa não abriu"
+
+
+# ------------------------------------------------------------ rovers (src/rover/)
+const ROVER_BUILDER := "res://scenes/tycoon/ui/screens/rover_builder.tscn"
+
+
+## The rover workshop: a campus screen in a campaign, else the sandbox workshop over the scene.
+func _a_rover_builder(_arg: Variant) -> String:
+	var m := main()
+	if m and m.hud:
+		if m.modes and m.modes.is_open():
+			return "feche o hangar / o voo / a superfície primeiro"
+		m.hud.open_screen("rover_builder")
+		return "oficina de rovers (campanha: %d salvos)" % RoverGarage.designs(m.state).size()
+	var scr := (load(ROVER_BUILDER) as PackedScene).instantiate()
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	get_tree().root.add_child(layer)
+	layer.add_child(scr)
+	scr.tree_exited.connect(layer.queue_free)
+	return "oficina de rovers (caixa de areia)"
+
+
+## A sandbox rover on a surface: inside the campus (the surface mode) or as its own scene.
+func _a_rover_surface(body: Variant) -> String:
+	var b := StringName(String(body if body != null else "moon"))
+	var s := SurfaceSession.start(b, RoverMissions.sandbox_design(b), RoverMissions.sandbox_objectives(b), {"sandbox": true, "return": "dev"})
+	var m := main()
+	if m and m.modes:
+		if m.modes.is_open() and m.modes.kind != "map":
+			return "feche o hangar / o voo primeiro"
+		if m.hud.current_screen() != "":
+			m.hud.close_screen()
+		m.modes.open_surface(s)
+		return "rover em %s (no campus)" % b
+	get_tree().paused = false
+	get_tree().change_scene_to_file(SurfaceSession.DRIVE_SCENE)
+	return "rover em %s" % b
+
+
+## A rover mission already on the Moon: the research it needs, a workshop rover, a forced success
+## and the cruise skipped, then the map on it.
+func _a_rover_test_mission(_arg: Variant) -> String:
+	var m := main()
+	if m == null:
+		return NO_CAMPAIGN
+	var s := m.state
+	for t in ["rover_mobility", "guided_descent", "multispectral_imaging", "lunar_stage", "orbital_rocketry", "upper_stage",
+			"radio_tracking", "small_sat_bus", "sun_sync_orbits"]:
+		if not TycoonResearch.is_done(s, t):
+			TycoonResearch.complete(s, t)
+	var team: Array[String] = []
+	for f in ProjectDesk.free_staff(s):
+		if TycoonCrew.is_working(f) and team.size() < 4:
+			team.append(String(f["id"]))
+	if team.is_empty():
+		return "ninguém livre para a missão"
+	var d := RoverDesign.make("Tatu Dev", "wheels6", ["solar_wing", "battery", "camera", "spectrometer", "omni"])
+	var payload := RoverDesign.payload_ids(d)
+	s.cash = maxf(s.cash, float(ProjectDesk.estimate(s, "rover", {}, "lunar_surface")["total"]) + 2.0e6)
+	var p := ProjectDesk.start_project(s, "rover", "lunar_surface", team, "", {}, {"payload": payload})
+	if p == null:
+		return "não começou: %s" % tr(ProjectDesk.start_error(s, "rover", "lunar_surface", team, {}, {"payload": payload}))
+	ProjectDesk.dev_force_outcome = "success"
+	ProjectDesk.launch(s, p, {"auto": true})
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	var am := MissionOps.find(s, p.id)
+	if am.is_empty():
+		return "%s não chegou à operação" % p.code
+	MissionOps.init_mission(s, am)
+	am["weeks_total"] = int(am["weeks_total"]) - int(am["cruise_weeks"])
+	am["cruise_weeks"] = 0
+	am["status"] = "ops"
+	RoverMissions.announce_arrivals(s)
+	s.changed.emit()
+	return "%s pousou na Lua: Controlar o rover no mapa" % p.code
+
+
+func _rover_mission(s: TycoonState) -> Dictionary:
+	for am in s.active_missions:
+		if RoverMissions.can_drive(s, am):
+			return am
+	return {}
+
+
+func _a_rover_drive_mission(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.modes == null:
+		return NO_CAMPAIGN
+	var am := _rover_mission(m.state)
+	if am.is_empty():
+		return "nenhum rover pousado (use Missão rover de teste)"
+	if m.modes.is_open() and m.modes.kind != "map":
+		return "feche o hangar / o voo primeiro"
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	var mid := String(am["id"])
+	var st := m.state
+	m.modes.open_surface(RoverMissions.start_drive(st, mid), func(r: Dictionary) -> void:
+		RoverMissions.apply_result(st, mid, r))
+	return "controlando o rover de %s" % String(am.get("code", ""))
+
+
+func _a_rover_end_mission(_arg: Variant) -> String:
+	var m := main()
+	if m == null:
+		return NO_CAMPAIGN
+	var s := m.state
+	var am := _rover_mission(s)
+	if am.is_empty():
+		return "nenhuma missão rover em operação"
+	am["weeks_total"] = int(am.get("age", 0)) + 1
+	am["event"] = ""
+	am["decision"] = {}
+	s.advance_week()
+	if m.hud.current_screen() != "":
+		m.hud.close_screen()
+	m.hud.open_screen("book")
+	var scr := m.hud.get_node("%Screens").get_child(m.hud.get_node("%Screens").get_child_count() - 1)
+	if scr.has_method("open_detail"):
+		scr.call("open_detail")
+	var a: Dictionary = s.mission_archive[-1] if not s.mission_archive.is_empty() else {}
+	return RoverMissions.summary_text(a.get("surface", {})) if a.has("surface") else "a missão terminou"
 
 
 func _a_watch_last(_arg: Variant) -> String:

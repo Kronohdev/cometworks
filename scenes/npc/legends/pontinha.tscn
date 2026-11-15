@@ -1,0 +1,2879 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="base"]
+[ext_resource type="Script" path="res://src/npc/legend_cometling.gd" id="script"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="toon"]
+
+[sub_resource type="ShaderMaterial" id="m_suit"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1843, 0.3882, 0.7686, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_suit_dk"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1529, 0.3255, 0.6588, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_pocket"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1529, 0.3255, 0.6588, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_zip"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.7882, 0.8235, 0.8627, 1)
+shader_parameter/roughness = 0.4
+shader_parameter/metallic = 0.5
+
+[sub_resource type="ShaderMaterial" id="m_patch"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9843, 0.9843, 0.9647, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="m_plane"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9098, 0.6627, 0.1647, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_patch_rim"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1137, 0.2471, 0.5255, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="m_green"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1804, 0.6157, 0.2902, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="m_yellow"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9608, 0.8157, 0.1255, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_stick"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.9137, 0.8863, 0.8157, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="m_lens_g"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1843, 0.2902, 0.2980, 1)
+shader_parameter/roughness = 0.1
+shader_parameter/metallic = 0.3
+shader_parameter/emission = Color(0.3725, 0.6902, 0.8471, 1)
+shader_parameter/emission_energy = 0.25
+
+[sub_resource type="ShaderMaterial" id="m_gold"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.8784, 0.6902, 0.2902, 1)
+shader_parameter/roughness = 0.3
+shader_parameter/metallic = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_badge"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.4941, 0.8784, 0.5412, 1)
+shader_parameter/roughness = 0.7
+
+[sub_resource type="ShaderMaterial" id="m_boot"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.1490, 0.1647, 0.2000, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_hair"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.2275, 0.1647, 0.1333, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="m_hair_hi"]
+shader = ExtResource("toon")
+shader_parameter/albedo = Color(0.3020, 0.2196, 0.1765, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="BoxMesh" id="b0"]
+size = Vector3(0.375, 0.1875, 0.0833)
+
+[sub_resource type="BoxMesh" id="b1"]
+size = Vector3(0.375, 0.1458, 0.0208)
+
+[sub_resource type="BoxMesh" id="b2"]
+size = Vector3(0.375, 0.1042, 0.0208)
+
+[sub_resource type="BoxMesh" id="b3"]
+size = Vector3(0.375, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b4"]
+size = Vector3(0.3333, 0.0417, 0.125)
+
+[sub_resource type="BoxMesh" id="b5"]
+size = Vector3(0.3333, 0.0625, 0.0208)
+
+[sub_resource type="BoxMesh" id="b6"]
+size = Vector3(0.3333, 0.1042, 0.0208)
+
+[sub_resource type="BoxMesh" id="b7"]
+size = Vector3(0.3333, 0.1875, 0.0208)
+
+[sub_resource type="BoxMesh" id="b8"]
+size = Vector3(0.3333, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b9"]
+size = Vector3(0.3333, 0.1458, 0.0208)
+
+[sub_resource type="BoxMesh" id="b10"]
+size = Vector3(0.3333, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b11"]
+size = Vector3(0.3333, 0.0417, 0.0833)
+
+[sub_resource type="BoxMesh" id="b12"]
+size = Vector3(0.2917, 0.0417, 0.0417)
+
+[sub_resource type="BoxMesh" id="b13"]
+size = Vector3(0.2917, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b14"]
+size = Vector3(0.2917, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b15"]
+size = Vector3(0.2917, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b16"]
+size = Vector3(0.2917, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b17"]
+size = Vector3(0.2917, 0.0625, 0.0208)
+
+[sub_resource type="BoxMesh" id="b18"]
+size = Vector3(0.2708, 0.1667, 0.0208)
+
+[sub_resource type="BoxMesh" id="b19"]
+size = Vector3(0.2917, 0.1042, 0.0208)
+
+[sub_resource type="BoxMesh" id="b20"]
+size = Vector3(0.2917, 0.0208, 0.125)
+
+[sub_resource type="BoxMesh" id="b21"]
+size = Vector3(0.25, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b22"]
+size = Vector3(0.25, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b23"]
+size = Vector3(0.25, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b24"]
+size = Vector3(0.25, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b25"]
+size = Vector3(0.0417, 0.0625, 0.0208)
+
+[sub_resource type="BoxMesh" id="b26"]
+size = Vector3(0.0417, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b27"]
+size = Vector3(0.2083, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b28"]
+size = Vector3(0.25, 0.0208, 0.1458)
+
+[sub_resource type="BoxMesh" id="b29"]
+size = Vector3(0.2083, 0.0208, 0.125)
+
+[sub_resource type="BoxMesh" id="b30"]
+size = Vector3(0.2083, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b31"]
+size = Vector3(0.2083, 0.1458, 0.0208)
+
+[sub_resource type="BoxMesh" id="b32"]
+size = Vector3(0.1667, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b33"]
+size = Vector3(0.1667, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b34"]
+size = Vector3(0.0625, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b35"]
+size = Vector3(0.1667, 0.0833, 0.0208)
+
+[sub_resource type="BoxMesh" id="b36"]
+size = Vector3(0.0625, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b37"]
+size = Vector3(0.125, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b38"]
+size = Vector3(0.125, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b39"]
+size = Vector3(0.125, 0.0625, 0.0208)
+
+[sub_resource type="BoxMesh" id="b40"]
+size = Vector3(0.0833, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b41"]
+size = Vector3(0.0208, 0.0833, 0.0208)
+
+[sub_resource type="BoxMesh" id="b42"]
+size = Vector3(0.0417, 0.2083, 0.0208)
+
+[sub_resource type="BoxMesh" id="b43"]
+size = Vector3(0.0417, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b44"]
+size = Vector3(0.0208, 0.1875, 0.0208)
+
+[sub_resource type="BoxMesh" id="b45"]
+size = Vector3(0.0208, 0.1042, 0.0208)
+
+[sub_resource type="BoxMesh" id="b46"]
+size = Vector3(0.0208, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b47"]
+size = Vector3(0.0208, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b48"]
+size = Vector3(0.0208, 0.0625, 0.0208)
+
+[sub_resource type="BoxMesh" id="b49"]
+size = Vector3(0.0208, 0.1458, 0.0208)
+
+[sub_resource type="BoxMesh" id="b50"]
+size = Vector3(0.0417, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b51"]
+size = Vector3(0.0208, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b52"]
+size = Vector3(0.0208, 0.0417, 0.0417)
+
+[sub_resource type="BoxMesh" id="b53"]
+size = Vector3(0.0833, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b54"]
+size = Vector3(0.0625, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b55"]
+size = Vector3(0.0833, 0.0833, 0.0833)
+
+[sub_resource type="BoxMesh" id="b56"]
+size = Vector3(0.0833, 0.0208, 0.0833)
+
+[sub_resource type="BoxMesh" id="b57"]
+size = Vector3(0.1458, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b58"]
+size = Vector3(0.1042, 0.0208, 0.0208)
+
+[sub_resource type="BoxMesh" id="b59"]
+size = Vector3(0.125, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b60"]
+size = Vector3(0.0208, 0.0417, 0.0625)
+
+[sub_resource type="BoxMesh" id="b61"]
+size = Vector3(0.0208, 0.0208, 0.0833)
+
+[sub_resource type="BoxMesh" id="b62"]
+size = Vector3(0.0208, 0.0417, 0.0833)
+
+[sub_resource type="BoxMesh" id="b63"]
+size = Vector3(0.0417, 0.0208, 0.0833)
+
+[sub_resource type="BoxMesh" id="b64"]
+size = Vector3(0.0208, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b65"]
+size = Vector3(0.0833, 0.0208, 0.0417)
+
+[sub_resource type="BoxMesh" id="b66"]
+size = Vector3(0.0625, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b67"]
+size = Vector3(0.0417, 0.0208, 0.0625)
+
+[sub_resource type="BoxMesh" id="b68"]
+size = Vector3(0.0208, 0.0625, 0.125)
+
+[sub_resource type="BoxMesh" id="b69"]
+size = Vector3(0.0208, 0.0833, 0.125)
+
+[sub_resource type="BoxMesh" id="b70"]
+size = Vector3(0.0208, 0.0417, 0.125)
+
+[sub_resource type="BoxMesh" id="b71"]
+size = Vector3(0.0417, 0.0208, 0.1042)
+
+[sub_resource type="BoxMesh" id="b72"]
+size = Vector3(0.0417, 0.0625, 0.0417)
+
+[sub_resource type="BoxMesh" id="b73"]
+size = Vector3(0.0208, 0.0625, 0.0833)
+
+[sub_resource type="BoxMesh" id="b74"]
+size = Vector3(0.0208, 0.0625, 0.0417)
+
+[sub_resource type="BoxMesh" id="b75"]
+size = Vector3(0.0417, 0.0417, 0.0417)
+
+[sub_resource type="BoxMesh" id="b76"]
+size = Vector3(0.1667, 0.0625, 0.0625)
+
+[sub_resource type="BoxMesh" id="b77"]
+size = Vector3(0.1667, 0.0417, 0.0208)
+
+[sub_resource type="BoxMesh" id="b78"]
+size = Vector3(0.125, 0.0208, 0.1042)
+
+[sub_resource type="BoxMesh" id="b79"]
+size = Vector3(0.5938, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b80"]
+size = Vector3(0.625, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b81"]
+size = Vector3(0.625, 0.0312, 0.125)
+
+[sub_resource type="BoxMesh" id="b82"]
+size = Vector3(0.0312, 0.0312, 0.0938)
+
+[sub_resource type="BoxMesh" id="b83"]
+size = Vector3(0.5312, 0.0312, 0.0938)
+
+[sub_resource type="BoxMesh" id="b84"]
+size = Vector3(0.0312, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b85"]
+size = Vector3(0.5938, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b86"]
+size = Vector3(0.5625, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b87"]
+size = Vector3(0.5625, 0.0312, 0.2188)
+
+[sub_resource type="BoxMesh" id="b88"]
+size = Vector3(0.5312, 0.0938, 0.0312)
+
+[sub_resource type="BoxMesh" id="b89"]
+size = Vector3(0.0938, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b90"]
+size = Vector3(0.5, 0.0312, 0.0938)
+
+[sub_resource type="BoxMesh" id="b91"]
+size = Vector3(0.4375, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b92"]
+size = Vector3(0.5, 0.0938, 0.0312)
+
+[sub_resource type="BoxMesh" id="b93"]
+size = Vector3(0.5, 0.0312, 0.3125)
+
+[sub_resource type="BoxMesh" id="b94"]
+size = Vector3(0.0625, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b95"]
+size = Vector3(0.5, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b96"]
+size = Vector3(0.0625, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b97"]
+size = Vector3(0.1562, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b98"]
+size = Vector3(0.2812, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b99"]
+size = Vector3(0.4688, 0.0312, 0.1562)
+
+[sub_resource type="BoxMesh" id="b100"]
+size = Vector3(0.0312, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b101"]
+size = Vector3(0.4375, 0.0312, 0.0938)
+
+[sub_resource type="BoxMesh" id="b102"]
+size = Vector3(0.4375, 0.125, 0.0312)
+
+[sub_resource type="BoxMesh" id="b103"]
+size = Vector3(0.4375, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b104"]
+size = Vector3(0.4375, 0.0625, 0.0625)
+
+[sub_resource type="BoxMesh" id="b105"]
+size = Vector3(0.2188, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b106"]
+size = Vector3(0.2188, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b107"]
+size = Vector3(0.4375, 0.0312, 0.125)
+
+[sub_resource type="BoxMesh" id="b108"]
+size = Vector3(0.375, 0.0938, 0.0312)
+
+[sub_resource type="BoxMesh" id="b109"]
+size = Vector3(0.375, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b110"]
+size = Vector3(0.3125, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b111"]
+size = Vector3(0.1875, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b112"]
+size = Vector3(0.2812, 0.0312, 0.125)
+
+[sub_resource type="BoxMesh" id="b113"]
+size = Vector3(0.125, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b114"]
+size = Vector3(0.3125, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b115"]
+size = Vector3(0.25, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b116"]
+size = Vector3(0.1875, 0.0312, 0.0312)
+
+[sub_resource type="BoxMesh" id="b117"]
+size = Vector3(0.1562, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b118"]
+size = Vector3(0.125, 0.0625, 0.0312)
+
+[sub_resource type="BoxMesh" id="b119"]
+size = Vector3(0.0938, 0.0312, 0.0938)
+
+[sub_resource type="BoxMesh" id="b120"]
+size = Vector3(0.0938, 0.0312, 0.0625)
+
+[sub_resource type="BoxMesh" id="b121"]
+size = Vector3(0.0312, 0.0312, 0.125)
+
+[node name="Pontinha" instance=ExtResource("base")]
+script = ExtResource("script")
+body_color = Color(0.7490, 0.9137, 1.0000, 1)
+spot_color = Color(0.4941, 0.8784, 0.5412, 1)
+personality_seed = 2006
+legend_id = "pontinha"
+habit_names = PackedStringArray("salute", "proud", "wave")
+habit_lengths = PackedFloat32Array(1.6, 3.0, 2.2)
+mood = 0.5
+lean = -0.03
+
+[node name="Suit" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Pennant" type="Node3D" parent="Rig/Hips"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Shades" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Sleeve" type="Node3D" parent="Rig/Hips/ArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Sleeve" type="Node3D" parent="Rig/Hips/ArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Boot" type="Node3D" parent="Rig/FootL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Boot" type="Node3D" parent="Rig/FootR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Hair" type="Node3D" parent="Rig/Hips/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Suit" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, 0)
+cast_shadow = 0
+mesh = SubResource("b0")
+material_override = SubResource("m_suit")
+
+[node name="Suit2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b1")
+material_override = SubResource("m_suit")
+
+[node name="Suit3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b1")
+material_override = SubResource("m_suit")
+
+[node name="Suit4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b2")
+material_override = SubResource("m_suit")
+
+[node name="Suit5" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b3")
+material_override = SubResource("m_suit")
+
+[node name="Suit6" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0625, 0)
+cast_shadow = 0
+mesh = SubResource("b4")
+material_override = SubResource("m_suit")
+
+[node name="Suit7" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0938, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b5")
+material_override = SubResource("m_suit")
+
+[node name="Suit8" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1146, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_suit")
+
+[node name="Suit9" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b7")
+material_override = SubResource("m_suit")
+
+[node name="Suit10" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0938, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_suit")
+
+[node name="Suit11" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0938, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b8")
+material_override = SubResource("m_suit")
+
+[node name="Suit12" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b9")
+material_override = SubResource("m_suit")
+
+[node name="Suit13" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b5")
+material_override = SubResource("m_suit")
+
+[node name="Suit14" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2396, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b6")
+material_override = SubResource("m_suit")
+
+[node name="Suit15" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2604, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b5")
+material_override = SubResource("m_suit")
+
+[node name="Suit16" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2812, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b5")
+material_override = SubResource("m_suit")
+
+[node name="Suit17" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2708, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b10")
+material_override = SubResource("m_suit")
+
+[node name="Suit18" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2917, 0)
+cast_shadow = 0
+mesh = SubResource("b11")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0208, 0)
+cast_shadow = 0
+mesh = SubResource("b12")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b13")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit19" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.0833)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_suit")
+
+[node name="Suit20" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_suit")
+
+[node name="Suit21" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.1042)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_suit")
+
+[node name="Suit22" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0833, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_suit")
+
+[node name="Suit23" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1146, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b17")
+material_override = SubResource("m_suit")
+
+[node name="Suit24" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.1667, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b18")
+material_override = SubResource("m_suit")
+
+[node name="Suit25" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b19")
+material_override = SubResource("m_suit")
+
+[node name="Suit26" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2396, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b17")
+material_override = SubResource("m_suit")
+
+[node name="Suit27" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2708, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_suit")
+
+[node name="Suit28" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2917, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b16")
+material_override = SubResource("m_suit")
+
+[node name="Suit29" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b15")
+material_override = SubResource("m_suit")
+
+[node name="Suit30" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, 0.0625)
+cast_shadow = 0
+mesh = SubResource("b14")
+material_override = SubResource("m_suit")
+
+[node name="Suit31" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, 0)
+cast_shadow = 0
+mesh = SubResource("b20")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b21")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk5" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b22")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk6" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk7" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0833)
+cast_shadow = 0
+mesh = SubResource("b22")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit32" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Suit33" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Suit34" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Suit35" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1042, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b24")
+material_override = SubResource("m_suit")
+
+[node name="Suit36" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1146, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Pocket" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1042, 0.1562, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b25")
+material_override = SubResource("m_pocket")
+
+[node name="Suitdk8" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1042, 0.1979, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit37" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0208, 0.2292, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b27")
+material_override = SubResource("m_suit")
+
+[node name="Suit38" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b24")
+material_override = SubResource("m_suit")
+
+[node name="Suit39" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2708, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b24")
+material_override = SubResource("m_suit")
+
+[node name="Suit40" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2917, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b24")
+material_override = SubResource("m_suit")
+
+[node name="Suit41" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Suit42" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, -0.0833)
+cast_shadow = 0
+mesh = SubResource("b22")
+material_override = SubResource("m_suit")
+
+[node name="Suit43" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b23")
+material_override = SubResource("m_suit")
+
+[node name="Suit44" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b28")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk9" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0104, 0)
+cast_shadow = 0
+mesh = SubResource("b29")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk10" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk11" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk12" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit45" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0625, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b27")
+material_override = SubResource("m_suit")
+
+[node name="Suit46" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit47" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0833, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b27")
+material_override = SubResource("m_suit")
+
+[node name="Suit48" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b31")
+material_override = SubResource("m_suit")
+
+[node name="Suit49" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0208, 0.2604, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit")
+
+[node name="Suit50" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2812, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit51" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit52" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit53" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit54" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suit55" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b30")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk13" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, 0)
+cast_shadow = 0
+mesh = SubResource("b33")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk14" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0104, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk15" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0104, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk16" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk17" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk18" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit56" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.0521, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit57" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0938, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit")
+
+[node name="Suit58" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.1146, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit59" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1667, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b35")
+material_override = SubResource("m_suit")
+
+[node name="Pocket2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.1562, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b25")
+material_override = SubResource("m_pocket")
+
+[node name="Suitdk19" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.1979, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit60" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.2292, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_suit")
+
+[node name="Suit61" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2604, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit")
+
+[node name="Suit62" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.2812, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit63" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit")
+
+[node name="Suit64" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.3229, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit65" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk20" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, -0.0417)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk21" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk22" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0104, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk23" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit66" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit")
+
+[node name="Suit67" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, 0.0938, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit68" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1771, -0.1771)
+cast_shadow = 0
+mesh = SubResource("b39")
+material_override = SubResource("m_suit")
+
+[node name="Suit69" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, 0.2604, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit70" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2812, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit")
+
+[node name="Suit71" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, 0.3021, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit72" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, -0.1354)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit")
+
+[node name="Suit73" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, -0.1146)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk24" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk25" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0104, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk26" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit74" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit")
+
+[node name="Suit75" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1354, -0.1771)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit")
+
+[node name="Suit76" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.1667, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b41")
+material_override = SubResource("m_suit")
+
+[node name="Suit77" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2188, -0.1771)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit")
+
+[node name="Suit78" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3438, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk27" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk28" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit_dk")
+
+[node name="Zip" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_zip")
+
+[node name="Zip2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1667, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b42")
+material_override = SubResource("m_zip")
+
+[node name="Suit79" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1146, -0.1771)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit80" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2396, -0.1771)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Zip3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2917, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_zip")
+
+[node name="Suit81" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3021, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Zip4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3229, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_zip")
+
+[node name="Suit82" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.0521, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit83" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, 0.1771, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b44")
+material_override = SubResource("m_suit")
+
+[node name="Suit84" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, 0.2917, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_suit")
+
+[node name="Suit85" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.3229, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit86" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.1354, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b45")
+material_override = SubResource("m_suit")
+
+[node name="Patch" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.2083, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_patch")
+
+[node name="Plane" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.2396, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_plane")
+
+[node name="Suit87" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.2604, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit88" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.1354, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b48")
+material_override = SubResource("m_suit")
+
+[node name="Patchrim" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.1771, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_patch_rim")
+
+[node name="Patch2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.1979, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_patch")
+
+[node name="Plane2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.2188, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_plane")
+
+[node name="Patch3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.2396, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_patch")
+
+[node name="Patchrim2" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0833, 0.2604, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_patch_rim")
+
+[node name="Suit89" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.2812, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit90" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1042, 0.1458, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_suit")
+
+[node name="Patchrim3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1042, 0.1771, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_patch_rim")
+
+[node name="Plane3" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, 0.2188, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b48")
+material_override = SubResource("m_plane")
+
+[node name="Patch4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, 0.1979, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_patch")
+
+[node name="Plane4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, 0.2188, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_plane")
+
+[node name="Patchrim4" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, 0.2396, 0.1354)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_patch_rim")
+
+[node name="Suit91" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1354, 0.1562, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b49")
+material_override = SubResource("m_suit")
+
+[node name="Plane5" type="MeshInstance3D" parent="Rig/Hips/Suit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1354, 0.2396, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_plane")
+
+[node name="Green" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1458, 0.2812, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_green")
+
+[node name="Green2" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, 0.3021, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_green")
+
+[node name="Yellow" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1042, 0.2812, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_yellow")
+
+[node name="Green3" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0833, 0.2604, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_green")
+
+[node name="Yellow2" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, 0.3021, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_yellow")
+
+[node name="Green4" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0833, 0.3229, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_green")
+
+[node name="Stick" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, 0.2083, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b41")
+material_override = SubResource("m_stick")
+
+[node name="Green5" type="MeshInstance3D" parent="Rig/Hips/Pennant"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, 0.2917, 0.1667)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_green")
+
+[node name="Lensg" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, 0.4375, 0.2812)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg2" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.4271, 0.3021)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg3" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, 0.4271, 0.3021)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg4" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, 0.4375, 0.2812)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg5" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, 0.4583, 0.2604)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg6" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, 0.4583, 0.2812)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg7" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, 0.4583, 0.2812)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_lens_g")
+
+[node name="Lensg8" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, 0.4583, 0.2604)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_lens_g")
+
+[node name="Gold" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1354, 0.4688, 0.25)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_gold")
+
+[node name="Lensg9" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.4688, 0.2604)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_lens_g")
+
+[node name="Gold2" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4688, 0.2708)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_gold")
+
+[node name="Lensg10" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0625, 0.4792, 0.2604)
+cast_shadow = 0
+mesh = SubResource("b53")
+material_override = SubResource("m_lens_g")
+
+[node name="Gold3" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1354, 0.4688, 0.25)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_gold")
+
+[node name="Gold4" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, 0.4896, 0.2396)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_gold")
+
+[node name="Lensg11" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, 0.4896, 0.25)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_lens_g")
+
+[node name="Gold5" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.4896, 0.25)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_gold")
+
+[node name="Lensg12" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0625, 0.4896, 0.2396)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_lens_g")
+
+[node name="Gold6" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, 0.4896, 0.2396)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_gold")
+
+[node name="Gold7" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, 0.5104, 0.2188)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_gold")
+
+[node name="Gold8" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.5104, 0.2396)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_gold")
+
+[node name="Gold9" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0625, 0.5104, 0.2292)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_gold")
+
+[node name="Gold10" type="MeshInstance3D" parent="Rig/Hips/Neck/Shades"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, 0.5104, 0.2188)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_gold")
+
+[node name="Suit" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0208, 0, 0)
+cast_shadow = 0
+mesh = SubResource("b55")
+material_override = SubResource("m_suit")
+
+[node name="Suit2" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_suit")
+
+[node name="Suit3" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b56")
+material_override = SubResource("m_suit")
+
+[node name="Suit4" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0729, 0)
+cast_shadow = 0
+mesh = SubResource("b57")
+material_override = SubResource("m_suit")
+
+[node name="Suit5" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_suit")
+
+[node name="Suit6" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_suit")
+
+[node name="Suit7" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0312, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit8" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0312, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit9" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0729, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_suit")
+
+[node name="Suit10" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0521, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit11" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, -0.0938, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b59")
+material_override = SubResource("m_suit")
+
+[node name="Suit12" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0729, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b58")
+material_override = SubResource("m_suit")
+
+[node name="Suit13" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0521, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit14" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0417, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b43")
+material_override = SubResource("m_suit")
+
+[node name="Suit15" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0312, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit16" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, -0.0521, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit17" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, -0.1042, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b53")
+material_override = SubResource("m_suit")
+
+[node name="Suit18" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, -0.125, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b60")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.1562, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit19" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0833, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b36")
+material_override = SubResource("m_suit")
+
+[node name="Suit20" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0729, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Badge" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0417, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_badge")
+
+[node name="Suitdk2" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, -0.1562, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b50")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit21" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.1354, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit22" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0312, 0)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_suit")
+
+[node name="Badge2" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, -0.0104, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_badge")
+
+[node name="Suit23" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, 0.0208, 0)
+cast_shadow = 0
+mesh = SubResource("b62")
+material_override = SubResource("m_suit")
+
+[node name="Suit24" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, -0.1146, 0.0208)
+cast_shadow = 0
+mesh = SubResource("b63")
+material_override = SubResource("m_suit")
+
+[node name="Suit25" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0104, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit")
+
+[node name="Suit26" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0625, -0.1771, 0.0208)
+cast_shadow = 0
+mesh = SubResource("b65")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk3" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.1354, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b66")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk4" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.1562, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit_dk")
+
+[node name="Badge3" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0312, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b48")
+material_override = SubResource("m_badge")
+
+[node name="Suitdk5" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1354, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_suit_dk")
+
+[node name="Badge4" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0417, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_badge")
+
+[node name="Suit27" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1771, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b34")
+material_override = SubResource("m_suit")
+
+[node name="Suit28" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0417, 0)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_suit")
+
+[node name="Badge5" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0104, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_badge")
+
+[node name="Suit29" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, 0.0104, 0)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit30" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1562, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b54")
+material_override = SubResource("m_suit")
+
+[node name="Suit31" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0521, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Badge6" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0312, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_badge")
+
+[node name="Suit32" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0625, -0.1771, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit33" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0833, -0.1562, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b67")
+material_override = SubResource("m_suit")
+
+[node name="Suit34" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1146, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Badge7" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.0417, 0)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_badge")
+
+[node name="Suit35" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1979, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk6" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0833, -0.1146, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b67")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit36" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.0521, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit37" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.0938, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk7" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0729, -0.1354, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk8" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, -0.1146, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk9" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, -0.1354, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit38" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0938, -0.1354, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit39" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, -0.1458, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b60")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk10" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, -0.1146, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit40" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, -0.1771, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk11" type="MeshInstance3D" parent="Rig/Hips/ArmL/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1146, -0.0938, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b68")
+material_override = SubResource("m_suit")
+
+[node name="Suit2" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, -0.0208, 0)
+cast_shadow = 0
+mesh = SubResource("b69")
+material_override = SubResource("m_suit")
+
+[node name="Suit3" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, 0, 0)
+cast_shadow = 0
+mesh = SubResource("b69")
+material_override = SubResource("m_suit")
+
+[node name="Suit4" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, 0, 0)
+cast_shadow = 0
+mesh = SubResource("b70")
+material_override = SubResource("m_suit")
+
+[node name="Suit5" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0833, -0.1562, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, -0.125, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b60")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suitdk2" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -0.1354, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b71")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit6" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -0.0938, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b72")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk3" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, -0.1562, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b67")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit7" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, -0.0312, 0)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_suit")
+
+[node name="Suit8" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.1146, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b74")
+material_override = SubResource("m_suit")
+
+[node name="Suit9" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.0104, 0)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_suit")
+
+[node name="Suit10" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, -0.0938, 0)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_suit")
+
+[node name="Suit11" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0312, 0)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_suit")
+
+[node name="Suit12" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, -0.0625, 0)
+cast_shadow = 0
+mesh = SubResource("b62")
+material_override = SubResource("m_suit")
+
+[node name="Suit13" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, 0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b61")
+material_override = SubResource("m_suit")
+
+[node name="Suit14" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0417, 0)
+cast_shadow = 0
+mesh = SubResource("b62")
+material_override = SubResource("m_suit")
+
+[node name="Suit15" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0417, 0.0312, 0)
+cast_shadow = 0
+mesh = SubResource("b63")
+material_override = SubResource("m_suit")
+
+[node name="Suit16" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0521, -0.0104, 0)
+cast_shadow = 0
+mesh = SubResource("b73")
+material_override = SubResource("m_suit")
+
+[node name="Suit17" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, -0.1458, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b60")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk4" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, -0.1146, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit18" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.1771, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b66")
+material_override = SubResource("m_suit")
+
+[node name="Suit19" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, -0.0833, 0)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_suit")
+
+[node name="Suit20" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.0417, 0)
+cast_shadow = 0
+mesh = SubResource("b52")
+material_override = SubResource("m_suit")
+
+[node name="Suit21" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, 0.0104, 0)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit22" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, -0.1354, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit")
+
+[node name="Suit23" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, 0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit24" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, -0.0938, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit")
+
+[node name="Suit25" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, -0.0729, 0)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit26" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312, 0.0521, 0)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suit27" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, -0.1771, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk5" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1146, -0.0938, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit28" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.1979, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk6" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.1146, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit29" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -0.0833, 0.0208)
+cast_shadow = 0
+mesh = SubResource("b75")
+material_override = SubResource("m_suit")
+
+[node name="Suit30" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0417, -0.1146, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b67")
+material_override = SubResource("m_suit")
+
+[node name="Suit31" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.1771, 0.0208)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk7" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.1354, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit32" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.0938, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b64")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk8" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, -0.1562, 0.0104)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit33" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, -0.1354, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk9" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, -0.1146, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit34" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, -0.0938, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit35" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.0521, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit36" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, -0.1562, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk10" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.1562, 0.0417)
+cast_shadow = 0
+mesh = SubResource("b51")
+material_override = SubResource("m_suit_dk")
+
+[node name="Suit37" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -0.1771, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit38" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, -0.0938, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_suit")
+
+[node name="Suit39" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0521, -0.0625, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_suit")
+
+[node name="Suit40" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, -0.0104, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suit41" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0104, -0.0833, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b46")
+material_override = SubResource("m_suit")
+
+[node name="Suit42" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0104, -0.0521, 0.0521)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit")
+
+[node name="Suitdk11" type="MeshInstance3D" parent="Rig/Hips/ArmR/Sleeve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0729, -0.1354, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b47")
+material_override = SubResource("m_suit_dk")
+
+[node name="Boot" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_boot")
+
+[node name="Boot2" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0417, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b77")
+material_override = SubResource("m_boot")
+
+[node name="Boot3" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_boot")
+
+[node name="Boot4" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot5" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.0833)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot6" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0417)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot7" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.1042)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot8" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_boot")
+
+[node name="Boot9" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.0833)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot10" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_boot")
+
+[node name="Boot11" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot12" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot13" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot14" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot15" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot16" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot17" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Boot18" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Boot19" type="MeshInstance3D" parent="Rig/FootL/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Boot" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b76")
+material_override = SubResource("m_boot")
+
+[node name="Boot2" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0417, -0.0104)
+cast_shadow = 0
+mesh = SubResource("b77")
+material_override = SubResource("m_boot")
+
+[node name="Boot3" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.0729)
+cast_shadow = 0
+mesh = SubResource("b32")
+material_override = SubResource("m_boot")
+
+[node name="Boot4" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0208)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot5" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.0833)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot6" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0417)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot7" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, 0.1042)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot8" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b38")
+material_override = SubResource("m_boot")
+
+[node name="Boot9" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.0833)
+cast_shadow = 0
+mesh = SubResource("b37")
+material_override = SubResource("m_boot")
+
+[node name="Boot10" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b78")
+material_override = SubResource("m_boot")
+
+[node name="Boot11" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot12" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0104, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot13" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot14" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0521, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot15" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot16" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b40")
+material_override = SubResource("m_boot")
+
+[node name="Boot17" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0312, -0.0729)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Boot18" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, -0.0521)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Boot19" type="MeshInstance3D" parent="Rig/FootR/Boot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729, 0.1146)
+cast_shadow = 0
+mesh = SubResource("b26")
+material_override = SubResource("m_boot")
+
+[node name="Hair" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0469, 0.3594, 0.0781)
+cast_shadow = 0
+mesh = SubResource("b79")
+material_override = SubResource("m_hair")
+
+[node name="Hair2" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3125, -0.1406)
+cast_shadow = 0
+mesh = SubResource("b80")
+material_override = SubResource("m_hair")
+
+[node name="Hair3" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3281, -0.0625)
+cast_shadow = 0
+mesh = SubResource("b81")
+material_override = SubResource("m_hair")
+
+[node name="Hair4" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2969, 0.3594, 0.0156)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_hair")
+
+[node name="Hair5" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0469, 0.3594, 0.1406)
+cast_shadow = 0
+mesh = SubResource("b83")
+material_override = SubResource("m_hair")
+
+[node name="Hair6" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2969, 0.3906, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2969, 0.3906, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair7" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156, 0.4219, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b85")
+material_override = SubResource("m_hair")
+
+[node name="Hair8" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3125, -0.1719)
+cast_shadow = 0
+mesh = SubResource("b86")
+material_override = SubResource("m_hair")
+
+[node name="Hair9" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2969, -0.0156)
+cast_shadow = 0
+mesh = SubResource("b87")
+material_override = SubResource("m_hair")
+
+[node name="Hair10" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156, 0.3906, 0.0469)
+cast_shadow = 0
+mesh = SubResource("b88")
+material_override = SubResource("m_hair")
+
+[node name="Hair11" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2344, 0.3594, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_hair")
+
+[node name="Hair12" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.3906, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b90")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi2" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2656, 0.3906, 0.1875)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair13" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0625, 0.4219, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b91")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi3" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2656, 0.4531, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair14" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3281, -0.2031)
+cast_shadow = 0
+mesh = SubResource("b92")
+material_override = SubResource("m_hair")
+
+[node name="Hair15" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3594, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b93")
+material_override = SubResource("m_hair")
+
+[node name="Hair16" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2188, 0.3594, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b94")
+material_override = SubResource("m_hair")
+
+[node name="Hair17" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3906, -0.1719)
+cast_shadow = 0
+mesh = SubResource("b95")
+material_override = SubResource("m_hair")
+
+[node name="Hair18" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2188, 0.3906, 0.1875)
+cast_shadow = 0
+mesh = SubResource("b96")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi4" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1719, 0.3906, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b97")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair19" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1094, 0.4219, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b98")
+material_override = SubResource("m_hair")
+
+[node name="Hair20" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156, 0.4531, 0.0781)
+cast_shadow = 0
+mesh = SubResource("b99")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi5" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2344, 0.4531, 0.1719)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair21" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.4844, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b101")
+material_override = SubResource("m_hair")
+
+[node name="Hair22" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3125, -0.2344)
+cast_shadow = 0
+mesh = SubResource("b102")
+material_override = SubResource("m_hair")
+
+[node name="Hair23" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4062, -0.2031)
+cast_shadow = 0
+mesh = SubResource("b103")
+material_override = SubResource("m_hair")
+
+[node name="Hair24" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4375, -0.1562)
+cast_shadow = 0
+mesh = SubResource("b104")
+material_override = SubResource("m_hair")
+
+[node name="Hair25" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1094, 0.4219, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b105")
+material_override = SubResource("m_hair")
+
+[node name="Hair26" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4688, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b104")
+material_override = SubResource("m_hair")
+
+[node name="Hair27" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1094, 0.4688, 0.1719)
+cast_shadow = 0
+mesh = SubResource("b106")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi6" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2031, 0.4531, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair28" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4844, 0)
+cast_shadow = 0
+mesh = SubResource("b107")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi7" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1875, 0.5156, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b96")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair29" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2969, -0.2656)
+cast_shadow = 0
+mesh = SubResource("b108")
+material_override = SubResource("m_hair")
+
+[node name="Hair30" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3906, -0.2344)
+cast_shadow = 0
+mesh = SubResource("b109")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi8" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.3906, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hairhi9" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1406, 0.3906, 0.2656)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair31" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, 0.4688, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b111")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi10" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1406, 0.4531, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair32" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4844, -0.1406)
+cast_shadow = 0
+mesh = SubResource("b109")
+material_override = SubResource("m_hair")
+
+[node name="Hair33" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0469, 0.5156, 0)
+cast_shadow = 0
+mesh = SubResource("b112")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi11" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1406, 0.5156, 0.1406)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair34" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3594, -0.2656)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_hair")
+
+[node name="Hair35" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4219, -0.2344)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_hair")
+
+[node name="Hair36" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0938, 0.4219, 0.2656)
+cast_shadow = 0
+mesh = SubResource("b113")
+material_override = SubResource("m_hair")
+
+[node name="Hair37" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4531, -0.2031)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_hair")
+
+[node name="Hair38" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4844, -0.1719)
+cast_shadow = 0
+mesh = SubResource("b110")
+material_override = SubResource("m_hair")
+
+[node name="Hair39" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5156, -0.0938)
+cast_shadow = 0
+mesh = SubResource("b114")
+material_override = SubResource("m_hair")
+
+[node name="Hair40" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0469, 0.5312, 0.0781)
+cast_shadow = 0
+mesh = SubResource("b106")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi12" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1406, 0.5156, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hairhi13" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.5156, 0.1719)
+cast_shadow = 0
+mesh = SubResource("b115")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair41" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3906, -0.2656)
+cast_shadow = 0
+mesh = SubResource("b115")
+material_override = SubResource("m_hair")
+
+[node name="Hair42" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156, 0.4844, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b105")
+material_override = SubResource("m_hair")
+
+[node name="Hair43" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312, 0.5312, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b111")
+material_override = SubResource("m_hair")
+
+[node name="Hair44" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4531, -0.2344)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_hair")
+
+[node name="Hair45" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0469, 0.4531, 0.2344)
+cast_shadow = 0
+mesh = SubResource("b89")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi14" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4531, 0.2656)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair46" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4844, -0.2031)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_hair")
+
+[node name="Hair47" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5156, -0.1406)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_hair")
+
+[node name="Hair48" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156, 0.5312, 0.1406)
+cast_shadow = 0
+mesh = SubResource("b117")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi15" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5156, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b116")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair49" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2812, -0.2969)
+cast_shadow = 0
+mesh = SubResource("b118")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi16" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0469, 0.4531, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b119")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair50" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0469, 0.4844, 0.1875)
+cast_shadow = 0
+mesh = SubResource("b120")
+material_override = SubResource("m_hair")
+
+[node name="Hairhi17" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0781, 0.5156, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_hair_hi")
+
+[node name="Hair51" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0781, 0.5469, 0.1094)
+cast_shadow = 0
+mesh = SubResource("b82")
+material_override = SubResource("m_hair")
+
+[node name="Hair52" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1562, 0.4531, 0.1719)
+cast_shadow = 0
+mesh = SubResource("b113")
+material_override = SubResource("m_hair")
+
+[node name="Hair53" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1406, 0.5156, -0.0312)
+cast_shadow = 0
+mesh = SubResource("b120")
+material_override = SubResource("m_hair")
+
+[node name="Hair54" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1406, 0.4531, 0.2031)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair")
+
+[node name="Hair55" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1406, 0.4844, 0.1719)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair")
+
+[node name="Hair56" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1406, 0.5156, 0.0625)
+cast_shadow = 0
+mesh = SubResource("b121")
+material_override = SubResource("m_hair")
+
+[node name="Hair57" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1719, 0.5156, 0.0312)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_hair")
+
+[node name="Hair58" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2188, 0.4219, 0.1562)
+cast_shadow = 0
+mesh = SubResource("b96")
+material_override = SubResource("m_hair")
+
+[node name="Hair59" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2031, 0.4844, 0.0938)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_hair")
+
+[node name="Hair60" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2344, 0.4531, 0.0625)
+cast_shadow = 0
+mesh = SubResource("b121")
+material_override = SubResource("m_hair")
+
+[node name="Hair61" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2812, 0.3906, 0.0625)
+cast_shadow = 0
+mesh = SubResource("b96")
+material_override = SubResource("m_hair")
+
+[node name="Hair62" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2656, 0.4219, 0.0469)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair")
+
+[node name="Hair63" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2969, 0.3594, 0)
+cast_shadow = 0
+mesh = SubResource("b84")
+material_override = SubResource("m_hair")
+
+[node name="Hair64" type="MeshInstance3D" parent="Rig/Hips/Neck/Hair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2969, 0.3906, 0.0156)
+cast_shadow = 0
+mesh = SubResource("b100")
+material_override = SubResource("m_hair")

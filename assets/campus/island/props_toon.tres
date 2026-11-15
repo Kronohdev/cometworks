@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="1_gocuh"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gocuh")
+shader_parameter/toon_band_bias = 0.0
+shader_parameter/toon_shadow_fill = 1.0
+shader_parameter/toon_specular = 0.0
+shader_parameter/toon_rim = 1.0
+shader_parameter/toon_rim_distance = 60.0
+shader_parameter/toon_bands = 0
+shader_parameter/toon_softness = 1.0
+shader_parameter/toon_wrap = 0.0
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/use_vertex_color = true
+shader_parameter/roughness = 0.9
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 1.0

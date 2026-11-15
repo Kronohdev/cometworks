@@ -1,0 +1,170 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/building_fx.gd" id="1_fx"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="2_toon"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_smoke.tres" id="3_smoke"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_glow.tres" id="4_glow"]
+
+[sub_resource type="Curve" id="curve_puff"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="curvetex_puff"]
+curve = SubResource("curve_puff")
+
+[sub_resource type="Gradient" id="grad_dust"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(0.86, 0.76, 0.6, 0.9, 0.8, 0.72, 0.6, 0.7, 0.75, 0.7, 0.62, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_dust"]
+gradient = SubResource("grad_dust")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_dust"]
+particle_flag_rotate_y = true
+emission_shape = 3
+emission_box_extents = Vector3(5.5, 0.2, 4.5)
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 55.0
+initial_velocity_min = 0.6
+initial_velocity_max = 1.4
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+gravity = Vector3(0.3, 0.1, 0.1)
+damping_min = 0.4
+damping_max = 0.8
+scale_min = 0.5
+scale_max = 1.1
+scale_curve = SubResource("curvetex_puff")
+color_ramp = SubResource("gradtex_dust")
+
+[sub_resource type="BoxMesh" id="mesh_dust"]
+material = ExtResource("3_smoke")
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="Gradient" id="grad_spark"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 0.98, 0.8, 1, 1, 0.75, 0.3, 1, 1, 0.45, 0.1, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_spark"]
+gradient = SubResource("grad_spark")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_spark"]
+emission_shape = 3
+emission_box_extents = Vector3(4, 1.2, 3.5)
+direction = Vector3(0, 1, 0)
+spread = 80.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
+gravity = Vector3(0, -8, 0)
+scale_min = 0.6
+scale_max = 1.4
+color_ramp = SubResource("gradtex_spark")
+
+[sub_resource type="BoxMesh" id="mesh_spark"]
+material = ExtResource("4_glow")
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="mat_beacon"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(1, 0.72, 0.2, 1)
+shader_parameter/emission = Color(1, 0.65, 0.15, 1)
+shader_parameter/emission_energy = 4.0
+
+[sub_resource type="SphereMesh" id="mesh_beacon"]
+material = SubResource("mat_beacon")
+radius = 0.2
+height = 0.4
+radial_segments = 8
+rings = 4
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Beacon:visible")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="anim_work"]
+resource_name = "work"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Beacon:visible")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Beacon/Glow:visible")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"work": SubResource("anim_work")
+}
+
+[node name="ConstructionFx" type="Node3D"]
+script = ExtResource("1_fx")
+
+[node name="Dust" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+cast_shadow = 0
+amount = 16
+lifetime = 2.8
+preprocess = 2.0
+visibility_aabb = AABB(-10, -1, -10, 20, 8, 20)
+process_material = SubResource("ppm_dust")
+draw_pass_1 = SubResource("mesh_dust")
+
+[node name="Sparks" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+cast_shadow = 0
+amount = 18
+lifetime = 0.7
+explosiveness = 0.75
+visibility_aabb = AABB(-8, -3, -8, 16, 8, 16)
+process_material = SubResource("ppm_spark")
+draw_pass_1 = SubResource("mesh_spark")
+
+[node name="Beacon" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 5.4, 3.6)
+cast_shadow = 0
+mesh = SubResource("mesh_beacon")
+
+[node name="Glow" type="OmniLight3D" parent="Beacon"]
+light_color = Color(1, 0.7, 0.25, 1)
+light_energy = 1.5
+omni_range = 5.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}
+autoplay = "work"

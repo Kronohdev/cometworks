@@ -26,13 +26,16 @@ const WEEK := 604800.0
 const ASCENT_S := 540.0
 const PLAYER := "player"
 const STATUSES: Array[String] = ["flight", "orbit", "arrived", "lost"]
-## the comet comes from here (PCI, same as the mission map's comet_from)
+## the comet's direction when the system has no comet body (PCI); otherwise comet_dir() points at
+## Mae-Gelo's real place (FlightSolar.comet, its Halley-type orbit)
 const COMET_DIR := Vector3(-0.8, 0.22, -0.55)
 ## rival milestones whose conditions name no target
 const RIVAL_TARGETS := {"cometling_space": "leo", "base_module": "lunar_surface", "lunar_propellant": "lunar_pole"}
 const RIVAL_TYPES := {"cometling_space": "crewed_flight"}
 ## targets the 3D view can follow (the flight models the Earth and the Moon)
 const FOLLOW_BODIES: Array[String] = ["earth", "moon"]
+## the angle a trans-lunar transfer sweeps from the burn to the Moon (deg; 180 = Hohmann)
+const TLI_SWEEP_DEG := 170.0
 
 
 # ------------------------------------------------------------ store
@@ -260,6 +263,17 @@ static func build(owner: String, id: String, code: String, type_id: String, targ
 		PackedFloat64Array([back[3], back[4], back[5]]), "orbit")
 	legs.append(park)
 	var park_c := FlightConic.from_state(_p(ins_dir * rp), _p(v_ins), mu, t_ins)
+	_after_park(legs, park, park_c, n, target, outcome, t_ins, sys, id)
+	tr["legs"] = legs
+	return tr
+
+
+## The path after the parking orbit (the departure, the transfer and the ending of the target).
+static func _after_park(legs: Array, park: Dictionary, park_c: FlightConic, n: Vector3, target: String, outcome: String,
+		t_ins: float, sys: FlightSolar, id: String) -> void:
+	var e := sys.earth
+	var mu := sys.mu[e]
+	var re := sys.radius[e]
 	var n_p := TAU / park_c.period
 	match target:
 		"leo", "sso":
@@ -288,44 +302,172 @@ static func build(owner: String, id: String, code: String, type_id: String, targ
 		_:
 			if target.begins_with("lunar"):
 				_add_lunar(legs, park, park_c, n, target, outcome, t_ins, n_p, sys)
-	tr["legs"] = legs
-	return tr
 
 
 static func _close(leg: Dictionary, t1: float) -> void:
 	leg["t1"] = t1
 
 
-## Angle of a direction in the Moon's orbit basis (FlightSolar plane_p / plane_q).
-static func _angle(sys: FlightSolar, d: Vector3) -> float:
-	var bp := sys.plane_p[sys.moon]
-	var bq := sys.plane_q[sys.moon]
-	return atan2(d.dot(Vector3(bq[0], bq[1], bq[2])), d.dot(Vector3(bp[0], bp[1], bp[2])))
+## The Moon's position (Vector3, m, Earth-centred PCI) at time t.
+static func _moon_at(sys: FlightSolar, t: float) -> Vector3:
+	var p := sys.pos_rel_parent(sys.moon, t)
+	return Vector3(p[0], p[1], p[2])
 
 
-## Trans-lunar injection when the phase is right: a Hohmann ellipse whose apogee is where the Moon
-## will be (FlightSolar's Moon runs on a circle in the parking plane), then the target's ending.
-static func _add_lunar(legs: Array, park: Dictionary, park_c: FlightConic, n: Vector3, target: String,
-		outcome: String, t_ins: float, n_p: float, sys: FlightSolar) -> void:
+## The next trans-lunar injection from a parking orbit, from t_from on (real Moon: inclined,
+## elliptical). The Moon only lies in the parking plane twice a month, so the craft waits for the
+## arrival when it is there (its node), leaves TLI_SWEEP_DEG before that place, and the transfer ellipse
+## (periapsis at the burn, its plane through the Moon's exact place) meets the Moon on arrival: at its
+## centre, or `aim_in` metres off it across the approach for a pass: {"t": burn time, "r", "v"
+## (transfer state at the burn, Vector3 PCI), "t_arr"}.
+static func lunar_injection(sys: FlightSolar, park_c: FlightConic, t_from: float, aim_in := 0.0) -> Dictionary:
+	var mu := sys.mu[sys.earth]
+	var n := Vector3(park_c.wx, park_c.wy, park_c.wz).normalized()
+	var rp := park_c.rp
+	var sweep := deg_to_rad(TLI_SWEEP_DEG)
+	var tof0 := _sweep_time(mu, rp, sys.sma[sys.moon] - aim_in, sweep)
+	# 1. the first arrival at a node of the parking plane (the Moon's latitude above it == 0)
+	var step := 3600.0
+	var t := t_from
+	var prev := _moon_at(sys, t + tof0).normalized().dot(n)
+	var t_node := -1.0
+	while t < t_from + 40.0 * 86400.0:
+		var t2 := t + step
+		var cur := _moon_at(sys, t2 + tof0).normalized().dot(n)
+		if signf(cur) != signf(prev):
+			var lo := t
+			var hi := t2
+			for _k in 30:
+				var mid := (lo + hi) * 0.5
+				if signf(_moon_at(sys, mid + tof0).normalized().dot(n)) == signf(prev):
+					lo = mid
+				else:
+					hi = mid
+			t_node = (lo + hi) * 0.5
+			break
+		prev = cur
+		t = t2
+	if t_node < 0.0:
+		t_node = t_from
+	# 2. the craft passes the point TLI_SWEEP_DEG behind the Moon's arrival place (nearest pass, not
+	# before t_from): short of 180 deg, so the transfer plane only tilts a little to meet the Moon
+	var n_p := TAU / park_c.period
+	var t_d := t_node
+	var tof_s := tof0
+	for _it in 5:
+		var mt := _moon_at(sys, t_d + tof_s)
+		tof_s = _sweep_time(mu, rp, mt.length() - aim_in, sweep)
+		var um := (mt - n * mt.dot(n)).normalized()
+		var aim := um.rotated(n, -sweep)
+		var s0 := park_c.state_at(t_d)
+		var r0 := Vector3(s0[0], s0[1], s0[2])
+		var dth := wrapf(atan2(n.dot(r0.cross(aim)), r0.dot(aim)), -PI, PI)
+		t_d += dth / n_p
+	while t_d < t_from:
+		t_d += park_c.period
+	# 3. the transfer: periapsis at the burn, plane through the Moon's place, reaching it on time
+	var sd := park_c.state_at(t_d)
+	var r := Vector3(sd[0], sd[1], sd[2])
+	var rhat := r.normalized()
+	var r_len := r.length()
+	# arrival: first at the Moon's centre; a pass (aim_in > 0) then aims aim_in off it, across the
+	# approach (perpendicular to the velocity relative to the Moon, on the Earth's side)
+	var aim_off := Vector3.ZERO
+	var res := _solve_arrival(sys, rhat, r_len, n, aim_off, t_d, tof_s)
+	if aim_in > 0.0:
+		var h0: Vector3 = res["h"]
+		var v0 := h0.cross(rhat).normalized() * sqrt(sys.mu[sys.earth] * (1.0 + float(res["e"])) / r_len)
+		var c0 := FlightConic.from_state(_p(r), _p(v0), sys.mu[sys.earth], t_d)
+		var t_a := float(res["t_arr"])
+		var sc := c0.state_at(t_a)
+		var ms := sys.state_rel_parent(sys.moon, t_a)
+		var v_rel := (Vector3(sc[3], sc[4], sc[5]) - Vector3(ms[3], ms[4], ms[5])).normalized()
+		var to_earth := -Vector3(ms[0], ms[1], ms[2]).normalized()
+		aim_off = (to_earth - v_rel * to_earth.dot(v_rel)).normalized() * aim_in
+		res = _solve_arrival(sys, rhat, r_len, n, aim_off, t_d, float(res["t_arr"]) - t_d)
+	var h_dir: Vector3 = res["h"]
+	var v := h_dir.cross(rhat).normalized() * sqrt(sys.mu[sys.earth] * (1.0 + float(res["e"])) / r_len)
+	return {"t": t_d, "r": r, "v": v, "t_arr": float(res["t_arr"])}
+
+
+## The arrival time of a shot from the burn (rhat, r_len) at t_d to the Moon's place + aim_off:
+## root of (time along the ellipse to that place at ta) - (ta - t_d), near t_d + tof_guess.
+## {"t_arr", "e", "h"}.
+static func _solve_arrival(sys: FlightSolar, rhat: Vector3, r_len: float, n: Vector3, aim_off: Vector3, t_d: float,
+		tof_guess: float) -> Dictionary:
+	var lo := t_d + tof_guess * 0.5
+	var g_lo := float(_shot(sys, rhat, r_len, n, aim_off, lo)["tof"]) - (lo - t_d)
+	var hi := lo
+	var g_hi := g_lo
+	var ta := lo
+	while ta < t_d + tof_guess * 2.0:
+		ta += 3600.0
+		var g := float(_shot(sys, rhat, r_len, n, aim_off, ta)["tof"]) - (ta - t_d)
+		if signf(g) != signf(g_lo):
+			hi = ta
+			g_hi = g
+			lo = ta - 3600.0
+			break
+		g_lo = g
+	if signf(g_hi) == signf(g_lo):
+		hi = t_d + tof_guess
+		lo = hi
+	for _k in 40:
+		var mid := (lo + hi) * 0.5
+		var g := float(_shot(sys, rhat, r_len, n, aim_off, mid)["tof"]) - (mid - t_d)
+		if signf(g) == signf(g_lo):
+			lo = mid
+		else:
+			hi = mid
+	var shot := _shot(sys, rhat, r_len, n, aim_off, (lo + hi) * 0.5)
+	return {"t_arr": t_d + float(shot["tof"]), "e": shot["e"], "h": shot["h"]}
+
+
+## Time (s) along an ellipse with periapsis r_p to sweep `sweep` rad and reach radius r_t.
+static func _sweep_time(mu: float, r_p: float, r_t: float, sweep: float) -> float:
+	var e := clampf((r_t - r_p) / (r_p - r_t * cos(sweep)), 0.0, 0.999)
+	var a := r_p / (1.0 - e)
+	var big_e := 2.0 * atan(sqrt((1.0 - e) / (1.0 + e)) * tan(sweep * 0.5))
+	return (big_e - e * sin(big_e)) / sqrt(mu / (a * a * a))
+
+
+## The ellipse with its periapsis at the burn (rhat, r_len) through the Moon's place at time ta
+## (+ aim_off): {"tof": time from the burn to that place, "e", "h": plane normal}.
+static func _shot(sys: FlightSolar, rhat: Vector3, r_len: float, n: Vector3, aim_off: Vector3, ta: float) -> Dictionary:
+	var mu := sys.mu[sys.earth]
+	var target := _moon_at(sys, ta) + aim_off
+	var rt := maxf(target.length(), r_len * 2.0)
+	var th := target.normalized()
+	var h_dir := rhat.cross(th).normalized()
+	if h_dir.dot(n) < 0.0:
+		h_dir = -h_dir
+	var dnu := fposmod(atan2(h_dir.dot(rhat.cross(th)), rhat.dot(th)), TAU)
+	var e := clampf((rt - r_len) / (r_len - rt * cos(dnu)), 0.0, 0.999)
+	var a := r_len / (1.0 - e)
+	var big_e := 2.0 * atan(sqrt((1.0 - e) / (1.0 + e)) * tan(dnu * 0.5))
+	if big_e < 0.0:
+		big_e += TAU
+	return {"tof": (big_e - e * sin(big_e)) / sqrt(mu / (a * a * a)), "e": e, "h": h_dir}
+
+
+## Trans-lunar injection when the Moon will be in the parking plane (lunar_injection), then the
+## target's ending.
+static func _add_lunar(legs: Array, park: Dictionary, park_c: FlightConic, _n: Vector3, target: String,
+		outcome: String, t_ins: float, _n_p: float, sys: FlightSolar) -> void:
 	var e := sys.earth
 	var m := sys.moon
 	var mu := sys.mu[e]
-	var rp := park_c.rp
-	var rm := sys.sma[m]
-	var a := (rp + rm) * 0.5
-	var tof := PI * sqrt(a * a * a / mu)
-	var t_s := t_ins + park_c.period * 0.25
-	var s0 := park_c.state_at(t_s)
-	var theta0 := _angle(sys, Vector3(s0[0], s0[1], s0[2]))
-	var g := theta0 + PI - (sys.phase[m] + sys.rate[m] * (t_s + tof))
-	var t_d := t_s + fposmod(-g, TAU) / (n_p - sys.rate[m])
-	var sd := park_c.state_at(t_d)
-	var r := Vector3(sd[0], sd[1], sd[2])
-	var vt := Vector3(sd[3], sd[4], sd[5]).normalized() * sqrt(mu * (2.0 / r.length() - 1.0 / a))
+	# the transfer arrives at the height it ends at (its low orbit, or the surface for a lander),
+	# across its approach, so the path runs on into the Moon's frame unbroken
+	var r_aim := sys.radius[m] + (100000.0 if target in ["lunar_orbit", "lunar_flyby"] else 0.0)
+	var inj := lunar_injection(sys, park_c, t_ins + park_c.period * 0.25, r_aim)
+	var t_d := float(inj["t"])
+	var r: Vector3 = inj["r"]
+	var vt: Vector3 = inj["v"]
 	_close(park, t_d)
 	var tli := _leg("transfer", "earth", t_d, _p(r), _p(vt), "flight")
 	legs.append(tli)
-	var t_arr := t_d + tof
+	var t_arr := float(inj["t_arr"])
 	var tc := FlightConic.from_state(_p(r), _p(vt), mu, t_d)
 	var sa := tc.state_at(t_arr)
 	if target == "lunar_flyby":
@@ -338,23 +480,36 @@ static func _add_lunar(legs: Array, park: Dictionary, park_c: FlightConic, n: Ve
 	var mmu := sys.mu[m]
 	var moon_rel := sys.pos_rel(m, e, t_arr)
 	var to_earth := -Vector3(moon_rel[0], moon_rel[1], moon_rel[2]).normalized()
+	var mn := sys.orbit_normal_at(m, t_arr)
 	match target:
 		"lunar_orbit":
-			var r_lo := mr + 100000.0
-			var d := Vector3(sa[3], sa[4], sa[5]).normalized()
-			var v := n.cross(d).normalized() * sqrt(mmu / r_lo)
+			# where the transfer arrives, seen from the Moon (about r_aim from its centre)
+			var rel := Vector3(sa[0] - moon_rel[0], sa[1] - moon_rel[1], sa[2] - moon_rel[2])
+			var r_lo := maxf(rel.length(), mr + 20000.0)
+			var d := rel.normalized()
+			var v := mn.cross(d).normalized() * sqrt(mmu / r_lo)
 			if outcome == "partial":
 				v *= 1.12   # a loose capture: an elliptical lunar orbit
 			legs.append(_leg("orbit", "moon", t_arr, _p(d * r_lo), _p(v), "orbit"))
 		"lunar_pole":
-			var lg := _leg("fixed", "moon", t_arr, _p(n * mr), _p(Vector3.ZERO), "arrived")
+			var lg := _leg("fixed", "moon", t_arr, _p(sys.pole(m) * mr), _p(Vector3.ZERO), "arrived")
 			lg["spin"] = true
 			legs.append(lg)
 		_:
-			# lunar_surface: the near side, facing the Earth (the Moon keeps that face to us)
-			var lg := _leg("fixed", "moon", t_arr, _p((to_earth + n * 0.2).normalized() * mr), _p(Vector3.ZERO), "arrived")
+			# lunar_surface: where the transfer touches down (on the near side: it comes from the Earth)
+			var rel := Vector3(sa[0] - moon_rel[0], sa[1] - moon_rel[1], sa[2] - moon_rel[2])
+			var site := rel.normalized() if rel.length() > 1.0 else (to_earth + mn * 0.2).normalized()
+			var lg := _leg("fixed", "moon", t_arr, _p(site * mr), _p(Vector3.ZERO), "arrived")
 			lg["spin"] = true
 			legs.append(lg)
+
+
+## Unit vector (PCI) from the Earth to the comet Mae-Gelo at time t.
+static func comet_dir(sys: FlightSolar, t: float) -> Vector3:
+	if sys.comet < 0:
+		return COMET_DIR.normalized()
+	var p := sys.pos_rel(sys.comet, sys.earth, t)
+	return Vector3(p[0], p[1], p[2]).normalized()
 
 
 ## The comet: a hyperbolic departure whose asymptote points at the comet, then the rendezvous
@@ -366,7 +521,8 @@ static func _add_comet(legs: Array, park: Dictionary, park_c: FlightConic, n: Ve
 	var tops := MissionOps.target_ops("comet")
 	var d := float(tops.get("distance_km", 4500000.0)) * 1000.0
 	var cruise := maxf(float(tops.get("cruise_weeks", 6)), 1.0) * WEEK
-	var u := (COMET_DIR - n * COMET_DIR.dot(n)).normalized()
+	var cd := comet_dir(sys, t_ins + cruise)
+	var u := (cd - n * cd.dot(n)).normalized()
 	var v_inf := d / cruise
 	var rp := park_c.rp
 	var ecc := 1.0 + rp * v_inf * v_inf / mu
@@ -393,6 +549,52 @@ static func _add_comet(legs: Array, park: Dictionary, park_c: FlightConic, n: Ve
 	legs.append(_leg("fixed", "earth", t_arr, PackedFloat64Array([sa[0], sa[1], sa[2]]), _p(Vector3.ZERO), "arrived"))
 
 
+## Moves a track's launch to time t0 (its path rebuilt by the same rules from there): a live
+## launch leaves at the calendar's moment, not at the start of its week.
+static func retime(tr: Dictionary, t0: float) -> void:
+	if tr.has("ins_t") or is_equal_approx(float(tr.get("launch_t", 0.0)), t0):
+		return
+	var nb := build(String(tr["owner"]), String(tr["id"]), String(tr.get("code", "")), String(tr.get("type", "")),
+		String(tr.get("target", "leo")), String(tr.get("outcome", "full")), t0)
+	tr["launch_t"] = nb["launch_t"]
+	tr["lost_t"] = nb["lost_t"]
+	tr["legs"] = nb["legs"]
+
+
+## The flight really flown (FlightSim, a CareerFlight) puts the track on its own path: from the
+## state (r, v around the Earth at time t) where the ascent ended, the parking orbit and what
+## follows are rebuilt with the same rules, so the map and the 3D view share one path. A
+## suborbital hop falls from where its engines stopped.
+static func rebase(tr: Dictionary, r: PackedFloat64Array, v: PackedFloat64Array, t: float) -> void:
+	var sys := FlightSolar.get_system()
+	var e := sys.earth
+	var mu := sys.mu[e]
+	var re := sys.radius[e]
+	var target := String(tr.get("target", "leo"))
+	var legs: Array = []
+	tr["ins_t"] = t
+	if target == "suborbital":
+		var c := FlightConic.from_state(r, v, mu, t)
+		var t_land := c.time_to_radius(re, t + 1.0, false)
+		if t_land == INF:
+			t_land = t + 600.0
+		var l0 := _leg("ballistic", "earth", t, r, v, "flight")
+		l0["t1"] = t_land
+		legs.append(l0)
+		var land := c.state_at(t_land)
+		var lp := Vector3(land[0], land[1], land[2]).normalized() * re
+		legs.append(_leg("fixed", "earth", t_land, _p(lp), _p(Vector3.ZERO), "arrived"))
+		tr["legs"] = legs
+		return
+	var park := _leg("orbit", "earth", t, r, v, "orbit")
+	legs.append(park)
+	var park_c := FlightConic.from_state(r, v, mu, t)
+	var n := Vector3(park_c.wx, park_c.wy, park_c.wz).normalized()
+	if park_c.e < 1.0:
+		_after_park(legs, park, park_c, n, target, String(tr.get("outcome", "full")), t, sys, String(tr.get("id", "")))
+	tr["legs"] = legs
+
+
 # ------------------------------------------------------------ reading a track
 ## Index of the leg flying at time t (the first before the launch, the last after the end).
 static func leg_index(tr: Dictionary, t: float) -> int:
@@ -409,7 +611,7 @@ static func status_at(tr: Dictionary, t: float) -> String:
 	var lost := float(tr.get("lost_t", -1.0))
 	if lost >= 0.0 and t >= lost:
 		return "lost"
-	if t < float(tr["launch_t"]) + ASCENT_S:
+	if t < float(tr.get("ins_t", float(tr["launch_t"]) + ASCENT_S)):
 		return "flight"
 	var legs: Array = tr["legs"]
 	if legs.is_empty():
@@ -477,9 +679,11 @@ static func leg_points(tr: Dictionary, i: int, n := 160) -> PackedFloat64Array:
 	if String(l["kind"]) == "ballistic":
 		closed = false
 	var steps := n if closed else maxi(n / 2, 24)
+	# a transfer starts at its periapsis (the burn): samples bunch up there, where it turns fastest
+	var ease := 2.6 if String(l["kind"]) == "transfer" and not closed else 1.0
 	out.resize((steps + 1) * 3)
 	for k in steps + 1:
-		var p := c.position_at(lerpf(t0, t1, float(k) / steps))
+		var p := c.position_at(lerpf(t0, t1, pow(float(k) / steps, ease)))
 		out[k * 3] = p[0]
 		out[k * 3 + 1] = p[1]
 		out[k * 3 + 2] = p[2]
@@ -549,26 +753,19 @@ static func departure(target: String, r: PackedFloat64Array, v: PackedFloat64Arr
 	if target == "geo":
 		r_new = sys.radius[e] + 35786000.0
 	elif target.begins_with("lunar"):
-		var m := sys.moon
-		var rm := sys.sma[m]
-		var r0 := FlightOrbit.length(r)
-		var a := (r0 + rm) * 0.5
-		var tof := PI * sqrt(a * a * a / mu)
-		var t_s := t + 45.0
-		var s0 := c.state_at(t_s)
-		var theta0 := _angle(sys, Vector3(s0[0], s0[1], s0[2]))
-		var g := theta0 + PI - (sys.phase[m] + sys.rate[m] * (t_s + tof))
-		t_d = t_s + fposmod(-g, TAU) / (n_p - sys.rate[m])
 		# an orbiter or a flyby aims a little inside the Moon's path (a pass, not a hit); landers hit it
-		r_new = rm - (6.0e6 if target in ["lunar_orbit", "lunar_flyby"] else 0.0)
-		to = "moon"
+		var inj := lunar_injection(sys, c, t + 45.0, 6.0e6 if target in ["lunar_orbit", "lunar_flyby"] else 0.0)
+		var sd0 := c.state_at(float(inj["t"]))
+		var vt: Vector3 = inj["v"]
+		return {"t": float(inj["t"]), "dv": vt - Vector3(sd0[3], sd0[4], sd0[5]), "to": "moon"}
 	elif target == "comet":
 		var tops := MissionOps.target_ops("comet")
 		var d := float(tops.get("distance_km", 4500000.0)) * 1000.0
 		var v_inf := d / (maxf(float(tops.get("cruise_weeks", 6)), 1.0) * WEEK)
 		var rp := FlightOrbit.length(r)
 		var ecc := 1.0 + rp * v_inf * v_inf / mu
-		var u := (COMET_DIR - n * COMET_DIR.dot(n)).normalized()
+		var cd := comet_dir(sys, t + maxf(float(tops.get("cruise_weeks", 6)), 1.0) * WEEK)
+		var u := (cd - n * cd.dot(n)).normalized()
 		var p_hat := u.rotated(n, -acos(-1.0 / ecc))
 		var s0 := c.state_at(t + 45.0)
 		var r0 := Vector3(s0[0], s0[1], s0[2])

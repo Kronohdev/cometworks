@@ -1,0 +1,106 @@
+{
+	"_doc": "The menus a new career unlocks while it plays (MenuUnlocks, src/tycoon/tutorial/menu_unlocks.gd; HudUnlocker shows them). Each item: id, nodes (HUD nodes it shows: a unique name '%Name', a rail button name 'Crew' or a path from the HUD root 'Side/Race'; nodes that do not exist yet are skipped), screen (the screen it opens: opening it by any way unlocks the item), name_key (i18n), lesson (Vovô's lesson when it appears, data/tycoon/tutorials.json), start (open from the first week), when (a list of conditions, any one unlocks it; each condition is a dictionary whose keys must all hold), fair_week (modo feira: the career week at which it unlocks anyway). Condition keys: projects, launches, research_points, cash_below, reputation, era, weeks, building, milestones, contracts, item, lesson, screen. Items are revealed one at a time in this order.",
+	"items": [
+		{
+			"id": "new_project",
+			"nodes": ["%NewProject"],
+			"screen": "briefings",
+			"name_key": "TY_NEW_PROJECT_TIP",
+			"start": true
+		},
+		{
+			"id": "settings",
+			"nodes": ["Settings"],
+			"screen": "settings",
+			"name_key": "TY_MENU_SETTINGS",
+			"start": true
+		},
+		{
+			"id": "build",
+			"nodes": ["%Build"],
+			"name_key": "TY_MENU_BUILD",
+			"start": true
+		},
+		{
+			"id": "crew",
+			"nodes": ["Crew"],
+			"screen": "crew",
+			"name_key": "TY_MENU_CREW",
+			"lesson": "unlock_crew",
+			"when": [{"projects": 1}, {"weeks": 12}],
+			"fair_week": 3
+		},
+		{
+			"id": "hangar",
+			"nodes": ["%HangarButton"],
+			"name_key": "TY_UNL_HANGAR",
+			"lot": "workshop",
+			"lesson": "unlock_hangar",
+			"when": [{"projects": 1, "item": "crew"}, {"weeks": 16}],
+			"fair_week": 5
+		},
+		{
+			"id": "map",
+			"nodes": ["Map", "%SolarMap"],
+			"screen": "map",
+			"name_key": "TY_MENU_MAP",
+			"lesson": "unlock_map",
+			"when": [{"launches": 1}, {"weeks": 40}],
+			"fair_week": 7
+		},
+		{
+			"id": "journal",
+			"nodes": ["Journal"],
+			"screen": "journal",
+			"name_key": "TY_MENU_JOURNAL",
+			"lesson": "unlock_journal",
+			"when": [{"launches": 1, "item": "map"}, {"weeks": 30}],
+			"fair_week": 9
+		},
+		{
+			"id": "research",
+			"nodes": ["Research"],
+			"screen": "research",
+			"name_key": "TY_MENU_RESEARCH",
+			"lesson": "unlock_research",
+			"when": [{"building": "lab"}, {"research_points": 20}, {"launches": 1, "item": "journal"}, {"weeks": 26}],
+			"fair_week": 11
+		},
+		{
+			"id": "contracts",
+			"nodes": ["Contracts"],
+			"screen": "contracts",
+			"name_key": "TY_MENU_CONTRACTS",
+			"lesson": "unlock_contracts",
+			"when": [{"launches": 1, "item": "research"}, {"reputation": 35}, {"weeks": 22}],
+			"fair_week": 13
+		},
+		{
+			"id": "race",
+			"nodes": ["Race", "Side/Race"],
+			"screen": "race",
+			"name_key": "TY_MENU_RACE",
+			"lesson": "unlock_race",
+			"when": [{"milestones": 1}, {"launches": 2}, {"weeks": 28}],
+			"fair_week": 15
+		},
+		{
+			"id": "finance",
+			"nodes": ["Finance"],
+			"screen": "finance",
+			"name_key": "TY_MENU_FINANCE",
+			"lesson": "unlock_finance",
+			"when": [{"cash_below": 150000}, {"launches": 2}, {"weeks": 52}],
+			"fair_week": 17
+		},
+		{
+			"id": "book",
+			"nodes": ["Book"],
+			"screen": "book",
+			"name_key": "TY_MENU_BOOK",
+			"lesson": "unlock_book",
+			"when": [{"launches": 2, "item": "race"}, {"era": 2}, {"weeks": 60}],
+			"fair_week": 19
+		}
+	]
+}

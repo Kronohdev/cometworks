@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/ignition.tres" id="m_ignition"]
+[ext_resource type="Material" path="res://scenes/rover/materials/dark.tres" id="m_dark"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.3, 0.5, 0.18)
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(0.26, 0.2, 0.24)
+
+[sub_resource type="CylinderMesh" id="Cyl_3"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.7
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Cyl_4"]
+top_radius = 0
+bottom_radius = 0.05
+height = 0.16
+radial_segments = 6
+rings = 1
+
+[node name="Drill" type="Node3D"]
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -0.1)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Motor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, -0.12)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_ignition")
+
+[node name="Bit" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -0.12)
+
+[node name="Shaft" type="MeshInstance3D" parent="Bit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("Cyl_3")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Tip" type="MeshInstance3D" parent="Bit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.72, 0)
+mesh = SubResource("Cyl_4")
+surface_material_override/0 = ExtResource("m_dark")

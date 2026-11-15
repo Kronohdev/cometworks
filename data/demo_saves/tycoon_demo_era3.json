@@ -1,14 +1,14 @@
 {
 	"version": 1,
-	"saved_at": 1794609924,
+	"saved_at": 1794652344,
 	"slot": "demo_era3",
 	"summary": {
 		"agency": "Cometworks",
 		"year": 11,
 		"week": 1,
 		"era": 3,
-		"cash": 962880.4838580384,
-		"milestones": 2
+		"cash": 2123424.365750036,
+		"milestones": 5
 	},
 	"extra": {
 		"fair_mode": false,
@@ -17,12 +17,12 @@
 	"state": {
 		"version": 1,
 		"seed": 2026,
-		"rng_state": "888488249492811382",
+		"rng_state": "6633334509284713059",
 		"weeks": 520,
-		"cash": 962880.4838580384,
+		"cash": 2123424.365750036,
 		"difficulty": "normal",
-		"reputation": 62.25,
-		"hype": 22.679105571850027,
+		"reputation": 79.5,
+		"hype": 36.0609143750902,
 		"agency_name": "Cometworks",
 		"staff": [
 			{
@@ -31,13 +31,14 @@
 				"name": "Cocada",
 				"profession": "systems_engineer",
 				"level": 6,
-				"xp": 1260.6648983670398,
+				"xp": 1327.4088495373053,
 				"morale": 51.471999999999994,
 				"variant": 0,
 				"assigned": "",
 				"hidden": [],
 				"specs": [
-					"integration_lead"
+					"integration_lead",
+					"mentor"
 				],
 				"seed": 65039,
 				"hired_week": 0,
@@ -59,7 +60,7 @@
 				"role": "pilot",
 				"variant": 2,
 				"level": 6,
-				"xp": 1160.6648983670398,
+				"xp": 1227.4088495373053,
 				"skill": 0.81,
 				"curiosity": 0.27,
 				"courage": 0.67,
@@ -69,7 +70,8 @@
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"test_pilot"
+					"test_pilot",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -83,7 +85,7 @@
 				"role": "engineer",
 				"variant": 7,
 				"level": 6,
-				"xp": 1160.6648983670398,
+				"xp": 1227.4088495373053,
 				"skill": 0.93,
 				"curiosity": 0.76,
 				"courage": 0.63,
@@ -93,7 +95,8 @@
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"mass_trimmer"
+					"mass_trimmer",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -107,7 +110,7 @@
 				"role": "scientist",
 				"variant": 5,
 				"level": 6,
-				"xp": 1160.6648983670398,
+				"xp": 1227.4088495373053,
 				"skill": 0.53,
 				"curiosity": "#f64:676666666666ee3f",
 				"courage": 0.65,
@@ -117,7 +120,8 @@
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"lunar_specialist"
+					"lunar_specialist",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -131,17 +135,18 @@
 				"role": "pilot",
 				"variant": 4,
 				"level": 6,
-				"xp": 520.9283756953562,
+				"xp": 549.832163146328,
 				"skill": 0.91,
 				"curiosity": 0.43,
 				"courage": "#f64:15ae47e17a14de3f",
 				"profession": "pilot",
-				"morale": 46.78399999999999,
+				"morale": 59.9444,
 				"assigned": "",
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"test_pilot"
+					"test_pilot",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -155,17 +160,18 @@
 				"role": "engineer",
 				"variant": 3,
 				"level": 6,
-				"xp": 520.9283756953562,
+				"xp": 549.832163146328,
 				"skill": 0.87,
 				"curiosity": 0.8200000000000001,
 				"courage": 0.65,
 				"profession": "systems_engineer",
-				"morale": 48.08,
+				"morale": "#f64:6ce7fba9f1324e40",
 				"assigned": "",
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"mass_trimmer"
+					"mass_trimmer",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -178,18 +184,19 @@
 				"name": "Muruli Fagulhadoce",
 				"role": "scientist",
 				"variant": 8,
-				"level": 5,
-				"xp": 435.0974203741895,
+				"level": 6,
+				"xp": 551.0017941838693,
 				"skill": 0.42,
 				"curiosity": 0.79,
 				"courage": 0.78,
 				"profession": "scientist",
-				"morale": 49.01599999999999,
+				"morale": 60.7256,
 				"assigned": "",
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"lunar_specialist"
+					"lunar_specialist",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -202,17 +209,18 @@
 				"name": "Pili Poeiralindo",
 				"profession": "pilot",
 				"level": 6,
-				"xp": 576.2833715712055,
+				"xp": 605.1871590221773,
 				"skill": 0.56,
 				"curiosity": 0.88,
 				"courage": 0.86,
-				"morale": 49.592,
+				"morale": 58.9272,
 				"variant": 6,
 				"assigned": "",
 				"adapt_weeks": 0,
 				"train_weeks": 0,
 				"specs": [
-					"test_pilot"
+					"test_pilot",
+					"mentor"
 				],
 				"busy_weeks": 0,
 				"napping": false,
@@ -224,12 +232,12 @@
 				"id": "h120",
 				"name": "Zulimi Luziaflor",
 				"profession": "researcher",
-				"level": 1,
-				"xp": 85.83095532116677,
+				"level": 4,
+				"xp": 300.5145997043635,
 				"skill": 0.62,
 				"curiosity": 0.77,
 				"courage": 0.8300000000000001,
-				"morale": 56.85159999999999,
+				"morale": 51.376000000000005,
 				"variant": 1,
 				"assigned": "",
 				"adapt_weeks": 0,
@@ -245,12 +253,12 @@
 				"id": "h121",
 				"name": "Nita Poeiralindo",
 				"profession": "scientist",
-				"level": 1,
-				"xp": 0.0,
+				"level": 3,
+				"xp": 202.02989339393196,
 				"skill": 0.5700000000000001,
 				"curiosity": 0.81,
 				"courage": 0.71,
-				"morale": 56.5492,
+				"morale": 50.512,
 				"variant": 4,
 				"assigned": "",
 				"adapt_weeks": 0,
@@ -266,12 +274,12 @@
 				"id": "h152",
 				"name": "Tasa Faíscabela",
 				"profession": "systems_engineer",
-				"level": 1,
-				"xp": 0.0,
+				"level": 3,
+				"xp": 202.02989339393196,
 				"skill": 0.76,
 				"curiosity": 0.32,
 				"courage": 0.45,
-				"morale": 55.89399999999999,
+				"morale": 48.64,
 				"variant": 2,
 				"assigned": "",
 				"adapt_weeks": 0,
@@ -287,12 +295,12 @@
 				"id": "h153",
 				"name": "Morop Faíscasol",
 				"profession": "test_technician",
-				"level": 1,
-				"xp": 0.0,
+				"level": 2,
+				"xp": 102.37555604595904,
 				"skill": 0.77,
 				"curiosity": 0.78,
 				"courage": 0.87,
-				"morale": 56.9524,
+				"morale": 51.664,
 				"variant": 3,
 				"assigned": "",
 				"adapt_weeks": 0,
@@ -317,7 +325,7 @@
 				"id": "nimbo",
 				"name_key": "TY_RIVAL_NIMBO",
 				"color": "#bfe8ff",
-				"capacity": 1.043356359024,
+				"capacity": 1.0135461773376,
 				"milestones": 6
 			},
 			{
@@ -328,27 +336,21 @@
 				"milestones": 5
 			}
 		],
-		"milestones": 2,
+		"milestones": 5,
 		"projects": [],
 		"news": [
 			{
-				"key": "TY_RACE_NEWS_FIRST",
+				"key": "TY_RACE_NEWS_LATER",
 				"args": [
 					"TY_RIVAL_NIMBO",
-					"TY_MS_PROBE_MOON"
-				]
-			},
-			{
-				"key": "TY_RACE_LEADER_SAYS",
-				"args": [
-					"TY_LEG_CIFRINHA_NAME",
-					"TY_LEG_CIFRINHA_FIRST"
+					"TY_MS_PROBE_MOON",
+					2
 				]
 			},
 			{
 				"key": "TY_NEWS_GRANT",
 				"args": [
-					"1 975 600 cr"
+					"2 590 000 cr"
 				]
 			},
 			{
@@ -376,8 +378,8 @@
 			{
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_SP_COMM_MINING"
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
 				]
 			},
 			{
@@ -393,31 +395,6 @@
 				"args": []
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_MEDIA"
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_TELECOM"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_SP_COMM_TELECOM"
-				]
-			},
-			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
 			},
@@ -429,12 +406,15 @@
 				"key": "TY_OPS_NEWS_DONE",
 				"args": [
 					"EOB-07",
-					79
+					64
 				]
 			},
 			{
-				"key": "TY_NEWS_INTERVENTION",
-				"args": []
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
+				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
@@ -444,26 +424,19 @@
 				"key": "TY_OPS_NEWS_AUTO",
 				"args": [
 					"EOB-07",
-					"TY_OPS_EV_STORM_A"
+					"TY_OPS_EV_EXTEND_B"
 				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DECISION",
 				"args": [
 					"EOB-07",
-					"TY_OPS_EV_STORM_TITLE"
+					"TY_OPS_EV_EXTEND_TITLE"
 				]
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
+				"key": "TY_NEWS_INTERVENTION",
 				"args": []
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_IMAGING"
-				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
@@ -477,63 +450,79 @@
 				]
 			},
 			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_HQ",
+					3
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
 				"key": "TY_RK_NEWS_FAIL_CAUSE",
 				"args": [
-					"DEM-08",
+					"DEM-04",
 					"TY_RK_CAUSE_PAYLOAD",
 					"0.0"
 				]
 			},
 			{
-				"key": "TY_CREW_NEWS_SPEC_READY",
-				"args": [
-					"Pili Poeiralindo"
-				]
-			},
-			{
 				"key": "TY_CREW_NEWS_LEVEL",
 				"args": [
-					"Pili Poeiralindo",
-					6
+					"Morop Faíscasol",
+					2
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_SPEC_READY",
 				"args": [
-					"Muruli Fagulhadoce"
+					"Tasa Faíscabela"
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LEVEL",
 				"args": [
-					"Muruli Fagulhadoce",
-					5
+					"Tasa Faíscabela",
+					3
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_SPEC_READY",
 				"args": [
-					"Noron Poeiralume"
+					"Nita Poeiralindo"
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LEVEL",
 				"args": [
-					"Noron Poeiralume",
-					6
+					"Nita Poeiralindo",
+					3
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_SPEC_READY",
 				"args": [
-					"Kotimi Estrelariso"
+					"Zulimi Luziaflor"
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LEVEL",
 				"args": [
-					"Kotimi Estrelariso",
-					6
+					"Zulimi Luziaflor",
+					4
 				]
 			},
 			{
@@ -546,20 +535,76 @@
 				"key": "TY_PJ_NEWS_SUCCESS",
 				"args": [
 					"EOB-07",
-					"5.0"
+					"2.0"
 				]
 			},
 			{
-				"key": "TY_BF_NEWS_PARTIAL",
+				"key": "TY_BF_NEWS_MISSED",
 				"args": [
-					"TY_BF_CROP_HEALTH_TITLE"
+					"TY_BF_CLEAN_AIR_TITLE"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"DEM-08",
+					"DEM-04",
 					"TY_MT_DEMO_SAT"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Pili Poeiralindo",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Muruli Fagulhadoce",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Noron Poeiralume",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Kotimi Estrelariso",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Pokami Gelolume",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Lumo Luapé",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Mibup Poeiradoce",
+					"TY_CREW_SPEC_MENTOR"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Cocada",
+					"TY_CREW_SPEC_MENTOR"
 				]
 			},
 			{
@@ -572,7 +617,7 @@
 			{
 				"key": "TY_NEWS_GRANT",
 				"args": [
-					"1 153 350 cr"
+					"1 546 875 cr"
 				]
 			},
 			{
@@ -586,34 +631,23 @@
 				"args": []
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
-					"TY_RIVAL_AURORA",
+					"TY_RIVAL_QUIETUDE",
 					"TY_SP_COMM_TELECOM"
 				]
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_SP_COMM_MINING"
-				]
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
@@ -623,7 +657,39 @@
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
 					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MEDIA"
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"TEL-01",
+					412
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"EOB-06",
+					79
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"TEL-01",
+					"TY_OPS_EV_STORAGE_B"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"TEL-01",
+					"TY_OPS_EV_STORAGE_TITLE"
 				]
 			},
 			{
@@ -645,15 +711,14 @@
 				"args": []
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_MEDIA"
-				]
-			},
-			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_DEEP_SPACE_NETWORK"
+				]
 			},
 			{
 				"key": "TY_RACE_NEWS_LATER",
@@ -664,52 +729,53 @@
 				]
 			},
 			{
-				"key": "TY_NEWS_TECH",
+				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
-					"TY_TECH_DEEP_SPACE_NETWORK"
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_MINING"
 				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
-			},
-			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"EOB-06",
-					83
-				]
 			},
 			{
 				"key": "TY_OPS_NEWS_AUTO",
 				"args": [
 					"EOB-06",
-					"TY_OPS_EV_STORAGE_B"
+					"TY_OPS_EV_STORM_A"
 				]
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"EOB-05",
+					74
+				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DECISION",
 				"args": [
 					"EOB-06",
-					"TY_OPS_EV_STORAGE_TITLE"
+					"TY_OPS_EV_STORM_TITLE"
 				]
 			},
 			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"DEM-07",
-					41
-				]
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
 			},
 			{
-				"key": "TY_OPS_NEWS_AUTO",
+				"key": "TY_NEWS_BUILT",
 				"args": [
-					"DEM-07",
-					"TY_OPS_EV_EXTEND_B"
+					"TY_B_TRAINING",
+					2
 				]
 			},
 			{
@@ -731,28 +797,133 @@
 				"args": [
 					"TY_RIVAL_AURORA",
 					"TY_MS_LONG_SIGNAL",
-					3
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MINING"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DECISION",
-				"args": [
-					"DEM-07",
-					"TY_OPS_EV_EXTEND_TITLE"
+					4
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_SUCCESS",
 				"args": [
-					"DEM-07",
-					"3.5"
+					"EOB-06",
+					"4.8"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Muruli Fagulhadoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Muruli Fagulhadoce",
+					6
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Noron Poeiralume"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Noron Poeiralume",
+					6
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Kotimi Estrelariso"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Kotimi Estrelariso",
+					6
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_PARTIAL",
+				"args": [
+					"TY_BF_WILDFIRE_WATCH_TITLE"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_CREW_CAPSULE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"TEL-01",
+					"5.3"
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_PARTIAL",
+				"args": [
+					"TY_BF_DEEP_SKY_TITLE"
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_ANTENNA",
+					2
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"EOB-05",
+					"TY_OPS_EV_DEBRIS_A"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"EOB-05",
+					"TY_OPS_EV_DEBRIS_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"EOB-06",
+					"TY_MT_EARTH_OBS"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"EOB-05",
+					"3.8"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Zulimi Luziaflor",
+					2
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pili Poeiralindo"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Pili Poeiralindo",
+					6
 				]
 			},
 			{
@@ -784,33 +955,14 @@
 			{
 				"key": "TY_BF_NEWS_PARTIAL",
 				"args": [
-					"TY_BF_RADIATION_BELTS_TITLE"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_SUCCESS",
-				"args": [
-					"EOB-06",
-					"4.5"
-				]
-			},
-			{
-				"key": "TY_BF_NEWS_PARTIAL",
-				"args": [
 					"TY_BF_CROP_HEALTH_TITLE"
-				]
-			},
-			{
-				"key": "TY_NEWS_TECH",
-				"args": [
-					"TY_TECH_CREW_CAPSULE"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"DEM-07",
-					"TY_MT_DEMO_SAT"
+					"EOB-05",
+					"TY_MT_EARTH_OBS"
 				]
 			},
 			{
@@ -828,23 +980,16 @@
 				]
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_IMAGING"
-				]
-			},
-			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"EOB-06",
-					"TY_MT_EARTH_OBS"
+					"TEL-01",
+					"TY_MT_TELESCOPE"
 				]
 			},
 			{
 				"key": "TY_NEWS_GRANT",
 				"args": [
-					"1 155 825 cr"
+					"1 527 188 cr"
 				]
 			},
 			{
@@ -858,18 +1003,10 @@
 				"args": []
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
 					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MINING"
+					"TY_SP_COMM_IMAGING"
 				]
 			},
 			{
@@ -879,6 +1016,16 @@
 			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_ROVER_MOBILITY"
+				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
@@ -888,21 +1035,19 @@
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
 					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_IMAGING"
+					"TY_SP_COMM_MEDIA"
 				]
 			},
 			{
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MINING"
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_TELECOM"
 				]
 			},
 			{
-				"key": "TY_NEWS_TECH",
-				"args": [
-					"TY_TECH_ROVER_MOBILITY"
-				]
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
 			},
 			{
 				"key": "TY_NEWS_INTERVENTION",
@@ -913,14 +1058,35 @@
 				"args": []
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_MEDIA"
+				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DONE",
 				"args": [
-					"EOB-05",
+					"EOB-04",
 					83
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"EOB-03",
+					60
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_IMAGING"
 				]
 			},
 			{
@@ -946,70 +1112,62 @@
 				]
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_SP_COMM_TELECOM"
-				]
-			},
-			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
 			},
 			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"DEM-06",
-					33
-				]
-			},
-			{
 				"key": "TY_OPS_NEWS_AUTO",
 				"args": [
-					"EOB-05",
-					"TY_OPS_EV_EXTEND_B"
+					"EOB-04",
+					"TY_OPS_EV_STORAGE_B"
 				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DECISION",
 				"args": [
-					"EOB-05",
-					"TY_OPS_EV_EXTEND_TITLE"
+					"EOB-04",
+					"TY_OPS_EV_STORAGE_TITLE"
 				]
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"key": "TY_NEWS_BUILT",
 				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MINING"
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_TELECOM"
+					"TY_B_PAD",
+					2
 				]
 			},
 			{
 				"key": "TY_OPS_NEWS_AUTO",
 				"args": [
-					"DEM-06",
-					"TY_OPS_EV_WHEEL_A"
+					"EOB-03",
+					"TY_OPS_EV_STORM_A"
 				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DECISION",
 				"args": [
-					"DEM-06",
-					"TY_OPS_EV_WHEEL_TITLE"
+					"EOB-03",
+					"TY_OPS_EV_STORM_TITLE"
+				]
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_PRECISION_POINTING"
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_CONTROL",
+					2
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_SUCCESS",
 				"args": [
-					"DEM-06",
-					"3.8"
+					"EOB-04",
+					"4.3"
 				]
 			},
 			{
@@ -1035,7 +1193,7 @@
 				"key": "TY_CREW_NEWS_LEVEL",
 				"args": [
 					"Muruli Fagulhadoce",
-					4
+					5
 				]
 			},
 			{
@@ -1055,46 +1213,33 @@
 			{
 				"key": "TY_BF_NEWS_PARTIAL",
 				"args": [
-					"TY_BF_RADIATION_BELTS_TITLE"
+					"TY_BF_CROP_HEALTH_TITLE"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_SUCCESS",
 				"args": [
-					"EOB-05",
-					"4.3"
+					"EOB-03",
+					"2.8"
 				]
 			},
 			{
-				"key": "TY_BF_NEWS_PARTIAL",
+				"key": "TY_BF_NEWS_MISSED",
 				"args": [
-					"TY_BF_CROP_HEALTH_TITLE"
-				]
-			},
-			{
-				"key": "TY_NEWS_TECH",
-				"args": [
-					"TY_TECH_PRECISION_POINTING"
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MINING"
+					"TY_BF_CLEAN_AIR_TITLE"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"DEM-06",
-					"TY_MT_DEMO_SAT"
+					"EOB-04",
+					"TY_MT_EARTH_OBS"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"EOB-05",
+					"EOB-03",
 					"TY_MT_EARTH_OBS"
 				]
 			},
@@ -1108,7 +1253,7 @@
 			{
 				"key": "TY_NEWS_GRANT",
 				"args": [
-					"1 158 300 cr"
+					"1 552 500 cr"
 				]
 			},
 			{
@@ -1124,8 +1269,8 @@
 			{
 				"key": "TY_NEWS_RIVAL_CONTRACT",
 				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_SP_COMM_MEDIA"
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_TELECOM"
 				]
 			},
 			{
@@ -1143,32 +1288,6 @@
 				]
 			},
 			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_MEDIA"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_IMAGING"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
 				"key": "TY_NEWS_TECH",
 				"args": [
 					"TY_TECH_ICE_RADAR"
@@ -1177,6 +1296,25 @@
 			{
 				"key": "TY_CREW_NEWS_LATE",
 				"args": []
+			},
+			{
+				"key": "TY_NEWS_INTERVENTION",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_MINING"
+				]
 			},
 			{
 				"key": "TY_CREW_NEWS_LATE",
@@ -1197,33 +1335,10 @@
 				]
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_INTERVENTION",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
 				"key": "TY_OPS_NEWS_DONE",
 				"args": [
-					"EOB-04",
+					"EOB-02",
 					73
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_BUILT",
-				"args": [
-					"TY_B_LAB",
-					2
 				]
 			},
 			{
@@ -1233,28 +1348,150 @@
 				]
 			},
 			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
+				"key": "TY_RACE_NEWS_FIRST",
+				"args": [
+					"Cometworks",
+					"TY_MS_FAR_SIDE"
+				]
+			},
+			{
+				"key": "TY_LEG_GAGARINHO_CHEER",
+				"args": [
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"ORB-01",
+					38
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_QUIETUDE",
+					"TY_SP_COMM_MEDIA"
+				]
 			},
 			{
 				"key": "TY_OPS_NEWS_AUTO",
 				"args": [
-					"EOB-04",
-					"TY_OPS_EV_DEBRIS_A"
+					"ORB-01",
+					"TY_OPS_EV_EXTEND_B"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"ORB-01",
+					"TY_OPS_EV_EXTEND_TITLE"
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"EOB-02",
+					"TY_OPS_EV_WHEEL_A"
 				]
 			},
 			{
 				"key": "TY_OPS_NEWS_DECISION",
 				"args": [
-					"EOB-04",
-					"TY_OPS_EV_DEBRIS_TITLE"
+					"EOB-02",
+					"TY_OPS_EV_WHEEL_TITLE"
 				]
 			},
 			{
 				"key": "TY_NEWS_BUILT",
 				"args": [
-					"TY_B_WORKSHOP",
+					"TY_B_FACTORY",
+					1
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_LAB",
 					2
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_FIRST",
+				"args": [
+					"Cometworks",
+					"TY_MS_PROBE_MOON"
+				]
+			},
+			{
+				"key": "TY_LEG_HERSCHELINHA_CHEER",
+				"args": [
+					"Cometworks"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"ORB-01",
+					"5.5"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_TELECOM"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"EOB-02",
+					"4.5"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Muruli Fagulhadoce"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LEVEL",
+				"args": [
+					"Muruli Fagulhadoce",
+					4
+				]
+			},
+			{
+				"key": "TY_BF_NEWS_PARTIAL",
+				"args": [
+					"TY_BF_WILDFIRE_WATCH_TITLE"
+				]
+			},
+			{
+				"key": "TY_PJ_NEWS_STARTED",
+				"args": [
+					"EOB-02",
+					"TY_MT_EARTH_OBS"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC",
+				"args": [
+					"Pili Poeiralindo",
+					"TY_CREW_SPEC_TEST_PILOT"
 				]
 			},
 			{
@@ -1272,11 +1509,175 @@
 				]
 			},
 			{
-				"key": "TY_RK_NEWS_FAIL_CAUSE",
+				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"DEM-05",
-					"TY_RK_CAUSE_STAGE2",
-					"0.0"
+					"ORB-01",
+					"TY_MT_ORBITER"
+				]
+			},
+			{
+				"key": "TY_NEWS_GRANT",
+				"args": [
+					"1 314 450 cr"
+				]
+			},
+			{
+				"key": "TY_LEG_NEWS_MARKET",
+				"args": [
+					"Cesinha Latte"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_NEWS_TECH",
+				"args": [
+					"TY_TECH_LUNAR_STAGE"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_MS_LONG_SIGNAL",
+					3
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_RACE_NEWS_FAIL",
+				"args": [
+					"TY_RIVAL_AURORA",
+					"TY_MS_FIRST_SATELLITE"
+				]
+			},
+			{
+				"key": "TY_RACE_LEADER_SAYS",
+				"args": [
+					"TY_LEG_GAGARINHO_NAME",
+					"TY_LEG_GAGARINHO_FAIL"
+				]
+			},
+			{
+				"key": "TY_NEWS_RIVAL_CONTRACT",
+				"args": [
+					"TY_RIVAL_NIMBO",
+					"TY_SP_COMM_MEDIA"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"COM-02",
+					6
+				]
+			},
+			{
+				"key": "TY_RACE_NEWS_LATER",
+				"args": [
+					"Cometworks",
+					"TY_MS_LONG_SIGNAL",
+					2
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_DONE",
+				"args": [
+					"COM-01",
+					5
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"COM-02",
+					"TY_OPS_EV_STORAGE_B"
+				]
+			},
+			{
+				"key": "TY_NEWS_INTERVENTION",
+				"args": []
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"COM-02",
+					"TY_OPS_EV_STORAGE_TITLE"
+				]
+			},
+			{
+				"key": "TY_NEWS_BUILT",
+				"args": [
+					"TY_B_WORKSHOP",
+					2
+				]
+			},
+			{
+				"key": "TY_OPS_NEWS_AUTO",
+				"args": [
+					"COM-01",
+					"TY_OPS_EV_WHEEL_A"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_OPS_NEWS_DECISION",
+				"args": [
+					"COM-01",
+					"TY_OPS_EV_WHEEL_TITLE"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_LATE",
+				"args": []
+			},
+			{
+				"key": "TY_PJ_NEWS_SUCCESS",
+				"args": [
+					"COM-02",
+					"7.0"
+				]
+			},
+			{
+				"key": "TY_CREW_NEWS_SPEC_READY",
+				"args": [
+					"Pili Poeiralindo"
 				]
 			},
 			{
@@ -1326,208 +1727,16 @@
 				]
 			},
 			{
-				"key": "TY_BF_NEWS_MISSED",
+				"key": "TY_BF_NEWS_FULL",
 				"args": [
-					"TY_BF_RADIATION_BELTS_TITLE"
+					"TY_BF_TV_EVERYWHERE_TITLE"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_SUCCESS",
 				"args": [
-					"EOB-04",
-					"4.5"
-				]
-			},
-			{
-				"key": "TY_BF_NEWS_PARTIAL",
-				"args": [
-					"TY_BF_WILDFIRE_WATCH_TITLE"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_STARTED",
-				"args": [
-					"DEM-05",
-					"TY_MT_DEMO_SAT"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_STARTED",
-				"args": [
-					"EOB-04",
-					"TY_MT_EARTH_OBS"
-				]
-			},
-			{
-				"key": "TY_NEWS_GRANT",
-				"args": [
-					"1 202 850 cr"
-				]
-			},
-			{
-				"key": "TY_LEG_NEWS_MARKET",
-				"args": [
-					"Cesinha Latte"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_INTERVENTION",
-				"args": []
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_QUIETUDE",
-					"TY_SP_COMM_IMAGING"
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_TELECOM"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_RACE_NEWS_LATER",
-				"args": [
-					"TY_RIVAL_NIMBO",
-					"TY_MS_LONG_SIGNAL",
-					2
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LATE",
-				"args": []
-			},
-			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"EOB-03",
-					78
-				]
-			},
-			{
-				"key": "TY_RACE_NEWS_FAIL",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_MS_FIRST_SATELLITE"
-				]
-			},
-			{
-				"key": "TY_RACE_LEADER_SAYS",
-				"args": [
-					"TY_LEG_GAGARINHO_NAME",
-					"TY_LEG_GAGARINHO_FAIL"
-				]
-			},
-			{
-				"key": "TY_NEWS_TECH",
-				"args": [
-					"TY_TECH_LUNAR_STAGE"
-				]
-			},
-			{
-				"key": "TY_NEWS_RIVAL_CONTRACT",
-				"args": [
-					"TY_RIVAL_AURORA",
-					"TY_SP_COMM_TELECOM"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"EOB-02",
-					79
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_AUTO",
-				"args": [
-					"EOB-02",
-					"TY_OPS_EV_STORM_A"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DONE",
-				"args": [
-					"DEM-04",
-					41
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DECISION",
-				"args": [
-					"EOB-02",
-					"TY_OPS_EV_STORM_TITLE"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_AUTO",
-				"args": [
-					"EOB-03",
-					"TY_OPS_EV_STORM_A"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DECISION",
-				"args": [
-					"EOB-03",
-					"TY_OPS_EV_STORM_TITLE"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_AUTO",
-				"args": [
-					"DEM-04",
-					"TY_OPS_EV_EXTEND_B"
-				]
-			},
-			{
-				"key": "TY_OPS_NEWS_DECISION",
-				"args": [
-					"DEM-04",
-					"TY_OPS_EV_EXTEND_TITLE"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_SUCCESS",
-				"args": [
-					"EOB-03",
-					"5.0"
-				]
-			},
-			{
-				"key": "TY_BF_NEWS_PARTIAL",
-				"args": [
-					"TY_BF_CROP_HEALTH_TITLE"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_SPEC",
-				"args": [
-					"Pili Poeiralindo",
-					"TY_CREW_SPEC_TEST_PILOT"
+					"COM-01",
+					"7.0"
 				]
 			},
 			{
@@ -1545,73 +1754,6 @@
 				]
 			},
 			{
-				"key": "TY_PJ_NEWS_STARTED",
-				"args": [
-					"EOB-03",
-					"TY_MT_EARTH_OBS"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_SUCCESS",
-				"args": [
-					"DEM-04",
-					"3.3"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_SPEC_READY",
-				"args": [
-					"Pili Poeiralindo"
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LEVEL",
-				"args": [
-					"Pili Poeiralindo",
-					3
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LEVEL",
-				"args": [
-					"Muruli Fagulhadoce",
-					2
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LEVEL",
-				"args": [
-					"Noron Poeiralume",
-					2
-				]
-			},
-			{
-				"key": "TY_CREW_NEWS_LEVEL",
-				"args": [
-					"Kotimi Estrelariso",
-					2
-				]
-			},
-			{
-				"key": "TY_BF_NEWS_PARTIAL",
-				"args": [
-					"TY_BF_RADIATION_BELTS_TITLE"
-				]
-			},
-			{
-				"key": "TY_PJ_NEWS_SUCCESS",
-				"args": [
-					"EOB-02",
-					"5.0"
-				]
-			},
-			{
-				"key": "TY_BF_NEWS_PARTIAL",
-				"args": [
-					"TY_BF_WILDFIRE_WATCH_TITLE"
-				]
-			},
-			{
 				"key": "TY_NEWS_BUILT",
 				"args": [
 					"TY_B_TRAINING",
@@ -1621,15 +1763,15 @@
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"DEM-04",
-					"TY_MT_DEMO_SAT"
+					"COM-02",
+					"TY_MT_COMMS"
 				]
 			},
 			{
 				"key": "TY_PJ_NEWS_STARTED",
 				"args": [
-					"EOB-02",
-					"TY_MT_EARTH_OBS"
+					"COM-01",
+					"TY_MT_COMMS"
 				]
 			},
 			{
@@ -2616,10 +2758,10 @@
 		"buildings": {
 			"hq": {
 				"kind": "hq",
-				"level": 2,
-				"target": 2,
+				"level": 3,
+				"target": 3,
 				"weeks_left": 0,
-				"total_weeks": 8
+				"total_weeks": 14
 			},
 			"workshop": {
 				"kind": "workshop",
@@ -2630,8 +2772,8 @@
 			},
 			"pad": {
 				"kind": "pad",
-				"level": 1,
-				"target": 1,
+				"level": 2,
+				"target": 2,
 				"weeks_left": 0,
 				"last_launch": 474,
 				"launch_order": 19,
@@ -2645,7 +2787,8 @@
 					"fairing": "fairing_s",
 					"avionics": "avionics_redundant",
 					"recovery": "recovery_none"
-				}
+				},
+				"total_weeks": 10
 			},
 			"lab": {
 				"kind": "lab",
@@ -2656,88 +2799,78 @@
 			},
 			"control": {
 				"kind": "control",
+				"level": 2,
+				"target": 2,
+				"weeks_left": 0,
+				"total_weeks": 10
+			},
+			"antenna": {
+				"kind": "antenna",
+				"level": 2,
+				"target": 2,
+				"weeks_left": 0,
+				"total_weeks": 10
+			},
+			"training": {
+				"kind": "training",
+				"level": 2,
+				"target": 2,
+				"weeks_left": 0,
+				"total_weeks": 10
+			},
+			"factory": {
+				"kind": "factory",
 				"level": 1,
 				"target": 1,
 				"weeks_left": 0,
 				"total_weeks": 8
-			},
-			"antenna": {
-				"kind": "antenna",
-				"level": 1,
-				"target": 1,
-				"weeks_left": 0,
-				"total_weeks": 6
-			},
-			"training": {
-				"kind": "training",
-				"level": 1,
-				"target": 1,
-				"weeks_left": 0,
-				"total_weeks": 6
 			}
 		},
 		"contracts": [
 			{
-				"id": "c541",
+				"id": "c562",
 				"type": "earth_obs",
 				"target": "sso",
-				"reward": 505000.0,
-				"bonus": 126250.0,
-				"penalty": 151500.0,
-				"weeks_allowed": 29,
+				"reward": 540000.0,
+				"bonus": 135000.0,
+				"penalty": 162000.0,
+				"weeks_allowed": 30,
 				"offered_week": 520,
-				"deadline_week": 549,
+				"deadline_week": 550,
 				"status": "offer",
 				"sponsor": "comm_imaging",
 				"sponsor_key": "TY_SP_COMM_IMAGING",
 				"kind": "commercial",
 				"min_bars": {
-					"sci": 6.0
+					"sci": 6.5,
+					"rel": 5.5
 				}
 			},
 			{
-				"id": "c542",
-				"type": "demo_sat",
-				"target": "leo",
-				"reward": 365000.0,
-				"bonus": 91250.0,
-				"penalty": 109500.0,
-				"weeks_allowed": 25,
-				"offered_week": 520,
-				"deadline_week": 545,
-				"status": "offer",
-				"sponsor": "gov_space",
-				"sponsor_key": "TY_SP_GOV_SPACE",
-				"kind": "government",
-				"min_bars": {
-					"eng": 5.5
-				}
-			},
-			{
-				"id": "c543",
-				"type": "orbiter",
-				"target": "lunar_orbit",
-				"reward": 525000.0,
-				"bonus": 131250.0,
-				"penalty": 157500.0,
+				"id": "c563",
+				"type": "lander",
+				"target": "lunar_surface",
+				"reward": 1170000.0,
+				"bonus": 292500.0,
+				"penalty": 351000.0,
 				"weeks_allowed": 35,
 				"offered_week": 520,
 				"deadline_week": 555,
 				"status": "offer",
-				"sponsor": "gov_science",
-				"sponsor_key": "TY_SP_GOV_SCIENCE",
-				"kind": "government",
+				"sponsor": "comm_mining",
+				"sponsor_key": "TY_SP_COMM_MINING",
+				"kind": "commercial",
 				"min_bars": {
-					"sci": 6.0
+					"eng": 6.5
 				}
 			},
 			{
-				"id": "c544",
-				"type": "comms",
-				"target": "geo",
-				"reward": 630000.0,
-				"bonus": 157500.0,
-				"penalty": 189000.0,
+				"id": "c564",
+				"type": "demo_sat",
+				"target": "sso",
+				"reward": 425000.0,
+				"bonus": 106250.0,
+				"penalty": 127500.0,
 				"weeks_allowed": 26,
 				"offered_week": 520,
 				"deadline_week": 546,
@@ -2746,12 +2879,12 @@
 				"sponsor_key": "TY_SP_COMM_TELECOM",
 				"kind": "commercial",
 				"min_bars": {
-					"ops": 6.0
+					"ops": 6.5
 				}
 			}
 		],
 		"active_missions": [],
-		"research_points": "#f64:1a86dcc174609340",
+		"research_points": 1407.641114772632,
 		"unlocked": {
 			"small_sat_bus": true,
 			"type:demo_sat": true,
@@ -4718,39 +4851,490 @@
 				}
 			},
 			{
-				"id": "EOB-02",
-				"code": "EOB-02",
-				"type": "earth_obs",
-				"target": "sso",
+				"id": "COM-01",
+				"code": "COM-01",
+				"type": "comms",
+				"target": "geo",
 				"contract_id": "",
-				"week": 266,
+				"week": 268,
 				"start_week": 260,
-				"weeks": 6,
+				"weeks": 8,
 				"staff": [
 					"leader",
 					"cm001",
 					"cm002",
 					"cm003"
 				],
-				"grade": 5.255389651269611,
+				"grade": 6.071265578771854,
 				"bars": [
-					8.046240471093874,
-					2.5617966811846484,
-					5.330608169268869,
-					5.624674401286879
+					9.044690033533858,
+					10.0,
+					4.614802347476281,
+					4.157134805350786
 				],
 				"pts": [
-					43.46700610559999,
-					19.37489754816,
-					28.79675031744,
-					"#f64:c4fe9534303b3240"
+					53.302670639999995,
+					25.02659592576,
+					36.26161334208,
+					20.4158818152
 				],
-				"defects": 2.3052416625741285,
+				"defects": 3.104794124230769,
+				"expected": 157.1534839922692,
+				"compat": 1.15,
+				"novelty": true,
+				"p_success": 0.6045025313161786,
+				"p_payload": 0.729054300265918,
+				"p_rocket": 0.8291598185425832,
+				"p_crew": 1.0,
+				"launch_class": "medium",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 8,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_ORBITA_MID"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 8,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 7.0,
+				"science": 28.780585314623995,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "medium",
+					"flights": 0
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.270945699734082,
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": 0.06000000000000005,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:cd7e27abe58d813f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 6.226375582247249,
+				"grade_project": 6.071265578771854,
+				"payload": [
+					"hga",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.9288235294117646,
+					"mult": 0.9750882352941176,
+					"great": false,
+					"instrument": 0.97,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.6666666666666666,
+					"objective": 1.0,
+					"match": 0.7698122703924356
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_COMMS"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_COMMS",
+							"TY_TGT_GEO"
+						]
+					}
+				],
+				"briefing": {
+
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": 2.0,
+					"hype": 9.8,
+					"research": 0.0,
+					"xp": 114.2041495562098,
+					"dev_cost": 98800.0,
+					"launch_cost": 418000.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "COM-02",
+				"code": "COM-02",
+				"type": "comms",
+				"target": "geo",
+				"contract_id": "",
+				"week": 269,
+				"start_week": 261,
+				"weeks": 8,
+				"staff": [
+					"cm004",
+					"cm005",
+					"cm006",
+					"h007"
+				],
+				"grade": 6.561677059452297,
+				"bars": [
+					4.9252803175147974,
+					10.0,
+					4.911868144880368,
+					3.1205339687836564
+				],
+				"pts": [
+					26.60710805280001,
+					17.73888377184,
+					47.762376247488,
+					16.857595738176002
+				],
+				"defects": 2.578835507975912,
 				"expected": 172.8688323914961,
 				"compat": 1.15,
 				"novelty": false,
-				"p_success": 0.7275533763945689,
-				"p_payload": 0.9308427501227762,
+				"p_success": 0.6360361793418968,
+				"p_payload": 0.7511042041331417,
+				"p_rocket": 0.8468015168094468,
+				"p_crew": 1.0,
+				"launch_class": "medium",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 8,
+						"quote_key": "TY_PJ_Q_ECHO_HIGH"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 5,
+						"quote_key": "TY_PJ_Q_ORBITA_MID"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 8,
+						"quote_key": "TY_PJ_Q_COMA_HIGH"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 7,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 7.0,
+				"science": 20.399716337616,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "medium",
+					"flights": 1
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.24889579586685828,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": "#f64:8014ae47e17aa43f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:cd7e27abe58d813f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 5.829240302050081,
+				"grade_project": 6.561677059452297,
+				"payload": [
+					"hga",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.9395,
+					"mult": "#f64:fc3a70ce8852ef3f",
+					"great": true,
+					"instrument": 0.97,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 0.6666666666666666,
+					"objective": 1.0,
+					"match": 0.8872071135651023
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_GREAT",
+						"args": [],
+						"tone": "star",
+						"topic": "combo"
+					},
+					{
+						"key": "TY_FB_TEAM_MISSING_REL",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_RATIO",
+						"args": [
+							"TY_MT_COMMS"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_GREAT",
+						"args": [
+							"TY_MT_COMMS",
+							"TY_TGT_GEO"
+						]
+					}
+				],
+				"briefing": {
+					"met": "full",
+					"reward": 455000.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.0,
+					"pp": 10.0,
+					"hype": 2.0,
+					"id": "tv_everywhere"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 455000.0,
+					"reputation": 2.0,
+					"hype": 15.8,
+					"research": 0.0,
+					"xp": 118.91209977074206,
+					"dev_cost": 98800.0,
+					"launch_cost": 401280.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "EOB-02",
+				"code": "EOB-02",
+				"type": "earth_obs",
+				"target": "sso",
+				"contract_id": "",
+				"week": 319,
+				"start_week": 313,
+				"weeks": 6,
+				"staff": [
+					"cm006",
+					"h120",
+					"h121",
+					"h152"
+				],
+				"grade": 4.913497579911636,
+				"bars": [
+					4.224669061937817,
+					4.747308029213018,
+					2.689466638681467,
+					2.869305950446559
+				],
+				"pts": [
+					19.34885804544,
+					30.439540454400003,
+					12.317676827904002,
+					7.884801300672001
+				],
+				"defects": "#f64:7a5740ecb389ff3f",
+				"expected": 146.55904364969962,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.6478198992568981,
+				"p_payload": 0.8288305383129995,
 				"p_rocket": 0.7816071794066249,
 				"p_crew": 1.0,
 				"launch_class": "light",
@@ -4769,15 +5353,15 @@
 						"id": "orbita",
 						"name_key": "TY_PJ_PAPER_ORBITA",
 						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_ORBITA_MID"
+						"score": 4,
+						"quote_key": "TY_PJ_Q_ORBITA_LOW"
 					},
 					{
 						"id": "coma",
 						"name_key": "TY_PJ_PAPER_COMA",
 						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_COMA_MID"
+						"score": 4,
+						"quote_key": "TY_PJ_Q_COMA_LOW"
 					},
 					{
 						"id": "folha",
@@ -4787,8 +5371,8 @@
 						"quote_key": "TY_PJ_Q_FOLHA_MID"
 					}
 				],
-				"review_avg": 5.0,
-				"science": 22.281132180384,
+				"review_avg": 4.5,
+				"science": 35.00547152256,
 				"suborbital": false,
 				"rocket": {
 					"family": "fam2",
@@ -4807,17 +5391,17 @@
 				},
 				"risks": [
 					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": "#f64:00820284e1e8c53f",
+						"fixed": false
+					},
+					{
 						"id": "dv",
 						"kind": "margin",
 						"name_key": "TY_RK_RISK_DV",
 						"p": 0.07959183673469386,
-						"fixed": false
-					},
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.06915724987722383,
 						"fixed": false
 					},
 					{
@@ -4866,8 +5450,8 @@
 				"fixes": [],
 				"cause": "",
 				"cause_key": "",
-				"grade_dev": 5.697414022516517,
-				"grade_project": 5.255389651269611,
+				"grade_dev": 5.42977907348187,
+				"grade_project": 4.913497579911636,
 				"payload": [
 					"camera",
 					"omni",
@@ -4875,15 +5459,15 @@
 					"solar_body"
 				],
 				"fit": {
-					"fit": 0.7783333333333334,
-					"mult": "#f64:1ecc13f56f84ed3f",
+					"fit": 0.7283333333333334,
+					"mult": "#f64:8f091ecc13f5ec3f",
 					"great": false,
 					"instrument": 0.3666666666666667,
 					"power": 1.0,
 					"data": 1.0,
-					"team": 1.0,
+					"team": 0.6666666666666666,
 					"objective": 1.0,
-					"match": 0.8263440660789341
+					"match": 0.8886444505593445
 				},
 				"feedback": [
 					{
@@ -4895,7 +5479,13 @@
 						"topic": "instrument"
 					},
 					{
-						"key": "TY_FB_BAR_LOW",
+						"key": "TY_FB_TEAM_MISSING_OPS",
+						"args": [],
+						"tone": "bad",
+						"topic": "team"
+					},
+					{
+						"key": "TY_FB_BAR_HIGH",
 						"args": [
 							"TY_BAR_SCI"
 						],
@@ -4915,12 +5505,6 @@
 						],
 						"tone": "good",
 						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_POWER_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "power"
 					}
 				],
 				"learned": [
@@ -4954,281 +5538,53 @@
 
 				},
 				"rewards": {
-					"cash": 190000.0,
-					"reputation": 0.0,
-					"hype": 5.0,
+					"cash": 189999.99999999997,
+					"reputation": -0.5,
+					"hype": 4.05,
 					"research": 0.0,
-					"xp": 79.1188054891412,
+					"xp": 76.65718257536378,
 					"dev_cost": 78600.0,
 					"launch_cost": 119280.0,
 					"refund": 0.0
 				}
 			},
 			{
-				"id": "DEM-04",
-				"code": "DEM-04",
-				"type": "demo_sat",
-				"target": "leo",
+				"id": "ORB-01",
+				"code": "ORB-01",
+				"type": "orbiter",
+				"target": "lunar_orbit",
 				"contract_id": "",
-				"week": 266,
-				"start_week": 261,
-				"weeks": 5,
-				"staff": [
-					"cm004",
-					"cm005",
-					"cm006",
-					"h007"
-				],
-				"grade": 3.980085327963537,
-				"bars": [
-					2.564654113425999,
-					6.97590721848667,
-					8.092878786068303,
-					2.555768825941384
-				],
-				"pts": [
-					16.121773166400004,
-					"#f64:b03ce3c4feec2540",
-					31.795602418944,
-					10.041199381888
-				],
-				"defects": "#f64:f3d925df944bfb3f",
-				"expected": 125.72278719381536,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.6762010284855584,
-				"p_payload": 0.7610642712514376,
-				"p_rocket": 0.8884939866821807,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": true,
-				"outcome": "partial",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_ECHO_LOW"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 2,
-						"quote_key": "TY_PJ_Q_ORBITA_LOW"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_COMA_LOW"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 3,
-						"quote_key": "TY_PJ_Q_FOLHA_LOW"
-					}
-				],
-				"review_avg": 3.25,
-				"science": 6.303656709504,
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 5
-				},
-				"risks": [
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.2389357287485624,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": "#f64:b39ad6f1e684a23f",
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "",
-				"cause_key": "",
-				"grade_dev": 5.06372179130221,
-				"grade_project": 4.975106659954421,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body",
-					"particle"
-				],
-				"fit": {
-					"fit": "#f64:676666666666ee3f",
-					"mult": 0.9825,
-					"great": false,
-					"instrument": 1.0,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 0.6666666666666666,
-					"objective": 1.0,
-					"match": 0.7296056263223687
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_TEAM_MISSING_REL",
-						"args": [],
-						"tone": "bad",
-						"topic": "team"
-					},
-					{
-						"key": "TY_FB_BAR_HIGH",
-						"args": [
-							"TY_BAR_OPS"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_PARTICLE"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					}
-				],
-				"learned": [
-					{
-						"key": "TY_JN_NOTE_INSTR_GREAT",
-						"args": [
-							"TY_PL_M_PARTICLE",
-							"TY_MT_DEMO_SAT",
-							"TY_TGT_LEO"
-						]
-					}
-				],
-				"briefing": {
-					"met": "partial",
-					"reward": 120000.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 1.0,
-					"pp": 25.0,
-					"hype": 1.0,
-					"id": "radiation_belts"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 120000.0,
-					"reputation": -1.75,
-					"hype": 2.1125,
-					"research": 0.0,
-					"xp": 65.13063995972652,
-					"dev_cost": 71400.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "EOB-03",
-				"code": "EOB-03",
-				"type": "earth_obs",
-				"target": "sso",
-				"contract_id": "",
-				"week": 272,
-				"start_week": 266,
-				"weeks": 6,
+				"week": 320,
+				"start_week": 312,
+				"weeks": 8,
 				"staff": [
 					"leader",
 					"cm001",
 					"cm002",
 					"cm003"
 				],
-				"grade": 5.106633091620193,
+				"grade": 5.22664483827132,
 				"bars": [
-					7.335925283007654,
-					2.341546470658777,
-					4.8853796240155125,
-					5.276179393771294
+					7.370465336660919,
+					"#f64:b2eda6fe9aa60540",
+					8.832415057704646,
+					5.623287855276832
 				],
 				"pts": [
-					43.23248311993599,
-					19.319064754176,
-					28.790791070208,
-					"#f64:7c4470e004a83240"
+					56.7109384272,
+					"#f64:0eeb4326514b3840",
+					45.30646063910399,
+					"#f64:603589df3ea23540"
 				],
-				"defects": 2.1926684439616504,
-				"expected": 188.58418079072305,
+				"defects": 3.4757203282652607,
+				"expected": 205.1826611095795,
 				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.7450949157865935,
-				"p_payload": "#f64:6486c83a21e5ed3f",
-				"p_rocket": 0.7975583463332908,
+				"novelty": true,
+				"p_success": 0.7309469027019858,
+				"p_payload": 0.8844126972604646,
+				"p_rocket": 0.8264771695003355,
 				"p_crew": 1.0,
-				"launch_class": "light",
+				"launch_class": "medium",
 				"pad": "pad",
 				"success": true,
 				"outcome": "full",
@@ -5237,7 +5593,7 @@
 						"id": "echo",
 						"name_key": "TY_PJ_PAPER_ECHO",
 						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 6,
+						"score": 7,
 						"quote_key": "TY_PJ_Q_ECHO_MID"
 					},
 					{
@@ -5251,8 +5607,8 @@
 						"id": "coma",
 						"name_key": "TY_PJ_PAPER_COMA",
 						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_COMA_LOW"
+						"score": 5,
+						"quote_key": "TY_PJ_Q_COMA_MID"
 					},
 					{
 						"id": "folha",
@@ -5262,58 +5618,72 @@
 						"quote_key": "TY_PJ_Q_FOLHA_MID"
 					}
 				],
-				"review_avg": 5.0,
-				"science": 22.2169244673024,
+				"review_avg": 5.5,
+				"science": "#f64:4f4e01ec36f03b40",
 				"suborbital": false,
 				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
+					"family": "fam3",
+					"name": "Sabiá",
 					"parts": {
 						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
 						"fairing": "fairing_s",
 						"avionics": "avionics_redundant",
 						"recovery": "recovery_none"
 					},
-					"class": "light",
-					"flights": 6
+					"class": "medium",
+					"flights": 2
 				},
 				"risks": [
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": 0.07959183673469386,
-						"fixed": false
-					},
 					{
 						"id": "payload",
 						"kind": "payload",
 						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.06578005331884951,
-						"fixed": false
-					},
-					{
-						"id": "lift",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_LIFT",
-						"p": 0.06,
+						"p": 0.11558730273953544,
 						"fixed": false
 					},
 					{
 						"id": "stage1",
 						"kind": "component",
 						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "lift",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_LIFT",
+						"p": "#f64:38df4f8d976ea23f",
 						"fixed": false
 					},
 					{
 						"id": "stage2",
 						"kind": "component",
 						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
 						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "debut",
+						"kind": "debut",
+						"name_key": "TY_RK_RISK_DEBUT",
+						"p": "#f64:8014ae47e17a943f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:2733edd01b1e913f",
 						"fixed": false
 					},
 					{
@@ -5334,8 +5704,8 @@
 				"fixes": [],
 				"cause": "",
 				"cause_key": "",
-				"grade_dev": 5.5361457312713265,
-				"grade_project": 5.106633091620193,
+				"grade_dev": 5.824819541543473,
+				"grade_project": 5.22664483827132,
 				"payload": [
 					"camera",
 					"omni",
@@ -5343,24 +5713,22 @@
 					"solar_body"
 				],
 				"fit": {
-					"fit": 0.7783333333333334,
-					"mult": "#f64:1ecc13f56f84ed3f",
+					"fit": 0.7065882352941176,
+					"mult": 0.8973058823529412,
 					"great": false,
-					"instrument": 0.3666666666666667,
+					"instrument": 0.5,
 					"power": 1.0,
-					"data": 1.0,
+					"data": 0.504,
 					"team": 1.0,
 					"objective": 1.0,
-					"match": 0.8256299955342754
+					"match": 0.8104387545236391
 				},
 				"feedback": [
 					{
-						"key": "TY_FB_MISSING",
-						"args": [
-							"TY_PL_M_IR_CAMERA"
-						],
+						"key": "TY_FB_DATA_STUCK",
+						"args": [],
 						"tone": "bad",
-						"topic": "instrument"
+						"topic": "data"
 					},
 					{
 						"key": "TY_FB_BAR_LOW",
@@ -5371,12 +5739,6 @@
 						"topic": "levers"
 					},
 					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
 						"key": "TY_FB_INSTR_STAR",
 						"args": [
 							"TY_PL_M_CAMERA"
@@ -5385,464 +5747,37 @@
 						"topic": "instrument"
 					},
 					{
-						"key": "TY_FB_POWER_OK",
+						"key": "TY_FB_TEAM_OK",
 						"args": [],
 						"tone": "good",
-						"topic": "power"
-					}
-				],
-				"learned": [],
-				"briefing": {
-					"met": "partial",
-					"reward": 207500.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 0.75,
-					"pp": 12.5,
-					"hype": 0.5,
-					"id": "crop_health"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 207500.00000000003,
-					"reputation": 0.0,
-					"hype": 5.0,
-					"research": 0.0,
-					"xp": 78.04775825966539,
-					"dev_cost": 78600.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "EOB-04",
-				"code": "EOB-04",
-				"type": "earth_obs",
-				"target": "sso",
-				"contract_id": "",
-				"week": 318,
-				"start_week": 312,
-				"weeks": 6,
-				"staff": [
-					"leader",
-					"cm001",
-					"cm002",
-					"cm003"
-				],
-				"grade": 4.932510286709537,
-				"bars": [
-					7.445115013731631,
-					2.2083816099630753,
-					5.0220166576551835,
-					4.848717152716424
-				],
-				"pts": [
-					"#f64:2dccbe4b22c44740",
-					19.73874538944,
-					32.06236371072,
-					18.57357434016
-				],
-				"defects": 2.586629140683077,
-				"expected": 204.29952918994996,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.73566871653267,
-				"p_payload": "#f64:ba87a05d4f84ed3f",
-				"p_rocket": 0.7975583463332908,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": true,
-				"outcome": "full",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_ECHO_MID"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_ORBITA_LOW"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_COMA_LOW"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_FOLHA_MID"
-					}
-				],
-				"review_avg": 4.5,
-				"science": 22.699557197855995,
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 7
-				},
-				"risks": [
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": 0.07959183673469386,
-						"fixed": false
-					},
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.07759887422049228,
-						"fixed": false
-					},
-					{
-						"id": "lift",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_LIFT",
-						"p": 0.06,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "",
-				"cause_key": "",
-				"grade_dev": 5.347377671019464,
-				"grade_project": 4.932510286709537,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body"
-				],
-				"fit": {
-					"fit": 0.7783333333333334,
-					"mult": "#f64:1ecc13f56f84ed3f",
-					"great": false,
-					"instrument": 0.3666666666666667,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 1.0,
-					"objective": 1.0,
-					"match": 0.8174094729433026
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_MISSING",
-						"args": [
-							"TY_PL_M_IR_CAMERA"
-						],
-						"tone": "bad",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_BAR_LOW",
-						"args": [
-							"TY_BAR_SCI"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_POWER_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "power"
-					}
-				],
-				"learned": [],
-				"briefing": {
-					"met": "partial",
-					"reward": 190000.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 1.0,
-					"pp": 20.0,
-					"hype": 1.5,
-					"id": "wildfire_watch"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 190000.0,
-					"reputation": -0.5,
-					"hype": 4.05,
-					"research": 0.0,
-					"xp": 76.79407406430867,
-					"dev_cost": 78600.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "DEM-05",
-				"code": "DEM-05",
-				"type": "demo_sat",
-				"target": "leo",
-				"contract_id": "",
-				"week": 318,
-				"start_week": 313,
-				"weeks": 5,
-				"staff": [
-					"cm004",
-					"cm005",
-					"cm006",
-					"h007"
-				],
-				"grade": 1.6950179244047552,
-				"bars": [
-					2.5728673976297376,
-					6.997604015435616,
-					8.556210356289771,
-					2.5616275209819936
-				],
-				"pts": [
-					17.790743317056002,
-					12.096676356864002,
-					36.977552349696,
-					11.070638964352
-				],
-				"defects": "#f64:c4a0f932e653ff3f",
-				"expected": 138.2950659131969,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.6636586797865396,
-				"p_payload": 0.7469478575367489,
-				"p_rocket": 0.8884939866821807,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": false,
-				"outcome": "fail",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 0,
-						"quote_key": "TY_PJ_Q_ECHO_FAIL"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 0,
-						"quote_key": "TY_PJ_Q_ORBITA_FAIL"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 0,
-						"quote_key": "TY_PJ_Q_COMA_FAIL"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 0,
-						"quote_key": "TY_PJ_Q_FOLHA_FAIL"
-					}
-				],
-				"review_avg": 0.0,
-				"science": 0.0,
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 8
-				},
-				"risks": [
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.25305214246325114,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": "#f64:b39ad6f1e684a23f",
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "stage2",
-				"cause_key": "TY_RK_CAUSE_STAGE2",
-				"grade_dev": 4.9291688096103385,
-				"grade_project": 4.842908355442158,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body",
-					"particle"
-				],
-				"fit": {
-					"fit": "#f64:676666666666ee3f",
-					"mult": 0.9825,
-					"great": false,
-					"instrument": 1.0,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 0.6666666666666666,
-					"objective": 1.0,
-					"match": 0.7203234235998193
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_LAUNCH_FAIL",
-						"args": [],
-						"tone": "bad",
-						"topic": "launch"
-					},
-					{
-						"key": "TY_FB_TEAM_MISSING_REL",
-						"args": [],
-						"tone": "bad",
 						"topic": "team"
-					},
-					{
-						"key": "TY_FB_BAR_HIGH",
-						"args": [
-							"TY_BAR_OPS"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
 					}
 				],
-				"learned": [],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_ORBITER"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_ORBITER",
+							"TY_TGT_LUNAR_ORBIT"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_ORBITER",
+							"TY_TGT_LUNAR_ORBIT"
+						]
+					}
+				],
 				"briefing": {
-					"met": "missed",
-					"reward": 0.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 0.0,
-					"pp": 0.0,
-					"hype": 0.0,
-					"id": "radiation_belts"
+
 				},
 				"piloted": false,
 				"flight": {
@@ -5850,20 +5785,20 @@
 				},
 				"rewards": {
 					"cash": 0.0,
-					"reputation": -5.0,
-					"hype": 0.0,
+					"reputation": 0.5,
+					"hype": 6.05,
 					"research": 0.0,
-					"xp": 64.33745013265295,
-					"dev_cost": 71400.0,
-					"launch_cost": 113600.0,
+					"xp": "#f64:d3b7416e21865a40",
+					"dev_cost": 128520.0,
+					"launch_cost": 384560.0,
 					"refund": 0.0
 				}
 			},
 			{
-				"id": "EOB-05",
-				"code": "EOB-05",
+				"id": "EOB-03",
+				"code": "EOB-03",
 				"type": "earth_obs",
-				"target": "sso",
+				"target": "geo",
 				"contract_id": "",
 				"week": 370,
 				"start_week": 364,
@@ -5874,26 +5809,267 @@
 					"cm002",
 					"cm003"
 				],
-				"grade": 5.142294726097342,
+				"grade": "#f64:eaf608e1217d0840",
 				"bars": [
-					8.140901709670086,
-					2.414766943290156,
-					5.491351566616703,
-					5.301856275618667
+					9.521773587602553,
+					2.8243633102122008,
+					6.422802801456474,
+					6.201165036851492
 				],
 				"pts": [
-					"#f64:949b9ce9fb534740",
-					19.37489754816,
-					31.471352398079993,
-					"#f64:c4fe9534303b3240"
+					47.97038231039999,
+					19.92066931008,
+					32.357869367039996,
+					18.74475935712
 				],
-				"defects": 2.5389493408548183,
-				"expected": "#f64:7c7569269fec6640",
+				"defects": 2.6104690405972075,
+				"expected": 161.2149480146696,
+				"compat": 0.75,
+				"novelty": false,
+				"p_success": 0.8130052526193671,
+				"p_payload": 0.9216859287820838,
+				"p_rocket": 0.8820849133431738,
+				"p_crew": 1.0,
+				"launch_class": "medium",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 4,
+						"quote_key": "TY_PJ_Q_ECHO_LOW"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 3,
+						"quote_key": "TY_PJ_Q_ORBITA_LOW"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 2,
+						"quote_key": "TY_PJ_Q_COMA_LOW"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 2,
+						"quote_key": "TY_PJ_Q_FOLHA_LOW"
+					}
+				],
+				"review_avg": 2.75,
+				"science": 14.94050198256,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "medium",
+					"flights": 3
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.07831407121791623,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:cd7e27abe58d813f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 3.4722750075391833,
+				"grade_project": "#f64:eaf608e1217d0840",
+				"payload": [
+					"camera",
+					"omni",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.6616666666666667,
+					"mult": 0.8815833333333334,
+					"great": false,
+					"instrument": "#f64:101111111111a13f",
+					"power": 1.0,
+					"data": 1.0,
+					"team": 1.0,
+					"objective": 1.0,
+					"match": 0.8174094729433026
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_MISSING",
+						"args": [
+							"TY_PL_M_SPECTROMETER"
+						],
+						"tone": "bad",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_TEAM_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "team"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_COMBO_POOR",
+						"args": [
+							"TY_MT_EARTH_OBS",
+							"TY_TGT_GEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GOOD",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_EARTH_OBS",
+							"TY_TGT_GEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_SPECTROMETER",
+							"TY_MT_EARTH_OBS",
+							"TY_TGT_GEO"
+						]
+					}
+				],
+				"briefing": {
+					"met": "missed",
+					"reward": 0.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 0.0,
+					"pp": 0.0,
+					"hype": 0.0,
+					"id": "clean_air"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": -2.25,
+					"hype": 1.5125,
+					"research": 0.0,
+					"xp": 63.31991838285421,
+					"dev_cost": 78600.0,
+					"launch_cost": 349448.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "EOB-04",
+				"code": "EOB-04",
+				"type": "earth_obs",
+				"target": "sso",
+				"contract_id": "",
+				"week": 371,
+				"start_week": 365,
+				"weeks": 6,
+				"staff": [
+					"cm004",
+					"cm005",
+					"cm006",
+					"h007"
+				],
+				"grade": 4.868630359316911,
+				"bars": [
+					5.0078474545203155,
+					2.159675764881049,
+					7.719945856517868,
+					4.89317543620162
+				],
+				"pts": [
+					27.522950012928003,
+					16.617300771456005,
+					42.42854556595201,
+					16.135630027648002
+				],
+				"defects": 2.3713768048271953,
+				"expected": 175.87085237963956,
 				"compat": 1.15,
 				"novelty": false,
-				"p_success": 0.6926009668496973,
-				"p_payload": 0.9238315197743554,
-				"p_rocket": 0.7497048455532933,
+				"p_success": 0.7408190054435577,
+				"p_payload": "#f64:08b429df35b9ed3f",
+				"p_rocket": 0.7975583463332908,
 				"p_crew": 1.0,
 				"launch_class": "light",
 				"pad": "pad",
@@ -5930,7 +6106,7 @@
 					}
 				],
 				"review_avg": 4.25,
-				"science": 22.281132180384,
+				"science": 19.109895887174403,
 				"suborbital": false,
 				"rocket": {
 					"family": "fam2",
@@ -5945,7 +6121,7 @@
 						"recovery": "recovery_none"
 					},
 					"class": "light",
-					"flights": 9
+					"flights": 5
 				},
 				"risks": [
 					{
@@ -5959,14 +6135,7 @@
 						"id": "payload",
 						"kind": "payload",
 						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.0761684802256446,
-						"fixed": false
-					},
-					{
-						"id": "debut",
-						"kind": "debut",
-						"name_key": "TY_RK_RISK_DEBUT",
-						"p": 0.06000000000000005,
+						"p": 0.0711413041448159,
 						"fixed": false
 					},
 					{
@@ -6008,8 +6177,8 @@
 				"fixes": [],
 				"cause": "",
 				"cause_key": "",
-				"grade_dev": 5.574806822040664,
-				"grade_project": 5.142294726097342,
+				"grade_dev": 5.278124881362628,
+				"grade_project": 4.868630359316911,
 				"payload": [
 					"camera",
 					"omni",
@@ -6025,7 +6194,7 @@
 					"data": 1.0,
 					"team": 1.0,
 					"objective": 1.0,
-					"match": 0.8174094729433026
+					"match": 0.8117973183580152
 				},
 				"feedback": [
 					{
@@ -6085,723 +6254,46 @@
 					"reputation": -0.75,
 					"hype": 3.6125,
 					"research": 0.0,
-					"xp": 78.30452202790087,
+					"xp": 76.33413858708177,
 					"dev_cost": 78600.0,
-					"launch_cost": 113600.0,
+					"launch_cost": 107920.0,
 					"refund": 0.0
 				}
 			},
 			{
-				"id": "DEM-06",
-				"code": "DEM-06",
-				"type": "demo_sat",
-				"target": "leo",
-				"contract_id": "",
-				"week": 370,
-				"start_week": 365,
-				"weeks": 5,
-				"staff": [
-					"cm004",
-					"cm005",
-					"cm006",
-					"h007"
-				],
-				"grade": "#f64:a47f30ce87f40f40",
-				"bars": [
-					3.026278357311019,
-					7.426827775963147,
-					9.640838630578497,
-					2.716587676671981
-				],
-				"pts": [
-					20.49240320427264,
-					"#f64:8c55e47d34252940",
-					40.80175572082176,
-					"#f64:4d25380082fe2640"
-				],
-				"defects": 2.2107561320944717,
-				"expected": 135.42973107391907,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.6193361166896003,
-				"p_payload": 0.7261070957018243,
-				"p_rocket": 0.8529542272148936,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": true,
-				"outcome": "partial",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_ECHO_MID"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 2,
-						"quote_key": "TY_PJ_Q_ORBITA_LOW"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_COMA_MID"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 3,
-						"quote_key": "TY_PJ_Q_FOLHA_LOW"
-					}
-				],
-				"review_avg": 3.75,
-				"science": 7.229283010597823,
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 10
-				},
-				"risks": [
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.2738929042981757,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "debut",
-						"kind": "debut",
-						"name_key": "TY_RK_RISK_DEBUT",
-						"p": "#f64:8014ae47e17aa43f",
-						"fixed": false
-					},
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": "#f64:b39ad6f1e684a23f",
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "",
-				"cause_key": "",
-				"grade_dev": 5.08193340114062,
-				"grade_project": 4.992999566620659,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body",
-					"particle"
-				],
-				"fit": {
-					"fit": "#f64:676666666666ee3f",
-					"mult": 0.9825,
-					"great": false,
-					"instrument": 1.0,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 0.6666666666666666,
-					"objective": 1.0,
-					"match": 0.7247425411293758
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_TEAM_MISSING_REL",
-						"args": [],
-						"tone": "bad",
-						"topic": "team"
-					},
-					{
-						"key": "TY_FB_BAR_HIGH",
-						"args": [
-							"TY_BAR_OPS"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_PARTICLE"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					}
-				],
-				"learned": [],
-				"briefing": {
-					"met": "partial",
-					"reward": 120000.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 1.0,
-					"pp": 25.0,
-					"hype": 1.0,
-					"id": "radiation_belts"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 120000.0,
-					"reputation": -1.25,
-					"hype": 2.8125,
-					"research": 0.0,
-					"xp": 65.23799739972395,
-					"dev_cost": 71400.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "EOB-06",
-				"code": "EOB-06",
+				"id": "EOB-05",
+				"code": "EOB-05",
 				"type": "earth_obs",
 				"target": "sso",
 				"contract_id": "",
-				"week": 422,
-				"start_week": 416,
-				"weeks": 6,
-				"staff": [
-					"leader",
-					"cm001",
-					"cm002",
-					"cm003"
-				],
-				"grade": 5.19866878347159,
-				"bars": [
-					8.76204441599605,
-					2.2200710210113948,
-					5.78772785567296,
-					5.733890117487794
-				],
-				"pts": [
-					46.197103035839994,
-					16.38717892416,
-					30.515282438399996,
-					18.13885663968
-				],
-				"defects": 2.3551307274811126,
-				"expected": 168.7171654195306,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.7263835668554134,
-				"p_payload": 0.9293460781755666,
-				"p_rocket": 0.7816071794066249,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": true,
-				"outcome": "full",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_ECHO_MID"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_ORBITA_MID"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_COMA_LOW"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_FOLHA_LOW"
-					}
-				],
-				"review_avg": 4.5,
-				"science": 18.845255762784,
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 11
-				},
-				"risks": [
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": 0.07959183673469386,
-						"fixed": false
-					},
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.07065392182443342,
-						"fixed": false
-					},
-					{
-						"id": "lift",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_LIFT",
-						"p": 0.06,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "debut",
-						"kind": "debut",
-						"name_key": "TY_RK_RISK_DEBUT",
-						"p": "#f64:8014ae47e17a943f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "",
-				"cause_key": "",
-				"grade_dev": 5.635922432167232,
-				"grade_project": 5.19866878347159,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body"
-				],
-				"fit": {
-					"fit": 0.7783333333333334,
-					"mult": "#f64:1ecc13f56f84ed3f",
-					"great": false,
-					"instrument": 0.3666666666666667,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 1.0,
-					"objective": 1.0,
-					"match": 0.7973158174238217
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_MISSING",
-						"args": [
-							"TY_PL_M_IR_CAMERA"
-						],
-						"tone": "bad",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_BAR_LOW",
-						"args": [
-							"TY_BAR_SCI"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_POWER_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "power"
-					}
-				],
-				"learned": [],
-				"briefing": {
-					"met": "partial",
-					"reward": 207500.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 0.75,
-					"pp": 12.5,
-					"hype": 0.5,
-					"id": "crop_health"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 207500.00000000003,
-					"reputation": -0.5,
-					"hype": 4.05,
-					"research": 0.0,
-					"xp": 78.71041524099545,
-					"dev_cost": 78600.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "DEM-07",
-				"code": "DEM-07",
-				"type": "demo_sat",
-				"target": "leo",
-				"contract_id": "",
-				"week": 422,
+				"week": 423,
 				"start_week": 417,
-				"weeks": 5,
+				"weeks": 6,
 				"staff": [
 					"cm004",
 					"cm005",
 					"h007",
 					"h120"
 				],
-				"grade": 4.0991749047350545,
+				"grade": 4.788536998977731,
 				"bars": [
-					3.219358490042444,
-					7.7635197607530655,
-					9.55544327320144,
-					2.8871706081178328
+					4.979077952138424,
+					2.0359048707150107,
+					7.084599996737061,
+					4.84138367964678
 				],
 				"pts": [
-					21.763029597695997,
-					13.120448596992002,
-					40.372056152064005,
-					12.198388978816
+					"#f64:74dd0d61d4823c40",
+					16.321115986560002,
+					40.567632999936,
+					16.633555296128
 				],
-				"defects": 2.2219536709907586,
-				"expected": 135.20103253495745,
+				"defects": 2.292750364871404,
+				"expected": 183.2374808169614,
 				"compat": 1.15,
 				"novelty": false,
-				"p_success": 0.6525205469381351,
-				"p_payload": 0.7344118887903576,
-				"p_rocket": 0.8884939866821807,
-				"p_crew": 1.0,
-				"launch_class": "light",
-				"pad": "pad",
-				"success": true,
-				"outcome": "partial",
-				"reviews": [
-					{
-						"id": "echo",
-						"name_key": "TY_PJ_PAPER_ECHO",
-						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_ECHO_LOW"
-					},
-					{
-						"id": "orbita",
-						"name_key": "TY_PJ_PAPER_ORBITA",
-						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 3,
-						"quote_key": "TY_PJ_Q_ORBITA_LOW"
-					},
-					{
-						"id": "coma",
-						"name_key": "TY_PJ_PAPER_COMA",
-						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
-						"quote_key": "TY_PJ_Q_COMA_LOW"
-					},
-					{
-						"id": "folha",
-						"name_key": "TY_PJ_PAPER_FOLHA",
-						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 3,
-						"quote_key": "TY_PJ_Q_FOLHA_LOW"
-					}
-				],
-				"review_avg": 3.5,
-				"science": "#f64:06bd4bf4512d1e40",
-				"suborbital": false,
-				"rocket": {
-					"family": "fam2",
-					"name": "Bem-te-vi",
-					"parts": {
-						"core": "core_falcao",
-						"upper": "upper_kestrel_v",
-						"tank": "tank_m",
-						"boosters": "boost_none",
-						"fairing": "fairing_s",
-						"avionics": "avionics_redundant",
-						"recovery": "recovery_none"
-					},
-					"class": "light",
-					"flights": 12
-				},
-				"risks": [
-					{
-						"id": "payload",
-						"kind": "payload",
-						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.26558811120964243,
-						"fixed": false
-					},
-					{
-						"id": "stage1",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE1",
-						"p": 0.04500000000000004,
-						"fixed": false
-					},
-					{
-						"id": "dv",
-						"kind": "margin",
-						"name_key": "TY_RK_RISK_DV",
-						"p": "#f64:b39ad6f1e684a23f",
-						"fixed": false
-					},
-					{
-						"id": "stage2",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_STAGE2",
-						"p": "#f64:a09999999999993f",
-						"fixed": false
-					},
-					{
-						"id": "fairing",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_FAIRING",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					},
-					{
-						"id": "avionics",
-						"kind": "component",
-						"name_key": "TY_RK_RISK_AVIONICS",
-						"p": "#f64:8014ae47e17a743f",
-						"fixed": false
-					}
-				],
-				"fixes": [],
-				"cause": "",
-				"cause_key": "",
-				"grade_dev": 5.2152352477545225,
-				"grade_project": 5.123968630918818,
-				"payload": [
-					"camera",
-					"omni",
-					"battery",
-					"solar_body",
-					"particle"
-				],
-				"fit": {
-					"fit": "#f64:676666666666ee3f",
-					"mult": 0.9825,
-					"great": false,
-					"instrument": 1.0,
-					"power": 1.0,
-					"data": 1.0,
-					"team": 0.6666666666666666,
-					"objective": 1.0,
-					"match": 0.7383349915598703
-				},
-				"feedback": [
-					{
-						"key": "TY_FB_TEAM_MISSING_REL",
-						"args": [],
-						"tone": "bad",
-						"topic": "team"
-					},
-					{
-						"key": "TY_FB_BAR_HIGH",
-						"args": [
-							"TY_BAR_OPS"
-						],
-						"tone": "bad",
-						"topic": "levers"
-					},
-					{
-						"key": "TY_FB_OBJECTIVE_OK",
-						"args": [],
-						"tone": "good",
-						"topic": "objective"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_CAMERA"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					},
-					{
-						"key": "TY_FB_INSTR_STAR",
-						"args": [
-							"TY_PL_M_PARTICLE"
-						],
-						"tone": "good",
-						"topic": "instrument"
-					}
-				],
-				"learned": [],
-				"briefing": {
-					"met": "partial",
-					"reward": 120000.0,
-					"late": false,
-					"over_budget": false,
-					"rep": 1.0,
-					"pp": 25.0,
-					"hype": 1.0,
-					"id": "radiation_belts"
-				},
-				"piloted": false,
-				"flight": {
-
-				},
-				"rewards": {
-					"cash": 120000.0,
-					"reputation": -1.5,
-					"hype": 2.45,
-					"research": 0.0,
-					"xp": 66.0238117855129,
-					"dev_cost": 71400.0,
-					"launch_cost": 113600.0,
-					"refund": 0.0
-				}
-			},
-			{
-				"id": "EOB-07",
-				"code": "EOB-07",
-				"type": "earth_obs",
-				"target": "sso",
-				"contract_id": "",
-				"week": 474,
-				"start_week": 468,
-				"weeks": 6,
-				"staff": [
-					"leader",
-					"cm001",
-					"cm002",
-					"cm003"
-				],
-				"grade": 5.351337468921987,
-				"bars": [
-					8.834228439547292,
-					2.6204225976531412,
-					5.959027133779733,
-					5.753393317207959
-				],
-				"pts": [
-					"#f64:949b9ce9fb534740",
-					19.37489754816,
-					31.471352398079993,
-					"#f64:c4fe9534303b3240"
-				],
-				"defects": 2.5389493408548183,
-				"expected": 169.0012906686968,
-				"compat": 1.15,
-				"novelty": false,
-				"p_success": 0.7368095392018057,
-				"p_payload": 0.9238315197743554,
+				"p_success": 0.7427002806464342,
+				"p_payload": "#f64:c7629e9e88cced3f",
 				"p_rocket": 0.7975583463332908,
 				"p_crew": 1.0,
 				"launch_class": "light",
@@ -6820,26 +6312,26 @@
 						"id": "orbita",
 						"name_key": "TY_PJ_PAPER_ORBITA",
 						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
-						"score": 6,
-						"quote_key": "TY_PJ_Q_ORBITA_MID"
+						"score": 3,
+						"quote_key": "TY_PJ_Q_ORBITA_LOW"
 					},
 					{
 						"id": "coma",
 						"name_key": "TY_PJ_PAPER_COMA",
 						"kind_key": "TY_PJ_PAPER_COMA_KIND",
-						"score": 4,
+						"score": 3,
 						"quote_key": "TY_PJ_Q_COMA_LOW"
 					},
 					{
 						"id": "folha",
 						"name_key": "TY_PJ_PAPER_FOLHA",
 						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
-						"score": 5,
-						"quote_key": "TY_PJ_Q_FOLHA_MID"
+						"score": 4,
+						"quote_key": "TY_PJ_Q_FOLHA_LOW"
 					}
 				],
-				"review_avg": 5.0,
-				"science": 22.281132180384,
+				"review_avg": 3.75,
+				"science": 18.769283384544,
 				"suborbital": false,
 				"rocket": {
 					"family": "fam2",
@@ -6854,7 +6346,7 @@
 						"recovery": "recovery_none"
 					},
 					"class": "light",
-					"flights": 13
+					"flights": 6
 				},
 				"risks": [
 					{
@@ -6868,7 +6360,7 @@
 						"id": "payload",
 						"kind": "payload",
 						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.0761684802256446,
+						"p": 0.06878251094614207,
 						"fixed": false
 					},
 					{
@@ -6910,8 +6402,8 @@
 				"fixes": [],
 				"cause": "",
 				"cause_key": "",
-				"grade_dev": 5.8014318933113955,
-				"grade_project": 5.351337468921987,
+				"grade_dev": 5.191294966820198,
+				"grade_project": 4.788536998977731,
 				"payload": [
 					"camera",
 					"omni",
@@ -6927,7 +6419,7 @@
 					"data": 1.0,
 					"team": 1.0,
 					"objective": 1.0,
-					"match": 0.8174094729433026
+					"match": 0.8099586291927294
 				},
 				"feedback": [
 					{
@@ -6984,18 +6476,716 @@
 				},
 				"rewards": {
 					"cash": 207500.0,
-					"reputation": 0.0,
-					"hype": 5.0,
+					"reputation": -1.25,
+					"hype": 2.8125,
 					"research": 0.0,
-					"xp": 79.8096297762383,
+					"xp": 75.75746639263967,
 					"dev_cost": 78600.0,
-					"launch_cost": 113600.0,
+					"launch_cost": 107920.0,
 					"refund": 0.0
 				}
 			},
 			{
-				"id": "DEM-08",
-				"code": "DEM-08",
+				"id": "TEL-01",
+				"code": "TEL-01",
+				"type": "telescope",
+				"target": "geo",
+				"contract_id": "",
+				"week": 426,
+				"start_week": 416,
+				"weeks": 10,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 5.742997437554032,
+				"bars": [
+					10.0,
+					2.1285835501165713,
+					10.0,
+					7.648038208319998
+				],
+				"pts": [
+					80.379286074624,
+					29.800169701631997,
+					46.517913559296,
+					32.121760474944
+				],
+				"defects": 3.825629530126842,
+				"expected": 224.0,
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.7808490105662231,
+				"p_payload": 0.8852311140961947,
+				"p_rocket": 0.8820849133431738,
+				"p_crew": 1.0,
+				"launch_class": "medium",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 5,
+						"quote_key": "TY_PJ_Q_ECHO_MID"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_ORBITA_MID"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 4,
+						"quote_key": "TY_PJ_Q_COMA_LOW"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 5.25,
+				"science": 34.270195156876795,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "medium",
+					"flights": 4
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.1147688859038053,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:cd7e27abe58d813f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 5.742997437554032,
+				"grade_project": 5.742997437554032,
+				"payload": [
+					"camera",
+					"omni",
+					"battery",
+					"solar_wing",
+					"spectrometer"
+				],
+				"fit": {
+					"fit": 1.0,
+					"mult": 1.0,
+					"great": false,
+					"instrument": 1.0,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 1.0,
+					"objective": 1.0,
+					"match": 0.6578238906806755
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_CAMERA"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_SPECTROMETER"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_TEAM_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "team"
+					}
+				],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+						"args": [
+							"TY_MT_TELESCOPE"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_COMBO_GREAT",
+						"args": [
+							"TY_MT_TELESCOPE",
+							"TY_TGT_GEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_CAMERA",
+							"TY_MT_TELESCOPE",
+							"TY_TGT_GEO"
+						]
+					},
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_SPECTROMETER",
+							"TY_MT_TELESCOPE",
+							"TY_TGT_GEO"
+						]
+					}
+				],
+				"briefing": {
+					"met": "partial",
+					"reward": 302500.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.25,
+					"pp": 35.0,
+					"hype": 2.0,
+					"id": "deep_sky"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 302500.0,
+					"reputation": 0.25,
+					"hype": 5.5125,
+					"research": 0.0,
+					"xp": 136.83596925064836,
+					"dev_cost": 206600.0,
+					"launch_cost": 333564.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "EOB-06",
+				"code": "EOB-06",
+				"type": "earth_obs",
+				"target": "sso",
+				"contract_id": "",
+				"week": 429,
+				"start_week": 423,
+				"weeks": 6,
+				"staff": [
+					"cm004",
+					"cm005",
+					"cm006",
+					"h007"
+				],
+				"grade": 5.11343634351939,
+				"bars": [
+					5.634961245260942,
+					2.3375592881925975,
+					8.594404558910194,
+					5.496195575286848
+				],
+				"pts": [
+					32.763208308736,
+					19.027694066303997,
+					49.97022243763199,
+					19.173832014208003
+				],
+				"defects": "#f64:755876d6e22c0640",
+				"expected": "#f64:ee0bf306d1416740",
+				"compat": 1.15,
+				"novelty": false,
+				"p_success": 0.7312353793671326,
+				"p_payload": 0.9168424889902128,
+				"p_rocket": 0.7975583463332908,
+				"p_crew": 1.0,
+				"launch_class": "light",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 6,
+						"quote_key": "TY_PJ_Q_ECHO_MID"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 4,
+						"quote_key": "TY_PJ_Q_ORBITA_LOW"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 4,
+						"quote_key": "TY_PJ_Q_COMA_LOW"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 5,
+						"quote_key": "TY_PJ_Q_FOLHA_MID"
+					}
+				],
+				"review_avg": 4.75,
+				"science": "#f64:7d0755cdc0e13540",
+				"suborbital": false,
+				"rocket": {
+					"family": "fam2",
+					"name": "Bem-te-vi",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_kestrel_v",
+						"tank": "tank_m",
+						"boosters": "boost_none",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "light",
+					"flights": 7
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.08315751100978719,
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": 0.07959183673469386,
+						"fixed": false
+					},
+					{
+						"id": "lift",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_LIFT",
+						"p": 0.06,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": 0.04500000000000004,
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 5.543521196335051,
+				"grade_project": 5.11343634351939,
+				"payload": [
+					"camera",
+					"omni",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.7783333333333334,
+					"mult": "#f64:1ecc13f56f84ed3f",
+					"great": false,
+					"instrument": 0.3666666666666667,
+					"power": 1.0,
+					"data": 1.0,
+					"team": 1.0,
+					"objective": 1.0,
+					"match": 0.8073382466538802
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_MISSING",
+						"args": [
+							"TY_PL_M_IR_CAMERA"
+						],
+						"tone": "bad",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_INSTR_STAR",
+						"args": [
+							"TY_PL_M_CAMERA"
+						],
+						"tone": "good",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_POWER_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "power"
+					}
+				],
+				"learned": [],
+				"briefing": {
+					"met": "partial",
+					"reward": 190000.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 1.0,
+					"pp": 20.0,
+					"hype": 1.5,
+					"id": "wildfire_watch"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 190000.0,
+					"reputation": -0.25,
+					"hype": 4.5125,
+					"research": 0.0,
+					"xp": 78.09674167333961,
+					"dev_cost": 78600.0,
+					"launch_cost": 107920.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "EOB-07",
+				"code": "EOB-07",
+				"type": "earth_obs",
+				"target": "geo",
+				"contract_id": "",
+				"week": 474,
+				"start_week": 468,
+				"weeks": 6,
+				"staff": [
+					"leader",
+					"cm001",
+					"cm002",
+					"cm003"
+				],
+				"grade": 2.610867522584486,
+				"bars": [
+					6.020262441988044,
+					1.6839604759084557,
+					4.194754714708404,
+					4.5903970830412035
+				],
+				"pts": [
+					37.696028477759995,
+					14.76182670336,
+					26.265564783359995,
+					17.2457338032
+				],
+				"defects": 1.780779702691135,
+				"expected": 200.3688249328177,
+				"compat": 0.75,
+				"novelty": false,
+				"p_success": 0.8349609460512261,
+				"p_payload": 0.946576608919266,
+				"p_rocket": 0.8820849133431738,
+				"p_crew": 1.0,
+				"launch_class": "medium",
+				"pad": "pad",
+				"success": true,
+				"outcome": "full",
+				"reviews": [
+					{
+						"id": "echo",
+						"name_key": "TY_PJ_PAPER_ECHO",
+						"kind_key": "TY_PJ_PAPER_ECHO_KIND",
+						"score": 3,
+						"quote_key": "TY_PJ_Q_ECHO_LOW"
+					},
+					{
+						"id": "orbita",
+						"name_key": "TY_PJ_PAPER_ORBITA",
+						"kind_key": "TY_PJ_PAPER_ORBITA_KIND",
+						"score": 3,
+						"quote_key": "TY_PJ_Q_ORBITA_LOW"
+					},
+					{
+						"id": "coma",
+						"name_key": "TY_PJ_PAPER_COMA",
+						"kind_key": "TY_PJ_PAPER_COMA_KIND",
+						"score": 1,
+						"quote_key": "TY_PJ_Q_COMA_LOW"
+					},
+					{
+						"id": "folha",
+						"name_key": "TY_PJ_PAPER_FOLHA",
+						"kind_key": "TY_PJ_PAPER_FOLHA_KIND",
+						"score": 1,
+						"quote_key": "TY_PJ_Q_FOLHA_LOW"
+					}
+				],
+				"review_avg": 2.0,
+				"science": 11.07137002752,
+				"suborbital": false,
+				"rocket": {
+					"family": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"class": "medium",
+					"flights": 5
+				},
+				"risks": [
+					{
+						"id": "payload",
+						"kind": "payload",
+						"name_key": "TY_RK_RISK_PAYLOAD",
+						"p": 0.05342339108073402,
+						"fixed": false
+					},
+					{
+						"id": "stage1",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE1",
+						"p": "#f64:d01951da1b7ca93f",
+						"fixed": false
+					},
+					{
+						"id": "stage2",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_STAGE2",
+						"p": "#f64:c01e85eb51b89e3f",
+						"fixed": false
+					},
+					{
+						"id": "boosters",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_BOOSTERS",
+						"p": "#f64:a09999999999993f",
+						"fixed": false
+					},
+					{
+						"id": "dv",
+						"kind": "margin",
+						"name_key": "TY_RK_RISK_DV",
+						"p": "#f64:cd7e27abe58d813f",
+						"fixed": false
+					},
+					{
+						"id": "fairing",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_FAIRING",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					},
+					{
+						"id": "avionics",
+						"kind": "component",
+						"name_key": "TY_RK_RISK_AVIONICS",
+						"p": "#f64:8014ae47e17a743f",
+						"fixed": false
+					}
+				],
+				"fixes": [],
+				"cause": "",
+				"cause_key": "",
+				"grade_dev": 2.9615663362334654,
+				"grade_project": 2.610867522584486,
+				"payload": [
+					"camera",
+					"omni",
+					"battery",
+					"solar_body"
+				],
+				"fit": {
+					"fit": 0.6616666666666667,
+					"mult": 0.8815833333333334,
+					"great": false,
+					"instrument": "#f64:101111111111a13f",
+					"power": 1.0,
+					"data": 1.0,
+					"team": 1.0,
+					"objective": 1.0,
+					"match": 0.8038184523237029
+				},
+				"feedback": [
+					{
+						"key": "TY_FB_MISSING",
+						"args": [
+							"TY_PL_M_SPECTROMETER"
+						],
+						"tone": "bad",
+						"topic": "instrument"
+					},
+					{
+						"key": "TY_FB_BAR_LOW",
+						"args": [
+							"TY_BAR_SCI"
+						],
+						"tone": "bad",
+						"topic": "levers"
+					},
+					{
+						"key": "TY_FB_OBJECTIVE_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "objective"
+					},
+					{
+						"key": "TY_FB_TEAM_OK",
+						"args": [],
+						"tone": "good",
+						"topic": "team"
+					}
+				],
+				"learned": [],
+				"briefing": {
+					"met": "missed",
+					"reward": 0.0,
+					"late": false,
+					"over_budget": false,
+					"rep": 0.0,
+					"pp": 0.0,
+					"hype": 0.0,
+					"id": "clean_air"
+				},
+				"piloted": false,
+				"flight": {
+
+				},
+				"rewards": {
+					"cash": 0.0,
+					"reputation": -3.0,
+					"hype": 0.8,
+					"research": 0.0,
+					"xp": 60.078246162608295,
+					"dev_cost": 78600.0,
+					"launch_cost": 317680.0,
+					"refund": 0.0
+				}
+			},
+			{
+				"id": "DEM-04",
+				"code": "DEM-04",
 				"type": "demo_sat",
 				"target": "leo",
 				"contract_id": "",
@@ -7003,30 +7193,30 @@
 				"start_week": 469,
 				"weeks": 5,
 				"staff": [
-					"cm004",
-					"cm005",
-					"cm006",
-					"h007"
+					"h120",
+					"h121",
+					"h152",
+					"h153"
 				],
-				"grade": 1.7999837620095993,
+				"grade": 2.0605568524236397,
 				"bars": [
-					3.376821277806181,
-					8.008837145138276,
+					3.189050883284702,
 					10.0,
-					2.994456793357055
+					2.8509969722385735,
+					3.5125940176593446
 				],
 				"pts": [
-					22.931418001152,
-					13.596662154240002,
-					44.74600068556799,
-					12.709278705791998
+					18.256753660992004,
+					"#f64:cd687f0d1d423340",
+					10.200909164544,
+					12.568113139008
 				],
-				"defects": 2.4286639800858443,
-				"expected": 135.81659267469348,
+				"defects": 0.44544766250854473,
+				"expected": 114.49647139018154,
 				"compat": 1.15,
 				"novelty": false,
-				"p_success": 0.6402064190707031,
-				"p_payload": 0.7205523376262405,
+				"p_success": 0.8102207780400217,
+				"p_payload": 0.911903502088464,
 				"p_rocket": 0.8884939866821807,
 				"p_crew": 1.0,
 				"launch_class": "light",
@@ -7079,14 +7269,14 @@
 						"recovery": "recovery_none"
 					},
 					"class": "light",
-					"flights": 14
+					"flights": 8
 				},
 				"risks": [
 					{
 						"id": "payload",
 						"kind": "payload",
 						"name_key": "TY_RK_RISK_PAYLOAD",
-						"p": 0.2794476623737595,
+						"p": 0.08809649791153595,
 						"fixed": false
 					},
 					{
@@ -7128,8 +7318,8 @@
 				"fixes": [],
 				"cause": "payload",
 				"cause_key": "TY_RK_CAUSE_PAYLOAD",
-				"grade_dev": 5.234412975673135,
-				"grade_project": 5.142810748598856,
+				"grade_dev": 5.992168236782668,
+				"grade_project": 5.887305292638971,
 				"payload": [
 					"camera",
 					"omni",
@@ -7146,7 +7336,7 @@
 					"data": 1.0,
 					"team": 0.6666666666666666,
 					"objective": 1.0,
-					"match": 0.7292234803993631
+					"match": 0.780541343325858
 				},
 				"feedback": [
 					{
@@ -7156,7 +7346,7 @@
 						"topic": "launch"
 					},
 					{
-						"key": "TY_FB_TEAM_MISSING_REL",
+						"key": "TY_FB_TEAM_MISSING_OPS",
 						"args": [],
 						"tone": "bad",
 						"topic": "team"
@@ -7164,7 +7354,7 @@
 					{
 						"key": "TY_FB_BAR_HIGH",
 						"args": [
-							"TY_BAR_OPS"
+							"TY_BAR_SCI"
 						],
 						"tone": "bad",
 						"topic": "levers"
@@ -7184,7 +7374,16 @@
 						"topic": "instrument"
 					}
 				],
-				"learned": [],
+				"learned": [
+					{
+						"key": "TY_JN_NOTE_INSTR_GREAT",
+						"args": [
+							"TY_PL_M_PARTICLE",
+							"TY_MT_DEMO_SAT",
+							"TY_TGT_LEO"
+						]
+					}
+				],
 				"briefing": {
 					"met": "missed",
 					"reward": 0.0,
@@ -7204,9 +7403,9 @@
 					"reputation": -5.0,
 					"hype": 0.0,
 					"research": 0.0,
-					"xp": 66.13686449159313,
+					"xp": 70.60383175583382,
 					"dev_cost": 71400.0,
-					"launch_cost": 113600.0,
+					"launch_cost": 107920.0,
 					"refund": 0.0
 				}
 			}
@@ -7337,137 +7536,21 @@
 				}
 			},
 			{
-				"id": "DEM-04",
-				"code": "DEM-04",
-				"type": "demo_sat",
-				"target": "leo",
-				"project_id": "DEM-04",
+				"id": "COM-01",
+				"code": "COM-01",
+				"type": "comms",
+				"target": "geo",
+				"project_id": "COM-01",
 				"contract_id": "",
-				"start_week": 266,
-				"end_week": 276,
-				"status": "done",
-				"outcome": "partial",
-				"grade": 3.980085327963537,
-				"ops_grade": 9.125,
-				"science": 41.4,
-				"data_gen": 37.5,
-				"data_down": 37.5,
-				"data_lost": 0.0,
-				"return": 1.0,
-				"event": "extend",
-				"choice": 1,
-				"cause": "",
-				"antenna_level": 1,
-				"lesson": {
-					"key": "TY_OPS_LIM_OK",
-					"args": [
-						100
-					]
-				}
-			},
-			{
-				"id": "EOB-02",
-				"code": "EOB-02",
-				"type": "earth_obs",
-				"target": "sso",
-				"project_id": "EOB-02",
-				"contract_id": "",
-				"start_week": 266,
-				"end_week": 282,
+				"start_week": 268,
+				"end_week": 285,
 				"status": "done",
 				"outcome": "full",
-				"grade": 5.255389651269611,
-				"ops_grade": 9.964404761904762,
-				"science": 78.77821999999999,
-				"data_gen": 93.33333333333334,
-				"data_down": 92.82222222222222,
-				"data_lost": 0.5111111111111066,
-				"return": "#f64:65f09f9823d3ef3f",
-				"event": "storm",
-				"choice": 0,
-				"cause": "",
-				"antenna_level": 1,
-				"lesson": {
-					"key": "TY_OPS_LIM_OK",
-					"args": [
-						99
-					]
-				}
-			},
-			{
-				"id": "EOB-03",
-				"code": "EOB-03",
-				"type": "earth_obs",
-				"target": "sso",
-				"project_id": "EOB-03",
-				"contract_id": "",
-				"start_week": 272,
-				"end_week": 288,
-				"status": "done",
-				"outcome": "full",
-				"grade": 5.106633091620193,
-				"ops_grade": 9.907452380952382,
-				"science": 78.084172,
-				"data_gen": 93.33333333333334,
-				"data_down": 92.00444444444446,
-				"data_lost": 1.3288888888888772,
-				"return": 0.9857619047619048,
-				"event": "storm",
-				"choice": 0,
-				"cause": "",
-				"antenna_level": 1,
-				"lesson": {
-					"key": "TY_OPS_LIM_OK",
-					"args": [
-						99
-					]
-				}
-			},
-			{
-				"id": "EOB-04",
-				"code": "EOB-04",
-				"type": "earth_obs",
-				"target": "sso",
-				"project_id": "EOB-04",
-				"contract_id": "",
-				"start_week": 318,
-				"end_week": 332,
-				"status": "done",
-				"outcome": "full",
-				"grade": 4.932510286709537,
-				"ops_grade": 9.893214285714286,
-				"science": 72.71661599999999,
-				"data_gen": 87.11111111111111,
-				"data_down": 85.68,
-				"data_lost": 1.4311111111110986,
-				"return": "#f64:31d1dfc96a79ef3f",
-				"event": "debris",
-				"choice": 0,
-				"cause": "",
-				"antenna_level": 1,
-				"lesson": {
-					"key": "TY_OPS_LIM_OK",
-					"args": [
-						98
-					]
-				}
-			},
-			{
-				"id": "DEM-06",
-				"code": "DEM-06",
-				"type": "demo_sat",
-				"target": "leo",
-				"project_id": "DEM-06",
-				"contract_id": "",
-				"start_week": 370,
-				"end_week": 380,
-				"status": "done",
-				"outcome": "partial",
-				"grade": "#f64:a47f30ce87f40f40",
-				"ops_grade": 9.125,
-				"science": 33.12,
-				"data_gen": 30.0,
-				"data_down": 30.0,
+				"grade": 6.071265578771854,
+				"ops_grade": 10.0,
+				"science": 5.2164,
+				"data_gen": 8.399999999999999,
+				"data_down": 8.399999999999999,
 				"data_lost": 0.0,
 				"return": 1.0,
 				"event": "wheel",
@@ -7482,53 +7565,24 @@
 				}
 			},
 			{
-				"id": "EOB-05",
-				"code": "EOB-05",
-				"type": "earth_obs",
-				"target": "sso",
-				"project_id": "EOB-05",
+				"id": "COM-02",
+				"code": "COM-02",
+				"type": "comms",
+				"target": "geo",
+				"project_id": "COM-02",
 				"contract_id": "",
-				"start_week": 370,
-				"end_week": 386,
+				"start_week": 269,
+				"end_week": 286,
 				"status": "done",
 				"outcome": "full",
-				"grade": 5.142294726097342,
-				"ops_grade": 9.893214285714286,
-				"science": 83.104704,
-				"data_gen": "#f64:3a8ee3388ee35840",
-				"data_down": 97.92000000000002,
-				"data_lost": 1.6355555555555412,
-				"return": "#f64:30d1dfc96a79ef3f",
-				"event": "extend",
-				"choice": 1,
-				"cause": "",
-				"antenna_level": 1,
-				"lesson": {
-					"key": "TY_OPS_LIM_OK",
-					"args": [
-						98
-					]
-				}
-			},
-			{
-				"id": "DEM-07",
-				"code": "DEM-07",
-				"type": "demo_sat",
-				"target": "leo",
-				"project_id": "DEM-07",
-				"contract_id": "",
-				"start_week": 422,
-				"end_week": 432,
-				"status": "done",
-				"outcome": "partial",
-				"grade": 4.0991749047350545,
-				"ops_grade": 9.125,
-				"science": 41.4,
-				"data_gen": 37.5,
-				"data_down": 37.5,
+				"grade": 6.561677059452297,
+				"ops_grade": 10.0,
+				"science": 5.961600000000001,
+				"data_gen": 9.599999999999998,
+				"data_down": 9.599999999999998,
 				"data_lost": 0.0,
 				"return": 1.0,
-				"event": "extend",
+				"event": "storage",
 				"choice": 1,
 				"cause": "",
 				"antenna_level": 1,
@@ -7540,17 +7594,106 @@
 				}
 			},
 			{
-				"id": "EOB-06",
-				"code": "EOB-06",
-				"type": "earth_obs",
-				"target": "sso",
-				"project_id": "EOB-06",
+				"id": "ORB-01",
+				"code": "ORB-01",
+				"type": "orbiter",
+				"target": "lunar_orbit",
+				"project_id": "ORB-01",
 				"contract_id": "",
-				"start_week": 422,
-				"end_week": 438,
+				"start_week": 320,
+				"end_week": 334,
 				"status": "done",
 				"outcome": "full",
-				"grade": 5.19866878347159,
+				"grade": 5.22664483827132,
+				"ops_grade": 5.84,
+				"science": 37.55807999999998,
+				"data_gen": 56.0,
+				"data_down": 20.16,
+				"data_lost": 35.84,
+				"return": 0.36,
+				"event": "extend",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 1,
+				"lesson": {
+					"key": "TY_OPS_LIM_LINK",
+					"args": [
+						64,
+						2,
+						"4.4"
+					]
+				}
+			},
+			{
+				"id": "EOB-02",
+				"code": "EOB-02",
+				"type": "earth_obs",
+				"target": "sso",
+				"project_id": "EOB-02",
+				"contract_id": "",
+				"start_week": 319,
+				"end_week": 335,
+				"status": "done",
+				"outcome": "full",
+				"grade": 4.913497579911636,
+				"ops_grade": 9.961862244897958,
+				"science": 73.49741999999999,
+				"data_gen": 87.11111111111111,
+				"data_down": 86.6,
+				"data_lost": 0.5111111111111066,
+				"return": "#f64:d9131948efcfef3f",
+				"event": "wheel",
+				"choice": 0,
+				"cause": "",
+				"antenna_level": 1,
+				"lesson": {
+					"key": "TY_OPS_LIM_OK",
+					"args": [
+						99
+					]
+				}
+			},
+			{
+				"id": "EOB-03",
+				"code": "EOB-03",
+				"type": "earth_obs",
+				"target": "geo",
+				"project_id": "EOB-03",
+				"contract_id": "",
+				"start_week": 370,
+				"end_week": 387,
+				"status": "done",
+				"outcome": "full",
+				"grade": "#f64:eaf608e1217d0840",
+				"ops_grade": 10.0,
+				"science": 59.89200000000001,
+				"data_gen": 93.33333333333334,
+				"data_down": 93.33333333333334,
+				"data_lost": 0.0,
+				"return": 1.0,
+				"event": "storm",
+				"choice": 0,
+				"cause": "",
+				"antenna_level": 1,
+				"lesson": {
+					"key": "TY_OPS_LIM_OK",
+					"args": [
+						100
+					]
+				}
+			},
+			{
+				"id": "EOB-04",
+				"code": "EOB-04",
+				"type": "earth_obs",
+				"target": "sso",
+				"project_id": "EOB-04",
+				"contract_id": "",
+				"start_week": 371,
+				"end_week": 387,
+				"status": "done",
+				"outcome": "full",
+				"grade": 4.868630359316911,
 				"ops_grade": 9.893214285714286,
 				"science": 83.104704,
 				"data_gen": "#f64:3a8ee3388ee35840",
@@ -7569,27 +7712,114 @@
 				}
 			},
 			{
-				"id": "EOB-07",
-				"code": "EOB-07",
+				"id": "EOB-05",
+				"code": "EOB-05",
 				"type": "earth_obs",
 				"target": "sso",
-				"project_id": "EOB-07",
+				"project_id": "EOB-05",
 				"contract_id": "",
-				"start_week": 474,
-				"end_week": 490,
+				"start_week": 423,
+				"end_week": 437,
 				"status": "done",
 				"outcome": "full",
-				"grade": 5.351337468921987,
-				"ops_grade": 9.97152380952381,
-				"science": 78.86497599999998,
+				"grade": 4.788536998977731,
+				"ops_grade": 10.0,
+				"science": 73.93119999999999,
+				"data_gen": 87.11111111111111,
+				"data_down": 87.11111111111111,
+				"data_lost": 0.0,
+				"return": 1.0,
+				"event": "debris",
+				"choice": 0,
+				"cause": "",
+				"antenna_level": 2,
+				"lesson": {
+					"key": "TY_OPS_LIM_OK",
+					"args": [
+						100
+					]
+				}
+			},
+			{
+				"id": "EOB-06",
+				"code": "EOB-06",
+				"type": "earth_obs",
+				"target": "sso",
+				"project_id": "EOB-06",
+				"contract_id": "",
+				"start_week": 429,
+				"end_week": 445,
+				"status": "done",
+				"outcome": "full",
+				"grade": 5.11343634351939,
+				"ops_grade": 10.0,
+				"science": 79.21199999999999,
 				"data_gen": 93.33333333333334,
-				"data_down": 92.92444444444445,
-				"data_lost": 0.4088888888888853,
-				"return": "#f64:1d8d197a1cdcef3f",
+				"data_down": 93.33333333333334,
+				"data_lost": 0.0,
+				"return": 1.0,
 				"event": "storm",
 				"choice": 0,
 				"cause": "",
-				"antenna_level": 1,
+				"antenna_level": 2,
+				"lesson": {
+					"key": "TY_OPS_LIM_OK",
+					"args": [
+						100
+					]
+				}
+			},
+			{
+				"id": "TEL-01",
+				"code": "TEL-01",
+				"type": "telescope",
+				"target": "geo",
+				"project_id": "TEL-01",
+				"contract_id": "",
+				"start_week": 426,
+				"end_week": 447,
+				"status": "done",
+				"outcome": "full",
+				"grade": 5.742997437554032,
+				"ops_grade": 10.0,
+				"science": 412.16,
+				"data_gen": 186.6666666666667,
+				"data_down": 186.6666666666667,
+				"data_lost": 0.0,
+				"return": 1.0,
+				"event": "storage",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 2,
+				"lesson": {
+					"key": "TY_OPS_LIM_OK",
+					"args": [
+						100
+					]
+				}
+			},
+			{
+				"id": "EOB-07",
+				"code": "EOB-07",
+				"type": "earth_obs",
+				"target": "geo",
+				"project_id": "EOB-07",
+				"contract_id": "",
+				"start_week": 474,
+				"end_week": 491,
+				"status": "done",
+				"outcome": "full",
+				"grade": 2.610867522584486,
+				"ops_grade": 10.0,
+				"science": 63.88480000000001,
+				"data_gen": "#f64:3a8ee3388ee35840",
+				"data_down": "#f64:3a8ee3388ee35840",
+				"data_lost": 0.0,
+				"return": 1.0,
+				"event": "extend",
+				"choice": 1,
+				"cause": "",
+				"antenna_level": 2,
 				"lesson": {
 					"key": "TY_OPS_LIM_OK",
 					"args": [
@@ -7621,7 +7851,7 @@
 				"crew_capsule": 380.0,
 				"deep_space_network": 360.0
 			},
-			"pp_week": "#f64:f2864556c8a62d40",
+			"pp_week": 16.9825216,
 			"licensed": {
 
 			},
@@ -7633,7 +7863,7 @@
 			}
 		},
 		"contract_board": {
-			"seq": 544,
+			"seq": 564,
 			"month": 120
 		},
 		"finance": {
@@ -7641,11 +7871,11 @@
 				"key": 120,
 				"y": 11,
 				"m": 1,
-				"cash_start": -1021791.1583707018,
-				"cash_end": -1021791.1583707018,
+				"cash_start": -481000.0,
+				"cash_end": -481000.0,
 				"in": {
-					"donations": "#f64:73258d34d2b7c140",
-					"grant": "#f64:0100000030253e41"
+					"donations": 14424.36575003608,
+					"grant": 2590000.0
 				},
 				"out": {
 
@@ -7656,344 +7886,358 @@
 					"key": 96,
 					"y": 9,
 					"m": 1,
-					"cash_start": -739072.6002611173,
-					"cash_end": 174708.2352243351,
+					"cash_start": -449000.0,
+					"cash_end": 315358.5397669242,
 					"in": {
-						"donations": 12275.835485452486,
-						"grant": 1155825.0
+						"donations": 22371.039766924292,
+						"grant": 1527187.5
 					},
 					"out": {
-						"salaries": 87800.0,
-						"upkeep": 17800.0,
-						"projects": 148720.00000000012
+						"salaries": 88800.0,
+						"upkeep": 30200.0,
+						"projects": 666200.0
 					}
 				},
 				{
 					"key": 97,
 					"y": 9,
 					"m": 2,
-					"cash_start": 174708.2352243351,
-					"cash_end": 161735.79564522405,
+					"cash_start": 315358.5397669242,
+					"cash_end": 192198.4483408408,
 					"in": {
-						"donations": 11907.560420888913,
-						"contracts": 327500.0
+						"donations": 21699.908573916564,
+						"contracts": 207500.0
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0,
-						"projects": 244480.0
+						"salaries": 93400.0,
+						"upkeep": 30200.0,
+						"projects": 228759.99999999997
 					}
 				},
 				{
 					"key": 98,
 					"y": 9,
 					"m": 3,
-					"cash_start": 161735.79564522405,
-					"cash_end": 68490.12925348629,
+					"cash_start": 192198.4483408408,
+					"cash_end": 80488.60965753987,
 					"in": {
-						"donations": 14654.333608262246
+						"donations": 22334.161316699065,
+						"contracts": 492500.0
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 34600.0,
+						"projects": 495244.0
 					}
 				},
 				{
 					"key": 99,
 					"y": 9,
 					"m": 4,
-					"cash_start": 68490.12925348629,
-					"cash_end": -25195.167146499327,
+					"cash_start": 80488.60965753987,
+					"cash_end": -28699.553865262045,
 					"in": {
-						"donations": 14214.703600014378
+						"donations": 26911.836477198092
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 100,
 					"y": 9,
 					"m": 5,
-					"cash_start": -25195.167146499327,
-					"cash_end": -119306.90465448538,
+					"cash_start": -28699.553865262045,
+					"cash_end": -138695.0724823799,
 					"in": {
-						"donations": 13788.262492013944
+						"donations": "#f64:eb25face1e7ed940"
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 101,
 					"y": 9,
 					"m": 6,
-					"cash_start": -119306.90465448538,
-					"cash_end": -213832.29003723187,
+					"cash_start": -138695.0724823799,
+					"cash_end": "#f64:796ee8cd0d740ec1",
 					"in": {
-						"donations": 13374.614617253525
+						"donations": 25321.346941395685
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 102,
 					"y": 9,
 					"m": 7,
-					"cash_start": -213832.29003723187,
-					"cash_end": -308758.91385849594,
+					"cash_start": "#f64:796ee8cd0d740ec1",
+					"cash_end": -361012.0190078304,
 					"in": {
-						"donations": 12973.376178735918
+						"donations": 24561.706533153814
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 103,
 					"y": 9,
 					"m": 8,
-					"cash_start": -308758.91385849594,
-					"cash_end": -404074.7389651221,
+					"cash_start": -361012.0190078304,
+					"cash_end": -466100.0,
 					"in": {
-						"donations": 12584.17489337384
+						"donations": 23824.8553371592,
+						"other": 7187.163670671216
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 104,
 					"y": 9,
 					"m": 9,
-					"cash_start": -404074.7389651221,
-					"cash_end": -499768.08931854944,
+					"cash_start": -466100.0,
+					"cash_end": -466100.0,
 					"in": {
-						"donations": "#f64:b16f9e2753d7c740"
+						"donations": 23110.109677044424,
+						"other": "#f64:9148c33ede95fb40"
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 105,
 					"y": 9,
 					"m": 10,
-					"cash_start": -499768.08931854944,
-					"cash_end": -595827.639161374,
+					"cash_start": -466100.0,
+					"cash_end": -466100.0,
 					"in": {
-						"donations": 11840.450157175444
+						"donations": 22416.80638673309,
+						"other": 113683.1936132669
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 106,
 					"y": 9,
 					"m": 11,
-					"cash_start": -595827.639161374,
-					"cash_end": -692242.4025089138,
+					"cash_start": -466100.0,
+					"cash_end": -466100.0,
 					"in": {
-						"donations": 11485.236652460182
+						"donations": 21744.302195131095,
+						"other": 114355.6978048689
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 107,
 					"y": 9,
 					"m": 12,
-					"cash_start": -692242.4025089138,
-					"cash_end": -789001.7229560274,
+					"cash_start": -466100.0,
+					"cash_end": -466100.0,
 					"in": {
-						"donations": 11140.679552886377
+						"donations": 21091.97312927716,
+						"other": 115008.02687072284
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 108,
 					"y": 10,
 					"m": 1,
-					"cash_start": -789001.7229560274,
-					"cash_end": "#f64:1836c2e3356c0041",
+					"cash_start": -466100.0,
+					"cash_end": 352314.21393539896,
 					"in": {
-						"donations": 10806.459166299786,
-						"grant": 1153350.0
+						"donations": "#f64:60191eb1cdfad340",
+						"grant": 1546875.0
 					},
 					"out": {
-						"salaries": 90100.0,
-						"upkeep": 17800.0,
-						"projects": 132720.0
+						"salaries": 96700.0,
+						"upkeep": 39400.0,
+						"projects": 612820.0
 					}
 				},
 				{
 					"key": 109,
 					"y": 10,
 					"m": 2,
-					"cash_start": "#f64:1836c2e3356c0041",
-					"cash_end": -4462.998398416792,
+					"cash_start": 352314.21393539896,
+					"cash_end": "#f64:e625d3c9c2160ac1",
 					"in": {
-						"donations": 10482.265391310792,
-						"contracts": 207500.0
+						"donations": 19845.437517336883
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0,
-						"projects": 244480.0
+						"salaries": 103600.0,
+						"upkeep": 39400.0,
+						"projects": 442880.0000000001
 					}
 				},
 				{
 					"key": 110,
 					"y": 10,
 					"m": 3,
-					"cash_start": -4462.998398416792,
-					"cash_end": -104661.20096884533,
+					"cash_start": "#f64:e625d3c9c2160ac1",
+					"cash_end": -337159.8741554474,
 					"in": {
-						"donations": "#f64:28152c12e606c840"
+						"donations": 19560.474391816773
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 39400.0
 					}
 				},
 				{
 					"key": 111,
 					"y": 10,
 					"m": 4,
-					"cash_start": -104661.20096884533,
-					"cash_end": "#f64:e6ebe1a8630d09c1",
+					"cash_start": -337159.8741554474,
+					"cash_end": "#f64:339b21db08a31cc1",
 					"in": {
-						"donations": "#f64:c31e3a2b5f4ec740"
+						"donations": 18973.66016006227
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 112,
 					"y": 10,
 					"m": 5,
-					"cash_start": "#f64:e6ebe1a8630d09c1",
-					"cash_end": -306153.69626067724,
+					"cash_start": "#f64:339b21db08a31cc1",
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 11574.761201483792
+						"donations": 18404.4503552604,
+						"other": 120781.76364012476
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 113,
 					"y": 10,
 					"m": 6,
-					"cash_start": -306153.69626067724,
-					"cash_end": -407426.177895238,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": "#f64:8a78cc59c2edc540"
+						"donations": 17852.316844602585,
+						"other": 133147.68315539742
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 114,
 					"y": 10,
 					"m": 7,
-					"cash_start": -407426.177895238,
-					"cash_end": -509035.4850807619,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 10890.6928144761
+						"donations": 17316.747339264508,
+						"other": 133683.25266073548
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 115,
 					"y": 10,
 					"m": 8,
-					"cash_start": -509035.4850807619,
-					"cash_end": -610971.5130507201,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 10563.972030041818
+						"donations": 16797.244919086574,
+						"other": 134202.75508091343
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 116,
 					"y": 10,
 					"m": 9,
-					"cash_start": -610971.5130507201,
-					"cash_end": -713224.4601815796,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 10247.052869140563
+						"donations": 16293.327571513975,
+						"other": 134706.67242848602
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 117,
 					"y": 10,
 					"m": 10,
-					"cash_start": -713224.4601815796,
-					"cash_end": -815784.8188985132,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": "#f64:b8429015d269c340"
+						"donations": 15804.527744368555,
+						"other": 135195.47225563144
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 118,
 					"y": 10,
 					"m": 11,
-					"cash_start": -815784.8188985132,
-					"cash_end": "#f64:8c47d4bbe6082cc1",
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 9641.452044574356
+						"donations": 15330.3919120375,
+						"other": 135669.6080879625
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				},
 				{
 					"key": 119,
 					"y": 10,
 					"m": 12,
-					"cash_start": "#f64:8c47d4bbe6082cc1",
-					"cash_end": -1021791.1583707018,
+					"cash_start": -481000.0,
+					"cash_end": -481000.0,
 					"in": {
-						"donations": 9352.208483237126
+						"donations": 14870.480154676372,
+						"other": 136129.51984532364
 					},
 					"out": {
-						"salaries": 94700.0,
-						"upkeep": 17800.0
+						"salaries": 103600.0,
+						"upkeep": 47400.0
 					}
 				}
 			],
@@ -8001,6 +8245,17 @@
 			"intervention": true,
 			"loan": {
 
+			},
+			"bk": {
+				"used": false,
+				"loan": {
+
+				},
+				"warned": 0,
+				"bankrupt": {
+
+				},
+				"show_loan": false
 			}
 		},
 		"race": {
@@ -8045,6 +8300,10 @@
 						"week": 234
 					},
 					{
+						"by": "player",
+						"week": 285
+					},
+					{
 						"by": "nimbo",
 						"week": 291
 					},
@@ -8079,11 +8338,20 @@
 				],
 				"probe_moon": [
 					{
+						"by": "player",
+						"week": 320
+					},
+					{
 						"by": "nimbo",
 						"week": 520
 					}
 				],
-				"far_side": [],
+				"far_side": [
+					{
+						"by": "player",
+						"week": 334
+					}
+				],
 				"robotic_landing": [],
 				"polar_ice": [],
 				"crewed_flyby": [],
@@ -8115,106 +8383,101 @@
 					"dropped": []
 				}
 			},
-			"science_total": 751.516188745265,
+			"science_total": 1055.361000745265,
 			"rep_samples": [
 				70.5,
-				70.75,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				71.5,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				67.0,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.75,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				66.5,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25,
-				62.25
+				75.5,
+				75.5,
+				75.5,
+				75.5,
+				77.0,
+				77.0,
+				77.0,
+				77.0,
+				77.0,
+				77.0,
+				77.0,
+				77.0,
+				84.0,
+				84.0,
+				84.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				88.0,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.75,
+				85.25,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				87.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5,
+				79.5
 			],
 			"pages": [
 				{
-					"kind": "first",
-					"milestone": "probe_moon",
-					"by": "nimbo",
-					"week": 520,
-					"issue": 7
-				},
-				{
 					"kind": "launch_fail",
 					"by": "player",
-					"code": "DEM-08",
+					"code": "DEM-04",
 					"type": "demo_sat",
 					"target": "leo",
 					"cause_key": "TY_RK_CAUSE_PAYLOAD",
-					"p_success": 0.6402064190707031,
+					"p_success": 0.8102207780400217,
 					"rocket": "Bem-te-vi",
 					"week": 474,
-					"issue": 6
+					"issue": 7
 				},
 				{
 					"kind": "first",
 					"milestone": "cometling_space",
 					"by": "quietude",
 					"week": 360,
+					"issue": 6
+				},
+				{
+					"kind": "first",
+					"milestone": "far_side",
+					"by": "player",
+					"week": 334,
 					"issue": 5
 				},
 				{
-					"kind": "launch_fail",
+					"kind": "first",
+					"milestone": "probe_moon",
 					"by": "player",
-					"code": "DEM-05",
-					"type": "demo_sat",
-					"target": "leo",
-					"cause_key": "TY_RK_CAUSE_STAGE2",
-					"p_success": 0.6636586797865396,
-					"rocket": "Bem-te-vi",
-					"week": 318,
+					"week": 320,
 					"issue": 4
 				},
 				{
@@ -8290,15 +8553,34 @@
 						"avionics": "avionics_redundant",
 						"recovery": "recovery_none"
 					},
-					"flights": 15,
-					"successes": 13,
-					"failures": 2,
+					"flights": 9,
+					"successes": 8,
+					"failures": 1,
 					"trust": 0.94,
 					"created_week": 104,
 					"last_week": 474
+				},
+				{
+					"id": "fam3",
+					"name": "Sabiá",
+					"parts": {
+						"core": "core_falcao",
+						"upper": "upper_falcao_v",
+						"tank": "tank_l",
+						"boosters": "boost_srb4",
+						"fairing": "fairing_s",
+						"avionics": "avionics_redundant",
+						"recovery": "recovery_none"
+					},
+					"flights": 6,
+					"successes": 6,
+					"failures": 0,
+					"trust": 1.0,
+					"created_week": 260,
+					"last_week": 474
 				}
 			],
-			"next": 3
+			"next": 4
 		},
 		"story": {
 			"opening": true
@@ -8306,8 +8588,11 @@
 		"discovery": {
 			"attempts": {
 				"sounding": 4,
-				"demo_sat": 8,
-				"earth_obs": 7
+				"demo_sat": 4,
+				"earth_obs": 7,
+				"comms": 2,
+				"orbiter": 1,
+				"telescope": 1
 			},
 			"combos": {
 				"sounding|suborbital": {
@@ -8317,14 +8602,38 @@
 					"great": true
 				},
 				"demo_sat|leo": {
-					"n": 8,
+					"n": 4,
 					"best": 10.0,
 					"tier": "great",
 					"great": true
 				},
 				"earth_obs|sso": {
-					"n": 7,
+					"n": 5,
 					"best": 9.084162855302187,
+					"tier": "great",
+					"great": false
+				},
+				"comms|geo": {
+					"n": 2,
+					"best": 6.561677059452297,
+					"tier": "great",
+					"great": true
+				},
+				"orbiter|lunar_orbit": {
+					"n": 1,
+					"best": 5.22664483827132,
+					"tier": "great",
+					"great": false
+				},
+				"earth_obs|geo": {
+					"n": 2,
+					"best": "#f64:eaf608e1217d0840",
+					"tier": "poor",
+					"great": false
+				},
+				"telescope|geo": {
+					"n": 1,
+					"best": 5.742997437554032,
 					"tier": "great",
 					"great": false
 				}
@@ -8342,12 +8651,28 @@
 				"earth_obs|sso": {
 					"camera": "great",
 					"ir_camera": "great"
+				},
+				"comms|geo": {
+
+				},
+				"orbiter|lunar_orbit": {
+					"camera": "great"
+				},
+				"earth_obs|geo": {
+					"camera": "good",
+					"spectrometer": "great"
+				},
+				"telescope|geo": {
+					"camera": "great",
+					"spectrometer": "great"
 				}
 			},
 			"env": {
 				"suborbital": true,
 				"leo": true,
-				"sso": true
+				"sso": true,
+				"geo": true,
+				"lunar_orbit": true
 			},
 			"teams": {
 				"sounding": {
@@ -8376,6 +8701,33 @@
 						"scientist": 1
 					},
 					"target": "sso"
+				},
+				"comms": {
+					"grade": 6.561677059452297,
+					"profs": {
+						"pilot": 2,
+						"systems_engineer": 1,
+						"scientist": 1
+					},
+					"target": "geo"
+				},
+				"orbiter": {
+					"grade": 5.22664483827132,
+					"profs": {
+						"systems_engineer": 2,
+						"pilot": 1,
+						"scientist": 1
+					},
+					"target": "lunar_orbit"
+				},
+				"telescope": {
+					"grade": 5.742997437554032,
+					"profs": {
+						"systems_engineer": 2,
+						"pilot": 1,
+						"scientist": 1
+					},
+					"target": "geo"
 				}
 			},
 			"taken": {
@@ -8387,13 +8739,16 @@
 				"aurora_dance": 6.6716373602012915,
 				"earth_portrait": 10.0,
 				"first_beep": 8.67398843557321,
-				"wildfire_watch": 5.255389651269611,
-				"radiation_belts": 5.123968630918818,
-				"crop_health": 5.351337468921987
+				"tv_everywhere": 6.561677059452297,
+				"wildfire_watch": 5.11343634351939,
+				"clean_air": "#f64:eaf608e1217d0840",
+				"crop_health": 4.868630359316911,
+				"deep_sky": 5.742997437554032,
+				"radiation_belts": 0.0
 			},
 			"notes": [
 				{
-					"week": 266,
+					"week": 474,
 					"key": "TY_JN_NOTE_INSTR_GREAT",
 					"args": [
 						"TY_PL_M_PARTICLE",
@@ -8402,7 +8757,90 @@
 					]
 				},
 				{
-					"week": 266,
+					"week": 426,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_SPECTROMETER",
+						"TY_MT_TELESCOPE",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 426,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_TELESCOPE",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 426,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_TELESCOPE",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 426,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_TELESCOPE"
+					]
+				},
+				{
+					"week": 370,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_SPECTROMETER",
+						"TY_MT_EARTH_OBS",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 370,
+					"key": "TY_JN_NOTE_INSTR_GOOD",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_EARTH_OBS",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 370,
+					"key": "TY_JN_NOTE_COMBO_POOR",
+					"args": [
+						"TY_MT_EARTH_OBS",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 320,
+					"key": "TY_JN_NOTE_INSTR_GREAT",
+					"args": [
+						"TY_PL_M_CAMERA",
+						"TY_MT_ORBITER",
+						"TY_TGT_LUNAR_ORBIT"
+					]
+				},
+				{
+					"week": 320,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_ORBITER",
+						"TY_TGT_LUNAR_ORBIT"
+					]
+				},
+				{
+					"week": 320,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_ORBITER"
+					]
+				},
+				{
+					"week": 319,
 					"key": "TY_JN_NOTE_INSTR_GREAT",
 					"args": [
 						"TY_PL_M_IR_CAMERA",
@@ -8411,10 +8849,40 @@
 					]
 				},
 				{
-					"week": 266,
+					"week": 319,
 					"key": "TY_JN_NOTE_RATIO",
 					"args": [
 						"TY_MT_EARTH_OBS"
+					]
+				},
+				{
+					"week": 269,
+					"key": "TY_JN_NOTE_GREAT",
+					"args": [
+						"TY_MT_COMMS",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 269,
+					"key": "TY_JN_NOTE_RATIO",
+					"args": [
+						"TY_MT_COMMS"
+					]
+				},
+				{
+					"week": 268,
+					"key": "TY_JN_NOTE_COMBO_GREAT",
+					"args": [
+						"TY_MT_COMMS",
+						"TY_TGT_GEO"
+					]
+				},
+				{
+					"week": 268,
+					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
+					"args": [
+						"TY_MT_COMMS"
 					]
 				},
 				{
@@ -8521,21 +8989,6 @@
 						"TY_MT_SOUNDING",
 						"TY_TGT_SUBORBITAL"
 					]
-				},
-				{
-					"week": 3,
-					"key": "TY_JN_NOTE_COMBO_GREAT",
-					"args": [
-						"TY_MT_SOUNDING",
-						"TY_TGT_SUBORBITAL"
-					]
-				},
-				{
-					"week": 3,
-					"key": "TY_JN_NOTE_FOCUS_FLIGHT",
-					"args": [
-						"TY_MT_SOUNDING"
-					]
 				}
 			],
 			"board": [
@@ -8544,7 +8997,7 @@
 					"offered_week": 499,
 					"expires_week": 522,
 					"reward": 415000.0,
-					"budget": 325000.0,
+					"budget": 675000.0,
 					"deadline": 34,
 					"client": ""
 				},
@@ -8553,17 +9006,17 @@
 					"offered_week": 505,
 					"expires_week": 533,
 					"reward": 240000.0,
-					"budget": 295000.0,
+					"budget": 640000.0,
 					"deadline": 32,
 					"client": ""
 				},
 				{
-					"id": "tv_everywhere",
+					"id": "solar_storms",
 					"offered_week": 516,
 					"expires_week": 544,
 					"reward": 455000.0,
-					"budget": 960000.0,
-					"deadline": 34,
+					"budget": 700000.0,
+					"deadline": 36,
 					"client": ""
 				}
 			],
@@ -9224,97 +9677,134 @@
 					"milestone": "long_signal"
 				},
 				{
-					"id": "p:EOB-02",
+					"id": "p:COM-01",
 					"owner": "player",
-					"code": "EOB-02",
-					"type": "earth_obs",
-					"target": "sso",
+					"code": "COM-01",
+					"type": "comms",
+					"target": "geo",
 					"outcome": "full",
-					"launch_t": 160876800.0,
+					"launch_t": 162086400.0,
 					"lost_t": -1.0,
 					"status": "orbit",
 					"legs": [
 						{
 							"kind": "orbit",
 							"body": "earth",
-							"t0": 160876800.0,
-							"t1": -1.0,
+							"t0": 162086400.0,
+							"t1": 162089060.402192,
 							"r": [
-								-818909.2622978832,
-								6796220.280516534,
-								-1637818.5245957663
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
 							],
 							"v": [
-								3249.551121711761,
-								1957.7696428036616,
-								6499.102243423522
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 162089060.402192,
+							"t1": 162107984.00763538,
+							"r": [
+								1816179.625,
+								-6249393.5,
+								-908089.8125
+							],
+							"v": [
+								-8714.9521484375,
+								-3165.890869140625,
+								4357.47607421875
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 162107984.00763538,
+							"t1": -1.0,
+							"r": [
+								-11651918.0,
+								40093700.0,
+								5825959.0
+							],
+							"v": [
+								2615.683349609375,
+								950.2055053710938,
+								-1307.8416748046875
 							],
 							"status": "orbit"
 						}
 					],
-					"project_id": "EOB-02"
+					"project_id": "COM-01"
 				},
 				{
-					"id": "p:DEM-04",
+					"id": "p:COM-02",
 					"owner": "player",
-					"code": "DEM-04",
-					"type": "demo_sat",
-					"target": "leo",
-					"outcome": "partial",
-					"launch_t": 160876800.0,
-					"lost_t": -1.0,
-					"status": "orbit",
-					"legs": [
-						{
-							"kind": "orbit",
-							"body": "earth",
-							"t0": 160876800.0,
-							"t1": -1.0,
-							"r": [
-								-2007414.3179916851,
-								6233239.828607891,
-								1029543.7667259898
-							],
-							"v": [
-								6767.753805287621,
-								2401.8001330109387,
-								-3470.981892268151
-							],
-							"status": "orbit"
-						}
-					],
-					"project_id": "DEM-04"
-				},
-				{
-					"id": "p:EOB-03",
-					"owner": "player",
-					"code": "EOB-03",
-					"type": "earth_obs",
-					"target": "sso",
+					"code": "COM-02",
+					"type": "comms",
+					"target": "geo",
 					"outcome": "full",
-					"launch_t": 164505600.0,
+					"launch_t": 162691200.0,
 					"lost_t": -1.0,
 					"status": "orbit",
 					"legs": [
 						{
 							"kind": "orbit",
 							"body": "earth",
-							"t0": 164505600.0,
-							"t1": -1.0,
+							"t0": 162691200.0,
+							"t1": 162693860.402192,
 							"r": [
-								-818292.0437986321,
-								6799073.064908813,
-								-1636584.0875972642
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
 							],
 							"v": [
-								3249.2559626991037,
-								1955.295658719923,
-								6498.5119253982075
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 162693860.402192,
+							"t1": 162712784.00763538,
+							"r": [
+								1816179.625,
+								-6249393.5,
+								-908089.8125
+							],
+							"v": [
+								-8714.9521484375,
+								-3165.890869140625,
+								4357.47607421875
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 162712784.00763538,
+							"t1": -1.0,
+							"r": [
+								-11651918.0,
+								40093700.0,
+								5825959.0
+							],
+							"v": [
+								2615.683349609375,
+								950.2055053710938,
+								-1307.8416748046875
 							],
 							"status": "orbit"
 						}
 					],
-					"project_id": "EOB-03"
+					"project_id": "COM-02"
 				},
 				{
 					"id": "rf:aurora:first_satellite:286",
@@ -9413,66 +9903,100 @@
 					"milestone": "long_signal"
 				},
 				{
-					"id": "p:EOB-04",
+					"id": "p:EOB-02",
 					"owner": "player",
-					"code": "EOB-04",
+					"code": "EOB-02",
 					"type": "earth_obs",
 					"target": "sso",
 					"outcome": "full",
-					"launch_t": 192326400.0,
+					"launch_t": 192931200.0,
 					"lost_t": -1.0,
 					"status": "orbit",
 					"legs": [
 						{
 							"kind": "orbit",
 							"body": "earth",
-							"t0": 192326400.0,
+							"t0": 192931200.0,
 							"t1": -1.0,
 							"r": [
-								-817675.0679058864,
-								6801925.036419453,
-								-1635350.135811773
+								-818909.2622978832,
+								6796220.280516534,
+								-1637818.5245957663
 							],
 							"v": [
-								3248.960638349603,
-								1952.8244917038032,
-								6497.921276699206
+								3249.551121711761,
+								1957.7696428036616,
+								6499.102243423522
 							],
 							"status": "orbit"
 						}
 					],
-					"project_id": "EOB-04"
+					"project_id": "EOB-02"
 				},
 				{
-					"id": "p:DEM-05",
+					"id": "p:ORB-01",
 					"owner": "player",
-					"code": "DEM-05",
-					"type": "demo_sat",
-					"target": "leo",
-					"outcome": "fail",
-					"launch_t": 192326400.0,
-					"lost_t": 192326509.4596362,
-					"status": "lost",
+					"code": "ORB-01",
+					"type": "orbiter",
+					"target": "lunar_orbit",
+					"outcome": "full",
+					"launch_t": 193536000.0,
+					"lost_t": -1.0,
+					"status": "orbit",
 					"legs": [
 						{
-							"kind": "fixed",
+							"kind": "orbit",
 							"body": "earth",
-							"t0": 192326400.0,
-							"t1": -1.0,
+							"t0": 193536000.0,
+							"t1": "#f64:d278dfc1aa23a741",
 							"r": [
-								2937.109619140625,
-								6370999.0,
-								-1468.5548095703125
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
 							],
 							"v": [
-								0.0,
-								0.0,
-								0.0
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": "#f64:d278dfc1aa23a741",
+							"t1": 194351542.77242768,
+							"r": [
+								-3771954.75,
+								-5039196.5,
+								1885977.375
+							],
+							"v": [
+								-7086.03759765625,
+								7012.14013671875,
+								4563.861328125
 							],
 							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "moon",
+							"t0": 194351542.77242768,
+							"t1": -1.0,
+							"r": [
+								-1789856.75,
+								-364682.59375,
+								198130.015625
+							],
+							"v": [
+								-345.9216613769531,
+								1582.2591552734375,
+								-212.6273956298828
+							],
+							"status": "orbit"
 						}
 					],
-					"project_id": "DEM-05"
+					"project_id": "ORB-01"
 				},
 				{
 					"id": "rf:aurora:first_satellite:338",
@@ -9537,11 +10061,11 @@
 					"milestone": "cometling_space"
 				},
 				{
-					"id": "p:EOB-05",
+					"id": "p:EOB-03",
 					"owner": "player",
-					"code": "EOB-05",
+					"code": "EOB-03",
 					"type": "earth_obs",
-					"target": "sso",
+					"target": "geo",
 					"outcome": "full",
 					"launch_t": 223776000.0,
 					"lost_t": -1.0,
@@ -9551,52 +10075,86 @@
 							"kind": "orbit",
 							"body": "earth",
 							"t0": 223776000.0,
-							"t1": -1.0,
+							"t1": 223778660.402192,
 							"r": [
-								-817058.1029081416,
-								6804776.362050327,
-								-1634116.2058162831
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
 							],
 							"v": [
-								3248.665014848136,
-								1950.355803191199,
-								6497.330029696272
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 223778660.402192,
+							"t1": "#f64:c9e803a0c2adaa41",
+							"r": [
+								1816179.625,
+								-6249393.5,
+								-908089.8125
+							],
+							"v": [
+								-8714.9521484375,
+								-3165.890869140625,
+								4357.47607421875
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": "#f64:c9e803a0c2adaa41",
+							"t1": -1.0,
+							"r": [
+								-11651918.0,
+								40093700.0,
+								5825959.0
+							],
+							"v": [
+								2615.683349609375,
+								950.2055053710938,
+								-1307.8416748046875
 							],
 							"status": "orbit"
 						}
 					],
-					"project_id": "EOB-05"
+					"project_id": "EOB-03"
 				},
 				{
-					"id": "p:DEM-06",
+					"id": "p:EOB-04",
 					"owner": "player",
-					"code": "DEM-06",
-					"type": "demo_sat",
-					"target": "leo",
-					"outcome": "partial",
-					"launch_t": 223776000.0,
+					"code": "EOB-04",
+					"type": "earth_obs",
+					"target": "sso",
+					"outcome": "full",
+					"launch_t": 224380800.0,
 					"lost_t": -1.0,
 					"status": "orbit",
 					"legs": [
 						{
 							"kind": "orbit",
 							"body": "earth",
-							"t0": 223776000.0,
+							"t0": 224380800.0,
 							"t1": -1.0,
 							"r": [
-								-1997938.4753569632,
-								6233239.818076816,
-								1047814.1495007724
+								-817675.0679058864,
+								6801925.036419453,
+								-1635350.135811773
 							],
 							"v": [
-								6735.806852926093,
-								2401.8001549425767,
-								-3532.5781362005323
+								3248.960638349603,
+								1952.8244917038032,
+								6497.921276699206
 							],
 							"status": "orbit"
 						}
 					],
-					"project_id": "DEM-06"
+					"project_id": "EOB-04"
 				},
 				{
 					"id": "rf:aurora:long_signal:382",
@@ -9661,20 +10219,116 @@
 					"milestone": "cometling_space"
 				},
 				{
-					"id": "p:EOB-06",
+					"id": "p:EOB-05",
 					"owner": "player",
-					"code": "EOB-06",
+					"code": "EOB-05",
 					"type": "earth_obs",
 					"target": "sso",
 					"outcome": "full",
-					"launch_t": 255225600.0,
+					"launch_t": 255830400.0,
 					"lost_t": -1.0,
 					"status": "orbit",
 					"legs": [
 						{
 							"kind": "orbit",
 							"body": "earth",
-							"t0": 255225600.0,
+							"t0": 255830400.0,
+							"t1": -1.0,
+							"r": [
+								-817058.1029081416,
+								6804776.362050327,
+								-1634116.2058162831
+							],
+							"v": [
+								3248.665014848136,
+								1950.355803191199,
+								6497.330029696272
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "EOB-05"
+				},
+				{
+					"id": "p:TEL-01",
+					"owner": "player",
+					"code": "TEL-01",
+					"type": "telescope",
+					"target": "geo",
+					"outcome": "full",
+					"launch_t": 257644800.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 257644800.0,
+							"t1": 257647460.402192,
+							"r": [
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
+							],
+							"v": [
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 257647460.402192,
+							"t1": "#f64:c9e803a05ab7ae41",
+							"r": [
+								1816179.625,
+								-6249393.5,
+								-908089.8125
+							],
+							"v": [
+								-8714.9521484375,
+								-3165.890869140625,
+								4357.47607421875
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": "#f64:c9e803a05ab7ae41",
+							"t1": -1.0,
+							"r": [
+								-11651918.0,
+								40093700.0,
+								5825959.0
+							],
+							"v": [
+								2615.683349609375,
+								950.2055053710938,
+								-1307.8416748046875
+							],
+							"status": "orbit"
+						}
+					],
+					"project_id": "TEL-01"
+				},
+				{
+					"id": "p:EOB-06",
+					"owner": "player",
+					"code": "EOB-06",
+					"type": "earth_obs",
+					"target": "sso",
+					"outcome": "full",
+					"launch_t": 259459200.0,
+					"lost_t": -1.0,
+					"status": "orbit",
+					"legs": [
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 259459200.0,
 							"t1": -1.0,
 							"r": [
 								-816441.1840453318,
@@ -9690,37 +10344,6 @@
 						}
 					],
 					"project_id": "EOB-06"
-				},
-				{
-					"id": "p:DEM-07",
-					"owner": "player",
-					"code": "DEM-07",
-					"type": "demo_sat",
-					"target": "leo",
-					"outcome": "partial",
-					"launch_t": 255225600.0,
-					"lost_t": -1.0,
-					"status": "orbit",
-					"legs": [
-						{
-							"kind": "orbit",
-							"body": "earth",
-							"t0": 255225600.0,
-							"t1": -1.0,
-							"r": [
-								"#f64:b40ba50bb2693ec1",
-								6233239.822562045,
-								1056916.6021518842
-							],
-							"v": [
-								6719.623051487964,
-								2401.80016437584,
-								-3563.2663095201174
-							],
-							"status": "orbit"
-						}
-					],
-					"project_id": "DEM-07"
 				},
 				{
 					"id": "r:aurora:long_signal",
@@ -9885,7 +10508,7 @@
 					"owner": "player",
 					"code": "EOB-07",
 					"type": "earth_obs",
-					"target": "sso",
+					"target": "geo",
 					"outcome": "full",
 					"launch_t": 286675200.0,
 					"lost_t": -1.0,
@@ -9895,16 +10518,50 @@
 							"kind": "orbit",
 							"body": "earth",
 							"t0": 286675200.0,
-							"t1": -1.0,
+							"t1": 286677860.402192,
 							"r": [
-								-815824.3482618153,
-								6810476.889935777,
-								"#f64:665f4fb2a0e538c1"
+								-1881640.2807080655,
+								6225137.098910288,
+								940820.1403540327
 							],
 							"v": [
-								3248.0724943639366,
-								"#f64:0bdcc47bb4659e40",
-								6496.144988727873
+								6599.56931266932,
+								2493.522180285496,
+								-3299.78465633466
+							],
+							"status": "orbit"
+						},
+						{
+							"kind": "transfer",
+							"body": "earth",
+							"t0": 286677860.402192,
+							"t1": 286696784.00763535,
+							"r": [
+								1816179.625,
+								-6249393.5,
+								-908089.8125
+							],
+							"v": [
+								-8714.9521484375,
+								-3165.890869140625,
+								4357.47607421875
+							],
+							"status": "flight"
+						},
+						{
+							"kind": "orbit",
+							"body": "earth",
+							"t0": 286696784.00763535,
+							"t1": -1.0,
+							"r": [
+								-11651918.0,
+								40093700.0,
+								5825959.0
+							],
+							"v": [
+								2615.683349609375,
+								950.2055053710938,
+								-1307.8416748046875
 							],
 							"status": "orbit"
 						}
@@ -9912,14 +10569,14 @@
 					"project_id": "EOB-07"
 				},
 				{
-					"id": "p:DEM-08",
+					"id": "p:DEM-04",
 					"owner": "player",
-					"code": "DEM-08",
+					"code": "DEM-04",
 					"type": "demo_sat",
 					"target": "leo",
 					"outcome": "fail",
 					"launch_t": 286675200.0,
-					"lost_t": 286675313.57593274,
+					"lost_t": 286675308.08753735,
 					"status": "lost",
 					"legs": [
 						{
@@ -9928,9 +10585,9 @@
 							"t0": 286675200.0,
 							"t1": -1.0,
 							"r": [
-								3047.5615234375,
+								2900.29248046875,
 								6370999.0,
-								-1523.78076171875
+								-1450.146240234375
 							],
 							"v": [
 								0.0,
@@ -9940,7 +10597,7 @@
 							"status": "flight"
 						}
 					],
-					"project_id": "DEM-08"
+					"project_id": "DEM-04"
 				},
 				{
 					"id": "r:nimbo:cometling_orbit",
@@ -9988,7 +10645,7 @@
 							"kind": "orbit",
 							"body": "earth",
 							"t0": 314496000.0,
-							"t1": 314499570.96242565,
+							"t1": 314552705.1824383,
 							"r": [
 								-1881640.2807080655,
 								6225137.098910288,
@@ -10004,34 +10661,34 @@
 						{
 							"kind": "transfer",
 							"body": "earth",
-							"t0": 314499570.96242565,
-							"t1": 314929654.49017316,
+							"t0": 314552705.1824383,
+							"t1": 314771188.70825213,
 							"r": [
-								-4070706.5,
-								-4739698.5,
-								2035353.25
+								-4648355.0,
+								-4021075.5,
+								2324177.5
 							],
 							"v": [
-								-7046.14697265625,
-								7564.509765625,
-								3523.073486328125
+								-6283.39697265625,
+								8649.306640625,
+								2397.4296875
 							],
 							"status": "flight"
 						},
 						{
 							"kind": "transfer",
 							"body": "earth",
-							"t0": 314929654.49017316,
+							"t0": 314771188.70825213,
 							"t1": -1.0,
 							"r": [
-								238134217.4629311,
-								277270000.08316994,
-								"#f64:4e05ed9247639cc1"
+								"#f64:170dffa5d742aa41",
+								270894029.85701704,
+								-114391738.94593927
 							],
 							"v": [
-								120.44863267191874,
-								-129.3082499710658,
-								-60.22431633595937
+								686.921456116451,
+								547.5038169344957,
+								-340.9919495514621
 							],
 							"status": "arrived"
 						}
@@ -10041,6 +10698,12 @@
 			]
 		},
 		"tutorials": {
+
+		},
+		"signs": {
+
+		},
+		"rovers": {
 
 		}
 	}

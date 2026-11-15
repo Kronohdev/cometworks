@@ -12,6 +12,10 @@ buys lots and buildings, and changes look with each era.
 
 1 unit = 1 m.
 
+The terrain written here (boxes) has been replaced in campus.tscn by the island scene
+(scenes/tycoon/campus_island.tscn, tools/build_campus_island.gd); campus.tscn is now edited in
+the editor and this script is kept for reference.
+
 Usage: python tools/build_campus_scene.py
 """
 import math

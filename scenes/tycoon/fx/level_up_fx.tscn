@@ -1,0 +1,201 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/fx_one_shot.gd" id="1_shot"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_flat.tres" id="2_flat"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_star.tres" id="3_star"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_ring.tres" id="4_ring"]
+
+[sub_resource type="Gradient" id="grad_confetti"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(0.25, 0.88, 0.77, 1, 1, 0.54, 0.24, 1, 1, 0.8, 0.28, 1, 0.56, 0.49, 1, 1, 1, 0.45, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="gradtex_confetti"]
+gradient = SubResource("grad_confetti")
+
+[sub_resource type="Curve" id="curve_fade"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="curvetex_fade"]
+curve = SubResource("curve_fade")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_confetti"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 50.0
+initial_velocity_min = 7.0
+initial_velocity_max = 11.0
+angular_velocity_min = -400.0
+angular_velocity_max = 400.0
+gravity = Vector3(0, -6, 0)
+damping_min = 1.5
+damping_max = 2.5
+scale_min = 0.8
+scale_max = 1.3
+color_initial_ramp = SubResource("gradtex_confetti")
+alpha_curve = SubResource("curvetex_fade")
+
+[sub_resource type="BoxMesh" id="mesh_confetti"]
+material = ExtResource("2_flat")
+size = Vector3(0.16, 0.04, 0.24)
+
+[sub_resource type="Gradient" id="grad_star"]
+offsets = PackedFloat32Array(0, 0.6, 1)
+colors = PackedColorArray(1, 0.95, 0.6, 1, 1, 0.82, 0.35, 1, 1, 0.8, 0.3, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_star"]
+gradient = SubResource("grad_star")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_star"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.2
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.8
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, 1, 0)
+spread = 90.0
+flatness = 0.7
+initial_velocity_min = 4.0
+initial_velocity_max = 6.0
+radial_velocity_min = 2.0
+radial_velocity_max = 3.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+gravity = Vector3(0, -1.5, 0)
+damping_min = 2.0
+damping_max = 3.0
+scale_min = 0.8
+scale_max = 1.4
+color_ramp = SubResource("gradtex_star")
+
+[sub_resource type="QuadMesh" id="mesh_star"]
+material = ExtResource("3_star")
+size = Vector2(0.7, 0.7)
+
+[sub_resource type="PlaneMesh" id="mesh_ring"]
+material = ExtResource("4_ring")
+size = Vector2(1, 1)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ring:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ring:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="anim_play"]
+resource_name = "play"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ring:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0),
+"transitions": PackedFloat32Array(0.35, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(18, 18, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ring:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 1.0),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"play": SubResource("anim_play")
+}
+
+[node name="LevelUpFx" type="Node3D"]
+script = ExtResource("1_shot")
+lifetime = 3.5
+
+[node name="Confetti" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+cast_shadow = 0
+emitting = false
+amount = 70
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.95
+visibility_aabb = AABB(-20, -10, -20, 40, 30, 40)
+process_material = SubResource("ppm_confetti")
+draw_pass_1 = SubResource("mesh_confetti")
+
+[node name="Stars" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+cast_shadow = 0
+emitting = false
+amount = 14
+lifetime = 1.8
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-20, -10, -20, 40, 30, 40)
+process_material = SubResource("ppm_star")
+draw_pass_1 = SubResource("mesh_star")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0.3, 0)
+cast_shadow = 0
+transparency = 1.0
+mesh = SubResource("mesh_ring")
+
+[node name="Flash" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+light_color = Color(1, 0.85, 0.5, 1)
+light_energy = 0.0
+omni_range = 18.0
+metadata/flashy = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}

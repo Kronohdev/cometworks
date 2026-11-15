@@ -466,7 +466,7 @@ func _card_common(m: Dictionary) -> void:
 		var lbl := bars[t][1] as Label
 		lbl.text = "%d" % roundi(v * 100.0) if known else "?"
 		lbl.add_theme_color_override("font_color", CwPalette.COMET_ICE if known else CwPalette.TEXT_DIM)
-	TycoonLeader.dress(creature, m)   # variant colours, or the leader's own look and hat
+	creature = TycoonLeader.dress(creature, m)   # variant colours, the leader's look and hat, a Lenda's own body
 	creature.glow_color = col
 
 

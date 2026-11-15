@@ -95,10 +95,20 @@ func set_leader(m: Dictionary) -> void:
 	var mark := get_node_or_null("LeaderMark") as Node3D
 	if mark:   # the star is the leader's only (a Lenda wears its own look without it)
 		mark.visible = key != "" and TycoonLeader.is_leader(m)
+	# a Lenda with a scene of its own walks in its own body (TycoonLegends.scene_path); a reused
+	# walker gets the shared Cometling back
+	var own := TycoonLegends.scene_path(String(m.get("legend", ""))) if key != "" else ""
+	var before := creature
+	creature = TycoonLeader.swap_body(creature as Cometling, own)
+	if creature != before:
+		if own == "":
+			CometlingLooks.apply(creature as Cometling, variant, role)
+		if napping:
+			creature.call("play", "sit")
 	var bubble := creature.get_node_or_null("Emote") as Sprite3D
 	if bubble:
 		bubble.offset = leader_emote_offset if key != "" else Vector2.ZERO
-	if key != "":
+	if key != "" and own == "":
 		TycoonLeader.apply_look(creature as Cometling, m)
 	elif was:
 		LeaderHat.wear(creature as Cometling, "role")

@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/flight/flight_island.gd" id="1_island"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus.tscn" id="2_campus"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/buildings/pad.tscn" id="3_pad"]
+
+[node name="FlightIsland" type="Node3D"]
+script = ExtResource("1_island")
+
+[node name="Campus" parent="." instance=ExtResource("2_campus")]
+
+[node name="Pad" parent="Campus/Lots/pad" instance=ExtResource("3_pad")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)

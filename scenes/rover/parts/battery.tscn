@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/dark.tres" id="m_dark"]
+[ext_resource type="Material" path="res://scenes/rover/materials/mint.tres" id="m_mint"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.55, 0.16, 0.5)
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(0.385, 0.04, 0.06)
+
+[node name="Battery" type="Node3D"]
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 0)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_dark")
+
+[node name="Charge" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, -0.26)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_mint")

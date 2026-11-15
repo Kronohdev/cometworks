@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/butter.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/lilac.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m2"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(0.08, 1.8, 0.08)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(0.42, 0.28, 0.03)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(0.14, 0.14, 0.14)
+
+[node name="SurveyStake" type="Node3D"]
+editor_description = "A little survey stake with a lilac pennant: marks a point of interest from afar."
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="Pennant" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.62, 0)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Tip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m0")

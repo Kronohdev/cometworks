@@ -1,0 +1,223 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/print_dark.tres" id="m0"]
+[ext_resource type="Script" path="res://src/world/surface_ground_snap.gd" id="s_snap"]
+
+[sub_resource type="BoxMesh" id="sole"]
+size = Vector3(0.32, 0.06, 0.14)
+
+[sub_resource type="BoxMesh" id="heel"]
+size = Vector3(0.12, 0.06, 0.12)
+
+[node name="HomageFootprints" type="Node3D"]
+editor_description = "A trail of bootprints. Each print sits on the ground by itself (SurfaceGroundSnap)."
+
+[node name="Print0" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 1.25, 0, 1)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print1" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 2.408, 0, 1.537)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print2" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 2.566, 0, 2.058)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print3" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 3.725, 0, 2.549)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print4" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 3.883, 0, 2.998)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print5" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 5.041, 0, 3.396)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print6" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 5.199, 0, 3.742)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print7" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 6.357, 0, 4.035)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print8" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 6.515, 0, 4.282)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print9" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 7.674, 0, 4.493)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print10" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 7.832, 0, 4.68)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print11" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 8.99, 0, 4.861)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print12" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 9.148, 0, 5.049)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Print13" type="Node3D" parent="."]
+transform = Transform3D(0.8776, 0, -0.4794, 0, 1, 0, 0.4794, 0, 0.8776, 10.31, 0, 5.262)
+script = ExtResource("s_snap")
+ground_offset = -0.02
+
+[node name="Sole" type="MeshInstance3D" parent="Print13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("sole")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Heel" type="MeshInstance3D" parent="Print13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+mesh = SubResource("heel")
+surface_material_override/0 = ExtResource("m0")

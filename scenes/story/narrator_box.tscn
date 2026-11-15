@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/story/narrator_box.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/halley_portrait.tscn" id="3_portrait"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="4_appear"]
+
+[sub_resource type="StyleBoxFlat" id="portrait_frame"]
+bg_color = Color(0.7255, 0.8471, 0.9804, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 70
+corner_radius_top_right = 70
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+corner_detail = 12
+anti_aliasing = true
+
+[node name="NarratorBox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Bubble" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(1040, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -152.0
+offset_right = 520.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Appear" type="Node" parent="Bubble"]
+script = ExtResource("4_appear")
+on_ready = false
+on_visible = true
+on_poke = false
+offset = Vector2(0, 14)
+from_scale = Vector2(0.97, 0.97)
+pivot = Vector2(0.1, 1)
+seconds = 0.26
+curve = 2
+
+[node name="Margin" type="MarginContainer" parent="Bubble"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="Bubble/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="PortraitFrame" type="PanelContainer" parent="Bubble/Margin/HBox"]
+custom_minimum_size = Vector2(116, 116)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("portrait_frame")
+
+[node name="Portrait" parent="Bubble/Margin/HBox/PortraitFrame" instance=ExtResource("3_portrait")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+
+[node name="Body" type="VBoxContainer" parent="Bubble/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Name" type="Label" parent="Bubble/Margin/HBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+theme_override_font_sizes/font_size = 14
+text = "TUT_HALLEY_NAME"
+
+[node name="Text" type="Label" parent="Bubble/Margin/HBox/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 21
+text = "NARR_OPEN_1"
+vertical_alignment = 1
+autowrap_mode = 3

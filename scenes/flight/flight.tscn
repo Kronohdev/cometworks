@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" path="res://scenes/flight/textures/earth_albedo.png" id="4_earth"]
 [ext_resource type="Texture2D" path="res://scenes/flight/textures/earth_clouds.png" id="5_clouds"]
 [ext_resource type="Texture2D" path="res://scenes/flight/textures/moon_albedo.png" id="6_moon"]
-[ext_resource type="PackedScene" path="res://scenes/flight/flight_launch_site.tscn" id="7_site"]
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_island.tscn" id="7_site"]
 [ext_resource type="Script" path="res://src/flight/flight_smoke.gd" id="8_smoke"]
 [ext_resource type="Shader" path="res://shaders/flight_smoke.gdshader" id="9_smokesh"]
 [ext_resource type="Script" path="res://src/flight/flight_camera.gd" id="10_cam"]
@@ -20,6 +20,10 @@ shader_parameter/moon_albedo = ExtResource("6_moon")
 shader_parameter/sun_intensity = 9.0
 shader_parameter/exposure = 1.0
 shader_parameter/moon_radius = 0.016
+shader_parameter/site_blend_start = 20000.0
+shader_parameter/site_blend_end = 90000.0
+shader_parameter/coast_origin = Vector2(-894000, 447000)
+shader_parameter/deep_color = Color(0.06, 0.22, 0.42, 1)
 
 [sub_resource type="Sky" id="sky"]
 sky_material = SubResource("m_sky")
@@ -64,6 +68,7 @@ mesh = SubResource("puff")
 
 [node name="Flight" type="Node3D"]
 script = ExtResource("1_world")
+island_scene = ExtResource("7_site")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." node_paths=PackedStringArray("sun_light")]
 environment = SubResource("env")
@@ -88,7 +93,7 @@ directional_shadow_blend_splits = true
 directional_shadow_max_distance = 260.0
 directional_shadow_pancake_size = 80.0
 
-[node name="LaunchSite" parent="." instance=ExtResource("7_site")]
+[node name="LaunchSite" type="Node3D" parent="."]
 
 [node name="Vessels" type="Node3D" parent="."]
 

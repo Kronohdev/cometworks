@@ -1,0 +1,190 @@
+keys,en,pt
+TY_SX_CHIP_PLACES,Places %d/%d,Lugares %d/%d
+TY_SX_CHIP_FINDS,Finds %d/%d,Achados %d/%d
+TY_SX_CHIP_KEYS,J log · P photo,J diário · P foto
+TY_SX_CARD_NEW,NEW DISCOVERY,NOVA DESCOBERTA
+TY_SX_CARD_PHOTO,PHOTO,FOTO
+TY_SX_CARD_SCAN,SCAN,VARREDURA
+TY_SX_CARD_DRILL,DRILL,PERFURAÇÃO
+TY_SX_CARD_SAMPLE,SAMPLE,AMOSTRA
+TY_SX_CARD_FIND,FOUND SOMETHING,ACHADO
+TY_SX_CARD_CHALLENGE,CHALLENGE COMPLETE,DESAFIO CUMPRIDO
+TY_SX_CARD_NOTHING,NOTHING HERE,NADA POR AQUI
+TY_SX_CARD_SCIENCE,+%d science · saved in the field log (J),+%d de ciência · anotado no diário de campo (J)
+TY_SX_CARD_FINDS,%d of %d finds on this world,%d de %d achados neste mundo
+TY_SX_NOTHING_TITLE,Fly closer to something,Chegue mais perto de algo
+TY_SX_NOTHING_HINT,Places and finds answer within a few metres. Fly low over them.,Lugares e achados respondem a poucos metros. Voe baixinho por cima deles.
+TY_SX_DRONE_HELP,Drone: WASD fly · Q/E down/up · right mouse look · F investigate · J log · P photo · Esc back,Drone: WASD voa · Q/E desce/sobe · botão direito olha · F investiga · J diário · P foto · Esc volta
+TY_SX_BACK,Back,Voltar
+TY_SX_CH_CAPTION,CHALLENGE,DESAFIO
+TY_SX_CH_ARMED,"Leave the ring to start. Target: %s, within %d s.","Saia do anel para começar. Destino: %s, em até %d s."
+TY_SX_CH_RUNNING,Go go go! Target: %s.,"Vai, vai! Destino: %s."
+TY_SX_CH_FAILED_TIME,Out of time. Back to the ring to try again.,O tempo acabou. Volte ao anel e tente de novo.
+TY_SX_CH_FAILED_BATTERY,The battery ran out. Recharge in the sun and try again.,A bateria acabou. Recarregue no sol e tente de novo.
+TY_SX_CH_JUMP_ARMED,Build up speed up the ramp and stay %.1f s in the air.,Pegue embalo na rampa e fique %.1f s no ar.
+TY_SX_CH_JUMP_AIR,In the air! Goal: %.1f s,No ar! Meta: %.1f s
+TY_SX_CH_JUMP_SHORT,%.1f s in the air. You need %.1f s: a bit more speed!,%.1f s no ar. Precisa de %.1f s: mais embalo!
+TY_SX_CH_CARRY,Sample on board. Target: %s.,Amostra a bordo. Destino: %s.
+TY_SX_CH_DONE,Done! It is in the field log.,Feito! Está no diário de campo.
+TY_SX_CH_TIME,%.1f s,%.1f s
+TY_SX_CH_BEST,new best time,novo recorde
+TY_SX_LOG_TITLE,Field log · %s,Diário de campo · %s
+TY_SX_LOG_CLOSE,Close,Fechar
+TY_SX_LOG_SUMMARY,Places %d of %d · finds %d of %d · challenges %d of %d · photos %d,Lugares %d de %d · achados %d de %d · desafios %d de %d · fotos %d
+TY_SX_LOG_PLACES,PLACES,LUGARES
+TY_SX_LOG_FINDS,FINDS,ACHADOS
+TY_SX_LOG_CHALLENGES,CHALLENGES,DESAFIOS
+TY_SX_LOG_UNKNOWN,? Not found yet,? Ainda não encontrado
+TY_SX_LOG_UNKNOWN_HINT,Somewhere out there: %s.,Em algum lugar por aí: %s.
+TY_SX_LOG_SOURCE,Source: %s,Fonte: %s
+TY_SX_LOG_BEST,Done · best time %.1f s,Cumprido · melhor tempo %.1f s
+TY_SX_LOG_DONE,Done,Cumprido
+TY_SX_PHOTO_HINT,PHOTO MODE · drag with the right mouse button or use the arrows to orbit · wheel to zoom · click or Enter to shoot · P or Esc to leave,MODO FOTO · arraste com o botão direito ou use as setas para girar · roda para o zoom · clique ou Enter para fotografar · P ou Esc para sair
+TY_SX_PHOTO_SAVED,Saved to %s · places in the picture: %d,Salva em %s · lugares na foto: %d
+TY_SX_NOTE_FOUND,Field log: %s found on %s.,Diário de campo: %s encontrado em %s.
+TY_SX_KIND_LANDER,a lander,um módulo de pouso
+TY_SX_KIND_LANDING_SITE,a historic landing site,um sítio de pouso histórico
+TY_SX_KIND_FOOTPRINTS,a trail of footprints,uma trilha de pegadas
+TY_SX_KIND_ROVER,an old rover,um rover antigo
+TY_SX_KIND_CRATER_RIM,a crater rim,a borda de uma cratera
+TY_SX_KIND_RILLE,a long winding channel,um canal comprido e sinuoso
+TY_SX_KIND_RIDGE,a ridge,uma crista
+TY_SX_KIND_SAMPLE_SITE,a good spot for a sample,um bom lugar para uma amostra
+TY_SX_KIND_ROCK,a curious rock,uma rocha curiosa
+TY_SX_KIND_VISTA,a view worth a photo,uma vista que vale uma foto
+TY_SX_KIND_OUTCROP,a layered outcrop,um afloramento em camadas
+TY_SX_KIND_CHANNEL,a dry riverbed,um leito de rio seco
+TY_SX_KIND_DUNE,dark dunes,dunas escuras
+TY_SX_KIND_DUST_DEVIL,a dust whirlwind,um redemoinho de poeira
+TY_SX_KIND_CHAOS,a jumble of ice blocks,um amontoado de blocos de gelo
+TY_SX_KIND_VENT,a crack that breathes,uma rachadura que respira
+TY_SX_KIND_SALT,a reddish streak,uma faixa avermelhada
+TY_SX_KIND_ICE,clear ice to drill,gelo limpo para perfurar
+TY_SX_KIND_SCARP,a long cliff,um penhasco comprido
+TY_SX_KIND_HOLLOWS,bright little pits,covinhas brilhantes
+TY_SX_KIND_IMPACT,a small fresh crater,uma craterinha recente
+TY_SX_KIND_TEST_YARD,a test yard,um pátio de testes
+TY_SX_BODY_MOON,the Moon,a Lua
+TY_SX_BODY_MARS,Mars,Marte
+TY_SX_BODY_EUROPA,Europa,Europa
+TY_SX_BODY_MERCURY,Mercury,Mercúrio
+TY_SX_BODY_EARTH,Earth,Terra
+TY_SX_COL_METEORITE,Meteorite,Meteorito
+TY_SX_COL_METEORITE_DESC,"A rock that fell from space. Many are leftovers from the birth of the Solar System, about 4.6 billion years ago.","Uma pedra que caiu do espaço. Muitas são sobras do nascimento do Sistema Solar, há uns 4,6 bilhões de anos."
+TY_SX_COL_ICE,Ice crystal,Cristal de gelo
+TY_SX_COL_ICE_DESC,"Frozen water. Out here, water is drink, air and rocket fuel for the explorers of tomorrow.","Água congelada. Aqui fora, água é bebida, ar e combustível de foguete para os exploradores do futuro."
+TY_SX_COL_ODD_ROCK,Odd rock,Pedra esquisita
+TY_SX_COL_ODD_ROCK_DESC,A rock that does not match its neighbours. Odd rocks tell where things came from.,Uma pedra diferente das vizinhas. Pedras esquisitas contam de onde as coisas vieram.
+TY_SX_COL_CRUMB,Comet crumb,Migalha de cometa
+TY_SX_COL_CRUMB_DESC,A twinkly flake from the tail of the Mãe-Gelo.,Um floquinho piscante da cauda da Mãe-Gelo.
+TY_SX_MOON_COL_ODD_ROCK,Tiny orange glass beads! Apollo 17 found orange soil made of volcanic glass from ancient lava fountains.,Continhas de vidro laranja! A Apollo 17 achou um solo laranja feito de vidro vulcânico de antigas fontes de lava.
+TY_SX_MOON_COL_METEORITE,"The Moon has no air to slow meteorites down, so they hit at full speed and shatter. A whole piece is a lucky find.","A Lua não tem ar para frear meteoritos, então eles batem a toda velocidade e se despedaçam. Um pedaço inteiro é sorte."
+TY_SX_MARS_COL_METEORITE,An iron meteorite on Mars! Opportunity found one the size of a basketball in 2005 and the team called it Heat Shield Rock.,"Um meteorito de ferro em Marte! O Opportunity achou um do tamanho de uma bola de basquete em 2005, e a equipe o chamou de Heat Shield Rock."
+TY_SX_MARS_COL_ICE,Water ice just under the dust. The Phoenix lander scraped some up in the Martian arctic in 2008.,Gelo de água logo abaixo da poeira. A sonda Phoenix raspou um pouco no ártico de Marte em 2008.
+TY_SX_EUROPA_COL_ICE,"Europa's ice is very cold, around -160 °C at the equator, and hard as rock.","O gelo de Europa é muito frio, perto de -160 °C no equador, e duro como pedra."
+TY_SX_EARTH_COL_METEORITE,"A meteorite on Earth! Most of the ones in collections were found in Antarctica, where dark rocks stand out on the white ice.","Um meteorito na Terra! A maioria dos que estão em coleções foi achada na Antártida, onde pedras escuras se destacam no gelo branco."
+TY_SX_LORE_1,Vovô Edmundo says every comet crumb still remembers the way home. Hold it up and it blinks toward the Mãe-Gelo.,O Vovô Edmundo diz que toda migalha de cometa ainda lembra o caminho de casa. Levante a migalha e ela pisca na direção da Mãe-Gelo.
+TY_SX_LORE_2,"When the Mãe-Gelo passes, her tail sheds crumbs across the whole Solar System. This one has been waiting here a long time.","Quando a Mãe-Gelo passa, a cauda dela solta migalhas pelo Sistema Solar inteiro. Esta aqui esperou um tempão."
+TY_SX_LORE_3,Cometlings sleep better with a crumb under the pillow. Nobody knows why. Nobody is asking.,Cometinhos dormem melhor com uma migalha embaixo do travesseiro. Ninguém sabe por quê. Ninguém pergunta.
+TY_SX_LORE_4,Real comets are dirty snowballs of ice and dust. Some scientists think comets brought part of the water on the young Earth.,"Cometas de verdade são bolas de neve sujas, de gelo e poeira. Alguns cientistas acham que cometas trouxeram parte da água da Terra jovem."
+TY_SX_LORE_5,This crumb hums very softly. The engineers say it is static. The Cometlings say it is a lullaby.,Esta migalha zumbe baixinho. Os engenheiros dizem que é estática. Os Cometinhos dizem que é canção de ninar.
+TY_SX_LORE_6,A crumb with a tiny tail of its own. The first Cometlings were flakes just like this one.,Uma migalha com uma caudinha própria. Os primeiros Cometinhos eram floquinhos iguaizinhos a este.
+TY_SX_POI_LANDER,Our lander,Nosso módulo de pouso
+TY_SX_POI_LANDER_FACT,Home base on this world. Bring samples here and the lander sends their data back to the campus.,A base de casa neste mundo. Traga amostras para cá e o módulo manda os dados para o campus.
+TY_SX_MOON_EAGLE,Historic landing site (tribute),Sítio histórico de pouso (homenagem)
+TY_SX_MOON_EAGLE_FACT,"On 20 July 1969, Apollo 11 landed in the Sea of Tranquillity. The descent stage served as a launch pad for the crew's ascent stage and was left behind on the Moon.","Em 20 de julho de 1969, a Apollo 11 pousou no Mar da Tranquilidade. O estágio de descida serviu de plataforma de lançamento para o estágio de subida da tripulação e ficou na Lua."
+TY_SX_MOON_STEPS,Bootprints in the dust,Pegadas na poeira
+TY_SX_MOON_STEPS_FACT,"With no wind and no rain on the Moon, footprints in the regolith can stay sharp for millions of years. Only tiny meteorite impacts slowly wear them away.","Sem vento e sem chuva na Lua, pegadas no regolito podem ficar nítidas por milhões de anos. Só impactos de micrometeoritos as apagam, bem devagar."
+TY_SX_MOON_LUNOKHOD,Tub-shaped rover (tribute),Rover-banheira (homenagem)
+TY_SX_MOON_LUNOKHOD_FACT,"Lunokhod 1, landed by the Soviet Luna 17 in November 1970, was the first rover driven on another world. Its team steered it from Earth for about ten months, over more than 10 km.","O Lunokhod 1, levado pela sonda soviética Luna 17 em novembro de 1970, foi o primeiro rover a rodar em outro mundo. A equipe o pilotou da Terra por cerca de dez meses, por mais de 10 km."
+TY_SX_MOON_CRATER,Rim of a bright crater,Borda de uma cratera brilhante
+TY_SX_MOON_CRATER_FACT,"Young craters are bright and throw long rays of fresh rock. Over hundreds of millions of years, the solar wind and micrometeorites darken them. This is called space weathering.","Crateras jovens são claras e lançam raios compridos de rocha fresca. Ao longo de centenas de milhões de anos, o vento solar e os micrometeoritos as escurecem. Isso se chama intemperismo espacial."
+TY_SX_MOON_RILLE,Winding rille,Sulco sinuoso
+TY_SX_MOON_RILLE_FACT,"Sinuous rilles look like dry rivers, but they were most likely carved by flowing lava or are collapsed lava tubes. Apollo 15 landed beside one, Hadley Rille, in 1971.","Sulcos sinuosos parecem rios secos, mas provavelmente foram cavados por lava corrente ou são tubos de lava desabados. A Apollo 15 pousou ao lado de um, o Sulco de Hadley, em 1971."
+TY_SX_MOON_RIDGE,Wrinkle ridge,Crista enrugada
+TY_SX_MOON_RIDGE_FACT,"Wrinkle ridges snake across the dark maria. They formed when the old lava plains were squeezed and buckled, like a rug pushed from one side.","Cristas enrugadas serpenteiam pelos mares escuros. Elas se formaram quando as antigas planícies de lava foram espremidas e se dobraram, como um tapete empurrado de um lado."
+TY_SX_MOON_REGOLITH,Patch of fine regolith,Trecho de regolito fino
+TY_SX_MOON_REGOLITH_FACT,"The lunar soil, regolith, is rock ground up by billions of years of impacts. It is powdery, sharp and clingy: on Apollo it stuck to suits, tools and everything else.","O solo lunar, o regolito, é rocha triturada por bilhões de anos de impactos. É fino, áspero e grudento: nas missões Apollo ele grudava nos trajes, nas ferramentas e em tudo."
+TY_SX_MOON_BOULDER,Split boulder,Matacão rachado
+TY_SX_MOON_BOULDER_FACT,Impacts throw boulders far across the Moon. In 1972 the Apollo 17 crew sampled a huge split boulder in the Taurus-Littrow valley.,"Impactos arremessam matacões para longe na Lua. Em 1972, a tripulação da Apollo 17 coletou amostras de um enorme matacão rachado no vale de Taurus-Littrow."
+TY_SX_MOON_EARTHRISE,Earth view,Vista da Terra
+TY_SX_MOON_EARTHRISE_FACT,"The Moon always turns the same face to us, so from the near side Earth hangs almost still in the sky, going through phases like the Moon does for us.","A Lua mostra sempre a mesma face para nós, então do lado visível a Terra fica quase parada no céu, passando por fases como a Lua faz para nós."
+TY_SX_MARS_VIKING,Three-legged lander (tribute),Sonda de três pernas (homenagem)
+TY_SX_MARS_VIKING_FACT,"Viking 1 landed on Mars on 20 July 1976, the first successful US landing on Mars. Its pictures showed a rusty desert under a pale, dusty sky.","A Viking 1 pousou em Marte em 20 de julho de 1976, o primeiro pouso bem-sucedido dos EUA em Marte. As fotos mostraram um deserto enferrujado sob um céu claro e empoeirado."
+TY_SX_MARS_SOJOURNER,Little six-wheeled friend (tribute),Amiguinho de seis rodas (homenagem)
+TY_SX_MARS_SOJOURNER_FACT,"Sojourner, carried by Mars Pathfinder in 1997, was the first rover on Mars. About the size of a microwave oven and 10.6 kg, it studied the rocks near its lander for almost three months.","O Sojourner, levado pela Mars Pathfinder em 1997, foi o primeiro rover em Marte. Do tamanho de um micro-ondas e com 10,6 kg, estudou as rochas perto da sonda por quase três meses."
+TY_SX_MARS_LAYERS,Layered butte,Morro em camadas
+TY_SX_MARS_LAYERS_FACT,"Each layer of rock is a page of Mars's history, laid down by water, wind or volcanoes. Since 2014, Curiosity has been climbing the layers of Mount Sharp in Gale crater.","Cada camada de rocha é uma página da história de Marte, deixada por água, vento ou vulcões. Desde 2014, o Curiosity sobe as camadas do Monte Sharp, na cratera Gale."
+TY_SX_MARS_CHANNEL,Dry riverbed,Leito de rio seco
+TY_SX_MARS_CHANNEL_FACT,"In 2012 Curiosity found rounded pebbles cemented in rock, like the ones in streams on Earth. Water once flowed here, ankle to hip deep.","Em 2012, o Curiosity achou seixos arredondados cimentados na rocha, como os de riachos na Terra. Já correu água aqui, da altura do tornozelo até o quadril."
+TY_SX_MARS_DUNES,Dark dunes,Dunas escuras
+TY_SX_MARS_DUNES_FACT,"Mars's thin wind still moves sand today. In 2015 and 2016 Curiosity visited the dark Bagnold Dunes, the first close look at active dunes on another planet.","O vento fino de Marte ainda move areia hoje. Em 2015 e 2016, o Curiosity visitou as dunas escuras de Bagnold, a primeira visita de perto a dunas ativas em outro planeta."
+TY_SX_MARS_BERRIES,Rock full of 'blueberries',Rocha cheia de 'mirtilos'
+TY_SX_MARS_BERRIES_FACT,"In 2004 Opportunity found little round grains rich in hematite, nicknamed blueberries. They most likely grew in water seeping through the rock.","Em 2004, o Opportunity achou bolinhas ricas em hematita, apelidadas de mirtilos. Elas muito provavelmente se formaram com água infiltrada na rocha."
+TY_SX_MARS_DEVIL,Dust devil alley,Corredor de redemoinhos
+TY_SX_MARS_DEVIL_FACT,"Dust devils whirl across Mars. Gusts of wind and passing dust devils sometimes cleaned the solar panels of the rovers Spirit and Opportunity, giving them a power boost.","Redemoinhos de poeira cruzam Marte. Rajadas de vento e redemoinhos de passagem às vezes limparam os painéis solares dos rovers Spirit e Opportunity, dando a eles mais energia."
+TY_SX_MARS_SUNSET,Sunset lookout,Mirante do pôr do sol
+TY_SX_MARS_SUNSET_FACT,"By day the Martian sky is butterscotch, but sunsets glow blue around the Sun: the fine dust lets blue light pass more easily close to the Sun's direction.","De dia o céu de Marte é cor de caramelo, mas o pôr do sol brilha azul em volta do Sol: a poeira fina deixa a luz azul passar com mais facilidade perto da direção do Sol."
+TY_SX_EUROPA_RIDGE,Double ridge,Crista dupla
+TY_SX_EUROPA_RIDGE_FACT,"Europa is crisscrossed by cracks and ridges. Many are double ridges, perhaps pushed up as cracks opened and closed again and again with Jupiter's tides.","Europa é toda riscada por rachaduras e cristas. Muitas são cristas duplas, talvez erguidas enquanto as rachaduras abriam e fechavam de novo e de novo com as marés de Júpiter."
+TY_SX_EUROPA_CHAOS,Chaos terrain,Terreno caótico
+TY_SX_EUROPA_CHAOS_FACT,"Chaos terrain, like Conamara Chaos seen by the Galileo spacecraft, looks like rafts of ice that broke apart and froze again, possibly over pockets of water.","O terreno caótico, como o Conamara Chaos visto pela sonda Galileo, parece balsas de gelo que se quebraram e congelaram de novo, talvez sobre bolsões de água."
+TY_SX_EUROPA_PLUME,Crack with a plume,Rachadura com pluma
+TY_SX_EUROPA_PLUME_FACT,"The Hubble Space Telescope saw hints of water vapour plumes above Europa. NASA's Europa Clipper, launched in 2024, will look for them up close.","O Telescópio Espacial Hubble viu sinais de plumas de vapor de água sobre Europa. A Europa Clipper, da NASA, lançada em 2024, vai procurá-las de perto."
+TY_SX_EUROPA_SALT,Reddish streak,Faixa avermelhada
+TY_SX_EUROPA_SALT_FACT,"The reddish-brown streaks may be salty material from below, coloured by Jupiter's radiation. Hubble data even suggest table salt, sodium chloride, on the surface.","As faixas marrom-avermelhadas podem ser material salgado vindo de baixo, colorido pela radiação de Júpiter. Dados do Hubble sugerem até sal de cozinha, cloreto de sódio, na superfície."
+TY_SX_EUROPA_CRATER,Young crater,Cratera jovem
+TY_SX_EUROPA_CRATER_FACT,"Europa has very few craters, so its surface is young: about 40 to 90 million years old by most estimates, a blink for a world 4.5 billion years old.","Europa tem pouquíssimas crateras, então a superfície é jovem: de 40 a 90 milhões de anos pela maioria das estimativas, um piscar de olhos para um mundo de 4,5 bilhões de anos."
+TY_SX_EUROPA_OCEAN,Clear ice over the ocean,Gelo limpo sobre o oceano
+TY_SX_EUROPA_OCEAN_FACT,"Under an ice shell probably 15 to 25 km thick, Europa likely hides a salty ocean holding about twice as much water as all of Earth's oceans.","Sob uma casca de gelo de uns 15 a 25 km, Europa provavelmente esconde um oceano salgado com cerca do dobro da água de todos os oceanos da Terra."
+TY_SX_EUROPA_JUPITER,Jupiter lookout,Mirante de Júpiter
+TY_SX_EUROPA_JUPITER_FACT,"From Europa, Jupiter looks about 12 degrees wide, more than 20 times the full Moon seen from Earth. And it never moves from its place in the sky.","De Europa, Júpiter tem uns 12 graus de largura, mais de 20 vezes a Lua cheia vista da Terra. E ele nunca sai do lugar no céu."
+TY_SX_MERCURY_SCARP,Lobate scarp,Escarpa lobada
+TY_SX_MERCURY_SCARP_FACT,"Long cliffs called lobate scarps formed as Mercury cooled and shrank, wrinkling its crust like the skin of a drying apple.","Penhascos compridos chamados escarpas lobadas se formaram enquanto Mercúrio esfriava e encolhia, enrugando a crosta como a casca de uma maçã secando."
+TY_SX_MERCURY_HOLLOWS,Bright hollows,Depressões brilhantes
+TY_SX_MERCURY_HOLLOWS_FACT,"MESSENGER found bright, shallow pits called hollows. Something in the rock seems to be vanishing into space there, so they may still be forming today.","A MESSENGER achou covinhas rasas e brilhantes chamadas hollows. Algo na rocha parece estar sumindo para o espaço ali, então elas talvez ainda estejam se formando."
+TY_SX_MERCURY_CRATER,Rayed crater,Cratera com raios
+TY_SX_MERCURY_CRATER_FACT,"Bright rays mean a young crater: fresh rock not yet darkened by sunlight and micrometeorites. On Mercury, so close to the Sun, that darkening is fast.","Raios brilhantes indicam uma cratera jovem: rocha fresca que a luz do Sol e os micrometeoritos ainda não escureceram. Em Mercúrio, tão perto do Sol, esse escurecimento é rápido."
+TY_SX_MERCURY_MESSENGER,Last stop of a probe (tribute),Última parada de uma sonda (homenagem)
+TY_SX_MERCURY_MESSENGER_FACT,"After more than four years in orbit, MESSENGER ran out of fuel and ended its mission by crashing into Mercury on 30 April 2015, making a small new crater.","Depois de mais de quatro anos em órbita, a MESSENGER ficou sem combustível e terminou a missão caindo em Mercúrio em 30 de abril de 2015, abrindo uma craterinha nova."
+TY_SX_EARTH_YARD,Rover test yard,Pátio de testes de rovers
+TY_SX_EARTH_YARD_FACT,"Before flying, rovers are tested on Earth. NASA's JPL keeps a Mars Yard, an outdoor lot full of rocks and slopes, to try out wheels and driving software.","Antes de voar, rovers são testados na Terra. O JPL, da NASA, tem um Mars Yard, um pátio a céu aberto cheio de pedras e ladeiras, para testar rodas e o software de direção."
+TY_SX_EARTH_HUNT,Meteorite hunting spot,Ponto de caça a meteoritos
+TY_SX_EARTH_HUNT_FACT,"Teams search for meteorites on purpose. Since 1976 the ANSMET programme has collected more than 20,000 of them from the Antarctic ice.","Equipes procuram meteoritos de propósito. Desde 1976, o programa ANSMET já coletou mais de 20 mil deles no gelo da Antártida."
+TY_SX_CH_FIND_ALL,Explorer of this world,Exploradora deste mundo
+TY_SX_CH_FIND_ALL_DESC,Find every place on this surface.,Encontre todos os lugares desta superfície.
+TY_SX_CH_COLLECT_ALL,Pockets full,Bolsos cheios
+TY_SX_CH_COLLECT_ALL_DESC,Pick up every find on this surface.,Recolha todos os achados desta superfície.
+TY_SX_CH_MOON_DASH,Race to the bright crater,Corrida até a cratera brilhante
+TY_SX_CH_MOON_DASH_DESC,Start at the ring by the lander and reach the rim of the bright crater before time or the battery runs out.,Saia do anel ao lado do módulo e chegue à borda da cratera brilhante antes que o tempo ou a bateria acabem.
+TY_SX_CH_MOON_HOP,Moon hop,Pulo lunar
+TY_SX_CH_MOON_HOP_DESC,"Jump the ramp and enjoy the low gravity: 1.62 m/s², a sixth of Earth's.","Pule a rampa e aproveite a gravidade baixa: 1,62 m/s², um sexto da Terra."
+TY_SX_CH_MOON_DELIVERY,Regolith delivery,Entrega de regolito
+TY_SX_CH_MOON_DELIVERY_DESC,Take a sample of the fine regolith and bring it to our lander.,Pegue uma amostra do regolito fino e leve até o nosso módulo.
+TY_SX_CH_MARS_DASH,Run to the river,Corrida até o rio
+TY_SX_CH_MARS_DASH_DESC,Start at the ring by the lander and reach the dry riverbed before time or the battery runs out.,Saia do anel ao lado do módulo e chegue ao leito de rio seco antes que o tempo ou a bateria acabem.
+TY_SX_CH_MARS_HOP,Red hop,Pulo vermelho
+TY_SX_CH_MARS_HOP_DESC,"Jump the ramp: Mars pulls with 3.71 m/s², about a third of Earth's.","Pule a rampa: Marte puxa com 3,71 m/s², mais ou menos um terço da Terra."
+TY_SX_CH_MARS_DELIVERY,Riverbed pebbles,Seixos do rio
+TY_SX_CH_MARS_DELIVERY_DESC,Take a sample from the dry riverbed and bring it to our lander.,Pegue uma amostra do leito de rio seco e leve até o nosso módulo.
+TY_SX_CH_EUROPA_DASH,Chase the plume,Atrás da pluma
+TY_SX_CH_EUROPA_DASH_DESC,Start at the ring by the lander and reach the crack with the plume before time or the battery runs out.,Saia do anel ao lado do módulo e chegue à rachadura com a pluma antes que o tempo ou a bateria acabem.
+TY_SX_CH_EUROPA_HOP,Ice flight,Voo no gelo
+TY_SX_CH_EUROPA_HOP_DESC,"Jump the ramp: Europa's gravity is only 1.315 m/s², even weaker than the Moon's.","Pule a rampa: a gravidade de Europa é só 1,315 m/s², mais fraca até que a da Lua."
+TY_SX_CH_EUROPA_DELIVERY,A pinch of salt,Uma pitada de sal
+TY_SX_CH_EUROPA_DELIVERY_DESC,Take a sample from the reddish streak and bring it to our lander.,Pegue uma amostra da faixa avermelhada e leve até o nosso módulo.
+TY_SX_CH_MERCURY_HOP,Mercury hop,Pulo em Mercúrio
+TY_SX_CH_MERCURY_HOP_DESC,"Jump the ramp: Mercury pulls with 3.7 m/s², almost the same as Mars.","Pule a rampa: Mercúrio puxa com 3,7 m/s², quase igual a Marte."
+TY_SX_CH_EARTH_HOP,Test jump,Pulo de teste
+TY_SX_CH_EARTH_HOP_DESC,"Jump the test ramp: at home gravity is 9.8 m/s², so the jump is short.","Pule a rampa de testes: em casa a gravidade é 9,8 m/s², então o pulo é curto."
+TY_SX_PICK_TITLE,Surfaces,Superfícies
+TY_SX_PICK_LEAD,"Drive (or fly the drone) on the worlds your agency has reached: discover places, pick up finds and try the challenges.","Dirija (ou voe com o drone) nos mundos que a sua agência já alcançou: descubra lugares, recolha achados e tente os desafios."
+TY_SX_PICK_LEAD_MENU,Free play on every surface. What you discover here goes in a free-play field log.,Jogo livre em todas as superfícies. O que você descobrir aqui vai para um diário de campo de jogo livre.
+TY_SX_PICK_PROGRESS,Places %d/%d · finds %d,Lugares %d/%d · achados %d
+TY_SX_PICK_LOCKED,Land there first,Pouse lá primeiro
+TY_SX_PICK_LOCKED_TIP,A lander or rover mission that reaches this surface opens it for free play.,Uma missão de pouso ou de rover que chegue a esta superfície libera o jogo livre nela.
+TY_SX_PICK_CLOSE,Close,Fechar
+TY_SX_PICK_BUTTON,Surfaces,Superfícies
+TY_SX_PICK_BUTTON_TIP,Explore the surfaces your agency has landed on,Explore as superfícies onde a sua agência já pousou
+TY_SX_MENU_HINT,"Moon, Mars, Europa...","Lua, Marte, Europa..."
+TY_SX_LOADING,Heading to the surface...,Descendo até a superfície...

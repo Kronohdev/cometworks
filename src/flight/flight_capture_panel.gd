@@ -59,7 +59,7 @@ func refresh(force := false, delta := 0.0) -> void:
 		return
 	_timer = 0.5
 	var tg := {}
-	if world.launched and not world.active.landed and not world.active.crashed:
+	if world.launched and not world.sim.landed and not world.sim.crashed:
 		tg = world.capture_planner().target()
 	var has := not tg.is_empty()
 	_form.visible = has and not _collapsed

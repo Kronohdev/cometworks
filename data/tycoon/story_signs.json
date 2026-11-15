@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "_doc": "Story signs (placas) on the campus island: scenes/tycoon/campus_signs.tscn places one CampusSign per id (sign_id), src/tycoon/story_signs.gd reads this file. kind: lore | history | joke (the sign's painted face and the card's caption). icon: ui/cometworks/icons/<icon>.svg on the card. unlock: every condition must hold - era (campaign era >= n), year (campaign year >= n), milestone (the player took that race milestone, data/tycoon/milestones.json), launches (missions launched >= n), building (that lot has a building); {} = from the start. Texts: i18n/story_sign_strings.csv (title_key, text_key, and for real facts fact_key + source_key).",
+  "signs": [
+    {
+      "id": "welcome",
+      "kind": "lore",
+      "icon": "star",
+      "unlock": {},
+      "title_key": "SIGN_WELCOME_TITLE",
+      "text_key": "SIGN_WELCOME_TEXT"
+    },
+    {
+      "id": "mae_gelo",
+      "kind": "lore",
+      "icon": "comet",
+      "unlock": {},
+      "title_key": "SIGN_MAE_GELO_TITLE",
+      "text_key": "SIGN_MAE_GELO_TEXT"
+    },
+    {
+      "id": "the_fall",
+      "kind": "lore",
+      "icon": "twinkle",
+      "unlock": {},
+      "title_key": "SIGN_THE_FALL_TITLE",
+      "text_key": "SIGN_THE_FALL_TEXT"
+    },
+    {
+      "id": "promise",
+      "kind": "lore",
+      "icon": "calendar",
+      "unlock": {},
+      "title_key": "SIGN_PROMISE_TITLE",
+      "text_key": "SIGN_PROMISE_TEXT"
+    },
+    {
+      "id": "moon_first",
+      "kind": "lore",
+      "icon": "planet",
+      "unlock": {
+        "era": 2
+      },
+      "title_key": "SIGN_MOON_FIRST_TITLE",
+      "text_key": "SIGN_MOON_FIRST_TEXT",
+      "fact_key": "SIGN_MOON_FIRST_FACT",
+      "source_key": "SIGN_MOON_FIRST_SOURCE"
+    },
+    {
+      "id": "vovo_edmundo",
+      "kind": "lore",
+      "icon": "book",
+      "unlock": {},
+      "title_key": "SIGN_VOVO_EDMUNDO_TITLE",
+      "text_key": "SIGN_VOVO_EDMUNDO_TEXT"
+    },
+    {
+      "id": "rivals",
+      "kind": "lore",
+      "icon": "race",
+      "unlock": {
+        "milestone": "suborbital"
+      },
+      "title_key": "SIGN_RIVALS_TITLE",
+      "text_key": "SIGN_RIVALS_TEXT"
+    },
+    {
+      "id": "comet_window",
+      "kind": "lore",
+      "icon": "comet",
+      "unlock": {
+        "era": 5
+      },
+      "title_key": "SIGN_COMET_WINDOW_TITLE",
+      "text_key": "SIGN_COMET_WINDOW_TEXT"
+    },
+    {
+      "id": "sputnik",
+      "kind": "history",
+      "icon": "antenna",
+      "unlock": {
+        "milestone": "first_satellite"
+      },
+      "title_key": "SIGN_SPUTNIK_TITLE",
+      "text_key": "SIGN_SPUTNIK_TEXT",
+      "fact_key": "SIGN_SPUTNIK_FACT",
+      "source_key": "SIGN_SPUTNIK_SOURCE"
+    },
+    {
+      "id": "explorer1",
+      "kind": "history",
+      "icon": "research",
+      "unlock": {
+        "era": 2
+      },
+      "title_key": "SIGN_EXPLORER1_TITLE",
+      "text_key": "SIGN_EXPLORER1_TEXT",
+      "fact_key": "SIGN_EXPLORER1_FACT",
+      "source_key": "SIGN_EXPLORER1_SOURCE"
+    },
+    {
+      "id": "gagarin",
+      "kind": "history",
+      "icon": "rocket",
+      "unlock": {
+        "milestone": "cometling_space"
+      },
+      "title_key": "SIGN_GAGARIN_TITLE",
+      "text_key": "SIGN_GAGARIN_TEXT",
+      "fact_key": "SIGN_GAGARIN_FACT",
+      "source_key": "SIGN_GAGARIN_SOURCE"
+    },
+    {
+      "id": "luna3",
+      "kind": "history",
+      "icon": "planet",
+      "unlock": {
+        "milestone": "far_side"
+      },
+      "title_key": "SIGN_LUNA3_TITLE",
+      "text_key": "SIGN_LUNA3_TEXT",
+      "fact_key": "SIGN_LUNA3_FACT",
+      "source_key": "SIGN_LUNA3_SOURCE"
+    },
+    {
+      "id": "luna9",
+      "kind": "history",
+      "icon": "pad",
+      "unlock": {
+        "milestone": "robotic_landing"
+      },
+      "title_key": "SIGN_LUNA9_TITLE",
+      "text_key": "SIGN_LUNA9_TEXT",
+      "fact_key": "SIGN_LUNA9_FACT",
+      "source_key": "SIGN_LUNA9_SOURCE"
+    },
+    {
+      "id": "apollo8",
+      "kind": "history",
+      "icon": "twinkle",
+      "unlock": {
+        "milestone": "crewed_flyby"
+      },
+      "title_key": "SIGN_APOLLO8_TITLE",
+      "text_key": "SIGN_APOLLO8_TEXT",
+      "fact_key": "SIGN_APOLLO8_FACT",
+      "source_key": "SIGN_APOLLO8_SOURCE"
+    },
+    {
+      "id": "apollo11",
+      "kind": "history",
+      "icon": "star",
+      "unlock": {
+        "milestone": "crewed_landing"
+      },
+      "title_key": "SIGN_APOLLO11_TITLE",
+      "text_key": "SIGN_APOLLO11_TEXT",
+      "fact_key": "SIGN_APOLLO11_FACT",
+      "source_key": "SIGN_APOLLO11_SOURCE"
+    },
+    {
+      "id": "lcross",
+      "kind": "history",
+      "icon": "lab",
+      "unlock": {
+        "milestone": "polar_ice"
+      },
+      "title_key": "SIGN_LCROSS_TITLE",
+      "text_key": "SIGN_LCROSS_TEXT",
+      "fact_key": "SIGN_LCROSS_FACT",
+      "source_key": "SIGN_LCROSS_SOURCE"
+    },
+    {
+      "id": "halley",
+      "kind": "history",
+      "icon": "comet",
+      "unlock": {},
+      "title_key": "SIGN_HALLEY_TITLE",
+      "text_key": "SIGN_HALLEY_TEXT",
+      "fact_key": "SIGN_HALLEY_FACT",
+      "source_key": "SIGN_HALLEY_SOURCE"
+    },
+    {
+      "id": "giotto",
+      "kind": "history",
+      "icon": "comet",
+      "unlock": {
+        "era": 3
+      },
+      "title_key": "SIGN_GIOTTO_TITLE",
+      "text_key": "SIGN_GIOTTO_TEXT",
+      "fact_key": "SIGN_GIOTTO_FACT",
+      "source_key": "SIGN_GIOTTO_SOURCE"
+    },
+    {
+      "id": "rosetta",
+      "kind": "history",
+      "icon": "comet",
+      "unlock": {
+        "era": 5
+      },
+      "title_key": "SIGN_ROSETTA_TITLE",
+      "text_key": "SIGN_ROSETTA_TEXT",
+      "fact_key": "SIGN_ROSETTA_FACT",
+      "source_key": "SIGN_ROSETTA_SOURCE"
+    },
+    {
+      "id": "scd1",
+      "kind": "history",
+      "icon": "antenna",
+      "unlock": {
+        "launches": 1
+      },
+      "title_key": "SIGN_SCD1_TITLE",
+      "text_key": "SIGN_SCD1_TEXT",
+      "fact_key": "SIGN_SCD1_FACT",
+      "source_key": "SIGN_SCD1_SOURCE"
+    },
+    {
+      "id": "marcos_pontes",
+      "kind": "history",
+      "icon": "crew",
+      "unlock": {
+        "milestone": "cometling_orbit"
+      },
+      "title_key": "SIGN_MARCOS_PONTES_TITLE",
+      "text_key": "SIGN_MARCOS_PONTES_TEXT",
+      "fact_key": "SIGN_MARCOS_PONTES_FACT",
+      "source_key": "SIGN_MARCOS_PONTES_SOURCE"
+    },
+    {
+      "id": "alcantara",
+      "kind": "history",
+      "icon": "pad",
+      "unlock": {
+        "era": 2
+      },
+      "title_key": "SIGN_ALCANTARA_TITLE",
+      "text_key": "SIGN_ALCANTARA_TEXT",
+      "fact_key": "SIGN_ALCANTARA_FACT",
+      "source_key": "SIGN_ALCANTARA_SOURCE"
+    },
+    {
+      "id": "no_feeding",
+      "kind": "joke",
+      "icon": "rocket",
+      "unlock": {},
+      "title_key": "SIGN_NO_FEEDING_TITLE",
+      "text_key": "SIGN_NO_FEEDING_TEXT"
+    },
+    {
+      "id": "beach",
+      "kind": "joke",
+      "icon": "heart",
+      "unlock": {},
+      "title_key": "SIGN_BEACH_TITLE",
+      "text_key": "SIGN_BEACH_TEXT"
+    },
+    {
+      "id": "nap_zone",
+      "kind": "joke",
+      "icon": "crew",
+      "unlock": {},
+      "title_key": "SIGN_NAP_ZONE_TITLE",
+      "text_key": "SIGN_NAP_ZONE_TEXT"
+    },
+    {
+      "id": "danger",
+      "kind": "joke",
+      "icon": "shield",
+      "unlock": {},
+      "title_key": "SIGN_DANGER_TITLE",
+      "text_key": "SIGN_DANGER_TEXT"
+    },
+    {
+      "id": "lost_found",
+      "kind": "joke",
+      "icon": "build",
+      "unlock": {
+        "year": 2
+      },
+      "title_key": "SIGN_LOST_FOUND_TITLE",
+      "text_key": "SIGN_LOST_FOUND_TEXT"
+    },
+    {
+      "id": "lonely",
+      "kind": "joke",
+      "icon": "heart",
+      "unlock": {},
+      "title_key": "SIGN_LONELY_TITLE",
+      "text_key": "SIGN_LONELY_TEXT"
+    },
+    {
+      "id": "stairs",
+      "kind": "joke",
+      "icon": "arrow_right",
+      "unlock": {},
+      "title_key": "SIGN_STAIRS_TITLE",
+      "text_key": "SIGN_STAIRS_TEXT"
+    },
+    {
+      "id": "weather",
+      "kind": "joke",
+      "icon": "calendar",
+      "unlock": {
+        "launches": 3
+      },
+      "title_key": "SIGN_WEATHER_TITLE",
+      "text_key": "SIGN_WEATHER_TEXT"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/tutorial/hud_unlocker.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/tutorial/unlock_badge.tscn" id="2_badge"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="3_theme"]
+
+[node name="Unlocks" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_script")
+
+[node name="BadgeTemplate" parent="." instance=ExtResource("2_badge")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0

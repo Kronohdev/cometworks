@@ -553,6 +553,10 @@ stride = 0.075
 run_speed = Vector2(6, 8)
 turn_lean = 0.02
 head_lead = 0.06
+legend_id = "halleyzinho"
+habit_names = PackedStringArray("specs", "doze", "forehead", "stargaze", "cane_rest")
+habit_lengths = PackedFloat32Array(2.4, 4.2, 5.6, 4.6, 3.2)
+habit_interval = Vector2(3.5, 7.5)
 
 [node name="Wig" type="Node3D" parent="Rig/Hips/Neck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

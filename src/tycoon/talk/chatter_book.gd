@@ -22,8 +22,13 @@ extends RefCounted
 ##   who         bubbles only: a talker's own id (metadata talk_id, e.g. "halleyzinho"); a
 ##               talker only says the lines made for it ("if": {"who": id})
 ##   leader (bool) · legend (Lenda id or "") · level · project (bool: on a project)
+##   race_place  the player's place in the race (1 = in front; RaceDirector.standings)
+##   milestones  the race milestones the player has taken (Array of ids: "first_satellite"...)
+##   missions_done  missions the agency has finished (flown and judged)
 ##   dialogue only: has_hint (bool), talked_week (bool: the weekly morale nudge was used),
-##   flags (Array of what this speaker remembers, set by the "flag" effect)
+##   flags (Array of what this speaker remembers, set by the "flag" effect), where ("campus" |
+##   "briefing" | "race": where the talk was opened), rival_vs (a rival leader's talk only:
+##   "ahead" | "behind" | "even", their agency against the player's)
 ##
 ## Conditions ("if" in the data) are Dictionaries; every key must hold:
 ##   "key": value         equal (a list value: any of them; a list in the context: contains)
@@ -136,7 +141,25 @@ static func context(s: TycoonState, m: Dictionary, activity := {}, world := {}) 
 		ctx["team_mood"] = "happy" if avg >= 70.0 else ("low" if avg < 45.0 else "ok")
 		var pay := s.monthly_salaries()
 		ctx["money"] = "broke" if s.cash < 0.0 else ("low" if s.cash < pay * float(chatter().get("low_money_months", 2.0)) else "ok")
+		ctx["missions_done"] = s.project_history.size()
+		if s.race:
+			ctx["race_place"] = race_place(s)
+			var taken: Array = []
+			for c: Dictionary in s.race.claims_of(RaceDirector.PLAYER):
+				taken.append(String(c.get("milestone", c.get("id", ""))))
+			ctx["milestones"] = taken
 	return ctx
+
+
+## The player's place in the race (1 = in front).
+static func race_place(s: TycoonState) -> int:
+	if s == null or s.race == null:
+		return 1
+	var st := s.race.standings()
+	for i in st.size():
+		if bool(st[i].get("player", false)):
+			return i + 1
+	return st.size()
 
 
 ## Does `ctx` meet every condition of `cond`?
@@ -223,7 +246,9 @@ static func text(key: String, vars := {}) -> String:
 
 
 ## The placeholders every line may use: {name}, {profession}, {project}, {agency}, {leader},
-## {left} (time until the comet), plus {legend_real}, {legend_fact}, {legend_way} for a Lenda.
+## {left} (time until the comet), {race_place}, {my_count} (milestones the player took),
+## {next_goal} (the player's next milestone), plus {legend_real}, {legend_fact}, {legend_way}
+## for a Lenda ({rival}, {rival_count} in a rival leader's talk: DialogueRun.for_legend).
 static func vars_for(s: TycoonState, m: Dictionary) -> Dictionary:
 	var v := {"name": String(m.get("name", TranslationServer.translate("TY_CAM_COMETLING")))}
 	if s == null:
@@ -234,6 +259,14 @@ static func vars_for(s: TycoonState, m: Dictionary) -> Dictionary:
 	v["leader"] = String(TycoonLeader.member(s).get("name", s.agency_name))
 	v["project"] = project_code(s, String(m.get("assigned", "")))
 	v["left"] = time_left(s)
+	if s.race:
+		v["race_place"] = race_place(s)
+		v["my_count"] = s.race.claims_of(RaceDirector.PLAYER).size()
+		var nx := s.race.next_of(RaceDirector.PLAYER)
+		var goal_key := "TY_RACE_ALL_DONE"
+		if nx < s.race.milestones.size():
+			goal_key = String(s.race.milestones[nx].get("short_key", s.race.milestones[nx].get("name_key", "")))
+		v["next_goal"] = TranslationServer.translate(goal_key)
 	var lg := String(m.get("legend", ""))
 	if lg != "":
 		v["legend_real"] = TranslationServer.translate(TycoonLegends.key(lg, "REAL"))

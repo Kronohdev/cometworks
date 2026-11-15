@@ -1,0 +1,239 @@
+keys,en,pt
+RV_PART_WHEELS4,4 wheels,4 rodas
+RV_PART_WHEELS4_DESC,"Light and cheap. Fine on flat ground, gives up on steep slopes.","Leve e barato. Vai bem no plano, desiste nas rampas íngremes."
+RV_PART_WHEELS6,6 wheels (rocker-bogie),6 rodas (balancim)
+RV_PART_WHEELS6_DESC,"The suspension of the Mars rovers: every wheel stays on the ground over rocks and slopes. More room for instruments.","A suspensão dos rovers de Marte: toda roda fica no chão, por cima de pedras e rampas. Mais espaço para instrumentos."
+RV_PART_WALKER,Legged walker,Andador de pernas
+RV_PART_WALKER_DESC,"Six legs climb what wheels cannot: crater walls and boulder fields. Slow and thirsty for energy.","Seis pernas sobem o que roda nenhuma sobe: paredes de cratera e campos de pedras. Lento e gastão de energia."
+RV_PART_HOPPER,Hopper,Saltador
+RV_PART_HOPPER_DESC,"Little thrusters make it hop far where gravity is weak. On the ground it only crawls.","Pequenos propulsores fazem ele saltar longe onde a gravidade é fraca. No chão ele só se arrasta."
+RV_PART_SOLAR,Small solar panel,Painel solar pequeno
+RV_PART_SOLAR_DESC,"Turns sunlight into power while the Sun is up. Weak far from the Sun or low on the horizon.","Transforma luz do Sol em energia enquanto há Sol. Fraco longe do Sol ou com o Sol baixo."
+RV_PART_SOLAR_WING,Solar wings,Asas solares
+RV_PART_SOLAR_WING_DESC,"Two wide wings: almost three times the power of the small panel.","Duas asas largas: quase três vezes a energia do painel pequeno."
+RV_PART_RTG,RTG,RTG
+RV_PART_RTG_DESC,"Heat from plutonium becomes power day and night, and keeps the rover warm. Heavy and expensive.","O calor do plutônio vira energia de dia e de noite, e mantém o rover aquecido. Pesado e caro."
+RV_PART_BATTERY,Battery,Bateria
+RV_PART_BATTERY_DESC,"Stores energy for the shade, the night and the climbs.","Guarda energia para a sombra, a noite e as subidas."
+RV_PART_BATTERY_L,Big battery,Bateria grande
+RV_PART_BATTERY_L_DESC,"Four times the small battery. Long drives far from the Sun.","Quatro vezes a bateria pequena. Viagens longas longe do Sol."
+RV_PART_CAMERA,Camera mast,Mastro com câmera
+RV_PART_CAMERA_DESC,"Two eyes on a mast: photos, panoramas and the view the team on Earth drives by.","Dois olhos num mastro: fotos, panoramas e a vista que a equipe na Terra usa para dirigir."
+RV_PART_SPECTROMETER,Spectrometer,Espectrômetro
+RV_PART_SPECTROMETER_DESC,"Tells what a rock is made of from the light it reflects: water ice included.","Diz do que uma rocha é feita pela luz que ela reflete: gelo de água incluído."
+RV_PART_DRILL,Drill,Broca
+RV_PART_DRILL_DESC,"Digs under the dusty surface, where the ice and the untouched rock hide. The rover must stop to drill.","Cava por baixo da poeira, onde ficam o gelo e a rocha intocada. O rover precisa parar para perfurar."
+RV_PART_ARM,Robotic arm,Braço robótico
+RV_PART_ARM_DESC,"Picks up samples and holds instruments against the rock.","Pega amostras e encosta instrumentos na rocha."
+RV_PART_WEATHER,Weather station,Estação meteorológica
+RV_PART_WEATHER_DESC,"Temperature, pressure and wind, every day. Worth more where there is air.","Temperatura, pressão e vento, todo dia. Vale mais onde há ar."
+RV_PART_SAMPLE_CACHE,Sample cache,Cofre de amostras
+RV_PART_SAMPLE_CACHE_DESC,"Keeps up to four samples sealed for a future return mission.","Guarda até quatro amostras lacradas para uma futura missão de retorno."
+RV_PART_DRONE,Little helicopter,Helicóptero pequeno
+RV_PART_DRONE_DESC,"A tiny helicopter like Ingenuity scouts ahead from the air. It needs an atmosphere: on the Moon it cannot fly.","Um helicóptero minúsculo como o Ingenuity explora à frente pelo ar. Precisa de atmosfera: na Lua ele não voa."
+RV_PART_BEACON,Beacon antenna,Antena de baliza
+RV_PART_BEACON_DESC,"A whisper of radio: enough to say ""I am alive"".","Um sussurro de rádio: o bastante para dizer ""estou vivo""."
+RV_PART_OMNI,Omni antenna,Antena omni
+RV_PART_OMNI_DESC,"Talks in every direction, no pointing needed.","Fala para todos os lados, sem precisar apontar."
+RV_PART_HGA,High-gain dish,Antena parabólica
+RV_PART_HGA_DESC,"A dish aimed at Earth sends far more data.","Uma parabólica mirando a Terra manda muito mais dados."
+RV_STARTER_NAME,Armadillo,Tatu
+RV_ERR_NO_CHASSIS,Pick a chassis first.,Escolha um chassi primeiro.
+RV_ERR_LOCKED,A part still needs research.,Uma peça ainda precisa de pesquisa.
+RV_ERR_DUPLICATE,The same part twice.,A mesma peça duas vezes.
+RV_ERR_NO_POWER,"No power: add a panel, an RTG or a battery.","Sem energia: ponha um painel, um RTG ou uma bateria."
+RV_ERR_NO_ANTENNA,No antenna: nobody on Earth would hear it.,Sem antena: ninguém na Terra ouviria o rover.
+RV_ERR_BAYS,More instruments than the chassis holds.,Mais instrumentos do que o chassi aguenta.
+RV_ERR_POWER_BAYS,More power parts than the chassis holds.,Mais peças de energia do que o chassi aguenta.
+TY_PL_M_ROVER,Rover,Rover
+TY_PL_M_ROVER_DESC,"The rover's chassis and its own tools, built in the rover workshop.","O chassi do rover e as ferramentas dele, montados na oficina de rovers."
+RV_SANDBOX_NAME,Explorer,Explorador
+RV_H_CAPTION,ROVER · %s,ROVER · %s
+RV_H_FACTS,"Gravity %s m/s² · sunlight %d%% · signal %s away","Gravidade %s m/s² · luz do Sol %d%% · sinal a %s"
+RV_H_OBJECTIVES,Objectives,Objetivos
+RV_H_FREE_DRIVE,"No objectives: drive, look around and test the rover.","Sem objetivos: rode, olhe em volta e teste o rover."
+RV_H_MAP,Map,Mapa
+RV_H_MAP_HINT,"Gold stars: objectives. Blue: places to study.","Estrelas douradas: objetivos. Azuis: lugares para estudar."
+RV_H_BATTERY,Battery,Bateria
+RV_H_POWER,"Making %d W · using %d W","Gerando %d W · gastando %d W"
+RV_H_SPEED,Speed,Velocidade
+RV_H_DIST,Driven,Rodou
+RV_H_SCIENCE,Science,Ciência
+RV_H_KMH,%s km/h,%s km/h
+RV_H_DELAY,"Radio round trip to Earth: %s","Ida e volta do rádio até a Terra: %s"
+RV_H_TOOLS,Tools,Ferramentas
+RV_H_CONTROLS,"W/S drive · A/D turn · Space brake · 1-7 tools · F use on target · Q/E or right mouse look · Esc pause","W/S rodar · A/D virar · Espaço freio · 1-7 ferramentas · F usar no alvo · Q/E ou botão direito olhar · Esc pausa"
+RV_H_CONTROLS_HOP,"W/S drive · A/D turn · Space hop · 1-7 tools · F use on target · Q/E or right mouse look · Esc pause","W/S rodar · A/D virar · Espaço saltar · 1-7 ferramentas · F usar no alvo · Q/E ou botão direito olhar · Esc pausa"
+RV_H_SENDING,"Command sent… answer in %s","Comando enviado… resposta em %s"
+RV_H_ALL_DONE,Every objective done!,Todos os objetivos cumpridos!
+RV_H_PAUSE_TITLE,Rover paused,Rover em pausa
+RV_H_SUMMARY,"%d of %d objectives · %d science · drove %s","%d de %d objetivos · %d de ciência · rodou %s"
+RV_H_LEAVE_NOTE,"Leaving sends what the rover did to the mission. You can come back while it is in operation; what is left the rover tries alone at the end.","Ao sair, o que o rover fez vai para a missão. Dá para voltar enquanto ela estiver em operação; o que faltar o rover tenta sozinho no fim."
+RV_H_CONTINUE,Keep driving,Continuar rodando
+RV_H_LEAVE,Back to Earth,Voltar à Terra
+RV_PROMPT,F · %s: %s,F · %s: %s
+RV_ACT_DRILL,Drill,Perfurar
+RV_ACT_SAMPLE,Pick up a sample,Pegar amostra
+RV_ACT_SCAN,Scan,Analisar
+RV_ACT_PHOTO,Photograph,Fotografar
+RV_TOOL_PHOTO,Photo,Foto
+RV_TOOL_PANORAMA,Panorama,Panorama
+RV_TOOL_SCAN,Spectrometer,Espectrômetro
+RV_TOOL_DRILL,Drill,Broca
+RV_TOOL_SAMPLE,Arm (sample),Braço (amostra)
+RV_TOOL_WEATHER,Weather,Clima
+RV_TOOL_DRONE,Helicopter,Helicóptero
+RV_TOOL_HOP,Hop,Saltar
+RV_POI_ROCK,rock,rocha
+RV_POI_ICE,ice in the shade,gelo na sombra
+RV_POI_CRATER_RIM,crater rim,borda da cratera
+RV_POI_VISTA,viewpoint,mirante
+RV_POI_LANDING_SITE,landing site,local de pouso
+RV_POI_SAMPLE_SITE,sample site,ponto de coleta
+RV_POI_DUNE,dune,duna
+RV_POI_VENT,vent,fumarola
+RV_POI_OBJECTIVE,target,alvo
+RV_ST_READY,Ready. W to drive.,Pronto. W para rodar.
+RV_ST_DRIVING,Driving.,Rodando.
+RV_ST_CHARGING,Charging the battery.,Recarregando a bateria.
+RV_ST_EMPTY,"Battery empty: only the panels move it now.","Bateria vazia: agora só os painéis movem o rover."
+RV_ST_STEEP,"Too steep: the wheels slip.","Íngreme demais: as rodas patinam."
+RV_ST_BLOCKED,"A wall: find another way.","Um paredão: procure outro caminho."
+RV_ST_AIR,"In the air! Low gravity.","No ar! Gravidade baixa."
+RV_ST_BUSY_PHOTO,Taking a photo…,Tirando uma foto…
+RV_ST_BUSY_PANORAMA,"Turning the camera all the way around…","Girando a câmera numa volta inteira…"
+RV_ST_BUSY_SCAN,Reading the light of the rock…,Lendo a luz da rocha…
+RV_ST_BUSY_DRILL,Drilling…,Perfurando…
+RV_ST_BUSY_SAMPLE,Picking up a sample…,Pegando uma amostra…
+RV_ST_BUSY_WEATHER,Reading the weather…,Lendo o clima…
+RV_ST_BUSY_DRONE,The helicopter is flying…,O helicóptero está voando…
+RV_MSG_BATTERY_LOW,"Battery low: stop in the sunlight to charge.","Bateria fraca: pare no Sol para carregar."
+RV_MSG_BATTERY_EMPTY,Not enough energy for that.,Sem energia para isso.
+RV_MSG_NO_TOOL,This rover does not carry that tool.,Este rover não leva essa ferramenta.
+RV_MSG_NO_HOP,"Gravity too strong: the hopper cannot jump here.","Gravidade forte demais: o saltador não salta aqui."
+RV_MSG_HOP,Hop!,Salto!
+RV_MSG_NEED_STOP,Stop the rover first.,Pare o rover primeiro.
+RV_MSG_NO_AIR,"No air: the rotor has nothing to push against.","Sem ar: a hélice não tem onde se apoiar."
+RV_MSG_CACHE_FULL,The sample cache is full.,O cofre de amostras está cheio.
+RV_MSG_NOTHING_HERE,Nothing to do with that here.,Nada para fazer com isso aqui.
+RV_MSG_PHOTO,Photo on its way to Earth!,Foto a caminho da Terra!
+RV_MSG_PANORAMA,"Panorama done: 360 degrees of view.","Panorama pronto: 360 graus de vista."
+RV_MSG_SCAN,The spectrum says what the rock is made of.,O espectro diz do que a rocha é feita.
+RV_MSG_DRILL,The drill brought up what hides under the dust.,A broca trouxe o que se esconde sob a poeira.
+RV_MSG_SAMPLE,Sample sealed in the cache.,Amostra lacrada no cofre.
+RV_MSG_WEATHER,Weather reading sent.,Leitura do clima enviada.
+RV_MSG_DRONE,"The helicopter flew: the map shows what it saw.","O helicóptero voou: o mapa mostra o que ele viu."
+RV_MSG_PHOTO_GROUND,"A photo of the ground. A target in view is worth more.","Uma foto do chão. Um alvo à vista vale mais."
+RV_MSG_SCAN_GROUND,"Plain ground scanned. Look for a rock in range.","Chão comum analisado. Procure uma rocha ao alcance."
+RV_MSG_DRILL_GROUND,"Plain ground drilled. Targets on the map are worth more.","Chão comum perfurado. Os alvos do mapa valem mais."
+RV_MSG_SAMPLE_GROUND,A pinch of dust. A rock would be better.,Uma pitada de poeira. Uma rocha seria melhor.
+RV_MSG_OBJECTIVE,Objective done: %s,Objetivo cumprido: %s
+RV_MSG_SCIENCE,+%d science,+%d de ciência
+RV_OBJ_REACH,Reach the target,Chegar ao alvo
+RV_OBJ_PHOTO,Photograph the target,Fotografar o alvo
+RV_OBJ_SCAN,Scan the target,Analisar o alvo
+RV_OBJ_DRILL,Drill the target,Perfurar o alvo
+RV_OBJ_SAMPLE,Pick up a sample,Pegar uma amostra
+RV_OBJ_LAND_PHOTO,Photograph the landing site,Fotografar o local de pouso
+RV_OBJ_DRIVE_100,Drive 100 m,Rodar 100 m
+RV_OBJ_DRIVE_300,Drive 300 m,Rodar 300 m
+RV_OBJ_RIM,Drive up to the crater rim,Subir até a borda da cratera
+RV_OBJ_PANORAMA,Take a panorama,Fazer um panorama
+RV_OBJ_ROCK_SCAN,Scan a rock with the spectrometer,Analisar uma rocha com o espectrômetro
+RV_OBJ_ROCK_SCAN_2,Scan the far rock,Analisar a rocha distante
+RV_OBJ_ICE_DRILL,Drill the ice in the eternal shade,Perfurar o gelo da sombra eterna
+RV_OBJ_ICE_SCAN,Find the water ice with the spectrometer,Achar o gelo de água com o espectrômetro
+RV_OBJ_SAMPLE_1,Collect the first sample,Coletar a primeira amostra
+RV_OBJ_SAMPLE_2,Collect the second sample,Coletar a segunda amostra
+RV_OBJ_SAMPLE_3,Collect the sample from the slope,Coletar a amostra da encosta
+RV_OBJ_SITE_PHOTO,Photograph the future landing site,Fotografar o futuro local de pouso
+RV_OBJ_SITE_LOOP,Check the far edge of the site,Conferir a borda distante do local
+RV_OBJ_WEATHER,Read the weather,Ler o clima
+RV_OBJ_DRONE,Send the helicopter to scout,Mandar o helicóptero explorar
+RV_OBJ_DUNE,Drive to the dark dune,Rodar até a duna escura
+RV_OBJ_VENT,Scan the vent,Analisar a fumarola
+RV_NEWS_DRIVE,"%s: the rover drove and sent %d science.","%s: o rover rodou e mandou %d de ciência."
+RV_AUTO_NO_TOOL,the rover had no tool for it,o rover não tinha ferramenta para isso
+RV_AUTO_NO_AIR,the helicopter cannot fly without air,o helicóptero não voa sem ar
+RV_AUTO_TOO_STEEP,the way was too steep for its chassis,o caminho era íngreme demais para o chassi
+RV_AUTO_COLD,the night at the pole put it to sleep,a noite no polo fez o rover dormir
+RV_AUTO_TOO_FAR,too far for its battery,longe demais para a bateria
+RV_REV_SURFACE,"Surface: %d of %d objectives · %d science","Superfície: %d de %d objetivos · %d de ciência"
+RV_REV_DRIVEN,(driven by the team),(dirigido pela equipe)
+RV_REV_AUTO,(automatic),(no automático)
+RV_REV_FAILED,"Missed: %s (%s)","Faltou: %s (%s)"
+RV_B_CAPTION,Build an explorer for the surface,Monte um explorador para a superfície
+RV_B_TITLE,Rover workshop,Oficina de rovers
+RV_B_MISSION,For the mission,Para a missão
+RV_B_BACK,Back,Voltar
+RV_B_TAB_CHASSIS,Chassis,Chassi
+RV_B_TAB_POWER,Power,Energia
+RV_B_TAB_INSTRUMENT,Instruments,Instrumentos
+RV_B_TAB_COMMS,Radio,Rádio
+RV_B_SLOTS,"Instruments %d of %d · power %d of %d","Instrumentos %d de %d · energia %d de %d"
+RV_B_PREVIEW_HINT,Drag to turn the rover,Arraste para girar o rover
+RV_B_NAME,Name,Nome
+RV_B_NAME_HINT,Give it a name,Dê um nome
+RV_B_SAVE,Save,Salvar
+RV_B_SAVED,Saved,Salvos
+RV_B_SAVED_NONE,No rover saved yet,Nenhum rover salvo ainda
+RV_B_SAVED_PICK,Open a saved rover…,Abrir um rover salvo…
+RV_B_NEW,New,Novo
+RV_B_DELETE,Delete,Apagar
+RV_B_STATS,The rover in numbers,O rover em números
+RV_B_BODY,On,Em
+RV_B_ST_MASS,Mass,Massa
+RV_B_ST_ENERGY,Energy,Energia
+RV_B_ST_SPEED,Speed,Velocidade
+RV_B_ST_RANGE,Range,Alcance
+RV_B_ST_CLIMB,Climb,Subida
+RV_B_ST_SCIENCE,Science,Ciência
+RV_B_ST_COST,Cost,Custo
+RV_B_SAYS,What the Cometlings say,O que os Cometinhos dizem
+RV_B_INFO,Pick the parts,Escolha as peças
+RV_B_INFO_DESC,"A chassis to move, power to live, instruments to learn and an antenna to tell Earth about it.","Um chassi para andar, energia para viver, instrumentos para aprender e uma antena para contar tudo à Terra."
+RV_B_TEST,Test on the surface,Testar na superfície
+RV_B_USE,Use in the mission,Usar na missão
+RV_B_LOCKED,Research: %s,Pesquisa: %s
+RV_B_LOCKED_PLAIN,Needs research,Precisa de pesquisa
+RV_B_V_SPEED,%s km/h,%s km/h
+RV_B_V_CLIMB_SHORT,climbs %d°,sobe %d°
+RV_B_V_BAYS,%d bays,%d vagas
+RV_B_V_SCI_SHORT,science %d,ciência %d
+RV_B_V_MASS_FIT,"%d of %d kg in the lander","%d de %d kg no pouso"
+RV_B_V_ENERGY,"makes %d W · needs %d W","gera %d W · precisa %d W"
+RV_B_V_RANGE_SUN,no limit while powered,sem limite enquanto há energia
+RV_B_V_RANGE,%s km on the battery,%s km na bateria
+RV_B_V_CLIMB,slopes up to %d°,rampas de até %d°
+RV_B_V_SCIENCE,%d per target,%d por alvo
+RV_ERR_HEAVY,Too heavy for the lander.,Pesado demais para o módulo de pouso.
+RV_SAY_HEAVY,"%d kg on board: the lander only takes %d kg. Take something off.","%d kg a bordo: o pouso só leva %d kg. Tire alguma coisa."
+RV_SAY_ENDLESS,"The panels or the RTG keep up with the wheels: it drives all day.","Os painéis ou o RTG dão conta das rodas: ele roda o dia inteiro."
+RV_SAY_RANGE,"With a full battery it drives about %s km before it must rest.","Com a bateria cheia ele roda uns %s km antes de precisar descansar."
+RV_SAY_WEAK_SUN,"Weak Sun here: the panels give only %d%% of what they give at the Moon.","Sol fraco aqui: os painéis rendem só %d%% do que rendem na Lua."
+RV_SAY_NIGHT,"No RTG: the two-week lunar night will put it to sleep.","Sem RTG: a noite lunar de duas semanas vai fazer ele dormir."
+RV_SAY_DRONE_AIR,"The helicopter needs air: here it stays on the deck.","O helicóptero precisa de ar: aqui ele fica no convés."
+RV_SAY_HOPPER,"Low gravity: every hop goes far.","Gravidade baixa: cada salto vai longe."
+RV_SAY_HOPPER_HEAVY,"Gravity too strong here: the hopper cannot jump.","Gravidade forte demais aqui: o saltador não salta."
+RV_SAY_CLIMBER,It climbs crater walls.,Ele sobe paredes de cratera.
+RV_SAY_NO_SCIENCE,"No instruments: it drives, but learns nothing.","Sem instrumentos: ele roda, mas não aprende nada."
+RV_SAY_READY,Ready to roll!,Pronto para rodar!
+RV_B_DONE,Save and close,Salvar e fechar
+TY_BF_CRATER_RIM_TITLE,"From the crater rim","Da borda da cratera"
+TY_BF_CRATER_RIM_STORY,"In 1973 Lunokhod 2 drove 39 km around the crater Le Monnier, a record that lasted 41 years. The Council wants to see the inside of a crater from its rim: the layers of its walls tell the Moon's story, and only something that drives can get up there.","Em 1973, o Lunokhod 2 rodou 39 km pela cratera Le Monnier, um recorde que durou 41 anos. O Conselho quer ver o interior de uma cratera lá da borda: as camadas das paredes contam a história da Lua, e só quem anda consegue subir até lá."
+TY_BF_CRATER_RIM_GOAL,"Get up to a crater rim and show the inside.","Subir até a borda de uma cratera e mostrar o lado de dentro."
+TY_BF_LANDING_SCOUT_TITLE,"Scouting the landing site","Batedor do pouso"
+TY_BF_LANDING_SCOUT_STORY,"In 1969 Apollo 12 landed next to Surveyor 3, which had arrived two years before, and the astronauts walked over to it. The National Space Programme wants the same care now: someone has to go first, look at the ground up close and say whether a crew can land there.","Em 1969, a Apollo 12 pousou ao lado da Surveyor 3, que tinha chegado dois anos antes, e os astronautas foram até ela a pé. O Programa Espacial Nacional quer o mesmo cuidado agora: alguém precisa ir antes, olhar o chão de perto e dizer se uma tripulação pode pousar ali."
+TY_BF_LANDING_SCOUT_GOAL,"Check a future landing site up close: the view, the edges and the rocks.","Conferir de perto um futuro local de pouso: a vista, as bordas e as rochas."
+TY_BF_SAMPLE_CACHE_TITLE,"Samples for later","Amostras para depois"
+TY_BF_SAMPLE_CACHE_STORY,"Since 2021 the Perseverance rover has been sealing pieces of Mars in tubes and leaving them for a future mission to fetch. The Council wants the same on the Moon: pick the best stones now, keep them safe, and let a return flight bring them home.","Desde 2021, o rover Perseverance lacra pedaços de Marte em tubos e os deixa para uma futura missão buscar. O Conselho quer o mesmo na Lua: escolher as melhores pedras agora, guardar com cuidado e deixar um voo de volta trazê-las para casa."
+TY_BF_SAMPLE_CACHE_GOAL,"Collect and seal Moon samples for a future return flight.","Coletar e lacrar amostras da Lua para um futuro voo de volta."
+RV_NEWS_ARRIVED,"%s is on the surface: open the Solar System Map to drive the rover.","%s está na superfície: abra o Mapa do Sistema Solar para controlar o rover."
+RV_TRK_DRIVE,Drive the rover,Controlar o rover
+RV_TRK_DRIVE_TIP,"Drive on the surface yourself. Whatever you leave, the rover tries alone.","Dirija na superfície você mesmo. O que você deixar, o rover tenta sozinho."
+RV_PL_CARD,Rover,Rover
+RV_PL_NONE,"No workshop rover: the Cometlings send a basic one with the instruments above.","Sem rover da oficina: os Cometinhos mandam um básico com os instrumentos acima."
+RV_PL_BUILD,Build the rover,Montar o rover
+RV_PL_EDIT,Change the rover,Mudar o rover
+RV_PL_REMOVE,Remove,Tirar
+RV_PL_HAS,"%s · %s · %d kg","%s · %s · %d kg"

@@ -5,7 +5,8 @@ extends CwScreen
 ## this campaign, with a key to hear it again. Hearing one closes the library, opens the screen
 ## the lesson talks about when it opens on its own (the lesson's "replay") and plays it there
 ## (TycoonTutorial.start with replay on). The side has his live portrait, the lessons on/off
-## switch and "start the lessons over" for this campaign.
+## switch and "start the lessons over" for this campaign, the "menus one at a time" switch for
+## new careers (MenuUnlocks) and "Já sei jogar", which puts every HUD menu up in this career.
 ## Rows are copies of the hidden RowTemplate; the look is the scene's. The game holds still
 ## while the library is open, like the pause menu.
 
@@ -19,6 +20,9 @@ func _ready() -> void:
 	%Toggle.button_pressed = TutorialBook.enabled()
 	%Toggle.toggled.connect(TutorialBook.set_enabled)
 	%Reset.pressed.connect(reset_lessons)
+	%MenusGradual.button_pressed = MenuUnlocks.enabled_for_new()
+	%MenusGradual.toggled.connect(MenuUnlocks.set_enabled_for_new)
+	%KnowHow.pressed.connect(unlock_all_menus)
 	%Status.text = ""
 
 
@@ -58,6 +62,9 @@ func refresh() -> void:
 			b.set_meta("wired", true)
 			b.pressed.connect(func() -> void: replay(String(row.get_meta("lesson", ""))))
 	%Count.text = tr("TUT_LIB_COUNT") % [TutorialBook.seen_count(state), lessons.size()]
+	%KnowHow.disabled = not MenuUnlocks.gradual(state)
+	%KnowHow.tooltip_text = "%s\n%s" % [tr("TY_UNL_ALL_TIP"), tr("TY_UNL_COUNT") % [MenuUnlocks.open_count(state),
+		MenuUnlocks.items().size()]] if MenuUnlocks.gradual(state) else tr("TY_UNL_ALL_ALREADY")
 
 
 ## Plays lesson `id` again: the library closes, the lesson's screen opens (if it has one) and
@@ -74,6 +81,20 @@ func replay(id: String) -> void:
 	if screen != "":
 		h.open_screen(screen)
 	tut.start(id, true)
+
+
+## "Já sei jogar": every HUD menu of this career appears now (HudUnlocker.unlock_all).
+func unlock_all_menus() -> void:
+	if not MenuUnlocks.gradual(state):
+		%Status.text = tr("TY_UNL_ALL_ALREADY")
+		return
+	var main := hud.owner as TycoonMain if hud else null
+	if main and main.unlocks:
+		main.unlocks.unlock_all()
+	else:
+		MenuUnlocks.unlock_all(state)
+	%Status.text = tr("TY_UNL_ALL_DONE")
+	refresh()
 
 
 ## Every lesson of this campaign starts again the first time its moment comes.

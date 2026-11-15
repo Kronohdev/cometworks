@@ -1,0 +1,151 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/building_fx.gd" id="1_fx"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="2_toon"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_ring.tres" id="3_ring"]
+
+[sub_resource type="ShaderMaterial" id="mat_beacon"]
+render_priority = 0
+shader = ExtResource("2_toon")
+shader_parameter/albedo = Color(1, 0.35, 0.3, 1)
+shader_parameter/emission = Color(1, 0.25, 0.2, 1)
+shader_parameter/emission_energy = 4.0
+
+[sub_resource type="SphereMesh" id="mesh_beacon"]
+material = SubResource("mat_beacon")
+radius = 0.14
+height = 0.28
+radial_segments = 8
+rings = 4
+
+[sub_resource type="Curve" id="curve_ring"]
+_data = [Vector2(0, 0.15), 0.0, 1.6, 0, 0, Vector2(1, 1), 0.4, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="curvetex_ring"]
+curve = SubResource("curve_ring")
+
+[sub_resource type="Gradient" id="grad_ring"]
+offsets = PackedFloat32Array(0, 0.15, 1)
+colors = PackedColorArray(0.25, 0.88, 0.77, 0, 0.25, 0.88, 0.77, 0.9, 0.56, 0.49, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_ring"]
+gradient = SubResource("grad_ring")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_ring"]
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 1.4
+initial_velocity_max = 1.4
+gravity = Vector3(0, 0, 0)
+scale_min = 4.0
+scale_max = 4.0
+scale_curve = SubResource("curvetex_ring")
+color_ramp = SubResource("gradtex_ring")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_ring_big"]
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 1.8
+initial_velocity_max = 1.8
+gravity = Vector3(0, 0, 0)
+scale_min = 7.0
+scale_max = 7.0
+scale_curve = SubResource("curvetex_ring")
+color_ramp = SubResource("gradtex_ring")
+
+[sub_resource type="PlaneMesh" id="mesh_ring"]
+material = ExtResource("3_ring")
+size = Vector2(1, 1)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Beacon:visible")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="anim_work"]
+resource_name = "work"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Beacon:visible")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"work": SubResource("anim_work")
+}
+
+[node name="AntennaFx" type="Node3D"]
+script = ExtResource("1_fx")
+
+[node name="Rings" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 3.4, 0.6)
+cast_shadow = 0
+amount = 3
+lifetime = 2.6
+visibility_aabb = AABB(-6, -1, -6, 12, 8, 12)
+process_material = SubResource("ppm_ring")
+draw_pass_1 = SubResource("mesh_ring")
+metadata/idle = 0.34
+
+[node name="RingsBig" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 5.4, -3.6)
+cast_shadow = 0
+amount = 3
+lifetime = 3.0
+visibility_aabb = AABB(-8, -1, -8, 16, 10, 16)
+process_material = SubResource("ppm_ring_big")
+draw_pass_1 = SubResource("mesh_ring")
+metadata/level_min = 2
+metadata/idle = 0.34
+
+[node name="RingsN" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 3.4, -4.4)
+cast_shadow = 0
+amount = 3
+lifetime = 2.6
+visibility_aabb = AABB(-6, -1, -6, 12, 8, 12)
+process_material = SubResource("ppm_ring")
+draw_pass_1 = SubResource("mesh_ring")
+metadata/level_min = 3
+
+[node name="RingsN2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 3.4, 5.0)
+cast_shadow = 0
+amount = 3
+lifetime = 2.6
+visibility_aabb = AABB(-6, -1, -6, 12, 8, 12)
+process_material = SubResource("ppm_ring")
+draw_pass_1 = SubResource("mesh_ring")
+metadata/level_min = 3
+
+[node name="Beacon" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 3.2, 0.6)
+mesh = SubResource("mesh_beacon")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}
+autoplay = "work"

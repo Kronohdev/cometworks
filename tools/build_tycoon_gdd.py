@@ -1,4 +1,4 @@
-"""Builds docs/GDD_Cometworks.pdf: game design document + megaprompt for the
+"""Builds docs/GDD_Cometworks.pdf: game design document for the
 space-agency tycoon (Cometlings' race to the Moon), the new direction of MARGIN for the
 NASA Space Apps Challenge 2026.
 
@@ -151,7 +151,7 @@ def on_page(canvas, doc):
         canvas.rect(1.8 * cm, A4[1] - 1.25 * cm, 1.2 * cm, 0.12 * cm, stroke=0, fill=1)
         canvas.setFont("UI", 7.5)
         canvas.setFillColor(MUTED)
-        canvas.drawString(3.2 * cm, A4[1] - 1.3 * cm, "Cometworks · GDD + megaprompt")
+        canvas.drawString(3.2 * cm, A4[1] - 1.3 * cm, "Cometworks · GDD")
         canvas.drawRightString(A4[0] - 1.8 * cm, 1.1 * cm, str(doc.page))
         canvas.drawString(1.8 * cm, 1.1 * cm, "NASA Space Apps Challenge 2026 · Space Mission Design Game")
     canvas.restoreState()
@@ -222,7 +222,7 @@ def cover(s):
     s.append(Spacer(1, 0.3 * cm))
     s.append(P("Cometworks", "title"))
     s.append(Spacer(1, 0.15 * cm))
-    s.append(P("A agência espacial dos Cometinhos · tycoon · GDD + megaprompt de implementação", "subtitle"))
+    s.append(P("A agência espacial dos Cometinhos · tycoon · documento de design", "subtitle"))
     s.append(Spacer(1, 0.5 * cm))
     s.append(P("“Cada quilo tem um preço. Cada semana também.”", "quote"))
     s.append(Spacer(1, 0.3 * cm))
@@ -233,7 +233,7 @@ def cover(s):
         ["Nome", "<b>Cometworks</b> (mesmo nome em inglês e português). A agência do jogador também se chama Cometworks."],
         ["Gênero", "Tycoon de gestão (estilo <i>Game Dev Tycoon</i>) com expansão de agência, pesquisa e corrida espacial"],
         ["Base técnica", "Repositório MARGIN: Godot 4.6, GDScript, Jolt, build Windows, inglês e português"],
-        ["Leitores", "Equipe (GDD) e agente de código, Claude Code (megaprompt: seções 18 a 20, 22 e Apêndice A)"],
+        ["Leitores", "Equipe: design (seções 1 a 17) e implementação (seções 18 a 22)"],
         ["Entrega", "Hackathon de 14–15/11/2026, versão de campanha comprimida (seção 17)"],
         ["Versão do documento", f"1.0 · {date.today().strftime('%d/%m/%Y')} · substitui a direção do GDD_MARGIN_Space_Mission_Design_Game.md"],
     ], [3.6 * cm, W - 3.6 * cm], bold_first=True))
@@ -254,8 +254,7 @@ def toc(s):
         ("18", "Reaproveitamento do código existente"), ("19", "Arquitetura técnica e dados"),
         ("20", "Plano de implementação com critérios de aceite"), ("21", "Riscos e decisões em aberto"),
         ("22", "Direção de arte da interface: Aurora de observatório"),
-        ("A", "Apêndice A: megaprompt para o agente de código"), ("B", "Apêndice B: conformidade com o enunciado"),
-        ("C", "Apêndice C: valores iniciais de balanceamento"),
+        ("A", "Apêndice A: conformidade com o enunciado"), ("B", "Apêndice B: valores iniciais de balanceamento"),
     ]
     s.append(table([["#", "Seção"]] + [[a, b] for a, b in items], [1.2 * cm, W - 1.2 * cm]))
     s.append(PageBreak())
@@ -263,13 +262,12 @@ def toc(s):
 
 def how_to_use(s):
     s.append(P("0. Como usar este documento", "h1"))
-    s.append(P("Este PDF tem dois leitores. A <b>equipe</b> lê as seções 1 a 17 para entender o jogo, discutir e "
-               "apresentar. O <b>agente de código</b> (Claude Code no repositório MARGIN) usa o documento inteiro como "
-               "especificação: as seções 18 a 20 e 22 dizem o que reaproveitar, como organizar o código e em que ordem "
-               "construir, com critérios de aceite; o Apêndice A é o prompt pronto para colar a cada etapa."))
-    s.append(P("Regras para o agente", "h2"))
+    s.append(P("As seções 1 a 17 explicam o jogo, para discutir e apresentar. As seções 18 a 20 e 22 são a "
+               "especificação de implementação: o que reaproveitar, como organizar o código e em que ordem "
+               "construir, com critérios de aceite."))
+    s.append(P("Regras de implementação", "h2"))
     s += numbered([
-        "Trate os números das seções 6, 12, 13 e do Apêndice C como <b>valores iniciais de playtest</b>. Todos ficam em "
+        "Trate os números das seções 6, 12, 13 e do Apêndice B como <b>valores iniciais de playtest</b>. Todos ficam em "
         "arquivos JSON de <font name='Mono'>data/tycoon/</font>, nunca fixos no código.",
         "Siga as convenções do repositório: tudo o que é visual fica em cenas (<font name='Mono'>.tscn</font>) editáveis no "
         "editor; scripts só preenchem dados. Nenhum texto fixo no código: chaves de tradução em CSV de "
@@ -282,8 +280,7 @@ def how_to_use(s):
         "resultado. Isso viabiliza testes, replays e o hot-seat.",
         "O que está marcado <b>STRETCH</b> não entra antes de todo o <b>MVP</b> estar jogável.",
         "Toda tela segue a direção de arte da seção 22 (tokens, tipografia, componentes e as regras contra a "
-        "“cara de IA”).",
-        "Commits só com a conta do autor do repositório, sem linha de coautoria de IA.",
+        "cara genérica).",
     ])
     s.append(P("Convenções do texto", "h2"))
     s += bullets([
@@ -315,7 +312,7 @@ def summary(s):
         "recompensas: dinheiro, reputação, hype e ciência.",
         "A agência cresce: <b>pesquisa</b> desbloqueia peças e tipos de missão; prédios aumentam capacidade; "
         "contratos, governo, hype e venda de tecnologia pagam as contas.",
-        "Rivais (IA ou até 4 humanos em <b>hot-seat</b>) disputam os “primeiros”. Perder um marco custa prestígio, mas a "
+        "Rivais (do computador ou até 4 humanos em <b>hot-seat</b>) disputam os “primeiros”. Perder um marco custa prestígio, mas a "
         "meta final, alcançar o cometa, continua aberta.",
         "No hackathon, a campanha de 25 anos roda <b>comprimida</b>, em 40 a 60 minutos, para jurados jogarem de ponta a ponta.",
     ])
@@ -337,9 +334,9 @@ def decisions(s):
         ["Mão na massa", "<b>Opcional.</b> Os Cometinhos montam e voam sozinhos; o jogador pode assumir hangar ou voo.", "8, 14"],
         ["História", "Corrida espacial dos Cometinhos até a Lua.", "4"],
         ["Meta na Lua", "<b>Base de partida</b> para alcançar o cometa quando ele passar. Abre o jogo tardio.", "4, 13, 16"],
-        ["Rivais", "Agências rivais controladas pela IA, cada uma com personalidade.", "13"],
+        ["Rivais", "Agências rivais controladas pelo computador, cada uma com personalidade.", "13"],
         ["Space Apps", "Este tycoon é a <b>entrega do hackathon</b> de 14–15/11, cumprindo o checklist do enunciado.", "17, B"],
-        ["Leitores do PDF", "Agente de IA e equipe.", "0"],
+        ["Leitores do PDF", "Equipe.", "0"],
         ["Projetos", "<b>Contratos + projetos livres</b>: contratos pagam as contas; livres dão fama, ciência e “primeiros”.", "6"],
         ["Campanha", "Longa, cerca de 25 anos de jogo, 3 a 5 horas.", "5, 17"],
         ["Profissões", "Expandidas; cada uma valoriza uma barra do sistema de desenvolvimento.", "9"],
@@ -355,7 +352,7 @@ def decisions(s):
         ["Educação", "Enciclopédia de missões reais, conselheiros Cometinhos, relatório pós-missão e contratos "
          "inspirados no Space Apps.", "15"],
         ["Nome", "<b>Cometworks</b>.", "capa"],
-        ["Arte da UI", "Aurora com pegada espacial, sem vidro fosco e sem cara de interface feita por IA: "
+        ["Arte da UI", "Aurora com pegada espacial, sem vidro fosco e sem cara de interface genérica: "
          "“Aurora de observatório”.", "22"],
         ["Tempo", "Tempo real com pausa e 3 velocidades; no multijogador, turnos de um mês.", "5, 16"],
         ["Idioma do PDF", "Português, termos de código em inglês.", "–"],
@@ -811,7 +808,7 @@ def race(s):
     ], [0.8 * cm, 6.6 * cm, 1.2 * cm, 2.4 * cm, W - 11.0 * cm]))
     s.append(P("Quem chega em segundo recebe 30% do prêmio e metade da reputação. A corrida <b>continua</b> mesmo se um "
                "rival conquistar a base de partida primeiro: o encontro com o cometa é a meta final e está aberto a todos."))
-    s.append(P("Agências rivais (IA)", "h2"))
+    s.append(P("Agências rivais do computador", "h2"))
     s.append(table([
         ["Agência", "Personalidade", "Força", "Fraqueza"],
         ["Aurora Rubra", "Ousada; lança cedo e arrisca", "Chega primeiro em marcos tripulados", "Falha muito; perde meses com acidentes"],
@@ -919,7 +916,7 @@ def multiplayer(s):
     s.append(P("16. Multijogador hot-seat, pontuação e fim de jogo", "h1"))
     s.append(P("16.1 Hot-seat (MVP para 2–4 agências)", "h2"))
     s += bullets([
-        "Até 4 agências humanas no mesmo computador; vagas vazias podem ser preenchidas por rivais IA.",
+        "Até 4 agências humanas no mesmo computador; vagas vazias podem ser preenchidas por rivais do computador.",
         "O tempo passa em <b>turnos de 1 mês</b>: cada jogador faz o mês da sua agência e passa a vez. Quando todos "
         "terminam, o mundo simula o mês para todos de uma vez (com a mesma seed).",
         "Mundo compartilhado: marcos, contratos comerciais, licenciamento de tecnologia e o cometa são os mesmos para "
@@ -963,7 +960,7 @@ def hackathon(s):
         ["1 semana", "1 s; auto-pausa só em decisões"],
         ["Tamanho dos projetos", "Semanas base × 0,5"],
         ["Conteúdo por era", "3 tipos de missão, 2 alvos, 6 tecnologias, 2 prédios, 3 contratos fixos"],
-        ["Rivais", "2 rivais IA"],
+        ["Rivais", "2 rivais do computador"],
         ["Tutorial", "Primeiro projeto guiado por um conselheiro (5 minutos)"],
         ["Ponto de entrada rápido", "Salvamentos prontos no início de cada era para demonstrar o jogo tardio"],
     ], [5.2 * cm, W - 5.2 * cm], bold_first=True))
@@ -974,7 +971,7 @@ def hackathon(s):
         "projetista automático, 3 fases com sliders, Revisão de Projeto, lançamento, avaliação de 4 jornais e relatório.",
         "Equipe com as 7 profissões, contratação, níveis e moral.",
         "Pesquisa com cerca de 30 tecnologias; economia com governo, contratos, hype e venda de tecnologia.",
-        "Corrida com os 15 marcos, 2 rivais IA, jornal e quadro da corrida; fim de jogo com a Mãe-Gelo.",
+        "Corrida com os 15 marcos, 2 rivais do computador, jornal e quadro da corrida; fim de jogo com a Mãe-Gelo.",
         "Mapa com missões ativas, só leitura, com 1 decisão de operação por missão.",
         "Hot-seat para 2 jogadores.",
         "Enciclopédia com 12 fichas conferidas; 4 contratos inspirados no Space Apps; inglês e português.",
@@ -982,7 +979,7 @@ def hackathon(s):
     s.append(P("STRETCH (depois do MVP)", "h2"))
     s += bullets([
         "Assumir voo e abrir no hangar a partir do tycoon.",
-        "Hot-seat com 4 jogadores; 3 rivais IA; eventos e decisões de operação completos.",
+        "Hot-seat com 4 jogadores; 3 rivais do computador; eventos e decisões de operação completos.",
         "Planetas além da Lua; modo livre depois do cometa; refeitório e moral avançada.",
     ])
     s.append(callout("<b>Prazo real.</b> Hoje é 04/11 e o evento é 14–15/11. Antes de escrever código no evento, confirme "
@@ -1044,7 +1041,7 @@ def architecture(s):
         ["ResearchTree", "RefCounted", "Tecnologias, PP, desbloqueios"],
         ["Economy", "RefCounted", "Entradas e saídas mensais e anuais, falência"],
         ["ContractBoard", "RefCounted", "Ofertas, disputa com rivais, multas"],
-        ["RaceDirector", "RefCounted", "Marcos, rivais IA, jornal"],
+        ["RaceDirector", "RefCounted", "Marcos, rivais do computador, jornal"],
         ["EventDirector", "RefCounted", "Eventos aleatórios por tabela"],
         ["TycoonSave", "RefCounted", "JSON em user://tycoon_save_N.json"],
     ], [3.4 * cm, 3.0 * cm, W - 6.4 * cm], bold_first=True))
@@ -1115,7 +1112,7 @@ def plan(s):
          "em 5 cenários de teste."),
         ("E3 Agência", "ResearchTree, prédios, Economy, ContractBoard; campus voxel com lotes, prédios e NPCs andando.",
          "Pesquisar libera peça e tipo de missão; prédio muda capacidade; 25 anos automáticos sem falência no padrão."),
-        ("E4 Corrida e fim", "RaceDirector, 2 rivais IA, 15 marcos, jornal, quadro da corrida, Mãe-Gelo, pontuação final, "
+        ("E4 Corrida e fim", "RaceDirector, 2 rivais do computador, 15 marcos, jornal, quadro da corrida, Mãe-Gelo, pontuação final, "
          "modo feira.",
          "Partida no modo feira termina em 40–60 min com um jogador de teste; rivais conquistam marcos em anos plausíveis."),
         ("E5 Mapa de missões", "Camada de missões ativas no FlightMap, cartão da missão, MissionOps semanal, 1 decisão "
@@ -1232,7 +1229,7 @@ def screen_mock():
 def art_direction(s):
     s.append(P("22. Direção de arte da interface: Aurora de observatório", "h1"))
     s.append(P("Pedido: a aurora da cauda de um cometa, com pegada espacial, <b>sem</b> o vidro fosco da moda e "
-               "<b>sem</b> a cara genérica de interface gerada por IA. A metáfora escolhida é o <b>painel de "
+               "<b>sem</b> a cara genérica de interface de modelo pronto. A metáfora escolhida é o <b>painel de "
                "instrumentos de um observatório à noite</b>: superfícies opacas e escuras como metal pintado, gravações "
                "finas, leituras numéricas precisas e, de vez em quando, um fio de aurora acendendo um detalhe."))
     s.append(callout("<b>Frase-guia:</b> “equipamento de verdade, operado por criaturinhas fofas”. A interface é séria "
@@ -1322,7 +1319,7 @@ def art_direction(s):
         "Logo: a palavra <b>COMETWORKS</b> em Bricolage, com o “O” de COMET trocado pela lâmpada-estrela de quatro pontas "
         "da antena dos Cometinhos, e uma cauda fina saindo dela nas cores da aurora.",
     ])
-    s.append(P("22.8 Regras contra a “cara de IA”", "h2"))
+    s.append(P("22.8 Regras contra a cara genérica", "h2"))
     s.append(table([
         ["Evitar", "Fazer no lugar"],
         ["Vidro fosco com blur atrás", "Painel opaco com borda gravada e grão"],
@@ -1348,50 +1345,9 @@ def art_direction(s):
     s.append(PageBreak())
 
 
-def appendix_prompt(s):
-    s.append(P("Apêndice A: megaprompt para o agente de código", "h1"))
-    s.append(P("Cole o bloco abaixo no Claude Code, na raiz do repositório MARGIN, trocando <b>&lt;ETAPA&gt;</b> pela "
-               "etapa da seção 20. Junte este PDF à conversa ou aponte para o caminho dele."))
-    s.append(code("""
-Voce esta no repositorio MARGIN (Godot 4.6, GDScript). Leia docs/GDD_Cometworks.pdf:
-ele e a especificacao do jogo "Cometworks", um tycoon de agencia espacial dos Cometinhos que
-substitui a direcao anterior do MARGIN para o NASA Space Apps Challenge 2026.
-
-Tarefa: implementar a etapa <ETAPA> da secao 20, e somente ela.
-
-Regras:
-1. Reaproveite os sistemas da secao 18 (PartDB, VesselMath, CrewRoster, Cometinhos NPC,
-   FlightSolar, FlightConic, FlightTrajectory, FlightCapture, FlightMap, UI kit, i18n).
-2. Logica em src/tycoon/ como RefCounted, sem depender de cena; testavel headless.
-3. Numeros em data/tycoon/*.json (valores iniciais do Apendice C), nunca fixos no codigo.
-4. Visual em cenas .tscn editaveis; scripts so preenchem dados. Textos so por chaves de
-   traducao em i18n/tycoon_strings.csv (en e pt).
-5. Toda aleatoriedade usa o RNG com seed do TycoonState. Mesma seed + mesmos comandos = mesmo resultado.
-6. Acoes do jogador sao comandos serializaveis aplicados ao estado (secao 19.2).
-7. Nao implemente nada marcado STRETCH ou FUTURO. Nao invente fatos historicos: fichas da
-   enciclopedia sem fonte conferida ficam com "verified": false.
-8. Escreva o teste headless da etapa em tests/ e rode:
-   godot --headless --path . --script res://tests/<teste>.gd
-   A etapa so termina quando os criterios de aceite da secao 20 passam.
-9. Interface: siga a secao 22 (Aurora de observatorio). Use os tokens de cor e tipografia do
-   tema ui/cometworks_theme.tres; paineis opacos (sem blur), bordas finas com marcas de canto,
-   gradiente da aurora so como linha fina; nada de emoji como icone, nada de vidro fosco,
-   nada de grade generica de cartoes iguais.
-10. Commits pequenos e frequentes, so com a conta do autor, sem linha de coautoria.
-11. Ao terminar: resuma o que foi feito, o que ficou de fora e o resultado dos testes.
-"""))
-    s.append(P("Prompts curtos por tela (para pedir ajustes)", "h2"))
-    s += bullets([
-        "“Monte a tela de projeto (seção 6.2 a 6.4) com o UI kit: alvo e tipo primeiro, depois opções da nave com os 6 "
-        "medidores ao vivo, depois a família de foguete.”",
-        "“Monte o campus voxel (seção 11) com 8 lotes, os 4 prédios do MVP e os NPCs do hangar andando entre eles.”",
-        "“Gere o relatório pós-missão (seção 15.3) com a cadeia causal do fator limitante e um design alternativo.”",
-    ])
-    s.append(PageBreak())
-
 
 def appendix_compliance(s):
-    s.append(P("Apêndice B: conformidade com o enunciado", "h1"))
+    s.append(P("Apêndice A: conformidade com o enunciado", "h1"))
     s.append(P("Itens do desafio <i>Space Mission Design Game</i> (numeração do GDD anterior) e onde o tycoon os atende."))
     rows = [
         ["#", "Exigência", "Onde no jogo", "MVP"],
@@ -1418,7 +1374,7 @@ def appendix_compliance(s):
 
 
 def appendix_balance(s):
-    s.append(P("Apêndice C: valores iniciais de balanceamento", "h1"))
+    s.append(P("Apêndice B: valores iniciais de balanceamento", "h1"))
     s.append(P("Pontos de partida para o primeiro playtest. Todos vão para data/tycoon/*.json."))
     s.append(table([
         ["Parâmetro", "Valor inicial", "Nota"],
@@ -1444,12 +1400,12 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     doc = SimpleDocTemplate(str(OUT), pagesize=A4, leftMargin=1.8 * cm, rightMargin=1.8 * cm,
                             topMargin=1.8 * cm, bottomMargin=1.7 * cm,
-                            title="Cometworks — GDD + megaprompt",
+                            title="Cometworks — GDD",
                             author="Equipe MARGIN", subject="NASA Space Apps Challenge 2026")
     s = []
     for part in (cover, toc, how_to_use, summary, decisions, vision, world, loop, development, resources, vehicles,
                  staff, research, agency, economy, race, map_ops, education, multiplayer, hackathon, reuse,
-                 architecture, plan, risks, art_direction, appendix_prompt, appendix_compliance, appendix_balance):
+                 architecture, plan, risks, art_direction, appendix_compliance, appendix_balance):
         part(s)
     doc.build(s, onFirstPage=on_page, onLaterPages=on_page)
     print("wrote", OUT)

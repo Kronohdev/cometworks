@@ -1,0 +1,113 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/lens.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_dark.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m2"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/solar_blue.tres" id="m3"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(1.6, 0.6, 1.1)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(1.7, 0.08, 1.2)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(1.6, 0.06, 1.2)
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(0.06, 0.16, 0.16)
+
+[sub_resource type="BoxMesh" id="box4"]
+size = Vector3(0.03, 0.75, 0.03)
+
+[sub_resource type="BoxMesh" id="box5"]
+size = Vector3(0.03, 0.5, 0.03)
+
+[sub_resource type="BoxMesh" id="box6"]
+size = Vector3(0.18, 0.3, 0.18)
+
+[sub_resource type="BoxMesh" id="box7"]
+size = Vector3(0.6, 0.6, 0.18)
+
+[node name="HomageLunokhod" type="Node3D"]
+editor_description = "Tribute to the first rover driven on another world (1970): a tub on eight wheels with its lid open to the Sun."
+
+[node name="Tub" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="TubRim" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18, 0)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Lid" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6967, -0.7174, 0, 0.7174, 0.6967, 0, 0, 0, 1, -0.3, 1.55, 0)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Eye1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.9, 0.25)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Eye2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.9, -0.25)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Rod1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.55, 0.45)
+mesh = SubResource("box4")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="Rod2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.4, -0.45)
+mesh = SubResource("box5")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="Cone" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9211, -0.3894, 0, 0.3894, 0.9211, 0.55, 1.45, 0)
+mesh = SubResource("box6")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelL0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.32, 0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelL1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.32, 0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelL2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.32, 0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelL3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.32, 0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelR0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.32, -0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelR1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.32, -0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelR2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.32, -0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="WheelR3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.32, -0.68)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m1")

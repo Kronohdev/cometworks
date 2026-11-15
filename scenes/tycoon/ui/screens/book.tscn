@@ -543,6 +543,16 @@ theme_override_font_sizes/font_size = 18
 text = "100% dos dados chegaram ao solo."
 autowrap_mode = 3
 
+[node name="MSurface" type="Label" parent="Frame/VBox/Pages/Mission/MCard/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+text = "RV_REV_SURFACE"
+autowrap_mode = 3
+
 [node name="MNumbers" type="PanelContainer" parent="Frame/VBox/Pages/Mission"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2

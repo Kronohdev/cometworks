@@ -3,6 +3,7 @@
 [ext_resource type="Theme" path="res://ui/cometworks_on_dark.tres" id="cw_on_dark"]
 [ext_resource type="Script" path="res://src/cutscene/cutscene.gd" id="1_cs"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/story/narrator_box.tscn" id="3_narrator"]
 
 [sub_resource type="Gradient" id="vignette_ramp"]
 offsets = PackedFloat32Array(0.55, 1)
@@ -325,6 +326,10 @@ text = "De cada floquinho da cauda dela nasce um Cometinho."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="Narrator" parent="Frame" instance=ExtResource("3_narrator")]
+unique_name_in_owner = true
+layout_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

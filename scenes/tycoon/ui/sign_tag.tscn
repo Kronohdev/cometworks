@@ -1,0 +1,220 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="1_theme"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="2_icon"]
+
+[sub_resource type="StyleBoxFlat" id="card"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.9569, 0.8784, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 10
+shadow_color = Color(0.1059, 0.0941, 0.2706, 0.25)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="disc_lore"]
+bg_color = Color(0.702, 0.6118, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+corner_detail = 10
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="disc_history"]
+bg_color = Color(0.4863, 0.7843, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+corner_detail = 10
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="disc_joke"]
+bg_color = Color(1, 0.6039, 0.3608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+corner_detail = 10
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="disc_covered"]
+bg_color = Color(0.2471, 0.4353, 0.6039, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+corner_detail = 10
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="pointer"]
+bg_color = Color(1, 0.9569, 0.8784, 1)
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_bottom_right = 3
+anti_aliasing = true
+
+[node name="SignTag" type="VBoxContainer"]
+offset_right = 220.0
+offset_bottom = 70.0
+mouse_filter = 2
+theme = ExtResource("1_theme")
+theme_override_constants/separation = -3
+
+[node name="Card" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("card")
+
+[node name="HBox" type="HBoxContainer" parent="Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Disc" type="Control" parent="Card/HBox"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="DiscLore" type="Panel" parent="Card/HBox/Disc"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc_lore")
+
+[node name="DiscHistory" type="Panel" parent="Card/HBox/Disc"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc_history")
+
+[node name="DiscJoke" type="Panel" parent="Card/HBox/Disc"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc_joke")
+
+[node name="DiscCovered" type="Panel" parent="Card/HBox/Disc"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc_covered")
+
+[node name="Icon" type="TextureRect" parent="Card/HBox/Disc"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Card/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Kicker" type="Label" parent="Card/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "SIGN_KIND_LORE"
+
+[node name="Title" type="Label" parent="Card/HBox/Text"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "SIGN_WELCOME_TITLE"
+
+[node name="Hint" type="Label" parent="Card/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "SIGN_HOVER_NEW"
+
+[node name="Tip" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Pointer" type="Panel" parent="Tip"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -9.0
+offset_top = -10.0
+offset_right = 9.0
+offset_bottom = 8.0
+rotation = 0.785398
+pivot_offset = Vector2(9, 9)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("pointer")

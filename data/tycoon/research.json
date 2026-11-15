@@ -26,6 +26,28 @@
     "arrow_up": 45,
     "arrow_down": 20
   },
+  "tree": {
+    "_doc": "The research screen's growing tree (src/tycoon/research/tech_tree_layout.gd), all optional. Eras are rows from the roots (era 1) up; limbs are lanes left to right, each holding some branches (a branch in none goes to default_limb); the trunk rises up trunk_limb's lane. A tech may pin itself with \"tree_pos\": [lane, row] (row 0 = era 1) and pick its card icon with \"icon\" (else its branch's in icons: names in ui/cometworks/icons/). A tech may also cost money with \"cash\" (credits, paid once when it starts; none by default). Sizes in tree pixels: card [w, h], lane_w, era_h, margin_left (the era signs), margin_top (the limb signs), ground_h; arch lifts the cards further from the trunk (each row an arch).",
+    "card": [150, 70],
+    "lane_w": 168,
+    "era_h": 124,
+    "margin_left": 104,
+    "margin_top": 34,
+    "ground_h": 44,
+    "arch": 24,
+    "default_limb": "science",
+    "trunk_limb": "core",
+    "limbs": [
+      {"id": "rocketry", "name_key": "RT_LIMB_ROCKETRY", "branches": ["prop"]},
+      {"id": "comms", "name_key": "RT_LIMB_COMMS", "branches": ["comms", "avionics"]},
+      {"id": "core", "name_key": "RT_LIMB_CORE", "branches": ["ops"]},
+      {"id": "science", "name_key": "RT_LIMB_SCIENCE", "branches": ["instr"]},
+      {"id": "crew", "name_key": "RT_LIMB_CREW", "branches": ["crew"]},
+      {"id": "exploration", "name_key": "RT_LIMB_EXPLORATION", "branches": ["struct", "power", "isru"]}
+    ],
+    "icons": {"prop": "rocket", "struct": "build", "comms": "antenna", "instr": "research", "avionics": "control",
+              "power": "flame", "crew": "crew", "isru": "factory", "ops": "lab"}
+  },
   "branches": {
     "prop": {"name_key": "TY_BR_PROP", "color": "#ff8a3d"},
     "struct": {"name_key": "TY_BR_STRUCT", "color": "#ffc547"},

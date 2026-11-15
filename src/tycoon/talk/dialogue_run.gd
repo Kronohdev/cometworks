@@ -76,11 +76,39 @@ func _init(s: TycoonState, m: Dictionary, p_tree := "", p_who := "", world := {}
 	tree = (ChatterBook.dialogues().get("trees", {}) as Dictionary).get(tree_id, {})
 	who = p_who if p_who != "" else String(m.get("id", tree_id))
 	ctx = ChatterBook.context(s, m, activity, world)
+	ctx["where"] = String(world.get("where", "campus"))
 	vars = ChatterBook.vars_for(s, m)
 	var hint := hint_text()
 	vars["hint"] = hint
 	ctx["has_hint"] = hint != ""
 	_refresh_memory()
+
+
+## A talk with Lenda `id` away from the staff: a mentor from a briefing ("briefing"), a rival
+## leader from the race board ("race"), or any Lenda by its id (tests, the dev menu). Its own
+## tree (by_legend), its look as the speaker, nothing to nudge (mentors and rival leaders are
+## not staff: no morale, no Caderno tip) and, for a rival leader, how the race stands between
+## their agency and the player's: ctx rival_vs ("ahead" | "behind" | "even") and the
+## placeholders {rival}, {rival_count}. A hired Lenda talks as its staff entry instead.
+static func for_legend(s: TycoonState, id: String, where := "campus", world := {}) -> DialogueRun:
+	var staff_id := String((TycoonLegends.st(s)["hired"] as Dictionary).get(id, "")) if s else ""
+	var m: Dictionary = TycoonCrew.find(s, staff_id) if staff_id != "" else {}
+	var w := world.duplicate()
+	w["where"] = where
+	if not m.is_empty():
+		return DialogueRun.new(s, m, "", "", w)
+	var look := TycoonLegends.look(id)
+	var r := DialogueRun.new(s, look, tree_for(look), id, w)
+	r.member = {}
+	var l := TycoonLegends.legend(id)
+	if String(l.get("kind", "")) == "rival_leader" and s and s.race:
+		var rid := String(l.get("rival", ""))
+		var mine := s.race.race_points(RaceDirector.PLAYER) + (1.0 if s.race.met_comet(RaceDirector.PLAYER) else 0.0)
+		var theirs := s.race.race_points(rid) + (1.0 if s.race.met_comet(rid) else 0.0)
+		r.ctx["rival_vs"] = "even" if absf(mine - theirs) < 0.05 else ("ahead" if theirs > mine else "behind")
+		r.vars["rival"] = TranslationServer.translate(s.race.agency_name(rid))
+		r.vars["rival_count"] = s.race.claims_of(rid).size()
+	return r
 
 
 ## Starts at the tree's start node (or `at`). False when the tree has no such node.

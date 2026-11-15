@@ -246,16 +246,62 @@ static func nearest_variant(body: Color) -> int:
 
 
 # ------------------------------------------------------------ looks
-## Dresses a Cometling as a staff member: the leader and the Lendas (TycoonLegends) get their
-## own colours and hat, anyone else their variant colours and no hat (a creature reused for
-## another member loses it).
-static func dress(c: Cometling, m: Dictionary) -> void:
+## Dresses a Cometling as a staff member and returns the Cometling that shows them: a Lenda
+## with a scene of its own (TycoonLegends.scene_path) stands in for `c` (swap_body: same place,
+## name and settings) in its own outfit; the leader and the other Lendas get their own colours
+## and hat, anyone else their variant colours and no hat. A body swapped in for a Lenda goes
+## back to the shared Cometling when the next member is not one. Callers keep the returned node.
+static func dress(c: Cometling, m: Dictionary) -> Cometling:
 	var role := TycoonCrew.look_role(String(m.get("profession", "")))
+	var own := TycoonLegends.scene_path(String(m.get("legend", ""))) if TycoonLegends.is_legend(m) else ""
+	c = swap_body(c, own)
+	if own != "":
+		c.role = role   # the antenna colour; the outfit hides the profession gear
+		return c
 	if is_leader(m) or TycoonLegends.is_legend(m):
 		apply_look(c, m, role)
 	else:
 		CometlingLooks.apply(c, int(m.get("variant", 0)), role)
 		LeaderHat.wear(c, "role")
+	return c
+
+
+## Puts an instance of `scene` (a Cometling scene) where `c` is, with its name, transform,
+## visibility and settings, frees `c` and returns the new one; scene "" brings back the shared
+## Cometling a swap replaced (else returns `c` as it is). `c` already of that scene stays.
+static func swap_body(c: Cometling, scene: String) -> Cometling:
+	if c == null:
+		return c
+	var plain := String(c.get_meta("plain_scene", ""))
+	if scene == "":
+		if plain == "":
+			return c
+		scene = plain
+	if c.scene_file_path == scene:
+		return c
+	var ps := load(scene) as PackedScene
+	var n := ps.instantiate() as Cometling if ps else null
+	if n == null:
+		return c
+	if scene != plain:
+		n.set_meta("plain_scene", plain if plain != "" else c.scene_file_path)
+	n.name = c.name
+	n.transform = c.transform
+	n.visible = c.visible
+	for k in ["listen_to_events", "cull_distance", "lod_distance", "detail_distance", "habit_distance_factor",
+			"paused", "glow_color", "process_mode"]:
+		n.set(k, c.get(k))
+	var parent := c.get_parent()
+	if parent:
+		var at := c.get_index()
+		parent.remove_child(c)
+		parent.add_child(n)
+		parent.move_child(n, at)
+		if c.owner:
+			n.owner = c.owner
+			n.unique_name_in_owner = c.unique_name_in_owner
+	c.queue_free()
+	return n
 
 
 ## Colours, role accessories and hat from a leader (or staff) dictionary.

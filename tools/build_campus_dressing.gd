@@ -10,6 +10,8 @@ extends SceneTree
 ##                                          monument, planters, floodlights, beacon masts
 ##                                          (metadata era_min / era_max, read by campus.gd)
 ##   scenes/tycoon/campus_life.tscn         birds, fireflies, pad steam
+## The island's shape (terrain, sea, shore plants, fences along the edge, the mask's `inside`)
+## comes from tools/build_campus_island.gd: run it again after this one.
 ## Run: godot --path . --script res://tools/build_campus_dressing.gd
 ## (not --headless: the MultiMesh buffers are read back from a real renderer when saving)
 

@@ -20,7 +20,7 @@ extends Node
 ## tycoon_main adds one of these and calls bind().
 
 const PROJECT_SCREENS: Array[String] = ["new_project", "project_phase", "project_review", "launch", "rocket_designer",
-	"design_review", "briefings", "payload_planner", "project_team", "launch_choice"]
+	"design_review", "briefings", "payload_planner", "project_team", "launch_choice", "rover_builder"]
 ## screens a project screen waits behind (the race's newspaper and finale included)
 const DECISIONS: Array[String] = ["project_phase", "project_review", "newspaper", "finale", "final_score", "launch",
 	"design_review", "rocket_designer", "launch_choice"]

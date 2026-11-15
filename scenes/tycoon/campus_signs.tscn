@@ -1,0 +1,134 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/campus_signs.gd" id="1_signs"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/campus_sign.tscn" id="2_sign"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/sign_tag.tscn" id="3_tag"]
+
+[node name="Signs" type="Node3D"]
+script = ExtResource("1_signs")
+
+[node name="Welcome" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -10.5, 0, 7.0)
+sign_id = "welcome"
+
+[node name="MaeGelo" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -6.5, 0, -38.5)
+sign_id = "mae_gelo"
+
+[node name="TheFall" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 4.5, 0, 34.0)
+sign_id = "the_fall"
+
+[node name="Promise" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 9.5, 0, -3.8)
+sign_id = "promise"
+
+[node name="MoonFirst" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 25.5, 0, 9.0)
+sign_id = "moon_first"
+
+[node name="VovoEdmundo" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 2.5, 0, -45.0)
+sign_id = "vovo_edmundo"
+
+[node name="Rivals" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -30.0, 0, -3.0)
+sign_id = "rivals"
+
+[node name="CometWindow" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(0.47107, 0, -1.21165, 0, 1.3, 0, 1.21165, 0, 0.47107, 77.0, 0, 20.0)
+sign_id = "comet_window"
+
+[node name="Sputnik" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -43.0, 0, -23.0)
+sign_id = "sputnik"
+
+[node name="Explorer1" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 32.0, 0, -12.0)
+sign_id = "explorer1"
+
+[node name="Gagarin" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 54.0, 0, -10.0)
+sign_id = "gagarin"
+
+[node name="Luna3" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -5.0, 0, -26.0)
+sign_id = "luna3"
+
+[node name="Luna9" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 5.0, 0, -26.0)
+sign_id = "luna9"
+
+[node name="Apollo8" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 4.5, 0, -38.5)
+sign_id = "apollo8"
+
+[node name="Apollo11" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 50.5, 0, 7.0)
+sign_id = "apollo11"
+
+[node name="Lcross" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -29.5, 0, 17.0)
+sign_id = "lcross"
+
+[node name="Halley" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 58.0, 0, -15.0)
+sign_id = "halley"
+
+[node name="Giotto" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -17.0, 0, 26.5)
+sign_id = "giotto"
+
+[node name="Rosetta" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(0.47107, 0, -1.21165, 0, 1.3, 0, 1.21165, 0, 0.47107, 81.5, 0, 11.0)
+sign_id = "rosetta"
+
+[node name="Scd1" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -10.5, 0, -3.5)
+sign_id = "scd1"
+
+[node name="MarcosPontes" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 36.0, 0, -3.0)
+sign_id = "marcos_pontes"
+
+[node name="Alcantara" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 37.0, 0, 31.5)
+sign_id = "alcantara"
+
+[node name="NoFeeding" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 31.0, 0, -3.2)
+sign_id = "no_feeding"
+
+[node name="Beach" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.24194, 0, -0.38418, 0, 1.3, 0, 0.38418, 0, 1.24194, 6.0, -8.45, 59.0)
+sign_id = "beach"
+
+[node name="NapZone" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 12.0, 0, 29.5)
+sign_id = "nap_zone"
+
+[node name="Danger" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.19738, 0, 0.50624, 0, 1.3, 0, -0.50624, 0, 1.19738, -58.5, 0, -15.0)
+sign_id = "danger"
+
+[node name="LostFound" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -57.5, 0, 14.0)
+sign_id = "lost_found"
+
+[node name="Lonely" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(0.80809, 0, -1.01832, 0, 1.3, 0, 1.01832, 0, 0.80809, 110.5, -3.0, -49.5)
+sign_id = "lonely"
+
+[node name="Stairs" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, -4.5, 0, 34.0)
+sign_id = "stairs"
+
+[node name="Weather" parent="." instance=ExtResource("2_sign")]
+transform = Transform3D(1.03491, 0, -0.78674, 0, 1.3, 0, 0.78674, 0, 1.03491, 25.0, 0, 27.0)
+sign_id = "weather"
+
+[node name="TagLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Tag" parent="TagLayer" instance=ExtResource("3_tag")]
+visible = false

@@ -30,6 +30,7 @@ func _ready() -> void:
 			grab_focus())
 	focus_entered.connect(_light.bind(true))
 	focus_exited.connect(_light.bind(false))
+	resized.connect(_fit_hint)
 	# the menu enables Continue after loading the save: relight the hint when the row redraws
 	draw.connect(func() -> void: _light(has_focus()))
 	_light(false)
@@ -40,6 +41,36 @@ func _refresh() -> void:
 		return
 	($Index as Label).text = index_text
 	($Hint as Label).text = hint_key
+	_fit_hint()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		_fit_hint.call_deferred()
+
+
+## Keeps the dim hint clear of the entry's own text: its left edge starts past the label
+## (icon + text + a gap) and the row drops the hint when too little room is left.
+func _fit_hint() -> void:
+	if not is_node_ready():
+		return
+	var hint := $Hint as Label
+	if hint_key == "":
+		hint.visible = false
+		return
+	var font := get_theme_font("font")
+	var fsize := get_theme_font_size("font_size")
+	var x := 0.0
+	var box := get_theme_stylebox("normal")
+	if box:
+		x += box.get_margin(SIDE_LEFT)
+	if icon:
+		var iw := get_theme_constant("icon_max_width")
+		x += float(iw if iw > 0 else icon.get_width()) + float(get_theme_constant("h_separation"))
+	x += font.get_string_size(tr(text), HORIZONTAL_ALIGNMENT_LEFT, -1, fsize).x + 16.0
+	var room := size.x + hint.offset_right - x
+	hint.visible = room >= 70.0
+	hint.offset_left = hint.offset_right - minf(room, 236.0)
 
 
 func _light(on: bool) -> void:

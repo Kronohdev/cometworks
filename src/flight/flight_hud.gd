@@ -516,8 +516,8 @@ func update_telemetry(t: Dictionary) -> void:
 	_speed_mode.text = tr("FL_CW_SPEED_ORBIT") if orbital else tr("FL_CW_SPEED_SURFACE")
 	_speed.text = fmt_speed(t["speed"])
 	_btn_sas.set_pressed_no_signal(int(t["sas"]) != 0)
-	_btn_pro.set_pressed_no_signal(int(t["sas"]) == FlightVessel.Sas.PROGRADE)
-	_btn_retro.set_pressed_no_signal(int(t["sas"]) == FlightVessel.Sas.RETROGRADE)
+	_btn_pro.set_pressed_no_signal(int(t["sas"]) == FlightCraft.Sas.PROGRADE)
+	_btn_retro.set_pressed_no_signal(int(t["sas"]) == FlightCraft.Sas.RETROGRADE)
 	_btn_auto.set_pressed_no_signal(t["auto"])
 	_update_navball(t)
 	t["pitch"] = _pitch
@@ -575,7 +575,7 @@ func _update_goal(t: Dictionary) -> void:
 	_goal_progress.text = line
 	_goal_progress.add_theme_color_override("font_color", CwPalette.SUCCESS if _goal_done else CwPalette.TEXT_DIM)
 	# delta-v: tanks vs what the goal still asks (the hangar's need less what the engines gave)
-	var need := 0.0 if _goal_done else maxf(_goal_dv - float(world.active.dv_used), 0.0)
+	var need := 0.0 if _goal_done else maxf(_goal_dv - float(world.sim.craft.dv_used), 0.0)
 	var top := maxf(maxf(dv_left, need) * 1.15, 1.0)
 	_dv_bar.value = dv_left / top
 	_dv_bar.marker = need / top if need > 0.0 else -1.0
@@ -599,7 +599,7 @@ func _update_coach(t: Dictionary) -> void:
 		CwMotion.poke(%NowCard)
 		if key in ["FL_CW_NOW_STAGE", "FL_CW_NOW_IGNITE"]:
 			CwMotion.poke(%BtnStage)
-	var v: FlightVessel = t["vessel"]
+	var v: FlightCraft = t["vessel"]
 	var btn := %BtnStage as Button
 	if not t["launched"]:
 		btn.text = tr("FL_CW_STAGE_IGNITE")
@@ -612,7 +612,7 @@ func _update_coach(t: Dictionary) -> void:
 
 ## Translation key of the instruction for this telemetry (see _update_coach).
 func now_key(t: Dictionary) -> String:
-	var v: FlightVessel = t["vessel"]
+	var v: FlightCraft = t["vessel"]
 	var alt := float(t["alt"])
 	var ap := float(t["ap"])
 	var pe := float(t["pe"])
@@ -645,7 +645,7 @@ func now_key(t: Dictionary) -> String:
 	if thr < 0.02 and thrust <= 0.0 and ap < ORBIT_PE:
 		return "FL_CW_NOW_THROTTLE"
 	if goal_kind != "space":
-		var following := int(t["sas"]) == FlightVessel.Sas.PROGRADE
+		var following := int(t["sas"]) == FlightCraft.Sas.PROGRADE
 		if alt < TURN_ALT and _pitch > 78.0:
 			return "FL_CW_NOW_CLIMB"
 		if alt < 45000.0 and not following:
@@ -736,7 +736,7 @@ func _place_marker(m: Control, d: Vector3, center: Vector2, radius: float) -> vo
 
 
 func _update_stages(t: Dictionary) -> void:
-	var v: FlightVessel = t["vessel"]
+	var v: FlightCraft = t["vessel"]
 	var n: int = v.stage_count
 	if n != _row_stage_count:
 		for r in _rows:

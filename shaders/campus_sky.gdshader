@@ -3,7 +3,8 @@ shader_type sky;
 // warm band where the Sun is going down, two layers of twinkling stars, a faint aurora
 // curtain (teal -> violet, the art direction's thread as a natural phenomenon), two layers of
 // distant mountain silhouettes in the haze, a small moon, and the Cometlings' home comet
-// Mae-Gelo with a glowing nucleus, a straight ion tail and a curved, striated dust tail.
+// Mae-Gelo with a glowing nucleus and green coma, a straight blue ion tail and a curved,
+// golden dust tail fanned by fine rays.
 // Everything lives at infinity, so the comet never clips or turns into a flat card.
 // The radiance pass (AT_CUBEMAP_PASS) skips the fine detail; keep Sky.radiance_size small and
 // process_mode Real-time so the slow aurora drift stays cheap.
@@ -128,48 +129,7 @@ vec3 aurora_ramp(float s) {
 	return s < 0.5 ? mix(aurora_teal, aurora_violet, s * 2.0) : mix(aurora_violet, ignition, s * 2.0 - 1.0);
 }
 
-// premultiplied colour (rgb) and coverage (a): the comet is composited "over" the sky, so its
-// colours stay saturated on bright dusk skies instead of washing out to white
-vec4 comet(vec3 d, bool detail) {
-	vec3 c = normalize(comet_dir);
-	vec3 t = normalize(comet_tail_dir - dot(comet_tail_dir, c) * c);
-	vec3 b = cross(c, t);
-	float z = dot(d, c);
-	if (z <= 0.0) {
-		return vec4(0.0);
-	}
-	float x = atan(dot(d, t), z);
-	float y = atan(dot(d, b), z);
-	float w = comet_width;
-	float r2 = x * x + y * y;
-	// nucleus: a hot point, a coma and a wide faint halo
-	float head_a = exp(-r2 / (w * w * 0.08)) * 5.0 + exp(-r2 / (w * w * 1.2)) * 0.9 + exp(-r2 / (w * w * 14.0)) * 0.18;
-	vec3 head = vec3(0.86, 0.97, 1.0);
-	vec3 col = head * head_a;
-	float a = head_a;
-	if (x > -w) {
-		float xs = max(x, 0.0);
-		float s = xs / comet_length;
-		float fade = pow(clamp(1.0 - s, 0.0, 1.0), 1.4) * smoothstep(-w, w * 2.0, x);
-		// ion tail: straight, narrow, blue-teal, slightly kinked
-		float yi = y - 0.02 * sin(xs * 9.0) * s;
-		float w1 = w * (0.30 + s * 1.8);
-		float ion = exp(-(yi * yi) / (w1 * w1)) * fade * 0.75;
-		// dust tail: curved, wider, warm towards its end, with streamers
-		float yc = y - comet_curve * xs * xs;
-		float w2 = w * (0.55 + s * 7.0);
-		float across = yc / w2;
-		float dust = exp(-across * across) * fade * 0.9;
-		if (detail) {
-			float st = 0.65 + 0.35 * sin(across * 9.0 + s * 3.0) * sin(across * 4.3 - 1.7);
-			dust *= mix(1.0, st, comet_striae * smoothstep(0.05, 0.3, s));
-		}
-		col += ion * mix(head, mix(aurora_teal, aurora_violet, clamp(s * 1.6, 0.0, 1.0)), smoothstep(0.0, 0.10, s))
-				+ dust * mix(head, aurora_ramp(clamp(s * 1.3, 0.0, 1.0)), smoothstep(0.0, 0.07, s));
-		a += ion + dust;
-	}
-	return vec4(col * comet_brightness, clamp(a * comet_brightness, 0.0, 1.0));
-}
+#include "res://shaders/include/cw_sky_comet.gdshaderinc"
 
 // height of a mountain range at azimuth az (radians)
 float range_height(float az, float seed, float h) {

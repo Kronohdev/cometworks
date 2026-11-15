@@ -49,6 +49,8 @@ func _on_changed() -> void:
 func _next_page() -> void:
 	if _busy or state.race.finished or hud.current_screen() != "" or state.race.pending_pages.is_empty():
 		return
+	if Bankruptcy.is_bankrupt(state):
+		return  # the game over stays up (TycoonBankruptcyFlow)
 	if wait_for.is_valid() and bool(wait_for.call()):
 		return  # the launch first; this is called again when its screens close
 	var page := state.race.pop_page()
@@ -62,6 +64,8 @@ func _next_page() -> void:
 
 func _on_screen_closed(screen_name: String) -> void:
 	if _busy:
+		return
+	if Bankruptcy.is_bankrupt(state):
 		return
 	if state.race.finished:
 		# after the comet the report stays up: closing any screen brings it back

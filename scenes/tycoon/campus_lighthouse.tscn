@@ -1,0 +1,85 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/campus/island/props_toon.tres" id="1_vvmxi"]
+[ext_resource type="ArrayMesh" path="res://assets/campus/island/lighthouse.res" id="2_pqdbo"]
+[ext_resource type="ArrayMesh" path="res://assets/campus/island/lighthouse_lamp.res" id="3_xtvwv"]
+[ext_resource type="Shader" path="res://shaders/campus_beam.gdshader" id="4_ybxpm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkxbf"]
+albedo_color = Color(1, 0.9019608, 0.65882355, 1)
+emission_enabled = true
+emission = Color(1, 0.8235294, 0.47843137, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0wpqe"]
+render_priority = 0
+shader = ExtResource("4_ybxpm")
+shader_parameter/color = Color(1, 0.86, 0.58, 1)
+shader_parameter/strength = 0.5
+shader_parameter/falloff = 2.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4fvjw"]
+top_radius = 0.35
+bottom_radius = 2.6
+height = 36.0
+radial_segments = 10
+rings = 1
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="Animation" id="Animation_qfh0u"]
+length = 9.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BeamPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.5, 9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.1415927, 0), Vector3(0, 6.2831855, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gdocs"]
+_data = {
+&"spin": SubResource("Animation_qfh0u")
+}
+
+[node name="Lighthouse" type="Node3D" unique_id=678341681]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=544795745]
+material_override = ExtResource("1_vvmxi")
+mesh = ExtResource("2_pqdbo")
+
+[node name="Lamp" type="MeshInstance3D" parent="." unique_id=1645872505]
+material_override = SubResource("StandardMaterial3D_gkxbf")
+cast_shadow = 0
+mesh = ExtResource("3_xtvwv")
+
+[node name="Light" type="OmniLight3D" parent="." unique_id=657454452 groups=["campus_lamps"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4, 0)
+light_color = Color(1, 0.8235294, 0.6039216, 1)
+light_energy = 2.0
+omni_range = 22.0
+
+[node name="BeamPivot" type="Node3D" parent="." unique_id=1901772705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4, 0)
+
+[node name="Beam" type="MeshInstance3D" parent="BeamPivot" unique_id=1935598777 groups=["campus_night_glow"]]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 18.4, 0, 0)
+material_override = SubResource("ShaderMaterial_0wpqe")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_4fvjw")
+
+[node name="Beam2" type="MeshInstance3D" parent="BeamPivot" unique_id=114746337 groups=["campus_night_glow"]]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -18.4, 0, 0)
+material_override = SubResource("ShaderMaterial_0wpqe")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_4fvjw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1493219546]
+libraries/ = SubResource("AnimationLibrary_gdocs")
+autoplay = &"spin"

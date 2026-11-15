@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/surface/planet_surface.tscn" id="1_surface"]
 [ext_resource type="Resource" path="res://resources/planets/earth.tres" id="2_profile"]
 [ext_resource type="PackedScene" path="res://scenes/surface/fly_camera.tscn" id="3_cam"]
+[ext_resource type="Script" path="res://src/world/surface_terrain_feature.gd" id="4_feature"]
+[ext_resource type="Script" path="res://src/world/surface_poi.gd" id="5_poi"]
+[ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_explore.tscn" id="p_explore"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/collectible.tscn" id="p_find"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/challenge_ring.tscn" id="p_ring"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/survey_stake.tscn" id="p_stake"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/test_yard.tscn" id="p_yard"]
 
 [node name="EarthSurface" instance=ExtResource("1_surface")]
 profile = ExtResource("2_profile")
@@ -10,3 +17,79 @@ focus_path = NodePath("FlyCamera")
 
 [node name="FlyCamera" parent="." instance=ExtResource("3_cam")]
 terrain_path = NodePath("../Terrain")
+
+[node name="Features" type="Node3D" parent="."]
+editor_description = "Authored landforms (SurfaceTerrainFeature): move one and the terrain rebuilds."
+
+[node name="JumpRamp" type="Marker3D" parent="Features"]
+position = Vector3(-40, 0, 50)
+rotation = Vector3(0, 0.9, 0)
+script = ExtResource("4_feature")
+shape = 6
+size_a = 8
+size_b = 3.5
+height = 2
+param_1 = 0
+param_2 = 0
+material = 9
+material_shade = 1
+variant = 1
+
+[node name="Content" type="Node3D" parent="."]
+editor_description = "Points of interest (SurfacePoi), finds (collectible.tscn), challenge rings and effects. Only x / z and the yaw matter: everything sits on the ground by itself."
+
+[node name="Spawn" type="Marker3D" parent="Content" groups=["surface_spawn"]]
+position = Vector3(4, 0, 8)
+gizmo_extents = 2.0
+
+[node name="Places" type="Node3D" parent="Content"]
+
+[node name="TestYard" type="Node3D" parent="Content/Places"]
+position = Vector3(30, 0, -40)
+script = ExtResource("5_poi")
+entry_id = &"earth_test_yard"
+
+[node name="SetPiece" parent="Content/Places/TestYard" instance=ExtResource("p_yard")]
+
+[node name="Stake" parent="Content/Places/TestYard" instance=ExtResource("p_stake")]
+position = Vector3(6, 0, 4)
+
+[node name="MeteoriteHunt" type="Node3D" parent="Content/Places"]
+position = Vector3(-60, 0, -70)
+script = ExtResource("5_poi")
+entry_id = &"earth_meteorite_hunt"
+
+[node name="Stake" parent="Content/Places/MeteoriteHunt" instance=ExtResource("p_stake")]
+
+[node name="Finds" type="Node3D" parent="Content"]
+
+[node name="Meteorite1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-62, 0, -66)
+type = 0
+
+[node name="Meteorite2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(60, 0, 30)
+type = 0
+
+[node name="OddRock1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-30, 0, -90)
+type = 2
+
+[node name="OddRock2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(80, 0, -60)
+type = 2
+
+[node name="Crumb1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(10, 0, 70)
+type = 3
+lore_index = 1
+
+[node name="Challenges" type="Node3D" parent="Content"]
+
+[node name="HopStart" parent="Content/Challenges" instance=ExtResource("p_ring")]
+position = Vector3(-47, 0, 44)
+rotation = Vector3(0, 0.9, 0)
+entry_id = &"earth_hop"
+radius = 6
+
+[node name="Explore" parent="." instance=ExtResource("p_explore")]

@@ -40,17 +40,17 @@ func _initialize() -> void:
 	# low orbit, 200 km circular (state set directly: the timing is about rendering)
 	world.launched = true
 	world.liftoff_time = 0.0
-	world.active.clamped = false
-	world.active.landed = false
+	world.sim.clamped = false
+	world.sim.landed = false
 	var r := FlightOrbit.R + 200000.0
 	var up := Vector3.UP
 	var east := FlightWorld.EAST.normalized()
 	var v := sqrt(FlightOrbit.MU / r)
-	world.active.body.set_state(FlightOrbit.vec(0, r, 0), FlightOrbit.vec(east.x * v, 0.0, east.z * v))
-	world.active.body.q = Quaternion(Vector3.UP, east)
-	world.active.prev.copy_from(world.active.body)
-	world.active.throttle = 0.0
-	world.active.set_sas(FlightVessel.Sas.HOLD)
+	world.sim.set_state(FlightOrbit.vec(0, r, 0), FlightOrbit.vec(east.x * v, 0.0, east.z * v))
+	world.sim.q = Quaternion(Vector3.UP, east)
+	pass
+	world.sim.craft.throttle = 0.0
+	world.sim.craft.sas = FlightCraft.Sas.HOLD
 	await _frames(20)
 	world.cam.set_view(-2.5, 0.24, 36.0, true)
 	await _measure("orbit_limb")

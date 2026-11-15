@@ -8,6 +8,9 @@ extends RefCounted
 ## Layers (meters): continents + ridged mountains (masked by continents) +
 ## detail + regional tilt + dunes + lineae ridges - accent depression; craters
 ## are then stamped on the sampled grid and the landing zone is flattened.
+## Last come the authored features (SurfaceTerrainFeature nodes placed in the surface
+## scenes: a named crater with rays, a rille, a mesa, a ridge, chaos blocks, a ramp...),
+## given to set_features() on the main thread before any job reads them.
 
 const M := PlanetSurfaceProfile.Mat
 const SH := PlanetSurfaceProfile.SHADES
@@ -59,6 +62,27 @@ var _fz_blend := 1.0
 var _paved := false
 var _cliff := 1.6
 var _crater_classes: Array = []  # of [r_lo, r_hi, cell, prob]
+## authored features: PackedFloat32Array each (see set_features / F_*)
+var _features: Array = []
+
+## Shapes of SurfaceTerrainFeature (same order as its enum).
+enum Shape { CRATER, RILLE, MESA, RIDGE, MOUND, CHAOS, RAMP, FLAT, DUNES }
+## Packed feature layout: shape, cx, cz, cos, sin, a, b, h, p1, p2, mat (palette index or -1),
+## reach (bounding radius), seed.
+const F_SHAPE := 0
+const F_CX := 1
+const F_CZ := 2
+const F_COS := 3
+const F_SIN := 4
+const F_A := 5
+const F_B := 6
+const F_H := 7
+const F_P1 := 8
+const F_P2 := 9
+const F_MAT := 10
+const F_REACH := 11
+const F_SEED := 12
+const F_SIZE := 13
 
 
 func _init(profile: PlanetSurfaceProfile) -> void:
@@ -151,7 +175,66 @@ func height_at(x: float, z: float) -> float:
 	var hh := PackedFloat32Array([d[0]])
 	var bright := PackedFloat32Array([0.0])
 	_stamp_craters(hh, bright, x, z, 1.0, 1, 1, 0.0)
-	return _flatten(hh[0], x, z)
+	var h := _flatten(hh[0], x, z)
+	if not _features.is_empty():
+		h = _apply_features(h, x, z).x
+	return h
+
+
+## Authored features (Dictionaries from SurfaceTerrainFeature.to_feature()): {"shape", "x", "z",
+## "yaw" (rad), "a", "b", "h", "p1", "p2", "mat" (palette index, -1 none), "seed"}. Main thread
+## only, before chunk jobs start. FLAT features level to the height at their centre.
+func set_features(list: Array) -> void:
+	_features.clear()
+	for f: Dictionary in list:
+		var pf := PackedFloat32Array()
+		pf.resize(F_SIZE)
+		var shape := int(f.get("shape", Shape.CRATER))
+		var a := maxf(float(f.get("a", 10.0)), 0.5)
+		var b := maxf(float(f.get("b", 4.0)), 0.25)
+		var yaw := float(f.get("yaw", 0.0))
+		pf[F_SHAPE] = shape
+		pf[F_CX] = float(f.get("x", 0.0))
+		pf[F_CZ] = float(f.get("z", 0.0))
+		pf[F_COS] = cos(yaw)
+		pf[F_SIN] = sin(yaw)
+		pf[F_A] = a
+		pf[F_B] = b
+		pf[F_H] = float(f.get("h", 2.0))
+		pf[F_P1] = float(f.get("p1", 0.0))
+		pf[F_P2] = float(f.get("p2", 0.0))
+		pf[F_MAT] = float(f.get("mat", -1))
+		pf[F_SEED] = float(int(f.get("seed", 1)) % 1000)
+		match shape:
+			Shape.CRATER:
+				pf[F_REACH] = a * (3.4 if pf[F_MAT] >= 0.0 else 1.9)
+			Shape.RILLE:
+				pf[F_REACH] = sqrt(a * a + pow(b * 1.6 + absf(pf[F_P1]), 2.0)) + b
+			Shape.MESA:
+				pf[F_REACH] = maxf(a, b) * 1.5
+			Shape.RIDGE, Shape.RAMP:
+				pf[F_REACH] = sqrt(a * a + b * b) + 2.0
+			Shape.CHAOS:
+				pf[F_REACH] = a * 1.15 + b
+			Shape.DUNES:
+				pf[F_REACH] = a
+			Shape.FLAT:
+				pf[F_REACH] = a + b
+				# the level: the terrain height at the centre before this feature (earlier ones count)
+				pf[F_P2] = height_at(pf[F_CX], pf[F_CZ])
+			_:
+				pf[F_REACH] = a
+		_features.append(pf)
+
+
+## Whether an authored feature covers (x, z).
+func feature_at(x: float, z: float) -> bool:
+	for f: PackedFloat32Array in _features:
+		var dx := x - f[F_CX]
+		var dz := z - f[F_CZ]
+		if dx * dx + dz * dz < f[F_REACH] * f[F_REACH]:
+			return true
+	return false
 
 
 ## World height of the voxel top surface at (x, z) for a given voxel size.
@@ -187,10 +270,19 @@ func sample_chunk(ox: float, oz: float, s: float, n: int) -> Dictionary:
 	var hmin := 1 << 30
 	var hmax := -(1 << 30)
 	var inv_s := 1.0 / s
+	var fmat := PackedInt32Array()
+	var has_f := not _features.is_empty()
+	if has_f:
+		fmat.resize(cnt)
+		fmat.fill(-1)
 	for j in w:
 		for i in w:
 			var k := j * w + i
 			var h := _flatten(hf[k], x0 + i * s, z0 + j * s)
+			if has_f:
+				var fr := _apply_features(h, x0 + i * s, z0 + j * s)
+				h = fr.x
+				fmat[k] = int(fr.y)
 			hf[k] = h
 			var hv := int(floorf(h * inv_s + 0.5))
 			heights[k] = hv
@@ -258,6 +350,11 @@ func sample_chunk(ox: float, oz: float, s: float, n: int) -> Dictionary:
 				if mat == M.SURFACE or mat == M.SURFACE_ALT or mat == M.ACCENT:
 					mat = M.SURFACE_ALT
 					shade = 2
+			# an authored feature paints its own material (cliffs stay rock, ramps stay ramps)
+			if has_f and fmat[k] >= 0 and (mat != M.ROCK or fmat[k] / SH == M.PAD):
+				tops[k] = fmat[k]
+				subs[k] = sub * SH + 1
+				continue
 			tops[k] = mat * SH + shade
 			subs[k] = sub * SH + 1
 	return {"heights": heights, "tops": tops, "subs": subs, "hmin": hmin, "hmax": hmax}
@@ -328,6 +425,137 @@ func _base_sample(x: float, z: float, out: PackedFloat32Array, o: int) -> void:
 	out[o + 2] = lin
 	out[o + 3] = det
 	out[o + 4] = dune
+
+
+## Height after the authored features at (x, z) and the palette index they paint there (-1 none).
+func _apply_features(h: float, x: float, z: float) -> Vector2:
+	var mat := -1.0
+	for f: PackedFloat32Array in _features:
+		var dx := x - f[F_CX]
+		var dz := z - f[F_CZ]
+		var r2 := dx * dx + dz * dz
+		if r2 >= f[F_REACH] * f[F_REACH]:
+			continue
+		var u := dx * f[F_COS] + dz * f[F_SIN]
+		var v := dz * f[F_COS] - dx * f[F_SIN]
+		var a := f[F_A]
+		var b := f[F_B]
+		var fh := f[F_H]
+		var fm := f[F_MAT]
+		var sd := f[F_SEED]
+		match int(f[F_SHAPE]):
+			Shape.CRATER:
+				# fh = depth, p1 = rim height; mat = the bright rim and rays of a fresh crater
+				var t := sqrt(r2) / a
+				var rim := f[F_P1]
+				if t < 1.0:
+					var t2 := t * t
+					h += -fh + (fh + rim) * t2 * t2 * (0.6 + 0.4 * t)
+				elif t < 1.9:
+					var q := 1.0 - (t - 1.0) / 0.9
+					h += rim * q * q * q
+				if fm >= 0.0 and t > 0.82 and t < 3.4:
+					var ang := atan2(dz, dx)
+					var n := sin(ang * 9.0 + sd) * 0.5 + sin(ang * 17.0 + sd * 1.7) * 0.32 + sin(ang * 37.0 + sd * 2.3) * 0.18
+					if t < 1.22 or n > 0.42 + (t - 1.22) * 0.16:
+						mat = fm
+			Shape.RILLE:
+				# a = half length, b = half width, fh = depth, p1 = meander amplitude, p2 = wavelength
+				var au := absf(u)
+				if au < a:
+					var wl := maxf(f[F_P2], 1.0)
+					var c := f[F_P1] * sin(u * TAU / wl + sd)
+					var taper := 1.0 - smoothstep(a * 0.7, a, au)
+					var wd := b * (0.35 + 0.65 * taper)
+					var d := absf(v - c)
+					if d < wd * 1.6:
+						var inside := 1.0 - smoothstep(wd * 0.5, wd, d)
+						var lip := smoothstep(wd * 0.85, wd * 1.1, d) * (1.0 - smoothstep(wd * 1.1, wd * 1.6, d))
+						h += -fh * inside * (0.3 + 0.7 * taper) + fh * 0.1 * lip * taper
+						if fm >= 0.0 and inside > 0.55:
+							mat = fm
+			Shape.MESA:
+				# a, b = radii, fh = height, p1 = edge roughness 0..1; mat = the cap rock
+				var e := sqrt((u / a) * (u / a) + (v / b) * (v / b))
+				var ang2 := atan2(v / b, u / a)
+				e *= 1.0 + f[F_P1] * 0.14 * (sin(ang2 * 5.0 + sd) + 0.5 * sin(ang2 * 11.0 + sd * 1.3))
+				var top := 1.0 - smoothstep(0.9, 1.0, e)
+				var talus := smoothstep(0.9, 1.0, e) * (1.0 - smoothstep(1.0, 1.4, e))
+				h += fh * top + fh * 0.16 * talus
+				if fm >= 0.0 and e < 0.86:
+					mat = fm
+			Shape.RIDGE:
+				# a = half length, b = half width, fh = height, p1 = 1 double ridge (Europa), 0 single
+				var au2 := absf(u)
+				var q2 := absf(v) / b
+				if au2 < a and q2 < 1.0:
+					var taper2 := 1.0 - smoothstep(a * 0.7, a, au2)
+					if f[F_P1] > 0.5:
+						h += fh * taper2 * (1.0 - smoothstep(0.55, 1.0, q2)) * (0.35 + 0.65 * smoothstep(0.05, 0.42, q2))
+						if fm >= 0.0 and q2 < 0.28:
+							mat = fm
+					else:
+						var g := 1.0 - q2 * q2
+						h += fh * taper2 * g * g
+						if fm >= 0.0 and q2 < 0.5:
+							mat = fm
+			Shape.MOUND:
+				# a = radius, fh = height, p1 = terrace step (m, 0 = smooth); mat = the summit
+				var t3 := sqrt(r2) / a
+				if t3 < 1.0:
+					var g2 := 1.0 - t3 * t3
+					var dh := fh * g2 * g2
+					if f[F_P1] > 0.1:
+						dh = floorf(dh / f[F_P1]) * f[F_P1] + minf(fmod(dh, f[F_P1]), f[F_P1] * 0.25)
+					h += dh
+					if fm >= 0.0 and t3 < 0.25:
+						mat = fm
+			Shape.CHAOS:
+				# a = radius, b = block size, fh = block relief, p1 = matrix depth; mat = the matrix
+				var t4 := sqrt(r2) / a
+				var edge := 1.0 - smoothstep(0.8, 1.1, t4)
+				if edge > 0.0:
+					var gu := floorf(u / b)
+					var gv := floorf(v / b)
+					var hs := _hash(int(gu) + int(sd) * 13, int(gv), 71)
+					var fu := u / b - gu
+					var fv := v / b - gv
+					var jit := 0.12 + 0.1 * _u01(hs, 3)
+					if _u01(hs, 1) < 0.62 and fu > jit and fu < 1.0 - jit and fv > jit and fv < 1.0 - jit:
+						var tilt := (fu - 0.5) * (_u01(hs, 4) - 0.5) * 2.0 + (fv - 0.5) * (_u01(hs, 5) - 0.5) * 2.0
+						h += (fh * (0.35 + 0.65 * _u01(hs, 2)) + tilt * fh * 0.5 - f[F_P1] * 0.3) * edge
+					else:
+						h -= f[F_P1] * edge
+						if fm >= 0.0 and edge > 0.4:
+							mat = fm
+			Shape.RAMP:
+				# a = half length, b = half width, fh = lip height; rises along +u, then drops
+				if absf(v) < b and u > -a and u < a + 1.0:
+					var t5 := clampf((u + a) / (2.0 * a), 0.0, 1.0)
+					var dh2 := fh * t5 * t5 * (1.6 - 0.6 * t5) if u <= a else fh * (1.0 - (u - a))
+					h += maxf(dh2, 0.0)
+					if fm >= 0.0:
+						mat = fm
+			Shape.DUNES:
+				# a = radius, b = wavelength, fh = crest height; rows across u, slip faces downwind
+				var t6 := sqrt(r2) / a
+				if t6 < 1.0:
+					var fade := 1.0 - smoothstep(0.6, 1.0, t6)
+					var along := u / maxf(b, 1.0) + 0.35 * sin(v / maxf(b, 1.0) * 0.9 + sd)
+					var ph := along - floorf(along)
+					var prof := ph / 0.75 if ph < 0.75 else (1.0 - ph) / 0.25
+					prof = prof * prof * (3.0 - 2.0 * prof)
+					h += fh * prof * fade
+					if fm >= 0.0 and fade > 0.25:
+						mat = fm
+			Shape.FLAT:
+				# a = radius, b = blend, fh = offset; p2 = level (set_features)
+				var d2 := sqrt(r2)
+				var wf := 1.0 - smoothstep(a, a + b, d2)
+				h = lerpf(h, f[F_P2] + fh, wf)
+				if fm >= 0.0 and d2 < a:
+					mat = fm
+	return Vector2(h, mat)
 
 
 func _flatten(h: float, x: float, z: float) -> float:

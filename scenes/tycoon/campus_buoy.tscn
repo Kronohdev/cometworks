@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/campus/island/props_toon.tres" id="1_nyjov"]
+[ext_resource type="ArrayMesh" path="res://assets/campus/island/buoy.res" id="2_deufe"]
+
+[sub_resource type="Animation" id="Animation_2t81p"]
+length = 4.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.18, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.1, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.12), Vector3(0.048, 0, 0.12), Vector3(0, 0, -0.12)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0efgl"]
+_data = {
+&"bob": SubResource("Animation_2t81p")
+}
+
+[node name="Buoy" type="Node3D" unique_id=1494082936]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=757291428]
+material_override = ExtResource("1_nyjov")
+mesh = ExtResource("2_deufe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=79088709]
+libraries/ = SubResource("AnimationLibrary_0efgl")
+autoplay = &"bob"

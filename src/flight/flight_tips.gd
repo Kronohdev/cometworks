@@ -128,7 +128,7 @@ func update(t: Dictionary, map: bool) -> void:
 		if visible:
 			_hide()
 		return
-	var v: FlightVessel = t["vessel"]
+	var v: FlightCraft = t["vessel"]
 	var launched: bool = t["launched"]
 	var auto: bool = t["auto"]
 	var pitch := float(t.get("pitch", 90.0))
@@ -142,7 +142,7 @@ func update(t: Dictionary, map: bool) -> void:
 	# the one on show: done by doing it?
 	match current:
 		"turn":
-			if auto or int(v.sas) == FlightVessel.Sas.PROGRADE:
+			if auto or int(v.sas) == FlightCraft.Sas.PROGRADE:
 				complete("turn")
 		"stage":
 			if v.current_stage != _start_stage:
@@ -177,7 +177,7 @@ func _want(id: String, t: Dictionary, map: bool) -> bool:
 			return not launched
 		"turn":
 			return launched and not t["auto"] and alt > TURN_ALT and float(t.get("pitch", 90.0)) > 78.0 \
-				and alt < 45000.0 and int(t["sas"]) != FlightVessel.Sas.PROGRADE
+				and alt < 45000.0 and int(t["sas"]) != FlightCraft.Sas.PROGRADE
 		"stage":
 			return launched and not t["auto"] and stage_empty(t)
 		"map":
@@ -187,14 +187,14 @@ func _want(id: String, t: Dictionary, map: bool) -> bool:
 
 ## The active stage has no thrust and nothing left to burn, and another stage waits.
 static func stage_empty(t: Dictionary) -> bool:
-	var v: FlightVessel = t["vessel"]
+	var v: FlightCraft = t["vessel"]
 	if v.current_stage < 0 or v.current_stage >= v.stage_count - 1 or float(t["thrust"]) > 0.0:
 		return false
 	var f := v.stage_fuel(v.current_stage)
 	return f[0] + f[2] <= 1.0
 
 
-func _show(id: String, v: FlightVessel) -> void:
+func _show(id: String, v: FlightCraft) -> void:
 	current = id
 	_start_stage = v.current_stage
 	var keys: Array = STEPS[id]

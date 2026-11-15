@@ -15,6 +15,7 @@ extends Control
 ##   - progress is saved with the campaign (TycoonState.tutorials); lessons that trigger while
 ##     one is up wait in a queue; a screen lesson ends when its screen closes
 ##   - start(id, true) replays a lesson (the library screen, library_screen.gd)
+##   - a HUD menu a new career unlocks (HudUnlocker) calls on_unlocked(item): its "unlock" lesson
 ## Lessons only start by themselves in the real game: test scripts (a SceneTree script as the
 ## main loop) turn auto_start off unless TycoonTutorial.allow_in_scripts is set.
 
@@ -197,6 +198,12 @@ func _on_screen_opened(screen_name: String) -> void:
 		_end(true)
 	for l in TutorialBook.triggered_by("screen", screen_name):
 		_try.call_deferred(l)
+
+
+## A HUD menu just appeared in a new career (HudUnlocker): its lesson starts (trigger "unlock").
+func on_unlocked(item_id: String) -> void:
+	for l in TutorialBook.triggered_by("unlock", item_id):
+		_try(l)
 
 
 func _on_screen_closed(screen_name: String) -> void:

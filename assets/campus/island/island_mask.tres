@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CampusScatterMask" format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/campus_scatter_mask.gd" id="1_tmqvg"]
+
+[resource]
+script = ExtResource("1_tmqvg")
+avoid = Array[Rect2]([Rect2(-3, 37, 6, 6), Rect2(60, -21, 6, 6), Rect2(21, 55, 6, 26), Rect2(5.8, 56.3, 4.4, 4.4), Rect2(-11.2, 51.8, 4.4, 4.4), Rect2(3.8, 56.8, 4.4, 4.4), Rect2(108.3, -51.7, 4.4, 4.4), Rect2(109, -51, 13, 9)])
+inside = PackedVector2Array()

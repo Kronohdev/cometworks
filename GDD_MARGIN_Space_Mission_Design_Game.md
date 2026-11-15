@@ -33,7 +33,7 @@ O texto oficial está na página do desafio. Abaixo, cada exigência virou uma l
 | R1 | Jogo interativo para **projetar, gerenciar e simular** uma missão completa | Fluxo Design → Review → Voo → Debrief | **MUST** |
 | R2 | Jogador toma **decisões de engenharia** e gerencia **recursos limitados** | 6 recursos acoplados + HUD ao vivo | **MUST** |
 | R3 | Avaliar **como cada escolha molda o sucesso** | Simulação semanal + Post-Mission Analysis com atribuição de causa | **MUST** |
-| R4 | Individual **ou** em equipe de até **4** | Solo (4 conselheiros IA) + modo equipe com 4 papéis | **MUST** (hot-seat) / SHOULD (online) |
+| R4 | Individual **ou** em equipe de até **4** | Solo (4 conselheiros virtuais) + modo equipe com 4 papéis | **MUST** (hot-seat) / SHOULD (online) |
 | R5 | Definir objetivo da missão **antes** de escolher espaçonave | Fluxo obriga: objetivo vem primeiro, o resto é filtrado por ele | **MUST** |
 | R6 | Espaçonave: estrutura, energia, baterias, comunicação, computador, **controle de atitude**, instrumentos | Catálogo por subsistema, encaixado em um esquema da nave | **MUST** |
 | R7 | Instrumentos com massa, consumo, **geração de dados**, custo e valor científico | Cada instrumento tem 5 atributos + capacidades científicas | **MUST** |
@@ -466,7 +466,6 @@ Score (0–1000) = 1000 × [ 0,50 × Ciência + 0,20 × Eficiência + 0,20 × Re
 - **Dados em arquivos, não em código:** balancear = editar JSON.
 - **Determinismo:** mesma seed ⇒ mesmo resultado (replay, ranking justo, debug).
 - **Serialização do design:** `Design → JSON → Base64` para compartilhar.
-- **Nota sobre o MCP:** o servidor `godot-ai` falhou ao conectar nesta sessão. Se quiser usá-lo no fluxo de desenvolvimento, é preciso reconectá-lo.
 
 **Esquema de dados (exemplo)**
 ```json

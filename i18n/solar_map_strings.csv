@@ -1,0 +1,57 @@
+keys,en,pt
+SSM_MENU,Solar System,Sistema Solar
+SSM_MENU_TIP,"Today's real sky: every planet, moon and the comet where they really are","O céu real de hoje: cada planeta, lua e o cometa onde de fato estão"
+SSM_LOADING,Opening the Solar System…,Abrindo o Sistema Solar…
+SSM_READABLE,Readable sizes,Tamanho legível
+SSM_READABLE_TIP,"Draws every body big enough to see; the distances and orbits stay real","Desenha cada corpo grande o bastante para ver; as distâncias e as órbitas continuam reais"
+SSM_CAPTION,REAL SKY · JPL / NASA DATA,CÉU DE VERDADE · DADOS JPL / NASA
+SSM_TODAY,Today,Hoje
+SSM_TODAY_TIP,Back to today's date,Volta para a data de hoje
+SSM_BACK,Back to the menu,Voltar ao menu
+SSM_HINT,"Right-drag to turn · wheel to zoom · Tab or the list to change the focus · Esc to leave","Arraste com o botão direito para girar · roda para aproximar · Tab ou a lista para trocar o foco · Esc para sair"
+SSM_SPEED_TIP,How much time goes by each second,Quanto tempo passa a cada segundo
+SSM_SPEED_DAY,1 day/s,1 dia/s
+SSM_SPEED_WEEK,1 week/s,1 sem/s
+SSM_SPEED_MONTH,1 month/s,1 mês/s
+SSM_SPEED_YEAR,1 year/s,1 ano/s
+SSM_DATE_FMT,"{m} {d}, {y}",{d} de {m} de {y}
+SSM_MONTH_1,January,janeiro
+SSM_MONTH_2,February,fevereiro
+SSM_MONTH_3,March,março
+SSM_MONTH_4,April,abril
+SSM_MONTH_5,May,maio
+SSM_MONTH_6,June,junho
+SSM_MONTH_7,July,julho
+SSM_MONTH_8,August,agosto
+SSM_MONTH_9,September,setembro
+SSM_MONTH_10,October,outubro
+SSM_MONTH_11,November,novembro
+SSM_MONTH_12,December,dezembro
+SSM_NOW_FROM_PARENT,Distance now · %s,Distância agora · %s
+SSM_NOW_FROM_EARTH,Distance now · Earth,Distância agora · Terra
+SSM_REAL_DATE_TIP,The real date on the map: the planets are where they really are that day,A data real no mapa: os planetas estão onde de fato estão nesse dia
+SSM_COMET_NOW,Mother-Ice: %s from the Sun,Mãe-Gelo: a %s do Sol
+SSM_AU,AU,UA
+SSM_COMET_TIP,"The comet the race is about: it passes the Earth on the campaign's last day","O cometa da corrida: passa pela Terra no último dia da campanha"
+SSM_BODIES_HINT,Pick a body to fly to it,Escolha um corpo para ir até ele
+SS_NAME_PHOBOS,Phobos,Fobos
+SS_NAME_DEIMOS,Deimos,Deimos
+SS_NAME_IO,Io,Io
+SS_NAME_GANYMEDE,Ganymede,Ganimedes
+SS_NAME_CALLISTO,Callisto,Calisto
+SS_NAME_TITAN,Titan,Titã
+SS_NAME_MAE_GELO,Mother-Ice,Mãe-Gelo
+SS_KIND_PHOBOS,Moon of Mars,Lua de Marte
+SS_KIND_DEIMOS,Moon of Mars,Lua de Marte
+SS_KIND_IO,Moon of Jupiter,Lua de Júpiter
+SS_KIND_GANYMEDE,Moon of Jupiter,Lua de Júpiter
+SS_KIND_CALLISTO,Moon of Jupiter,Lua de Júpiter
+SS_KIND_TITAN,Moon of Saturn,Lua de Saturno
+SS_KIND_MAE_GELO,Comet · the race's goal,Cometa · o destino da corrida
+SS_DESC_PHOBOS,"A dark, lumpy little moon that goes round Mars three times a day. Every century it creeps 2 m closer: one day it will break apart.","Uma luazinha escura e esburacada que dá três voltas em Marte por dia. A cada século chega 2 m mais perto: um dia vai se desfazer."
+SS_DESC_DEIMOS,"The smaller, farther moon of Mars: from the surface it looks like a bright star.","A lua menor e mais distante de Marte: vista do chão parece uma estrela brilhante."
+SS_DESC_IO,"The most volcanic world we know: Jupiter's pull squeezes it so hard that hundreds of volcanoes spray sulfur into space.","O mundo mais vulcânico que conhecemos: Júpiter o aperta tanto que centenas de vulcões jogam enxofre no espaço."
+SS_DESC_GANYMEDE,"The biggest moon in the Solar System, larger than Mercury, with an ocean hidden under its ice and its own magnetic field.","A maior lua do Sistema Solar, maior que Mercúrio, com um oceano escondido sob o gelo e um campo magnético próprio."
+SS_DESC_CALLISTO,"An old, battered ice moon: its face is almost all craters, untouched for four billion years.","Uma lua de gelo velha e marcada: a face é quase só crateras, intocada há quatro bilhões de anos."
+SS_DESC_TITAN,"The only moon with a thick sky: orange haze over lakes and rivers of liquid methane.","A única lua com um céu espesso: névoa laranja sobre lagos e rios de metano líquido."
+SS_DESC_MAE_GELO,"A Halley-type comet, about 72 years round the Sun, that falls back from beyond Neptune. Near the Sun it grows two tails (dust and gas), always pointing away from it, and it passes some 15 million km from the Earth on the race's last day.","Um cometa do tipo Halley, cerca de 72 anos por volta, que volta de além de Netuno. Perto do Sol cria duas caudas (de poeira e de gás), sempre apontando para longe dele, e passa a uns 15 milhões de km da Terra no último dia da corrida."

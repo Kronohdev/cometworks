@@ -1,0 +1,111 @@
+keys,en,pt
+SIGN_KIND_LORE,Cometling lore,Lenda dos Cometinhos
+SIGN_KIND_HISTORY,Space history,História do espaço
+SIGN_KIND_JOKE,Campus notice,Aviso do campus
+SIGN_FACT_CAPTION,Real science,Ciência de verdade
+SIGN_SOURCE,Source: %s,Fonte: %s
+SIGN_READ_COUNT,%d of %d signs read,%d de %d placas lidas
+SIGN_COVERED,Covered sign,Placa coberta
+SIGN_LOCK_ERA,Opens in era %d,Abre na era %d
+SIGN_LOCK_YEAR,Opens in year %d,Abre no ano %d
+SIGN_LOCK_MILESTONE,Opens with the milestone: %s,Abre com o marco: %s
+SIGN_LOCK_LAUNCHES,Opens after %d launches,Abre depois de %d lançamentos
+SIGN_LOCK_LAUNCH_ONE,Opens after the first launch,Abre depois do primeiro lançamento
+SIGN_LOCK_BUILDING,Opens once the campus has a %s,Abre quando o campus tiver: %s
+SIGN_HOVER_NEW,New sign · click to read,Placa nova · clique para ler
+SIGN_HOVER_READ,Click to read again,Clique para ler de novo
+SIGN_CLOSE,Close,Fechar
+SIGN_JN_CAPTION,Signs read,Placas lidas
+SIGN_JN_TIP,"Story signs read around the island, out of those already uncovered","Placas lidas pela ilha, entre as que já foram destapadas"
+SIGN_NEW_HINT,A sign was uncovered on the island: %s,Uma placa foi destapada na ilha: %s
+SIGN_WELCOME_TITLE,Welcome to the island!,Bem-vindo à ilha!
+SIGN_WELCOME_TEXT,"This is where the Cometlings build rockets, drink coffee and, now and then, build rockets out of coffee. Read the signs around the island: each one keeps a little piece of our story. Some only uncover with time.","Aqui é onde os Cometinhos constroem foguetes, tomam café e, às vezes, constroem foguetes com café. Leia as placas pela ilha: cada uma guarda um pedacinho da nossa história. Algumas só se destapam com o tempo."
+SIGN_MAE_GELO_TITLE,The Mother-Ice,A Mãe-Gelo
+SIGN_MAE_GELO_TEXT,"Look up. That bright streak is her: the Mother-Ice, an old, icy and very loving comet. The Cometlings were born from the icy dust of her tail. Some say that on a clear night you can see her wag it. Others say that's just the wind. Nobody agrees.","Olhe para o céu. Aquele risco brilhante é ela: a Mãe-Gelo, um cometa velho, gelado e muito carinhoso. Os Cometinhos nasceram da poeira gelada da cauda dela. Dizem que, em noite limpa, dá para ver ela balançando a cauda. Outros dizem que é só o vento. Ninguém concorda."
+SIGN_THE_FALL_TITLE,Where it all began,Onde tudo começou
+SIGN_THE_FALL_TEXT,"On the Mother-Ice's last pass, a handful of Cometlings slipped off her tail and landed right here, face first in the grass. She sailed on. They kept waving... for quite a while. The mark in the grass is gone. The wish to go back is not.","Na última passagem da Mãe-Gelo, um punhado de Cometinhos escorregou da cauda e caiu bem aqui, de cara na grama. Ela seguiu viagem. Eles ficaram acenando... por um bom tempo. A marca na grama sumiu. A vontade de voltar, não."
+SIGN_PROMISE_TITLE,The promise,A promessa
+SIGN_PROMISE_TEXT,"A comet always comes back, and the Mother-Ice returns in 25 years. Not a day more, not a day less. The Cometlings made a promise: next time, we're going with her. The clock in the top bar counts every week.","Cometa que é cometa sempre volta, e a Mãe-Gelo volta em 25 anos. Nem um dia a mais, nem um dia a menos. Os Cometinhos prometeram: da próxima vez, a gente vai junto. O relógio lá na barra de cima conta cada semana."
+SIGN_MOON_FIRST_TITLE,The Moon comes first,Primeiro a Lua
+SIGN_MOON_FIRST_TEXT,"From down here the comet is too far away: lots of fuel, not much rocket. But the Moon has low gravity and ice at its poles. The plan is simple: first the Moon, then the comet. Then a snack.","Daqui de baixo, o cometa fica longe demais: muito combustível, pouco foguete. Mas a Lua tem pouca gravidade e gelo nos polos. O plano é simples: primeiro a Lua, depois o cometa. Depois, um lanchinho."
+SIGN_MOON_FIRST_FACT,"To escape Earth, a rocket needs about 11.2 km/s. On the Moon, about 2.4 km/s is enough. Some craters near the lunar poles never see the Sun, and the water ice kept in them can be turned into rocket propellant.","Para escapar da Terra, um foguete precisa chegar a uns 11,2 km/s. Na Lua, uns 2,4 km/s bastam. Algumas crateras perto dos polos lunares nunca veem o Sol, e o gelo de água guardado nelas pode virar propelente de foguete."
+SIGN_MOON_FIRST_SOURCE,NASA,NASA
+SIGN_VOVO_EDMUNDO_TITLE,Grandpa Edmundo's hill,O morro do Vovô Edmundo
+SIGN_VOVO_EDMUNDO_TEXT,"From here Grandpa Edmundo watches the sky every night and writes everything down in his blue notebooks. He's the one who worked out the 25 years. Twice. If you find a pair of glasses lying around, you can give them back: they're probably on his forehead.","Daqui o Vovô Edmundo olha o céu toda noite e anota tudo nos cadernos de capa azul. Foi ele quem fez a conta dos 25 anos. Duas vezes. Se você achar uns óculos esquecidos por aqui, pode devolver: provavelmente estão na testa dele."
+SIGN_RIVALS_TITLE,The other agencies,As outras agências
+SIGN_RIVALS_TEXT,"The rivals are Cometlings too, and they want to go home just as much. The race is serious, but the hug at the end is guaranteed. Teasing is fine. Meanness is not. Biscuits taken from the meeting room: debatable.","As rivais também são Cometinhos, e também querem voltar para casa. A corrida é séria, mas o abraço no fim é garantido. Provocação pode. Maldade, não. Biscoito sumido da sala de reunião: discutível."
+SIGN_COMET_WINDOW_TITLE,The comet window,A janela do cometa
+SIGN_COMET_WINDOW_TEXT,"The Mother-Ice is getting close. From this tip of the island, by the pads, you can watch her tail grow a little every night. It's now or another 25 years. We'd rather go now.","A Mãe-Gelo está chegando perto. Daqui da ponta da ilha, perto das plataformas, dá para ver a cauda dela crescer um pouquinho a cada noite. É agora ou daqui a mais 25 anos. A gente prefere agora."
+SIGN_SPUTNIK_TITLE,"Beep, beep: Sputnik","Bipe, bipe: o Sputnik"
+SIGN_SPUTNIK_TEXT,The first artificial satellite was a metal ball with four long antennas. It didn't do much: it circled the Earth and beeped on the radio. That was enough to make the whole world look up.,O primeiro satélite artificial foi uma bola de metal com quatro antenas compridas. Ele não fazia muita coisa: dava voltas na Terra e apitava no rádio. Foi o bastante para o mundo inteiro olhar para cima.
+SIGN_SPUTNIK_FACT,"Sputnik 1 was launched by the Soviet Union on 4 October 1957. It was about 58 cm across, weighed about 83 kg, went around the Earth every 96 minutes and sent radio signals for three weeks.","O Sputnik 1 foi lançado pela União Soviética em 4 de outubro de 1957. Tinha uns 58 cm de diâmetro e uns 83 kg, dava uma volta na Terra a cada 96 minutos e transmitiu sinais de rádio por três semanas."
+SIGN_SPUTNIK_SOURCE,NASA History Office,NASA History Office
+SIGN_EXPLORER1_TITLE,Explorer 1 and the belts,O Explorer 1 e os cinturões
+SIGN_EXPLORER1_TEXT,"A tiny pencil-shaped satellite carried a particle counter on board. The readings came out strange, so strange they looked like a fault. It wasn't a fault: it was a discovery.","Um satélite pequenininho, em forma de lápis, levou um contador de partículas a bordo. Os números saíram estranhos, tão estranhos que pareciam defeito. Não era defeito: era uma descoberta."
+SIGN_EXPLORER1_FACT,"Explorer 1, the first United States satellite, was launched on 31 January 1958. James Van Allen's instrument revealed the radiation belts around the Earth that now bear his name.","O Explorer 1, primeiro satélite dos Estados Unidos, foi lançado em 31 de janeiro de 1958. O instrumento de James Van Allen revelou os cinturões de radiação em volta da Terra, que hoje levam o nome dele."
+SIGN_EXPLORER1_SOURCE,NASA / JPL,NASA / JPL
+SIGN_GAGARIN_TITLE,Poyekhali! (Let's go!),Poyekhali! (Vamos lá!)
+SIGN_GAGARIN_TEXT,"That's what he said at liftoff. One word, one rocket and a whole lap around the planet. The Cometlings still practise that shout today, just with more hopping.","Foi o que ele disse na decolagem. Uma palavra, um foguete e uma volta inteira ao redor do planeta. Os Cometinhos treinam esse grito até hoje, só que com mais pulinhos."
+SIGN_GAGARIN_FACT,"On 12 April 1961, Yuri Gagarin became the first human in space, aboard Vostok 1. He went once around the Earth in about 108 minutes.","Em 12 de abril de 1961, Yuri Gagarin se tornou o primeiro ser humano no espaço, a bordo da Vostok 1. Ele deu uma volta completa na Terra em cerca de 108 minutos."
+SIGN_GAGARIN_SOURCE,ESA,ESA
+SIGN_LUNA3_TITLE,The other side of the Moon,O outro lado da Lua
+SIGN_LUNA3_TEXT,The Moon always shows Earth the same face. For a long time nobody knew what was on the other side. Spoiler: more craters and hardly any dark seas.,"A Lua mostra sempre a mesma cara para a Terra. Durante muito tempo, ninguém sabia o que tinha do outro lado. Spoiler: mais crateras e quase nenhum mar escuro."
+SIGN_LUNA3_FACT,In October 1959 the Soviet probe Luna 3 took the first photos of the Moon's far side. That side has far fewer dark lava 'seas' than the side we see.,"Em outubro de 1959, a sonda soviética Luna 3 tirou as primeiras fotos do lado oculto da Lua. O lado de lá tem bem menos 'mares' escuros de lava do que o lado que a gente vê."
+SIGN_LUNA3_SOURCE,NASA NSSDCA,NASA NSSDCA
+SIGN_LUNA9_TITLE,Landing without a dent,Pousar sem amassar
+SIGN_LUNA9_TEXT,Hitting the Moon is easy. Arriving gently and staying in one piece is another story. The first probe that managed it sent back photos of the ground and showed it could take the weight: nothing sank into the dust.,Bater na Lua é fácil. Chegar devagarinho e continuar inteiro é outra história. A primeira sonda que conseguiu mandou fotos do chão e mostrou que ele aguentava peso: nada afundou na poeira.
+SIGN_LUNA9_FACT,Luna 9 made the first soft landing on the Moon on 3 February 1966 and sent back the first pictures taken from the lunar surface.,A Luna 9 fez o primeiro pouso suave na Lua em 3 de fevereiro de 1966 e mandou as primeiras imagens tiradas da superfície lunar.
+SIGN_LUNA9_SOURCE,NASA NSSDCA,NASA NSSDCA
+SIGN_APOLLO8_TITLE,Earthrise,O nascer da Terra
+SIGN_APOLLO8_TEXT,"They flew to the Moon to look at the Moon. Then, around a bend, the Earth rose over the horizon, blue and tiny. It became the most famous photo of the trip. Sometimes you go far away just to see home better.","Eles foram até a Lua para olhar a Lua. Aí, numa curva, a Terra apareceu no horizonte, azul e pequenininha. Virou a foto mais famosa da viagem. Às vezes a gente vai longe só para ver melhor a nossa casa."
+SIGN_APOLLO8_FACT,"Apollo 8 was the first crewed spacecraft to orbit the Moon, in December 1968. Astronaut William Anders took the 'Earthrise' photo on 24 December 1968.","A Apollo 8 foi a primeira nave tripulada a orbitar a Lua, em dezembro de 1968. O astronauta William Anders tirou a foto do 'Nascer da Terra' em 24 de dezembro de 1968."
+SIGN_APOLLO8_SOURCE,NASA,NASA
+SIGN_APOLLO11_TITLE,The Eagle has landed,A Águia pousou
+SIGN_APOLLO11_TEXT,"One small step for a person, one giant hop for the Cometlings, who watched it all and decided on the spot they wanted to do the same. Only with ears.","Um pequeno passo para uma pessoa, um pulinho gigante para os Cometinhos, que assistiram a tudo e decidiram na hora que queriam fazer igual. Só que com orelhas."
+SIGN_APOLLO11_FACT,"On 20 July 1969, Apollo 11's lunar module Eagle landed on the Moon with Neil Armstrong and Buzz Aldrin. Michael Collins waited in orbit. They brought back about 21.5 kg of lunar rock and dust.","Em 20 de julho de 1969, o módulo lunar Eagle, da Apollo 11, pousou na Lua com Neil Armstrong e Buzz Aldrin. Michael Collins esperou em órbita. Eles trouxeram cerca de 21,5 kg de rochas e poeira lunar."
+SIGN_APOLLO11_SOURCE,NASA,NASA
+SIGN_LCROSS_TITLE,"Yes, there's ice!","Tem gelo, sim!"
+SIGN_LCROSS_TEXT,"To find out whether there was ice at the bottom of a dark crater, one mission did what any Cometling would: it threw something in and watched what splashed out. Water splashed out.","Para saber se tinha gelo no fundo de uma cratera escura, uma missão fez o que qualquer Cometinho faria: jogou uma coisa lá dentro e olhou o que espirrou. Espirrou água."
+SIGN_LCROSS_FACT,"On 9 October 2009, NASA's LCROSS mission crashed a spent rocket stage into Cabeus crater, near the Moon's south pole. The plume thrown up by the impact contained water ice.","Em 9 de outubro de 2009, a missão LCROSS, da NASA, jogou o estágio vazio de um foguete contra a cratera Cabeus, perto do polo sul da Lua. A nuvem levantada pelo impacto tinha gelo de água."
+SIGN_LCROSS_SOURCE,NASA,NASA
+SIGN_HALLEY_TITLE,A comet that comes back,Cometa que volta
+SIGN_HALLEY_TEXT,"Long before Grandpa Edmundo, a real astronomer worked out that a comet seen several times was always the same one, and predicted its return. The Cometlings think that's the most beautiful thing in the world. For obvious reasons.","Muito antes do Vovô Edmundo, um astrônomo de verdade percebeu que um cometa visto várias vezes era sempre o mesmo, e previu a volta dele. Os Cometinhos acham isso a coisa mais bonita do mundo. Por motivos óbvios."
+SIGN_HALLEY_FACT,"Edmond Halley worked out that the comets of 1531, 1607 and 1682 were the same one and predicted its return for 1758. He died in 1742, before his prediction came true. Halley's Comet comes back roughly every 76 years: it passed in 1986 and is due again in 2061.","Edmond Halley calculou que os cometas de 1531, 1607 e 1682 eram o mesmo e previu a volta dele para 1758. Morreu em 1742, antes de ver a previsão se cumprir. O cometa Halley volta mais ou menos a cada 76 anos: passou em 1986 e deve voltar em 2061."
+SIGN_HALLEY_SOURCE,NASA,NASA
+SIGN_GIOTTO_TITLE,Face to face with a comet,Cara a cara com um cometa
+SIGN_GIOTTO_TEXT,"A brave probe flew straight into a comet's glowing cloud, taking dust in the face at full speed, just to see the nucleus up close. The Cometlings call that a family visit.","Uma sonda corajosa voou direto para dentro da cabeleira de um cometa, levando poeira na cara a toda velocidade, só para ver o núcleo de perto. Os Cometinhos chamam isso de visita de família."
+SIGN_GIOTTO_FACT,"On 14 March 1986, the European Space Agency's Giotto probe passed about 600 km from the nucleus of Halley's Comet and took the first close-up pictures of a comet's nucleus.","Em 14 de março de 1986, a sonda Giotto, da Agência Espacial Europeia, passou a uns 600 km do núcleo do cometa Halley e tirou as primeiras fotos de perto do núcleo de um cometa."
+SIGN_GIOTTO_SOURCE,ESA,ESA
+SIGN_ROSETTA_TITLE,Landing on a comet,Pousar num cometa
+SIGN_ROSETTA_TEXT,"Catching up with a comet is hard. Staying beside it for two years is harder. And putting a little robot on top of it? They did it. The landing bounced a bit, but it counted.","Alcançar um cometa é difícil. Ficar do lado dele por dois anos, mais ainda. E deixar um robozinho em cima dele? Pois fizeram. O pouso quicou um pouco, mas valeu."
+SIGN_ROSETTA_FACT,"ESA's Rosetta spacecraft reached comet 67P/Churyumov-Gerasimenko in August 2014. On 12 November 2014 its lander, Philae, made the first landing on a comet's nucleus.","A sonda Rosetta, da ESA, chegou ao cometa 67P/Churyumov-Gerasimenko em agosto de 2014. Em 12 de novembro de 2014, o módulo Philae fez o primeiro pouso num núcleo de cometa."
+SIGN_ROSETTA_SOURCE,ESA,ESA
+SIGN_SCD1_TITLE,Brazil's first satellite,O primeiro satélite brasileiro
+SIGN_SCD1_TEXT,"It looks like a little box with antennas, but it listens to the whole country: it picks up data from stations scattered across rivers, forests and cities and passes it all on to whoever needs it. A space postman.","Parece uma caixinha com antenas, mas escuta o país inteiro: pega os dados de estações espalhadas por rios, matas e cidades e repassa tudo para quem precisa. Um carteiro espacial."
+SIGN_SCD1_FACT,"SCD-1, the first satellite built in Brazil, by INPE, was launched on 9 February 1993. It collects data from environmental stations on the ground and kept working long past its planned lifetime.","O SCD-1, primeiro satélite feito no Brasil, pelo INPE, foi lançado em 9 de fevereiro de 1993. Ele coleta dados de estações ambientais em terra e funcionou muito além do tempo planejado."
+SIGN_SCD1_SOURCE,INPE,INPE
+SIGN_MARCOS_PONTES_TITLE,A Brazilian in space,Um brasileiro no espaço
+SIGN_MARCOS_PONTES_TEXT,"Brazil's first astronaut took a tribute to Santos-Dumont into orbit, a hundred years after the 14-bis flew. The Cometling pilots keep his photo in their lockers.","O primeiro astronauta brasileiro levou para a órbita uma homenagem a Santos-Dumont, cem anos depois do voo do 14-bis. Os Cometinhos pilotos guardam a foto dele no armário."
+SIGN_MARCOS_PONTES_FACT,Marcos Pontes was launched on 30 March 2006 aboard a Soyuz and spent about a week on the International Space Station. The trip was called the Centenary Mission.,"Marcos Pontes foi lançado em 30 de março de 2006, numa nave Soyuz, e passou cerca de uma semana na Estação Espacial Internacional. A viagem se chamou Missão Centenário."
+SIGN_MARCOS_PONTES_SOURCE,AEB,AEB
+SIGN_ALCANTARA_TITLE,Close to the equator,Perto do equador
+SIGN_ALCANTARA_TEXT,"The closer you are to the equator, the faster the ground spins with the Earth, and a rocket leaves with that free push. Cometlings love free stuff.","Quanto mais perto do equador, mais rápido o chão gira com a Terra, e o foguete já sai com esse empurrãozinho de graça. Cometinho adora coisa de graça."
+SIGN_ALCANTARA_FACT,"The Alcântara Launch Center, in the Brazilian state of Maranhão, sits about 2 degrees south of the equator. There, Earth's rotation carries the ground along at about 1,670 km/h, which saves fuel on launches heading east.","O Centro de Lançamento de Alcântara, no Maranhão, fica a uns 2 graus ao sul do equador. Ali a rotação da Terra leva o chão a cerca de 1.670 km/h, o que economiza combustível nos lançamentos para o leste."
+SIGN_ALCANTARA_SOURCE,AEB,AEB
+SIGN_NO_FEEDING_TITLE,Please do not feed the rockets,Proibido alimentar os foguetes
+SIGN_NO_FEEDING_TEXT,"They eat far too much fuel already. And no, biscuits do not count as solid propellant. We tested it.","Eles já comem combustível demais. E não, biscoito não conta como propelente sólido. A gente testou."
+SIGN_BEACH_TITLE,Cometling Beach,Praia dos Cometinhos
+SIGN_BEACH_TEXT,Beach rules: 1. No sandcastles taller than the rocket. 2. No recruiting crabs for the crew. 3. Sunscreen on your tail-ears. Both of them.,Regras da praia: 1. Proibido castelo de areia mais alto que o foguete. 2. Proibido chamar caranguejo para a equipe. 3. Protetor solar nas orelhas-cauda. Nas duas.
+SIGN_NAP_ZONE_TITLE,Official nap zone,Zona oficial de cochilo
+SIGN_NAP_ZONE_TEXT,Naps of up to 20 minutes boost productivity. Naps of more than 20 minutes boost the urge to nap. Please snore quietly near mission control.,Cochilos de até 20 minutos aumentam a produtividade. Cochilos de mais de 20 minutos aumentam a vontade de cochilar. Favor roncar baixinho perto do controle de missão.
+SIGN_DANGER_TITLE,Careful: edge,Cuidado: beirada
+SIGN_DANGER_TEXT,"This sign was put here because Cometlings have no sense of danger. Neither does the sign, but it's doing its best.","Esta placa foi colocada aqui porque os Cometinhos não têm nenhum senso de perigo. A placa também não, mas está fazendo o possível."
+SIGN_LOST_FOUND_TITLE,Lost and found,Achados e perdidos
+SIGN_LOST_FOUND_TEXT,"Found: one bolt (possibly important), one four-fingered glove, three screwdrivers and a note that says 'don't forget the bolt'.","Encontrados: um parafuso (talvez importante), uma luva de quatro dedos, três chaves de fenda e um bilhete que diz 'não esquecer o parafuso'."
+SIGN_LONELY_TITLE,The loneliest sign in the world,A placa mais sozinha do mundo
+SIGN_LONELY_TEXT,"Congratulations, you found this sign! Hardly anyone comes out here. The lighthouse keeper says hello and asks, please, for someone to bring bread.","Parabéns, você achou esta placa! Quase ninguém vem até aqui. O faroleiro manda lembranças e pede, por favor, que alguém traga pão."
+SIGN_STAIRS_TITLE,To the beach,Para a praia
+SIGN_STAIRS_TEXT,Steps down to the sand: lots. We counted twice and got two different numbers. There are more on the way back up.,Degraus até a areia: muitos. Contamos duas vezes e deu dois números diferentes. Na volta são mais.
+SIGN_WEATHER_TITLE,Weather forecast,Previsão do tempo
+SIGN_WEATHER_TEXT,"Today: icy, with a high chance of launches. Tomorrow: white smoke over the pad, followed by applause. Strong winds only inside the wind tunnel.","Hoje: gelado, com grande chance de lançamentos. Amanhã: fumaça branca na plataforma, seguida de aplausos. Ventos fortes só dentro do túnel de vento."
+SIGN_PLAQUE,Sign no. %d,Placa nº %d

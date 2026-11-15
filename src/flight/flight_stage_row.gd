@@ -16,7 +16,7 @@ extends PanelContainer
 @onready var _stripe: ColorRect = %Stripe
 
 
-## state: "active" / "idle" / "spent"; fuel: FlightVessel.stage_fuel() [core, core0, boost, boost0];
+## state: "active" / "idle" / "spent"; fuel: FlightCraft.stage_fuel() [core, core0, boost, boost0];
 ## color: the stage's candy colour (the HUD's stage_colors)
 func set_data(stage_no: int, state: String, engines: int, lit: int, fuel: PackedFloat64Array, dv: float,
 		color := CwPalette.PEACH) -> void:

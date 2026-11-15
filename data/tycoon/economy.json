@@ -12,5 +12,15 @@
   "loan_rate_month": 0.01,
   "projection_months": 12,
   "income": ["grant", "contracts", "bonus", "donations", "licences", "loan", "other"],
-  "expense": ["salaries", "upkeep", "projects", "penalties", "loan_repay"]
+  "expense": ["salaries", "upkeep", "projects", "penalties", "loan_repay"],
+  "bankruptcy": {
+    "_doc": "The end of the money (src/tycoon/finance/bankruptcy.gd). The line is -X: X = the difficulty's bankrupt_line (difficulty.json, credits in era 1; default_line when a level has none) x era_mult[era]. Past warn_fraction of the line: warnings (HUD, Tail Radio, Vovo Halleyzinho). A month that ends past the line the first time: one emergency loan of the debt past zero plus cushion x X, repaid in months instalments at rate_month; the agency goes bankrupt when a month ends past the line again or when it ends default_months months in a row past the warning line before the loan is paid (a default).",
+    "default_line": 600000,
+    "era_mult": [1.0, 2.2, 3.0, 4.5, 6.5],
+    "warn_fraction": 0.5,
+    "cushion": 0.4,
+    "rate_month": 0.015,
+    "months": 24,
+    "default_months": 6
+  }
 }

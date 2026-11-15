@@ -7,7 +7,8 @@ extends SceneTree
 ## with the default choice and flies the missions of the race (sounding, first satellite, Moon
 ## probes, crewed flights...) with the default rocket. Launches are forced to succeed
 ## (ProjectDesk.dev_force_outcome) so the demo agency keeps up with the race; a tech of an era
-## already over that the lab did not reach in time is finished when the next era starts.
+## already over that the lab did not reach in time is finished when the next era starts, and a
+## patron keeps the cash clear of the bankruptcy line (_keep_afloat).
 ## A save is written at week 1 of each era (years 1, 6, 11, 16, 21) and a fair-mode start.
 ##
 ## Run it again after changing the rules, the data or the save format:
@@ -56,7 +57,12 @@ func _initialize() -> void:
 		var target := (era - 1) * 5 * wpy
 		while s.weeks < target:
 			_autopilot(s)
+			_keep_afloat(s)
 			s.advance_week()
+			if Bankruptcy.is_bankrupt(s):   # a bankrupt campaign stops advancing: never wait forever
+				push_error("make_demo_saves: the demo agency went bankrupt in year %d" % s.year())
+				quit(1)
+				return
 		_catch_up(s, era)
 		_write(s, "demo_era%d" % era, false)
 	ProjectDesk.dev_force_outcome = ""
@@ -64,6 +70,15 @@ func _initialize() -> void:
 		print(line)
 	print("DEMO SAVES DONE")
 	quit(0)
+
+
+## The demo agency never comes near bankruptcy (Bankruptcy): when its cash falls under half the
+## warning line, a patron covers the difference (logged), so the saves show no emergency loan.
+func _keep_afloat(s: TycoonState) -> void:
+	var floor_cash := Bankruptcy.warn_line(s) * 0.5
+	if s.cash < floor_cash:
+		_log.append("  ano %d semana %d: mecenas cobre %d" % [s.year(), s.week(), roundi(floor_cash - s.cash)])
+		s.cash = floor_cash
 
 
 func _new_state(leader: Dictionary) -> TycoonState:

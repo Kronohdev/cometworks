@@ -4,10 +4,10 @@ extends Node3D
 ## camera and the HUD are authored in the scene; this script creates the campaign state and
 ## the clock, advances weeks, and routes input (speed keys, clicks on Cometlings and lots,
 ## building). The camera (src/tycoon/campus_camera.gd) does its own zoom / pan / turn.
-##   Space pause · 1 / 2 / 3 speed · M the Solar System map · click a Cometling to follow it · click a lot to see it
-##   (the camera frames it) · click empty ground or Esc to let go / close the panel ·
-##   "Conversar" on the follow tag (or C) talks to the followed Cometling (TalkLayer/Dialogue);
-##   the Cometlings chat in speech bubbles on their own (ChatterLayer/Chatter)
+##   Space pause · 1 / 2 / 3 speed · M the Solar System map (once the career unlocked it) · click a Cometling to follow it · click a lot to see it
+##   (the camera frames it) · click a story sign to read it (StorySigns) · click empty ground or Esc to let go /
+##   close the panel · "Conversar" on the follow tag (or C) talks to the followed Cometling
+##   (TalkLayer/Dialogue); the Cometlings chat in speech bubbles on their own (ChatterLayer/Chatter)
 ## The crew comes from the existing crew roster (src/crew/), so the hangar's Cometlings are
 ## the agency's first employees.
 ## The hangar and the flight open inside this scene (Modes, TycoonModes): the campus sleeps,
@@ -34,6 +34,8 @@ var state: TycoonState
 var clock: TycoonClock
 ## newspaper pages, finale and monthly autosave (src/tycoon/race/race_flow.gd)
 var race_flow: TycoonRaceFlow
+## the emergency loan's screen and the bankruptcy game over (src/tycoon/finance/bankruptcy_flow.gd)
+var bankruptcy_flow: TycoonBankruptcyFlow
 
 @onready var campus: Campus = $Campus
 @onready var camera: CampusCamera = $Camera
@@ -42,6 +44,9 @@ var race_flow: TycoonRaceFlow
 @onready var modes: TycoonModes = get_node_or_null("Modes")
 ## Vovô Edmundo's lessons (scenes/tycoon/ui/tutorial/tutorial.tscn, TycoonTutorial)
 @onready var tutorial: TycoonTutorial = get_node_or_null("TutorialLayer/Tutorial")
+## the HUD menus a new career unlocks while it plays (scenes/tycoon/ui/tutorial/unlocks.tscn,
+## HudUnlocker; the table is data/tycoon/menu_unlocks.json, MenuUnlocks)
+@onready var unlocks: HudUnlocker = get_node_or_null("TutorialLayer/Unlocks")
 ## the Cometlings' speech bubbles (scenes/tycoon/talk/campus_chatter.tscn, CampusChatter)
 @onready var chatter: CampusChatter = get_node_or_null("ChatterLayer/Chatter")
 ## "Conversar" with a Cometling (scenes/tycoon/talk/dialogue_box.tscn, CometlingDialogue)
@@ -54,12 +59,17 @@ func _ready() -> void:
 		state = TycoonState.new_campaign(campaign_seed, _roster_staff(), difficulty)
 		if not leader.is_empty():
 			TycoonLeader.found(state, leader)
+		if unlocks and HudUnlocker.gradual_for_new():
+			MenuUnlocks.begin(state)   # a new career starts with the essentials
+	elif TycoonSave.is_demo(load_slot):
+		MenuUnlocks.unlock_all(state)   # the demonstration saves show the whole HUD
 	clock = TycoonClock.new(state.rules)
 	clock.fair_mode = fair_mode
 	campus.bind(state)
 	hud.bind(state, clock)
 	race_flow = TycoonRaceFlow.new(state, clock, hud)
 	race_flow.before_finale = _play_ending
+	bankruptcy_flow = TycoonBankruptcyFlow.new(state, clock, hud)
 	hud.build_requested.connect(_on_build)
 	if modes:
 		modes.bind(self)
@@ -72,6 +82,8 @@ func _ready() -> void:
 	flow.bind(state, clock, hud)
 	if tutorial:
 		tutorial.bind(self)
+	if unlocks:
+		unlocks.bind(self)
 	if chatter:
 		chatter.bind(self)
 	if talk:
@@ -87,6 +99,10 @@ func _ready() -> void:
 			hud.hide_camera_tag())
 	state.changed.connect(_update_obstacles)
 	_update_obstacles()
+	if campus.signs:
+		campus.signs.sign_uncovered.connect(func(id: String) -> void:
+			hud.flash_hint(tr("SIGN_NEW_HINT") % tr(String(StorySigns.find(id).get("title_key", ""))), 4.0))
+		hud.screen_opened.connect(func(_s: String) -> void: campus.signs.clear_hover())
 	state.building_finished.connect(func(lot_id: String, _lv: int) -> void:
 		hud.flash_hint(tr("TY_BUILT_HINT") % tr(String(state.building_type(state.lot_kind(lot_id)).get("name_key", "")))))
 	if cutscenes and intro_cutscene != "" and load_slot == "":
@@ -150,7 +166,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_3:
 				clock.set_speed(3)
 			KEY_M:
-				open_space_map()
+				if hud.is_locked("%SolarMap"):
+					hud.locked_hint()   # the map key is not there yet in this career
+				else:
+					open_space_map()
 			KEY_ESCAPE:
 				# Esc steps back one layer: the open screen's page (a Cometling's sheet back
 				# to the roster), the screen, the lot panel, the followed Cometling or the
@@ -170,8 +189,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## A left click on the campus: a Cometling first (follow it), then a lot (show it and frame
-## it), else empty ground (let go of the Cometling, close the panel; a double-click glides
-## the camera there).
+## it), then a story sign (read it), else empty ground (let go of the Cometling, close the
+## panel; a double-click glides the camera there).
 func click(screen: Vector2, double := false) -> void:
 	var who := camera.pick(screen, campus.cometlings() + talkers())
 	if who:
@@ -182,6 +201,11 @@ func click(screen: Vector2, double := false) -> void:
 	if lot != "":
 		hud.show_lot(lot)
 		camera.frame_area(campus.lot_position(lot), _lot_size(lot))
+		return
+	var sign_id := campus.signs.sign_at(camera, screen) if campus.signs else ""
+	if sign_id != "":
+		hud.close_lot()
+		open_sign(sign_id)
 	else:
 		hud.close_lot()
 		camera.release()
@@ -196,6 +220,18 @@ func talkers() -> Array[Node3D]:
 		if n is Node3D and (n as Node3D).is_visible_in_tree():
 			out.append(n)
 	return out
+
+
+## Opens a story sign's card (the "sign" screen) and marks it read; a covered sign only says
+## what uncovers it.
+func open_sign(sign_id: String) -> void:
+	if not StorySigns.is_unlocked(state, sign_id):
+		hud.flash_hint("%s · %s" % [tr("SIGN_COVERED"), StorySigns.lock_text(state, sign_id)], 3.5)
+		return
+	StorySigns.mark_read(state, sign_id)
+	if campus.signs:
+		campus.signs.refresh()
+	hud.open_screen("sign", {"id": sign_id})
 
 
 func _lot_size(lot_id: String) -> Vector2:

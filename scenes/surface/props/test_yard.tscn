@@ -1,0 +1,157 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/cone_orange.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/paint_cream.tres" id="m2"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/paint_white.tres" id="m3"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(0.6, 0.1, 0.6)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(0.38, 0.5, 0.38)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(0.4, 0.1, 0.4)
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(0.18, 0.2, 0.18)
+
+[sub_resource type="BoxMesh" id="box4"]
+size = Vector3(0.1, 1.2, 1.8)
+
+[sub_resource type="BoxMesh" id="box5"]
+size = Vector3(0.12, 0.8, 0.12)
+
+[node name="TestYard" type="Node3D"]
+editor_description = "Cones and a board (no text) of the rover test yard at home."
+
+[node name="Cone0Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.05, -3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone0Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.35, -3)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone0Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.42, -3)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone0Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.7, -3)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone1Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, -3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone1Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.35, -3)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone1Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.42, -3)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone1Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.7, -3)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone2Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, 3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone2Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.35, 3)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone2Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.42, 3)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone2Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.7, 3)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone3Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.05, 3)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone3Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.35, 3)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone3Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.42, 3)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone3Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.7, 3)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone4Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -5)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone4Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, -5)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone4Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -5)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone4Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -5)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone5Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 5)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone5Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 5)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Cone5Band" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 5)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Cone5Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 5)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="Board" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1, 0)
+mesh = SubResource("box4")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="BoardLeg" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.4, 0)
+mesh = SubResource("box5")
+surface_material_override/0 = ExtResource("m1")

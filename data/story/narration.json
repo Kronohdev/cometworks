@@ -1,0 +1,146 @@
+{
+	"version": 1,
+	"_doc": "Vovô Edmundo Halleyzinho's narration of the story cutscenes (Cutscene, src/cutscene/cutscene.gd; the box: NarratorBox, scenes/story/narrator_box.tscn). lines: {storybook line key (the say() cue keyed in the shot): {key: his version (i18n/story_narration_strings.csv), pose: a Halleyzinho habit or a Cometling one-shot, face: an expression}}. His line replaces the storybook line while narration is on (settings: tycoon/narration). It keeps the shot's timing, so each line must type out and be read before the next cue (tests/test_narration.gd checks it).",
+	"lines": {
+		"CS_OPEN_1": {
+			"key": "NARR_OPEN_1",
+			"pose": "stargaze",
+			"face": "content"
+		},
+		"CS_OPEN_2": {
+			"key": "NARR_OPEN_2",
+			"pose": "nod",
+			"face": "happy"
+		},
+		"CS_OPEN_3": {
+			"key": "NARR_OPEN_3",
+			"pose": "laugh",
+			"face": "joy"
+		},
+		"CS_OPEN_4": {
+			"key": "NARR_OPEN_4",
+			"pose": "forehead",
+			"face": "surprised"
+		},
+		"CS_OPEN_5": {
+			"key": "NARR_OPEN_5",
+			"pose": "wave",
+			"face": "content"
+		},
+		"CS_OPEN_6": {
+			"key": "NARR_OPEN_6",
+			"pose": "specs",
+			"face": "content"
+		},
+		"CS_OPEN_7": {
+			"key": "NARR_OPEN_7",
+			"pose": "laugh",
+			"face": "joy"
+		},
+		"CS_OPEN_8": {
+			"key": "NARR_OPEN_8",
+			"pose": "shake_head",
+			"face": "worried"
+		},
+		"CS_OPEN_9": {
+			"key": "NARR_OPEN_9",
+			"pose": "point",
+			"face": "happy"
+		},
+		"CS_OPEN_10": {
+			"key": "NARR_OPEN_10",
+			"pose": "nod",
+			"face": "content"
+		},
+		"CS_OPEN_11": {
+			"key": "NARR_OPEN_11",
+			"pose": "laugh",
+			"face": "happy"
+		},
+		"CS_OPEN_12": {
+			"key": "NARR_OPEN_12",
+			"pose": "forehead",
+			"face": "surprised"
+		},
+		"CS_OPEN_13": {
+			"key": "NARR_OPEN_13",
+			"pose": "wave",
+			"face": "joy"
+		},
+		"CS_SHORT_1": {
+			"key": "NARR_SHORT_1",
+			"pose": "stargaze",
+			"face": "content"
+		},
+		"CS_SHORT_2": {
+			"key": "NARR_SHORT_2",
+			"pose": "laugh",
+			"face": "happy"
+		},
+		"CS_SHORT_3": {
+			"key": "NARR_SHORT_3",
+			"pose": "wave",
+			"face": "joy"
+		},
+		"CS_END_1": {
+			"key": "NARR_END_1",
+			"pose": "specs",
+			"face": "content"
+		},
+		"CS_END_2": {
+			"key": "NARR_END_2",
+			"pose": "surprise",
+			"face": "surprised"
+		},
+		"CS_END_3": {
+			"key": "NARR_END_3",
+			"pose": "laugh",
+			"face": "joy"
+		},
+		"CS_END_4": {
+			"key": "NARR_END_4",
+			"pose": "stargaze",
+			"face": "joy"
+		},
+		"CS_END_5": {
+			"key": "NARR_END_5",
+			"pose": "laugh",
+			"face": "happy"
+		},
+		"CS_END_6": {
+			"key": "NARR_END_6",
+			"pose": "nod",
+			"face": "content"
+		},
+		"CS_END_7": {
+			"key": "NARR_END_7",
+			"pose": "specs",
+			"face": "content"
+		},
+		"CS_MISS_1": {
+			"key": "NARR_MISS_1",
+			"pose": "stargaze",
+			"face": "content"
+		},
+		"CS_MISS_2": {
+			"key": "NARR_MISS_2",
+			"pose": "sigh",
+			"face": "sad"
+		},
+		"CS_MISS_3": {
+			"key": "NARR_MISS_3",
+			"pose": "laugh",
+			"face": "content"
+		},
+		"CS_MISS_4": {
+			"key": "NARR_MISS_4",
+			"pose": "nod",
+			"face": "happy"
+		},
+		"CS_MISS_5": {
+			"key": "NARR_MISS_5",
+			"pose": "wave",
+			"face": "joy"
+		}
+	}
+}

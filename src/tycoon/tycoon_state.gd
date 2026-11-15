@@ -31,6 +31,13 @@ signal project_review_ready(project_id: String)
 ## piloted flight or the automatic simulation (HangarRocket, ProjectDesk.launch). Emitted when
 ## it gets there and again every week it keeps waiting. Only with pilot_gate on.
 signal launch_pad_ready(project_id: String)
+## The cash crossed the warning line on its way to bankruptcy (Bankruptcy: level 2 = DANGER).
+signal cash_warning(level: int)
+## A month ended past the bankruptcy line for the first time: the one emergency loan
+## (Bankruptcy.loan_info()).
+signal emergency_loan(info: Dictionary)
+## The agency went bankrupt and the campaign ended (Bankruptcy.bankrupt_info()).
+signal bankrupt(info: Dictionary)
 
 const RULES_PATH := "res://data/tycoon/rules.json"
 const BUILDINGS_PATH := "res://data/tycoon/buildings.json"
@@ -121,6 +128,10 @@ var discovery: Dictionary = {}
 var tracking: Dictionary = {}
 ## Vovô Edmundo's lessons this campaign has seen (TutorialBook): {"seen": {lesson_id: true}}
 var tutorials: Dictionary = {}
+## the story signs around the island the player has read (StorySigns): {"read": {sign_id: true}}
+var signs: Dictionary = {}
+## the rover builder's saved designs and the surface drives (RoverGarage, src/rover/rover_garage.gd)
+var rovers: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -168,6 +179,7 @@ static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = [], p_di
 	s.news.append({"key": "TY_NEWS_WELCOME", "args": []})
 	s.race = RaceDirector.new(s)
 	SpaceTracking.attach(s)
+	RoverMissions.attach(s)  # rover missions end with their surface objectives
 	return s
 
 
@@ -360,7 +372,7 @@ func normalize_staff(m: Dictionary, index := 0) -> Dictionary:
 
 ## One week of simulation. Monthly bills and hype decay on month changes.
 func advance_week() -> void:
-	if is_over():
+	if is_over() or Bankruptcy.is_bankrupt(self):
 		return
 	var m0 := _month_of(weeks)
 	var era0 := era()
@@ -417,7 +429,7 @@ func to_dict() -> Dictionary:
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
 		"rockets": rockets, "story": story, "discovery": discovery, "tracking": tracking,
-		"tutorials": tutorials}
+		"tutorials": tutorials, "signs": signs, "rovers": rovers}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -464,5 +476,8 @@ static func from_dict(d: Dictionary) -> TycoonState:
 			b[k] = int(b.get(k, 0))
 	s.race = RaceDirector.new(s, d.get("race", {}))
 	s.tracking = d.get("tracking", {})
+	s.signs = d.get("signs", {})
+	s.rovers = d.get("rovers", {})
 	SpaceTracking.attach(s)
+	RoverMissions.attach(s)  # rover missions end with their surface objectives
 	return s

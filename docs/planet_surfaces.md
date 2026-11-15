@@ -186,3 +186,48 @@ glow off on the weakest GPUs.
   scenes are freed under the dummy renderer.
 - ArrayMesh creation is on the main thread: creating RenderingServer meshes from worker
   threads produced RID errors on this Godot build.
+
+## Free play on the surfaces (Cometworks)
+
+Each `scenes/surface/<body>_surface.tscn` (Moon, Mars, Europa, Mercury, Earth) is now a playable
+world on top of the procedural terrain. Everything is placed in the editor; scripts only read data
+and put things on the ground.
+
+- **Landforms** (`Features`, `SurfaceTerrainFeature`, `src/world/surface_terrain_feature.gd`): a
+  named crater with bright rays, a sinuous rille, layered buttes, a terraced mound, dune fields,
+  Europa double ridges and chaos terrain, flattened sites and jump ramps. Move one in the editor and
+  the terrain rebuilds around it. They are stamped after the landing zone in
+  `VoxelTerrainGenerator._apply_features` (bounding-circle test per sample, a few per world), so
+  collision, `get_height` and the rover's ground all see them. The scattered boulders keep out of
+  flattened sites, ramps and every point of interest (`PlanetSurface.collect_prop_exclusions`).
+- **Look**: the terrain uses the Cometworks toon light (`cw_toon.gdshaderinc`); each profile sets
+  its shadow tint and fill (cool and dark on airless bodies, warm on Mars). The Moon's Earth hangs
+  as a gibbous disc (drawn about twice its real 1.9° so it reads on screen), Jupiter is 12° wide
+  over Europa, Mars keeps its butterscotch sky with a blue glow round the Sun. Mars has drifting dust
+  devils, Europa a faint plume over a crack (particle scenes in `scenes/surface/props/`).
+- **Content** (`Content`): `SurfacePoi` points of interest with their set pieces (tributes with no
+  real logos or text: a gold-foil descent stage with footprints, a tub rover on eight wheels, a
+  three-legged lander, a microwave-sized six-wheeled rover, probe debris; plus boulders, ice and
+  salt), `collectible.tscn` finds (meteorites, ice, odd rocks, comet crumbs with lore) and
+  `challenge_ring.tscn` start rings. All of them are `SurfaceInteractable`s, so the rover reaches
+  them and uses its tools on them through the `SurfaceSession` contract.
+- **Data** (`data/surface_explore.json`, texts in `i18n/surface_explore_strings.csv`): per body the
+  career unlock, every POI's kind, name, fact, official source, science and rover actions, the
+  finds' facts and the challenges (`reach_before`, `jump`, `deliver`, `find_all`, `collect_all`).
+- **Explore layer** (`Explore`, `scenes/surface/explore/surface_explore.tscn`, `SurfaceExplore`): the
+  discovery cards, the challenge card, the field log (J) and photo mode (P, pictures in
+  `user://photos/`; places in the frame count as photographed). Without a rover the fly camera is a
+  little drone (F investigates the nearest place, Esc goes back).
+- **Field log** (`SurfaceLog`): in a career it lives in `TycoonState.discovery["surfaces"]` (saved
+  with the career), writes a journal note per place found and turns science into research points
+  (`research_per_science`), once per thing; the main menu's free play keeps `user://surface_log.json`.
+- **Getting there**: the main menu's *Superfícies* (every world) and the campus HUD button (shown
+  once a lander / rover mission reached a surface; `SurfaceLog.is_unlocked`). With the rover side
+  present (`scenes/surface/rover_drive.tscn`) the sandbox rover drives (`SurfaceFreePlay`); without
+  it the body's scene opens with the drone (`surface_viewer.tscn` over the sleeping campus).
+
+Tests: `tests/test_surface_explore.gd` (data, placement on the ground, gravity, discoveries, finds,
+challenges including a ballistic ramp jump per body, the log in free play and in a career, photo
+mode, the entry points). Shots: `tests/screenshot_surface_worlds.gd` (each world, `perf` for a
+drone flight with FPS) and `tests/screenshot_surface_free_play.gd` (cards, log, photo mode, menu,
+campus). Props: `tools/gen_surface_props.py` writes the set-piece scenes and their toon materials.

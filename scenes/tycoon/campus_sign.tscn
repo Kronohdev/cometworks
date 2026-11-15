@@ -1,0 +1,574 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="1_toon"]
+[ext_resource type="Script" path="res://src/tycoon/campus_sign.gd" id="2_sign"]
+
+[sub_resource type="ShaderMaterial" id="m_wood_dark"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.3529, 0.2549, 0.1882, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_wood"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.5412, 0.3961, 0.2667, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_wood_light"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.6275, 0.4784, 0.3216, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_lore"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.7020, 0.6118, 1.0000, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_paper"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1.0000, 0.9569, 0.8784, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_peach"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1.0000, 0.6039, 0.3608, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_ink"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.1686, 0.1647, 0.3608, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_mint"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.4353, 0.8784, 0.7451, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_ice"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.4863, 0.7843, 1.0000, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_butter"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1.0000, 0.8235, 0.3608, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_metal"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.8, 0.8196, 0.8784, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="ShaderMaterial" id="m_white"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_tarp"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.2471, 0.4353, 0.6039, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_rope"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.7882, 0.6353, 0.1529, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_star"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1.0000, 0.8235, 0.3608, 1)
+shader_parameter/roughness = 0.9
+shader_parameter/emission = Color(1, 0.78, 0.3, 1)
+shader_parameter/emission_energy = 2.2
+
+[sub_resource type="BoxMesh" id="b_txt_a"]
+size = Vector3(0.5, 0.05, 0.012)
+
+[sub_resource type="BoxMesh" id="b_txt_b"]
+size = Vector3(0.4, 0.05, 0.012)
+
+[sub_resource type="BoxMesh" id="b_txt_c"]
+size = Vector3(0.28, 0.05, 0.012)
+
+[sub_resource type="BoxMesh" id="b_frame_h"]
+size = Vector3(1.4, 0.06, 0.04)
+
+[sub_resource type="BoxMesh" id="b_frame_v"]
+size = Vector3(0.06, 0.74, 0.04)
+
+[sub_resource type="BoxMesh" id="b_nail"]
+size = Vector3(0.05, 0.05, 0.03)
+
+[sub_resource type="BoxMesh" id="b_px"]
+size = Vector3(1, 1, 0.02)
+
+[sub_resource type="BoxMesh" id="b_post"]
+size = Vector3(0.14, 1.5, 0.14)
+
+[sub_resource type="BoxMesh" id="b_plank"]
+size = Vector3(1.5, 0.8, 0.1)
+
+[sub_resource type="BoxMesh" id="b_cap"]
+size = Vector3(1.66, 0.1, 0.2)
+
+[sub_resource type="BoxMesh" id="b_face"]
+size = Vector3(1.3, 0.62, 0.03)
+
+[sub_resource type="BoxMesh" id="b_cover"]
+size = Vector3(1.62, 0.96, 0.22)
+
+[sub_resource type="BoxMesh" id="b_rope"]
+size = Vector3(0.06, 0.98, 0.24)
+
+[sub_resource type="BoxMesh" id="b_star"]
+size = Vector3(0.26, 0.26, 0.08)
+
+[sub_resource type="BoxMesh" id="b_base"]
+size = Vector3(0.3, 0.12, 0.3)
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NewMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2.15, 0)]
+}
+
+[sub_resource type="Animation" id="anim_bob"]
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NewMark:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2.15, 0), Vector3(0, 2.35, 0), Vector3(0, 2.15, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NewMark:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"bob": SubResource("anim_bob")
+}
+
+[node name="CampusSign" type="Node3D"]
+script = ExtResource("2_sign")
+
+[node name="Board" type="Node3D" parent="."]
+
+[node name="Post" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, -0.6, 0.75, 0)
+mesh = SubResource("b_post")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Post2" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0.6, 0.75, 0)
+mesh = SubResource("b_post")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Foot" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, -0.6, 0.06, 0)
+mesh = SubResource("b_base")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Foot2" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0.6, 0.06, 0)
+mesh = SubResource("b_base")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Plank" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("b_plank")
+surface_material_override/0 = SubResource("m_wood")
+
+[node name="Cap" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0, 1.65, 0.0)
+mesh = SubResource("b_cap")
+surface_material_override/0 = SubResource("m_wood_light")
+
+[node name="FrameTop" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.0000, 1.5550, 0.0700)
+mesh = SubResource("b_frame_h")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="FrameBottom" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.0000, 0.8450, 0.0700)
+mesh = SubResource("b_frame_h")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="FrameLeft" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, -0.6700, 1.2000, 0.0700)
+mesh = SubResource("b_frame_v")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="FrameRight" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.6700, 1.2000, 0.0700)
+mesh = SubResource("b_frame_v")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Nail" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, -0.6700, 1.5550, 0.0950)
+mesh = SubResource("b_nail")
+surface_material_override/0 = SubResource("m_metal")
+cast_shadow = 0
+
+[node name="Nail2" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.6700, 1.5550, 0.0950)
+mesh = SubResource("b_nail")
+surface_material_override/0 = SubResource("m_metal")
+cast_shadow = 0
+
+[node name="Nail3" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, -0.6700, 0.8450, 0.0950)
+mesh = SubResource("b_nail")
+surface_material_override/0 = SubResource("m_metal")
+cast_shadow = 0
+
+[node name="Nail4" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.6700, 0.8450, 0.0950)
+mesh = SubResource("b_nail")
+surface_material_override/0 = SubResource("m_metal")
+cast_shadow = 0
+
+[node name="Faces" type="Node3D" parent="Board"]
+
+[node name="Lore" type="Node3D" parent="Board/Faces"]
+
+[node name="Panel" type="MeshInstance3D" parent="Board/Faces/Lore"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.0000, 1.2000, 0.0650)
+mesh = SubResource("b_face")
+surface_material_override/0 = SubResource("m_lore")
+cast_shadow = 0
+
+[node name="Art" type="Node3D" parent="Board/Faces/Lore"]
+
+[node name="Head" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.12021, -0.12021, 0, 0.12021, 0.12021, 0, 0, 0, 1.00000, -0.2000, 1.2700, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_white")
+cast_shadow = 0
+
+[node name="Head2" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.07778, -0.07778, 0, 0.07778, 0.07778, 0, 0, 0, 1.00000, -0.2000, 1.2700, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ice")
+cast_shadow = 0
+
+[node name="Tail" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.14041, -0.03835, 0, 0.07671, 0.07021, 0, 0, 0, 1.00000, -0.3300, 1.2000, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ice")
+cast_shadow = 0
+
+[node name="Tail2" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.10531, -0.02877, 0, 0.05753, 0.05265, 0, 0, 0, 1.00000, -0.4400, 1.1350, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Tail3" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.07021, -0.01918, 0, 0.03835, 0.03510, 0, 0, 0, 1.00000, -0.5300, 1.0850, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Star" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.04243, -0.04243, 0, 0.04243, 0.04243, 0, 0, 0, 1.00000, -0.5000, 1.3800, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Star2" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.03182, -0.03182, 0, 0.03182, 0.03182, 0, 0, 0, 1.00000, -0.0800, 1.0800, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_white")
+cast_shadow = 0
+
+[node name="Star3" type="MeshInstance3D" parent="Board/Faces/Lore/Art"]
+transform = Transform3D(0.02475, -0.02475, 0, 0.02475, 0.02475, 0, 0, 0, 1.00000, -0.0800, 1.4000, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Line" type="MeshInstance3D" parent="Board/Faces/Lore"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2700, 1.3300, 0.0850)
+mesh = SubResource("b_txt_a")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line2" type="MeshInstance3D" parent="Board/Faces/Lore"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2200, 1.2100, 0.0850)
+mesh = SubResource("b_txt_b")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line3" type="MeshInstance3D" parent="Board/Faces/Lore"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.1600, 1.0900, 0.0850)
+mesh = SubResource("b_txt_c")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="History" type="Node3D" parent="Board/Faces"]
+visible = false
+
+[node name="Panel" type="MeshInstance3D" parent="Board/Faces/History"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.0000, 1.2000, 0.0650)
+mesh = SubResource("b_face")
+surface_material_override/0 = SubResource("m_paper")
+cast_shadow = 0
+
+[node name="Art" type="Node3D" parent="Board/Faces/History"]
+
+[node name="Planet" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.13000, -0.00000, 0, 0.00000, 0.13000, 0, 0, 0, 1.00000, -0.5000, 1.3300, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_mint")
+cast_shadow = 0
+
+[node name="Ring" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.20666, -0.00857, 0, 0.07544, 0.02348, 0, 0, 0, 1.00000, -0.5000, 1.3300, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Body" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.09394, 0.08915, 0, -0.03429, 0.24424, 0, 0, 0, 1.00000, -0.2666, 1.2094, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_white")
+cast_shadow = 0
+
+[node name="Stripe" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.09394, 0.01372, 0, -0.03429, 0.03757, 0, 0, 0, 1.00000, -0.2906, 1.1436, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ice")
+cast_shadow = 0
+
+[node name="Window" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.04080, -0.01898, 0, 0.01898, 0.04080, 0, 0, 0, 1.00000, -0.2529, 1.2470, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ice")
+cast_shadow = 0
+
+[node name="Nose" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.06800, -0.03163, 0, 0.03163, 0.06800, 0, 0, 0, 1.00000, -0.2186, 1.3409, 0.0830)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Fin" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.04697, 0.02743, 0, -0.01714, 0.07515, 0, 0, 0, 1.00000, -0.3700, 1.1301, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Fin2" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.04697, 0.02743, 0, -0.01714, 0.07515, 0, 0, 0, 1.00000, -0.2385, 1.0821, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Flame" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.05636, 0.02400, 0, -0.02057, 0.06576, 0, 0, 0, 1.00000, -0.3249, 1.0497, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Flame2" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.02818, 0.01372, 0, -0.01029, 0.03757, 0, 0, 0, 1.00000, -0.3386, 1.0121, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Star" type="MeshInstance3D" parent="Board/Faces/History/Art"]
+transform = Transform3D(0.03182, -0.03182, 0, 0.03182, 0.03182, 0, 0, 0, 1.00000, -0.0800, 1.3800, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Line" type="MeshInstance3D" parent="Board/Faces/History"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2700, 1.3300, 0.0850)
+mesh = SubResource("b_txt_a")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line2" type="MeshInstance3D" parent="Board/Faces/History"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2200, 1.2100, 0.0850)
+mesh = SubResource("b_txt_b")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line3" type="MeshInstance3D" parent="Board/Faces/History"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.1600, 1.0900, 0.0850)
+mesh = SubResource("b_txt_c")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Joke" type="Node3D" parent="Board/Faces"]
+visible = false
+
+[node name="Panel" type="MeshInstance3D" parent="Board/Faces/Joke"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.0000, 1.2000, 0.0650)
+mesh = SubResource("b_face")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Art" type="Node3D" parent="Board/Faces/Joke"]
+
+[node name="Face" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.28000, -0.00000, 0, 0.00000, 0.28000, 0, 0, 0, 1.00000, -0.3300, 1.2000, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Face2" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.19799, -0.19799, 0, 0.19799, 0.19799, 0, 0, 0, 1.00000, -0.3300, 1.2000, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_butter")
+cast_shadow = 0
+
+[node name="Eye" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.04000, -0.00000, 0, 0.00000, 0.06500, 0, 0, 0, 1.00000, -0.3850, 1.2500, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Eye2" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.04000, -0.00000, 0, 0.00000, 0.06500, 0, 0, 0, 1.00000, -0.2750, 1.2500, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Mouth" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.12000, -0.00000, 0, 0.00000, 0.03000, 0, 0, 0, 1.00000, -0.3300, 1.1250, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Mouth2" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.03000, -0.00000, 0, 0.00000, 0.04000, 0, 0, 0, 1.00000, -0.4000, 1.1450, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Mouth3" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.03000, -0.00000, 0, 0.00000, 0.04000, 0, 0, 0, 1.00000, -0.2600, 1.1450, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Cheek" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.04500, -0.00000, 0, 0.00000, 0.03000, 0, 0, 0, 1.00000, -0.4300, 1.1800, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Cheek2" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.04500, -0.00000, 0, 0.00000, 0.03000, 0, 0, 0, 1.00000, -0.2300, 1.1800, 0.0890)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_peach")
+cast_shadow = 0
+
+[node name="Heart" type="MeshInstance3D" parent="Board/Faces/Joke/Art"]
+transform = Transform3D(0.03536, -0.03536, 0, 0.03536, 0.03536, 0, 0, 0, 1.00000, -0.1000, 1.3600, 0.0850)
+mesh = SubResource("b_px")
+surface_material_override/0 = SubResource("m_lore")
+cast_shadow = 0
+
+[node name="Line" type="MeshInstance3D" parent="Board/Faces/Joke"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2700, 1.3300, 0.0850)
+mesh = SubResource("b_txt_a")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line2" type="MeshInstance3D" parent="Board/Faces/Joke"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.2200, 1.2100, 0.0850)
+mesh = SubResource("b_txt_b")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Line3" type="MeshInstance3D" parent="Board/Faces/Joke"]
+transform = Transform3D(1.00000, -0.00000, 0, 0.00000, 1.00000, 0, 0, 0, 1.00000, 0.1600, 1.0900, 0.0850)
+mesh = SubResource("b_txt_c")
+surface_material_override/0 = SubResource("m_ink")
+cast_shadow = 0
+
+[node name="Cover" type="Node3D" parent="Board"]
+visible = false
+
+[node name="Tarp" type="MeshInstance3D" parent="Board/Cover"]
+transform = Transform3D(0.99955, 0.03000, 0, -0.03000, 0.99955, 0, 0, 0, 1, 0, 1.19, 0.0)
+mesh = SubResource("b_cover")
+surface_material_override/0 = SubResource("m_tarp")
+
+[node name="Rope" type="MeshInstance3D" parent="Board/Cover"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, -0.35, 1.19, 0.0)
+mesh = SubResource("b_rope")
+surface_material_override/0 = SubResource("m_rope")
+
+[node name="Rope2" type="MeshInstance3D" parent="Board/Cover"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0.38, 1.19, 0.0)
+mesh = SubResource("b_rope")
+surface_material_override/0 = SubResource("m_rope")
+
+[node name="NewMark" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0)
+visible = false
+
+[node name="Star" type="MeshInstance3D" parent="NewMark"]
+transform = Transform3D(0.70711, 0.70711, 0, -0.70711, 0.70711, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("b_star")
+surface_material_override/0 = SubResource("m_star")
+cast_shadow = 0
+
+[node name="Star2" type="MeshInstance3D" parent="NewMark"]
+transform = Transform3D(1.00000, 0.00000, 0, -0.00000, 1.00000, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("b_star")
+surface_material_override/0 = SubResource("m_star")
+cast_shadow = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("anim_lib")
+}
+autoplay = &"bob"
+
+[node name="PickPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)

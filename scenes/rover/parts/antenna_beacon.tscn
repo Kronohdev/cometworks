@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/dark.tres" id="m_dark"]
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/accent.tres" id="m_accent"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.1, 0.06, 0.1)
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(0.025, 0.6, 0.025)
+
+[sub_resource type="BoxMesh" id="Box_3"]
+size = Vector3(0.06, 0.06, 0.06)
+
+[node name="AntennaBeacon" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_dark")
+
+[node name="Whip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 0)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Tip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_accent")

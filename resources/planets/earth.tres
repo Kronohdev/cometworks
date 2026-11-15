@@ -100,3 +100,5 @@ fog_color = Color(0.7, 0.8, 0.93, 1)
 fog_density = 0.00028
 fog_aerial_perspective = 0.75
 fog_sun_scatter = 0.12
+shadow_tint = Color(0.5, 0.42, 0.9, 1)
+shadow_fill = 0.3

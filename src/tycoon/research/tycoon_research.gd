@@ -6,7 +6,8 @@ extends RefCounted
 ## being funded (and a queue), and what a finished tech unlocks. Pure rules on a TycoonState,
 ## headless. Sub-state lives in `TycoonState.research`:
 ##   {"active": tech id or "", "queue": [ids], "progress": {id: PP spent}, "pp_week": last
-##    week's output, "licensed": {id: rival id}, "study": the mission study, FocusStudy}
+##    week's output, "licensed": {id: rival id}, "study": the mission study, FocusStudy,
+##    "paid": {id: true} the techs whose optional "cash" was paid}
 ## A finished tech sets `unlocked[id] = true` and one `unlocked["<kind>:<id>"] = true` per
 ## unlock (type:, target:, rocket:, part:, option:, spec:), so other systems only read `unlocked`.
 
@@ -78,6 +79,28 @@ static func can_research(s: TycoonState, id: String) -> bool:
 	return not tech(id).is_empty() and not is_done(s, id) and prereqs_done(s, id) and era_open(s, id)
 
 
+## Optional money a tech costs (research.json "cash", default none), paid once when it starts.
+static func cash_cost(id: String) -> float:
+	return float(tech(id).get("cash", 0.0))
+
+
+static func cash_paid(s: TycoonState, id: String) -> bool:
+	return cash_cost(id) <= 0.0 or bool((rs(s).get("paid", {}) as Dictionary).get(id, false))
+
+
+## Pays a tech's money when it starts (false when the agency cannot afford it yet).
+static func _pay(s: TycoonState, id: String) -> bool:
+	if cash_paid(s, id):
+		return true
+	if s.cash < cash_cost(id):
+		return false
+	TycoonFinance.add(s, "projects", -cash_cost(id))
+	if not rs(s).has("paid"):
+		rs(s)["paid"] = {}
+	rs(s)["paid"][id] = true
+	return true
+
+
 ## "done" | "researching" | "queued" | "available" | "locked"
 static func node_state(s: TycoonState, id: String) -> String:
 	if is_done(s, id):
@@ -114,6 +137,8 @@ static func fund(s: TycoonState, id: String) -> bool:
 	if not can_research(s, id):
 		return false
 	if String(r["active"]) == "":
+		if not _pay(s, id):
+			return false
 		r["active"] = id
 	else:
 		(r["queue"] as Array).append(id)
@@ -126,7 +151,7 @@ static func _next_from_queue(s: TycoonState) -> void:
 	var q: Array = r["queue"]
 	while String(r["active"]) == "" and not q.is_empty():
 		var nx := String(q.pop_front())
-		if can_research(s, nx):
+		if can_research(s, nx) and _pay(s, nx):
 			r["active"] = nx
 
 

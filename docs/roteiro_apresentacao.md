@@ -34,6 +34,8 @@ Com o menu principal na tela:
 
 Abra **Demonstração** e escolha **Modo feira · começo**.
 
+> As demonstrações já abrem com todos os menus do painel. Uma carreira nova começa só com o essencial e cada menu aparece quando fica útil, com uma lição do Vovô (no modo feira isso acontece rápido: tudo aparece nas primeiras vinte semanas, ou seja, uns vinte segundos de relógio). **Biblioteca do Vovô › Já sei jogar** mostra tudo de uma vez.
+
 ### 0:30 · O campus e a equipe (45 segundos)
 
 - Arraste com o mouse para passear pelo campus, use a roda para o zoom e **Q** / **E** para girar.

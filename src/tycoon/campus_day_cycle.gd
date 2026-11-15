@@ -11,6 +11,9 @@ extends Node
 ##   lamp energies, and the cartoon look's shadow tint, rim and ink colours. Windows and lamps glow brighter at night. Night is a "blue hour": a
 ##   luminous blue sky, cool moonlight, lifted ambient and warm windows and lamps, so the
 ##   campus stays readable. Unset curves leave the scene's own values alone.
+## Lights anywhere under the campus in the group "campus_lamps" follow the lamp energy like the
+## street lamps (the lighthouse); geometry in "campus_night_glow" fades in as the lamps rise
+## above their golden-hour level (the lighthouse beams).
 
 @export var enabled := true
 ## the campus scene (Campus node) whose lights, environment and lamps are driven
@@ -71,6 +74,7 @@ var _lamps: Array[Light3D] = []
 var _lamp_base: Array[float] = []
 var _floods: Array[Light3D] = []
 var _flood_base: Array[float] = []
+var _glows: Array[GeometryInstance3D] = []
 
 
 func _ready() -> void:
@@ -90,6 +94,13 @@ func _ready() -> void:
 		if n is OmniLight3D:
 			_lamps.append(n)
 			_lamp_base.append((n as Light3D).light_energy)
+	for n in campus.get_tree().get_nodes_in_group(&"campus_lamps"):
+		if n is Light3D and campus.is_ancestor_of(n) and not _lamps.has(n):
+			_lamps.append(n)
+			_lamp_base.append((n as Light3D).light_energy)
+	for n in campus.get_tree().get_nodes_in_group(&"campus_night_glow"):
+		if n is GeometryInstance3D and campus.is_ancestor_of(n):
+			_glows.append(n)
 	var fl := campus.get_node_or_null("Dressing/Base/FloodLights")
 	if fl:
 		for n in fl.get_children():
@@ -178,6 +189,10 @@ func apply(p: float) -> void:
 		_lamps[i].light_energy = _lamp_base[i] * lamp
 	for i in _floods.size():
 		_floods[i].light_energy = _flood_base[i] * lamp
+	var night := clampf((lamp - 1.05) / 0.5, 0.0, 1.0)
+	for g in _glows:
+		g.transparency = 1.0 - night
+		g.visible = night > 0.01
 
 
 static func _c(curve: Curve, p: float, fallback: float) -> float:

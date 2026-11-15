@@ -7,7 +7,7 @@ extends SceneTree
 
 const SCREENS := ["book", "contracts", "crew", "final_score", "finale", "finance", "map", "new_project",
 	"newspaper", "project_phase", "project_review", "race", "research", "settings", "rocket_designer", "design_review",
-	"briefings", "payload_planner", "project_team", "journal"]
+	"briefings", "payload_planner", "project_team", "journal", "emergency_loan", "bankrupt"]
 
 var _fails := 0
 

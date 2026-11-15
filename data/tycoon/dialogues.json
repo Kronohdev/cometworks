@@ -4,7 +4,27 @@
   "default": "cometling",
   "leader": "leader",
   "legend": "legend",
-  "by_legend": {"halleyzinho": "halleyzinho"},
+  "by_legend": {
+    "halleyzinho": "halleyzinho",
+    "katia": "lenda_katia",
+    "albertinho": "lenda_albertinho",
+    "cesinha": "lenda_cesinha",
+    "valentina": "lenda_valentina",
+    "pontinha": "lenda_pontinha",
+    "mariazinha": "lenda_mariazinha",
+    "margo": "lenda_margo",
+    "nilo": "lenda_nilo",
+    "mae": "lenda_mae",
+    "dora": "lenda_dora",
+    "berta": "lenda_berta",
+    "keplerino": "lenda_keplerino",
+    "dulinha": "lenda_dulinha",
+    "sagao": "lenda_sagao",
+    "sali": "lenda_sali",
+    "gagarinho": "lenda_gagarinho",
+    "cifrinha": "lenda_cifrinha",
+    "herschelinha": "lenda_herschelinha"
+  },
   "trees": {
     "cometling": {
       "start": "hello",
@@ -202,6 +222,7 @@
           {"text_key": "TY_DLG_H_ASK_MATH", "goto": "math", "once": true},
           {"text_key": "TY_DLG_H_ASK_SKY", "goto": "sky", "once": true},
           {"text_key": "TY_DLG_H_ASK_HALLEY", "goto": "halley", "once": true},
+          {"text_key": "TY_LT_HALLEY_ASK_NOW", "goto": "now"},
           {"text_key": "TY_DLG_H_ASK_LESSON", "goto": "lesson"},
           {"text_key": "TY_DLG_H_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_H"}]}
         ]
@@ -231,11 +252,1233 @@
           "lines": [{"text_key": "TY_DLG_H_HALLEY", "pose": "forehead"}],
           "choices": "main"
         },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_HALLEY_NOW_MET", "if": {"milestones": "comet_rendezvous"}, "face": "joy", "pose": "stargaze"},
+            {"text_key": "TY_LT_HALLEY_NOW_LAST", "if": {"comet_years_max": 1}, "face": "content", "pose": "stargaze"},
+            {"text_key": "TY_LT_HALLEY_NOW_CLOSE", "if": {"comet_years_max": 4}, "face": "worried", "pose": "specs"},
+            {"text_key": "TY_LT_HALLEY_NOW_LEAD", "if": {"race_place": 1}, "face": "happy", "pose": "forehead"},
+            {"text_key": "TY_LT_HALLEY_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "cane_rest"},
+            {"text_key": "TY_LT_HALLEY_NOW_ERA1", "if": {"era": 1}, "face": "content", "pose": "specs"},
+            {"text_key": "TY_LT_HALLEY_NOW_PLAIN", "face": "content", "pose": "specs"}
+          ],
+          "choices": "main"
+        },
         "lesson": {
           "lines": [{"text_key": "TY_DLG_H_LESSON", "pose": "wave"}],
           "choices": [
             {"text_key": "TY_DLG_H_BYE", "end": true, "effects": [{"lesson": "campus"}]}
           ]
+        }
+      }
+    },
+    "lenda_katia": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_KATIA_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_KATIA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_KATIA_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "clap"},
+            {"text_key": "TY_LT_KATIA_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_KATIA_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_KATIA_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_KATIA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_KATIA_WHO_MORE", "face": "happy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_KATIA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_KATIA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_KATIA_NOW_COMET", "if": {"milestones": "comet_rendezvous"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_KATIA_NOW_LEAD", "if": {"race_place": 1}, "face": "joy", "pose": "clap"},
+            {"text_key": "TY_LT_KATIA_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_KATIA_NOW_MONEY", "if": {"money": ["low", "broke"]}, "face": "worried", "pose": "shake_head"},
+            {"text_key": "TY_LT_KATIA_NOW_LATE", "if": {"comet_years_max": 3}, "face": "worried", "pose": "point"},
+            {"text_key": "TY_LT_KATIA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_KATIA_TIP_MOON", "if": {"era_min": 3}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_KATIA_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_albertinho": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_ALBERTINHO_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_ALBERTINHO_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_ALBERTINHO_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_ALBERTINHO_HI_FAIL", "if": {"events": "launch_failure"}, "face": "sad", "pose": "sigh"},
+            {"text_key": "TY_LT_ALBERTINHO_HI_1", "face": "happy", "pose": "bow"},
+            {"text_key": "TY_LT_ALBERTINHO_HI_2", "face": "happy", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_ALBERTINHO_WHO", "face": "content", "pose": "bow"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_ALBERTINHO_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_ALBERTINHO_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_ALBERTINHO_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_ALBERTINHO_NOW_CREW", "if": {"milestones": "cometling_space"}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_LT_ALBERTINHO_NOW_LEAD", "if": {"race_place": 1}, "face": "joy", "pose": "spin"},
+            {"text_key": "TY_LT_ALBERTINHO_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_ALBERTINHO_NOW_MONEY", "if": {"money": ["low", "broke"]}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_ALBERTINHO_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_ALBERTINHO_TIP_CREW", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_ALBERTINHO_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_cesinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_CESINHA_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_CESINHA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_CESINHA_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_LT_CESINHA_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_CESINHA_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_CESINHA_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_CESINHA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_CESINHA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_CESINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_CESINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_CESINHA_NOW_ORBIT", "if": {"milestones": "first_satellite", "not_milestones": "probe_moon"}, "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_CESINHA_NOW_MOON", "if": {"milestones": "probe_moon"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_CESINHA_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_CESINHA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_CESINHA_TIP_DATA", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_CESINHA_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_valentina": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_VALENTINA_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_VALENTINA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_VALENTINA_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_LT_VALENTINA_HI_FAIL", "if": {"events": "launch_failure"}, "face": "sad", "pose": "sigh"},
+            {"text_key": "TY_LT_VALENTINA_HI_1", "face": "happy", "pose": "salute"},
+            {"text_key": "TY_LT_VALENTINA_HI_2", "face": "happy", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_VALENTINA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_VALENTINA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_VALENTINA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_VALENTINA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_VALENTINA_NOW_ORBIT", "if": {"milestones": "cometling_orbit"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_VALENTINA_NOW_TIRED", "if": {"team_mood": "low"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_VALENTINA_NOW_LEAD", "if": {"race_place": 1}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_LT_VALENTINA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_VALENTINA_TIP_CREW", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_VALENTINA_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_pontinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_PONTINHA_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_PONTINHA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "salute"},
+            {"text_key": "TY_LT_PONTINHA_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_LT_PONTINHA_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "nod"},
+            {"text_key": "TY_LT_PONTINHA_HI_1", "face": "happy", "pose": "salute"},
+            {"text_key": "TY_LT_PONTINHA_HI_2", "face": "happy", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_PONTINHA_WHO", "face": "content", "pose": "salute"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_PONTINHA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_PONTINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_PONTINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_PONTINHA_NOW_CREW", "if": {"milestones": "cometling_space"}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_LT_PONTINHA_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_PONTINHA_NOW_MONEY", "if": {"money": ["low", "broke"]}, "face": "worried", "pose": "shake_head"},
+            {"text_key": "TY_LT_PONTINHA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_PONTINHA_TIP_CREW", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_PONTINHA_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_mariazinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_MARIAZINHA_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_MARIAZINHA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_MARIAZINHA_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "clap"},
+            {"text_key": "TY_LT_MARIAZINHA_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_MARIAZINHA_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_MARIAZINHA_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_MARIAZINHA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_MARIAZINHA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_MARIAZINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_MARIAZINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_MARIAZINHA_NOW_ERA1", "if": {"era": 1}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_MARIAZINHA_NOW_LEAD", "if": {"race_place": 1}, "face": "joy", "pose": "spin"},
+            {"text_key": "TY_LT_MARIAZINHA_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_MARIAZINHA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_MARIAZINHA_TIP_BOOST", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_MARIAZINHA_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_margo": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_MARGO_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_MARGO_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_MARGO_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "clap"},
+            {"text_key": "TY_LT_MARGO_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_LT_MARGO_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_MARGO_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_MARGO_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_MARGO_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_MARGO_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_MARGO_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_MARGO_NOW_MOON", "if": {"milestones": "robotic_landing"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_MARGO_NOW_LEAD", "if": {"race_place": 1}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_MARGO_NOW_MONEY", "if": {"money": ["low", "broke"]}, "face": "worried", "pose": "shake_head"},
+            {"text_key": "TY_LT_MARGO_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_MARGO_TIP_DEV", "if": {"era_min": 3}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_MARGO_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_nilo": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_NILO_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_NILO_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_NILO_HI_WIN", "if": {"events": "launch_success"}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_NILO_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried", "pose": "nod"},
+            {"text_key": "TY_LT_NILO_HI_1", "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_NILO_HI_2", "face": "happy", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_NILO_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_NILO_WHO_MORE", "face": "content", "pose": "look_up"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_NILO_STORY_1", "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_NILO_STORY_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_NILO_NOW_LANDED", "if": {"milestones": "crewed_landing"}, "face": "joy", "pose": "celebrate"},
+            {"text_key": "TY_LT_NILO_NOW_FLYBY", "if": {"milestones": "crewed_flyby", "not_milestones": "crewed_landing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_NILO_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_NILO_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_NILO_TIP_LAND", "if": {"era_min": 4}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_NILO_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_mae": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
+          {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_LT_MAE_BYE"}]}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_DLG_HI_NAP", "if": {"doing": "napping"}, "face": "sleepy", "pose": "yawn"},
+            {"text_key": "TY_LT_MAE_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "stretch"},
+            {"text_key": "TY_LT_MAE_HI_WIN", "if": {"events": "launch_success"}, "face": "joy", "pose": "dance"},
+            {"text_key": "TY_LT_MAE_HI_FAIL", "if": {"events": "launch_failure"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_MAE_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_MAE_HI_2", "face": "happy", "pose": "spin"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_MAE_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_MAE_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_MAE_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_MAE_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_MAE_NOW_TIRED", "if": {"team_mood": "low"}, "face": "worried", "pose": "shake_head"},
+            {"text_key": "TY_LT_MAE_NOW_HAPPY", "if": {"team_mood": "happy"}, "face": "joy", "pose": "dance"},
+            {"text_key": "TY_LT_MAE_NOW_CREW", "if": {"milestones": "crewed_flyby"}, "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_MAE_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_MAE_TIP_FAIL", "if": {"events": "launch_failure"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_MAE_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "hint": {
+          "lines": [
+            {"text_key": "TY_DLG_HINT_SAY", "if": {"has_hint": true}, "face": "content", "pose": "point"},
+            {"text_key": "TY_DLG_HINT_NONE", "face": "worried", "pose": "shrug"}
+          ],
+          "effects": [{"hint": true}],
+          "choices": "main"
+        },
+        "feel": {
+          "lines": [
+            {"text_key": "TY_DLG_FEEL_TIRED", "if": {"tired": true}, "face": "sleepy"},
+            {"text_key": "TY_DLG_FEEL_LOW_1", "if": {"mood": "low"}, "face": "sad"},
+            {"text_key": "TY_DLG_FEEL_HAPPY_1", "if": {"mood": "happy"}, "face": "joy"},
+            {"text_key": "TY_DLG_FEEL_OK_1", "face": "content"}
+          ],
+          "effects": [{"morale": 3}],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_dora": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_DORA_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_DORA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_DORA_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_DORA_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_DORA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_DORA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_DORA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_DORA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_DORA_NOW_SMALL", "if": {"staff_max": 4}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_DORA_NOW_ERA4", "if": {"era_min": 4}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_DORA_NOW_BEHIND", "if": {"race_place_min": 3}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_DORA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_DORA_TIP_HUNCH", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_DORA_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_berta": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_BERTA_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_BERTA_HI_1", "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_BERTA_HI_2", "face": "happy", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_BERTA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_BERTA_WHO_MORE", "face": "content", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_BERTA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_BERTA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_BERTA_NOW_MONEY", "if": {"money": ["low", "broke"]}, "face": "worried", "pose": "nod"},
+            {"text_key": "TY_LT_BERTA_NOW_LEAD", "if": {"race_place": 1}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_BERTA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_BERTA_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_BERTA_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_keplerino": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_KEPLERINO_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_KEPLERINO_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_KEPLERINO_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_KEPLERINO_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_KEPLERINO_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_KEPLERINO_STORY_1", "face": "grumpy", "pose": "shake_head"},
+            {"text_key": "TY_LT_KEPLERINO_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_KEPLERINO_NOW_SAT", "if": {"milestones": "first_satellite"}, "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_NOW_MOON", "if": {"era_min": 3}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_NOW_LATE", "if": {"comet_years_max": 3}, "face": "worried", "pose": "look_up"},
+            {"text_key": "TY_LT_KEPLERINO_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_KEPLERINO_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_TIP_GEO", "if": {"era_min": 2}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_dulinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_DULINHA_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_DULINHA_HI_NIGHT", "if": {"time": "night"}, "face": "joy", "pose": "look_up"},
+            {"text_key": "TY_LT_DULINHA_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_DULINHA_HI_2", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_DULINHA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_DULINHA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_DULINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_DULINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_DULINHA_NOW_SAT", "if": {"milestones": "first_satellite"}, "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_DULINHA_NOW_ERA1", "if": {"era": 1}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_DULINHA_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_DULINHA_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_DULINHA_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_sagao": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_SAGAO_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_SAGAO_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_SAGAO_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_SAGAO_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_SAGAO_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_SAGAO_WHO_MORE", "face": "content", "pose": "look_up"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_SAGAO_STORY_1", "face": "content", "pose": "sigh"},
+            {"text_key": "TY_LT_SAGAO_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_SAGAO_NOW_FAR", "if": {"milestones": "far_side"}, "face": "joy", "pose": "look_up"},
+            {"text_key": "TY_LT_SAGAO_NOW_SCI", "if": {"missions_done_min": 3}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_SAGAO_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_SAGAO_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_SAGAO_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_sali": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
+          {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_MENTOR", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_SALI_HI_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_SALI_HI_1", "face": "happy", "pose": "wave"},
+            {"text_key": "TY_LT_SALI_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_SALI_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_SALI_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_SALI_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_SALI_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "now": {
+          "lines": [
+            {"text_key": "TY_LT_SALI_NOW_CREW", "if": {"milestones": "cometling_space"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_LT_SALI_NOW_NOCREW", "if": {"era_min": 2, "not_milestones": "cometling_space"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_SALI_NOW_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_SALI_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_SALI_TIP_1", "face": "happy", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_gagarinho": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_RACE", "goto": "race"},
+          {"text_key": "TY_LT_ASK_RIVAL_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_RIVAL", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_GAGARINHO_HI_FIRST", "if": {"events": "rival_first"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_LT_GAGARINHO_HI_RACE", "if": {"where": "race"}, "face": "happy", "pose": "salute"},
+            {"text_key": "TY_LT_GAGARINHO_HI_1", "face": "joy", "pose": "wave"},
+            {"text_key": "TY_LT_GAGARINHO_HI_2", "face": "happy", "pose": "salute"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_GAGARINHO_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_GAGARINHO_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_GAGARINHO_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_GAGARINHO_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "race": {
+          "lines": [
+            {"text_key": "TY_LT_GAGARINHO_RACE_COMET", "if": {"milestones": "comet_rendezvous"}, "face": "joy", "pose": "salute"},
+            {"text_key": "TY_LT_GAGARINHO_RACE_LANDED", "if": {"milestones": "crewed_landing", "rival_vs": ["behind", "even"]}, "face": "happy", "pose": "clap"},
+            {"text_key": "TY_LT_GAGARINHO_RACE_AHEAD", "if": {"rival_vs": "ahead"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_LT_GAGARINHO_RACE_BEHIND", "if": {"rival_vs": "behind"}, "face": "content", "pose": "salute"},
+            {"text_key": "TY_LT_GAGARINHO_RACE_EVEN", "if": {"rival_vs": "even"}, "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_GAGARINHO_RACE_PLAIN", "face": "happy", "pose": "salute"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_GAGARINHO_TIP_1", "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_GAGARINHO_TIP_2", "if": {"era_min": 2}, "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_cifrinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_RACE", "goto": "race"},
+          {"text_key": "TY_LT_ASK_RIVAL_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_RIVAL", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_CIFRINHA_HI_FIRST", "if": {"events": "rival_first"}, "face": "content", "pose": "bow"},
+            {"text_key": "TY_LT_CIFRINHA_HI_RACE", "if": {"where": "race"}, "face": "happy", "pose": "bow"},
+            {"text_key": "TY_LT_CIFRINHA_HI_1", "face": "happy", "pose": "bow"},
+            {"text_key": "TY_LT_CIFRINHA_HI_2", "face": "content", "pose": "wave"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_CIFRINHA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_CIFRINHA_WHO_MORE", "face": "happy", "pose": "laugh"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_CIFRINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_CIFRINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "race": {
+          "lines": [
+            {"text_key": "TY_LT_CIFRINHA_RACE_COMET", "if": {"milestones": "comet_rendezvous"}, "face": "joy", "pose": "bow"},
+            {"text_key": "TY_LT_CIFRINHA_RACE_AHEAD", "if": {"rival_vs": "ahead"}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_CIFRINHA_RACE_BEHIND", "if": {"rival_vs": "behind"}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_CIFRINHA_RACE_EVEN", "if": {"rival_vs": "even"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_CIFRINHA_RACE_PLAIN", "face": "content", "pose": "bow"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_CIFRINHA_TIP_1", "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_CIFRINHA_TIP_2", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        }
+      }
+    },
+    "lenda_herschelinha": {
+      "start": "hello",
+      "menus": {
+        "main": [
+          {"text_key": "TY_DLG_ASK_WHO", "goto": "who", "once": true},
+          {"text_key": "TY_LT_ASK_WHO_MORE", "goto": "who_more", "once": true, "if": {"flags": "who"}},
+          {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
+          {"text_key": "TY_LT_ASK_RACE", "goto": "race"},
+          {"text_key": "TY_LT_ASK_RIVAL_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_BYE_RIVAL", "end": true}
+        ]
+      },
+      "nodes": {
+        "hello": {
+          "lines": [
+            {"text_key": "TY_LT_HERSCHELINHA_HI_FIRST", "if": {"events": "rival_first"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_HERSCHELINHA_HI_RACE", "if": {"where": "race"}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_HERSCHELINHA_HI_NIGHT", "if": {"time": "night"}, "face": "content", "pose": "look_up"},
+            {"text_key": "TY_LT_HERSCHELINHA_HI_1", "face": "content", "pose": "wave"},
+            {"text_key": "TY_LT_HERSCHELINHA_HI_2", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "who": {
+          "lines": [{"text_key": "TY_LT_HERSCHELINHA_WHO", "face": "content", "pose": "nod"}],
+          "effects": [{"flag": "who"}],
+          "choices": "main"
+        },
+        "who_more": {
+          "lines": [{"text_key": "TY_LT_HERSCHELINHA_WHO_MORE", "face": "joy", "pose": "point"}],
+          "choices": "main"
+        },
+        "story": {
+          "lines": [
+            {"text_key": "TY_LT_HERSCHELINHA_STORY_1", "face": "happy", "pose": "laugh"},
+            {"text_key": "TY_LT_HERSCHELINHA_STORY_2", "face": "content", "pose": "talk"}
+          ],
+          "choices": "main"
+        },
+        "race": {
+          "lines": [
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_COMET", "if": {"milestones": "comet_rendezvous"}, "face": "joy", "pose": "bow"},
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_LATE", "if": {"comet_years_max": 4, "rival_vs": ["ahead", "even"]}, "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_AHEAD", "if": {"rival_vs": "ahead"}, "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_BEHIND", "if": {"rival_vs": "behind"}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_EVEN", "if": {"rival_vs": "even"}, "face": "happy", "pose": "nod"},
+            {"text_key": "TY_LT_HERSCHELINHA_RACE_PLAIN", "face": "content", "pose": "nod"}
+          ],
+          "choices": "main"
+        },
+        "tip": {
+          "lines": [
+            {"text_key": "TY_LT_HERSCHELINHA_TIP_1", "face": "content", "pose": "point"},
+            {"text_key": "TY_LT_HERSCHELINHA_TIP_2", "if": {"comet_years_max": 5}, "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
         }
       }
     }

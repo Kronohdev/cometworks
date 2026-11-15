@@ -22,7 +22,7 @@ func _initialize() -> void:
 	var n_leo := sqrt(MU / (r1 * r1 * r1))
 	var t_node := 1200.0
 	# off-target on purpose (a few degrees late): the correction has work to do
-	var th := sys.phase[sys.moon] + sys.rate[sys.moon] * (t_node + t_tr) - PI - n_leo * t_node + deg_to_rad(4.0)
+	var th := sys.angle_at(sys.moon, t_node + t_tr) - PI - n_leo * t_node + deg_to_rad(4.0)
 	var s := _leo(200000.0, th)
 	var tli := FlightManeuverNode.new(t_node, Vector3(sqrt(MU * (2.0 / r1 - 1.0 / at)) - sqrt(MU / r1), 0.0, 0.0))
 	var nodes: Array[FlightManeuverNode] = [tli]

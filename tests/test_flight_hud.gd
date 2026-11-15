@@ -72,10 +72,9 @@ func _test_goal_and_coach() -> void:
 	_check(hud.now_key(world._telemetry()) == "FL_CW_NOW_AUTO", "with the autopilot: sit back")
 	world.set_autopilot(false)
 	# an empty stage: drain the first stage's tanks
-	for pool in world.active.pools:
-		if int(pool["stage"]) == world.active.current_stage:
-			for tk in pool["tanks"]:
-				world.active.prop[tk] = 0.0
+	for pool in world.sim.craft.pools:
+		if int(pool["stage"]) == world.sim.craft.current_stage:
+			pool["prop"] = 0.0
 	await _frames(12)
 	t = world._telemetry()
 	_check(FlightTips.stage_empty(t), "a drained first stage is empty")
@@ -85,12 +84,12 @@ func _test_goal_and_coach() -> void:
 	var r := FlightOrbit.R + 200000.0
 	var v := sqrt(FlightOrbit.MU / r)
 	var e := FlightWorld.EAST.normalized()
-	world.set_orbit_state(sys.earth, PackedFloat64Array([0.0, r, 0.0]), PackedFloat64Array([e.x * v, e.y * v, e.z * v]))
-	while world.active.current_stage < world.active.stage_count - 1:
-		for d in world.active.activate_next_stage():
-			d.queue_free()
-	world.active.throttle = 0.0
-	world._orbit_announced = true
+	world.sim.set_orbit_state(sys.earth, PackedFloat64Array([0.0, r, 0.0]), PackedFloat64Array([e.x * v, e.y * v, e.z * v]))
+	var evs: Array = []
+	while world.sim.craft.current_stage < world.sim.craft.stage_count - 1:
+		world.sim.craft.next_stage(evs)
+	world.sim.craft.throttle = 0.0
+	world.sim.in_orbit = true
 	# the HUD refreshes on the world's telemetry tick: wait for it (a busy machine needs more frames)
 	var goal_bar := hud.get_node("%GoalBar") as CwSegmentBar
 	var btn_stage := hud.get_node("%BtnStage") as Button
@@ -108,9 +107,9 @@ func _test_goal_and_coach() -> void:
 	_check((hud.get_node("%ToastDot") as Control).self_modulate.is_equal_approx(CwPalette.LILAC), "a white toast tint turns lilac")
 	hud.toast("hi", CwPalette.MINT)
 	_check((hud.get_node("%ToastDot") as Control).self_modulate.is_equal_approx(CwPalette.MINT), "a candy tint stays")
-	world.active.crashed = true
+	world.sim.craft.crashed = true
 	_check(hud.now_key(world._telemetry()) == "FL_CW_NOW_LOST", "after a breakup: the kind words")
-	world.active.crashed = false
+	world.sim.craft.crashed = false
 
 
 func _test_tips() -> void:
@@ -135,10 +134,9 @@ func _test_tips() -> void:
 	world.stage()
 	await _wait(0.3)
 	_check(tips.is_done("throttle") and tips.is_done("ignite") and tips.current != "ignite", "lifting off covers both pad tips")
-	for pool in world.active.pools:
-		if int(pool["stage"]) == world.active.current_stage:
-			for tk in pool["tanks"]:
-				world.active.prop[tk] = 0.0
+	for pool in world.sim.craft.pools:
+		if int(pool["stage"]) == world.sim.craft.current_stage:
+			pool["prop"] = 0.0
 	tips.complete("turn")
 	await _wait(0.3)
 	_check(tips.current == "stage", "an empty stage brings its tip (%s)" % tips.current)

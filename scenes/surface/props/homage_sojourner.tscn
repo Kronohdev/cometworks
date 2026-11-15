@@ -1,0 +1,132 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/surface/props/materials/foil_gold.tres" id="m0"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/lens.tres" id="m1"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_dark.tres" id="m2"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/metal_light.tres" id="m3"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/rock_red.tres" id="m4"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/rock_red_dark.tres" id="m5"]
+[ext_resource type="Material" path="res://scenes/surface/props/materials/solar_blue.tres" id="m6"]
+
+[sub_resource type="BoxMesh" id="box0"]
+size = Vector3(0.62, 0.16, 0.46)
+
+[sub_resource type="BoxMesh" id="box1"]
+size = Vector3(0.64, 0.03, 0.48)
+
+[sub_resource type="BoxMesh" id="box2"]
+size = Vector3(0.02, 0.32, 0.02)
+
+[sub_resource type="BoxMesh" id="box3"]
+size = Vector3(0.03, 0.06, 0.06)
+
+[sub_resource type="BoxMesh" id="box4"]
+size = Vector3(0.1, 0.08, 0.08)
+
+[sub_resource type="BoxMesh" id="box5"]
+size = Vector3(0.6, 0.04, 0.04)
+
+[sub_resource type="BoxMesh" id="box6"]
+size = Vector3(0.6, 0.6, 0.55)
+
+[sub_resource type="BoxMesh" id="box7"]
+size = Vector3(0.4, 0.15, 0.35)
+
+[sub_resource type="BoxMesh" id="box8"]
+size = Vector3(1.4, 0.02, 0.1)
+
+[sub_resource type="BoxMesh" id="box9"]
+size = Vector3(0.14, 0.14, 0.06)
+
+[node name="HomageSojourner" type="Node3D"]
+editor_description = "Tribute to the first rover on Mars (1997): about the size of a microwave oven, next to a big rock it studied."
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
+mesh = SubResource("box0")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Solar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("box1")
+surface_material_override/0 = ExtResource("m6")
+
+[node name="Ant" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22, 0.6, 0.15)
+mesh = SubResource("box2")
+surface_material_override/0 = ExtResource("m3")
+
+[node name="Eye" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33, 0.32, 0.08)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Eye2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33, 0.32, -0.08)
+mesh = SubResource("box3")
+surface_material_override/0 = ExtResource("m1")
+
+[node name="Apxs" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.36, 0.25, 0)
+mesh = SubResource("box4")
+surface_material_override/0 = ExtResource("m0")
+
+[node name="RockerL" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.995, -0.09983, 0, 0.09983, 0.995, 0, 0, 0, 1, 0, 0.2, 0.28)
+mesh = SubResource("box5")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="RockerR" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.995, -0.09983, 0, 0.09983, 0.995, 0, 0, 0, 1, 0, 0.2, -0.28)
+mesh = SubResource("box5")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="Yogi" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9211, 0, 0.3894, 0, 1, 0, -0.3894, 0, 0.9211, -0.75, 0.3, 0.1)
+mesh = SubResource("box6")
+surface_material_override/0 = ExtResource("m4")
+
+[node name="YogiTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9211, 0, 0.3894, 0, 1, 0, -0.3894, 0, 0.9211, -0.78, 0.62, 0.05)
+mesh = SubResource("box7")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Tracks" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.01, 0.28)
+mesh = SubResource("box8")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="Tracks2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.01, -0.28)
+mesh = SubResource("box8")
+surface_material_override/0 = ExtResource("m5")
+
+[node name="WheelL0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.07, 0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelL1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelL2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.07, 0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelR0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.07, -0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelR1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, -0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")
+
+[node name="WheelR2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.07, -0.29)
+mesh = SubResource("box9")
+surface_material_override/0 = ExtResource("m2")

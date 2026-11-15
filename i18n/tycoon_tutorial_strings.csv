@@ -101,7 +101,7 @@ TUT_FINANCE_TITLE,Money,Dinheiro
 TUT_FINANCE_DESC,"Cash, the government budget, donations and loans.","O caixa, o orçamento do governo, doações e empréstimos."
 TUT_FINANCE_1,"The agency starts with three hundred thousand credits. Sounds like a lot, until payroll comes around.","A agência começa com trezentos mil créditos. Parece muito, até chegar a folha de pagamento."
 TUT_FINANCE_2,"Every year the government sends a budget, bigger with good reputation and milestones won.","Todo ano o governo manda um orçamento, maior com boa reputação e com marcos conquistados."
-TUT_FINANCE_3,"Hype turns into public donations every month. If it gets tight, a loan shows up. Money alone never ends the game.","O hype vira doações do público todo mês. E se apertar, aparece um empréstimo. Dinheiro sozinho não acaba o jogo."
+TUT_FINANCE_3,"Hype turns into public donations every month. If it gets tight, a loan shows up. Too deep in the red, we go bankrupt.","O hype vira doações do público todo mês. Se apertar, aparece um empréstimo. Fundo demais no vermelho, a gente quebra."
 TUT_RACE_TITLE,The race and the rivals,A corrida e as rivais
 TUT_RACE_DESC,"The fifteen milestones, the prizes and the other agencies.","Os quinze marcos, os prêmios e as outras agências."
 TUT_RACE_1,"The race: fifteen milestones, from the first sounding rocket to meeting the Mother-Ice.","A corrida: quinze marcos, da primeira sondagem até o encontro com a Mãe-Gelo."

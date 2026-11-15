@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/surface_interactable.gd" id="1_poi"]
+[ext_resource type="PackedScene" path="res://scenes/rover/parts/objective_marker_model.tscn" id="2_model"]
+
+[node name="ObjectiveMarker" type="Node3D"]
+script = ExtResource("1_poi")
+kind = &"objective"
+actions = PackedStringArray("photo", "scan", "drill", "sample", "drone")
+reach_radius = 8.0
+science = 6.0
+
+[node name="Model" parent="." instance=ExtResource("2_model")]

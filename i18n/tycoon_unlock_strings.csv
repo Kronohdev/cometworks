@@ -1,0 +1,43 @@
+keys,en,pt
+TY_UNL_NEW,New on the HUD: %s,Novo no painel: %s
+TY_UNL_NEW_TAG,NEW!,NOVO!
+TY_UNL_LOCKED_HINT,Not yet! Grandpa will show you this when the time comes.,Ainda não! O Vovô te mostra isso na hora certa.
+TY_UNL_HANGAR,The hangar,O hangar
+TY_UNL_ALL,"I know how to play: show every menu","Já sei jogar: mostrar todos os menus"
+TY_UNL_ALL_TIP,"In this career, every HUD menu appears at once (Grandpa's lessons still play on each screen).","Nesta carreira, todos os menus do painel aparecem de uma vez (as lições do Vovô continuam em cada tela)."
+TY_UNL_ALL_DONE,Done! Every menu is on the HUD now.,Pronto! Todos os menus já estão no painel.
+TY_UNL_ALL_ALREADY,Every menu is already on the HUD.,Todos os menus já estão no painel.
+TY_UNL_COUNT,%d of %d menus on the HUD,%d de %d menus no painel
+TY_SET_MENUS_GRADUAL,Menus one at a time,Menus aos poucos
+TY_SET_MENUS_GRADUAL_TIP,"A new career starts with the essentials and each menu appears when it becomes useful, with one of Grandpa's lessons.","Uma carreira nova começa com o essencial e cada menu aparece quando fica útil, com uma lição do Vovô."
+TUT_CAMPUS_7B,"This column holds the agency's tools. New keys show up here as the agency grows, and I explain each one.","Nesta coluna ficam as ferramentas da agência. Chaves novas aparecem aqui conforme ela cresce, e eu explico cada uma."
+TUT_UNLOCK_CREW_TITLE,New key: the crew,Chave nova: a equipe
+TUT_UNLOCK_CREW_DESC,"Where the crew lives, and where you hire more Cometlings.","Onde mora a equipe, e onde se contratam mais Cometinhos."
+TUT_UNLOCK_CREW_1,"A new key! Here you see your crew and hire more Cometlings. Every project needs good hands. And paws.","Chave nova! Aqui você vê a sua equipe e contrata mais Cometinhos. Todo projeto precisa de boas mãos. E patas."
+TUT_UNLOCK_HANGAR_TITLE,New key: the hangar,Chave nova: o hangar
+TUT_UNLOCK_HANGAR_DESC,The workshop opens the hangar to build the project's rocket.,A oficina abre o hangar para montar o foguete do projeto.
+TUT_UNLOCK_HANGAR_1,"The workshop now opens the hangar: there you build the project's rocket, part by part.","A oficina agora abre o hangar: lá você monta o foguete do projeto, peça por peça."
+TUT_UNLOCK_HANGAR_2,"Click the workshop on the campus whenever you want to go back. In my day we built them with glue.","Clique na oficina do campus sempre que quiser voltar. No meu tempo a gente montava com cola."
+TUT_UNLOCK_MAP_TITLE,New keys: the maps,Chaves novas: os mapas
+TUT_UNLOCK_MAP_DESC,The mission map and the Solar System map.,O mapa das missões e o mapa do Sistema Solar.
+TUT_UNLOCK_MAP_1,"Rockets up there need someone watching down here. This map follows your missions in flight.","Foguete lá em cima precisa de alguém de olho aqui embaixo. Este mapa acompanha as missões em voo."
+TUT_UNLOCK_MAP_2,"And this key (or M) opens the whole Solar System, with your ships flying. It makes my head spin.","E esta tecla (ou o M) abre o Sistema Solar inteiro, com suas naves voando. Me dá até tontura."
+TUT_UNLOCK_JOURNAL_TITLE,New key: the journal,Chave nova: o caderno
+TUT_UNLOCK_JOURNAL_DESC,The discovery journal keeps what each flight taught.,O caderno de descobertas guarda o que cada voo ensinou.
+TUT_UNLOCK_JOURNAL_1,"Every flight teaches something. The discovery journal keeps it all, so the next one goes better.","Todo voo ensina alguma coisa. O caderno de descobertas guarda tudo, para o próximo sair melhor."
+TUT_UNLOCK_RESEARCH_TITLE,New key: research,Chave nova: a pesquisa
+TUT_UNLOCK_RESEARCH_DESC,Where research points become new technology.,Onde os pontos de pesquisa viram tecnologia nova.
+TUT_UNLOCK_RESEARCH_1,"Research points! Here you choose what the scientists study next. Curiosity is the best fuel.","Pontos de pesquisa! Aqui você escolhe o que os cientistas estudam agora. Curiosidade é o melhor combustível."
+TUT_UNLOCK_CONTRACTS_TITLE,New key: contracts,Chave nova: os contratos
+TUT_UNLOCK_CONTRACTS_DESC,Clients who pay to fly their things.,Clientes que pagam para voar as coisas deles.
+TUT_UNLOCK_CONTRACTS_1,"A bit of fame brings clients. In contracts, people pay you to take their things to space.","Um pouco de fama traz clientes. Nos contratos, gente de fora paga para você levar coisas ao espaço."
+TUT_UNLOCK_RACE_TITLE,New key: the race,Chave nova: a corrida
+TUT_UNLOCK_RACE_DESC,The race board and the Tail Radio.,O quadro da corrida e a Rádio da Cauda.
+TUT_UNLOCK_RACE_1,"Other agencies want the sky too! This board shows the race, and the Tail Radio tells the news.","Outras agências também querem o céu! Este quadro mostra a corrida, e a Rádio da Cauda conta as notícias."
+TUT_UNLOCK_RACE_2,"And here is the whole race, milestone by milestone. Nobody enjoys coming second.","E aqui fica a corrida inteira, marco por marco. Ninguém gosta de chegar em segundo."
+TUT_UNLOCK_FINANCE_TITLE,New key: finances,Chave nova: as finanças
+TUT_UNLOCK_FINANCE_DESC,Where every credit comes from and goes to.,De onde vem e para onde vai cada crédito.
+TUT_UNLOCK_FINANCE_1,"Rockets eat money. In finances you see where every credit comes from and where it goes.","Foguete come dinheiro. Nas finanças você vê de onde vem e para onde vai cada crédito."
+TUT_UNLOCK_BOOK_TITLE,New key: the archive,Chave nova: o arquivo
+TUT_UNLOCK_BOOK_DESC,The archive of every mission flown.,O arquivo de cada missão voada.
+TUT_UNLOCK_BOOK_1,"Look at all those missions! The archive keeps each one, with its grade and its story.","Quanta missão! O arquivo guarda cada uma, com a nota e a história dela."

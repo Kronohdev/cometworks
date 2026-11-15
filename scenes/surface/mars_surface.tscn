@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/surface/planet_surface.tscn" id="1_surface"]
 [ext_resource type="Resource" path="res://resources/planets/mars.tres" id="2_profile"]
 [ext_resource type="PackedScene" path="res://scenes/surface/fly_camera.tscn" id="3_cam"]
+[ext_resource type="Script" path="res://src/world/surface_terrain_feature.gd" id="4_feature"]
+[ext_resource type="Script" path="res://src/world/surface_poi.gd" id="5_poi"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/rock_blueberries.tscn" id="p_berries"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/dust_devil.tscn" id="p_devil"]
+[ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_explore.tscn" id="p_explore"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/collectible.tscn" id="p_find"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/lander_cometworks.tscn" id="p_lander"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/challenge_ring.tscn" id="p_ring"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/homage_sojourner.tscn" id="p_sojourner"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/survey_stake.tscn" id="p_stake"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/homage_viking.tscn" id="p_viking"]
 
 [node name="MarsSurface" instance=ExtResource("1_surface")]
 profile = ExtResource("2_profile")
@@ -10,3 +21,285 @@ focus_path = NodePath("FlyCamera")
 
 [node name="FlyCamera" parent="." instance=ExtResource("3_cam")]
 terrain_path = NodePath("../Terrain")
+
+[node name="Features" type="Node3D" parent="."]
+editor_description = "Authored landforms (SurfaceTerrainFeature): move one and the terrain rebuilds."
+
+[node name="HomageSiteFlat" type="Marker3D" parent="Features"]
+position = Vector3(-120, 0, 64)
+script = ExtResource("4_feature")
+shape = 7
+size_a = 14
+size_b = 12
+height = 0
+param_1 = 0
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 1
+
+[node name="ButteA" type="Marker3D" parent="Features"]
+position = Vector3(150, 0, -60)
+rotation = Vector3(0, 0.4, 0)
+script = ExtResource("4_feature")
+shape = 2
+size_a = 40
+size_b = 26
+height = 24
+param_1 = 0.8
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 2
+
+[node name="ButteB" type="Marker3D" parent="Features"]
+position = Vector3(195, 0, 40)
+rotation = Vector3(0, -0.2, 0)
+script = ExtResource("4_feature")
+shape = 2
+size_a = 22
+size_b = 18
+height = 18
+param_1 = 0.9
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 5
+
+[node name="ButteC" type="Marker3D" parent="Features"]
+position = Vector3(-170, 0, 150)
+rotation = Vector3(0, -0.3, 0)
+script = ExtResource("4_feature")
+shape = 2
+size_a = 55
+size_b = 30
+height = 30
+param_1 = 0.7
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 8
+
+[node name="LayeredMound" type="Marker3D" parent="Features"]
+position = Vector3(-80, 0, -290)
+script = ExtResource("4_feature")
+shape = 4
+size_a = 130
+size_b = 8
+height = 48
+param_1 = 3
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 1
+
+[node name="RiverChannel" type="Marker3D" parent="Features"]
+position = Vector3(60, 0, 220)
+rotation = Vector3(0, 0.2, 0)
+script = ExtResource("4_feature")
+shape = 1
+size_a = 320
+size_b = 11
+height = 4
+param_1 = 30
+param_2 = 200
+material = 5
+material_shade = 0
+variant = 1
+
+[node name="DarkDunes" type="Marker3D" parent="Features"]
+position = Vector3(-200, 0, -40)
+rotation = Vector3(0, 0.6, 0)
+script = ExtResource("4_feature")
+shape = 8
+size_a = 70
+size_b = 18
+height = 2.5
+param_1 = 0
+param_2 = 0
+material = 5
+material_shade = 0
+variant = 4
+
+[node name="Crater" type="Marker3D" parent="Features"]
+position = Vector3(230, 0, -160)
+script = ExtResource("4_feature")
+shape = 0
+size_a = 40
+size_b = 8
+height = 10
+param_1 = 3
+param_2 = 0
+material = -1
+material_shade = 2
+variant = 6
+
+[node name="JumpRamp" type="Marker3D" parent="Features"]
+position = Vector3(-45, 0, 55)
+rotation = Vector3(0, 0.9, 0)
+script = ExtResource("4_feature")
+shape = 6
+size_a = 8
+size_b = 3.5
+height = 2.4
+param_1 = 0
+param_2 = 0
+material = 9
+material_shade = 1
+variant = 1
+
+[node name="Content" type="Node3D" parent="."]
+editor_description = "Points of interest (SurfacePoi), finds (collectible.tscn), challenge rings and effects. Only x / z and the yaw matter: everything sits on the ground by itself."
+
+[node name="Spawn" type="Marker3D" parent="Content" groups=["surface_spawn"]]
+position = Vector3(4, 0, 8)
+gizmo_extents = 2.0
+
+[node name="Places" type="Node3D" parent="Content"]
+
+[node name="Lander" type="Node3D" parent="Content/Places"]
+position = Vector3(-8, 0, -4)
+rotation = Vector3(0, 0.4, 0)
+script = ExtResource("5_poi")
+entry_id = &"mars_lander"
+
+[node name="SetPiece" parent="Content/Places/Lander" instance=ExtResource("p_lander")]
+
+[node name="VikingHomage" type="Node3D" parent="Content/Places"]
+position = Vector3(-120, 0, 64)
+rotation = Vector3(0, 0.5, 0)
+script = ExtResource("5_poi")
+entry_id = &"mars_viking_homage"
+
+[node name="SetPiece" parent="Content/Places/VikingHomage" instance=ExtResource("p_viking")]
+
+[node name="Stake" parent="Content/Places/VikingHomage" instance=ExtResource("p_stake")]
+position = Vector3(3, 0, 2.5)
+
+[node name="SojournerHomage" type="Node3D" parent="Content/Places"]
+position = Vector3(-62, 0, 112)
+rotation = Vector3(0, 2.4, 0)
+script = ExtResource("5_poi")
+entry_id = &"mars_sojourner_homage"
+
+[node name="SetPiece" parent="Content/Places/SojournerHomage" instance=ExtResource("p_sojourner")]
+
+[node name="Stake" parent="Content/Places/SojournerHomage" instance=ExtResource("p_stake")]
+position = Vector3(1.8, 0, 1.2)
+
+[node name="Layers" type="Node3D" parent="Content/Places"]
+position = Vector3(100, 0, -40)
+script = ExtResource("5_poi")
+entry_id = &"mars_layers"
+
+[node name="Stake" parent="Content/Places/Layers" instance=ExtResource("p_stake")]
+
+[node name="Channel" type="Node3D" parent="Content/Places"]
+position = Vector3(62, 0, 228)
+script = ExtResource("5_poi")
+entry_id = &"mars_channel"
+
+[node name="Stake" parent="Content/Places/Channel" instance=ExtResource("p_stake")]
+
+[node name="Dunes" type="Node3D" parent="Content/Places"]
+position = Vector3(-150, 0, -20)
+script = ExtResource("5_poi")
+entry_id = &"mars_dunes"
+
+[node name="Stake" parent="Content/Places/Dunes" instance=ExtResource("p_stake")]
+
+[node name="Blueberries" type="Node3D" parent="Content/Places"]
+position = Vector3(40, 0, -95)
+rotation = Vector3(0, 0.3, 0)
+script = ExtResource("5_poi")
+entry_id = &"mars_blueberries"
+
+[node name="SetPiece" parent="Content/Places/Blueberries" instance=ExtResource("p_berries")]
+
+[node name="Stake" parent="Content/Places/Blueberries" instance=ExtResource("p_stake")]
+position = Vector3(2, 0, 1.5)
+
+[node name="DustDevil" type="Node3D" parent="Content/Places"]
+position = Vector3(-20, 0, -170)
+script = ExtResource("5_poi")
+entry_id = &"mars_dust_devil"
+
+[node name="Stake" parent="Content/Places/DustDevil" instance=ExtResource("p_stake")]
+
+[node name="Piece1" parent="Content/Places/DustDevil" instance=ExtResource("p_devil")]
+position = Vector3(8, 0, 6)
+
+[node name="SunsetView" type="Node3D" parent="Content/Places"]
+position = Vector3(-30, 0, 160)
+script = ExtResource("5_poi")
+entry_id = &"mars_sunset_view"
+
+[node name="Stake" parent="Content/Places/SunsetView" instance=ExtResource("p_stake")]
+
+[node name="Finds" type="Node3D" parent="Content"]
+
+[node name="Meteorite1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(60, 0, 30)
+type = 0
+
+[node name="Meteorite2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-90, 0, -60)
+type = 0
+
+[node name="Ice1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(232, 0, -150)
+type = 1
+
+[node name="Ice2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-205, 0, -60)
+type = 1
+
+[node name="OddRock1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(100, 0, 110)
+type = 2
+
+[node name="OddRock2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-40, 0, -60)
+type = 2
+
+[node name="OddRock3" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(170, 0, -120)
+type = 2
+
+[node name="Crumb1" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(-110, 0, 20)
+type = 3
+lore_index = 3
+
+[node name="Crumb2" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(20, 0, 140)
+type = 3
+lore_index = 4
+
+[node name="Crumb3" parent="Content/Finds" instance=ExtResource("p_find")]
+position = Vector3(140, 0, -5)
+type = 3
+lore_index = 5
+
+[node name="Challenges" type="Node3D" parent="Content"]
+
+[node name="DashStart" parent="Content/Challenges" instance=ExtResource("p_ring")]
+position = Vector3(10, 0, -14)
+entry_id = &"mars_channel_dash"
+radius = 6
+
+[node name="HopStart" parent="Content/Challenges" instance=ExtResource("p_ring")]
+position = Vector3(-52, 0, 49)
+rotation = Vector3(0, 0.9, 0)
+entry_id = &"mars_hop"
+radius = 6
+
+[node name="Effects" type="Node3D" parent="Content"]
+
+[node name="DustDevilFar" parent="Content/Effects" instance=ExtResource("p_devil")]
+position = Vector3(210, 0, 150)
+
+[node name="DustDevilFar2" parent="Content/Effects" instance=ExtResource("p_devil")]
+position = Vector3(-250, 0, -160)
+
+[node name="Explore" parent="." instance=ExtResource("p_explore")]

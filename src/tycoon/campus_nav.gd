@@ -161,6 +161,31 @@ func add_road(xf: Transform3D, aabb: AABB) -> void:
 				_flags[k * nx + i] |= F_ROAD
 
 
+## Blocks every cell whose centre lies outside `poly` (campus x, z): the walkers keep to the
+## island's flat top (the walk_outline metadata of Terrain/Plateau, see src/tycoon/campus.gd).
+func block_outside(poly: PackedVector2Array) -> void:
+	if poly.size() < 3:
+		return
+	for k in nz:
+		var z := origin.y + (k + 0.5) * CELL
+		var xs: Array[float] = []
+		for e in poly.size():
+			var a := poly[e]
+			var b := poly[(e + 1) % poly.size()]
+			if (a.y <= z and b.y > z) or (b.y <= z and a.y > z):
+				xs.append(a.x + (z - a.y) / (b.y - a.y) * (b.x - a.x))
+		xs.sort()
+		var j := 0
+		var inside := false
+		for i in nx:
+			var x := origin.x + (i + 0.5) * CELL
+			while j < xs.size() and xs[j] <= x:
+				inside = not inside
+				j += 1
+			if not inside:
+				_flags[k * nx + i] |= F_SOLID
+
+
 ## Makes the A* grid from the cells. Call after adding everything.
 func finish() -> void:
 	_astar = AStarGrid2D.new()

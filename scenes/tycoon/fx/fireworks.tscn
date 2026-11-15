@@ -1,0 +1,535 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/fx/fx_one_shot.gd" id="1_shot"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_glow.tres" id="2_glow"]
+[ext_resource type="Material" path="res://scenes/tycoon/fx/materials/fx_flat.tres" id="3_flat"]
+
+[sub_resource type="Curve" id="curve_shrink"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6, 0.8), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="curvetex_shrink"]
+curve = SubResource("curve_shrink")
+
+[sub_resource type="Gradient" id="grad_trail"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 0.9, 0.6, 1, 1, 0.5, 0.2, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_trail"]
+gradient = SubResource("grad_trail")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_trail"]
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.5
+gravity = Vector3(0, -2, 0)
+scale_min = 0.6
+scale_max = 1.0
+scale_curve = SubResource("curvetex_shrink")
+color_ramp = SubResource("gradtex_trail")
+
+[sub_resource type="SphereMesh" id="mesh_trail"]
+material = ExtResource("2_glow")
+radius = 0.1
+height = 0.2
+radial_segments = 6
+rings = 3
+
+[sub_resource type="SphereMesh" id="mesh_spark"]
+material = ExtResource("2_glow")
+radius = 0.38
+height = 0.76
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Gradient" id="grad_confetti"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(0.25, 0.88, 0.77, 1, 1, 0.54, 0.24, 1, 1, 0.8, 0.28, 1, 0.56, 0.49, 1, 1, 1, 0.45, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="gradtex_confetti"]
+gradient = SubResource("grad_confetti")
+
+[sub_resource type="Curve" id="curve_fade"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="curvetex_fade"]
+curve = SubResource("curve_fade")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_confetti"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector3(0, 1, 0)
+spread = 45.0
+initial_velocity_min = 8.0
+initial_velocity_max = 13.0
+angular_velocity_min = -400.0
+angular_velocity_max = 400.0
+gravity = Vector3(0, -6, 0)
+damping_min = 1.5
+damping_max = 2.5
+scale_min = 0.8
+scale_max = 1.4
+color_initial_ramp = SubResource("gradtex_confetti")
+alpha_curve = SubResource("curvetex_fade")
+
+[sub_resource type="BoxMesh" id="mesh_confetti"]
+material = ExtResource("3_flat")
+size = Vector3(0.2, 0.05, 0.3)
+
+[sub_resource type="Gradient" id="grad_Shell1"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.45, 0.6, 1, 1, 0.45, 0.6, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_Shell1"]
+gradient = SubResource("grad_Shell1")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_Shell1"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 14.0
+gravity = Vector3(0, -2.5, 0)
+damping_min = 3.5
+damping_max = 4.0
+scale_min = 0.7
+scale_max = 1.1
+scale_curve = SubResource("curvetex_shrink")
+color_ramp = SubResource("gradtex_Shell1")
+
+[sub_resource type="Gradient" id="grad_Shell2"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.3, 0.95, 0.8, 1, 0.3, 0.95, 0.8, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_Shell2"]
+gradient = SubResource("grad_Shell2")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_Shell2"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 14.0
+gravity = Vector3(0, -2.5, 0)
+damping_min = 3.5
+damping_max = 4.0
+scale_min = 0.7
+scale_max = 1.1
+scale_curve = SubResource("curvetex_shrink")
+color_ramp = SubResource("gradtex_Shell2")
+
+[sub_resource type="Gradient" id="grad_Shell3"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.82, 0.3, 1, 1, 0.82, 0.3, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_Shell3"]
+gradient = SubResource("grad_Shell3")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_Shell3"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 14.0
+gravity = Vector3(0, -2.5, 0)
+damping_min = 3.5
+damping_max = 4.0
+scale_min = 0.7
+scale_max = 1.1
+scale_curve = SubResource("curvetex_shrink")
+color_ramp = SubResource("gradtex_Shell3")
+
+[sub_resource type="Gradient" id="grad_Shell4"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.6, 0.55, 1, 1, 0.6, 0.55, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="gradtex_Shell4"]
+gradient = SubResource("grad_Shell4")
+
+[sub_resource type="ParticleProcessMaterial" id="ppm_Shell4"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 14.0
+gravity = Vector3(0, -2.5, 0)
+damping_min = 3.5
+damping_max = 4.0
+scale_min = 0.7
+scale_max = 1.1
+scale_curve = SubResource("curvetex_shrink")
+color_ramp = SubResource("gradtex_Shell4")
+
+[sub_resource type="Animation" id="anim_play"]
+resource_name = "play"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shell1/Rocket:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0, 0.8),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 24.0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shell1/Rocket/Trail:emitting")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shell1/Burst")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shell1/Burst/Light:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8, 0.88, 1.7000000000000002),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 5.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Shell2/Rocket:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.3),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 28.0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Shell2/Rocket/Trail:emitting")
+tracks/5/interp = 0
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Shell2/Burst")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Shell2/Burst/Light:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1.3, 1.3800000000000001, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 5.0, 0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Shell3/Rocket:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 1.1, 1.9000000000000001),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 21.0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Shell3/Rocket/Trail:emitting")
+tracks/9/interp = 0
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 1.1, 1.9000000000000001),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Shell3/Burst")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(1.9000000000000001),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Shell3/Burst/Light:light_energy")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 1.9000000000000001, 1.9800000000000002, 2.8000000000000003),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 5.0, 0.0]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Shell4/Rocket:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 1.7, 2.5),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 30.0, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Shell4/Rocket/Trail:emitting")
+tracks/13/interp = 0
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 1.7, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/14/type = "method"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Shell4/Burst")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(2.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart"
+}]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Shell4/Burst/Light:light_energy")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 2.5, 2.58, 3.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 5.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="lib"]
+_data = {
+&"play": SubResource("anim_play")
+}
+
+[node name="Fireworks" type="Node3D"]
+script = ExtResource("1_shot")
+lifetime = 5.5
+
+[node name="Confetti" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+cast_shadow = 0
+emitting = false
+amount = 120
+lifetime = 3.5
+one_shot = true
+explosiveness = 0.9
+visibility_aabb = AABB(-30, -10, -30, 60, 40, 60)
+process_material = SubResource("ppm_confetti")
+draw_pass_1 = SubResource("mesh_confetti")
+
+[node name="Shell1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0, 0, 0.0)
+
+[node name="Rocket" type="Node3D" parent="Shell1"]
+
+[node name="Trail" type="GPUParticles3D" parent="Shell1/Rocket"]
+cast_shadow = 0
+emitting = false
+amount = 24
+lifetime = 0.6
+visibility_aabb = AABB(-6, -40, -6, 12, 80, 12)
+process_material = SubResource("ppm_trail")
+draw_pass_1 = SubResource("mesh_trail")
+metadata/keyed = true
+
+[node name="Burst" type="GPUParticles3D" parent="Shell1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.0, 0)
+cast_shadow = 0
+emitting = false
+amount = 90
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ppm_Shell1")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/keyed = true
+
+[node name="Light" type="OmniLight3D" parent="Shell1/Burst"]
+light_color = Color(1, 0.45, 0.6, 1)
+light_energy = 0.0
+omni_range = 30.0
+metadata/flashy = true
+
+[node name="Shell2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 0, -4.0)
+
+[node name="Rocket" type="Node3D" parent="Shell2"]
+
+[node name="Trail" type="GPUParticles3D" parent="Shell2/Rocket"]
+cast_shadow = 0
+emitting = false
+amount = 24
+lifetime = 0.6
+visibility_aabb = AABB(-6, -40, -6, 12, 80, 12)
+process_material = SubResource("ppm_trail")
+draw_pass_1 = SubResource("mesh_trail")
+metadata/keyed = true
+
+[node name="Burst" type="GPUParticles3D" parent="Shell2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.0, 0)
+cast_shadow = 0
+emitting = false
+amount = 90
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ppm_Shell2")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/keyed = true
+
+[node name="Light" type="OmniLight3D" parent="Shell2/Burst"]
+light_color = Color(0.3, 0.95, 0.8, 1)
+light_energy = 0.0
+omni_range = 30.0
+metadata/flashy = true
+
+[node name="Shell3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0, 6.0)
+
+[node name="Rocket" type="Node3D" parent="Shell3"]
+
+[node name="Trail" type="GPUParticles3D" parent="Shell3/Rocket"]
+cast_shadow = 0
+emitting = false
+amount = 24
+lifetime = 0.6
+visibility_aabb = AABB(-6, -40, -6, 12, 80, 12)
+process_material = SubResource("ppm_trail")
+draw_pass_1 = SubResource("mesh_trail")
+metadata/keyed = true
+
+[node name="Burst" type="GPUParticles3D" parent="Shell3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.0, 0)
+cast_shadow = 0
+emitting = false
+amount = 90
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ppm_Shell3")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/keyed = true
+
+[node name="Light" type="OmniLight3D" parent="Shell3/Burst"]
+light_color = Color(1, 0.82, 0.3, 1)
+light_energy = 0.0
+omni_range = 30.0
+metadata/flashy = true
+
+[node name="Shell4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0, 4.0)
+
+[node name="Rocket" type="Node3D" parent="Shell4"]
+
+[node name="Trail" type="GPUParticles3D" parent="Shell4/Rocket"]
+cast_shadow = 0
+emitting = false
+amount = 24
+lifetime = 0.6
+visibility_aabb = AABB(-6, -40, -6, 12, 80, 12)
+process_material = SubResource("ppm_trail")
+draw_pass_1 = SubResource("mesh_trail")
+metadata/keyed = true
+
+[node name="Burst" type="GPUParticles3D" parent="Shell4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.0, 0)
+cast_shadow = 0
+emitting = false
+amount = 90
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-25, -25, -25, 50, 50, 50)
+process_material = SubResource("ppm_Shell4")
+draw_pass_1 = SubResource("mesh_spark")
+metadata/keyed = true
+
+[node name="Light" type="OmniLight3D" parent="Shell4/Burst"]
+light_color = Color(0.6, 0.55, 1, 1)
+light_energy = 0.0
+omni_range = 30.0
+metadata/flashy = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("lib")
+}

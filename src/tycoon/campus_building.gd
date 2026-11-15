@@ -193,6 +193,12 @@ func spots() -> Array[Dictionary]:
 	return out
 
 
+## True while the cutaway shows the inside (the camera is close): props on the roof hide,
+## the ones inside come alive (BuildingFx).
+func is_open() -> bool:
+	return _open
+
+
 ## Folds the cutaway pieces now (no easing), e.g. for screenshots.
 func snap_cutaway() -> void:
 	_update_cutaway(1000.0)

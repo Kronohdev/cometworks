@@ -41,6 +41,8 @@ extends MultiMeshInstance3D
 ## optional: instances sit on top of this mesh (a hill, a dome) instead of at Y = 0;
 ## `height` is then added on top of the surface
 @export var ground: MeshInstance3D
+## with a `ground`: drop the instances that would not land on it (over the sea, off a terrace)
+@export var skip_off_ground := false
 @export_group("Walkers")
 ## The campus Cometlings walk around the instances (trees, bushes, rocks, fences) instead of
 ## through them (grass, flowers); see src/tycoon/campus_nav.gd.
@@ -127,10 +129,13 @@ func _in_area(rng: RandomNumberGenerator) -> Array[Transform3D]:
 					break
 			if near:
 				continue
+		var gy := _ground_y(p)
+		if skip_off_ground and is_nan(gy):
+			continue
 		placed.append(p)
 		var s := rng.randf_range(scale_range.x, scale_range.y)
 		var b := Basis(Vector3.UP, rng.randf() * yaw_jitter).scaled(Vector3(s, s, s))
-		out.append(Transform3D(b, Vector3(p.x, height + _ground_y(p), p.y)))
+		out.append(Transform3D(b, Vector3(p.x, height + (0.0 if is_nan(gy) else gy), p.y)))
 	return out
 
 
@@ -167,7 +172,8 @@ func _along_path(rng: RandomNumberGenerator) -> Array[Transform3D]:
 	return out
 
 
-## Height of the ground mesh's top under p (this node's local XZ), 0 without a ground.
+## Height of the ground mesh's top under p (this node's local XZ), 0 without a ground, NAN
+## when the ground is not under p.
 func _ground_y(p: Vector2) -> float:
 	if _ground_tris == null or not is_inside_tree() or not ground.is_inside_tree():
 		return 0.0
@@ -176,13 +182,15 @@ func _ground_y(p: Vector2) -> float:
 	var dir := to_ground.basis * Vector3.DOWN
 	var hit := _ground_tris.intersect_ray(from, dir)
 	if hit.is_empty():
-		return 0.0
+		return NAN
 	return (to_ground.affine_inverse() * (hit["position"] as Vector3)).y
 
 
 func _masked(p: Vector2, m: float) -> bool:
 	if mask == null:
 		return false
+	if mask.inside.size() >= 3 and not Geometry2D.is_point_in_polygon(p, mask.inside):
+		return true
 	for r: Rect2 in mask.avoid:
 		if r.grow(m).has_point(p):
 			return true

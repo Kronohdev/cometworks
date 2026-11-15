@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/dark.tres" id="m_dark"]
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/accent.tres" id="m_accent"]
+[ext_resource type="Material" path="res://scenes/rover/materials/mint.tres" id="m_mint"]
+
+[sub_resource type="CylinderMesh" id="Cyl_1"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.2
+radial_segments = 8
+rings = 1
+
+[sub_resource type="BoxMesh" id="Box_2"]
+size = Vector3(0.1, 2.6, 0.1)
+
+[sub_resource type="BoxMesh" id="Box_3"]
+size = Vector3(0.8, 0.5, 0.05)
+
+[sub_resource type="BoxMesh" id="Box_4"]
+size = Vector3(0.22, 0.22, 0.22)
+
+[sub_resource type="CylinderMesh" id="Cyl_5"]
+top_radius = 1.2
+bottom_radius = 1.2
+height = 0.06
+radial_segments = 12
+rings = 1
+
+[node name="ObjectiveMarker" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("Cyl_1")
+surface_material_override/0 = ExtResource("m_dark")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("Box_2")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42, 2.4, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_accent")
+
+[node name="Star" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7071, 0.5, 0.5, 0, 0.7071, -0.7071, -0.7071, 0.5, 0.5, 0, 2.85, 0)
+mesh = SubResource("Box_4")
+surface_material_override/0 = ExtResource("m_mint")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+mesh = SubResource("Cyl_5")
+surface_material_override/0 = ExtResource("m_mint")

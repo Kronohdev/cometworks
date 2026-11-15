@@ -77,9 +77,9 @@ func _initialize() -> void:
 	w.debug_warp = 1.0
 	await _until(func() -> bool: return w.mission_time() > 40.0, 1200)
 	await _shot("tracking_07_watch_ascent")
-	w._set_warp_value(50)
+	w.warp = 50
 	await _until(func() -> bool: return (main.modes.overlay as LaunchWatch).get_node("%Result").visible, 4000)
-	w._set_warp_value(1)
+	w.warp = 1
 	await _frames(20)
 	await _shot("tracking_08_watch_orbit")
 	w.revert_to_hangar()
@@ -92,9 +92,9 @@ func _initialize() -> void:
 	var w2 := main.modes.mode_node as FlightWorld
 	var lw := main.modes.overlay as LaunchWatch
 	await _until(func() -> bool: return lw.phase == "ascent", 600)
-	w2._set_warp_value(4)
-	await _until(func() -> bool: return w2.active.crashed, 3000)
-	w2._set_warp_value(1)
+	w2.warp = 4
+	await _until(func() -> bool: return w2.sim.crashed, 3000)
+	w2.warp = 1
 	await _frames(14)
 	await _shot("tracking_09_watch_fail")
 	await _until(func() -> bool: return lw.get_node("%Result").visible, 900)
@@ -108,12 +108,12 @@ func _initialize() -> void:
 	var w3 := main.modes.mode_node as FlightWorld
 	var lw3 := main.modes.overlay as LaunchWatch
 	await _until(func() -> bool: return lw3.phase == "ascent", 600)
-	w3._set_warp_value(50)
+	w3.warp = 50
 	await _until(func() -> bool: return lw3.phase == "wait", 6000)
 	await _frames(30)
 	await _shot("tracking_12_watch_wait")
 	await _until(func() -> bool: return lw3.phase == "transfer", 6000)
-	w3._set_warp_value(1)
+	w3.warp = 1
 	await _until(func() -> bool: return lw3.get_node("%Result").visible, 900)
 	await _frames(10)
 	await _shot("tracking_13_watch_transfer")

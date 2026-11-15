@@ -8,6 +8,8 @@ extends RefCounted
 ##              {"on": "lot"}                          the lot panel opens
 ##              {"on": "signal", "signal": "era_changed", "min": 2}   a TycoonState signal
 ##                                                     (min: its first argument at least)
+##              {"on": "unlock", "item": "crew"}       a HUD menu appears in a new career
+##                                                     (MenuUnlocks / HudUnlocker)
 ##     replay   the screen the library opens before replaying it ("" = the campus)
 ##     requires lesson ids the campaign must have seen first
 ##     steps    [{"line", "target", "advance", "place", "pose"}]
@@ -72,6 +74,8 @@ static func triggered_by(on: String, key := "") -> Array[Dictionary]:
 		if on == "screen" and String(t.get("screen", "")) != key:
 			continue
 		if on == "signal" and String(t.get("signal", "")) != key:
+			continue
+		if on == "unlock" and String(t.get("item", "")) != key:
 			continue
 		out.append(l)
 	return out

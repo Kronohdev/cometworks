@@ -85,10 +85,10 @@ func _initialize() -> void:
 	await _frames(5)
 	# flight view: point at the node, the navball shows the maneuver marker
 	world.set_map(false)
-	world.active.set_sas(FlightVessel.Sas.DIRECTION)
+	world.sim.craft.sas = FlightCraft.Sas.DIRECTION
 	var rem := n.remaining_world()
 	# a little off the node, so the navball shows the maneuver marker next to the centre
-	world.active.sas_dir = rem.normalized().rotated(world.active.body.up(), 0.22).rotated(rem.normalized().cross(world.active.body.up()).normalized(), 0.12)
+	world.sim.command = rem.normalized().rotated(world.sim.up(), 0.22).rotated(rem.normalized().cross(world.sim.up()).normalized(), 0.12)
 	world.cam.set_view(-2.4, 0.2, 40.0, true)
 	world.debug_warp = 4.0
 	await _frames(400)
@@ -108,25 +108,24 @@ func _to_parking_orbit() -> void:
 	var v := sqrt(FlightOrbit.MU / r)
 	var up := Vector3.UP
 	var east := FlightWorld.EAST.normalized()
-	world.set_orbit_state(sys.earth, PackedFloat64Array([up.x * r, up.y * r, up.z * r]),
+	world.sim.set_orbit_state(sys.earth, PackedFloat64Array([up.x * r, up.y * r, up.z * r]),
 		PackedFloat64Array([east.x * v, east.y * v, east.z * v]))
-	world.active.body.q = Quaternion(Vector3.UP, east)
-	world.active.prev.copy_from(world.active.body)
-	world.active.throttle = 0.0
+	world.sim.q = Quaternion(Vector3.UP, east)
+	pass
+	world.sim.craft.throttle = 0.0
 	# only the upper stage made it to orbit
-	while world.active.current_stage < world.active.stage_count - 1:
-		for d in world.active.activate_next_stage():
-			d.queue_free()
-	world.active.throttle = 0.0
-	world.active.set_sas(FlightVessel.Sas.PROGRADE)
+	while world.sim.craft.current_stage < world.sim.craft.stage_count - 1:
+		world.sim.stage()
+	world.sim.craft.throttle = 0.0
+	world.sim.craft.sas = FlightCraft.Sas.PROGRADE
 	# the auto-end after orbit would show the report: keep flying
-	world._orbit_announced = true
+	world.sim.in_orbit = true
 
 
 ## Hohmann departure towards the Moon from the current circular orbit, refined so the
 ## predicted lunar periapsis is a few hundred km.
 func _plan_tli() -> FlightManeuverNode:
-	var b := world.active.body
+	var b := world.sim
 	var r1 := b.radius()
 	var r2 := sys.sma[sys.moon]
 	var at := (r1 + r2) * 0.5
@@ -135,7 +134,7 @@ func _plan_tli() -> FlightManeuverNode:
 	var p := sys.plane_p[sys.moon]
 	var q := sys.plane_q[sys.moon]
 	var th_v := atan2(b.px * q[0] + b.py * q[1] + b.pz * q[2], b.px * p[0] + b.py * p[1] + b.pz * p[2])
-	var th_m := sys.phase[sys.moon] + sys.rate[sys.moon] * (world.time + t_tr)
+	var th_m := sys.angle_at(sys.moon, world.time + t_tr)
 	var dth := fposmod(th_m - PI - th_v - sys.rate[sys.moon] * 0.0, TAU)
 	var dt := dth / (n_v - sys.rate[sys.moon])
 	if dt < 600.0:
@@ -175,7 +174,7 @@ func _execute_and_coast() -> void:
 			break
 	world.debug_warp = 1.0
 	print("executor: node done %s at T%+.0f s, Δv used %.1f m/s, soi %s" % [not world.plan.nodes.has(n),
-		world.time - t_node, world.active.dv_used, sys.ids[world.soi]])
+		world.time - t_node, world.sim.craft.dv_used, sys.ids[world.soi]])
 	await _frames(10)
 	var el := world._elements()
 	var enc := world.traj.encounter_summary(sys) if world.traj else {}
@@ -184,7 +183,7 @@ func _execute_and_coast() -> void:
 		# a 7-minute burn is not impulsive: plan a mid-course correction one hour out
 		var best := {}
 		var best_score := 1e18
-		var b := world.active.body
+		var b := world.sim
 		var cn := world.plan.add(world.time + 3600.0)
 		for pro in [-12.0, -8.0, -5.0, -3.0, -1.5, 0.0, 1.5, 3.0, 5.0, 8.0, 12.0]:
 			for rad in [-20.0, -10.0, -4.0, 0.0, 4.0, 10.0, 20.0]:
@@ -226,8 +225,8 @@ func _execute_and_coast() -> void:
 	while world.soi != sys.moon and Time.get_ticks_msec() - t0 < 120000:
 		await process_frame
 	await _frames(30)
-	world._set_warp_value(1)
-	print("SOI now %s at T+%.0f s; Moon altitude %.0f km" % [sys.ids[world.soi], world.time, world.active.body.altitude() / 1000.0])
+	world.warp = 1
+	print("SOI now %s at T+%.0f s; Moon altitude %.0f km" % [sys.ids[world.soi], world.time, world.sim.altitude() / 1000.0])
 	world.set_map(true)
 	world.map.set_focus(sys.moon)
 	world.map.dist = 2.2e5
@@ -242,10 +241,10 @@ func _execute_and_coast() -> void:
 		while world._warp_to > 0.0 and Time.get_ticks_msec() - t1 < 60000:
 			await process_frame
 	world.set_map(false)
-	world.active.set_sas(FlightVessel.Sas.PROGRADE)
+	world.sim.craft.sas = FlightCraft.Sas.PROGRADE
 	world.cam.set_view(-2.0, 0.55, 60.0, true)
 	await _frames(90)
-	print("near the Moon: altitude %.0f km, speed %.0f m/s" % [world.active.body.altitude() / 1000.0, world.active.body.speed()])
+	print("near the Moon: altitude %.0f km, speed %.0f m/s" % [world.sim.altitude() / 1000.0, world.sim.speed()])
 	await _shot("flight_12_near_moon")
 
 

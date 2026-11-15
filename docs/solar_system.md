@@ -1,123 +1,123 @@
-# Solar System map (MARGIN part 2)
+# The Solar System: real orbits, one map
 
-Voxel solar-system scene: `res://scenes/solar_system/solar_system.tscn`.
-Sun, Mercury, Venus, Earth + Moon, Mars, Jupiter + Europa, Saturn (with rings), Uranus,
-Neptune and Pluto, with real NASA data, animated orbits/spin, a map camera and an EN/PT HUD.
+Cometworks has one solar-system map, on real ephemerides, shown in three places:
 
-## Files
+- the **campus' Solar System map** (M): the flight scene in its map-only mode with the tracked
+  missions on top (`scenes/tycoon/tracking/space_map_overlay.tscn`, `SpaceMapOverlay`);
+- the **standalone Solar System** (main menu > Sistema Solar, `scenes/solar_system/solar_system.tscn`):
+  the same map with today's date and its own panels (`solar_system_overlay.tscn`, `SolarSystemOverlay`);
+- the **flight's map** (M during a flight), where the vessel and its patched conics are drawn.
 
-| Path | What |
+All three are `FlightMap` (`src/flight/flight_map.gd`, `scenes/flight/flight_map.tscn`) on
+`FlightSolar` (`src/flight/flight_solar.gd`), which is built on `Ephemeris` (`src/flight/ephemeris.gd`)
+and the data in `data/solar_system.json`.
+
+## Calendar
+
+| | |
 |---|---|
-| `data/solar_system.json` | Real data per body: mean radius, semi-major axis (AU; km for moons), orbital period, rotation period, axial tilt, inclination, gravity, J2000 mean longitude / ascending node, EN/PT names, visual palette + style hints, `src` URL (NASA NSSDCA fact sheets; orbital phases from JPL approximate elements) |
-| `tools/planet_gen.py` | Voxel planet generator (imports `tools/voxel_gen.py` for meshing, AO and `.glb` writing). Also the **single source of truth for the visual scale formulas** |
-| `tools/build_solar_system_scene.py` | Writes the editor scene from the JSON + scale formulas (hand edits are fine; re-running overwrites) |
-| `assets/voxel/planets/` | `<id>_lod0/1/2.glb`, `earth_clouds_lod*.glb`, `saturn_rings_lod*.glb`, `icons/<id>.png` (~69 MB total, largest file ~6 MB) |
-| `src/solar_system/orbit_body.gd` | `SolarBody` (`@tool`): orbit + spin animation, `preview_in_editor` toggle, `time_scale` |
-| `src/solar_system/space_camera.gd` | `SpaceCamera`: orbit/fly camera with smooth focus tracking |
-| `src/solar_system/solar_system.gd` | `SolarSystem`: time, focus, picking, labels, HUD text, locale-aware numbers |
-| `shaders/solar_*.gdshader` | planet surface, Sun emission, corona, atmosphere halo, orbit line, rings, star sky |
-| `i18n/solar_system_strings.csv` | All `SS_*` keys (EN + PT). Register it in `project.godot` (`internationalization/locale/translations`: add `res://i18n/solar_system_strings.en.translation` and `.pt.translation`). Until then the scene loads them itself |
-| `tests/test_solar_system.gd` | Headless checks (data, scene, LOD ordering, motion, i18n) |
-| `tests/screenshot_solar_system.gd` | Windowed screenshots + render stats |
+| Campaign start (week 0, FlightSolar t = 0) | **2026-10-28 12:00 TT** (JD 2461342.0, `FlightSolar.EPOCH_DAYS` = 9797 days after J2000) |
+| Campaign end (week 1300 = 25 years of 52 weeks = 9100 days) | **2051-09-27** (JD 2470442.0): the comet Mãe-Gelo's closest approach to the Earth |
+| Game clock | `t` seconds after the start; `FlightSolar.date_at(t)`, `days_at(t)`, `jd_at(t)`, `t_of_date(y, m, d, h)` |
 
-## Regenerate
+The flight's frame at t = 0: the pad (latitude 3° S, the voxel Earth's launch site) is "up" (+Y),
+its east is `FlightWorld.EAST`, and the local apparent solar time is 08:00 (the Sun ~30° up in the
+east-south-east), which fixes the Earth's real orientation (sidereal angle) in that frame.
+TT - UTC (~70 s) is ignored by the calendar.
+
+## Data and sources
+
+`data/solar_system.json` (version 2): one block per body.
+
+| Field | Source |
+|---|---|
+| `radius_km`, `rotation_period_hours`, `axial_tilt_deg`, `surface_gravity_ms2` | NASA NSSDCA planetary fact sheets (`src` per body) |
+| `gm_km3_s2` | JPL SSD / DE440 GM values (Earth = `FlightOrbit.MU` = 398 600.4418 km³/s²) |
+| `pole_ra_deg`, `pole_dec_deg` | IAU WGCCRE 2015 spin poles (ICRF): the bodies' axes on the map, Saturn's ring tilt |
+| `orbit` (planets) | E. M. Standish & J. G. Williams, *Keplerian elements for approximate positions of the major planets* (JPL, https://ssd.jpl.nasa.gov/planets/approx_pos.html): Table 1 (1800-2050) and Table 2a + 2b (3000 BC - 3000 AD, with the b, c, s, f terms for Jupiter-Neptune), blended over 2049-2051 since the campaign runs to 2051. Pluto: the original 1992 Table 1 row. The table's Earth-Moon barycentre minus the Moon's share (1/82.30057) is the Earth. |
+| `orbit` (Moon) | the truncated ELP-2000/82 series of J. Meeus, *Astronomical Algorithms* ch. 47 (tables 47.A and 47.B, 60 + 30 terms), longitude brought back to the J2000 equinox |
+| `orbit` (Phobos, Deimos, Io, Europa, Ganymede, Callisto, Titan) | JPL SSD planetary satellite mean elements (https://ssd.jpl.nasa.gov/sats/elem/, epoch 2000-01-01.5, Laplace planes, apsidal and nodal precession), mean longitude rates from the sidereal periods (Galilean moons: Meeus ch. 44) |
+| `orbit` (Mãe-Gelo) | fictional, see below |
+| `semi_major_axis_*`, `orbital_period_days`, `eccentricity`... | the mean values shown in the info cards |
+
+The flat `mean_longitude_j2000_deg` / `longitude_ascending_node_deg` are kept for older readers.
+
+## Accuracy (tests/test_ephemeris.gd)
+
+| Check | Result |
+|---|---|
+| Moon, Meeus example 47.a (1992-04-12) | longitude exact to 1e-6°, latitude 0.0006° (truncated latitude series), distance 0.0 km |
+| Moon, supermoon perigee 2016-11-14 11:21 UTC (356 509 km) | 356 512 km, 4 min off |
+| Moon distance 2025-2035 | 356 450 .. 406 690 km (real extremes ~356 400 .. 406 700) |
+| Moon's orbit | inclination 5.0 .. 5.3° to the ecliptic, nodes regress in 18.61 yr, sidereal month 27.3216 d; 18-29° to the Earth's equator |
+| Venus 1992-12-20 (Meeus 32.a, VSOP87) | 0.006° in longitude, 0.0003° in latitude, 7e-6 AU in distance |
+| Earth perihelion 2026 (Jan 3, 0.98330 AU) | 0.98327 AU, on time |
+| March equinox 2024-03-20 03:06 UTC | the Sun is 0.008° (12 min) from the equinox |
+| Mars close approaches 2003 / 2018 / 2020 | 0.37297 / 0.38487 / 0.41488 AU (published 0.37272 / 0.38496 / 0.41492), on the right day |
+| Periods | Mercury .. Pluto within 0.3 % (inner) / 2 % (outer, osculating) of the fact sheets |
+| Satellites | sidereal periods within 0.02 %, Io in Jupiter's equator (3.1° from its orbit), Titan in Saturn's (26.4°) |
+| FlightSolar cache (Hermite) vs the series | Moon 0.03 m, Earth 5 m, Mercury 17 m, the moons < 1 m; velocity = d(position)/dt exactly |
+
+## Mãe-Gelo's orbit
+
+A Halley-type comet (fictional, scientifically consistent): perihelion q = 0.90 AU, e = 0.9478
+(a = 17.24 AU, aphelion 33.6 AU beyond Neptune, period 71.6 years), i = 18° (prograde, so a
+rendezvous is conceivable), Ω = 0°, ω = 0°, perihelion on 2051-09-25 12:00 TT (JD 2470440.0).
+It starts the campaign inbound at 31.6 AU, is 7.6 AU from the Sun when it comes within reach
+(the last 104 weeks, `missions.json` `approach_weeks`) and passes **0.103 AU (15.5 million km)
+from the Earth half a day after week 1300**, the race's last day (`TycoonState.comet_weeks_left`).
+On the map its coma and tails grow inside ~5 AU (activity ~ 1/r²): the ion tail straight away
+from the Sun, the dust tail bent back along its path, ~0.3 AU long at 1 AU. The campus sky's
+comet (cutscenes, `historia-lendas`) is a separate look and is untouched.
+
+## FlightSolar API (the facade)
+
+Unchanged: `get_system()`, `ids`, `names`, `kinds`, `parent`, `children`, `mu`, `radius`, `soi`,
+`sma` (mean), `rate` (mean motion), `phase` (mean argument of latitude at t = 0), `plane_p` /
+`plane_q` (osculating plane at t = 0, P = ascending node on the ecliptic), `atmo_top`, `colors`,
+`sun` / `earth` / `moon`, `ecliptic_normal`, `pos_rel_parent`, `state_rel_parent`, `state_helio`,
+`state_rel`, `pos_rel`, `is_ancestor`, `orbit_normal`, `period`, `index_of`, `display_name`,
+`build(sun_dir, launch_normal)` (arguments now unused), `EPOCH_DAYS`, `LAUNCH_NORMAL`, `SUN_DIR`
+(now a static var: the real Sun direction at t = 0, filled by `build`).
+
+New: `eph` (the Ephemeris), `comet`, `earth_pole`, `ecl_to_pci`, `to_pci()` / `to_ecl()`,
+`exact_state_rel_parent()` (uncached), `angle_at(i, t)` (true angle in the plane_p / plane_q basis,
+use it instead of `phase + rate * t` to aim at the Moon), `distance_at(i, t)`, `orbit_normal_at(i, t)`,
+`orbit_shape(i, t)` (the osculating ellipse for drawing), `pole(i)` (IAU spin axis in PCI),
+`days_at`, `jd_at`, `date_at`, `t_of_date`, `PAD_LAT_DEG`, `PAD_EAST`, `PAD_SOLAR_HOUR`.
+
+Consequences for the game: the Moon is no longer in the launch plane (an eastward parking orbit
+from 3° S is 18-29° off the Moon's orbit). `SpaceTracking.lunar_injection()` waits in the parking
+orbit for the arrival when the Moon crosses its plane (the node), leaves 170° before that place and
+tilts the transfer slightly to meet it exactly (~2.7 days, Apollo-like); the launch watch's
+`departure()` uses the same rule.
+
+## The map
+
+`FlightMap` draws each orbit as the body's osculating ellipse now (`orbit_shape`), each body on its
+IAU axis (tidally locked moons face their parent every frame), the Earth as the flight draws it.
+Two size modes: **true scale**, or **readable** (the map bar's *Tamanho legível*; on by default in
+the campus map and the standalone view): every body at least 8 px across, never so big that a moon
+leaves its orbit; the visibility ranges of its LOD meshes scale with it. The asteroid belt (2600
+dots, 2.1-3.3 AU, Kirkwood gaps at 2.50 / 2.82 / 2.96 AU, real eccentricities and inclinations)
+and Jupiter's Trojans (700 dots around L4 / L5) are MultiMesh dot clouds (`shaders/map_dots.gdshader`,
+constant pixel size, faded out close to a planet); the comet's tails are `shaders/map_comet_tail.gdshader`
+ribbons. Colours, widths and counts are in the scene (`scenes/flight/flight_map.tscn`) and the
+shared `scenes/flight/map_style.tres`.
+
+New bodies' voxel models: `python tools/planet_gen.py io ganymede callisto titan phobos deimos mae_gelo`
+(painters `Io`, `Titan`, `Rocky`), then `godot --headless --path . --import`.
+
+## Tests and screenshots
 
 ```bash
-python tools/planet_gen.py                    # all bodies (~15 s); or: python tools/planet_gen.py earth moon
-python tools/planet_gen.py --preview out.png  # + a contact sheet of every LOD (quick look without Godot)
-python tools/build_solar_system_scene.py      # rewrite scenes/solar_system/solar_system.tscn
-godot --headless --path . --import
-godot --headless --path . --script res://tests/test_solar_system.gd
+godot --headless --path . --script res://tests/test_ephemeris.gd      # real values (above)
+godot --headless --path . --script res://tests/test_solar_system.gd   # data, the view, the map
 godot --path . --resolution 1600x900 --script res://tests/screenshot_solar_system.gd -- <abs_out_dir> [view ...]
 ```
 
-`planet_gen.py` seeds a `.glb.import` next to each new model with `generate_lods=false`,
-`create_shadow_meshes=false`, `ensure_tangents=false`: the LODs are authored, Godot's
-automatic mesh LOD would only decimate the voxel edges.
-
-## Compressed scale
-
-Real sizes and distances cannot share a scale on screen (Neptune is 30 AU away, the Earth
-is 1/23 000 AU wide). The map compresses both; the HUD always shows the real numbers.
-Scene units (u):
-
-| Quantity | Formula | Examples |
-|---|---|---|
-| body radius | `r = 0.04 * sqrt(R_km)` | Moon 1.67, Earth 3.19, Jupiter 10.58 |
-| Sun radius | `r = 18` (clamped; the law above gives 33) | |
-| planet orbit | `d = 36 + 72 * sqrt(a_AU)` | Mercury 80.8, Earth 108, Jupiter 200, Neptune 431.5, Pluto 488 |
-| moon orbit | `d = r_parent * (1.4 + 0.15 * sqrt(a_km / R_parent_km))` | Moon 8.2 from Earth, Europa 19.7 from Jupiter |
-| Saturn rings | real ratio to Saturn's radius (C ring 1.28 R .. A ring 2.35 R) | Cassini Division, Encke Gap |
-| time | `time_scale` simulated days per real second (HUD slider: `10^(-2 + 5 v/100)`, 0.01 .. 1000) | default 8 d/s |
-
-Orbits are circular, in their real inclined planes (inclination about the line of nodes).
-On load the orbit angle is the JPL mean longitude at J2000 plus mean motion up to **today's
-date**, so planets sit near their real heliocentric longitudes (e.g. late Oct 2026 shows
-Mercury, Venus and Earth lined up: Venus is at inferior conjunction).
-Axial tilt is a rotation about +X (the vernal-equinox direction), so the Earth's north pole
-leans the right way and seasons are correct; the anchor counter-rotates against the orbit
-so the spin axis stays fixed in space. Retrograde rotators (Venus, Uranus, Pluto) are
-expressed by tilt > 90 deg, as in the fact sheets. Tidally locked moons (Moon, Europa) keep
-their near side (-X in the model; the Moon's maria are painted there) toward the parent.
-
-Angular speeds are the real ones times `time_scale`, soft-clamped with
-`w_shown = limit * tanh(w / limit)` (orbit limit 2.5 rad/s, spin 1.1 rad/s) so nothing strobes
-at high time scales; slow motion stays exact.
-
-## LOD and culling
-
-Every body has three voxel meshes under `Pivot/Anchor/Tilt/Spin` (`LOD0/1/2`), switched by
-`GeometryInstance3D.visibility_range_*` (distance camera -> mesh, `r` = visual radius,
-fade mode *Self* with 12 % margins):
-
-| Mesh | Range | Voxels across radius |
-|---|---|---|
-| lod0 | 0 .. 14 r | 26 - 48 |
-| lod1 | 14 r .. 46 r | 12 - 21 |
-| lod2 | 46 r .. inf (moons: .. 700 u, then culled) | 6 - 9 |
-
-14 r is where a planet is ~155 px tall at 1600x900 / fov 50 (lod1 voxels ~ 4 px), 46 r where
-it is ~47 px. Clouds, rings and atmosphere use the same ranges (atmosphere culled past 115 r).
-
-Other ranges: name labels hide when the camera is closer than 3.2 r (close-ups stay clean)
-and planet labels fade beyond 5.6 x their orbit radius (inner labels declutter in the wide
-view); moon labels end at 120 u and moon orbit lines at 180 u. The only per-frame scripts
-are one `_process` per body (two angles + one instance shader parameter) and the camera;
-everything else (LOD switching, culling, label fading) is done by the renderer.
-
-Measured at the default overview (1600x900, AMD Radeon integrated, D3D12, Forward+):
-34.5 - 58 fps (58 = vsync cap; the lower run had other Godot instances busy on the same
-machine), ~48.6 k primitives, ~118 draw calls, ~640 objects, ~229 MB video memory.
-lod0 triangle counts: 27 k (Pluto) .. 87 k (Jupiter), 705 k for all lod0 meshes together
-(never all visible at once).
-
-## Visual design
-
-- Surfaces are painted per voxel from 3D value-noise fields evaluated on the unit sphere
-  (so all LODs agree), quantized to <= 255 colors and meshed by `voxel_gen.mesh()` (AO +
-  color jitter). Coarse LODs supersample the paint (4-8 samples) to avoid aliasing.
-- Relief is exaggerated (Earth land/mountains, crater bowls and rims, Olympus Mons, Valles
-  Marineris, Hellas) - voxel worlds read better with steps.
-- `solar_planet` blends voxel face normals with the smooth sphere normal and masks light by
-  the smooth terminator (no bright stair-step stripes on the night side); the Earth gets an
-  ocean glint. `solar_sun` is unshaded HDR emission with limb darkening whose energy eases
-  from close-up (granulation readable) to map view (blazing, feeds the glow). Corona =
-  camera-facing additive quad. Orbit lines are a per-pixel anti-aliased ring on a flat
-  plane with a fading trail behind the body (`head_angle` instance uniform).
-- Sky: procedural stars (3 layers, color temperature), Milky Way band with dust lanes,
-  faint nebulae; static, so the radiance map is computed once.
-
-## Controls
-
-RMB drag orbit, wheel / PageUp / PageDown zoom, MMB drag or WASD/arrows + Q/E pan (detaches
-from the body), double-click a body or keys 0-9 (Sun .. Pluto) to focus, body list buttons,
-Space pause, F / Home overview, PT/EN button.
-
 ## Known limitations
 
-- Circular orbits (no eccentricity), Europa's phase is arbitrary, the Moon's orbit uses the
-  Earth's inertial frame (no nodal precession).
-- No planet shadows / eclipses (the Sun light has shadows off: an omni shadow across 900 u
-  would cost a lot and look poor) and no ring shadow on Saturn.
-- Labels of far bodies can overlap a near planet when they line up behind it.
-- The Encke Gap is only visible on Saturn's lod0 (thinner than a voxel on lod1/lod2).
+- Satellite phases drift ~1-2° after decades (mean elements); fine for a map, not for a flyby.
+- The Earth does not turn in the flight (the pad stays under the same sky).
+- No planet shadows or eclipses on the map.

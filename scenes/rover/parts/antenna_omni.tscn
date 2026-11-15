@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://scenes/rover/materials/metal.tres" id="m_metal"]
+[ext_resource type="Material" path="res://scenes/rover/materials/body.tres" id="m_body"]
+[ext_resource type="Material" path="res://scenes/rover/materials/gold.tres" id="m_gold"]
+
+[sub_resource type="BoxMesh" id="Box_1"]
+size = Vector3(0.06, 0.7, 0.06)
+
+[sub_resource type="CylinderMesh" id="Cyl_2"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.16
+radial_segments = 8
+rings = 1
+
+[sub_resource type="BoxMesh" id="Box_3"]
+size = Vector3(0.3, 0.03, 0.03)
+
+[node name="AntennaOmni" type="Node3D"]
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Box_1")
+surface_material_override/0 = ExtResource("m_metal")
+
+[node name="Ball" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
+mesh = SubResource("Cyl_2")
+surface_material_override/0 = ExtResource("m_body")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("Box_3")
+surface_material_override/0 = ExtResource("m_gold")

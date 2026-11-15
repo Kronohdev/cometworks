@@ -1,6 +1,6 @@
 @tool
 class_name Halleyzinho
-extends Cometling
+extends LegendCometling
 ## Vovô Edmundo Halleyzinho (scenes/npc/halleyzinho.tscn), the old astronomer of the hill who
 ## tells the tutorials. An inherited scene of the Cometling: the same rig and face, with his
 ## own parts authored in the scene as voxel boxes (periwig, bushy brows, a few wrinkles, small
@@ -14,9 +14,10 @@ extends Cometling
 ##   - his own idle habits instead of the young ones: adjusting the spectacles, a dozing nod
 ##     that jerks awake, losing the spectacles on his forehead (he looks for them, finds them),
 ##     a look at the sky through the spyglass and a rest on the cane
-##   - waves with the free paw; talk(on) for the dialogue portrait
-## Public API on top of Cometling's: talk(on), play_habit(name), current_habit(), HABITS.
+##   - waves with the free paw
+## Public API on top of LegendCometling's: HABITS.
 
+## his own habits (the scene lists them in `habit_names`)
 const HABITS := ["specs", "doze", "forehead", "stargaze", "cane_rest"]
 const _HABIT_LEN := {"specs": 2.4, "doze": 4.2, "forehead": 5.6, "stargaze": 4.6, "cane_rest": 3.2}
 ## one-shots that use the right arm in the Cometling: he does them with the left (cane hand busy)
@@ -33,18 +34,7 @@ const CANE_LEN := 0.27
 @export var cane_hold := true
 ## the left paw stays behind the back while idle
 @export var paw_behind_back := true
-## his own idle habits (HABITS)
-@export var habits := true
-## seconds between two habits
-@export var habit_interval := Vector2(3.5, 7.5)
 
-var _h := ""
-var _h_t := 0.0
-var _h_len := 1.0
-var _h_next := 2.5
-var _h_last := ""
-var _h_emoted := 0
-var _talking := false
 var _spec_rest := Transform3D.IDENTITY
 var _brow_rest := {}
 
@@ -58,85 +48,22 @@ var _brow_rest := {}
 
 
 func _ready() -> void:
-	# his parts keep the materials authored in the scene (the Cometling puts its skin on
-	# every mesh it finds in _ready)
-	var own := {}
-	for mi in find_children("*", "MeshInstance3D", true, false):
-		var m := mi as MeshInstance3D
-		if m.material_override != null:
-			own[m] = m.material_override
-	fidgets = false
 	_spec_rest = spectacles.transform
 	_brow_rest = {brow_l: brow_l.transform, brow_r: brow_r.transform}
 	super._ready()
-	for m: MeshInstance3D in own:
-		m.material_override = own[m]
-		_meshes.erase(m)
-	_h_next = _rng.randf_range(1.5, 3.5)
-	_apply_role()
 
 
-## No profession gear on the old astronomer (helmet, hard hat, vest...): just his coat.
-func _apply_role() -> void:
-	super._apply_role()
-	if not _ready_done:
-		return
-	for n in ["Helmet", "Scarf", "HardHat", "Belt", "Goggles", "Backpack", "Vest"]:
-		var node := find_child(n, true, false) as Node3D
-		if node:
-			node.visible = false
+func _habit_length(habit: String) -> float:
+	return float(_HABIT_LEN[habit]) if _HABIT_LEN.has(habit) else super._habit_length(habit)
 
 
-## The dialogue portrait: he talks (mouth and the free paw) while the text types.
-func talk(on: bool) -> void:
-	_talking = on
-	if on:
-		_h = ""
-		play("talk")
-	elif _loop == "talk":
-		play("idle")
+## "stargaze" is a shared habit name too: his is the spyglass one.
+func _own_habit(habit: String) -> bool:
+	return habit in HABITS
 
 
-## Starts one of his habits now (HABITS); returns false when the name is unknown.
-func play_habit(habit: String) -> bool:
-	if not habit in HABITS:
-		return false
-	_h = habit
-	_h_t = 0.0
-	_h_len = float(_HABIT_LEN[habit])
-	_h_last = habit
-	_h_emoted = 0
-	return true
-
-
-func current_habit() -> String:
-	return _h
-
-
-func _tick_timers(dt: float) -> void:
-	super._tick_timers(dt)
-	var idle := _loop == "idle" and _shot == "" and _queue.is_empty() and _speed < 0.05
-	if _h != "":
-		_h_t += dt
-		if _h_t >= _h_len or not idle:
-			_h = ""
-	elif habits and idle and _habits_ok and not Engine.is_editor_hint():
-		_h_next -= dt
-		if _h_next <= 0.0:
-			_h_next = _rng.randf_range(habit_interval.x, maxf(habit_interval.y, habit_interval.x))
-			var pick: String = HABITS[_rng.randi() % HABITS.size()]
-			if pick == _h_last:
-				pick = HABITS[(HABITS.find(pick) + 1) % HABITS.size()]
-			play_habit(pick)
-
-
-func _apply(p: Pose, dt: float) -> void:
-	_age_pose(p)
-	super._apply(p, dt)
-	_place_props(p)
-
-
-func _age_pose(p: Pose) -> void:
+func _pose_legend(p: Pose) -> void:
+	super._pose_legend(p)
 	var walk := clampf(_speed_s / 0.5, 0.0, 1.0)
 	var shot_w := 0.0
 	if _shot != "":
@@ -159,15 +86,17 @@ func _age_pose(p: Pose) -> void:
 		p.lid = maxf(p.lid, lid_droop)
 	p.lid_tilt += 0.12
 	p.ear_lift -= 0.12
-	if _h != "":
-		_pose_habit(p)
 
 
 func _pose_habit(p: Pose) -> void:
-	var u := clampf(_h_t / _h_len, 0.0, 1.0)
-	var e := _bump(u)
+	var habit := _h
+	if not habit in HABITS:
+		super._pose_habit(p)
+		return
+	var u := habit_progress()
 	var t := _h_t
-	match _h:
+	var e := _bump(u)
+	match habit:
 		"specs":
 			# the paw goes up and nudges the spectacles back up the face
 			var up := _smooth(u / 0.3) * (1.0 - _smooth((u - 0.75) / 0.25))
@@ -228,6 +157,7 @@ func _pose_habit(p: Pose) -> void:
 
 
 func _place_props(p: Pose) -> void:
+	super._place_props(p)
 	# the cane: upright beside the paw, its tip on the floor (or hanging from a raised paw)
 	if cane:
 		cane.visible = cane_hold

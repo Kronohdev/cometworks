@@ -23,6 +23,15 @@ extends Control
 ## segment around another body (an encounter) is drawn around a "ghost" of that body at
 ## the encounter's periapsis time, marked on the map.
 ##
+## Real orbits (FlightSolar on the Ephemeris): each orbit line is the body's osculating ellipse
+## now, every body stands on its IAU spin axis (tidally locked moons face their parent). Two size
+## modes: true scale, or `readable` (the campaign map and the solar-system view): every body is
+## drawn at least READABLE_PX pixels across, never so big that a moon leaves its orbit. The
+## asteroid belt and Jupiter's Trojans are dot clouds (MultiMesh, filled here from a fixed seed:
+## real distances, eccentricities and inclinations, the Kirkwood gaps); the comet Mae-Gelo grows
+## a coma and two tails away from the Sun as it comes in (ion: straight, dust: curved back along
+## its path), with a real length (activity ~ 1 / r^2).
+##
 ## Extra tracked objects (the tycoon's missions in space, SpaceTracking): a host can hide the
 ## vessel (`show_vessel`), focus a point it provides (focus -2 with `tracked_focus`), turn its
 ## own positions into map space (map_position) and add lines with the map's look (new_line).
@@ -52,6 +61,10 @@ static var PLAN_COLOR_2: Color = STYLE.plan_color_2
 const HANDLE_NAMES := {"Pro": "FL_PROGRADE", "Retro": "FL_RETROGRADE", "Normal": "FL_NORMAL",
 	"Anti": "FL_ANTINORMAL", "RadOut": "FL_RADIAL_OUT", "RadIn": "FL_RADIAL_IN"}
 const N_MARKERS := 32
+## readable mode: smallest body radius on screen (px) and the largest blow-up of a body
+const READABLE_PX := 8.0
+const READABLE_MAX := 4000.0
+const AU_M := 149597870700.0
 ## trajectory colour per SOI body id (others: STYLE.soi_other)
 static var SOI_COLORS: Dictionary = STYLE.soi_colors
 
@@ -71,6 +84,8 @@ var pitch := 0.42
 var dist := 30000.0
 var selected: FlightManeuverNode = null
 var scale_mode := 0
+## bodies at least READABLE_PX on screen (see the class doc)
+var readable := false
 
 var _yaw := 0.7
 var _pitch := 0.42
@@ -94,6 +109,15 @@ var _mdata: Array[Dictionary] = []
 var _traj_dirty := true
 var _traj_ref: FlightTrajectory = null
 var _circle: ArrayMesh
+## tidally locked moons (FlightSolar indices): turned to face their parent every frame
+var _locked: Array[int] = []
+## per body: the current blow-up and its geometry's authored visibility ranges
+var _body_scale := PackedFloat32Array()
+var _geo: Array[Array] = []
+## the dot clouds' mean motion (rad/s) and the time their dots were placed at
+var _belt_rate := 0.0
+var _cloud_t0 := 0.0
+var _dots_fade := -1.0
 var _atmo_mats: Array[ShaderMaterial] = []
 var _text_timer := 0.0
 var _initialized := false
@@ -140,6 +164,7 @@ func _ready() -> void:
 	%BtnVessel.pressed.connect(func() -> void: set_scale_mode(0))
 	%BtnSystem.pressed.connect(func() -> void: set_scale_mode(1))
 	%BtnSolar.pressed.connect(func() -> void: set_scale_mode(2))
+	%BtnReadable.toggled.connect(set_readable)
 
 
 func setup(w: FlightWorld, planet_to_tex: Basis) -> void:
@@ -150,7 +175,14 @@ func setup(w: FlightWorld, planet_to_tex: Basis) -> void:
 		var i := sys.index_of(String(n.get_meta("body_id", "")))
 		if i >= 0:
 			_body_nodes[i] = n as Node3D
-	# the Earth as the flight draws it (same continents under the pad); no planet spins
+	# the Earth as the flight draws it (same continents under the pad); no planet spins. The
+	# others stand on their real spin axes (IAU poles: Saturn's rings tilt as they really do)
+	for i in sys.ids.size():
+		var tl := _body_nodes[i].get_node_or_null("Tilt") as Node3D
+		if tl and i != sys.earth:
+			tl.basis = _pole_basis(sys.pole(i), Vector3.ZERO)
+			if bool(sys.eph.data[sys.eph.index_of(sys.ids[i])].get("tidally_locked", false)):
+				_locked.append(i)
 	var e_tilt := _body_nodes[sys.earth].get_node("Tilt") as Node3D
 	e_tilt.basis = planet_to_tex.transposed()
 	for i in sys.ids.size():
@@ -158,12 +190,13 @@ func setup(w: FlightWorld, planet_to_tex: Basis) -> void:
 		if atmo:
 			_atmo_mats.append(atmo.get_surface_override_material(0) as ShaderMaterial)
 	_circle = FlightMapLines.circle(256)
+	var fine := FlightMapLines.circle(1536)
 	_orbit_nodes.resize(sys.ids.size())
 	_orbit_alpha.resize(sys.ids.size())
 	for n in %Orbits.get_children():
 		var i := sys.index_of(String(n.get_meta("body_id", "")))
 		var mi := n as MeshInstance3D
-		mi.mesh = _circle
+		mi.mesh = fine if sys.kinds[i] == "comet" else _circle
 		_orbit_nodes[i] = mi
 		_orbit_alpha[i] = (mi.get_instance_shader_parameter(&"line_color") as Color).a
 	for r in %SoiRings.get_children():
@@ -187,8 +220,178 @@ func setup(w: FlightWorld, planet_to_tex: Basis) -> void:
 		m.visible = false
 		markers_root.add_child(m)
 		_markers.append(m)
+	_body_scale.resize(sys.ids.size())
+	_body_scale.fill(1.0)
+	_geo.resize(sys.ids.size())
+	for i in sys.ids.size():
+		var list: Array = []
+		for g in _body_nodes[i].find_children("*", "GeometryInstance3D", true, false):
+			var gi := g as GeometryInstance3D
+			list.append([gi, gi.visibility_range_begin, gi.visibility_range_begin_margin, gi.visibility_range_end,
+				gi.visibility_range_end_margin])
+		_geo[i] = list
+	_fill_clouds()
 	_quality()
 	_refresh_names()
+
+
+## Readable sizes on / off (the map bar's toggle, or a host).
+func set_readable(on: bool) -> void:
+	readable = on
+	if is_node_ready():
+		(%BtnReadable as Button).set_pressed_no_signal(on)
+
+
+## The asteroid belt and the Trojans: dots on real-looking orbits around the Sun (PCI axes, map
+## units), placed once from a fixed seed at the current time; the nodes turn at their mean motion.
+func _fill_clouds() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 20260
+	var gm := sys.mu[sys.sun]
+	_cloud_t0 = world.time if world else 0.0
+	var belt := %AsteroidBelt as MultiMeshInstance3D
+	var n := int(belt.get_meta("count", 2600))
+	var inner := float(belt.get_meta("inner_au", 2.1))
+	var outer := float(belt.get_meta("outer_au", 3.3))
+	var ca: Color = belt.get_meta("color_a", Color(0.6, 0.6, 0.55, 0.85))
+	var cb: Color = belt.get_meta("color_b", Color(0.8, 0.75, 0.6, 0.85))
+	var mm := belt.multimesh
+	mm.instance_count = n
+	# Kirkwood gaps (resonances with Jupiter): 3:1 at 2.50 AU, 5:2 at 2.82, 7:3 at 2.95
+	var gaps := [2.502, 2.825, 2.958]
+	var k := 0
+	while k < n:
+		var a := lerpf(inner, outer, pow(rng.randf(), 0.85))
+		var in_gap := false
+		for g: float in gaps:
+			in_gap = in_gap or absf(a - g) < 0.025
+		if in_gap and rng.randf() < 0.9:
+			continue
+		var e := minf(absf(rng.randfn(0.0, 0.08)), 0.3)
+		var inc := absf(rng.randfn(0.0, deg_to_rad(8.0)))
+		var p := _kepler_point(a * AU_M, e, inc, rng.randf() * TAU, rng.randf() * TAU, rng.randf() * TAU)
+		mm.set_instance_transform(k, Transform3D(Basis.IDENTITY, p))
+		mm.set_instance_color(k, ca.lerp(cb, rng.randf()))
+		k += 1
+	_belt_rate = sqrt(gm / pow(2.7 * AU_M, 3.0))
+	# Trojans: around Jupiter's L4 / L5 points, 60 deg ahead of / behind it on its orbit
+	var tro := %Trojans as MultiMeshInstance3D
+	var nt := int(tro.get_meta("count", 700))
+	var tm := tro.multimesh
+	tm.instance_count = nt
+	var jup := sys.index_of("jupiter")
+	var js := sys.state_rel_parent(jup, _cloud_t0)
+	var jr := Vector3(js[0], js[1], js[2])
+	var jn := jr.cross(Vector3(js[3], js[4], js[5])).normalized()
+	var ta: Color = tro.get_meta("color_a", Color(0.6, 0.66, 0.56, 0.8))
+	var tb: Color = tro.get_meta("color_b", Color(0.78, 0.8, 0.62, 0.8))
+	for j in nt:
+		var side := 1.0 if j % 2 == 0 else -1.0
+		var ang := side * deg_to_rad(60.0) + rng.randfn(0.0, deg_to_rad(11.0))
+		var r := jr.length() * (1.0 + rng.randfn(0.0, 0.035))
+		var d := jr.normalized().rotated(jn, ang)
+		var up := jn * rng.randfn(0.0, 0.09) * r
+		var pt := (d * r + up) * K
+		tm.set_instance_transform(j, Transform3D(Basis.IDENTITY, pt))
+		tm.set_instance_color(j, ta.lerp(tb, rng.randf()))
+
+
+## A point (map units, PCI axes) of an ecliptic Kepler orbit.
+func _kepler_point(a: float, e: float, inc: float, node: float, w: float, mean_anom: float) -> Vector3:
+	var s := Ephemeris.kepler_state(a, e, inc, node, w, mean_anom, 0.0)
+	var p := sys.to_pci(PackedFloat64Array([s[0], s[1], s[2]]))
+	return Vector3(p[0] * K, p[1] * K, p[2] * K)
+
+
+## Body blow-ups for readable mode, the dot clouds and the comet's tails (every frame).
+func _place_extras() -> void:
+	var now := world.time
+	var focal := _focal_px()
+	var cam_pos := camera.global_position
+	for i in sys.ids.size():
+		var want := 1.0
+		if readable:
+			var d := maxf(cam_pos.distance_to(_body_nodes[i].position), 1e-6)
+			var r_map := sys.radius[i] * K
+			want = clampf(READABLE_PX * d / focal / r_map, 1.0, READABLE_MAX)
+			var p := sys.parent[i]
+			if p >= 0:
+				# a moon stays well inside its orbit around the (blown-up) parent; a planet in its own
+				var room := sys.sma[i] * K * (0.22 if p != sys.sun else 0.08)
+				want = minf(want, maxf(room / r_map, 1.0))
+			else:
+				want = minf(want, 25.0)
+		if absf(want / _body_scale[i] - 1.0) > 0.03 or (want == 1.0 and _body_scale[i] != 1.0):
+			_set_body_scale(i, want)
+	# dot clouds: around the Sun, turning at their mean motion; faded out close to a planet
+	var belt := %AsteroidBelt as MultiMeshInstance3D
+	var tro := %Trojans as MultiMeshInstance3D
+	var sp := _body_nodes[sys.sun].position
+	var n_e := sys.ecliptic_normal.normalized()
+	belt.position = sp
+	belt.basis = Basis(n_e, _belt_rate * (now - _cloud_t0))
+	tro.position = sp
+	tro.basis = Basis(n_e, sys.rate[sys.index_of("jupiter")] * (now - _cloud_t0))
+	var fade := smoothstep(2.0e7, 2.0e8, _dist)
+	belt.visible = fade > 0.01
+	tro.visible = fade > 0.01
+	if absf(fade - _dots_fade) > 0.01:
+		_dots_fade = fade
+		(belt.material_override as ShaderMaterial).set_shader_parameter(&"fade", fade)
+	_place_comet(now)
+
+
+func _set_body_scale(i: int, sc: float) -> void:
+	_body_scale[i] = sc
+	_body_nodes[i].scale = Vector3.ONE * sc
+	for g: Array in _geo[i]:
+		var gi := g[0] as GeometryInstance3D
+		gi.visibility_range_begin = float(g[1]) * sc
+		gi.visibility_range_begin_margin = float(g[2]) * sc
+		gi.visibility_range_end = float(g[3]) * sc
+		gi.visibility_range_end_margin = float(g[4]) * sc
+
+
+## The comet's coma and tails: away from the Sun, the ion tail straight, the dust tail bent back
+## along the path; length and brightness grow as 1 / r^2 inside ~5 AU (0.3 AU long at 1 AU: a
+## bright comet's; real ion tails reach 0.1-1 AU and more).
+func _place_comet(now: float) -> void:
+	var c := sys.comet
+	if c < 0:
+		return
+	var node := _body_nodes[c]
+	var ion := node.get_node_or_null("IonTail") as MeshInstance3D
+	var dust := node.get_node_or_null("DustTail") as MeshInstance3D
+	var coma := node.get_node_or_null("Coma") as MeshInstance3D
+	if ion == null or dust == null or coma == null:
+		return
+	var st := sys.state_rel_parent(c, now)
+	var r := Vector3(st[0], st[1], st[2])
+	var r_au := r.length() / AU_M
+	var act := clampf(smoothstep(6.0, 2.5, r_au) * minf(1.5 / (r_au * r_au), 1.0), 0.0, 1.0)
+	ion.visible = act > 0.01
+	dust.visible = act > 0.01
+	coma.visible = act > 0.005
+	if not coma.visible:
+		return
+	var away := r.normalized()
+	var vel := Vector3(st[3], st[4], st[5]).normalized()
+	# the tails keep their real size when the nucleus is blown up (readable mode)
+	var inv := 1.0 / maxf(_body_scale[c], 1e-6)
+	var l := clampf(4.5e10 / (r_au * r_au), 0.0, 1.5e11) * act * K * inv
+	ion.basis = _tail_basis(away, l, l * 0.22)
+	dust.basis = _tail_basis((away - vel * 0.35).normalized(), l * 0.7, l * 0.4)
+	ion.set_instance_shader_parameter(&"activity", act)
+	dust.set_instance_shader_parameter(&"activity", act)
+	coma.scale = Vector3.ONE * maxf(1.5e8 * act * K * inv, 1e-3)
+	coma.set_instance_shader_parameter(&"intensity", 0.5 + act)
+
+
+## Basis whose X axis runs along `dir` for `length` (the tail mesh's head -> tip), Y = width.
+static func _tail_basis(dir: Vector3, length: float, width: float) -> Basis:
+	var x := dir.normalized()
+	var y := x.cross(Vector3.UP if absf(x.y) < 0.95 else Vector3.RIGHT).normalized()
+	return Basis(x * maxf(length, 1e-6), y * maxf(width, 1e-6), x.cross(y))
 
 
 ## The map has its own environment and no screen-space effects at all (GraphicsQuality
@@ -314,7 +517,7 @@ func set_scale_mode(m: int, snap := false) -> void:
 
 
 func _vessel_orbit_size() -> float:
-	var el := FlightOrbit.elements(world.active.body.pos(), world.active.body.vel(), sys.mu[world.soi], sys.radius[world.soi])
+	var el := FlightOrbit.elements(world.sim.pos(), world.sim.vel(), sys.mu[world.soi], sys.radius[world.soi])
 	var r: float = el["ra"] if float(el["e"]) < 1.0 and float(el["ra"]) < sys.soi[world.soi] else maxf(float(el["r"]) * 3.0, sys.radius[world.soi] * 3.0)
 	return clampf(r, sys.radius[world.soi] * 1.4, sys.soi[world.soi] if sys.soi[world.soi] < INF else 1.0e13) * K
 
@@ -589,7 +792,7 @@ func update_map() -> void:
 	# focus point (doubles, frame body coordinates)
 	var off := PackedFloat64Array([0.0, 0.0, 0.0])
 	if focus == -1:
-		off = world.active.body.pos()
+		off = world.sim.pos()
 	elif focus == -2:
 		off = _tracked().get("pos", off)
 	if _anim_t < 1.0:
@@ -600,6 +803,7 @@ func update_map() -> void:
 	_focus_off = off
 	_place_camera()
 	_place_bodies()
+	_place_extras()
 	_place_orbits()
 	if _traj_dirty or world.traj != _traj_ref:
 		_rebuild_trajectory()
@@ -627,10 +831,22 @@ func _place_bodies() -> void:
 	var now := world.time
 	for i in sys.ids.size():
 		_body_nodes[i].position = body_map(i, now)
+	# tidally locked moons keep their near side (-X of the voxel model) to the parent
+	for i in _locked:
+		var to_parent := _body_nodes[sys.parent[i]].position - _body_nodes[i].position
+		(_body_nodes[i].get_node("Tilt") as Node3D).basis = _pole_basis(sys.pole(i), to_parent)
 	var sp := _body_nodes[sys.sun].position
 	sun_light.position = sp
 	for m in _atmo_mats:
 		m.set_shader_parameter("sun_position", sp)
+
+
+## A Tilt basis whose +Y is the spin axis and whose -X faces `face` (a direction; zero = any).
+static func _pole_basis(pole: Vector3, face: Vector3) -> Basis:
+	var y := pole.normalized()
+	var x := -face if face.length_squared() > 0.0 else y.cross(Vector3.RIGHT if absf(y.x) < 0.9 else Vector3.FORWARD)
+	x = (x - y * x.dot(y)).normalized()
+	return Basis(x, y, x.cross(y))
 
 
 func _place_orbits() -> void:
@@ -656,11 +872,14 @@ func _place_orbits() -> void:
 		mi.visible = a > 0.01
 		if not mi.visible:
 			continue
-		var bp := sys.plane_p[i]
-		var bq := sys.plane_q[i]
-		var vp := Vector3(bp[0], bp[1], bp[2])
-		var vq := Vector3(bq[0], bq[1], bq[2])
-		mi.transform = Transform3D(Basis(vp * r, vp.cross(vq) * r, vq * r), center)
+		# the real (osculating) ellipse: the unit circle (cos E, 0, sin E) -> a cos E P + b sin E Q
+		var sh := sys.orbit_shape(i, now)
+		var vp: Vector3 = sh["p_axis"]
+		var vq: Vector3 = sh["q_axis"]
+		var c0: PackedFloat64Array = sh["center"]
+		var ea := float(sh["a"]) * K
+		var eb := float(sh["b"]) * K
+		mi.transform = Transform3D(Basis(vp * ea, vp.cross(vq) * ea, vq * eb), center + Vector3(c0[0] * K, c0[1] * K, c0[2] * K))
 		var c := mi.get_instance_shader_parameter(&"line_color") as Color
 		c.a = minf(_orbit_alpha[i] * a * hl, 1.0)
 		mi.set_instance_shader_parameter(&"line_color", c)
@@ -852,7 +1071,7 @@ func _update_detail() -> void:
 
 
 func _vessel_map() -> Vector3:
-	var p := world.active.body.pos()
+	var p := world.sim.pos()
 	var o := sys.pos_rel(world.soi, _frame, world.time)
 	return Vector3((p[0] + o[0] - _focus_off[0]) * K, (p[1] + o[1] - _focus_off[1]) * K, (p[2] + o[2] - _focus_off[2]) * K)
 
@@ -961,7 +1180,7 @@ func _place_overlay(dt: float) -> void:
 			continue
 		var sp := camera.unproject_position(p)
 		var cd := maxf(camera.global_position.distance_to(p), 1e-9)
-		var px := sys.radius[i] * K / cd * focal
+		var px := sys.radius[i] * K * _body_scale[i] / cd * focal   # as drawn (readable blow-up)
 		_label_px[i] = px
 		_label_screen[i] = sp
 		var vis := sp.x > -60.0 and sp.y > -60.0 and sp.x < vs.x + 60.0 and sp.y < vs.y + 60.0

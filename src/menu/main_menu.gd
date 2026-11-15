@@ -14,10 +14,14 @@ extends Node
 ##   Demonstration -> the Demonstração panel (MenuDemoPanel): a ready save at the start of
 ##                    each era and a fair-mode start (TycoonSave.DEMOS), opened like Continue
 ##   Rocket workshop -> scenes/hangar.tscn
+##   Solar System  -> scenes/solar_system/solar_system.tscn (the campaign's map on its own, today's sky)
+##   Surfaces      -> the surface picker (SurfacePicker): free play on any planet surface, with
+##                    the rover when the rover side exists, else the body's drone (SurfaceFreePlay)
 ##   Options       -> language, fullscreen, master volume (MenuSettings)
 
 const TYCOON := "res://scenes/tycoon/tycoon_main.tscn"
 const HANGAR := "res://scenes/hangar.tscn"
+const SOLAR := "res://scenes/solar_system/solar_system.tscn"
 ## New campaign first makes the player's leader Cometling (LeaderCreator opens the tycoon)
 const LEADER_CREATOR := "res://scenes/tycoon/ui/screens/leader_creator.tscn"
 const PANEL_SLIDE := 8.0
@@ -41,6 +45,9 @@ var _demo_home := Vector2.ZERO
 @onready var fair: Button = %Fair
 @onready var demo: Button = %Demo
 @onready var workshop: Button = %Workshop
+@onready var solar: Button = %SolarSystem
+@onready var surfaces: Button = %Surfaces
+@onready var surface_picker: SurfacePicker = %SurfacePicker
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %Quit
 @onready var options: MenuOptionsPanel = %OptionsPanel
@@ -60,6 +67,9 @@ func _ready() -> void:
 	new_campaign.pressed.connect(_go.bind(LEADER_CREATOR, false, "TY_LEADER_PREPARING"))
 	fair.pressed.connect(_go.bind(TYCOON, true, "MENU_LOADING_FAIR"))
 	workshop.pressed.connect(_go.bind(HANGAR, false, "MENU_LOADING_HANGAR"))
+	solar.pressed.connect(_go.bind(SOLAR, false, "SSM_LOADING"))
+	surfaces.pressed.connect(surface_picker.open)
+	surface_picker.chosen.connect(open_surface)
 	options_button.pressed.connect(open_options)
 	demo.pressed.connect(open_demos)
 	demo_panel.closed.connect(close_demos)
@@ -147,7 +157,7 @@ func open_options() -> void:
 func _lock_menu() -> void:
 	if not _menu_focus.is_empty():
 		return
-	for b: Button in [new_campaign, continue_button, fair, demo, workshop, options_button, quit_button]:
+	for b: Button in [new_campaign, continue_button, fair, demo, workshop, solar, surfaces, options_button, quit_button]:
 		_menu_focus[b] = b.focus_mode
 		b.focus_mode = Control.FOCUS_NONE
 
@@ -204,6 +214,11 @@ func open_demo(slot: String) -> void:
 		return
 	_pending_slot = slot
 	_go(TYCOON, false, "MENU_LOADING_DEMO")
+
+
+## Free play on a planet surface (the picker's choice).
+func open_surface(body: StringName) -> void:
+	_go(SurfaceFreePlay.prepare_from_menu(body), false, "TY_SX_LOADING")
 
 
 # ------------------------------------------------------------------ leaving

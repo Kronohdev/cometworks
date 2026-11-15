@@ -1,15 +1,299 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/tycoon/ui/screens/research_screen.gd" id="1_script"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
 [ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
-[ext_resource type="Script" path="res://src/tycoon/ui/cw_tech_links.gd" id="4_links"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_progress_ring.gd" id="rt_ring"]
+[ext_resource type="Shader" path="res://shaders/cw_mist.gdshader" id="rt_mist"]
+[ext_resource type="Shader" path="res://shaders/cw_sap_flow.gdshader" id="rt_sap"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/twinkle.svg" id="rt_twinkle"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/rocket.svg" id="rt_rocket"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
 [ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
 [ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="page_tabs"]
+
+[sub_resource type="Gradient" id="rt_sky_grad"]
+offsets = PackedFloat32Array(0, 0.62, 1)
+colors = PackedColorArray(0.9333, 0.9098, 1, 1, 1, 0.9765, 0.9373, 1, 0.9647, 0.9176, 0.8392, 1)
+
+[sub_resource type="GradientTexture2D" id="rt_sky"]
+gradient = SubResource("rt_sky_grad")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="rt_ground"]
+bg_color = Color(0.7451, 0.898, 0.7255, 1)
+border_width_top = 3
+border_color = Color(0.1843, 0.6431, 0.5255, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+
+[sub_resource type="Curve" id="rt_taper"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.6), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="rt_trunk_taper"]
+_data = [Vector2(0, 1), 0.0, -0.4, 0, 0, Vector2(1, 0.42), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="rt_white_grad"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="rt_white"]
+gradient = SubResource("rt_white_grad")
+width = 8
+
+[sub_resource type="ShaderMaterial" id="rt_sap_mat"]
+shader = ExtResource("rt_sap")
+
+[sub_resource type="ShaderMaterial" id="rt_mist_mat"]
+shader = ExtResource("rt_mist")
+
+[sub_resource type="StyleBoxFlat" id="rt_glow"]
+bg_color = Color(1, 0.6039, 0.3608, 0.35)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.6039, 0.3608, 0.9)
+corner_radius_top_left = 19
+corner_radius_top_right = 19
+corner_radius_bottom_right = 19
+corner_radius_bottom_left = 19
+
+[sub_resource type="StyleBoxFlat" id="rt_shadow"]
+bg_color = Color(0.1686, 0.1647, 0.3608, 0.16)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="rt_veil"]
+bg_color = Color(1, 0.9765, 0.9373, 0.62)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="rt_badge"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="rt_check"]
+bg_color = Color(0.1843, 0.6431, 0.5255, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9765, 0.9373, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[sub_resource type="StyleBoxFlat" id="rt_sign"]
+bg_color = Color(1, 0.9922, 0.9725, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1686, 0.1647, 0.3608, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+
+[sub_resource type="Gradient" id="rt_spark_ramp"]
+offsets = PackedFloat32Array(0, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.8, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="rt_spark_colors"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.4353, 0.8784, 0.7451, 1, 0.702, 0.6118, 1, 1, 1, 0.6039, 0.3608, 1)
+
+[sub_resource type="Animation" id="rt_anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Glow:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Card:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Check:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Card/HBox/Badge/Progress:spin")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Glow:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="rt_anim_pulse"]
+resource_name = "pulse"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Glow:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.1), Color(1, 1, 1, 0.85), Color(1, 1, 1, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Glow:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.97, 0.94), Vector2(1.02, 1.05), Vector2(0.97, 0.94)]
+}
+
+[sub_resource type="Animation" id="rt_anim_research"]
+resource_name = "research"
+length = 1.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Card/HBox/Badge/Progress:spin")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.2832]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Glow:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.75, 0.65, 1, 0.35), Color(0.75, 0.65, 1, 0.8), Color(0.75, 0.65, 1, 0.35)]
+}
+
+[sub_resource type="Animation" id="rt_anim_pop"]
+resource_name = "pop"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Card:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.24, 0.42, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.84, 0.84), Vector2(1.1, 1.1), Vector2(0.97, 0.97), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Check:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.28, 0.46, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(1.3, 1.3), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Glow:modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.55, 1, 0.85, 0), Color(0.55, 1, 0.85, 1), Color(0.55, 1, 0.85, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="rt_anims"]
+_data = {
+&"RESET": SubResource("rt_anim_reset"),
+&"pop": SubResource("rt_anim_pop"),
+&"pulse": SubResource("rt_anim_pulse"),
+&"research": SubResource("rt_anim_research")
+}
 
 [node name="Research" type="Control"]
 layout_mode = 3
@@ -179,289 +463,539 @@ layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("page_stack")
 
-[node name="Tree" type="VBoxContainer" parent="Frame/VBox/Pages"]
+[node name="Tree" type="HBoxContainer" parent="Frame/VBox/Pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+metadata/title = "TY_RS_TITLE"
+
+[node name="Left" type="VBoxContainer" parent="Frame/VBox/Pages/Tree"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
-metadata/title = "TY_RS_TITLE"
 
-[node name="EraHeads" type="HBoxContainer" parent="Frame/VBox/Pages/Tree"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Era1" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era1"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Era 1 · Galpão"
-horizontal_alignment = 1
-
-[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era1"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "anos 1–5"
-horizontal_alignment = 1
-
-[node name="Era2" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era2"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Era 2 · Órbita"
-horizontal_alignment = 1
-
-[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era2"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "anos 6–10"
-horizontal_alignment = 1
-
-[node name="Era3" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era3"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Era 3 · Lua robótica"
-horizontal_alignment = 1
-
-[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era3"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "anos 11–15"
-horizontal_alignment = 1
-
-[node name="Era4" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era4"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Era 4 · Lua tripulada"
-horizontal_alignment = 1
-
-[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era4"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "anos 16–20"
-horizontal_alignment = 1
-
-[node name="Era5" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/EraHeads"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era5"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 13
-text = "Era 5 · Base de partida"
-horizontal_alignment = 1
-
-[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/EraHeads/Era5"]
-layout_mode = 2
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "anos 21–25"
-horizontal_alignment = 1
-
-[node name="Canvas" type="Control" parent="Frame/VBox/Pages/Tree"]
+[node name="Canvas" type="Panel" parent="Frame/VBox/Pages/Tree/Left"]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 2
+mouse_default_cursor_shape = 6
+theme_type_variation = &"CwPanelInset"
 
-[node name="Bands" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas"]
-unique_name_in_owner = true
+[node name="Sky" type="TextureRect" parent="Frame/VBox/Pages/Tree/Left/Canvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("rt_sky")
+expand_mode = 1
+
+[node name="World" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1160.0
+offset_bottom = 700.0
+mouse_filter = 2
+
+[node name="Eras" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="EraTemplate" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 1160.0
+offset_bottom = 124.0
+mouse_filter = 2
+
+[node name="Band" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.4627, 0.3216, 0.9098, 0.06)
+
+[node name="Line" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.7882, 0.7059, 0.5608, 0.45)
+
+[node name="Sign" type="PanelContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -26.0
+offset_right = 96.0
+offset_bottom = 26.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_sign")
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate/Sign"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Band1" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate/Sign/VBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-color = Color(0.1255, 0.1647, 0.3843, 0.55)
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "Era 1"
 
-[node name="Band2" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
+[node name="Title" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate/Sign/VBox"]
+custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 12
+theme_override_constants/line_spacing = -3
+text = "Galpão"
+autowrap_mode = 3
+max_lines_visible = 2
 
-[node name="Band3" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
+[node name="Years" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Eras/EraTemplate/Sign/VBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 11
+text = "anos 1–5"
 
-[node name="Band4" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
-
-[node name="Band5" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Bands"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
-
-[node name="Links" type="Control" parent="Frame/VBox/Pages/Tree/Canvas"]
+[node name="Ground" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_top = 660.0
+offset_right = 1160.0
+offset_bottom = 704.0
 mouse_filter = 2
-script = ExtResource("4_links")
+theme_override_styles/panel = SubResource("rt_ground")
 
-[node name="Nodes" type="Control" parent="Frame/VBox/Pages/Tree/Canvas"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Edges" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+
+[node name="EdgeLocked" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges"]
+visible = false
+
+[node name="Fill" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeLocked"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 2.5
+default_color = Color(0.7843, 0.7137, 0.5843, 0.7)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="EdgeOpen" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges"]
+visible = false
+
+[node name="Outline" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeOpen"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 7.0
+width_curve = SubResource("rt_taper")
+default_color = Color(1, 0.9765, 0.9373, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Fill" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeOpen"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 3.5
+width_curve = SubResource("rt_taper")
+default_color = Color(0.549, 0.5373, 0.702, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="EdgeDone" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges"]
+visible = false
+
+[node name="Outline" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeDone"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 8.0
+width_curve = SubResource("rt_taper")
+default_color = Color(0.1137, 0.4196, 0.3333, 0.75)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Fill" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeDone"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 5.0
+width_curve = SubResource("rt_taper")
+default_color = Color(0.4353, 0.8784, 0.7451, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="EdgeActive" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges"]
+visible = false
+
+[node name="Outline" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeActive"]
+points = PackedVector2Array(0, 0, 0, -60)
+width = 10.0
+width_curve = SubResource("rt_taper")
+default_color = Color(0.3529, 0.2471, 0.7529, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Fill" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Edges/EdgeActive"]
+material = SubResource("rt_sap_mat")
+points = PackedVector2Array(0, 0, 0, -60)
+width = 6.5
+width_curve = SubResource("rt_taper")
+texture = SubResource("rt_white")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Trunk" type="Node2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+
+[node name="Outline" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Trunk"]
+points = PackedVector2Array(500, 680, 500, 120)
+width = 34.0
+width_curve = SubResource("rt_trunk_taper")
+default_color = Color(0.3843, 0.2549, 0.2, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Fill" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Trunk"]
+points = PackedVector2Array(500, 680, 500, 120)
+width = 27.0
+width_curve = SubResource("rt_trunk_taper")
+default_color = Color(0.7882, 0.5529, 0.3686, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Bark" type="Line2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Trunk"]
+points = PackedVector2Array(496, 680, 496, 120)
+width = 5.0
+width_curve = SubResource("rt_trunk_taper")
+default_color = Color(0.8902, 0.6902, 0.498, 0.9)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Limbs" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+anchors_preset = 0
 mouse_filter = 2
 
-[node name="NodeTemplate" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes"]
+[node name="LimbTemplate" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Limbs"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 3
 anchors_preset = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 216.0
-offset_bottom = 102.0
+offset_right = 160.0
+offset_bottom = 22.0
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "RT_LIMB_ROCKETRY"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Nodes" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="NodeTemplate" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 158.0
+offset_bottom = 70.0
+pivot_offset = Vector2(79, 35)
 mouse_default_cursor_shape = 2
 
-[node name="Card" type="PanelContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate"]
+[node name="Glow" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(86, 42)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_glow")
+
+[node name="Shadow" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 4.0
+offset_right = 3.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_shadow")
+
+[node name="Card" type="PanelContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(79, 35)
 mouse_filter = 2
 theme_type_variation = &"CwNodeAvailable"
 
-[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 4
-
-[node name="Top" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
+[node name="HBox" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 7
 
-[node name="DotBox" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
-custom_minimum_size = Vector2(6, 16)
+[node name="Badge" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox"]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="Dot" type="ColorRect" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top/DotBox"]
-layout_mode = 0
+[node name="Bg" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Badge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_badge")
+
+[node name="Icon" type="TextureRect" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Badge"]
+modulate = Color(0.1686, 0.1647, 0.3608, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
 offset_top = 6.0
-offset_right = 6.0
-offset_bottom = 12.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-color = Color(1, 0.5412, 0.2392, 1)
+texture = ExtResource("rt_rocket")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Top"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/line_spacing = -2
-theme_override_font_sizes/font_size = 14
-text = "TY_TECH_UPPER_STAGE"
-autowrap_mode = 3
-max_lines_visible = 2
-
-[node name="Fill" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="Bottom" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Cost" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"CwMonoSmall"
-theme_override_font_sizes/font_size = 13
-text = "90 PP"
-
-[node name="State" type="Label" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox/Bottom"]
-layout_mode = 2
-theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
-text = "DISPONÍVEL"
-
-[node name="Bar" type="Control" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate/Card/VBox"]
-custom_minimum_size = Vector2(0, 3)
-layout_mode = 2
-mouse_filter = 2
-script = ExtResource("3_seg")
-value = 0.4
-color = Color(0.6078, 0.4863, 1, 1)
-segments = 16
-gap = 2.0
-
-[node name="Ring" type="Panel" parent="Frame/VBox/Pages/Tree/Canvas/Nodes/NodeTemplate"]
+[node name="Progress" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Badge"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("rt_ring")
+value = 0.35
+width = 3.5
+
+[node name="Text" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Text"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 13
+text = "TY_TECH_UPPER_STAGE"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="Fill" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Text"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Bottom" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Text"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Cost" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Text/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwMonoSmall"
+theme_override_font_sizes/font_size = 12
+text = "90 PP"
+
+[node name="State" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Card/HBox/Text/Bottom"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 10
+text = "TY_RS_ST_AVAILABLE"
+
+[node name="Check" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -14.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 14.0
+grow_horizontal = 0
+pivot_offset = Vector2(11, 11)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_check")
+
+[node name="Mark" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate/Check"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.9765, 0.9373, 1)
+theme_override_font_sizes/font_size = 13
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sparks" type="CPUParticles2D" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+position = Vector2(27, 35)
+emitting = false
+amount = 9
+lifetime = 1.5
+texture = ExtResource("rt_twinkle")
+emission_shape = 1
+emission_sphere_radius = 14.0
+direction = Vector2(0, -1)
+spread = 55.0
+gravity = Vector2(0, -12)
+initial_velocity_min = 14.0
+initial_velocity_max = 32.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+scale_amount_min = 0.16
+scale_amount_max = 0.32
+color_ramp = SubResource("rt_spark_ramp")
+color_initial_ramp = SubResource("rt_spark_colors")
+
+[node name="Veil" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("rt_veil")
+
+[node name="Ring" type="Panel" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_type_variation = &"CwRing"
 
-[node name="Foot" type="HBoxContainer" parent="Frame/VBox/Pages/Tree"]
+[node name="Anim" type="AnimationPlayer" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Nodes/NodeTemplate"]
+libraries = {
+&"": SubResource("rt_anims")
+}
+
+[node name="Mists" type="Control" parent="Frame/VBox/Pages/Tree/Left/Canvas/World"]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="MistTemplate" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Mists"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("rt_mist_mat")
+anchors_preset = 0
+offset_right = 1160.0
+offset_bottom = 124.0
+mouse_filter = 2
+
+[node name="MistLabel" type="Label" parent="Frame/VBox/Pages/Tree/Left/Canvas/World/Mists/MistTemplate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -12.0
+offset_right = 200.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 0.85)
+theme_override_font_sizes/font_size = 13
+text = "RT_MIST"
+horizontal_alignment = 1
+
+[node name="Foot" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="QueueCaption" type="Label" parent="Frame/VBox/Pages/Tree/Foot"]
+[node name="QueueCaption" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
 text = "TY_RS_QUEUE"
 
-[node name="QueueLabel" type="Label" parent="Frame/VBox/Pages/Tree/Foot"]
+[node name="QueueLabel" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -470,73 +1004,343 @@ text = "Foguete orbital (8 sem)  →  Barramento de satélite"
 clip_text = true
 text_overrun_behavior = 3
 
-[node name="Legend" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot"]
+[node name="Legend" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Foot"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 12
 
-[node name="Done" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
+[node name="Done" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Done"]
-custom_minimum_size = Vector2(14, 2)
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Done"]
+custom_minimum_size = Vector2(14, 4)
 layout_mode = 2
 size_flags_vertical = 4
-color = Color(0.2471, 0.8784, 0.7725, 0.75)
+color = Color(0.4353, 0.8784, 0.7451, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Done"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Done"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "TY_RS_ST_DONE"
 
-[node name="Active" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
+[node name="Active" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Active"]
-custom_minimum_size = Vector2(14, 2)
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Active"]
+custom_minimum_size = Vector2(14, 4)
 layout_mode = 2
 size_flags_vertical = 4
-color = Color(0.5569, 0.4863, 1, 1)
+color = Color(0.702, 0.6118, 1, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Active"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Active"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "TY_RS_ST_RESEARCHING"
 
-[node name="Open" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
+[node name="Open" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Open"]
-custom_minimum_size = Vector2(14, 2)
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Open"]
+custom_minimum_size = Vector2(14, 4)
 layout_mode = 2
 size_flags_vertical = 4
-color = Color(0.2902, 0.3451, 0.651, 1)
+color = Color(0.549, 0.5373, 0.702, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Open"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Open"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "TY_RS_ST_AVAILABLE"
 
-[node name="Locked" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Foot/Legend"]
+[node name="Locked" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Foot/Legend/Locked"]
-custom_minimum_size = Vector2(14, 2)
+[node name="Swatch" type="ColorRect" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Locked"]
+custom_minimum_size = Vector2(14, 4)
 layout_mode = 2
 size_flags_vertical = 4
-color = Color(0.149, 0.1843, 0.4, 1)
+color = Color(0.7843, 0.7137, 0.5843, 1)
 
-[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Foot/Legend/Locked"]
+[node name="Label" type="Label" parent="Frame/VBox/Pages/Tree/Left/Foot/Legend/Locked"]
 layout_mode = 2
 theme_type_variation = &"CwCaps"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "TY_RS_ST_LOCKED"
+
+[node name="ZoomSep" type="VSeparator" parent="Frame/VBox/Pages/Tree/Left/Foot"]
+layout_mode = 2
+
+[node name="ZoomOut" type="Button" parent="Frame/VBox/Pages/Tree/Left/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "RT_ZOOM_OUT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 13
+text = "−"
+
+[node name="ZoomFit" type="Button" parent="Frame/VBox/Pages/Tree/Left/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "RT_FIT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 13
+text = "RT_FIT"
+
+[node name="ZoomIn" type="Button" parent="Frame/VBox/Pages/Tree/Left/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 28)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "RT_ZOOM_IN_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 13
+text = "+"
+
+[node name="Inspector" type="PanelContainer" parent="Frame/VBox/Pages/Tree"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_type_variation = &"CwCard"
+
+[node name="VBox" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="IBranch" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_BR_PROP"
+autowrap_mode = 3
+
+[node name="IName" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 24
+text = "TY_TECH_ORBITAL_ROCKETRY"
+autowrap_mode = 3
+max_lines_visible = 2
+
+[node name="IState" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+text = "Era 1 · disponível"
+
+[node name="IDesc" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "TY_TECH_ORBITAL_ROCKETRY_DESC"
+autowrap_mode = 3
+max_lines_visible = 5
+
+[node name="Sep" type="HSeparator" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+
+[node name="IStats" type="GridContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="Cost" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Cost"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_RS_COST"
+
+[node name="ICost" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "90 PP"
+
+[node name="Money" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Money"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "RT_MONEY"
+
+[node name="IMoney" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Money"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "—"
+
+[node name="Time" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Time"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_RS_MIN_TIME"
+
+[node name="ITime" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Time"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "4 sem"
+
+[node name="Eta" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Eta"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "TY_RS_ETA"
+
+[node name="IEta" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IStats/Eta"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMono"
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "9 sem"
+
+[node name="IBar" type="Control" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.3
+color = Color(0.6078, 0.4863, 1, 1)
+segments = 20
+gap = 2.0
+
+[node name="IProgress" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 12
+text = "27 / 90 PP"
+horizontal_alignment = 2
+
+[node name="UnlocksCaption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_UNLOCKS"
+
+[node name="IScroll" type="ScrollContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="IUnlocks" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="IUnlockTemplate" type="HBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IScroll/IUnlocks"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Kind" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IScroll/IUnlocks/IUnlockTemplate"]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 11
+text = "MISSÃO"
+
+[node name="Name" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IScroll/IUnlocks/IUnlockTemplate"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "TY_MT_DEMO_SAT"
+autowrap_mode = 3
+
+[node name="NeedsCaption" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_RS_REQUIRES"
+
+[node name="INeeds" type="HFlowContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+
+[node name="INeedTemplate" type="Button" parent="Frame/VBox/Pages/Tree/Inspector/VBox/INeeds"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+tooltip_text = "RT_SELECT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 12
+text = "TY_TECH_ORBITAL_ROCKETRY"
+
+[node name="IRequires" type="Label" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "TY_RS_NO_REQ"
+autowrap_mode = 3
+
+[node name="IActions" type="VBoxContainer" parent="Frame/VBox/Pages/Tree/Inspector/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IFund" type="Button" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_RS_FUND"
+clip_text = true
+
+[node name="IMore" type="Button" parent="Frame/VBox/Pages/Tree/Inspector/VBox/IActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+tooltip_text = "RT_MORE_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "RT_MORE"
 
 [node name="Tech" type="HBoxContainer" parent="Frame/VBox/Pages"]
 visible = false
@@ -1265,16 +2069,6 @@ step = 0.04
 seconds = 0.3
 animate_added = false
 curve = 1
-
-[node name="CwTechs" type="Node" parent="."]
-script = ExtResource("cwm_stagger")
-target = NodePath("../Frame/VBox/Pages/Tree/Canvas/Nodes")
-offset = Vector2(0, 8)
-delay = 0.2
-step = 0.012
-seconds = 0.26
-max_delay = 0.4
-from_scale = Vector2(0.96, 0.96)
 
 [node name="CwButtons" type="Node" parent="."]
 script = ExtResource("cwm_btn")

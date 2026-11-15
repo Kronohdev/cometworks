@@ -3,7 +3,12 @@ shader_type spatial;
 // Vertex colors already hold palette color x baked AO (VoxelGreedyMesher); this
 // adds the subtle per-voxel color jitter of tools/voxel_gen.py by hashing the
 // world-space voxel cell, so greedy-merged quads still look per-voxel.
-render_mode cull_back, diffuse_lambert, specular_schlick_ggx;
+// Lit by the Cometworks toon light (shaders/include/cw_toon.gdshaderinc) like the rest of the
+// game: banded faces and tinted, filled shadows (no rim: far terrain stays calm).
+render_mode cull_back;
+
+#define CW_TOON_RIM_DEFAULT 0.0
+#include "res://shaders/include/cw_toon.gdshaderinc"
 
 instance uniform float voxel_size = 1.0;
 instance uniform float lod_level = 0.0;

@@ -14,6 +14,9 @@ signal hangar_requested(lot_id: String)
 signal solar_map_requested
 ## the follow tag's "Conversar": TycoonMain's dialogue box talks to the followed Cometling
 signal talk_requested
+## a screen asks to talk with a Lenda that is not on the campus (a mentor on a briefing, a rival
+## leader on the race board): CometlingDialogue.open_legend
+signal legend_talk_requested(legend_id: String, where: String)
 signal screen_opened(screen_name: String)
 signal screen_closed(screen_name: String)
 
@@ -25,6 +28,9 @@ var clock: TycoonClock
 var lot_id := ""
 var _hint_default := ""
 var _hint_timer := 0.0
+## HUD nodes hidden until a new career unlocks them (HudUnlocker, MenuUnlocks): {ref: true}
+var _locked := {}
+var _cash_tween: Tween
 
 
 func _ready() -> void:
@@ -108,6 +114,7 @@ func refresh() -> void:
 	# number labels count to their new value when they carry a CwNumberTicker (scene)
 	CwNumberTicker.show(%CashValue, state.cash, fmt_cr)
 	%CashValue.add_theme_color_override("font_color", CwPalette.MONEY_NEG if state.cash < 0.0 else CwPalette.MONEY_POS)
+	_cash_warning()
 	CwNumberTicker.show(%RepValue, state.reputation, fmt_int)
 	CwNumberTicker.show(%HypeValue, state.hype, fmt_int)
 	var left := state.comet_weeks_left()
@@ -120,6 +127,33 @@ func refresh() -> void:
 	_fill_strips()
 	if lot_id != "":
 		show_lot(lot_id)
+
+
+## Near bankruptcy (Bankruptcy.DANGER and past it) the cash caption says so in red and the coin
+## throbs; in the red the cash's tooltip tells where the bankruptcy line is.
+func _cash_warning() -> void:
+	var lvl := Bankruptcy.danger_level(state)
+	var text_box := %CashValue.get_parent() as Control
+	var cap := text_box.get_node_or_null("Caption") as Label
+	var icon := text_box.get_parent().get_node_or_null("Icon") as Control
+	var danger := lvl >= Bankruptcy.DANGER
+	(text_box.get_parent() as Control).tooltip_text = "" if lvl == Bankruptcy.SAFE else 		tr("BK_HUD_TIP") % fmt_cr(-Bankruptcy.threshold(state))
+	if cap:
+		cap.text = tr("BK_HUD_DANGER") if danger else "TY_CASH"
+		if danger:
+			cap.add_theme_color_override("font_color", CwPalette.DANGER)
+		else:
+			cap.remove_theme_color_override("font_color")
+	if icon == null:
+		return
+	if danger and (_cash_tween == null or not _cash_tween.is_valid()):
+		_cash_tween = create_tween().set_loops()
+		_cash_tween.tween_property(icon, "modulate", Color(1.0, 0.55, 0.6), 0.45).set_trans(Tween.TRANS_SINE)
+		_cash_tween.tween_property(icon, "modulate", Color.WHITE, 0.45).set_trans(Tween.TRANS_SINE)
+	elif not danger and _cash_tween != null:
+		_cash_tween.kill()
+		_cash_tween = null
+		icon.modulate = Color.WHITE
 
 
 ## Keeps `count` visible copies of `template` (a hidden node in the scene) in its parent.
@@ -244,7 +278,7 @@ func show_lot(id: String) -> void:
 	(%LevelBar as CwSegmentBar).value = lv / 3.0
 	%Desc.text = tr(String(bt.get("desc_key", "")))
 	# the workshop, once built, opens the hangar
-	%HangarButton.visible = kind == "workshop" and lv > 0
+	%HangarButton.visible = kind == "workshop" and lv > 0 and not is_locked("%HangarButton")
 	var nx := state.next_level(id)
 	var btn: Button = %BuildButton
 	btn.tooltip_text = ""
@@ -324,10 +358,76 @@ func _mark_rail(screen_name: String) -> void:
 
 
 ## The name of the screen on show, "" when the campus is.
+## Talk with Lenda `id` from a screen ("briefing", "race"): the dialogue box opens over it.
+func talk_to_legend(id: String, where: String) -> void:
+	if id != "":
+		legend_talk_requested.emit(id, where)
+
+
 func current_screen() -> String:
 	for c in %Screens.get_children():
 		return String(c.get_meta("screen_name", ""))
 	return ""
+
+
+# ------------------------------------------------------------ menus a career unlocks
+## A HUD node by the reference the unlock table uses (data/tycoon/menu_unlocks.json):
+## "%Name" a unique name, "Crew" a rail button (a child of %VBox), "Side/Race" a path from the
+## HUD root. null when there is no such node (a button another feature has not added yet).
+func hud_node(ref: String) -> Control:
+	if ref == "":
+		return null
+	if ref.begins_with("%"):
+		return get_node_or_null(NodePath(ref)) as Control
+	var rail := (%VBox as Node).get_node_or_null(NodePath(ref)) as Control
+	if rail:
+		return rail
+	return get_node_or_null(NodePath(ref)) as Control
+
+
+## Hides (locked) or shows a HUD node a new career has not unlocked yet (HudUnlocker).
+func lock_node(ref: String, locked: bool) -> void:
+	var n := hud_node(ref)
+	if locked:
+		_locked[ref.trim_prefix("%")] = true
+	else:
+		_locked.erase(ref.trim_prefix("%"))
+	if n == null:
+		return
+	if n.get_parent() == %VBox:
+		_tidy_rail.call_deferred()
+	if not locked and not n.visible:
+		# hidden while the rail cascaded in: drop the entrance it never got to play
+		CwMotion.clear_channel(n, &"stagger")
+	if n == %HangarButton:
+		n.visible = not locked and lot_id != "" and state != null and state.lot_kind(lot_id) == "workshop" \
+			and int(state.building(lot_id).get("level", 0)) > 0
+	else:
+		n.visible = not locked
+
+
+## The rail's separators show only between groups that have a key on show (the rail grows
+## from its top as keys appear).
+func _tidy_rail() -> void:
+	var any_before := false
+	var group_has := false
+	for c in %VBox.get_children():
+		if c is Separator:
+			(c as Control).visible = any_before and group_has
+			group_has = false
+		elif c is Control and (c as Control).visible:
+			any_before = true
+			group_has = true
+
+
+## True while a new career has not unlocked that node ("%SolarMap", "Crew"...).
+func is_locked(ref: String) -> bool:
+	return _locked.has(ref.trim_prefix("%"))
+
+
+## A key for a locked menu (M for the map...): a hint instead of the screen.
+func locked_hint() -> void:
+	flash_hint(tr("TY_UNL_LOCKED_HINT"), 3.0)
 
 
 # ------------------------------------------------------------ camera tag

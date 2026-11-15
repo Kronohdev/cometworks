@@ -16,5 +16,3 @@ __pycache__/
 Thumbs.db
 .vscode/
 
-# Claude Code local state (agent worktrees)
-.claude/

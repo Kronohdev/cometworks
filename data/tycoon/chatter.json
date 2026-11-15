@@ -165,7 +165,17 @@
     {"a_key": "TY_CHAT_PAIR_PILOT_A", "b_key": "TY_CHAT_PAIR_PILOT_B", "if": {"profession": "pilot"}, "b_if": {"profession": ["flight_controller", "systems_engineer", "researcher"]}},
     {"a_key": "TY_CHAT_PAIR_SHED_A", "b_key": "TY_CHAT_PAIR_SHED_B", "if": {"era": 1}},
     {"a_key": "TY_CHAT_PAIR_MONEY_A", "b_key": "TY_CHAT_PAIR_MONEY_B", "if": {"money": ["low", "broke"]}, "weight": 2},
-    {"a_key": "TY_CHAT_PAIR_MOONWALK_A", "b_key": "TY_CHAT_PAIR_MOONWALK_B", "if": {"era_min": 3}}
+    {"a_key": "TY_CHAT_PAIR_MOONWALK_A", "b_key": "TY_CHAT_PAIR_MOONWALK_B", "if": {"era_min": 3}},
+    {"a_key": "TY_CHAT_LT_KATIA_MARGO_A", "b_key": "TY_CHAT_LT_KATIA_MARGO_B", "if": {"legend": "katia"}, "b_if": {"legend": "margo"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_ALBERTINHO_PONTINHA_A", "b_key": "TY_CHAT_LT_ALBERTINHO_PONTINHA_B", "if": {"legend": "albertinho"}, "b_if": {"legend": "pontinha"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_VALENTINA_NILO_A", "b_key": "TY_CHAT_LT_VALENTINA_NILO_B", "if": {"legend": "valentina"}, "b_if": {"legend": "nilo"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_MARIAZINHA_KATIA_A", "b_key": "TY_CHAT_LT_MARIAZINHA_KATIA_B", "if": {"legend": "mariazinha"}, "b_if": {"legend": "katia"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_CESINHA_MAE_A", "b_key": "TY_CHAT_LT_CESINHA_MAE_B", "if": {"legend": "cesinha"}, "b_if": {"legend": "mae"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_ALBERTINHO_VALENTINA_A", "b_key": "TY_CHAT_LT_ALBERTINHO_VALENTINA_B", "if": {"legend": "albertinho"}, "b_if": {"legend": "valentina"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_MARGO_NILO_A", "b_key": "TY_CHAT_LT_MARGO_NILO_B", "if": {"legend": "margo"}, "b_if": {"legend": "nilo"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_MAE_VALENTINA_A", "b_key": "TY_CHAT_LT_MAE_VALENTINA_B", "if": {"legend": "mae"}, "b_if": {"legend": "valentina"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_PONTINHA_MARIAZINHA_A", "b_key": "TY_CHAT_LT_PONTINHA_MARIAZINHA_B", "if": {"legend": "pontinha"}, "b_if": {"legend": "mariazinha"}, "weight": 2},
+    {"a_key": "TY_CHAT_LT_CESINHA_KATIA_A", "b_key": "TY_CHAT_LT_CESINHA_KATIA_B", "if": {"legend": "cesinha"}, "b_if": {"legend": "katia"}, "weight": 2}
   ],
   "emotes": [
     {"emote": "note", "if": {"mood": "happy", "not_doing": "napping"}},

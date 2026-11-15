@@ -174,6 +174,14 @@ const SHADES := 3
 @export var ambient_energy: float = 0.6
 @export var exposure: float = 1.0
 
+@export_group("Cartoon light")
+## Colour the shadow side of the toon light leans to on this body (shader global
+## cw_shadow_tint, set while the surface is open; see src/core/cw_look.gd).
+@export var shadow_tint: Color = Color(0.5, 0.38, 1.0)
+## How much of that colour fills the shadows (cw_shadow_fill): airless bodies have dark,
+## crisp shadows, Mars and Titan get the sky's light in them.
+@export_range(0.0, 1.0, 0.01) var shadow_fill: float = 0.12
+
 @export_group("Fog")
 @export var fog_enabled: bool = true
 @export var fog_color: Color = Color(0.68, 0.78, 0.9)

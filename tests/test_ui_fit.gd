@@ -9,6 +9,7 @@ extends SceneTree
 ##   - docked screens (DOCK) keep clear of the top bar and the left rail; the others (covers
 ##     and modals with their own scrim) may cover the HUD but still have to fit
 ##   - the race track's milestone labels do not overlap each other nor the planet / Moon art
+##   - the launch watch on the flight's map: its card, the map bar and the hint pill apart
 ## The logical size is set with the root's content scale (aspect ignore) so this runs headless.
 ## Run: godot --headless --path . --script res://tests/test_ui_fit.gd
 ##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --verbose]
@@ -82,6 +83,8 @@ func _initialize() -> void:
 			for c: Dictionary in cases():
 				if _only.is_empty() or String(c["key"]) in _only:
 					await _check_screen(c, logical)
+	if _only.is_empty() or "watch" in _only:
+		await _check_watch_map(sizes)
 	main.queue_free()
 	await _frames(2)
 	if _only.is_empty() or "menu" in _only:
@@ -119,6 +122,46 @@ func _check_menu(sizes: Array[Vector2i]) -> void:
 					"%s: menu card clear of %s (%s / %s)" % [tag, n, card, other.get_global_rect()])
 	menu.queue_free()
 	await _frames(2)
+
+
+## The launch watch on the flight's map (M), the corner a player sees while following a launch:
+## the watch's card (LaunchWatch %Card) stacked above the map's bottom-left column (FlightMap
+## %Corner: the map bar over its hint pill), all three inside the view and apart, at every size.
+func _check_watch_map(sizes: Array[Vector2i]) -> void:
+	var pid := String(_args["project_review"].get("project_id", ""))
+	_check(main.modes.open_watch(pid), "watch: the launch watch of %s opens" % pid)
+	await _frames(20)
+	var w := main.modes.mode_node as FlightWorld
+	var lw := main.modes.overlay as LaunchWatch
+	if w == null or lw == null:
+		return
+	w.set_map(true)
+	var done := {}
+	for loc in LOCALES:
+		TranslationServer.set_locale(loc)
+		lw.call("_fill_static")
+		for phys: Vector2i in sizes:
+			var logical := logical_size(phys)
+			var key := "%s %dx%d" % [loc, logical.x, logical.y]
+			if done.has(key):
+				continue
+			done[key] = true
+			_set_logical(logical)
+			await _frames(6)
+			var tag := "%dx%d watch map (%s)" % [logical.x, logical.y, loc]
+			var view := Rect2(Vector2.ZERO, Vector2(logical))
+			var blocks := {"card": lw.get_node("%Card"), "map bar": w.map.get_node("%MapBar"),
+				"hint pill": w.map.get_node("%Hint").get_parent()}
+			for n: String in blocks:
+				_inside(blocks[n], view, "%s %s" % [tag, n])
+			var names := blocks.keys()
+			for i in names.size():
+				for j in range(i + 1, names.size()):
+					var a := (blocks[names[i]] as Control).get_global_rect().grow(-2.0)
+					var b := (blocks[names[j]] as Control).get_global_rect().grow(-2.0)
+					_check(not a.intersects(b), "%s: %s clear of %s (%s / %s)" % [tag, names[i], names[j], a, b])
+	w.revert_to_hangar()
+	await _wait(0.5)
 
 
 ## canvas_items + expand: the smaller side keeps the base size, the other grows.
@@ -333,6 +376,9 @@ func _check_hud(vp: Vector2i) -> void:
 	await _frames(2)
 	var lot := (hud.get_node("%LotPanel") as Control).get_global_rect().grow(-2.0)
 	for n in ["Side/Race", "Bottom", "TopStrip", "HintBox"]:
+		# (the race board steps aside while a lot panel is open: TycoonHUD._apply_race_visibility)
+		if not (hud.get_node(n) as Control).is_visible_in_tree():
+			continue
 		_check(not lot.intersects((hud.get_node(n) as Control).get_global_rect().grow(-2.0)),
 			"%s: lot panel clear of %s (%s / %s)" % [tag, n, lot, (hud.get_node(n) as Control).get_global_rect()])
 	_inside(hud.get_node("%LotPanel"), view, tag)

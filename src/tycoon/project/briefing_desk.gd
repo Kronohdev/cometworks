@@ -83,6 +83,11 @@ static func needs(b: Dictionary) -> Array:
 	return solution(b).get("need", [])
 
 
+## Antennas that answer this briefing (any one will do), [] when the mission type's rule counts.
+static func antennas(b: Dictionary) -> Array:
+	return solution(b).get("antenna", [])
+
+
 ## The client's own ideal balance (eng, sci, ops, rel), [] when the mission type's counts.
 static func ratio(b: Dictionary) -> Array:
 	return solution(b).get("ratio", [])
@@ -220,7 +225,9 @@ static func make_offer(state: TycoonState, b: Dictionary, r: RandomNumberGenerat
 	var o := {"id": String(b["id"]), "offered_week": state.weeks,
 		"expires_week": state.weeks + r.randi_range(int(ow[0]), int(ow[1])), "reward": reward, "budget": budget,
 		"deadline": int(b.get("deadline", 30)), "client": ""}
-	if String(b.get("kind", "")) == "dream":
+	if String(b.get("kind", "")) == "dream" and String(b.get("dreamer", "")) != "":
+		o["client"] = TycoonLegends.name_text(String(b["dreamer"]))   # a Lenda's own dream
+	elif String(b.get("kind", "")) == "dream":
 		var names: Array[String] = []
 		for m in state.staff:
 			names.append(String(m.get("name", "")))

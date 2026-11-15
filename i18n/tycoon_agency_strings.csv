@@ -168,9 +168,9 @@ TY_SP_GOV_SPACE,"National Space Programme","Programa Espacial Nacional"
 TY_SP_GOV_SCIENCE,"Science Council","Conselho de Ciência"
 TY_SP_GOV_WEATHER,"Weather & Climate Service","Serviço de Tempo e Clima"
 TY_SP_COMM_TELECOM,"Cauda Telecom","Cauda Telecom"
-TY_SP_COMM_IMAGING,"Mapa Vivo Imaging","Mapa Vivo Imagens"
+TY_SP_COMM_IMAGING,Mapas Vigia do Povo,Mapas Vigia do Povo
 TY_SP_COMM_MEDIA,"Tail Echo Media","Eco da Cauda Mídia"
-TY_SP_COMM_MINING,"Regolith & Co.","Regolito & Cia."
+TY_SP_COMM_MINING,Minerar & Construir,Minerar & Construir
 TY_SA_WILDFIRE,"Wildfire watch","Vigia de queimadas"
 TY_SA_WILDFIRE_TXT,"Fires spread fast and far from roads. A satellite in sun-synchronous orbit passes over the same place at the same local time, and an infrared camera sees the heat of active fires even through smoke.","Queimadas se espalham rápido e longe das estradas. Um satélite em órbita heliossíncrona passa sobre o mesmo lugar na mesma hora local, e uma câmera infravermelha enxerga o calor do fogo ativo mesmo através da fumaça."
 TY_SA_WILDFIRE_DATA,"NASA FIRMS (active fires)","NASA FIRMS (focos de fogo ativo)"

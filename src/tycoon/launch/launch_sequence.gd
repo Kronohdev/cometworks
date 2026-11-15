@@ -29,8 +29,10 @@ extends Control
 ##                    a suborbital hop has no stage to drop).
 ##   The rocket       the one the project designed (E2): the result's "rocket" parts are built
 ##                    by a DesignedRocket (scenes/tycoon/launch/designed_rocket.tscn, under
-##                    Stage/Rocket/Model): the main stage's era model, sized by launch class,
-##                    with its side boosters. Results without a design fly the era's rocket.
+##                    Stage/Rocket/Model) from the same packed vessel the career flight flies
+##                    (LaunchVessels.scene_for, with the mission's rover), at the flight's
+##                    campus size. Results without a design show the example rocket the flight
+##                    flies for them (TycoonModes.watch_vessel); the era models are a fallback.
 ##   The cause        a failed launch names what broke (the result's "cause_key", from the
 ##                    Design Review's risks) on the failure card.
 ## This script only drives it: picks the pad (the result's "pad", LaunchPads), the shot rig and
@@ -138,7 +140,7 @@ var _hold := 0.0
 var _hud_tween: Tween
 var _rig_size := 1.0      # the shot rig's size for this rocket (rig_zoom 1)
 var _rocket_height := 7.0
-## the designed rocket flying (null for a result without a design)
+## the rocket flying: the vessel the career flight flies (null only for the era-model fallback)
 var designed: DesignedRocket
 ## the tycoon's modes (the live flight) and the career flight of this launch
 var modes: TycoonModes
@@ -255,24 +257,31 @@ func _dress_rocket() -> void:
 	var era := state.era() if state else 1
 	var model := rocket.get_node("Model") as Node3D
 	var parts: Dictionary = (result.get("rocket", {}) as Dictionary).get("parts", {})
+	var target := String(result.get("target", "leo"))
 	var k := 1.0
 	var core_w := 0.0
+	# the rocket the career flight flies (TycoonModes.watch_vessel: the design's vessel from
+	# LaunchVessels.scene_for with the mission's rover, or the example rocket of a launch with no
+	# design), shown by DesignedRocket through the flight's own builder
+	for c in model.get_children():
+		model.remove_child(c)
+		c.queue_free()
+	var dps := designed_rocket if designed_rocket else load(DESIGNED_ROCKET) as PackedScene
+	designed = dps.instantiate() as DesignedRocket
+	model.add_child(designed)
 	if not parts.is_empty():
-		# the designed rocket: its own model, class size and boosters (DesignedRocket)
-		for c in model.get_children():
-			model.remove_child(c)
-			c.queue_free()
-		var ps := designed_rocket if designed_rocket else load(DESIGNED_ROCKET) as PackedScene
-		designed = ps.instantiate() as DesignedRocket
-		model.add_child(designed)
-		designed.build(parts)
+		designed.build(parts, payload_of(state, result), target, state)
+	elif not designed.show_scene(TycoonModes.watch_vessel(state, {}, target)):
+		# fallback only: nothing to fly, the era's own rocket
+		model.remove_child(designed)
+		designed.queue_free()
+		designed = null
+	if designed:
 		core_w = designed.core_size.x
 	else:
-		if era - 1 < rocket_models.size() and rocket_models[era - 1] != null and era != 1:
-			for c in model.get_children():
-				model.remove_child(c)
-				c.queue_free()
-			model.add_child(rocket_models[era - 1].instantiate())
+		var e := clampi(era, 1, maxi(rocket_models.size(), 1))
+		if e - 1 < rocket_models.size() and rocket_models[e - 1] != null:
+			model.add_child(rocket_models[e - 1].instantiate())
 		var cls := ProjectRules.launch_class(String(result.get("type", "")))
 		k = float(class_scale.get(cls, 1.0))
 	model.scale = Vector3.ONE * k
@@ -282,10 +291,24 @@ func _dress_rocket() -> void:
 		core_w = box.size.x * k
 	var girth := maxf(core_w / reference_size.x, 0.5)
 	($Stage/Rocket/Engine as Node3D).scale = Vector3.ONE * girth
-	_scale_fx(pow(girth, 0.7))
 	_rocket_height = box.size.y * k
+	# the clouds grow with the rocket: its girth, or its height (a real vessel is slimmer than
+	# the era models the clouds were made for, a tall one still makes a big cloud)
+	_scale_fx(pow(maxf(girth, _rocket_height / reference_size.y), 0.7))
 	_rig_size = clampf(_rocket_height / reference_size.y, 1.0, max_rig_scale)
 	cam_rig.scale = Vector3.ONE * lerpf(1.0, _rig_size, rig_zoom)
+
+
+## The payload modules a launch result carries (its own "payload", else its project's history
+## entry): what LaunchVessels puts on the rocket (a rover rides on it).
+static func payload_of(s: TycoonState, r: Dictionary) -> Array:
+	var pl: Variant = r.get("payload", null)
+	if pl is Array:
+		return pl
+	if s == null:
+		return []
+	var e := ProjectDesk.history_entry(s, String(r.get("project_id", "")))
+	return e.get("payload", []) if e.get("payload", []) is Array else []
 
 
 ## The target in the sky: the trail's colour ramp, the separation puff in its colour, placed
@@ -657,9 +680,19 @@ func _process(delta: float) -> void:
 	var look := rocket.global_position + Vector3(0, 4, 0)
 	if _phase == "result" or _phase == "outro":
 		look = crew_cam.global_position
+	var cam3 := get_viewport().get_camera_3d()
+	var bar := $Overlay/Frame/BarBottom as Control
+	var floor_y := bar.get_global_rect().position.y if bar.is_visible_in_tree() else get_viewport().get_visible_rect().size.y
 	for sp in spectators.get_children():
 		if sp is Cometling:
-			(sp as Cometling).look_at_point(look, watch)
+			var cr := sp as Cometling
+			cr.look_at_point(look, watch)
+			# a spectator under the frame's bottom bar (the low lift / climb shots) would show only
+			# its emote bubble poking over the bar, like a stray marker: no bubble out of the shot
+			if cr.emote_sprite.visible and cam3:
+				var body := cr.global_position + Vector3.UP * 0.6
+				if cam3.is_position_behind(body) or cam3.unproject_position(body).y > floor_y:
+					cr.emote_sprite.visible = false
 	if _phase == "result" and _hold > 0.0:
 		_hold -= delta
 		if _hold <= 0.0:

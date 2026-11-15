@@ -159,7 +159,10 @@ func _check_mentors() -> void:
 	_check(line.contains("Berta") and not line.contains("TY_"), "her line reads well: %s" % line)
 	var quiet := TycoonLegends.mentor_hints(s, crop, true)
 	_check(quiet.size() == 2 and String(quiet[0]["legend"]) == "dora", "when the team has no hunch, Dora says which profession it needs")
-	_check(TycoonLegends.mentor_hints(s, BriefingDesk.briefing("first_hop"), false).is_empty(), "a dream nobody mentors gets no line")
+	var hop := TycoonLegends.mentor_hints(s, BriefingDesk.briefing("first_hop"), false)
+	_check(hop.size() == 1 and bool(hop[0].get("voice", false)) and String(hop[0]["legend"]) == "halleyzinho",
+		"a dream nobody mentors gets only Vovô's narration (%s)" % [hop])
+	_check(TycoonLegends.mentor_hints(s, BriefingDesk.briefing("crater_rim"), false).is_empty(), "a mission nobody narrates nor mentors gets no line")
 	_check(is_equal_approx(TycoonLegends.mentor_effect(s, "agency_xp"), 0.15) and is_equal_approx(TycoonLegends.mentor_effect(s, "gov_reward"), 0.1),
 		"mentor bonus: +15% XP for everyone, +10% on government contracts")
 	var xp0 := float(TycoonCrew.find(s, "a")["xp"])
@@ -168,7 +171,8 @@ func _check_mentors() -> void:
 	# the board in the briefing screen uses the same lines; the dev menu brings every mentor
 	TycoonLegends.dev_mentors = true
 	_check(TycoonLegends.mentor_active(s, "sali"), "dev: every mentor around")
-	var crewed := TycoonLegends.mentor_hints(s, BriefingDesk.briefing("earthrise"), false)
+	var crewed := TycoonLegends.mentor_hints(s, BriefingDesk.briefing("earthrise"), false).filter(
+		func(h: Dictionary) -> bool: return not h.get("voice", false))
 	_check(not crewed.is_empty() and String(crewed[0]["legend"]) == "sali" and (crewed[0]["args"] as Array).size() == 2,
 		"Sali Carona tells the two bars a crewed client values most")
 	TycoonLegends.dev_mentors = false

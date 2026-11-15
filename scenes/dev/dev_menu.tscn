@@ -189,6 +189,15 @@ text = "Modo feira"
 metadata/action = "goto"
 metadata/arg = "fair"
 
+[node name="Conference" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Conferência dos Cometinhos"
+tooltip_text = "Vai direto para a feira da conferência (abre uma campanha direta se não houver uma)"
+metadata/action = "goto"
+metadata/arg = "conference"
+
 [node name="Hangar" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Go/Flow"]
 layout_mode = 2
 focus_mode = 0
@@ -826,6 +835,24 @@ focus_mode = 0
 theme_type_variation = &"DevKey"
 text = "Próximo marco"
 metadata/action = "milestone"
+
+[node name="ConferenceInvite" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Convite da conferência"
+tooltip_text = "Abre o convite da Conferência dos Cometinhos (a feira das agências) para o ano de agora"
+metadata/action = "conference"
+metadata/arg = "invite"
+
+[node name="ConferenceNow" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Ir à conferência"
+tooltip_text = "Vai direto para a feira da Conferência dos Cometinhos (conta como o convite deste ano)"
+metadata/action = "conference"
+metadata/arg = "go"
 
 [node name="Day" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
 layout_mode = 2

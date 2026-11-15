@@ -468,17 +468,16 @@ func _test_visuals() -> void:
 	var h0 := dr.core_size.y
 	dr.build(SOUNDING)
 	var hs := dr.core_size.y
+	var ls := dr.vessel_length
 	dr.build(LEO)
-	_check(dr.core_size.y > hs, "a bigger main stage is a taller rocket (%.1f > %.1f m)" % [dr.core_size.y, hs])
-	var shown := 0
-	for slot in dr.boosters.get_children():
-		shown += slot.get_child_count()
-	_check(shown == 2, "two side boosters stand by the core")
+	_check(dr.vessel_length > ls, "a bigger main stage is a longer rocket (%.1f > %.1f m)" % [dr.vessel_length, ls])
+	_check(is_equal_approx(dr.core_size.y, dr.vessel_length / FlightRun.island_scale(FlightCraft.from_scene(dr.vessel_scene).length)),
+		"shown at the flight's campus size (%.1f, %.1f m long)" % [dr.core_size.y, dr.vessel_length])
+	_check(dr.vessel_scene == TycoonModes.watch_vessel(s, LEO, "leo"), "it is the very vessel the flight flies")
+	_check(hs > 0.0, "the sounding rocket is shown too")
+	_check(dr.shown_boosters() == 2, "two side boosters stand by the core")
 	dr.build(_with(LEO, {"boosters": "boost_srb4", "tank": "tank_l"}))
-	shown = 0
-	for slot in dr.boosters.get_children():
-		shown += slot.get_child_count()
-	_check(shown == 4, "four for the 4-solid option")
+	_check(dr.shown_boosters() == 4, "four for the 4-solid option")
 	dr.build({})
 	_check(is_equal_approx(dr.core_size.y, h0), "no design: the authored look")
 	dr.queue_free()
@@ -493,10 +492,8 @@ func _test_visuals() -> void:
 	seq.play(r)
 	await process_frame
 	_check(seq.designed != null and RocketDesigner.same_parts(seq.designed.parts, LEO), "the sequence flies the designed rocket")
-	var b := 0
-	for slot in seq.designed.boosters.get_children():
-		b += slot.get_child_count()
-	_check(b == 2, "boosters visible in the launch")
+	_check(seq.designed.shown_boosters() == 2, "boosters visible in the launch")
+	_check(seq.designed.vessel_scene == TycoonModes.watch_vessel(s, LEO, "leo"), "the launch shows the rocket the flight flies")
 	var odds := seq.get_node("%CardFail").find_child("OddsValue", true, false) as Label
 	_check(odds.text == "83%", "the card's odds match the result (%s)" % odds.text)
 	var cause := seq.get_node("%CardFail").find_child("Cause", true, false) as Label

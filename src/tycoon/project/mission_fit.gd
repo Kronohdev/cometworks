@@ -82,6 +82,8 @@ static func evaluate(state: TycoonState, ctx: Dictionary) -> Dictionary:
 		if not String(m) in payload:
 			missing.append(String(m))
 	var ants: Array = tr.get("needs_antenna", [])
+	if not BriefingDesk.antennas(b).is_empty():   # the client asks for a given reach
+		ants = BriefingDesk.antennas(b)
 	if not ants.is_empty() and not PayloadRules.antenna(payload) in ants:
 		missing.append(String(ants[0]))
 	var raw := clampf(minf(pos, cap) / cap - float(ic.get("useless", 0.12)) * useless.size()

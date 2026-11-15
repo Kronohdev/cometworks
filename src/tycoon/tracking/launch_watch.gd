@@ -18,6 +18,8 @@ extends Control
 ## seconds after the departure burn before the result card
 @export var burn_hold := 5.0
 
+## px between the card and the map's bottom-left column when the map (M) is open
+const CARD_GAP := 12.0
 const PHASE_COLORS := {"lost": CwPalette.DANGER, "orbit": CwPalette.AURORA_TEAL, "transfer": CwPalette.COMET_ICE,
 	"arrived": CwPalette.AURORA_VIOLET}
 
@@ -37,6 +39,8 @@ var _lost_met := -1.0
 var _apogee := 0.0
 ## leaving goes back to the Solar System map (the live launch opened from it)
 var back_to_map := false
+## the card's own bottom (the scene's), over the 3D view
+var _card_bottom := 0.0
 
 
 func _ready() -> void:
@@ -45,6 +49,7 @@ func _ready() -> void:
 	%Keep.pressed.connect(func() -> void: %Result.visible = false)
 	%SeeMap.pressed.connect(see_map)
 	%Result.visible = false
+	_card_bottom = (%Card as Control).offset_bottom
 
 
 ## Called by TycoonModes once the flight is ready. args: {"mode", "track", "entry", "run"}.
@@ -75,8 +80,40 @@ func _fill_static() -> void:
 	%Title.text = "%s · %s" % [code, what] if code != "" else what
 	%Back.text = tr("TY_TRK_BACK_MAP") if mode == "follow" or back_to_map else tr("TY_TRK_BACK_CAMPUS")
 	%ResBack.text = %Back.text
-	%Hint.text = tr("TY_LV_LEAVE_HINT") if mode == "live" else tr("TY_TRK_WARP_HINT")
+	%Hint.text = key_caps(tr("TY_LV_LEAVE_HINT") if mode == "live" else tr("TY_TRK_WARP_HINT"))
 	_refresh_phase()
+
+
+## The hint in BBCode with its keys drawn as key caps: a bare key is easy to miss, above all
+## the warp's "," and "." (they read as punctuation). In each " · " part, a lone punctuation
+## mark is a key, and so is a short first word starting in capitals (M, Esc, F2, C).
+static func key_caps(text: String) -> String:
+	var parts := text.replace("[", "[lb]").split(" · ")
+	for i in parts.size():
+		var words := parts[i].split(" ")
+		for j in words.size():
+			var w := words[j]
+			var mark := w.length() == 1 and w in ",.;/-=+"
+			var word_key := j == 0 and w.length() <= 3 and w != "" and w[0] != w[0].to_lower()
+			if mark or word_key:
+				words[j] = "[bgcolor=#%s][color=#%s] %s [/color][/bgcolor]" % [CwPalette.LILAC_LIGHT.to_html(false),
+					CwPalette.INK.to_html(false), w]
+		parts[i] = " ".join(words)
+	return "[b]%s[/b]" % " · ".join(parts)   # bold like the other dim lines (CwDim)
+
+
+## The card's place: its own over the 3D view; on the map (M) right above the map's
+## bottom-left column (the map bar over its hint), so the three panels never overlap.
+func _place_card() -> void:
+	var card := %Card as Control
+	var bottom := _card_bottom
+	if world.map_view and world.map and world.map.visible:
+		var top := get_global_transform().affine_inverse() * Vector2(0.0, world.map.corner_top())
+		bottom = minf(_card_bottom, top.y - size.y - CARD_GAP)
+	if not is_equal_approx(card.offset_bottom, bottom):
+		var h := card.offset_bottom - card.offset_top
+		card.offset_bottom = bottom
+		card.offset_top = bottom - h
 
 
 func _target_name() -> String:
@@ -109,6 +146,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if world == null:
 		return
+	_place_card()
 	_t += delta
 	if run and target == "suborbital" and run.sim.launched and run.sim.vertical_speed() < 0.0 and not _shown.has("top") \
 			and run.sim.altitude() > 50000.0:

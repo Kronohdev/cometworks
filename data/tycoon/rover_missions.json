@@ -23,7 +23,12 @@
     "weather":       {"kind": "weather",  "label_key": "RV_OBJ_WEATHER", "science": 8, "need": "weather"},
     "drone_scout":   {"kind": "drone",    "label_key": "RV_OBJ_DRONE", "science": 14, "need": "drone"},
     "dune":          {"kind": "reach",    "poi_kind": "dune", "label_key": "RV_OBJ_DUNE", "science": 10, "offset": [-90, -80]},
-    "vent_scan":     {"kind": "scan",     "poi_kind": "vent", "label_key": "RV_OBJ_VENT", "science": 18, "offset": [60, -120], "need": "scan"}
+    "vent_scan":     {"kind": "scan",     "poi_kind": "vent", "label_key": "RV_OBJ_VENT", "science": 18, "offset": [60, -120], "need": "scan"},
+    "skylight":      {"kind": "reach",    "poi": "skylight", "label_key": "RV_OBJ_SKYLIGHT", "science": 16, "offset": [-70, -130], "climb": 12},
+    "tube_scan":     {"kind": "scan",     "poi": "skylight_b", "label_key": "RV_OBJ_TUBE_SCAN", "science": 18, "offset": [-30, -165], "need": "scan"},
+    "swirl_light":   {"kind": "reach",    "poi": "swirl_a", "label_key": "RV_OBJ_SWIRL_LIGHT", "science": 14, "offset": [80, -90]},
+    "swirl_dark":    {"kind": "reach",    "poi": "swirl_b", "label_key": "RV_OBJ_SWIRL_DARK", "science": 14, "offset": [120, -150]},
+    "swirl_photo":   {"kind": "panorama", "label_key": "RV_OBJ_SWIRL_PHOTO", "science": 10, "need": "photo"}
   },
   "sets": {
     "briefing:rover_geology":   ["land_photo", "rock_scan", "rock_scan_2", "drive_300"],
@@ -33,6 +38,9 @@
     "briefing:moonquakes":      ["land_photo", "drive_100"],
     "briefing:landing_scout":   ["site_vista", "site_loop", "rock_scan", "rim_panorama"],
     "briefing:sample_cache":    ["sample_1", "sample_2", "sample_3", "drive_300"],
+    "briefing:lava_tubes":      ["land_photo", "skylight", "tube_scan", "drive_300"],
+    "briefing:lunar_swirls":    ["land_photo", "swirl_light", "swirl_dark", "swirl_photo"],
+    "briefing:production_line": ["ice_scan", "ice_drill", "drive_300"],
     "target:lunar_surface":     ["land_photo", "rock_scan", "drive_100"],
     "target:lunar_pole":        ["land_photo", "ice_scan", "drive_100"],
     "sandbox:moon":             ["land_photo", "rim", "rock_scan", "ice_drill", "rim_panorama", "drive_300"],

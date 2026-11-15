@@ -1568,7 +1568,7 @@ text = "+ node  T- 12:00"
 unique_name_in_owner = true
 visible = false
 
-[node name="MapBar" type="PanelContainer" parent="Overlay"]
+[node name="Corner" type="VBoxContainer" parent="Overlay"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -1576,21 +1576,30 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = -272.0
-offset_right = 392.0
-offset_bottom = -72.0
+offset_right = 530.0
+offset_bottom = -12.0
 grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="MapBar" type="PanelContainer" parent="Overlay/Corner"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(376, 0)
+layout_mode = 2
+size_flags_horizontal = 0
 mouse_filter = 2
 theme_type_variation = &"CwPanel"
 
-[node name="VBox" type="VBoxContainer" parent="Overlay/MapBar"]
+[node name="VBox" type="VBoxContainer" parent="Overlay/Corner/MapBar"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Head" type="HBoxContainer" parent="Overlay/MapBar/VBox"]
+[node name="Head" type="HBoxContainer" parent="Overlay/Corner/MapBar/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Icon" type="TextureRect" parent="Overlay/MapBar/VBox/Head"]
+[node name="Icon" type="TextureRect" parent="Overlay/Corner/MapBar/VBox/Head"]
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 size_flags_vertical = 4
@@ -1599,13 +1608,13 @@ texture = ExtResource("t_map_icon")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Overlay/MapBar/VBox/Head"]
+[node name="Title" type="Label" parent="Overlay/Corner/MapBar/VBox/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"CwCapsAccent"
 text = "FL_MAP_TITLE"
 
-[node name="BtnPrev" type="Button" parent="Overlay/MapBar/VBox/Head"]
+[node name="BtnPrev" type="Button" parent="Overlay/Corner/MapBar/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(34, 34)
 layout_mode = 2
@@ -1615,7 +1624,7 @@ theme_type_variation = &"CwKey"
 icon = ExtResource("t_chev_l")
 icon_alignment = 1
 
-[node name="Focus" type="Label" parent="Overlay/MapBar/VBox/Head"]
+[node name="Focus" type="Label" parent="Overlay/Corner/MapBar/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
@@ -1625,7 +1634,7 @@ text = "SS_NAME_EARTH"
 horizontal_alignment = 1
 text_overrun_behavior = 3
 
-[node name="BtnNext" type="Button" parent="Overlay/MapBar/VBox/Head"]
+[node name="BtnNext" type="Button" parent="Overlay/Corner/MapBar/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(34, 34)
 layout_mode = 2
@@ -1635,11 +1644,11 @@ theme_type_variation = &"CwKey"
 icon = ExtResource("t_chev_r")
 icon_alignment = 1
 
-[node name="Scales" type="HBoxContainer" parent="Overlay/MapBar/VBox"]
+[node name="Scales" type="HBoxContainer" parent="Overlay/Corner/MapBar/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="BtnVessel" type="Button" parent="Overlay/MapBar/VBox/Scales"]
+[node name="BtnVessel" type="Button" parent="Overlay/Corner/MapBar/VBox/Scales"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1649,7 +1658,7 @@ theme_type_variation = &"CwKey"
 toggle_mode = true
 text = "FL_MAP_SCALE_VESSEL"
 
-[node name="BtnSystem" type="Button" parent="Overlay/MapBar/VBox/Scales"]
+[node name="BtnSystem" type="Button" parent="Overlay/Corner/MapBar/VBox/Scales"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1659,7 +1668,7 @@ theme_type_variation = &"CwKey"
 toggle_mode = true
 text = "FL_MAP_SCALE_SYSTEM"
 
-[node name="BtnSolar" type="Button" parent="Overlay/MapBar/VBox/Scales"]
+[node name="BtnSolar" type="Button" parent="Overlay/Corner/MapBar/VBox/Scales"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1669,11 +1678,11 @@ theme_type_variation = &"CwKey"
 toggle_mode = true
 text = "FL_MAP_SCALE_SOLAR"
 
-[node name="View" type="HBoxContainer" parent="Overlay/MapBar/VBox"]
+[node name="View" type="HBoxContainer" parent="Overlay/Corner/MapBar/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="BtnReadable" type="Button" parent="Overlay/MapBar/VBox/View"]
+[node name="BtnReadable" type="Button" parent="Overlay/Corner/MapBar/VBox/View"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1683,7 +1692,7 @@ theme_type_variation = &"CwKey"
 toggle_mode = true
 text = "SSM_READABLE"
 
-[node name="Info" type="Label" parent="Overlay/MapBar/VBox"]
+[node name="Info" type="Label" parent="Overlay/Corner/MapBar/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"
@@ -1691,20 +1700,14 @@ theme_override_font_sizes/font_size = 14
 text = "Target: Moon"
 autowrap_mode = 3
 
-[node name="HintPill" type="PanelContainer" parent="Overlay"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -60.0
-offset_right = 530.0
-offset_bottom = -12.0
-grow_vertical = 0
+[node name="HintPill" type="PanelContainer" parent="Overlay/Corner"]
+custom_minimum_size = Vector2(514, 0)
+layout_mode = 2
+size_flags_horizontal = 0
 mouse_filter = 2
 theme_type_variation = &"CwHintPill"
 
-[node name="Hint" type="Label" parent="Overlay/HintPill"]
+[node name="Hint" type="Label" parent="Overlay/Corner/HintPill"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwDim"

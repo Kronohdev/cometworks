@@ -1,0 +1,275 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/conference_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/comet.svg" id="2_icon"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/talk/cometling_portrait.tscn" id="3_portrait"]
+
+[sub_resource type="StyleBoxFlat" id="badge"]
+bg_color = Color(0.5569, 0.4863, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.169, 0.165, 0.361, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="bubble"]
+bg_color = Color(1, 0.9922, 0.9725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.169, 0.165, 0.361, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 4
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[node name="ConferenceScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.55)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -270.0
+offset_right = 390.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+custom_minimum_size = Vector2(736, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="IconStack" type="Control" parent="Panel/Margin/VBox/Header"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Badge" type="Panel" parent="Panel/Margin/VBox/Header/IconStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("badge")
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Header/IconStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 11.0
+offset_right = -13.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Kicker" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "TY_CONF_KICKER"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 32
+autowrap_mode = 3
+text = "TY_CONF_TITLE"
+
+[node name="Year" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_CONF_YEAR"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="Label" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+text = "TY_CONF_INVITE_BODY"
+
+[node name="WhoBox" type="PanelContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwBox"
+
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/VBox/WhoBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/WhoBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/WhoBox/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "TY_CONF_INVITE_WHO"
+
+[node name="Who" type="Label" parent="Panel/Margin/VBox/WhoBox/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+text = "Joãozinho Keplerino, Comandante Iúri Gagarinho"
+
+[node name="Reward" type="Label" parent="Panel/Margin/VBox/WhoBox/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.0902, 0.5412, 0.3412, 1)
+autowrap_mode = 3
+text = "TY_CONF_INVITE_REWARD"
+
+[node name="Host" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Portrait" parent="Panel/Margin/VBox/Host" instance=ExtResource("3_portrait")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Bubble" type="PanelContainer" parent="Panel/Margin/VBox/Host"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("bubble")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Host/Bubble"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HostName" type="Label" parent="Panel/Margin/VBox/Host/Bubble/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.4627, 0.3216, 0.9098, 1)
+text = "Joãozinho Keplerino"
+
+[node name="HostLine" type="Label" parent="Panel/Margin/VBox/Host/Bubble/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+text = "TY_CONF_INVITE_HOST"
+
+[node name="Next" type="Label" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_CONF_NEXT"
+
+[node name="Actions" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="Skip" type="Button" parent="Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_CONF_SKIP"
+
+[node name="Go" type="Button" parent="Panel/Margin/VBox/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_CONF_GO"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+from_scale = Vector2(0.94, 0.94)
+
+[node name="CwCascade" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox")
+offset = Vector2(0, 10)
+delay = 0.08
+step = 0.05
+seconds = 0.3

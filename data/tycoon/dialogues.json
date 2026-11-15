@@ -1096,6 +1096,7 @@
           {"text_key": "TY_LT_ASK_STORY", "goto": "story"},
           {"text_key": "TY_LT_ASK_NOW", "goto": "now"},
           {"text_key": "TY_LT_ASK_TIP", "goto": "tip", "once": true},
+          {"text_key": "TY_LT_ASK_GOSSIP", "goto": "gossip"},
           {"text_key": "TY_LT_BYE_MENTOR", "end": true}
         ]
       },
@@ -1139,6 +1140,23 @@
             {"text_key": "TY_LT_KEPLERINO_TIP_BRIEF", "if": {"where": "briefing"}, "face": "content", "pose": "point"},
             {"text_key": "TY_LT_KEPLERINO_TIP_GEO", "if": {"era_min": 2}, "face": "content", "pose": "point"},
             {"text_key": "TY_LT_KEPLERINO_TIP_1", "face": "content", "pose": "point"}
+          ],
+          "choices": "main"
+        },
+        "gossip": {
+          "lines": [
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_1", "face": "joy", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_2", "face": "content", "pose": "talk"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_3", "face": "grumpy", "pose": "shake_head"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_4", "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_5", "face": "joy", "pose": "talk"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_6", "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_7", "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_8", "face": "joy", "pose": "talk"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_9", "face": "happy", "pose": "point"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_10", "face": "worried", "pose": "look_up"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_11", "face": "content", "pose": "nod"},
+            {"text_key": "TY_LT_KEPLERINO_GOSSIP_12", "face": "joy", "pose": "talk"}
           ],
           "choices": "main"
         }

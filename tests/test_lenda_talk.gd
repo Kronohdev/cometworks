@@ -306,7 +306,7 @@ func _places() -> void:
 					link.pressed.emit()
 					break
 	await _frames(2)
-	_check(pressed != "" and talk.is_open() and talk.legend_id() == pressed and talk.run.tree_id == "lenda_" + pressed
+	_check(pressed != "" and talk.is_open() and talk.legend_id() == pressed and talk.run.tree_id in ["lenda_" + pressed, pressed]
 		and talk.run.ctx["where"] == "briefing", "a mentor's bubble on a briefing has \"Conversar\" (%s)" % pressed)
 	_check(talk.box.visible and talk.is_visible_in_tree(), "the box shows over the mission board")
 	await _press(KEY_ESCAPE)

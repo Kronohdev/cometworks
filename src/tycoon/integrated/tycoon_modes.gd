@@ -199,12 +199,11 @@ func open_project_flight(project_id: String, on_done: Callable, on_cancel := Cal
 
 
 # ------------------------------------------------------------ missions in space
-## The rocket a launch flies as: the project's hangar vessel, else one LaunchVessels builds from
-## the design with hangar parts (its stages, boosters and fairing), else an example rocket.
-static func watch_vessel(s: TycoonState, parts: Dictionary, target: String) -> PackedScene:
-	var ps: PackedScene = HangarRocket.scene_for(s, parts) if not parts.is_empty() else null
-	if ps == null and not parts.is_empty():
-		ps = LaunchVessels.for_design(parts, target)
+## The rocket a launch flies as: LaunchVessels.scene_for (the project's hangar vessel, else the
+## one built from the design with hangar parts: stages, tanks, boosters, fairing and the
+## mission's rover), the very scene the launch cutscene shows; else an example rocket.
+static func watch_vessel(s: TycoonState, parts: Dictionary, target: String, payload: Array = []) -> PackedScene:
+	var ps: PackedScene = LaunchVessels.scene_for(parts, target, payload, s) if not parts.is_empty() else null
 	if ps == null:
 		ps = load(WATCH_SMALL if target in SMALL_TARGETS else WATCH_BIG)
 	return ps
@@ -239,7 +238,8 @@ func start_launch(result: Dictionary) -> CareerFlight:
 	SpaceTracking.retime(tr, SpaceTracking.now(s, main.clock.week_fraction()))
 	var rocket: Dictionary = result.get("rocket", {})
 	var target := String(tr.get("target", "leo"))
-	launch_run = CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target), _payload_of(s, tr),
+	launch_run = CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target,
+		LaunchSequence.payload_of(s, result)), _payload_of(s, tr),
 		_vessel_name(s, rocket), String(result.get("cause_key", "")))
 	launch_run.mission = {"code": String(result.get("code", "")), "pad": String(result.get("pad", "pad"))}
 	return launch_run
@@ -284,7 +284,8 @@ func open_watch_track(track_id: String) -> bool:
 	var entry := ProjectDesk.history_entry(s, String(tr.get("project_id", "")))
 	var rocket: Dictionary = entry.get("rocket", {})
 	var target := String(tr.get("target", "leo"))
-	var run := CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target), _payload_of(s, tr),
+	var run := CareerFlight.for_track(s, tr, watch_vessel(s, rocket.get("parts", {}), target,
+		LaunchSequence.payload_of(s, entry)), _payload_of(s, tr),
 		_vessel_name(s, rocket), String(entry.get("cause_key", "")))
 	run.replay = true
 	return open_flight({"run": run, "vessel": run.vessel_scene, "name": run.vessel_name, "spectator": true,
@@ -333,7 +334,8 @@ func open_follow(track_id: String) -> bool:
 		return open_launch_flight(Vector3.ZERO, back, true)
 	var entry := ProjectDesk.history_entry(s, String(tr.get("project_id", "")))
 	var rocket: Dictionary = entry.get("rocket", {})
-	var run := CareerFlight.following(s, tr, t, watch_vessel(s, rocket.get("parts", {}), "lunar_orbit"),
+	var run := CareerFlight.following(s, tr, t, watch_vessel(s, rocket.get("parts", {}), "lunar_orbit",
+		LaunchSequence.payload_of(s, entry)),
 		String(tr.get("code", "")))
 	if run == null:
 		return false

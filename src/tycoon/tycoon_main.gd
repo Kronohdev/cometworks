@@ -36,6 +36,8 @@ var clock: TycoonClock
 var race_flow: TycoonRaceFlow
 ## the emergency loan's screen and the bankruptcy game over (src/tycoon/finance/bankruptcy_flow.gd)
 var bankruptcy_flow: TycoonBankruptcyFlow
+## the Conferência dos Cometinhos: its invitation and its fair (src/tycoon/conference/conference_flow.gd)
+var conference: ConferenceFlow
 
 @onready var campus: Campus = $Campus
 @onready var camera: CampusCamera = $Camera
@@ -88,6 +90,9 @@ func _ready() -> void:
 		chatter.bind(self)
 	if talk:
 		talk.bind(self)
+	conference = ConferenceFlow.new()
+	add_child(conference)
+	conference.bind(self)
 	camera.tour_source = _tour_shots
 	# no camera input under a screen or while the hangar / the flight is open
 	camera.input_gate = func() -> bool: return hud.current_screen() == "" and not (modes and modes.is_open())
@@ -155,6 +160,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if modes and (modes.is_open() or modes.just_closed()):
 		return  # the hangar / the flight handle their own keys (Esc leaves them)
+	if conference and (conference.is_open() or conference.just_closed()):
+		return  # the fair has its own keys (ConferenceFair)
 	if event is InputEventKey and event.pressed and not event.echo:
 		match (event as InputEventKey).keycode:
 			KEY_SPACE:
@@ -240,6 +247,7 @@ func _lot_size(lot_id: String) -> Vector2:
 
 
 func _on_follow_changed(who: Node3D) -> void:
+	hud.set_focus(who != null)
 	if who == null:
 		hud.hide_camera_tag()
 		return

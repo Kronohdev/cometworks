@@ -405,7 +405,17 @@ static func assemble(d: Dictionary, root: Node3D) -> Node3D:
 	var body_node := (load(String(ch["scene"])) as PackedScene).instantiate() as Node3D
 	root.add_child(body_node)
 	var used := {}
-	for id in d.get("parts", []):
+	# the parts with the fewest mounts pick first, so a part that fits one place only (the solar
+	# wing) is not crowded out by one that could go elsewhere (the small panel); stable order
+	var ids: Array = (d.get("parts", []) as Array).duplicate()
+	var order := {}
+	for i in ids.size():
+		order[String(ids[i])] = i
+	ids.sort_custom(func(a: Variant, b: Variant) -> bool:
+		var na := (part(String(a)).get("mounts", []) as Array).size()
+		var nb := (part(String(b)).get("mounts", []) as Array).size()
+		return na < nb if na != nb else int(order[String(a)]) < int(order[String(b)]))
+	for id in ids:
 		var p := part(String(id))
 		var path := String(p.get("scene", ""))
 		if path == "" or not ResourceLoader.exists(path):

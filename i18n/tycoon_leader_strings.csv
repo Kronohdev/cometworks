@@ -56,7 +56,7 @@ TY_LEADER_ERR_FIRE,"The leader is you: no firing yourself","O líder é você: n
 TY_LEADER_NEWS_FOUNDED,%s founds the %s agency,%s funda a agência %s
 TY_LEADER_TAB_LOOK,Look,Aparência
 TY_LEADER_TAB_JOB,Job,Profissão
-TY_LEADER_TAB_WAY,Character,Jeito
+TY_LEADER_TAB_WAY,Personality,Personalidade
 TY_LEADER_TAB_AGENCY,Agency,Agência
 TY_LEADER_NEXT,Next,Próximo
 TY_LEADER_PREV,Previous,Anterior

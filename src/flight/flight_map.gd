@@ -1156,6 +1156,13 @@ func _build_markers(tr: FlightTrajectory) -> void:
 
 
 # ------------------------------------------------------------ overlay
+## The global top of the bottom-left column (%Corner: the map bar over the hint pill, one
+## VBox so they never overlap): an overlay with its own bottom-left panel stacks it above this
+## (LaunchWatch's card).
+func corner_top() -> float:
+	return (%Corner as Control).get_global_rect().position.y
+
+
 func _place_overlay(dt: float) -> void:
 	_text_timer -= dt
 	var refresh_text := _text_timer <= 0.0

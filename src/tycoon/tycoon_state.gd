@@ -132,6 +132,9 @@ var tutorials: Dictionary = {}
 var signs: Dictionary = {}
 ## the rover builder's saved designs and the surface drives (RoverGarage, src/rover/rover_garage.gd)
 var rovers: Dictionary = {}
+## the Conferência dos Cometinhos (ConferenceBook, src/tycoon/conference/): the last invitation
+## answered, the conferences attended and skipped
+var conference: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -429,7 +432,7 @@ func to_dict() -> Dictionary:
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
 		"rockets": rockets, "story": story, "discovery": discovery, "tracking": tracking,
-		"tutorials": tutorials, "signs": signs, "rovers": rovers}
+		"tutorials": tutorials, "signs": signs, "rovers": rovers, "conference": conference}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -478,6 +481,9 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s.tracking = d.get("tracking", {})
 	s.signs = d.get("signs", {})
 	s.rovers = d.get("rovers", {})
+	s.conference = d.get("conference", {})
+	if s.conference.has("last_year"):   # JSON numbers come back as floats
+		s.conference["last_year"] = int(s.conference["last_year"])
 	SpaceTracking.attach(s)
 	RoverMissions.attach(s)  # rover missions end with their surface objectives
 	return s

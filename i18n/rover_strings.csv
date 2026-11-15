@@ -148,6 +148,11 @@ RV_OBJ_SAMPLE_2,Collect the second sample,Coletar a segunda amostra
 RV_OBJ_SAMPLE_3,Collect the sample from the slope,Coletar a amostra da encosta
 RV_OBJ_SITE_PHOTO,Photograph the future landing site,Fotografar o futuro local de pouso
 RV_OBJ_SITE_LOOP,Check the far edge of the site,Conferir a borda distante do local
+RV_OBJ_SKYLIGHT,Reach the edge of a skylight,Chegar à borda de uma claraboia
+RV_OBJ_TUBE_SCAN,Scan the ground beside the skylight,Sondar o chão ao lado da claraboia
+RV_OBJ_SWIRL_LIGHT,Cross a light swirl,Cruzar uma espiral clara
+RV_OBJ_SWIRL_DARK,Cross a dark lane between swirls,Cruzar uma faixa escura entre as espirais
+RV_OBJ_SWIRL_PHOTO,Photograph the swirls from the ground,Fotografar as espirais do chão
 RV_OBJ_WEATHER,Read the weather,Ler o clima
 RV_OBJ_DRONE,Send the helicopter to scout,Mandar o helicóptero explorar
 RV_OBJ_DUNE,Drive to the dark dune,Rodar até a duna escura
@@ -222,9 +227,9 @@ RV_B_DONE,Save and close,Salvar e fechar
 TY_BF_CRATER_RIM_TITLE,"From the crater rim","Da borda da cratera"
 TY_BF_CRATER_RIM_STORY,"In 1973 Lunokhod 2 drove 39 km around the crater Le Monnier, a record that lasted 41 years. The Council wants to see the inside of a crater from its rim: the layers of its walls tell the Moon's story, and only something that drives can get up there.","Em 1973, o Lunokhod 2 rodou 39 km pela cratera Le Monnier, um recorde que durou 41 anos. O Conselho quer ver o interior de uma cratera lá da borda: as camadas das paredes contam a história da Lua, e só quem anda consegue subir até lá."
 TY_BF_CRATER_RIM_GOAL,"Get up to a crater rim and show the inside.","Subir até a borda de uma cratera e mostrar o lado de dentro."
-TY_BF_LANDING_SCOUT_TITLE,"Scouting the landing site","Batedor do pouso"
-TY_BF_LANDING_SCOUT_STORY,"In 1969 Apollo 12 landed next to Surveyor 3, which had arrived two years before, and the astronauts walked over to it. The National Space Programme wants the same care now: someone has to go first, look at the ground up close and say whether a crew can land there.","Em 1969, a Apollo 12 pousou ao lado da Surveyor 3, que tinha chegado dois anos antes, e os astronautas foram até ela a pé. O Programa Espacial Nacional quer o mesmo cuidado agora: alguém precisa ir antes, olhar o chão de perto e dizer se uma tripulação pode pousar ali."
-TY_BF_LANDING_SCOUT_GOAL,"Check a future landing site up close: the view, the edges and the rocks.","Conferir de perto um futuro local de pouso: a vista, as bordas e as rochas."
+TY_BF_LANDING_SCOUT_TITLE,The astronauts' scout,Batedor dos astronautas
+TY_BF_LANDING_SCOUT_STORY,"Before risking a crew, the National Space Programme wants to send a robotic scout on wheels across the future landing zone at the lunar pole. It has to photograph the obstacles on the way and fire laser pulses to measure the exact slope of every ramp and crater, securing a safe route for our pilots.","Antes de arriscar uma tripulação, o Programa Espacial Nacional quer mandar um batedor robótico sobre rodas para percorrer a futura zona de pouso no polo lunar. Ele precisa fotografar os obstáculos do caminho e disparar pulsos de laser para medir a inclinação exata de cada rampa e cratera, garantindo uma rota segura para os nossos pilotos."
+TY_BF_LANDING_SCOUT_GOAL,Drive the polar landing zone and map a safe route for the crew.,Percorrer a zona de pouso polar e mapear uma rota segura para a tripulação.
 TY_BF_SAMPLE_CACHE_TITLE,"Samples for later","Amostras para depois"
 TY_BF_SAMPLE_CACHE_STORY,"Since 2021 the Perseverance rover has been sealing pieces of Mars in tubes and leaving them for a future mission to fetch. The Council wants the same on the Moon: pick the best stones now, keep them safe, and let a return flight bring them home.","Desde 2021, o rover Perseverance lacra pedaços de Marte em tubos e os deixa para uma futura missão buscar. O Conselho quer o mesmo na Lua: escolher as melhores pedras agora, guardar com cuidado e deixar um voo de volta trazê-las para casa."
 TY_BF_SAMPLE_CACHE_GOAL,"Collect and seal Moon samples for a future return flight.","Coletar e lacrar amostras da Lua para um futuro voo de volta."

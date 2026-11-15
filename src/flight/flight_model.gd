@@ -20,15 +20,8 @@ var bounds := AABB(Vector3.ZERO, Vector3.ONE)
 
 func setup(ps: PackedScene, c: FlightCraft) -> void:
 	craft = c
-	vessel = Vessel.new()
-	vessel.name = "Vessel"
-	add_child(vessel)
-	vessel.load_scene(ps)
-	decor = JointDecor.new()
-	decor.name = "JointDecor"
-	decor.vessel = vessel
-	vessel.add_child(decor)
-	decor.rebuild()
+	vessel = build_look(ps, self)
+	decor = vessel.get_node("JointDecor") as JointDecor
 	part_nodes = vessel.all_parts()
 	# the rocket's base sits on the node's origin
 	var b := _bounds()
@@ -46,6 +39,23 @@ func setup(ps: PackedScene, c: FlightCraft) -> void:
 			plume.call("setup", p.radius(), String(p.data.get("propellant", "")), float(e["f_vac"]))
 		plumes.append(plume)
 	bounds = _bounds()
+
+
+## The look of a packed vessel, exactly as it flies: the part tree under a Vessel node (added
+## to `parent`) with its JointDecor collars. The launch cutscene, the pad and the designer's
+## preview (DesignedRocket) build the rocket through this too, so they show the flying one.
+static func build_look(ps: PackedScene, parent: Node3D) -> Vessel:
+	var v := Vessel.new()
+	v.name = "Vessel"
+	parent.add_child(v)
+	v.load_scene(ps)
+	var d := JointDecor.new()
+	d.name = "JointDecor"
+	d.vessel = v
+	v.add_child(d)
+	if v.is_inside_tree():
+		d.rebuild()
+	return v
 
 
 func _bounds() -> AABB:

@@ -179,6 +179,39 @@ func open_legend(id: String, where := "briefing") -> bool:
 	return true
 
 
+## Opens a conversation that someone else prepared (the Conferência dos Cometinhos' fair,
+## ConferenceBook.make_run): `r` is the run (not started yet), `who` the speaker in the world
+## (held and turned to the camera while it talks; may be null) and `look` the dressing of the
+## portrait (a staff entry or TycoonLegends.look). Like a Lenda's talk from a screen it never
+## touches the campus camera or the follow tag. False when something holds the screen.
+func open_run(r: DialogueRun, who: Node3D, look: Dictionary) -> bool:
+	if r == null or r.tree.is_empty() or state == null or Cutscenes.is_playing():
+		return false
+	var tut: Node = main.get("tutorial") if main else null
+	if tut and bool(tut.call("is_showing")):
+		return false
+	if is_open():
+		close()
+	run = r
+	_legend = String(look.get("legend", "talk"))
+	speaker = who
+	run.start(rng)
+	if who and who.has_method("hold"):
+		who.call("hold", true)
+	var c := ChatterBook.find_creature(who) if who else null
+	var cam := get_viewport().get_camera_3d()
+	if c and cam:
+		c.look_at_point(cam.global_position, 0.85)
+	_fill_head(run.member if not run.member.is_empty() else look)
+	_pause_clock()
+	box.visible = true
+	_portraits_live(true)
+	_show_line()
+	CwSfx.play(&"ui_open")
+	opened.emit(who)
+	return true
+
+
 ## The Lenda talking from a screen ("" for a campus talk or none).
 func legend_id() -> String:
 	return _legend

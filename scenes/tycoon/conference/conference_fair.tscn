@@ -1,0 +1,444 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/conference/conference_fair.gd" id="1_fair"]
+[ext_resource type="Script" path="res://src/tycoon/conference/conference_player.gd" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="3_creature"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="4_outline"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="5_theme"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="6_toon"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/tree_round_a.glb" id="7_tree_a"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/tree_round_b.glb" id="8_tree_b"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/tree_pine_a.glb" id="9_pine"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/floodlight.glb" id="10_flood"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/picnic_table.glb" id="11_picnic"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/planter_wood.glb" id="12_planter"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/rocket_v.glb" id="13_rocket"]
+[ext_resource type="PackedScene" path="res://assets/campus/dressing/windsock.glb" id="14_windsock"]
+[ext_resource type="ArrayMesh" path="res://assets/campus/island/beach_umbrella.res" id="15_umbrella"]
+[ext_resource type="Material" path="res://assets/campus/island/props_toon.tres" id="16_props_toon"]
+[ext_resource type="PackedScene" path="res://assets/campus/nature/bush_flower_a.glb" id="17_bush"]
+[ext_resource type="Shader" path="res://shaders/conference_ground.gdshader" id="18_ground"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/conference/conference_dressing.tscn" id="19_dressing"]
+
+[sub_resource type="ShaderMaterial" id="m_grass"]
+render_priority = 0
+shader = ExtResource("18_ground")
+shader_parameter/paving = false
+
+[sub_resource type="ShaderMaterial" id="m_plaza"]
+render_priority = 0
+shader = ExtResource("18_ground")
+shader_parameter/paving = true
+
+[sub_resource type="ShaderMaterial" id="m_pedestal"]
+render_priority = 0
+shader = ExtResource("6_toon")
+shader_parameter/albedo = Color(0.169, 0.165, 0.361, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="PlaneMesh" id="ground_mesh"]
+size = Vector2(170, 170)
+
+[sub_resource type="BoxMesh" id="plaza_mesh"]
+size = Vector3(56, 0.04, 44)
+
+[sub_resource type="CylinderMesh" id="pedestal_mesh"]
+top_radius = 1.6
+bottom_radius = 1.8
+height = 0.5
+
+[sub_resource type="StyleBoxFlat" id="scrim"]
+bg_color = Color(0.1059, 0.0941, 0.2706, 0.5)
+
+[node name="ConferenceFair" type="Node3D"]
+script = ExtResource("1_fair")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.753, -0.367, 0.546, 0, 0.83, 0.558, -0.658, 0.42, -0.625, 0, 30, 0)
+light_color = Color(1, 0.9, 0.78, 1)
+light_energy = 2.3
+light_angular_distance = 1.0
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 1.2
+shadow_blur = 1.2
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 90.0
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+material_override = SubResource("m_grass")
+mesh = SubResource("ground_mesh")
+
+[node name="Plaza" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+material_override = SubResource("m_plaza")
+mesh = SubResource("plaza_mesh")
+
+[node name="Exhibit" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Exhibit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("m_pedestal")
+mesh = SubResource("pedestal_mesh")
+
+[node name="Rocket" parent="Exhibit" instance=ExtResource("13_rocket")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Windsock" parent="Exhibit" instance=ExtResource("14_windsock")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0, 1.2)
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Tree1" parent="Props" instance=ExtResource("7_tree_a")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -31, 0, -25)
+
+[node name="Tree2" parent="Props" instance=ExtResource("9_pine")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -10, 0, -26)
+
+[node name="Tree3" parent="Props" instance=ExtResource("8_tree_b")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 11, 0, -26.5)
+
+[node name="Tree4" parent="Props" instance=ExtResource("9_pine")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 31, 0, -22)
+
+[node name="Tree5" parent="Props" instance=ExtResource("7_tree_a")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -32, 0, 9)
+
+[node name="Tree6" parent="Props" instance=ExtResource("8_tree_b")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 32, 0, 11)
+
+[node name="Tree7" parent="Props" instance=ExtResource("9_pine")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -25, 0, 25)
+
+[node name="Tree8" parent="Props" instance=ExtResource("7_tree_a")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 26, 0, 25)
+
+[node name="Tree9" parent="Props" instance=ExtResource("8_tree_b")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -33, 0, -8)
+
+[node name="Tree10" parent="Props" instance=ExtResource("9_pine")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 33, 0, -6)
+
+[node name="Flood1" parent="Props" instance=ExtResource("10_flood")]
+transform = Transform3D(0.707, 0, -0.707, 0, 1, 0, 0.707, 0, 0.707, -26, 0, -20)
+metadata/block_radius = 0.8
+
+[node name="Flood2" parent="Props" instance=ExtResource("10_flood")]
+transform = Transform3D(0.707, 0, 0.707, 0, 1, 0, -0.707, 0, 0.707, 26, 0, -20)
+metadata/block_radius = 0.8
+
+[node name="Flood3" parent="Props" instance=ExtResource("10_flood")]
+transform = Transform3D(-0.707, 0, -0.707, 0, 1, 0, 0.707, 0, -0.707, -26, 0, 20)
+metadata/block_radius = 0.8
+
+[node name="Flood4" parent="Props" instance=ExtResource("10_flood")]
+transform = Transform3D(-0.707, 0, 0.707, 0, 1, 0, -0.707, 0, -0.707, 26, 0, 20)
+metadata/block_radius = 0.8
+
+[node name="Picnic1" parent="Props" instance=ExtResource("11_picnic")]
+transform = Transform3D(0.966, 0, 0.259, 0, 1, 0, -0.259, 0, 0.966, -4.5, 0, 10)
+metadata/block_radius = 1.3
+
+[node name="Picnic2" parent="Props" instance=ExtResource("11_picnic")]
+transform = Transform3D(0.966, 0, -0.259, 0, 1, 0, 0.259, 0, 0.966, 3.5, 0, 12)
+metadata/block_radius = 1.3
+
+[node name="Umbrella1" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 10)
+material_override = ExtResource("16_props_toon")
+mesh = ExtResource("15_umbrella")
+
+[node name="Umbrella2" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(0.8, 0, 0.6, 0, 1, 0, -0.6, 0, 0.8, 3.5, 0, 12)
+material_override = ExtResource("16_props_toon")
+mesh = ExtResource("15_umbrella")
+
+[node name="Planter1" parent="Props" instance=ExtResource("12_planter")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 20.4)
+metadata/block_radius = 1.1
+
+[node name="Planter2" parent="Props" instance=ExtResource("12_planter")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, 20.4)
+metadata/block_radius = 1.1
+
+[node name="Bush1" parent="Props" instance=ExtResource("17_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 0, 1.5)
+
+[node name="Bush2" parent="Props" instance=ExtResource("17_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, 3)
+
+[node name="Bush3" parent="Props" instance=ExtResource("17_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 23.8)
+
+[node name="Bush4" parent="Props" instance=ExtResource("17_bush")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 23.8)
+
+[node name="Dressing" parent="Props" instance=ExtResource("19_dressing")]
+
+[node name="Markers" type="Node3D" parent="."]
+
+[node name="Spawn" type="Marker3D" parent="Markers"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 17.5)
+
+[node name="Exit" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.5)
+
+[node name="Host" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 5)
+
+[node name="Exhibit" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="Stands" type="Node3D" parent="Markers"]
+
+[node name="Stand1" type="Marker3D" parent="Markers/Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -11)
+
+[node name="Stand2" type="Marker3D" parent="Markers/Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.5)
+
+[node name="Stand3" type="Marker3D" parent="Markers/Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -11)
+
+[node name="Spots" type="Node3D" parent="Markers"]
+
+[node name="Spot1" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, 7)
+
+[node name="Spot2" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 7)
+
+[node name="Spot3" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 14)
+
+[node name="Spot4" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 14.5)
+
+[node name="Spot5" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 0, -3)
+
+[node name="Spot6" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, -2)
+
+[node name="Spot7" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, 2.5)
+
+[node name="Spot8" type="Marker3D" parent="Markers/Spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6.5)
+
+[node name="Built" type="Node3D" parent="."]
+
+[node name="Npcs" type="Node3D" parent="."]
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 17.5)
+script = ExtResource("2_player")
+
+[node name="Creature" parent="Player" instance=ExtResource("3_creature")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0)
+listen_to_events = false
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.98, 0.2, 0, -0.2, 0.98, 0.85, 3, 22)
+fov = 62.0
+near = 0.1
+far = 600.0
+
+[node name="CwOutline" parent="Camera" instance=ExtResource("4_outline")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Root" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("5_theme")
+
+[node name="TopPanel" type="PanelContainer" parent="HUD/Root"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 436.0
+offset_bottom = 110.0
+mouse_filter = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="HUD/Root/TopPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Root/TopPanel/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Sub" type="Label" parent="HUD/Root/TopPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 12
+text = "TY_CONF_FAIR_SUB"
+
+[node name="Title" type="Label" parent="HUD/Root/TopPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "TY_CONF_TITLE"
+
+[node name="Count" type="Label" parent="HUD/Root/TopPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_CONF_FAIR_COUNT"
+
+[node name="Keys" type="Label" parent="HUD/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -38.0
+offset_right = 720.0
+offset_bottom = -14.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.992, 0.973, 1)
+theme_override_colors/font_outline_color = Color(0.169, 0.165, 0.361, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 14
+text = "TY_CONF_KEYS"
+
+[node name="Flash" type="Label" parent="HUD/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -380.0
+offset_top = 96.0
+offset_right = 380.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.992, 0.973, 1)
+theme_override_colors/font_outline_color = Color(0.169, 0.165, 0.361, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 3
+text = "TY_CONF_WELCOME"
+
+[node name="Prompt" type="PanelContainer" parent="HUD/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -132.0
+offset_right = 190.0
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="HBox" type="HBoxContainer" parent="HUD/Root/Prompt"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Key" type="Label" parent="HUD/Root/Prompt/HBox"]
+layout_mode = 2
+theme_type_variation = &"CwKey"
+text = "E"
+
+[node name="PromptText" type="Label" parent="HUD/Root/Prompt/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 18
+text = "TY_CONF_PROMPT_TALK"
+
+[node name="Menu" type="Control" parent="HUD/Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scrim" type="Panel" parent="HUD/Root/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("scrim")
+
+[node name="Panel" type="PanelContainer" parent="HUD/Root/Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -110.0
+offset_right = 180.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="HUD/Root/Menu/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Root/Menu/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MenuTitle" type="Label" parent="HUD/Root/Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+text = "TY_CONF_MENU_TITLE"
+
+[node name="Resume" type="Button" parent="HUD/Root/Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_CONF_RESUME"
+
+[node name="Leave" type="Button" parent="HUD/Root/Menu/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_CONF_LEAVE"

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "_doc": "A Conferência dos Cometinhos (ConferenceBook, src/tycoon/conference/conference_book.gd; ConferenceFlow and the fair scene scenes/tycoon/conference/conference_fair.tscn). Every `every_years` campaign years from `first_year` on, at week `week` of that year, an invitation (the 'conference' screen) asks the player to go to the fair: the clock holds while it is up and while the player is there. At the fair the player walks their leader Cometling (third person, over the shoulder) among the Lendas and the rival agencies' stands. Who comes: the rival leaders (always, at their agency's stand), the host (`host`, the fair's gossip, always) and every other Lenda whose era has come (legends.json `era` <= the campaign era; `skip` never comes). Lendas with a campus exchange of their own (chatter.json pairs whose `if` / `b_if` name two Lendas) stand together and trade it when the player walks up. The rival news is live race state (RaceDirector, SpaceTracking): milestones, firsts, the next goal and its era, what they took and what blew up since `news_since_years` (or the last conference), the months a failure still holds them back, and how many milestones they are from the Mother-Ice; every sentence is an i18n template of i18n/conference_strings.csv (TY_CONF_*). `reward`: reputation / hype the agency gets once per conference it attends; `rival_reward`: hype for each rival leader whose report the player hears (once per conference each). Kept in TycoonState.conference: {\"last_year\": the year of the last invitation answered, \"attended\": [years], \"skipped\": [years], \"heard\": [rival ids heard at the current conference], \"talked\": [Lenda ids talked to at the current conference]}. The fair takes the campus' time of day: its sun copies the campus key light, never weaker than `min_sun`.",
+  "every_years": 3,
+  "first_year": 3,
+  "week": 22,
+  "news_since_years": 3,
+  "invite_in_fair_mode": true,
+  "host": "keplerino",
+  "skip": [],
+  "reward": {"reputation": 2, "hype": 4},
+  "rival_reward": {"hype": 1},
+  "talk_distance": 3.4,
+  "min_sun": 0.9,
+  "pair_distance": 9.0,
+  "player": {"walk_speed": 4.2, "run_speed": 7.5, "turn_rate": 12.0, "mouse_sensitivity": 0.0028, "stick_sensitivity": 2.6,
+    "camera_distance": 4.2, "camera_height": 2.15, "shoulder": 0.85, "pitch_min": -40, "pitch_max": 35, "body_radius": 0.7}
+}

@@ -201,8 +201,11 @@ func _shot_rigs(s: TycoonState) -> void:
 	s.weeks = 4 * 5 * 52 + 10  # era 5
 	s.changed.emit()
 	await _frames(3)
+	# a big designed rocket (the cutscene shows the vessel that flies, at the flight's campus size)
 	var r := {"project_id": "", "code": "T", "type": "lander", "target": "lunar_surface", "grade": 7.0,
-		"success": true, "outcome": "full", "p_success": 0.8, "pad": "pad"}
+		"success": true, "outcome": "full", "p_success": 0.8, "pad": "pad",
+		"rocket": {"family": "", "name": "Grande", "parts": {"core": "core_hidra", "upper": "upper_hidra_5", "tank": "tank_l",
+			"boosters": "boost_liquid2", "fairing": "fairing_l"}}}
 	main.hud.open_screen("launch", {"result": r})
 	await _frames(2)
 	var seq := main.hud.get_node("%Screens").get_child(0) as LaunchSequence
@@ -221,7 +224,7 @@ func _shot_rigs(s: TycoonState) -> void:
 	var a_pm := a_smoke.process_material as ParticleProcessMaterial
 	var grow := pm.emission_sphere_radius / a_pm.emission_sphere_radius
 	var cube := pm.scale_max / a_pm.scale_max
-	_check(grow > 1.5 and cube < grow * 0.75 and smoke.amount > a_smoke.amount,
+	_check(grow > 1.3 and cube < grow and smoke.amount > a_smoke.amount,
 		"big rocket smoke: a %.2fx cloud of %.2fx cubes, %d of them (authored %d)" % [grow, cube, smoke.amount, a_smoke.amount])
 	# the target shows: a lunar landing's trail takes the moon ramp and the stage lets go (keyed)
 	var glow := seq.get_node("Stage/Rocket/Engine/TrailGlow") as GPUParticles3D

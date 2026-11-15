@@ -30,6 +30,9 @@ var _hint_default := ""
 var _hint_timer := 0.0
 ## HUD nodes hidden until a new career unlocks them (HudUnlocker, MenuUnlocks): {ref: true}
 var _locked := {}
+## True while the camera is focused on something (following a Cometling): the race panel steps
+## aside, as it does while a lot panel is open.
+var _focus := false
 var _cash_tween: Tween
 
 
@@ -272,6 +275,7 @@ func show_lot(id: String) -> void:
 	var lv := int(b.get("level", 0))
 	var wl := int(b.get("weeks_left", 0))
 	%LotPanel.visible = true
+	_apply_race_visibility()
 	%Icon.texture = load(ICONS % String(bt.get("icon", "hq")))
 	%LotName.text = tr(String(bt.get("name_key", "")))
 	%LotLevel.text = tr("TY_LOT_FOR_SALE") if lv == 0 and wl == 0 else tr("TY_LEVEL") % lv
@@ -301,6 +305,23 @@ func show_lot(id: String) -> void:
 func close_lot() -> void:
 	lot_id = ""
 	%LotPanel.visible = false
+	_apply_race_visibility()
+
+
+## Focus mode (the camera follows a Cometling): the "Corrida à Lua" panel hides until it ends.
+func set_focus(on: bool) -> void:
+	if _focus == on:
+		return
+	_focus = on
+	_apply_race_visibility()
+
+
+## The race panel shows when the career unlocked it and nothing has the focus (no Cometling
+## followed, no lot panel open).
+func _apply_race_visibility() -> void:
+	var race := get_node_or_null("Side/Race") as Control
+	if race:
+		race.visible = not is_locked("Side/Race") and not _focus and lot_id == ""
 
 
 # ------------------------------------------------------------ screens
@@ -402,6 +423,8 @@ func lock_node(ref: String, locked: bool) -> void:
 	if n == %HangarButton:
 		n.visible = not locked and lot_id != "" and state != null and state.lot_kind(lot_id) == "workshop" \
 			and int(state.building(lot_id).get("level", 0)) > 0
+	elif ref == "Side/Race":
+		_apply_race_visibility()
 	else:
 		n.visible = not locked
 

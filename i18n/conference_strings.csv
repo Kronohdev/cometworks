@@ -1,0 +1,96 @@
+keys,en,pt
+TY_CONF_KICKER,Special invitation,Convite especial
+TY_CONF_TITLE,The Cometling Conference,Conferência dos Cometinhos
+TY_CONF_YEAR,Year {year} · the agencies' fair,Ano {year} · a feira das agências
+TY_CONF_INVITE_BODY,"Every three years the tail's space agencies meet at a fair: each one sets up its stand, the Legends drop by for a chat and everybody tells (almost) everything they've been up to. {agency} is invited! The calendar stands still while you're there.","A cada três anos, as agências espaciais da cauda se encontram numa feira: cada uma monta seu estande, as Lendas aparecem para conversar e todo mundo conta (quase) tudo o que anda fazendo. A {agency} foi convidada! Enquanto você estiver lá, o calendário fica parado."
+TY_CONF_INVITE_WHO,Who'll be there,Quem vai estar lá
+TY_CONF_INVITE_REWARD,"Going: +{rep} reputation and +{hype} hype, plus +{rival} hype for each rival report you hear.","Ir à feira: +{rep} de reputação e +{hype} de hype, e cada relatório de rival que você ouvir rende +{rival} de hype."
+TY_CONF_INVITE_HOST,"Psst! I drew the fair's map on a napkin. As an ellipse, of course. Come along and I'll tell you who's ahead!","Psiu! Desenhei o mapa da feira num guardanapo. Em elipse, claro. Vem que eu te conto quem está na frente!"
+TY_CONF_GO,Go to the fair,Ir à feira
+TY_CONF_SKIP,Maybe next time,Fica para a próxima
+TY_CONF_NEXT,Next conference: year {year}.,Próxima conferência: ano {year}.
+TY_CONF_NEXT_NONE,This is the last conference before the Mother-Ice passes.,Esta é a última conferência antes da passagem da Mãe-Gelo.
+TY_CONF_NEWS_WENT,The agency went to the Cometling Conference of year %d,A agência foi à Conferência dos Cometinhos do ano %d
+TY_CONF_NEWS_SKIPPED,The agency skipped the Cometling Conference of year %d,A agência não foi à Conferência dos Cometinhos do ano %d
+TY_CONF_BANNER,COMETLING CONFERENCE · YEAR {year},CONFERÊNCIA DOS COMETINHOS · ANO {year}
+TY_CONF_HOST_SIGN,Sky gossip,Fofocas do céu
+TY_CONF_EXIT_SIGN,Way out · campus,Saída · campus
+TY_CONF_FAIR_SUB,The agencies' fair · year {year},A feira das agências · ano {year}
+TY_CONF_FAIR_COUNT,Legends: {talked} of {total} · rival reports: {heard} of {rivals},Lendas: {talked} de {total} · relatórios de rivais: {heard} de {rivals}
+TY_CONF_PROMPT_TALK,Talk to {name},Conversar com {name}
+TY_CONF_PROMPT_EXIT,Leave the fair,Sair da feira
+TY_CONF_KEYS,WASD walk · Shift run · mouse look · E talk · Esc menu,WASD andar · Shift correr · mouse olhar · E conversar · Esc menu
+TY_CONF_MENU_TITLE,A break at the fair,Pausa na feira
+TY_CONF_RESUME,Keep strolling,Continuar passeando
+TY_CONF_LEAVE,Leave the fair,Sair da feira
+TY_CONF_WELCOME,Welcome to the fair! Joãozinho Keplerino knows all the gossip.,Bem-vindo à feira! O Joãozinho Keplerino sabe de todas as fofocas.
+TY_CONF_BACK_HINT,Back on campus: you talked to {n} Legends and heard {heard} rival reports.,De volta ao campus: você conversou com {n} Lendas e ouviu {heard} relatórios de rivais.
+TY_CONF_BOARD,"{count}/{total} milestones · {firsts} firsts
+Era {era_n}: {era}
+Next: {next}","{count}/{total} marcos · {firsts} primeiros
+Era {era_n}: {era}
+Próximo: {next}"
+TY_CONF_BOARD_DONE,"{count}/{total} milestones · {firsts} firsts
+Every milestone done!","{count}/{total} marcos · {firsts} primeiros
+Todos os marcos feitos!"
+TY_CONF_ASK_NEWS,How's your agency doing?,Como anda a sua agência?
+TY_CONF_ASK_RECENT,And since the last conference?,E desde a última conferência?
+TY_CONF_ASK_COMET,"And the Mother-Ice, still far?","E a Mãe-Gelo, falta muito?"
+TY_CONF_ASK_ELSE,Changing the subject...,Mudando de assunto...
+TY_CONF_ASK_GOSSIP,Any gossip from the fair?,Alguma fofoca da feira?
+TY_CONF_ASK_RIVAL,News of: {rival},Notícias de: {rival}
+TY_CONF_ASK_MORE,Tell me more!,Conta mais!
+TY_CONF_ASK_OTHERS,And the other agencies?,E as outras agências?
+TY_CONF_ASK_TIP,A tip for my mission?,Uma dica para a minha missão?
+TY_CONF_L_WRAP,"No secrets, it's fair day: {text}","Sem segredo nenhum, que hoje é dia de feira: {text}"
+TY_CONF_HOST_WRAP,{rival}? I've got it all on a napkin. {text},{rival}? Tenho tudo anotado no guardanapo. {text}
+TY_CONF_GUEST_WRAP,"Heard it in the aisle, about {rival}: {text}","Ouvi no corredor, sobre {rival}: {text}"
+TY_CONF_HOST_HI_1,Boss! Welcome to the fair! I mapped it on a napkin: the agencies stand around in an ellipse. Almost.,"Chefe! Bem-vindo à feira! Fiz o mapa num guardanapo: as agências ficam em volta, em elipse. Quase."
+TY_CONF_HOST_HI_2,"Psst, come closer. Want to know who's ahead? I know everything. Everything.","Psiu, chega mais. Quer saber quem está na frente? Eu sei de tudo. Tudo mesmo."
+TY_CONF_HOST_HI_3,Three years since the last fair! Meanwhile the Mother-Ice travelled a good stretch of her ellipse. And the agencies moved on too.,Três anos desde a última feira! Nesse tempo a Mãe-Gelo andou um bom pedaço da elipse dela. E as agências também andaram.
+TY_CONF_HOST_TIP,"Whispering, just for you: {hint}","Cochichando, só para você: {hint}"
+TY_CONF_RIVAL_MORE_1,"Ask away. Rivals on the track, friends at the fair!","Pergunta o que quiser. Rival na pista, amigo na feira!"
+TY_CONF_RIVAL_MORE_2,"See? We tease each other, but in the end we all want the same home.","Viu? A gente se provoca, mas no fim todo mundo quer a mesma casa."
+TY_CONF_L_STATUS,"We've got {count} of {total} milestones so far, {firsts} of them firsts.","Aqui com a gente já são {count} de {total} marcos, {firsts} deles em primeiro lugar."
+TY_CONF_L_STATUS_NOFIRST,"We've got {count} of {total} milestones so far, none of them a first. Yet.","Aqui com a gente já são {count} de {total} marcos, nenhum em primeiro lugar. Ainda."
+TY_CONF_L_STATUS_NONE,No milestone yet. But our workshop never stops!,"Marco mesmo, ainda nenhum. Mas o nosso galpão não para!"
+TY_CONF_L_NEXT,"We're in era {era_n} ({era}), aiming for “{next}”.","Estamos na era {era_n} ({era}), mirando o marco “{next}”."
+TY_CONF_L_ALL_DONE,And there's no milestone left: we did them all!,E não sobrou marco nenhum: fizemos todos!
+TY_CONF_L_RECENT_NONE,"Since the last conference, no new milestone. We're taking our time to do it right.","Desde a última conferência, nenhum marco novo. Estamos caprichando."
+TY_CONF_L_RECENT_ONE,"Since the last conference we took one milestone: “{last}”, {ago}.","Desde a última conferência, levamos um marco: “{last}”, {ago}."
+TY_CONF_L_RECENT_MANY,"Since the last conference we took {n} milestones; the latest was “{last}”, {ago}.","Desde a última conferência, levamos {n} marcos; o mais recente foi “{last}”, {ago}."
+TY_CONF_L_FAILS_NONE,And not a single rocket lost in that time. Phew!,E nenhum foguete perdido nesse tempo. Ufa!
+TY_CONF_L_FAILS_ONE,"One launch went wrong, going for “{fail}”. It happens: we learn from every one.","Teve um lançamento que não deu certo, tentando “{fail}”. Faz parte: a gente aprende com cada um."
+TY_CONF_L_FAILS_MANY,"{fails} launches went wrong, the last one going for “{fail}”. It stung, but we learn.","Tivemos {fails} lançamentos que não deram certo, o último tentando “{fail}”. Doeu, mas a gente aprende."
+TY_CONF_L_COOLDOWN,We're still fixing things: we'll try again in about {months} months.,Ainda estamos consertando as coisas: só tentamos de novo daqui a uns {months} meses.
+TY_CONF_L_COOLDOWN_ONE,We're still fixing things: we'll try again in a month or so.,"Ainda estamos consertando as coisas: só tentamos de novo daqui a um mês, mais ou menos."
+TY_CONF_L_COMET_LEFT,We still have {left} milestones to go before the Mother-Ice.,Até a Mãe-Gelo ainda faltam {left} marcos para nós.
+TY_CONF_L_COMET_NEXT,Our next milestone is meeting the Mother-Ice! I've got butterflies.,O nosso próximo marco já é o encontro com a Mãe-Gelo! Estou até com frio na barriga.
+TY_CONF_L_COMET_MET,And we already went to give the Mother-Ice a hug! She's as bright and lovely as ever.,E nós já fomos dar um abraço na Mãe-Gelo! Ela está linda e brilhante como sempre.
+TY_CONF_L_VS_AHEAD,"In the race, we're ahead of you. For now, right?","Na corrida, estamos na sua frente. Por enquanto, né?"
+TY_CONF_L_VS_BEHIND,"You're ahead of us. Congratulations, but don't get used to it!","Vocês estão na nossa frente. Parabéns, mas não se acostuma!"
+TY_CONF_L_VS_EVEN,And we're tied with you. What a race!,E estamos empatados com vocês. Que corrida boa!
+TY_CONF_G_STATUS,"They're at {count} of {total} milestones, {firsts} of them firsts.","Já são {count} de {total} marcos por lá, {firsts} deles em primeiro lugar."
+TY_CONF_G_STATUS_NOFIRST,"They're at {count} of {total} milestones, none of them a first.","Já são {count} de {total} marcos por lá, nenhum em primeiro lugar."
+TY_CONF_G_STATUS_NONE,No milestone yet. But I heard welding in their workshop.,Nenhum marco ainda. Mas ouvi barulho de solda no galpão deles.
+TY_CONF_G_NEXT,They're in era {era_n} ({era}) and now aiming for “{next}”.,Andam pela era {era_n} ({era}) e agora miram o marco “{next}”.
+TY_CONF_G_ALL_DONE,They did every milestone. Every single one!,Fizeram todos os marcos. Todinhos!
+TY_CONF_G_RECENT_NONE,"Since the last conference, no new milestone over there. Hmm, they've gone very quiet.","Desde a última conferência, nenhum marco novo por lá. Hum, estão quietinhos."
+TY_CONF_G_RECENT_ONE,"Since the last conference they took one milestone: “{last}”, {ago}.","Desde a última conferência levaram um marco: “{last}”, {ago}."
+TY_CONF_G_RECENT_MANY,"Since the last conference they took {n} milestones; the latest was “{last}”, {ago}.","Desde a última conferência levaram {n} marcos; o mais recente foi “{last}”, {ago}."
+TY_CONF_G_FAILS_NONE,And no rocket lost. Luck or care? I wrote down both.,E nenhum foguete perdido. Sorte ou capricho? Anotei os dois.
+TY_CONF_G_FAILS_ONE,"But one of their launches went wrong, going for “{fail}”. They were a bit sad, but they're back on their feet.","Mas um lançamento deles não deu certo, tentando “{fail}”. Ficaram tristinhos, mas já estão de pé."
+TY_CONF_G_FAILS_MANY,"But {fails} of their launches went wrong, the last one going for “{fail}”. They're back on their feet already.","Mas {fails} lançamentos deles não deram certo, o último tentando “{fail}”. Já estão de pé de novo."
+TY_CONF_G_COOLDOWN,They're fixing a rocket: they'll only try again in about {months} months.,Estão consertando foguete: só voltam a tentar daqui a uns {months} meses.
+TY_CONF_G_COOLDOWN_ONE,They're fixing a rocket: they'll try again in a month or so.,"Estão consertando foguete: voltam a tentar daqui a um mês, mais ou menos."
+TY_CONF_G_COMET_LEFT,They still have {left} milestones to go before the Mother-Ice.,Até a Mãe-Gelo ainda faltam {left} marcos para eles.
+TY_CONF_G_COMET_NEXT,"And their next milestone is meeting the Mother-Ice! Hurry, boss!","E o próximo marco deles é o encontro com a Mãe-Gelo! Corre, chefe!"
+TY_CONF_G_COMET_MET,And they've already met the Mother-Ice! They say she sent her love to everyone.,E eles já encontraram a Mãe-Gelo! Dizem que ela mandou lembranças para todo mundo.
+TY_CONF_G_VS_AHEAD,"In the race, they're ahead of you.","Na corrida, estão na sua frente."
+TY_CONF_G_VS_BEHIND,"In the race, they're behind you.","Na corrida, estão atrás de você."
+TY_CONF_G_VS_EVEN,"In the race, they're tied with you.","Na corrida, estão empatados com vocês."
+TY_CONF_AGO_NOW,just now,agorinha mesmo
+TY_CONF_AGO_MONTH,a month ago,há um mês
+TY_CONF_AGO_MONTHS,{n} months ago,há {n} meses
+TY_CONF_AGO_YEAR,a year ago,há um ano
+TY_CONF_AGO_YEARS,{n} years ago,há {n} anos

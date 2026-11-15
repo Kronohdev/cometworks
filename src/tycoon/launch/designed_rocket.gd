@@ -1,45 +1,49 @@
 class_name DesignedRocket
 extends Node3D
-## The voxel look of a designed rocket (scenes/tycoon/launch/designed_rocket.tscn, E2): the
-## launch sequence, the pad and the rollout show the rocket the project really flies.
-## build(parts) maps a RocketDesigner design onto the era rocket models:
-##   the main stage picks the model (its "model" 1..5 in rockets.json -> `models`),
-##   the launch class sizes it (`class_scale`), the tanks stretch or shorten it (their
-##   "height", plus the upper stage's),
-##   side boosters are copies of `booster_models` standing at the Boosters/Slot* markers
-##   (turn or move the markers in the editor; their distance from the axis is scaled to hug the
-##   core), `booster_length` of the core's height.
-## A rocket built in the hangar (HangarRocket) shows the vessel itself: its voxel parts under
-## Core, scaled to the launch class like a model (never thinner than `hangar_min_width`), with
-## an invisible box (BoundsProxy) so the shots and the pad measure it like any model.
-## Everything is authored in the scene: the default Core model (era 1) is what the editor shows.
+## The look of a designed rocket (scenes/tycoon/launch/designed_rocket.tscn, E2): the launch
+## sequence (the cutscene), the pad, the rollout and the designer's preview show the rocket the
+## project really flies. build(parts, payload) asks LaunchVessels.scene_for() for the packed
+## vessel the career flight flies (the hangar vessel of a rocket built in the hangar, else the
+## one built from the design with hangar parts: its stages, tanks, boosters, fairing and a
+## carried rover) and shows it through FlightModel.build_look(), the flight's own builder, so
+## the cutscene and the flight are the same rocket part for part. Its size is the flight's
+## campus size: the flight grows the campus island under a long rocket (FlightRun.island_scale),
+## so here the vessel is shrunk by that same factor and the handoff into the 3D flight keeps it
+## the same size on screen. An invisible box (BoundsProxy) lets the shots and the pad measure it.
+## The era models (`models`, `booster_models`) are only a fallback for a design no vessel can be
+## built for; {} parts show the authored look (the default Core model, era 1, what the editor shows).
 
-## the rocket model per main-stage "model" (1..5)
+## fallback: the rocket model per main-stage "model" (1..5)
 @export var models: Array[PackedScene] = []
-## booster models: [0] for small solid boosters, [1] for big ones (boosters "size" >= big_size)
+## fallback: booster models: [0] for small solid boosters, [1] for big ones (boosters "size" >= big_size)
 @export var booster_models: Array[PackedScene] = []
 @export var big_size := 0.45
-## rocket size per launch class (rockets.json classes)
+## fallback: rocket size per launch class (rockets.json classes)
 @export var class_scale := {"sounding": 0.85, "light": 1.0, "medium": 1.08, "heavy": 1.15, "lunar": 1.22}
-## a booster's height, times the core's
+## fallback: a booster's height, times the core's
 @export_range(0.2, 1.0, 0.01) var booster_length := 0.55
-## a booster's width, times the core's ("size" of the boosters component scales it too)
+## fallback: a booster's width, times the core's ("size" of the boosters component scales it too)
 @export_range(0.1, 1.0, 0.01) var booster_girth := 1.0
-## how far into the core a booster sits (0 = touching, in booster widths)
+## fallback: how far into the core a booster sits (0 = touching, in booster widths)
 @export_range(0.0, 0.5, 0.01) var booster_tuck := 0.12
-## where along the core the boosters stand (0 = on the ground, 1 = at the top), in core heights
+## fallback: where along the core the boosters stand (0 = on the ground, 1 = at the top), in core heights
 @export_range(0.0, 0.5, 0.01) var booster_base := 0.0
-## a hangar vessel's height, times the era model's at the same launch class
-@export_range(0.5, 2.5, 0.05) var hangar_height := 1.2
-## a hangar vessel is never shown thinner than this (m)
-@export var hangar_min_width := 0.9
 
 ## the parts shown ({} = the authored look)
 var parts: Dictionary = {}
-## width (x) and height (y) of the core as shown, metres
+## width (x) and height (y) of the core as shown, campus metres
 var core_size := Vector2(1.4, 7.0)
+## the vessel shown (null: the authored look or the era-model fallback)
+var vessel: Vessel
+## the packed vessel shown: the very scene the flight flies
+var vessel_scene: PackedScene
+## the vessel's length in real metres (the flight's FlightCraft.length)
+var vessel_length := 0.0
 ## the scene of the authored core model (shown again for an empty design)
 var _authored := ""
+static var _flight_lengths: Dictionary = {}
+## the vessel's side boosters (their radial decouplers, each holding its booster)
+var _vessel_boosters: Array[Node3D] = []
 
 @onready var core: Node3D = $Core
 @onready var boosters: Node3D = $Boosters
@@ -56,34 +60,143 @@ func _ready() -> void:
 			c.queue_free()
 
 
-## Shows a design (RocketDesigner parts). {} keeps the authored look.
-func build(p_parts: Dictionary) -> void:
+## Shows a design (RocketDesigner parts) with the mission's payload (module ids: a rover in it
+## rides on the rocket). {} keeps the authored look. `state` finds a hangar design's own vessel.
+func build(p_parts: Dictionary, payload: Array = [], target := "leo", state: TycoonState = null) -> void:
 	if not is_node_ready():
 		await ready
 	parts = RocketDesigner.normalize(p_parts) if not p_parts.is_empty() else {}
-	for s in boosters.get_children():
-		for c in s.get_children():
-			s.remove_child(c)
-			c.queue_free()
+	_clear()
 	if parts.is_empty():
-		if _authored != "" and (core.get_child_count() == 0 or core.get_child(0).scene_file_path != _authored):
-			for c in core.get_children():
-				core.remove_child(c)
-				c.queue_free()
+		if _authored != "":
 			core.add_child((load(_authored) as PackedScene).instantiate())
 		core.scale = Vector3.ONE
 		core_size = _raw_size(core)
 		return
-	var st := RocketDesigner.stats(parts)
-	var hcore := RocketDesigner.component(String(parts["core"]))
-	if hcore.has("tree"):
-		_build_vessel(hcore["tree"], String(st["class"]))
+	var ps := LaunchVessels.scene_for(p_parts, target, payload, state)
+	if ps != null and _show_vessel(ps):
 		return
+	push_warning("DesignedRocket: no vessel for %s, showing the era model" % [parts])
+	_build_era_model()
+
+
+## Shows a packed vessel as it flies (a launch with no design flies an example rocket:
+## TycoonModes.watch_vessel). False (and the authored look) when it has no parts or this node
+## is not ready yet (add it to the tree first).
+func show_scene(ps: PackedScene) -> bool:
+	if not is_node_ready():
+		return false
+	parts = {}
+	_clear()
+	if ps != null and _show_vessel(ps):
+		return true
+	if _authored != "":
+		core.add_child((load(_authored) as PackedScene).instantiate())
+	core_size = _raw_size(core)
+	return false
+
+
+func _clear() -> void:
+	for s in boosters.get_children():
+		for c in s.get_children():
+			s.remove_child(c)
+			c.queue_free()
+	for c in core.get_children():
+		core.remove_child(c)
+		c.queue_free()
+	vessel = null
+	vessel_scene = null
+	vessel_length = 0.0
+	_vessel_boosters.clear()
+	core.scale = Vector3.ONE
+
+
+## The flying rocket's look (FlightModel.build_look), at its flight campus size.
+func _show_vessel(ps: PackedScene) -> bool:
+	var v := FlightModel.build_look(ps, core)
+	if v.root == null:
+		core.remove_child(v)
+		v.free()
+		return false
+	vessel = v
+	vessel_scene = ps
+	var box := AABB()
+	var first := true
+	var axis_w := 0.0
+	for p in v.all_parts():
+		var xf := _xf_to(p, core)
+		var b := xf * p.aabb
+		box = b if first else box.merge(b)
+		first = false
+		if PartDB.is_radial_decoupler(p.data) and not p.part_children().is_empty():
+			_vessel_boosters.append(p)
+		# the core stack: the parts on the axis (the side boosters are not its width)
+		if Vector2(xf.origin.x, xf.origin.z).length() < 0.05:
+			axis_w = maxf(axis_w, maxf(b.size.x, b.size.z))
+	var w := maxf(maxf(box.size.x, box.size.z), 0.01)
+	var h := maxf(box.size.y, 0.01)
+	vessel_length = h
+	var s := 1.0 / FlightRun.island_scale(flight_length_of(ps))
+	var c := box.get_center()
+	v.position = Vector3(-c.x, -box.position.y, -c.z)
+	core.scale = Vector3.ONE * s
+	var proxy := MeshInstance3D.new()
+	proxy.name = "BoundsProxy"
+	var bm := BoxMesh.new()
+	bm.size = Vector3(w, h, w)
+	proxy.mesh = bm
+	proxy.position = Vector3(0, h * 0.5, 0)
+	proxy.visible = false
+	core.add_child(proxy)
+	core_size = Vector2((axis_w if axis_w > 0.0 else w) * s, h * s)
+	return true
+
+
+## The length the flight gives this vessel (FlightCraft.length), which sizes the campus island
+## under it in the 3D flight (FlightRun.island_scale): the cutscene shrinks the rocket by that
+## same factor so the handoff keeps its size. Cached per packed scene.
+static func flight_length_of(ps: PackedScene) -> float:
+	if not _flight_lengths.has(ps):
+		if _flight_lengths.size() > 256:
+			_flight_lengths.clear()
+		_flight_lengths[ps] = FlightCraft.from_scene(ps).length
+	return float(_flight_lengths[ps])
+
+
+## Transform of `n` relative to `stop` (works off the tree).
+static func _xf_to(n: Node3D, stop: Node) -> Transform3D:
+	var xf := Transform3D.IDENTITY
+	var cur: Node = n
+	while cur != null and cur != stop:
+		if cur is Node3D:
+			xf = (cur as Node3D).transform * xf
+		cur = cur.get_parent()
+	return xf
+
+
+## How many side boosters are shown (the vessel's, or the fallback's).
+func shown_boosters() -> int:
+	var n := 0
+	if vessel:
+		for d in _vessel_boosters:
+			if is_instance_valid(d) and d.visible:
+				n += 1
+		return n
+	for slot in boosters.get_children():
+		n += slot.get_child_count()
+	return n
+
+
+## Is a rover riding on the vessel (LaunchVessels' carried payload)?
+func carries_rover() -> bool:
+	return vessel != null and vessel.find_child(LaunchVessels.PAYLOAD_NODE, true, false) != null
+
+
+## Fallback: the era model of the main stage, sized by launch class, with model boosters.
+func _build_era_model() -> void:
+	var st := RocketDesigner.stats(parts)
 	var mi := clampi(int(st["model"]), 1, maxi(models.size(), 1)) - 1
 	if mi < models.size() and models[mi] != null:
-		for c in core.get_children():
-			core.remove_child(c)
-			c.queue_free()
 		core.add_child(models[mi].instantiate())
 	var k := float(class_scale.get(String(st["class"]), 1.0))
 	core.scale = Vector3(k, k * float(st["height"]), k)
@@ -117,52 +230,21 @@ func build(p_parts: Dictionary) -> void:
 		slot.add_child(b)
 
 
-## A hangar vessel in place of the model (its own boosters are part of it).
-func _build_vessel(tree: Dictionary, cls: String) -> void:
-	for c in core.get_children():
-		core.remove_child(c)
-		c.queue_free()
-	var ps := HangarRocket.scene_of(tree)
-	if ps == null:
-		return
-	var root := ps.instantiate() as PartInstance
-	if root == null:
-		return
-	core.add_child(root)
-	var box := AABB()
-	var first := true
-	for p in root.subtree():
-		var xf := Transform3D.IDENTITY
-		var n: Node = p
-		while n != null and n != core:
-			xf = (n as Node3D).transform * xf
-			n = n.get_parent()
-		var b := xf * p.aabb
-		box = b if first else box.merge(b)
-		first = false
-	var w := maxf(maxf(box.size.x, box.size.z), 0.01)
-	var h := maxf(box.size.y, 0.01)
-	var k := float(class_scale.get(cls, 1.0))
-	var target_h := 7.0 * k * hangar_height
-	var s := maxf(target_h / h, hangar_min_width / w)
-	s = minf(s, target_h * 2.0 / h)
-	var c := box.get_center()
-	root.position = Vector3(-c.x, -box.position.y, -c.z)
-	core.scale = Vector3.ONE * s
-	var proxy := MeshInstance3D.new()
-	proxy.name = "BoundsProxy"
-	var bm := BoxMesh.new()
-	bm.size = Vector3(w, h, w)
-	proxy.mesh = bm
-	proxy.position = Vector3(0, h * 0.5, 0)
-	proxy.visible = false
-	core.add_child(proxy)
-	core_size = Vector2(w * s, h * s)
-
-
 ## The side boosters let go: they drift out and down from the core and vanish over `seconds`
 ## (the launch sequence calls it at the stage separation).
 func drop_boosters(seconds := 1.4) -> void:
+	# the vessel's own: each radial decoupler leaves with its booster, like the flight drops them
+	for d in _vessel_boosters:
+		if not is_instance_valid(d) or not d.visible:
+			continue
+		var out := Vector3(d.position.x, 0.0, d.position.z)
+		out = out.normalized() if out.length() > 0.001 else Vector3.RIGHT
+		var len := vessel_length if vessel_length > 0.0 else 10.0
+		var tw0 := create_tween().set_parallel()
+		tw0.tween_property(d, "position", d.position + out * len * 0.12 + Vector3(0, -len * 0.35, 0), seconds) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tw0.tween_property(d, "rotation", d.rotation + Vector3(out.z, 0.0, -out.x) * 0.6, seconds)
+		tw0.chain().tween_callback(func() -> void: d.visible = false)
 	for s in boosters.get_children():
 		var slot := s as Node3D
 		if slot == null or slot.get_child_count() == 0:

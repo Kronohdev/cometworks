@@ -41,6 +41,8 @@ As abas e seções aparecem só onde fazem sentido (Campanha, Projetos e Telas s
 - Construir tudo (todos os lotes no nível máximo, já prontos), toda a pesquisa.
 - Equipe: contratar um Cometinho aleatório, moral máxima, todos sobem de nível, novos candidatos.
 - Aceitar um contrato aleatório, tomar o próximo marco da corrida.
+- Conferência dos Cometinhos: abrir o convite deste ano ou ir direto para a feira (conta como o
+  convite respondido); apertar de novo na feira volta para o campus.
 - Dia e noite: fase do dia (controle deslizante e atalhos), ou seguir o relógio.
 - Salvar nos espaços 1 a 3, carregar 1 a 3 ou o automático.
 
@@ -87,6 +89,6 @@ As abas e seções aparecem só onde fazem sentido (Campanha, Projetos e Telas s
   nesses contextos (`tycoon`, `menu`, `leader`, `hangar`, `flight`, `cometlings`).
 - Ganchos de dev no jogo (todos chamados `dev_*`): `ProjectDesk.dev_force_outcome`,
   `ProjectDesk.dev_finish_phase()` / `dev_finish_development()`, `ProjectFlow.dev_drop_phases()`,
-  `TycoonClock.dev_turbo`, `TycoonCrew.dev_ignore_limit` / `dev_refresh_market()`,
+  `TycoonClock.dev_turbo`, `ConferenceFlow.dev_open()`, `TycoonCrew.dev_ignore_limit` / `dev_refresh_market()`,
   `Campus.dev_spawn_walkers()` / `dev_clear_walkers()` / `dev_show_nav()`, `CampusNav.debug_image()`.
 - Teste: `tests/test_dev_menu.gd`; screenshots: `tests/screenshot_dev_menu.gd`.

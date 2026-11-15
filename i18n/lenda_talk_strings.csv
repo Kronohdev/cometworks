@@ -196,6 +196,19 @@ TY_LT_KEPLERINO_NOW_PLAIN,{left} until she passes. I know because I checked the 
 TY_LT_KEPLERINO_TIP_BRIEF,"On Earth orbit requests, I tell you which orbit suits the job. Low, sun-synchronous or geostationary: each has its own way.","Nos pedidos de órbita da Terra, eu digo qual órbita combina com o pedido. Baixa, heliossíncrona ou geoestacionária: cada uma tem seu jeito."
 TY_LT_KEPLERINO_TIP_GEO,"A geostationary orbit sits about 36,000 kilometres up and goes round once a day: the satellite looks still in the sky. Great for communications.",Órbita geoestacionária fica a uns 36 mil quilômetros e dá uma volta por dia: o satélite parece parado no céu. Ótima para comunicação.
 TY_LT_KEPLERINO_TIP_1,"A sun-synchronous orbit passes over each place at the same local time. To photograph the Earth in the same light, it's the right choice.","Órbita heliossíncrona passa sobre cada lugar sempre na mesma hora local. Para fotografar a Terra com a mesma luz, é a escolha certa."
+TY_LT_ASK_GOSSIP,Any gossip?,Alguma fofoca?
+TY_LT_KEPLERINO_GOSSIP_1,I was looking at your agency through a telescope: your scientist has been napping on the job.,Estava com um telescópio olhando sua agência: seu cientista anda dormindo em serviço.
+TY_LT_KEPLERINO_GOSSIP_2,"The orbit of that rocket down the street looks like a perfect circle, but it's really a rather lopsided ellipse.","A órbita daquele foguete da esquina parece um círculo perfeito, mas na verdade é uma elipse bem torta."
+TY_LT_KEPLERINO_GOSSIP_3,That Cometling can't be trusted with a rocket: they managed to start a fire just cooking at home.,Aquele Cometinho não pode lançar um foguete: conseguiu fazer um incêndio até cozinhando em casa.
+TY_LT_KEPLERINO_GOSSIP_4,"I heard this story has two foci, and neither of them is true.","Fiquei sabendo que essa história tem dois focos, e nenhum deles é verdade."
+TY_LT_KEPLERINO_GOSSIP_5,What gossip! It even bent my orbit.,Que fofoca! Até minha órbita entortou.
+TY_LT_KEPLERINO_GOSSIP_6,Heard what that Cometling has been up to? This one has gravity.,Já ouviu o que aquele Cometinho andou fazendo? Esse babado tem gravidade.
+TY_LT_KEPLERINO_GOSSIP_7,The time it takes me to get here is the same time it takes gossip to reach my ears.,O tempo que eu levo até aqui é o mesmo tempo até a fofoca chegar nos meus ouvidos.
+TY_LT_KEPLERINO_GOSSIP_8,What happens in the ellipse stays in the ellipse.,O que acontece na elipse fica na elipse.
+TY_LT_KEPLERINO_GOSSIP_9,That rocket of yours is so massive it'll pull the Earth into its orbit instead of the other way round.,"Esse seu foguete tem tanta massa que vai puxar a Terra para a órbita dele, em vez do contrário."
+TY_LT_KEPLERINO_GOSSIP_10,That Cometling looks so glum. Could it be Venus retrograde?,Aquele Cometinho está muito tristinho. Será Vênus retrógrado?
+TY_LT_KEPLERINO_GOSSIP_11,I watch everything: I trained on comets.,Eu observo tudo: treinei vendo cometas.
+TY_LT_KEPLERINO_GOSSIP_12,"Not that I believe in star signs, but that one's the stars' fault.","Não é que eu acredite em signos, mas isso aí é culpa dos astros."
 TY_LT_DULINHA_HI_BRIEF,"A telescope request? Oh, how lovely. Look, that galaxy there looks like... wait, where was I?","Pedido de telescópio? Ah, que delícia. Olha, aquela galáxia ali parece... espera, onde eu estava?"
 TY_LT_DULINHA_HI_NIGHT,"Look, there's Cookie! That's what I call that galaxy. It's round and makes you want to take a bite.",Olha lá a Bolachinha! É como eu chamo aquela galáxia. Ela é redondinha e dá vontade de morder.
 TY_LT_DULINHA_HI_1,"Hi, boss! I was going to tell you something important, but then I looked up. I'll get back to it.","Oi, chefe! Eu ia te contar uma coisa importante, mas aí olhei para cima. Já volto ao assunto."

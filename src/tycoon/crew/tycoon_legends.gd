@@ -310,6 +310,11 @@ static func mentor_hints(s: TycoonState, b: Dictionary, team_quiet: bool, limit 
 	var out: Array[Dictionary] = []
 	if b.is_empty():
 		return out
+	# a Lenda tied to this mission narrates it first (a poem, a riddle, a memory), then the hints
+	var voice := briefing_voice(s, b)
+	if not voice.is_empty():
+		out.append(voice)
+	var hints := 0
 	for l in active_mentors(s):
 		var fallback := bool((l.get("comments", {}) as Dictionary).get("fallback", false))
 		if (fallback and not team_quiet) or (not fallback and not comments_on(l, b)):
@@ -317,9 +322,25 @@ static func mentor_hints(s: TycoonState, b: Dictionary, team_quiet: bool, limit 
 		var h := hint_line(s, l, b)
 		if not h.is_empty():
 			out.append(h)
-		if out.size() >= limit:
+			hints += 1
+		if hints >= limit:
 			break
 	return out
+
+
+## A Lenda's narration of a briefing (briefings.json "voices": [{"legend", "key"}], the text in
+## i18n/tycoon_project_strings.csv): the first voice whose Lenda is around now (a mentor who has
+## arrived, or a hire the agency took on). {} when none is.
+static func briefing_voice(s: TycoonState, b: Dictionary) -> Dictionary:
+	for v: Dictionary in b.get("voices", []):
+		var id := String(v.get("legend", ""))
+		var l := legend(id)
+		if l.is_empty():
+			continue
+		var here := mentor_active(s, id) if String(l.get("kind", "")) == "mentor" else hired(s, id)
+		if here:
+			return {"legend": id, "key": String(v.get("key", "")), "args": [], "voice": true}
+	return {}
 
 
 # ------------------------------------------------------------ rival leaders

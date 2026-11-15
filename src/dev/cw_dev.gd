@@ -441,6 +441,13 @@ func _a_goto(where: Variant) -> String:
 				scene.set("fair_mode", true)
 				scene.set("intro_cutscene", Cutscenes.OPENING_SHORT)
 			tree.change_scene_to_node(scene)
+		"conference":
+			if main() != null:
+				return _a_conference("go")
+			# no campus yet: a direct campaign first, then the fair once it is up
+			tree.change_scene_to_node((load(TYCOON) as PackedScene).instantiate())
+			_conference_when_ready()
+			return "indo para a conferência"
 		"hangar":
 			tree.change_scene_to_file(HANGAR)
 		"flight":
@@ -450,6 +457,17 @@ func _a_goto(where: Variant) -> String:
 		_:
 			return "destino desconhecido: %s" % where
 	return "indo para: %s" % where
+
+
+## Waits for the campus a "conference" goto just started, then opens the fair.
+func _conference_when_ready() -> void:
+	for i in 120:
+		await get_tree().process_frame
+		var m := main()
+		if m != null and m.conference != null and m.state != null and m.is_node_ready():
+			await get_tree().process_frame
+			_a_conference("go")
+			return
 
 
 func _a_reload(_arg: Variant) -> String:
@@ -867,6 +885,22 @@ func _a_milestone(_arg: Variant) -> String:
 	var id := String(r.milestones[i]["id"])
 	r.claim(id, RaceDirector.PLAYER)
 	return "marco: %s" % tr(String(r.milestones[i].get("name_key", id)))
+
+
+## The Conferência dos Cometinhos (ConferenceFlow): "invite" opens this year's invitation,
+## "go" goes straight to the fair.
+func _a_conference(what: Variant) -> String:
+	var m := main()
+	if m == null or m.conference == null:
+		return NO_CAMPAIGN
+	if m.conference.is_open():
+		m.conference.leave()
+		return "de volta da feira"
+	if String(what) == "go":
+		m.conference.dev_open()
+		return "na feira (ano %d)" % m.state.year()
+	m.hud.open_screen(ConferenceFlow.SCREEN)
+	return "convite da conferência"
 
 
 func _day_cycle() -> CampusDayCycle:

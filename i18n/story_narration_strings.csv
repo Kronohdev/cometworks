@@ -1,10 +1,10 @@
 keys,en,pt
 NARR_OPEN_1,"Far, far beyond the clouds travels the Mother-Ice. Old, icy and shining… just like me, minus the shining.","Lá longe, muito além das nuvens, viaja a Mãe-Gelo. Velha, gelada e brilhante… igualzinha a mim, tirando o brilho."
-NARR_OPEN_2,"From the icy dust of her tail came some very curious little flakes. Too curious, if you ask me.","Da poeirinha gelada da cauda dela nasceram uns floquinhos muito curiosos. Curiosos até demais, eu diria."
+NARR_OPEN_2,"From the shining dust of her tail came some very curious little flakes. Too curious, if you ask me.","Da poeirinha brilhante da cauda dela nasceram uns floquinhos muito curiosos. Curiosos até demais, eu diria."
 NARR_OPEN_3,"Tail ears, a star on the antenna and no sense of danger. The Cometlings! I was one of them once, you know.","Orelhas de cauda, antena de estrela e nenhum senso de perigo. Os Cometinhos! Eu já fui um deles, sabia?"
 NARR_OPEN_4,"On her last pass, a handful tumbled down here. I was on the hill with hot chocolate. Or was it tea?","Na última passagem dela, um punhado caiu aqui embaixo. Eu estava no morro com chocolate quente. Ou era chá?"
 NARR_OPEN_5,"Off she sailed, that girl. And they kept waving… so much that one of them sprained a little arm.","Ela seguiu viagem, minha filha. E eles ficaram acenando… tanto que um deles torceu o bracinho."
-NARR_OPEN_6,"But a comet always comes back. I did the sum in my blue notebook: twenty-five years, not a day more.","Mas cometa que é cometa sempre volta. Fiz a conta no caderno azul: vinte e cinco anos, nem um dia a mais."
+NARR_OPEN_6,"Not every comet comes back, mind you. But hers is a closed ellipse: I did the sum in my blue notebook. Twenty-five years, not a day more.","Nem todo cometa volta, viu? Mas a órbita dela é uma elipse fechada: fiz a conta no caderno azul. Vinte e cinco anos, nem um dia a mais."
 NARR_OPEN_7,"And they promised: next time, we're going with her! So loudly they woke up the whole hill.","E eles prometeram: da próxima vez, a gente vai junto! Prometeram tão alto que acordaram o morro inteiro."
 NARR_OPEN_8,"Trouble is, from down here she's much too far. Too much fuel, not enough rocket. Trust me, I did the sum.","Só que daqui de baixo ela fica longe demais. Muito combustível, pouco foguete. Acredite, eu fiz a conta."
 NARR_OPEN_9,"But the Moon has low gravity and ice at its poles. Ice can become rocket fuel, and from there it's a hop to her.","Mas a Lua tem pouca gravidade e gelo nos polos. Gelo pode virar combustível, e dali é um pulinho até ela."
@@ -25,7 +25,7 @@ NARR_END_7,Up on the hill I closed my blue notebook and smiled. Home isn't a pla
 NARR_MISS_1,"At the end of year twenty-five, the Mother-Ice passed right over the hill. Lovely as ever.","No fim do ano vinte e cinco, a Mãe-Gelo passou bem em cima do morro. Linda como sempre."
 NARR_MISS_2,This time we didn't make it. It happens to the best of comets. And to the best of grandpas.,Desta vez a gente não chegou a tempo. Acontece com os melhores cometas. E com os melhores vovôs.
 NARR_MISS_3,"There was sniffling, there were hugs and a whole packet of biscuits. Two, actually. Don't tell anyone.","Teve fungada, teve abraço e teve um pacote inteiro de biscoitos. Dois, na verdade. Não conta pra ninguém."
-NARR_MISS_4,"{leader} looked up and smiled. She always comes back, I promise: it's all in the notebook.","{leader} olhou para cima e sorriu. Ela sempre volta, eu prometo: está tudo no caderno."
+NARR_MISS_4,"{leader} looked up and smiled. Her ellipse brings her back, I promise: it's all in the notebook.","{leader} olhou para cima e sorriu. A elipse dela traz ela de volta, eu prometo: está tudo no caderno."
 NARR_MISS_5,"And on her next pass, we'll be ready. I'll be right here, with the hot chocolate.","E na próxima passagem, a gente vai estar pronto. Eu vou estar aqui, com o chocolate quente."
 TY_SET_NARRATION,Grandpa Edmundo narrates the scenes,Vovô Edmundo narra as cenas
 TY_SET_NARRATION_TIP,"Off: the story scenes show only the storybook lines at the bottom, without Grandpa Edmundo's box","Desligado: as cenas da história mostram só as falas do livro de histórias embaixo, sem a caixa do Vovô Edmundo"

@@ -55,14 +55,19 @@ text = "T−3"
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Hint" type="Label" parent="Card/VBox/Foot"]
+[node name="Hint" type="RichTextLabel" parent="Card/VBox/Foot"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"CwDim"
-theme_override_font_sizes/font_size = 12
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
 text = "TY_TRK_WARP_HINT"
-vertical_alignment = 1
+fit_content = true
+scroll_active = false
 autowrap_mode = 3
 
 [node name="Back" type="Button" parent="Card/VBox/Foot"]

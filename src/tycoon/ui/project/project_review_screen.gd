@@ -25,6 +25,7 @@ func _ready() -> void:
 	%Back.pressed.connect(_close)
 	%OpenJournal.pressed.connect(_open_journal)
 	%Watch.pressed.connect(_watch)
+	%Comic.pressed.connect(_comic)
 
 
 ## "Acompanhar o lançamento": the launch in the 3D flight, as it went (TycoonModes.open_watch); this
@@ -33,6 +34,13 @@ func _watch() -> void:
 	var m := _modes()
 	if m and not entry.is_empty():
 		m.open_watch(String(entry.get("id", "")))
+
+
+## "Relatório do voo": the flight in comics told by Vovô Edmundo and why it went this way
+## (FlightComic); closing it comes back here.
+func _comic() -> void:
+	if hud and not entry.is_empty():
+		hud.open_screen("flight_comic", {"project_id": String(entry.get("id", "")), "back": "project_review"})
 
 
 func _modes() -> TycoonModes:

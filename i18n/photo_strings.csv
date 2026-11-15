@@ -1,0 +1,37 @@
+keys,en,pt
+TY_PH_NEWS,%s sent %d photos home!,%s mandou %d fotos para casa!
+TY_PH_ARRIVED,New photos from %s are in the album.,Chegaram fotos novas de %s no álbum.
+TY_PH_DATE,Year %d · week %d,Ano %d · semana %d
+TY_PH_STAMP,Y%02d·W%02d,A%02d·S%02d
+TY_PH_IR,%s (infrared),%s (infravermelho)
+TY_PH_SUBJ_EARTH_LIMB,Earth's horizon,Horizonte da Terra
+TY_PH_SUBJ_EARTH,Earth from orbit,A Terra vista da órbita
+TY_PH_SUBJ_EARTH_FULL,The whole Earth,A Terra inteira
+TY_PH_SUBJ_EARTH_MOON,Earth and Moon,A Terra e a Lua
+TY_PH_SUBJ_MOON_FAR,The Moon's far side,O lado oculto da Lua
+TY_PH_SUBJ_MOON_ORBIT,Lunar craters from orbit,Crateras lunares vistas da órbita
+TY_PH_SUBJ_EARTHRISE,Earthrise,Nascer da Terra
+TY_PH_SUBJ_MOON_SURFACE,On the lunar surface,Na superfície lunar
+TY_PH_SUBJ_ROVER,The rover's view,A vista do rover
+TY_PH_SUBJ_COMET,Mother-Ice and her tails,A Mãe-Gelo e suas caudas
+TY_PH_SUBJ_COMET_CLOSE,Mother-Ice up close,A Mãe-Gelo de pertinho
+TY_PH_SUBJ_COMET_TAILS,Inside the tails,Dentro das caudas
+TY_PH_SUBJ_SATURN,Saturn through the telescope,Saturno pelo telescópio
+TY_PH_SUBJ_JUPITER,Jupiter and a moon,Júpiter e uma lua
+TY_PH_SUBJ_MARS,Mars through the telescope,Marte pelo telescópio
+TY_PH_ALBUM_TIP,Photo album: the pictures our missions sent home.,Álbum de fotos: as imagens que nossas missões mandaram para casa.
+TY_PH_CAPTION,Sent home by our missions,Enviadas por nossas missões
+TY_PH_TITLE,Photo album,Álbum de fotos
+TY_PH_COUNT,Photos,Fotos
+TY_PH_EMPTY,No photos yet. Fly a mission with a camera: when it succeeds it sends pictures of its target home.,Nenhuma foto ainda. Lance uma missão com câmera: quando der certo ela manda fotos do destino para casa.
+TY_PH_DEVELOPING,Developing…,Revelando…
+TY_PH_MISSION,Mission,Missão
+TY_PH_TARGET,Target,Destino
+TY_PH_WHEN,Arrived,Chegou
+TY_PH_OUTCOME,Result,Resultado
+TY_PH_OUT_PARTIAL,Partial success,Sucesso parcial
+TY_PH_OUT_FULL,Success,Sucesso
+TY_PH_OUT_EXCEPTIONAL,Exceptional,Excepcional
+TY_PH_PIN,Pin on the mural,Pendurar no mural
+TY_PH_PIN_TIP,Show this photo on the campus mural by the headquarters.,"Mostra esta foto no mural do campus, perto da sede."
+TY_PH_MURAL_TITLE,Our photos,Nossas fotos

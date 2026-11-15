@@ -1,0 +1,604 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/tracking/flight_comic.gd" id="1_comic"]
+[ext_resource type="Script" path="res://src/tycoon/tracking/flight_comic_art.gd" id="2_art"]
+[ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_portrait_studio.tscn" id="3_studio"]
+[ext_resource type="Shader" path="res://ui/cometworks/visor_mask.gdshader" id="4_mask"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="5_star"]
+
+[sub_resource type="StyleBoxFlat" id="page"]
+content_margin_left = 22.0
+content_margin_top = 16.0
+content_margin_right = 22.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.976, 0.937, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.1, 0.09, 0.27, 0.45)
+shadow_size = 14
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="frame"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.1686, 0.1647, 0.3608, 1)
+shadow_offset = Vector2(4, 4)
+
+[sub_resource type="StyleBoxFlat" id="narr"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.965, 0.882, 1)
+border_width_top = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+
+[sub_resource type="StyleBoxFlat" id="bubble"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ring"]
+bg_color = Color(1, 0.8235, 0.3608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="badge"]
+content_margin_left = 7.0
+content_margin_right = 7.0
+bg_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="tip"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.945, 0.78, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.62, 0.18, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="ShaderMaterial" id="visor_mat"]
+shader = ExtResource("4_mask")
+
+[node name="FlightComic" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_comic")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1176, 0.1137, 0.2902, 0.78)
+
+[node name="Page" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 28.0
+offset_right = -40.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("page")
+
+[node name="VBox" type="VBoxContainer" parent="Page"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Page/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Titles" type="VBoxContainer" parent="Page/VBox/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="Page/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "TY_FC_TITLE"
+text_overrun_behavior = 3
+
+[node name="Byline" type="Label" parent="Page/VBox/Head/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_FC_BYLINE"
+
+[node name="PageNo" type="Label" parent="Page/VBox/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CwMono"
+text = "TY_FC_PAGE"
+
+[node name="Close" type="Button" parent="Page/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_FC_CLOSE"
+
+[node name="Body" type="Control" parent="Page/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Grid" type="GridContainer" parent="Page/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 3
+
+[node name="PanelTemplate" type="PanelContainer" parent="Page/VBox/Body/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame")
+
+[node name="VBox" type="VBoxContainer" parent="Page/VBox/Body/Grid/PanelTemplate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Art" type="Control" parent="Page/VBox/Body/Grid/PanelTemplate/VBox"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("2_art")
+
+[node name="Number" type="Label" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Art"]
+layout_mode = 0
+offset_right = 26.0
+offset_bottom = 22.0
+theme_override_colors/font_color = Color(1, 0.976, 0.937, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("badge")
+text = "1"
+horizontal_alignment = 1
+
+[node name="Sfx" type="Label" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Art"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = 40.0
+grow_horizontal = 0
+rotation = -0.12
+pivot_offset = Vector2(140, 16)
+theme_override_colors/font_color = Color(1, 0.8235, 0.3608, 1)
+theme_override_colors/font_outline_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 22
+text = "TY_FC_SFX_LIFTOFF"
+horizontal_alignment = 2
+
+[node name="Clock" type="Label" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Art"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -110.0
+offset_top = -24.0
+offset_right = -6.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 13
+text = "T+00:00"
+horizontal_alignment = 2
+
+[node name="Narr" type="HBoxContainer" parent="Page/VBox/Body/Grid/PanelTemplate/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Visor" type="Control" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr"]
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr/Visor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 6.0
+offset_right = 2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ring")
+
+[node name="Fallback" type="TextureRect" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr/Visor"]
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -8.0
+offset_right = 14.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr/Visor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 9.0
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Bubble" type="PanelContainer" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("narr")
+
+[node name="Caption" type="Label" parent="Page/VBox/Body/Grid/PanelTemplate/VBox/Narr/Bubble"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 14
+text = "TY_FC_CAP_LIFTOFF_1"
+autowrap_mode = 3
+
+[node name="Report" type="HBoxContainer" parent="Page/VBox/Body"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="Left" type="VBoxContainer" parent="Page/VBox/Body/Report"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="EndFrame" type="PanelContainer" parent="Page/VBox/Body/Report/Left"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame")
+
+[node name="EndArt" type="Control" parent="Page/VBox/Body/Report/Left/EndFrame"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_art")
+scene = "end"
+
+[node name="EndTitle" type="Label" parent="Page/VBox/Body/Report/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+text = "TY_FC_END_FULL"
+horizontal_alignment = 1
+
+[node name="EndNarr" type="HBoxContainer" parent="Page/VBox/Body/Report/Left"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ReportVisor" type="Control" parent="Page/VBox/Body/Report/Left/EndNarr"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="Ring" type="Panel" parent="Page/VBox/Body/Report/Left/EndNarr/ReportVisor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ring")
+
+[node name="Fallback" type="TextureRect" parent="Page/VBox/Body/Report/Left/EndNarr/ReportVisor"]
+self_modulate = Color(0.6, 0.38, 0.02, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Portrait" type="TextureRect" parent="Page/VBox/Body/Report/Left/EndNarr/ReportVisor"]
+material = SubResource("visor_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Bubble" type="PanelContainer" parent="Page/VBox/Body/Report/Left/EndNarr"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("bubble")
+
+[node name="EndLine" type="Label" parent="Page/VBox/Body/Report/Left/EndNarr/Bubble"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "TY_FC_CAP_END_FULL_1"
+autowrap_mode = 3
+
+[node name="Right" type="VBoxContainer" parent="Page/VBox/Body/Report"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Why" type="Label" parent="Page/VBox/Body/Report/Right"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+text = "TY_FC_WHY"
+
+[node name="Reasons" type="VBoxContainer" parent="Page/VBox/Body/Report/Right"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="ReasonTemplate" type="HBoxContainer" parent="Page/VBox/Body/Report/Right/Reasons"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Dot" type="ColorRect" parent="Page/VBox/Body/Report/Right/Reasons/ReasonTemplate"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+color = Color(0.851, 0.2275, 0.3608, 1)
+
+[node name="Text" type="Label" parent="Page/VBox/Body/Report/Right/Reasons/ReasonTemplate"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwBody"
+text = "TY_FC_WHY_ALL_GOOD"
+autowrap_mode = 3
+
+[node name="Tip" type="PanelContainer" parent="Page/VBox/Body/Report/Right"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("tip")
+
+[node name="VBox" type="VBoxContainer" parent="Page/VBox/Body/Report/Right/Tip"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="TipHead" type="Label" parent="Page/VBox/Body/Report/Right/Tip/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "TY_FC_TIP_HEAD"
+
+[node name="TipText" type="Label" parent="Page/VBox/Body/Report/Right/Tip/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+text = "TY_FC_TIP_KEEP"
+autowrap_mode = 3
+
+[node name="CmlLine" type="Label" parent="Page/VBox/Body/Report/Right/Tip/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_FC_TIP_CML"
+autowrap_mode = 3
+
+[node name="Rewards" type="VBoxContainer" parent="Page/VBox/Body/Report/Right"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Page/VBox/Body/Report/Right/Rewards"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_FC_REWARDS"
+
+[node name="RewardTemplate" type="HBoxContainer" parent="Page/VBox/Body/Report/Right/Rewards"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Page/VBox/Body/Report/Right/Rewards/RewardTemplate"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwBody"
+text = "TY_FC_RW_CASH"
+
+[node name="Value" type="Label" parent="Page/VBox/Body/Report/Right/Rewards/RewardTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwMono"
+text = "+0 cr"
+horizontal_alignment = 2
+
+[node name="Foot" type="HBoxContainer" parent="Page/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Hint" type="Label" parent="Page/VBox/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+text = "TY_FC_CLICK"
+text_overrun_behavior = 3
+
+[node name="Skip" type="Button" parent="Page/VBox/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_FC_SKIP"
+
+[node name="SeeMap" type="Button" parent="Page/VBox/Foot"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_TRK_SEE_MAP"
+
+[node name="Next" type="Button" parent="Page/VBox/Foot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_FC_NEXT"
+
+[node name="Done" type="Button" parent="Page/VBox/Foot"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwPrimary"
+text = "TY_FC_CLOSE"
+
+[node name="Studio" parent="." instance=ExtResource("3_studio")]
+unique_name_in_owner = true

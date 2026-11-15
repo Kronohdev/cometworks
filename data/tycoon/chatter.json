@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "_doc": "Speech bubbles of the Cometlings on the campus (CampusChatter, src/tycoon/talk/campus_chatter.gd; rules in ChatterBook, src/tycoon/talk/chatter_book.gd). rates: per bubble setting (Poucos / Normal / Muitos) how many bubbles at once (max), seconds between two new ones (gap) and the chance a bubble is a two-Cometling exchange (pair). lines: {text_key, if (condition), weight}; pairs: {a_key, b_key, if (the first speaker), b_if (the one who answers)}; emotes: {emote (Cometling.EMOTES), if}: a short reaction instead of a line; reactions: what a few Cometlings do when an event happens (emotes, pose). Placeholders: {name}, {project}, {other} (the other Cometling of a pair), {agency}, {leader}, {left}.",
+  "_doc": "Speech bubbles of the Cometlings on the campus (CampusChatter, src/tycoon/talk/campus_chatter.gd; rules in ChatterBook, src/tycoon/talk/chatter_book.gd). rates: per bubble setting (Poucos / Normal / Muitos) how many bubbles at once (max), seconds between two new ones (gap) and the chance a bubble is a two-Cometling exchange (pair). lines: {text_key, if (condition), weight}; pairs: {a_key, b_key, if (the first speaker), b_if (the one who answers)}; emotes: {emote (Cometling.EMOTES), if}: a short reaction instead of a line; reactions: what a few Cometlings do when an event happens (emotes, pose). Placeholders: {name}, {project}, {other} (the other Cometling of a pair), {agency}, {leader}, {left}; the speaker's own missions (CrewMemory, conditions mem_*): {mission}, {mission_ok}, {mission_fail}, {mission_kind}, {milestone}, {missions_n}.",
   "rates": {
     "few": {"max": 1, "gap": [9.0, 16.0], "pair": 0.15},
     "normal": {"max": 3, "gap": [3.5, 7.5], "pair": 0.25},
@@ -146,7 +146,21 @@
     {"text_key": "TY_CHAT_LEGEND_1", "if": {"not_legend": "", "not_doing": "napping"}},
     {"text_key": "TY_CHAT_HALLEY_1", "if": {"who": "halleyzinho"}, "weight": 3},
     {"text_key": "TY_CHAT_HALLEY_2", "if": {"who": "halleyzinho"}, "weight": 3},
-    {"text_key": "TY_CHAT_HALLEY_3", "if": {"who": "halleyzinho"}, "weight": 3}
+    {"text_key": "TY_CHAT_HALLEY_3", "if": {"who": "halleyzinho"}, "weight": 3},
+    {"text_key": "TY_MEM_CHAT_REMEMBER_1", "if": {"mem_missions_min": 1, "not_doing": "napping"}},
+    {"text_key": "TY_MEM_CHAT_REMEMBER_2", "if": {"mem_missions_min": 1, "not_doing": "napping"}},
+    {"text_key": "TY_MEM_CHAT_REMEMBER_3", "if": {"mem_missions_min": 1, "not_doing": "napping"}},
+    {"text_key": "TY_MEM_CHAT_KIND_1", "if": {"mem_missions_min": 2, "not_doing": "napping"}, "weight": 0.5},
+    {"text_key": "TY_MEM_CHAT_PROUD_1", "if": {"mem_proud": true, "not_doing": "napping"}, "weight": 2},
+    {"text_key": "TY_MEM_CHAT_PROUD_2", "if": {"mem_proud": true, "not_doing": "napping"}, "weight": 2},
+    {"text_key": "TY_MEM_CHAT_PROUD_3", "if": {"mem_proud": true, "not_doing": "napping"}, "weight": 2},
+    {"text_key": "TY_MEM_CHAT_FIRST_1", "if": {"mem_last": "first", "mem_proud": true, "not_doing": "napping"}, "weight": 2},
+    {"text_key": "TY_MEM_CHAT_NERVOUS_1", "if": {"mem_nervous": true, "not_doing": "napping"}, "weight": 3},
+    {"text_key": "TY_MEM_CHAT_NERVOUS_2", "if": {"mem_nervous": true, "not_doing": "napping"}, "weight": 3},
+    {"text_key": "TY_MEM_CHAT_NERVOUS_3", "if": {"mem_nervous": true, "not_doing": "napping"}, "weight": 3},
+    {"text_key": "TY_MEM_CHAT_SURVIVOR_1", "if": {"mem_failures_min": 3, "not_doing": "napping"}},
+    {"text_key": "TY_MEM_CHAT_VETERAN_1", "if": {"mem_missions_min": 10, "not_doing": "napping"}},
+    {"text_key": "TY_MEM_CHAT_MILESTONE_1", "if": {"mem_milestones": true, "not_doing": "napping"}, "weight": 0.5}
   ],
   "pairs": [
     {"a_key": "TY_CHAT_PAIR_COFFEE_A", "b_key": "TY_CHAT_PAIR_COFFEE_B"},
@@ -166,6 +180,8 @@
     {"a_key": "TY_CHAT_PAIR_SHED_A", "b_key": "TY_CHAT_PAIR_SHED_B", "if": {"era": 1}},
     {"a_key": "TY_CHAT_PAIR_MONEY_A", "b_key": "TY_CHAT_PAIR_MONEY_B", "if": {"money": ["low", "broke"]}, "weight": 2},
     {"a_key": "TY_CHAT_PAIR_MOONWALK_A", "b_key": "TY_CHAT_PAIR_MOONWALK_B", "if": {"era_min": 3}},
+    {"a_key": "TY_MEM_PAIR_REMEMBER_A", "b_key": "TY_MEM_PAIR_REMEMBER_B", "if": {"mem_missions_min": 1}},
+    {"a_key": "TY_MEM_PAIR_NERVOUS_A", "b_key": "TY_MEM_PAIR_NERVOUS_B", "if": {"mem_nervous": true}, "weight": 2},
     {"a_key": "TY_CHAT_LT_KATIA_MARGO_A", "b_key": "TY_CHAT_LT_KATIA_MARGO_B", "if": {"legend": "katia"}, "b_if": {"legend": "margo"}, "weight": 2},
     {"a_key": "TY_CHAT_LT_ALBERTINHO_PONTINHA_A", "b_key": "TY_CHAT_LT_ALBERTINHO_PONTINHA_B", "if": {"legend": "albertinho"}, "b_if": {"legend": "pontinha"}, "weight": 2},
     {"a_key": "TY_CHAT_LT_VALENTINA_NILO_A", "b_key": "TY_CHAT_LT_VALENTINA_NILO_B", "if": {"legend": "valentina"}, "b_if": {"legend": "nilo"}, "weight": 2},

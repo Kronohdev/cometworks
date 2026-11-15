@@ -440,6 +440,7 @@ func stage() -> void:
 	if was_pad:
 		_log("EV_IGNITION_PAD", {})
 	run._collect()
+	_hud_timer = 0.0  # the staging key and the stickers change now, not on the next 0.1 s tick
 
 
 func set_autopilot(on: bool) -> void:

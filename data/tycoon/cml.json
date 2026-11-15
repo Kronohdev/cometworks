@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "_doc": "Concept Maturity Level (NASA/JPL CML) checklist of the Design Review (CmlChecklist). A concept is at CML n when every item of levels 1..n is checked; items are auto-checked from the project's real state (MissionFit, the rocket's check, the payload, the briefing's terms, the review's risks). Thresholds live in each item. bonus: every level at or above from_level adds hype_per_level hype (on a successful launch) and reputation_per_level reputation (always: the press likes a well-matured concept) at the launch; it never blocks the player.",
+  "levels": [
+    {"level": 1, "name_key": "TY_CML_L1", "items": ["objective"]},
+    {"level": 2, "name_key": "TY_CML_L2", "items": ["reaches", "team"]},
+    {"level": 3, "name_key": "TY_CML_L3", "items": ["instruments", "power"]},
+    {"level": 4, "name_key": "TY_CML_L4", "items": ["mass_margin", "comms"]},
+    {"level": 5, "name_key": "TY_CML_L5", "items": ["budget", "schedule"]},
+    {"level": 6, "name_key": "TY_CML_L6", "items": ["risks"]}
+  ],
+  "items": {
+    "objective": {"label_key": "TY_CML_I_OBJECTIVE", "hint_key": "TY_CML_H_OBJECTIVE"},
+    "reaches": {"label_key": "TY_CML_I_REACHES", "hint_key": "TY_CML_H_REACHES"},
+    "team": {"label_key": "TY_CML_I_TEAM", "hint_key": "TY_CML_H_TEAM", "min_team": 0.75},
+    "instruments": {"label_key": "TY_CML_I_INSTRUMENTS", "hint_key": "TY_CML_H_INSTRUMENTS", "min_instrument": 0.6},
+    "power": {"label_key": "TY_CML_I_POWER", "hint_key": "TY_CML_H_POWER", "min_power": 0.99},
+    "mass_margin": {"label_key": "TY_CML_I_MASS", "hint_key": "TY_CML_H_MASS"},
+    "comms": {"label_key": "TY_CML_I_COMMS", "hint_key": "TY_CML_H_COMMS", "min_data": 0.9},
+    "budget": {"label_key": "TY_CML_I_BUDGET", "hint_key": "TY_CML_H_BUDGET"},
+    "schedule": {"label_key": "TY_CML_I_SCHEDULE", "hint_key": "TY_CML_H_SCHEDULE"},
+    "risks": {"label_key": "TY_CML_I_RISKS", "hint_key": "TY_CML_H_RISKS"}
+  },
+  "bonus": {"from_level": 4, "hype_per_level": 1.5, "reputation_per_level": 0.25}
+}

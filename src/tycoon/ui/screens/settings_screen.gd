@@ -1,12 +1,13 @@
 class_name TycoonSettingsScreen
 extends Control
-## In-game settings (scenes/tycoon/ui/screens/settings.tscn), four tabs (CwPageStack):
+## In-game settings (scenes/tycoon/ui/screens/settings.tscn), five tabs (CwPageStack):
 ##   Game   language, motion, the launch cinematic, story scenes and Vovô's narration of them,
 ##          replay the opening,
 ##          Vovô Edmundo's lessons on / off and his library (library.tscn)
 ##   Save   the save slots (save, load, the monthly autosave)
-##   Image  window / fullscreen, style, outlines
+##   Image  window / fullscreen, graphics quality (Baixo / Médio / Alto), style, outlines, AA
 ##   Sound  the three volumes
+##   Access text size, colour-blind friendly colours, the key list (CwAccess, CwKeys)
 ## The options rows come from the main menu's options panel (scenes/menu/options_panel.tscn
 ## with MenuSettings), instanced once per tab with the other rows hidden in the scene. Back to
 ## the menu and back to the campus stay at the foot.
@@ -28,7 +29,7 @@ func _ready() -> void:
 	%Resume.pressed.connect(close)
 	%Menu.pressed.connect(back_to_menu)
 	# the menu's options panel, once per tab (each shows only that tab's rows)
-	for o in [%Options, %OptionsImage, %OptionsSound]:
+	for o in [%Options, %OptionsImage, %OptionsSound, %OptionsAccess]:
 		(o as MenuOptionsPanel).closed.connect(close)
 	# the launch cinematic on/off (src/tycoon/launch/launch_sequence.gd)
 	%LaunchCinematic.button_pressed = LaunchSequence.enabled()
@@ -58,7 +59,7 @@ func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD) -> void:
 	refresh()
 
 
-## open_screen("settings", {"tab": "Game" | "Save" | "Image" | "Sound"})
+## open_screen("settings", {"tab": "Game" | "Save" | "Image" | "Sound" | "Access"})
 func open_with(args: Dictionary) -> void:
 	if args.has("tab"):
 		(%Pages as CwPageStack).switch_to(StringName(String(args["tab"])))

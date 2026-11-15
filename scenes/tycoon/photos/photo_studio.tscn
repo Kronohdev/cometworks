@@ -1,0 +1,579 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/tycoon/photos/mission_photo_studio.gd" id="1_studio"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Shader" path="res://shaders/photo_print.gdshader" id="3_print"]
+[ext_resource type="Shader" path="res://shaders/flight_map_sky.gdshader" id="4_sky"]
+[ext_resource type="Shader" path="res://shaders/solar_planet.gdshader" id="5_planet"]
+[ext_resource type="Shader" path="res://shaders/solar_atmosphere.gdshader" id="6_atmo"]
+[ext_resource type="Shader" path="res://shaders/solar_rings.gdshader" id="7_rings"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod0.glb" id="8_earth"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/earth_lod1.glb" id="9_earth_small"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod0.glb" id="10_moon"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/moon_lod1.glb" id="11_moon_small"]
+[ext_resource type="PackedScene" path="res://scenes/menu/props/comet_mae_gelo.tscn" id="12_comet"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_lod1.glb" id="13_saturn"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/saturn_rings_lod1.glb" id="14_rings"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/jupiter_lod1.glb" id="15_jupiter"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/mars_lod1.glb" id="16_mars"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/lander_cometworks.tscn" id="17_lander"]
+[ext_resource type="PackedScene" path="res://scenes/surface/props/boulder_split.tscn" id="18_boulder"]
+[ext_resource type="PackedScene" path="res://assets/voxel/planets/europa_lod1.glb" id="19_europa"]
+
+[sub_resource type="ShaderMaterial" id="print_mat"]
+shader = ExtResource("3_print")
+shader_parameter/vignette = 0.6
+shader_parameter/grain = 0.035
+shader_parameter/ir = 0.0
+shader_parameter/grain_seed = 0.0
+shader_parameter/mark_color = Color(0.92, 0.96, 1, 0.7)
+shader_parameter/mark_px = 1.5
+
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("4_sky")
+shader_parameter/star_brightness = 2.0
+shader_parameter/milky_way = 0.7
+shader_parameter/galactic_pole = Vector3(0.6, 0.55, 0.58)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+radiance_size = 0
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.48, 0.72, 1)
+ambient_light_energy = 0.28
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.02
+glow_hdr_threshold = 1.0
+adjustment_enabled = true
+adjustment_saturation = 1.1
+
+[sub_resource type="ShaderMaterial" id="mat_earth"]
+shader = ExtResource("5_planet")
+shader_parameter/ocean_glint = 0.35
+
+[sub_resource type="ShaderMaterial" id="mat_rock"]
+shader = ExtResource("5_planet")
+
+[sub_resource type="ShaderMaterial" id="mat_gas"]
+shader = ExtResource("5_planet")
+shader_parameter/normal_blend = 0.75
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="mat_rings"]
+shader = ExtResource("7_rings")
+shader_parameter/brightness = 1.6
+shader_parameter/two_sided_wrap = 0.8
+
+[sub_resource type="SphereMesh" id="atmo_sphere"]
+radial_segments = 96
+rings = 48
+
+[sub_resource type="ShaderMaterial" id="mat_atmo"]
+shader = ExtResource("6_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/power = 2.0
+shader_parameter/sun_position = Vector3(60000, 30000, 50000)
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_moonset"]
+shader = ExtResource("6_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/power = 2.0
+shader_parameter/sun_position = Vector3(89000, 32000, -32400)
+
+[sub_resource type="ShaderMaterial" id="mat_atmo_surface"]
+shader = ExtResource("6_atmo")
+shader_parameter/atmo_color = Color(0.435, 0.706, 1, 1)
+shader_parameter/intensity = 2.2
+shader_parameter/power = 2.0
+shader_parameter/sun_position = Vector3(58000, 56000, 58000)
+
+[sub_resource type="FastNoiseLite" id="ground_noise"]
+noise_type = 1
+frequency = 0.05
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="ground_albedo"]
+width = 256
+height = 256
+seamless = true
+noise = SubResource("ground_noise")
+
+[sub_resource type="NoiseTexture2D" id="ground_normal"]
+width = 256
+height = 256
+seamless = true
+as_normal_map = true
+bump_strength = 6.0
+noise = SubResource("ground_noise")
+
+[sub_resource type="StandardMaterial3D" id="mat_ground"]
+albedo_color = Color(0.62, 0.61, 0.6, 1)
+albedo_texture = SubResource("ground_albedo")
+roughness = 1.0
+normal_enabled = true
+normal_scale = 1.4
+normal_texture = SubResource("ground_normal")
+uv1_scale = Vector3(220, 110, 1)
+
+[sub_resource type="SphereMesh" id="ground_sphere"]
+radius = 300.0
+height = 600.0
+radial_segments = 192
+rings = 96
+
+[sub_resource type="StandardMaterial3D" id="mat_track"]
+albedo_color = Color(0.32, 0.31, 0.31, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="track_box"]
+size = Vector3(0.28, 0.02, 14)
+
+[node name="PhotoStudio" type="Node"]
+script = ExtResource("1_studio")
+
+[node name="Frame" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(480, 300)
+render_target_update_mode = 0
+
+[node name="Root" type="Control" parent="Frame"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="View" type="SubViewportContainer" parent="Frame/Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="World" type="SubViewport" parent="Frame/Root/View"]
+unique_name_in_owner = true
+own_world_3d = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(480, 300)
+render_target_update_mode = 0
+
+[node name="Stage" type="Node3D" parent="Frame/Root/View/World"]
+unique_name_in_owner = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Frame/Root/View/World/Stage"]
+environment = SubResource("env")
+
+[node name="Camera" type="Camera3D" parent="Frame/Root/View/World/Stage"]
+unique_name_in_owner = true
+current = true
+fov = 40.0
+near = 0.05
+far = 6000.0
+
+[node name="Sets" type="Node3D" parent="Frame/Root/View/World/Stage"]
+unique_name_in_owner = true
+
+[node name="Earth" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Earth"]
+transform = Transform3D(0.6273, -0.296, 0.7203, 0, 0.9249, 0.3802, -0.7788, -0.2385, 0.5802, 0, 0, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 1.5
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Earth"]
+transform = Transform3D(0.9903, -0.1392, 0, 0.1097, 0.7803, 0.6157, -0.0857, -0.6097, 0.788, 0, 0, 0)
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Earth/Spin" instance=ExtResource("8_earth")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="earth_lod0" parent="Frame/Root/View/World/Stage/Sets/Earth/Spin/Body" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Spin"]
+transform = Transform3D(21.4, 0, 0, 0, 21.4, 0, 0, 0, 21.4, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo")
+
+[node name="Moon" parent="Frame/Root/View/World/Stage/Sets/Earth" instance=ExtResource("11_moon_small")]
+transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, -40, 12, -10)
+
+[node name="moon_lod1" parent="Frame/Root/View/World/Stage/Sets/Earth/Moon" index="0"]
+material_override = SubResource("mat_rock")
+cast_shadow = 0
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Earth"]
+
+[node name="Limb" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 6)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses/Limb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -14, -20)
+
+[node name="Orbit" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 11, 14)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses/Orbit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -4, -14)
+
+[node name="Full" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 6, 36)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses/Full"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -6, -36)
+
+[node name="WithMoon" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2, 40)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Earth/Poses/WithMoon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, -44)
+
+[node name="Moon" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Moon"]
+transform = Transform3D(-0.3420, -0.3, 0.8902, 0, 0.9477, 0.3193, -0.9397, 0.1092, -0.3240, 0, 0, 0)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.6
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Moon"]
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Moon/Spin" instance=ExtResource("10_moon")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="moon_lod0" parent="Frame/Root/View/World/Stage/Sets/Moon/Spin/Body" index="0"]
+material_override = SubResource("mat_rock")
+cast_shadow = 0
+
+[node name="Earth" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Moon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 69, -85)
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Moon/Earth" instance=ExtResource("9_earth_small")]
+transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0)
+
+[node name="earth_lod1" parent="Frame/Root/View/World/Stage/Sets/Moon/Earth/Body" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Earth"]
+transform = Transform3D(19.2, 0, 0, 0, 19.2, 0, 0, 0, 19.2, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_moonset")
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Moon"]
+
+[node name="FarSide" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 6, 22)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses/FarSide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -6, -22)
+
+[node name="Orbit" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 11.2, 5)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses/Orbit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -6, -14)
+
+[node name="Earthrise" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 16)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Moon/Poses/Earthrise"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 14, -26.5)
+
+[node name="Surface" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Surface"]
+transform = Transform3D(0.7071, -0.4, 0.5831, 0, 0.8246, 0.5657, -0.7071, -0.4, 0.5831, 0, 0, 0)
+light_color = Color(1, 0.97, 0.92, 1)
+light_energy = 1.7
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Surface"]
+
+[node name="Ground" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -300, 0)
+mesh = SubResource("ground_sphere")
+surface_material_override/0 = SubResource("mat_ground")
+
+[node name="Lander" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin" instance=ExtResource("17_lander")]
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, -1, 0, -9)
+
+[node name="Boulder" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin" instance=ExtResource("18_boulder")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 4.5, -0.1, -6)
+
+[node name="Boulder2" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin" instance=ExtResource("18_boulder")]
+transform = Transform3D(0, 0, -0.3, 0, 0.3, 0, 0.3, 0, 0, -6, -0.05, -14)
+
+[node name="Boulder3" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin" instance=ExtResource("18_boulder")]
+transform = Transform3D(1.2, 0, 0, 0, 1.0, 0, 0, 0, 1.2, 12, -0.3, -30)
+
+[node name="TrackL" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin"]
+transform = Transform3D(0.9848, 0, 0.1736, 0, 1, 0, -0.1736, 0, 0.9848, 2.2, 0.0, -3)
+mesh = SubResource("track_box")
+surface_material_override/0 = SubResource("mat_track")
+
+[node name="TrackR" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Spin"]
+transform = Transform3D(0.9848, 0, 0.1736, 0, 1, 0, -0.1736, 0, 0.9848, 3.4, 0.0, -3.2)
+mesh = SubResource("track_box")
+surface_material_override/0 = SubResource("mat_track")
+
+[node name="Earth" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Surface"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 32, -150)
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Surface/Earth" instance=ExtResource("9_earth_small")]
+transform = Transform3D(12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0, 0)
+
+[node name="earth_lod1" parent="Frame/Root/View/World/Stage/Sets/Surface/Earth/Body" index="0"]
+material_override = SubResource("mat_earth")
+cast_shadow = 0
+
+[node name="Atmosphere" type="MeshInstance3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Earth"]
+transform = Transform3D(25.4, 0, 0, 0, 25.4, 0, 0, 0, 25.4, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("atmo_sphere")
+surface_material_override/0 = SubResource("mat_atmo_surface")
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Surface"]
+
+[node name="Lander" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.7, 1)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Poses/Lander"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.2, -10)
+
+[node name="Rover" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 1.0, 5)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Surface/Poses/Rover"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.2, -14)
+
+[node name="Comet" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Comet"]
+transform = Transform3D(0, -0.2588, 0.9659, 0, 0.9659, 0.2588, -1, 0, 0, 0, 0, 0)
+light_color = Color(1, 0.93, 0.84, 1)
+light_energy = 1.6
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Comet"]
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Comet/Spin" instance=ExtResource("12_comet")]
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Comet"]
+
+[node name="Wide" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 8, 55)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses/Wide"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -8, -55)
+
+[node name="Close" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.6, 3.2)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses/Close"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -0.6, -3.2)
+
+[node name="Tails" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3, 14)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Comet/Poses/Tails"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -3, -14)
+
+[node name="Saturn" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Saturn"]
+transform = Transform3D(0.2983, 0.2423, -0.9232, 0, 0.9672, 0.2539, 0.9545, -0.0757, 0.2885, 0, 0, 0)
+light_color = Color(1, 0.94, 0.86, 1)
+light_energy = 1.7
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Saturn"]
+transform = Transform3D(0.9659, -0.2588, 0, 0.2241, 0.8365, 0.5, -0.1294, -0.483, 0.866, 0, 0, 0)
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Saturn/Spin" instance=ExtResource("13_saturn")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="saturn_lod1" parent="Frame/Root/View/World/Stage/Sets/Saturn/Spin/Body" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+
+[node name="Rings" parent="Frame/Root/View/World/Stage/Sets/Saturn/Spin" instance=ExtResource("14_rings")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="saturn_rings_lod1" parent="Frame/Root/View/World/Stage/Sets/Saturn/Spin/Rings" index="0"]
+material_override = SubResource("mat_rings")
+cast_shadow = 0
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Saturn"]
+
+[node name="Scope" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Saturn/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 12, 98)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Saturn/Poses/Scope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -12, -98)
+
+[node name="Jupiter" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Jupiter"]
+transform = Transform3D(0.5, 0.2, -0.8426, 0, 0.9728, 0.2309, 0.866, -0.1155, 0.4865, 0, 0, 0)
+light_color = Color(1, 0.94, 0.86, 1)
+light_energy = 1.6
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Jupiter"]
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Jupiter/Spin" instance=ExtResource("15_jupiter")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="jupiter_lod1" parent="Frame/Root/View/World/Stage/Sets/Jupiter/Spin/Body" index="0"]
+material_override = SubResource("mat_gas")
+cast_shadow = 0
+
+[node name="Io" parent="Frame/Root/View/World/Stage/Sets/Jupiter" instance=ExtResource("19_europa")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 14, 1.5, 6)
+
+[node name="europa_lod1" parent="Frame/Root/View/World/Stage/Sets/Jupiter/Io" index="0"]
+material_override = SubResource("mat_rock")
+cast_shadow = 0
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Jupiter"]
+
+[node name="Scope" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Jupiter/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3, 55)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Jupiter/Poses/Scope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -3, -55)
+
+[node name="Mars" type="Node3D" parent="Frame/Root/View/World/Stage/Sets"]
+visible = false
+
+[node name="Sun" type="DirectionalLight3D" parent="Frame/Root/View/World/Stage/Sets/Mars"]
+transform = Transform3D(0.7071, 0.1, -0.7, 0, 0.9899, 0.1414, 0.7071, -0.1, 0.7, 0, 0, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 1.6
+
+[node name="Spin" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Mars"]
+
+[node name="Body" parent="Frame/Root/View/World/Stage/Sets/Mars/Spin" instance=ExtResource("16_mars")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="mars_lod1" parent="Frame/Root/View/World/Stage/Sets/Mars/Spin/Body" index="0"]
+material_override = SubResource("mat_rock")
+cast_shadow = 0
+
+[node name="Poses" type="Node3D" parent="Frame/Root/View/World/Stage/Sets/Mars"]
+
+[node name="Scope" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Mars/Poses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 60)
+
+[node name="Look" type="Marker3D" parent="Frame/Root/View/World/Stage/Sets/Mars/Poses/Scope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -60)
+
+[node name="Print" type="ColorRect" parent="Frame/Root"]
+unique_name_in_owner = true
+material = SubResource("print_mat")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Mission" type="Label" parent="Frame/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 22.0
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 40.0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 0.92)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
+text = "DEM-01 · SATÉLITE"
+text_overrun_behavior = 3
+
+[node name="Agency" type="Label" parent="Frame/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 0.75)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "COMETWORKS"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="Date" type="Label" parent="Frame/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -40.0
+offset_right = 220.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(1, 0.86, 0.45, 0.95)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
+text = "A03·S14 · 0412"
+
+[node name="Subject" type="Label" parent="Frame/Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -40.0
+offset_right = -22.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_type_variation = &"CwMonoSmall"
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 0.85)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "TERRA"
+horizontal_alignment = 2
+text_overrun_behavior = 3

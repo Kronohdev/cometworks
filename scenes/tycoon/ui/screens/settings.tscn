@@ -126,6 +126,15 @@ toggle_mode = true
 text = "TY_SET_TAB_SOUND"
 metadata/page = &"Sound"
 
+[node name="AccessTab" type="Button" parent="Panel/Margin/VBox/Head/Tabs"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwKey"
+toggle_mode = true
+text = "TY_SET_TAB_ACCESS"
+metadata/page = &"Access"
+
 [node name="Close" type="Button" parent="Panel/Margin/VBox/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(88, 0)
@@ -339,7 +348,7 @@ metadata/title = "TY_SET_TAB_IMAGE"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
-rows = PackedStringArray("DisplayLabel", "Display", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA", "WeatherLabel", "Weather", "BubblesLabel", "Bubbles", "BubbleRateLabel", "BubbleRate")
+rows = PackedStringArray("DisplayLabel", "Display", "QualityLabel", "Quality", "StyleLabel", "Style", "OutlineLabel", "Outlines", "AALabel", "AA", "WeatherLabel", "Weather", "BubblesLabel", "Bubbles", "BubbleRateLabel", "BubbleRate")
 
 [node name="Head" parent="Panel/Margin/VBox/Pages/Image/OptionsImage/Margin/VBox" index="0"]
 visible = false
@@ -435,6 +444,30 @@ visible = false
 visible = false
 
 [node name="Outlines" parent="Panel/Margin/VBox/Pages/Sound/OptionsSound/Margin/VBox/Grid" index="15"]
+visible = false
+
+[node name="Access" type="VBoxContainer" parent="Panel/Margin/VBox/Pages"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+metadata/title = "TY_SET_TAB_ACCESS"
+
+[node name="OptionsAccess" parent="Panel/Margin/VBox/Pages/Access" instance=ExtResource("4_options")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+rows = PackedStringArray("TextSizeLabel", "TextSize", "ColorblindLabel", "Colorblind", "KeysLabel", "Keys")
+
+[node name="Head" parent="Panel/Margin/VBox/Pages/Access/OptionsAccess/Margin/VBox" index="0"]
+visible = false
+
+[node name="Sep" parent="Panel/Margin/VBox/Pages/Access/OptionsAccess/Margin/VBox" index="1"]
+visible = false
+
+[node name="Sep2" parent="Panel/Margin/VBox/Pages/Access/OptionsAccess/Margin/VBox" index="3"]
+visible = false
+
+[node name="Foot" parent="Panel/Margin/VBox/Pages/Access/OptionsAccess/Margin/VBox" index="4"]
 visible = false
 
 [node name="Foot" type="HBoxContainer" parent="Panel/Margin/VBox"]

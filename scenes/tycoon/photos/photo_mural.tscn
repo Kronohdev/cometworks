@@ -1,0 +1,211 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="1_toon"]
+[ext_resource type="Script" path="res://src/tycoon/photos/photo_mural.gd" id="2_mural"]
+
+[sub_resource type="ShaderMaterial" id="m_wood_dark"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.3529, 0.2549, 0.1882, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_wood"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.5412, 0.3961, 0.2667, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_cork"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.8, 0.62, 0.42, 1)
+shader_parameter/roughness = 0.95
+
+[sub_resource type="ShaderMaterial" id="m_paper"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1, 0.9569, 0.8784, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_lilac"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(0.702, 0.612, 1, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="m_pin"]
+render_priority = 0
+shader = ExtResource("1_toon")
+shader_parameter/albedo = Color(1, 0.4, 0.4, 1)
+shader_parameter/roughness = 0.6
+
+[sub_resource type="BoxMesh" id="b_post"]
+size = Vector3(0.16, 2.3, 0.16)
+
+[sub_resource type="BoxMesh" id="b_foot"]
+size = Vector3(0.36, 0.12, 0.36)
+
+[sub_resource type="BoxMesh" id="b_board"]
+size = Vector3(3.9, 1.35, 0.1)
+
+[sub_resource type="BoxMesh" id="b_frame_h"]
+size = Vector3(4.06, 0.1, 0.16)
+
+[sub_resource type="BoxMesh" id="b_frame_v"]
+size = Vector3(0.1, 1.45, 0.16)
+
+[sub_resource type="BoxMesh" id="b_title"]
+size = Vector3(1.9, 0.38, 0.1)
+
+[sub_resource type="BoxMesh" id="b_print"]
+size = Vector3(1.12, 0.76, 0.02)
+
+[sub_resource type="QuadMesh" id="q_photo"]
+size = Vector2(1.0, 0.625)
+
+[sub_resource type="SphereMesh" id="s_pin"]
+radius = 0.045
+height = 0.09
+radial_segments = 12
+rings = 6
+
+[sub_resource type="StandardMaterial3D" id="m_photo1"]
+albedo_color = Color(0.12, 0.12, 0.2, 1)
+metallic_specular = 0.0
+roughness = 1.0
+emission_enabled = true
+emission = Color(0, 0, 0, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="m_photo2"]
+albedo_color = Color(0.12, 0.12, 0.2, 1)
+metallic_specular = 0.0
+roughness = 1.0
+emission_enabled = true
+emission = Color(0, 0, 0, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="m_photo3"]
+albedo_color = Color(0.12, 0.12, 0.2, 1)
+metallic_specular = 0.0
+roughness = 1.0
+emission_enabled = true
+emission = Color(0, 0, 0, 1)
+emission_energy_multiplier = 0.12
+
+[node name="PhotoMural" type="Node3D"]
+script = ExtResource("2_mural")
+
+[node name="Board" type="Node3D" parent="."]
+
+[node name="Post" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.15, -0.1)
+mesh = SubResource("b_post")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Post2" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.15, -0.1)
+mesh = SubResource("b_post")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Foot" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.06, -0.1)
+mesh = SubResource("b_foot")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Foot2" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.06, -0.1)
+mesh = SubResource("b_foot")
+surface_material_override/0 = SubResource("m_wood_dark")
+
+[node name="Cork" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("b_board")
+surface_material_override/0 = SubResource("m_cork")
+
+[node name="FrameTop" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0.03)
+mesh = SubResource("b_frame_h")
+surface_material_override/0 = SubResource("m_wood")
+
+[node name="FrameBottom" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.03)
+mesh = SubResource("b_frame_h")
+surface_material_override/0 = SubResource("m_wood")
+
+[node name="FrameLeft" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.98, 1.45, 0.03)
+mesh = SubResource("b_frame_v")
+surface_material_override/0 = SubResource("m_wood")
+
+[node name="FrameRight" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.98, 1.45, 0.03)
+mesh = SubResource("b_frame_v")
+surface_material_override/0 = SubResource("m_wood")
+
+[node name="Title" type="MeshInstance3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38, 0.02)
+mesh = SubResource("b_title")
+surface_material_override/0 = SubResource("m_lilac")
+
+[node name="TitleText" type="Label3D" parent="Board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38, 0.08)
+pixel_size = 0.004
+modulate = Color(0.1686, 0.1647, 0.3608, 1)
+outline_modulate = Color(1, 1, 1, 0.6)
+text = "TY_PH_MURAL_TITLE"
+font_size = 56
+outline_size = 6
+
+[node name="Photos" type="Node3D" parent="Board"]
+
+[node name="Photo1" type="Node3D" parent="Board/Photos"]
+transform = Transform3D(0.9986, 0.0523, 0, -0.0523, 0.9986, 0, 0, 0, 1, -1.25, 1.45, 0.06)
+
+[node name="Print" type="MeshInstance3D" parent="Board/Photos/Photo1"]
+mesh = SubResource("b_print")
+surface_material_override/0 = SubResource("m_paper")
+
+[node name="Pic" type="MeshInstance3D" parent="Board/Photos/Photo1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.012)
+mesh = SubResource("q_photo")
+surface_material_override/0 = SubResource("m_photo1")
+
+[node name="Pin" type="MeshInstance3D" parent="Board/Photos/Photo1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 0.04)
+mesh = SubResource("s_pin")
+surface_material_override/0 = SubResource("m_pin")
+
+[node name="Photo2" type="Node3D" parent="Board/Photos"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47, 0.06)
+
+[node name="Print" type="MeshInstance3D" parent="Board/Photos/Photo2"]
+mesh = SubResource("b_print")
+surface_material_override/0 = SubResource("m_paper")
+
+[node name="Pic" type="MeshInstance3D" parent="Board/Photos/Photo2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.012)
+mesh = SubResource("q_photo")
+surface_material_override/0 = SubResource("m_photo2")
+
+[node name="Pin" type="MeshInstance3D" parent="Board/Photos/Photo2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 0.04)
+mesh = SubResource("s_pin")
+surface_material_override/0 = SubResource("m_pin")
+
+[node name="Photo3" type="Node3D" parent="Board/Photos"]
+transform = Transform3D(0.9986, -0.0523, 0, 0.0523, 0.9986, 0, 0, 0, 1, 1.25, 1.44, 0.06)
+
+[node name="Print" type="MeshInstance3D" parent="Board/Photos/Photo3"]
+mesh = SubResource("b_print")
+surface_material_override/0 = SubResource("m_paper")
+
+[node name="Pic" type="MeshInstance3D" parent="Board/Photos/Photo3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.012)
+mesh = SubResource("q_photo")
+surface_material_override/0 = SubResource("m_photo3")
+
+[node name="Pin" type="MeshInstance3D" parent="Board/Photos/Photo3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 0.04)
+mesh = SubResource("s_pin")
+surface_material_override/0 = SubResource("m_pin")

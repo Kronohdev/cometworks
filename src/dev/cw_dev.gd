@@ -524,6 +524,16 @@ func _s_reduce_motion(_arg: Variant) -> bool:
 	return CwMotion.reduced()
 
 
+## Graphics quality 0 Baixo / 1 Médio / 2 Alto (GraphicsQuality, applied live and saved).
+func _a_quality(l: Variant) -> String:
+	GraphicsQuality.set_level(int(l))
+	return "gráficos: %s" % ["baixo", "médio", "alto"][GraphicsQuality.current()]
+
+
+func _s_quality(l: Variant) -> bool:
+	return GraphicsQuality.current() == int(l)
+
+
 func _a_mute(on: Variant) -> String:
 	AudioServer.set_bus_mute(0, bool(on))
 	return "som mudo" if on else "som ligado"
@@ -1305,6 +1315,21 @@ func _a_watch_last(_arg: Variant) -> String:
 	if m.hud.current_screen() != "":
 		m.hud.close_screen()
 	return "acompanhando %s" % h.get("code", "?") if m.modes.open_watch(String(h.get("id", ""))) else "não abriu"
+
+
+## The comic recap (Vovô Edmundo) of the last launched project: the HUD screen "flight_comic"
+## (its saved log, else the launch flown again at once).
+func _a_flight_comic(_arg: Variant) -> String:
+	var m := main()
+	if m == null or m.hud == null:
+		return NO_CAMPAIGN
+	if m.modes and m.modes.is_open():
+		return "o hangar / o voo já está aberto"
+	if m.state.project_history.is_empty():
+		return "nenhum projeto lançado ainda (use Lançar teste agora)"
+	var h: Dictionary = m.state.project_history[-1]
+	return "quadrinhos do %s" % h.get("code", "?") if m.hud.open_screen("flight_comic", {"project_id": String(h.get("id", ""))}) \
+		else "não abriu"
 
 
 func _a_rocket_parts(_arg: Variant) -> String:

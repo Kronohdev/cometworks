@@ -1,0 +1,61 @@
+keys,en,pt
+TY_MEM_MILESTONES,Milestones,Marcos
+TY_MEM_MILESTONES_EMPTY,No milestones yet: the first launch will be one to remember.,Nenhum marco ainda: o primeiro lançamento vai ficar na memória.
+TY_MEM_SUMMARY,%d missions · %d successes · %d explosions survived,%d missões · %d sucessos · %d explosões sobrevividas
+TY_MEM_MS_TIP,%s\n%s · year %d,%s\n%s · ano %d
+TY_MEM_HIST_FIRST,First!,Primeira!
+TY_MEM_HIST_PARTIAL,Partial,Parcial
+TY_MEM_MS_FIRST_MISSION,First mission,Primeira missão
+TY_MEM_MS_FIRST_MISSION_D,Was on the team of a launched mission.,Esteve na equipe de uma missão lançada.
+TY_MEM_MS_FIRST_SUCCESS,First success,Primeiro sucesso
+TY_MEM_MS_FIRST_SUCCESS_D,Watched a mission of theirs fly right.,Viu uma missão sua voar direitinho.
+TY_MEM_MS_PIONEER,Pioneer,Pioneiro
+TY_MEM_MS_PIONEER_D,Flew the agency's first-ever mission of its kind.,Voou a primeiríssima missão da agência daquele tipo.
+TY_MEM_MS_FIRST_ORBIT,First orbit,Primeira órbita
+TY_MEM_MS_FIRST_ORBIT_D,Put something of theirs in orbit around the Earth.,Botou algo seu em órbita da Terra.
+TY_MEM_MS_LUNAR_PROBE,First lunar probe,Primeira sonda lunar
+TY_MEM_MS_LUNAR_PROBE_D,Helped build a probe that reached the Moon.,Ajudou a construir uma sonda que chegou à Lua.
+TY_MEM_MS_CREWED,Cometlings aboard,Cometinhos a bordo
+TY_MEM_MS_CREWED_D,Worked on a crewed flight that came home well.,Trabalhou num voo tripulado que deu certo.
+TY_MEM_MS_COMET,Met Mother-Ice,Encontrou a Mãe-Gelo
+TY_MEM_MS_COMET_D,Was on the team of a successful comet mission.,Esteve na equipe de uma missão ao cometa que deu certo.
+TY_MEM_MS_EXCEPTIONAL,Flawless,Impecável
+TY_MEM_MS_EXCEPTIONAL_D,Flew an exceptional mission.,Voou uma missão excepcional.
+TY_MEM_MS_SURVIVOR_1,First explosion,Primeira explosão
+TY_MEM_MS_SURVIVOR_1_D,"Saw a mission of theirs go boom, and stayed.","Viu uma missão sua virar fogos de artifício, e ficou."
+TY_MEM_MS_SURVIVOR_3,Survived 3 explosions,Sobreviveu a 3 explosões
+TY_MEM_MS_SURVIVOR_3_D,Three failed launches and still smiling.,Três lançamentos falhos e ainda sorrindo.
+TY_MEM_MS_VETERAN_5,Veteran of 5 missions,Veterano de 5 missões
+TY_MEM_MS_VETERAN_5_D,Was on the team of five launched missions.,Esteve na equipe de cinco missões lançadas.
+TY_MEM_MS_VETERAN_10,Veteran of 10 missions,Veterano de 10 missões
+TY_MEM_MS_VETERAN_10_D,Ten launches on the résumé. A campus legend.,Dez lançamentos no currículo. Lenda do campus.
+TY_MEM_CHAT_REMEMBER_1,Remember {mission}? I soldered that antenna!,Lembra da {mission}? Eu soldei aquela antena!
+TY_MEM_CHAT_REMEMBER_2,I still have a bolt from {mission} in my pocket.,Ainda tenho um parafuso da {mission} no bolso.
+TY_MEM_CHAT_REMEMBER_3,Sometimes I dream about the {mission} countdown.,Às vezes eu sonho com a contagem da {mission}.
+TY_MEM_CHAT_KIND_1,"{missions_n} missions already, and each one a story.","{missions_n} missões já, e cada uma é uma história."
+TY_MEM_CHAT_PROUD_1,{mission_ok} worked! I'll tell my grandkids.,A {mission_ok} deu certo! Vou contar pros netinhos.
+TY_MEM_CHAT_PROUD_2,Did you see {mission_ok} fly? That was us!,Viu a {mission_ok} voando? Fomos nós!
+TY_MEM_CHAT_PROUD_3,I'm still glowing because of {mission_ok}.,Ainda tô brilhando por causa da {mission_ok}.
+TY_MEM_CHAT_FIRST_1,{mission_ok} was a first for the whole agency!,A {mission_ok} foi a primeira da agência inteira!
+TY_MEM_CHAT_NERVOUS_1,Same kind as {mission_fail}... checking it all twice.,Mesmo tipo da {mission_fail}... confiro tudo duas vezes.
+TY_MEM_CHAT_NERVOUS_2,"Please don't be another {mission_fail}, please...","Por favor não seja outra {mission_fail}, por favor..."
+TY_MEM_CHAT_NERVOUS_3,My antenna shakes when I think of {mission_fail}.,Minha antena treme quando lembro da {mission_fail}.
+TY_MEM_CHAT_SURVIVOR_1,Three explosions survived. Nothing scares me now!,Três explosões sobrevividas. Nada mais me assusta!
+TY_MEM_CHAT_VETERAN_1,Ten missions! The newbies ask me for advice now.,Dez missões! Os novatos já me pedem conselho.
+TY_MEM_CHAT_MILESTONE_1,My newest milestone: {milestone}!,Meu marco mais novo: {milestone}!
+TY_MEM_PAIR_REMEMBER_A,"{other}, remember {mission}?","{other}, lembra da {mission}?"
+TY_MEM_PAIR_REMEMBER_B,How could I forget? The whole campus talks about it!,Como esquecer? O campus inteiro fala dela!
+TY_MEM_PAIR_NERVOUS_A,"{other}, this one can't end like {mission_fail}...","{other}, essa não pode acabar como a {mission_fail}..."
+TY_MEM_PAIR_NERVOUS_B,It won't. This time we're ready.,Não vai. Dessa vez a gente tá pronto.
+TY_MEM_DLG_ASK,Remember your missions?,Lembra das suas missões?
+TY_MEM_DLG_HI_NERVOUS,"Hi... sorry, I keep thinking about {mission_fail}. We're building the same kind again.","Oi... desculpa, não paro de pensar na {mission_fail}. A gente tá fazendo o mesmo tipo de novo."
+TY_MEM_DLG_HI_PROUD,"Hi! Did you hear? {mission_ok} worked, and I was on the team!","Oi! Soube? A {mission_ok} deu certo, e eu tava na equipe!"
+TY_MEM_DLG_NERVOUS,"{mission_fail} still haunts me. This one has to fly, so I'm checking every bolt.","A {mission_fail} ainda me assombra. Essa tem que voar, então tô conferindo cada parafuso."
+TY_MEM_DLG_FIRST,{mission_ok}! Nobody at the agency had ever done one. And I was there!,A {mission_ok}! Ninguém na agência tinha feito uma antes. E eu tava lá!
+TY_MEM_DLG_PROUD,{mission_ok} was beautiful. I keep the photo of the launch on my desk.,A {mission_ok} foi linda. Guardo a foto do lançamento na minha mesa.
+TY_MEM_DLG_FAIL,{mission}... it didn't go well. But we learned a lot. Next time it flies.,A {mission}... não deu certo. Mas a gente aprendeu muito. Na próxima ela voa.
+TY_MEM_DLG_PARTIAL,{mission} half worked. Half a mission is still a mission!,A {mission} deu meio certo. Meia missão ainda é missão!
+TY_MEM_DLG_VETERAN,{missions_n} missions! I remember each one by the smell of the fuel.,{missions_n} missões! Lembro de cada uma pelo cheirinho do combustível.
+TY_MEM_DLG_SURVIVOR,I've seen rockets go boom more than once. You get used to it... a little.,Já vi foguete virar fogos mais de uma vez. A gente acostuma... um pouquinho.
+TY_MEM_DLG_MILESTONE,"Look at my newest milestone: {milestone}. Not bad for a Cometling, right?","Olha meu marco mais novo: {milestone}. Nada mal pra um Cometinho, né?"
+TY_MEM_DLG_REMEMBER,Remember {mission}? I soldered that antenna! It was a {mission_kind}.,Lembra da {mission}? Eu soldei aquela antena! Era uma missão de {mission_kind}.

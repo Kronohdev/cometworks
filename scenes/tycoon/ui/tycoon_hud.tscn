@@ -37,6 +37,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_number_ticker.gd" id="cwm_ticker"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_tooltip_fade.gd" id="cwm_tipfade"]
 [ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_campus_button.tscn" id="sx_surfaces"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/photo.svg" id="ph_album"]
 
 [sub_resource type="ButtonGroup" id="speed_group"]
 
@@ -692,6 +693,18 @@ expand_icon = true
 
 [node name="Surfaces" parent="Bottom" instance=ExtResource("sx_surfaces")]
 layout_mode = 2
+
+[node name="Album" type="Button" parent="Bottom"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(66, 0)
+layout_mode = 2
+tooltip_text = "TY_PH_ALBUM_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+icon = ExtResource("ph_album")
+icon_alignment = 1
+expand_icon = true
 
 [node name="NewProject" type="Button" parent="Bottom"]
 unique_name_in_owner = true

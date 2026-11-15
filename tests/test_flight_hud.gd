@@ -90,12 +90,14 @@ func _test_goal_and_coach() -> void:
 		world.sim.craft.next_stage(evs)
 	world.sim.craft.throttle = 0.0
 	world.sim.in_orbit = true
-	# the HUD refreshes on the world's telemetry tick: wait for it (a busy machine needs more frames)
+	# the HUD refreshes on the world's 0.1 s telemetry tick, which counts frame time: wait in time
+	# (up to 2 s) for it, not in frames (headless frames can be a millisecond each)
 	var goal_bar := hud.get_node("%GoalBar") as CwSegmentBar
 	var btn_stage := hud.get_node("%BtnStage") as Button
-	for i in 60:
+	var t_end := Time.get_ticks_msec() + 2000
+	while Time.get_ticks_msec() < t_end:
 		await process_frame
-		if i >= 8 and is_equal_approx(goal_bar.value, 1.0) and btn_stage.disabled:
+		if is_equal_approx(goal_bar.value, 1.0) and btn_stage.disabled:
 			break
 	t = world._telemetry()
 	_check(hud.now_key(t) == "FL_CW_NOW_ORBIT", "in orbit: open the map (%s)" % hud.now_key(t))

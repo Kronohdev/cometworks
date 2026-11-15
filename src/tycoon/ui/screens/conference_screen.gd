@@ -41,6 +41,12 @@ func refresh() -> void:
 		"rival": int((ConferenceBook.cfg("rival_reward", {}) as Dictionary).get("hype", 0))})
 	var nx := ConferenceBook.next_year(state, state.year() + 1)
 	%Next.text = tr("TY_CONF_NEXT").format({"year": nx}) if nx > 0 else tr("TY_CONF_NEXT_NONE")
+	# the "Agência do triênio" trophies the agency won at earlier fairs (ConferenceTriennium)
+	var won: Array[String] = []
+	for y in ConferenceTriennium.trophies(state):
+		won.append(str(y))
+	%Trophies.visible = not won.is_empty()
+	%Trophies.text = tr("TY_CONF_TROPHIES").format({"years": ", ".join(won)})
 	var host := String(ConferenceBook.cfg("host", "keplerino"))
 	%HostName.text = TycoonLegends.name_text(host)
 	%HostLine.text = tr("TY_CONF_INVITE_HOST")

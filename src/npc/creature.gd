@@ -9,8 +9,10 @@ extends Node3D
 ##     glancing, antenna pulse, weight shifts and random habits (look around, head tilt,
 ##     ear flick, antenna boing, toe bounce, tail wag, shy foot scuff, little hops, yawns,
 ##     stretches); personality_seed and mood change the tempo so a crowd never syncs
-##   - walking: squash & stretch steps, arm swing, body sway, a run above run_speed, a
-##     lean into turns with the head leading; set_move_velocity()
+##   - walking: the gait phase follows the distance walked and planted feet stay put (heel
+##     strike, toe-off), the hips bob twice a cycle and sway over the planted foot, arms
+##     counter-swing, squash & stretch, speeds ease in and out (critically damped), a run
+##     above run_speed, a lean into turns with the head leading; set_move_velocity()
 ##   - secondary motion: ears, antenna, tail, scarf and body lean on damped springs
 ##   - look-at: the head turns first toward a point, the body follows a little later
 ##   - loop actions: see LOOP_ACTIONS; one-shots on top: see ONESHOTS
@@ -129,6 +131,12 @@ const _FIDGET_LEN := {"look_around": 2.6, "head_tilt": 1.8, "toe_bounce": 1.6, "
 @export var run_stride := 0.27
 ## Model-unit speed (m/s) where the walk starts turning into a run (x) and is a full run (y).
 @export var run_speed := Vector2(1.1, 2.2)
+## Most steps per second when walking (x) / running (y): faster than that the stride grows
+## (up to max_reach) instead of the feet blurring.
+@export var max_cadence := Vector2(4.6, 6.2)
+## Longest foot travel along the ground in one stance (model units); faster still, the steps
+## quicken.
+@export var max_reach := 0.4
 ## Roll into turns, rad per rad/s of turning.
 @export_range(0.0, 0.3, 0.005) var turn_lean := 0.05
 ## How far the head leads a turn, rad per rad/s.
@@ -158,8 +166,14 @@ var _t := 0.0
 var _rng := RandomNumberGenerator.new()
 var _speed := 0.0            # m/s, model units (already divided by scale)
 var _speed_s := 0.0
+var _speed_v := 0.0           # rate of change of _speed_s (critically damped smoothing)
+var _gait_speed := 0.0        # faster-following speed that drives the cadence and the stride
+var _gait_v := 0.0
+var _duty := 0.58             # part of the gait cycle a foot stays planted
+var _reach := 0.0             # foot travel along the ground during one stance (model units)
+var _walk_w := 0.0            # how much of the walk pose is blended in
 var _move_local := Vector3.ZERO
-var _phase := 0.0
+var _phase := 0.0             # gait cycle (rad): 0 left foot lands, PI right foot lands
 var _breath := 0.0
 var _loop := "idle"
 var _loop_t := 0.0
@@ -902,6 +916,15 @@ static func _spring(s: Vector2, target: float, freq: float, damp: float, dt: flo
 	return Vector2(clampf(s.x, -3.0, 3.0), clampf(s.y, -60.0, 60.0))
 
 
+## Critically damped follow (value, velocity) toward target: no overshoot, no velocity jump when
+## the target jumps (starts and stops ease in and out), exact for any dt.
+static func _crit_damp(s: Vector2, target: float, omega: float, dt: float) -> Vector2:
+	var x := s.x - target
+	var e := exp(-omega * dt)
+	var tmp := (s.y + omega * x) * dt
+	return Vector2(target + (x + tmp) * e, (s.y - omega * tmp) * e)
+
+
 func _yaw_now() -> float:
 	if not is_inside_tree():
 		return 0.0
@@ -913,15 +936,29 @@ func _animate(dt: float) -> void:
 	if not _ready_done:
 		return
 	var prev_speed := _speed_s
-	_speed_s = lerpf(_speed_s, _speed, 1.0 - exp(-8.0 * dt))
+	# speeds ease in and out (critically damped): the blend weights follow slowly, the gait a
+	# little faster so the feet keep up with the ground
+	var sv := _crit_damp(Vector2(_speed_s, _speed_v), _speed, 9.0, dt)
+	_speed_s = maxf(sv.x, 0.0)
+	_speed_v = sv.y
+	var gv := _crit_damp(Vector2(_gait_speed, _gait_v), _speed, 16.0, dt)
+	_gait_speed = maxf(gv.x, 0.0)
+	_gait_v = gv.y
 	# inertia: speeding up tips the body back, slowing down tips it forward (then it rocks back)
 	_sp_lean.y = clampf(_sp_lean.y - (_speed_s - prev_speed) * lean_inertia * 6.0, -6.0, 6.0)
 	var walk := clampf(_speed_s / 0.5, 0.0, 1.0)
-	var run := clampf((_speed_s - run_speed.x) / maxf(run_speed.y - run_speed.x, 0.01), 0.0, 1.0)
-	# stride grows into a run, but never slower than a lazy shuffle
+	var run := _smooth((_speed_s - run_speed.x) / maxf(run_speed.y - run_speed.x, 0.01))
+	# the gait phase advances with the distance walked (one step per stride length), never
+	# slower than a lazy shuffle and never faster than max_cadence (then the stride grows)
 	var step_len := maxf(lerpf(stride, run_stride, run), 0.03)
-	var cadence := maxf(_speed_s / step_len, 2.2 if walk > 0.05 else 0.0)
+	_duty = lerpf(0.58, 0.4, run)
+	var cadence := clampf(_gait_speed / step_len, 2.2 * _smooth(walk / 0.15),
+		lerpf(max_cadence.x, max_cadence.y, run))
+	# past max_reach the steps quicken instead (a scurry) so the feet never skate
+	cadence = maxf(cadence, _gait_speed * 2.0 * _duty / maxf(max_reach, 0.05))
 	_phase = fmod(_phase + dt * cadence * PI, TAU * 64.0)
+	# a planted foot slides back exactly as fast as the body moves forward
+	_reach = _gait_speed * 2.0 * _duty / maxf(cadence, 0.5)
 	# how fast the parent turns (lean into turns, head leads)
 	if dt > 0.0:
 		var yaw := _yaw_now()
@@ -934,10 +971,11 @@ func _animate(dt: float) -> void:
 	_pose_idle(p)
 	if _fid != "":
 		_pose_fidget(p)
+	_walk_w = minf(1.0, walk * 2.0)
 	if walk > 0.0:
 		_tmp.copy_from(p)
 		_pose_walk(_tmp, walk, run)
-		p.blend(_tmp, minf(1.0, walk * 2.0))
+		p.blend(_tmp, _walk_w)
 	# loop action (with a cross-fade from the previous one)
 	if _prev_loop_w > 0.0 and _prev_loop != "idle":
 		_tmp.copy_from(p)
@@ -1063,33 +1101,73 @@ func _pose_fidget(p: Pose) -> void:
 			p.ear_lift -= 0.1 * e
 
 
+## One foot over its gait cycle u (0 = it lands): planted while u < duty, sliding back under
+## the body at the ground speed (no skating), then a smooth swing forward that leaves and lands
+## with some of the planted foot's speed. Returns (forward offset, lift, pitch: + heel up).
+static func _foot_path(u: float, duty: float, reach: float, lift: float) -> Vector3:
+	if u < duty:
+		var s := u / duty
+		# heel strike (toes up) flattens out, then the heel peels off before the lift
+		var pitch := -0.3 * (1.0 - _smooth(s / 0.2)) + 0.45 * _smooth((s - 0.7) / 0.3)
+		return Vector3(reach * (0.5 - s), 0.0, pitch)
+	var w := (u - duty) / (1.0 - duty)
+	var m := -reach * (1.0 - duty) / duty * 0.6   # end tangents (Hermite), per unit of w
+	var w2 := w * w
+	var w3 := w2 * w
+	var z := (2.0 * w3 - 3.0 * w2 + 1.0) * (-0.5 * reach) + (w3 - 2.0 * w2 + w) * m \
+		+ (-2.0 * w3 + 3.0 * w2) * (0.5 * reach) + (w3 - w2) * m
+	# the foot rises quickly off the toe and reaches forward low before it lands
+	var y := lift * sin(PI * pow(w, 0.8))
+	return Vector3(z, y, lerpf(0.45, -0.3, _smooth(w / 0.85)))
+
+
 func _pose_walk(p: Pose, walk: float, run: float) -> void:
-	var s := sin(_phase)
-	var c := cos(_phase)
-	var bounce := absf(s)                       # 0 at foot contact, 1 mid-step
-	var contact := 1.0 - bounce
-	var amp := walk_bounce * (1.0 + run * 0.7)
-	p.hips_y = bounce * 0.035 * (0.6 + walk * 0.6) * amp
-	p.rig_y = bounce * 0.035 * run * walk_bounce
-	p.squash = 1.0 - pow(contact, 6.0) * 0.08 * amp + pow(bounce, 2.0) * 0.045 * amp
-	p.hips_roll = c * 0.07 * (1.0 - run * 0.4)
-	p.hips_yaw = c * 0.08 * (1.0 + run * 0.5)
+	var amp := walk_bounce * (1.0 + run * 0.6)
+	var d := _duty
+	# a slow shuffle barely lifts its feet; a full stride lifts and rolls them
+	var stepping := _smooth(_gait_speed / 0.35)
+	var lift := (0.05 + run * 0.045) * stepping
+	var fl := _foot_path(fposmod(_phase / TAU, 1.0), d, _reach, lift)
+	var fr := _foot_path(fposmod(_phase / TAU + 0.5, 1.0), d, _reach, lift)
 	p.lean = 0.06 + walk * 0.08 + run * 0.14
-	# the head stays level while the body leans into the run
-	p.head = Vector3(-0.02 - bounce * 0.04 - run * 0.1, -c * 0.05, -c * 0.05 * (1.0 - run * 0.5))
-	p.head_y = -bounce * 0.008
-	var step := 0.07 * (0.5 + walk * 0.5) * (1.0 + run * 0.45)
-	var lift := 0.06 + run * 0.035
-	p.foot_l = Vector3(0, maxf(0.0, s) * lift, c * step)
-	p.foot_r = Vector3(0, maxf(0.0, -s) * lift, -c * step)
-	p.foot_pitch = Vector2(-maxf(0.0, s) * 0.5 + 0.15 * c, -maxf(0.0, -s) * 0.5 - 0.15 * c)
-	var swing := (0.6 + run * 0.45) * walk * arm_swing
-	var out := 0.22 + run * 0.16 + bounce * 0.04
-	p.arm_l = Vector3(c * swing - run * 0.35, 0, out)
-	p.arm_r = Vector3(-c * swing - run * 0.35, 0, out)
-	p.tail_wag = sin(_phase * 0.5) * 0.4
-	p.tail_lift = 0.25 + run * 0.25
+	p.foot_l = Vector3(0, fl.y + absf(fl.z) * 0.02 * stepping, fl.x)
+	p.foot_r = Vector3(0, fr.y + absf(fr.z) * 0.02 * stepping, fr.x)
+	p.foot_pitch = Vector2(fl.z, fr.z) * stepping
+	# body bob, twice per cycle: lowest just after a foot lands (walk) or at mid-stance (run),
+	# squashed there and stretched at the top
+	var step_u := fposmod(_phase / PI, 1.0)
+	var low_at := lerpf(0.1, d, run)
+	var h := 0.5 - 0.5 * cos(TAU * (step_u - low_at))   # 0 lowest .. 1 highest
+	h = lerpf(h, 1.0 - (1.0 - h) * (1.0 - h), run * 0.6)  # a run hangs up high, dips short
+	var low := 1.0 - h
+	var bob := walk_bounce * (0.4 + 0.6 * stepping)
+	p.hips_y = h * 0.032 * (0.6 + walk * 0.6) * amp * bob
+	# the rig (feet included) stays down: a planted foot never leaves the ground, the bob is
+	# all in the hips (the run's short flight is too brief to show without popping)
+	p.rig_y = 0.0
+	p.squash = 1.0 - pow(low, 4.0) * 0.07 * amp * bob + h * h * 0.04 * amp * bob
+	# weight over the planted foot: the hips sway to it and the body rolls over it (a waddle)
+	var side := cos(_phase - PI * d)   # +1 over the left foot's stance, -1 over the right
+	p.hips_x = side * 0.014 * (1.0 - run * 0.5) * stepping
+	p.hips_roll = -side * 0.06 * (1.0 - run * 0.4) * stepping
+	# the hips turn with the leg swinging forward; the head counters both to stay level
+	var c := cos(_phase)
+	p.hips_yaw = -c * 0.08 * (1.0 + run * 0.5) * stepping
+	# head: nods a beat after each landing (follow-through), steady gaze
+	var nod := 0.5 + 0.5 * cos(TAU * (step_u - low_at - 0.12))
+	p.head = Vector3(-0.03 - run * 0.1 + nod * 0.035 * amp * stepping, -p.hips_yaw * 0.75, -p.hips_roll * 0.7)
+	p.head_y = -low * 0.006
+	# arms swing against the legs, trailing them a touch
+	var swing := (0.55 + run * 0.5) * walk * arm_swing * (0.35 + 0.65 * stepping)
+	var ac := cos(_phase - 0.35)
+	var out := 0.22 + run * 0.16 + h * 0.03
+	p.arm_l = Vector3(ac * swing - run * 0.35, ac * 0.12 * stepping, out + maxf(-ac, 0.0) * 0.04)
+	p.arm_r = Vector3(-ac * swing - run * 0.35, -ac * 0.12 * stepping, out + maxf(ac, 0.0) * 0.04)
+	# the tail swings out against the hips, a beat late; ears flop out on each landing
+	p.tail_wag = -cos(_phase - PI * d - 0.8) * 0.3 * stepping
+	p.tail_lift = 0.25 + run * 0.25 - low * 0.08
 	p.ear_lift += run * 0.1
+	p.ear_spread += pow(low, 3.0) * 0.05 * amp
 	if run > 0.55:
 		p.mouth = 1
 
@@ -1771,8 +1849,17 @@ func _apply(p: Pose, dt: float) -> void:
 		Vector3(0, p.rig_y, p.rig_z))
 	_pose_node(hips, Vector3(p.hips_pitch, p.hips_yaw, p.hips_roll), Vector3(p.hips_x, p.hips_y, 0))
 	_pose_node(neck, p.head, Vector3(0, p.head_y, 0))
-	_pose_node(foot_l, Vector3(p.foot_pitch.x, 0, 0), p.foot_l)
-	_pose_node(foot_r, Vector3(p.foot_pitch.y, 0, 0), p.foot_r)
+	# the feet stay where they stand while the body squashes and stretches above them, and
+	# while walking they stay flat on the ground under the leaning body
+	var unsquash := Vector3(1.0 / side, 1.0 / sq, 1.0 / side)
+	var lean_fix := _sp_lean.x * _walk_w
+	var tilt := sin(lean_fix)
+	var fl_rest: Transform3D = _rest[foot_l]
+	var fr_rest: Transform3D = _rest[foot_r]
+	var fl_at := (fl_rest.origin + p.foot_l + Vector3(0, p.foot_l.z * tilt, 0)) * unsquash
+	var fr_at := (fr_rest.origin + p.foot_r + Vector3(0, p.foot_r.z * tilt, 0)) * unsquash
+	foot_l.transform = Transform3D(Basis.from_euler(Vector3(p.foot_pitch.x - lean_fix, 0, 0)), fl_at)
+	foot_r.transform = Transform3D(Basis.from_euler(Vector3(p.foot_pitch.y - lean_fix, 0, 0)), fr_at)
 	_pose_node(arm_l, Vector3(p.arm_l.x, p.arm_l.y, p.arm_l.z), Vector3.ZERO)
 	_pose_node(arm_r, Vector3(p.arm_r.x, -p.arm_r.y, -p.arm_r.z), Vector3.ZERO)
 	# shadow follows jumps: smaller and lighter in the air

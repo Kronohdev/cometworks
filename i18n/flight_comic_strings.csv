@@ -1,0 +1,109 @@
+keys,en,pt
+TY_TRK_SPEED_TIP,"Speed up the simulation (key V): 1×, 2×, 4×, 10×, 100×. The flight ends the same at any speed.","Acelera a simulação (tecla V): 1×, 2×, 4×, 10×, 100×. O voo termina igual em qualquer velocidade."
+TY_TRK_SKIP,Simulate to the end,Simular até o fim
+TY_TRK_SKIP_TIP,"Flies the rest of the flight at once, up to its final objective, and Grandpa Edmundo tells what happened in a comic.","Voa o resto do voo de uma vez, até o objetivo final, e o Vovô Edmundo conta o que aconteceu em quadrinhos."
+TY_TRK_REPORT,Flight report,Relatório do voo
+TY_TRK_SKIPPING,Simulating the flight…,Simulando o voo…
+TY_TRK_RES_ARRIVED,It's there!,Chegou!
+TY_TRK_RES_ARRIVED_TEXT,%s reached %s. Its mission goes on from there.,%s chegou a %s. A missão segue de lá.
+TY_FC_OPEN_TIP,"The flight told in comics by Grandpa Edmundo, and why it went this way.","O voo contado em quadrinhos pelo Vovô Edmundo, e por que foi assim."
+TY_FC_TITLE,The flight of {code},O voo do {code}
+TY_FC_TITLE_NONE,A flight in comics,Um voo em quadrinhos
+TY_FC_BYLINE,as told by Grandpa Edmundo Halleyzinho,contado pelo Vovô Edmundo Halleyzinho
+TY_FC_PAGE,Page {n} of {m},Página {n} de {m}
+TY_FC_PAGE_REPORT,The end,Fim
+TY_FC_NEXT,Next panel,Próximo quadro
+TY_FC_NEXT_PAGE,Turn the page,Virar a página
+TY_FC_TO_REPORT,How did it go?,Como foi?
+TY_FC_SKIP,Skip to the end,Pular para o fim
+TY_FC_CLOSE,Close,Fechar
+TY_FC_BACK,Back to the flight,Voltar ao voo
+TY_FC_CLICK,Click the page to go on,Clique na página para continuar
+TY_FC_WHY,Why did it go this way?,Por que foi assim?
+TY_FC_TIP_HEAD,Grandpa's tip,Dica do Vovô
+TY_FC_REWARDS,What it brought,O que rendeu
+TY_FC_CAUSE_UNKNOWN,something we still don't know,algo que ainda não sabemos
+TY_FC_TIP_CML,"In the Design Review's maturity checklist, this one was left unticked: CML {level} · {item}.","No checklist de maturidade da Revisão de Projeto, este ficou sem marcar: CML {level} · {item}."
+TY_FC_END_EXCEPTIONAL,An exceptional mission!,Missão excepcional!
+TY_FC_END_FULL,Mission accomplished!,Missão cumprida!
+TY_FC_END_PARTIAL,Half a victory,Meia vitória
+TY_FC_END_FAIL,We lost the rocket,Perdemos o foguete
+TY_FC_RW_GRADE,Mission grade,Nota da missão
+TY_FC_RW_CASH,Cash,Caixa
+TY_FC_RW_REPUTATION,Reputation,Reputação
+TY_FC_RW_HYPE,Hype,Hype
+TY_FC_RW_RESEARCH,Research,Pesquisa
+TY_FC_WHY_CAUSE,What broke: {cause}.,O que quebrou: {cause}.
+TY_FC_WHY_RISK_OPEN,A Design Review risk was left unfixed: {risk}.,Um risco da Revisão de Projeto ficou sem correção: {risk}.
+TY_FC_WHY_RANDOM,Plain bad luck: it had a {p}% chance of working and the dice said no.,Puro azar: havia {p}% de chance de dar certo e os dados disseram não.
+TY_FC_WHY_DV,The delta-v was tight: little margin to get there.,O delta-v estava justo: pouca margem para chegar lá.
+TY_FC_WHY_LIFT,The rocket lifted its load with little mass to spare.,O foguete levantava a carga com pouca folga de massa.
+TY_FC_WHY_INSTRUMENTS,The instruments did not suit the target ({pct}% fit).,Os instrumentos não combinavam com o alvo ({pct}% de acerto).
+TY_FC_WHY_POWER,"The power did not cope with the place: night, cold or short panels ({pct}%).","A energia não deu conta do lugar: noite, frio ou painéis curtos ({pct}%)."
+TY_FC_WHY_DATA,The radio could not send all the data home ({pct}% got through).,O rádio não conseguiu mandar todos os dados pra casa ({pct}% chegaram).
+TY_FC_WHY_TEAM,The team lacked the specialities the mission leaned on ({pct}%).,Faltou na equipe a especialidade em que a missão se apoiava ({pct}%).
+TY_FC_WHY_GRADE,"The project scored {grade}, under the {need} of a full mission.","O projeto tirou {grade}, abaixo do {need} de uma missão completa."
+TY_FC_WHY_ALL_GOOD,"Everything in order: a rocket with margin, the right instruments and a good team.","Tudo nos conformes: foguete com folga, instrumentos certos e uma boa equipe."
+TY_FC_TIP_RISKS,"Before the launch, pay for the fixes of the high risks in the Design Review. A fixed risk rarely bites.","Antes de lançar, pague as correções dos riscos altos na Revisão de Projeto. Risco corrigido quase nunca morde."
+TY_FC_TIP_RANDOM,Even a well-made rocket fails now and then. A family with more flights gets more reliable: fly it again!,Até foguete bem feito falha de vez em quando. Uma família com mais voos fica mais confiável: lance de novo!
+TY_FC_TIP_MARGIN,"In the rocket designer, aim for green on delta-v and lift: a bigger upper stage or boosters give margin.","No projetista de foguetes, mire no verde em delta-v e carga: um estágio superior maior ou propulsores dão folga."
+TY_FC_TIP_INSTRUMENTS,Read the briefing and the encyclopedia: each target has instruments it loves. The journal notes what worked.,Leia o pedido e a enciclopédia: cada alvo tem instrumentos que ele adora. O diário anota o que funcionou.
+TY_FC_TIP_POWER,"Lunar nights are long and cold: batteries, a heater or an RTG keep the probe alive.","Noite lunar é longa e fria: baterias, um aquecedor ou um RTG mantêm a sonda viva."
+TY_FC_TIP_DATA,A better antenna (or less data) keeps the downlink flowing.,Uma antena melhor (ou menos dados) mantém o downlink fluindo.
+TY_FC_TIP_TEAM,Put a Cometling of each profession the mission leans on in the team.,Ponha na equipe um Cometinha de cada profissão em que a missão se apoia.
+TY_FC_TIP_GRADE,More weeks of development and a balance closer to the mission's ideal raise the grade.,Mais semanas de desenvolvimento e um equilíbrio mais perto do ideal da missão sobem a nota.
+TY_FC_TIP_KEEP,Keep it up: write down in the journal what worked and do it again!,Continue assim: anote no diário o que funcionou e repita!
+TY_FC_SFX_LIFTOFF,VROOOM!,VRUUUM!
+TY_FC_SFX_STAGE_SEP,CLACK!,CLAC!
+TY_FC_SFX_BOOSTER_SEP,BYE-BYE!,TCHAU!
+TY_FC_SFX_FAIRING,CRACK!,CRAC!
+TY_FC_SFX_CRASH,KABOOM!,KABUM!
+TY_FC_SFX_LANDING,THUD!,TUM!
+TY_FC_SFX_BURN,WHOOSH!,FSSHH!
+TY_FC_SFX_SPLASHDOWN,SPLASH!,TCHIBUM!
+TY_FC_SFX_ORBIT,WOW!,UAU!
+TY_FC_SFX_CAPTURE,GOTCHA!,PEGUEI!
+TY_FC_CAP_LIFTOFF_1,"Off she goes, my girl! {code} leaves the pad… and here I am, still hunting for my glasses.","Lá vai ela, minha filha! O {code} deixa a plataforma… e eu aqui, ainda procurando os óculos."
+TY_FC_CAP_LIFTOFF_2,"Ten, nine… oh, I always lose count. Never mind: {code} is up in the air!","Dez, nove… ai, sempre perco a conta. Não importa: o {code} já está no ar!"
+TY_FC_CAP_LIFTOFF_3,"Fire, smoke and a lot of courage: {code} said goodbye to the ground.","Fogo, fumaça e muita coragem: o {code} deu tchau para o chão."
+TY_FC_CAP_MAXQ_1,"Max-Q! This is where the air pushes hardest. Hold on tight, little rocket.","Max-Q! É aqui que o ar empurra com mais força. Segura firme, foguetinho."
+TY_FC_CAP_MAXQ_2,"The air is thick and stubborn down here, but our rocket is more stubborn still.","O ar é grosso e teimoso aqui embaixo, mas o nosso foguete é mais teimoso ainda."
+TY_FC_CAP_BOOSTER_SEP_1,"The side boosters gave all they had. Bye-bye, little helpers!","Os propulsores laterais deram tudo o que tinham. Tchau, ajudantes!"
+TY_FC_CAP_BOOSTER_SEP_2,"At {alt}, the boosters let go and fall away with great dignity.","A {alt}, os propulsores se soltam e caem com toda a dignidade."
+TY_FC_CAP_STAGE_SEP_1,Clack! Stage {stage} lets go at {alt}. A rocket travels light: it drops what it no longer needs.,Clac! O estágio {stage} se solta a {alt}. Foguete viaja leve: larga o que não precisa mais.
+TY_FC_CAP_STAGE_SEP_2,"Stage {stage} has done its job and goes home the long way. Thank you, old friend!","O estágio {stage} fez a sua parte e volta pra casa pelo caminho mais longo. Obrigado, velho amigo!"
+TY_FC_CAP_STAGE_SEP_3,"At {met} into the flight, one stage fewer and the next engine roars. Like changing horses on a trip!","Aos {met} de voo, um estágio a menos e o próximo motor ruge. Feito trocar de cavalo na viagem!"
+TY_FC_CAP_FAIRING_1,"The fairing opens like a peanut shell. Inside, our cargo sees the stars for the first time.","A carenagem se abre feito casca de amendoim. Lá dentro, nossa carga vê as estrelas pela primeira vez."
+TY_FC_CAP_FAIRING_2,"No more air up here, so off with the coat! The fairing drops away.","Aqui em cima já não tem ar, então fora o casaco! A carenagem vai embora."
+TY_FC_CAP_SPACE_1,{alt} and climbing: officially in space! In my day we only came up here through a telescope.,"{alt} e subindo: oficialmente no espaço! No meu tempo, a gente só chegava aqui de luneta."
+TY_FC_CAP_SPACE_2,"Look how the sky turned black. That is space, my girl: quiet, cold and beautiful.","Repara como o céu ficou preto. Isso é o espaço, minha filha: quieto, frio e lindo."
+TY_FC_CAP_ORBIT_1,In orbit! Now she falls around the Earth and never hits the ground. Physics is a patient old lady.,Em órbita! Agora ela cai em volta da Terra sem nunca acertar o chão. A física é uma senhora paciente.
+TY_FC_CAP_ORBIT_2,"Engine off, orbit closed at {alt}. A full lap of the planet in about an hour and a half!","Motor desligado, órbita fechada a {alt}. Uma volta inteira no planeta em uma hora e meia, mais ou menos!"
+TY_FC_CAP_ORBIT_PARTIAL_1,"Orbit reached… a tiny bit lower than planned. Half the way is still a way, my girl.","Órbita alcançada… um tantinho mais baixa que o planejado. Meio caminho ainda é caminho, minha filha."
+TY_FC_CAP_BURN_1,"The transfer burn! Off towards {target}. Now: patience, and trust in the sums.",A queima de transferência! Rumo a {target}. Agora é ter paciência e confiar nas contas.
+TY_FC_CAP_BURN_MOON_1,The burn for the Moon! A few minutes of engine and days of coasting. Wave goodbye to the Earth!,A queima rumo à Lua! Alguns minutos de motor e dias de viagem. Dá tchau pra Terra!
+TY_FC_CAP_BURN_MOON_2,"We waited for the Moon to be in the right place, then: whoosh! Off to {target}.",Esperamos a Lua ficar no lugar certo e então: fssshh! Lá vamos nós para {target}.
+TY_FC_CAP_BURN_GEO_1,"A burn for the high orbit: up there she will turn with the Earth, as if standing still in the sky.","Queima para a órbita alta: lá em cima ela vai girar junto com a Terra, como se estivesse parada no céu."
+TY_FC_CAP_BURN_COMET_1,"Escape from the Earth, off to meet the comet! Comets are never late, my girl. We are the early ones.","Fuga da Terra, rumo ao cometa! Cometa nunca se atrasa, minha filha. A gente é que chega cedo."
+TY_FC_CAP_HIGH_ORBIT_1,"There she is, 36 thousand kilometres up, keeping pace with the Earth, still as a star over a nativity scene.","Lá está ela, a 36 mil quilômetros, acompanhando a Terra, parada feito estrela de presépio."
+TY_FC_CAP_CAPTURE_1,Caught by the Moon! Now she circles it like a moth around a lamp.,Capturada pela Lua! Agora dá voltas nela feito mariposa em volta do lampião.
+TY_FC_CAP_CAPTURE_2,A gentle brake and the Moon holds her close. Welcome to {target}!,Uma freadinha e a Lua a segura pertinho. Bem-vinda a {target}!
+TY_FC_CAP_CAPTURE_PARTIAL_1,"The Moon caught her, but loosely: a stretched orbit. There is still work to be done from there!","A Lua pegou, mas pegou frouxo: uma órbita esticada. Ainda dá pra trabalhar dali!"
+TY_FC_CAP_LANDING_1,"Touchdown! Moon dust everywhere, and not one neighbour complaining about the noise.",Pousou! Poeira lunar pra todo lado e nenhum vizinho reclamando do barulho.
+TY_FC_CAP_LANDING_2,Soft as a feather on a cushion. {code} is on the Moon!,Macio feito pena em almofada. O {code} está na Lua!
+TY_FC_CAP_LANDING_POLE_1,"A landing at the Moon's pole, where the sun barely peeks. Brave one, this girl of ours!","Pouso no polo da Lua, onde o sol mal aparece. Corajosa, essa nossa menina!"
+TY_FC_CAP_FLYBY_1,She swept past the Moon and waved. Sometimes a passing glance already tells a lot.,Passou raspando pela Lua e acenou. Às vezes um olhar de passagem já conta muita coisa.
+TY_FC_CAP_ROVER_1,"And down comes the rover, wheel by wheel. That is exploring: one turn at a time.","E lá desce o rover, rodinha por rodinha. Explorar é isso: uma volta de cada vez."
+TY_FC_CAP_RENDEZVOUS_1,"Rendezvous with the comet! Ah, my girl, I waited my whole life for a moment like this.","Encontro com o cometa! Ah, minha filha, esperei a vida inteira por um momento assim."
+TY_FC_CAP_SPLASHDOWN_1,"Up and back home, like a good jump. Quick, but worth every second.","Subiu e voltou pra casa, feito um bom salto. Rápido, mas valeu cada segundo."
+TY_FC_CAP_LANDED_1,"Back on the ground, safe and sound. A short trip, a long story!","De volta ao chão, sã e salva. Viagem curta, história comprida!"
+TY_FC_CAP_APOGEE_1,"At the top of the jump, {alt}! For a moment she floats, weighing nothing at all.","No alto do salto, {alt}! Por um instante ela flutua, sem peso nenhum."
+TY_FC_CAP_CRASH_1,"Oh dear… at {met}, something gave way: {cause}. Even comets break up sometimes; we learn and come back.","Ai, ai… aos {met}, algo cedeu: {cause}. Até cometa se despedaça às vezes; a gente aprende e volta."
+TY_FC_CAP_CRASH_2,"Kaboom. {cause}. Take a deep breath, my girl: every great discovery has a few smudges in the notebook.","Kabum. {cause}. Respira fundo, minha filha: toda grande descoberta tem umas manchas no caderno."
+TY_FC_CAP_END_EXCEPTIONAL_1,Exceptional! I even took my glasses off my forehead to see it better. {code} goes in the golden notebook.,Excepcional! Até tirei os óculos da testa pra ver melhor. O {code} vai pro caderno de ouro.
+TY_FC_CAP_END_FULL_1,"Objective reached! Write it down in the observatory notebook: {code}, mission done.","Objetivo cumprido! Anota aí no caderno do observatório: {code}, missão feita."
+TY_FC_CAP_END_FULL_2,And so {code} did what it went to do. That's my girl!,E assim o {code} fez o que foi fazer. Essa é a minha menina!
+TY_FC_CAP_END_PARTIAL_1,Half the objective. But half a mission is still a mission; we get the rest right next time.,Objetivo pela metade. Mas meia missão ainda é missão; o resto a gente acerta na próxima.
+TY_FC_CAP_END_PARTIAL_2,"It got there, a bit wobbly. Let's look at what was missing, shall we?","Chegou, meio cambaleando. Vamos ver o que faltou?"
+TY_FC_CAP_END_FAIL_1,"Not this time. But I waited 76 years for a comet, I can wait for the next launch!","Não foi dessa vez. Mas eu esperei 76 anos por um cometa, posso esperar o próximo lançamento!"
+TY_FC_CAP_END_FAIL_2,"We lost {code}, but not what it taught us. Let's see why, shall we?","Perdemos o {code}, mas não o que ele ensinou. Vamos ver por quê?"

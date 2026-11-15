@@ -1078,6 +1078,15 @@ focus_mode = 0
 theme_type_variation = &"CwSecondary"
 text = "TY_TRK_WATCH_LAUNCH"
 
+[node name="Comic" type="Button" parent="Panel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+tooltip_text = "TY_FC_OPEN_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_TRK_REPORT"
+
 [node name="Back" type="Button" parent="Panel/Margin/VBox/Footer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(240, 44)

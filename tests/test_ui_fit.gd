@@ -11,8 +11,10 @@ extends SceneTree
 ##   - the race track's milestone labels do not overlap each other nor the planet / Moon art
 ##   - the launch watch on the flight's map: its card, the map bar and the hint pill apart
 ## The logical size is set with the root's content scale (aspect ignore) so this runs headless.
+## --ui-scale=1.3 runs it at a text size of the Accessibility options (CwAccess.UI_SCALES): the
+## root's content_scale_factor, so every logical size is that much smaller.
 ## Run: godot --headless --path . --script res://tests/test_ui_fit.gd
-##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --verbose]
+##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --ui-scale=1.3 --verbose]
 
 const BASE := Vector2(1600, 900)
 const SIZES: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1366, 768), Vector2i(1600, 900), Vector2i(1920, 1080),
@@ -24,11 +26,11 @@ const DOCK: Array[String] = ["crew", "research", "contracts", "finance", "race",
 ## screens that may cover the HUD (full-screen views, modals over a scrim)
 const COVER: Array[String] = ["book", "map", "newspaper", "new_project", "rocket_designer", "project_phase",
 	"design_review", "project_review", "final_score", "finale", "briefings", "payload_planner", "project_team", "journal",
-	"launch_choice", "library", "sign", "emergency_loan", "bankrupt"]
+	"launch_choice", "library", "sign", "emergency_loan", "bankrupt", "album", "flight_comic"]
 ## screens whose detail page is checked too (open_detail(): the first item's page)
 const DETAILS: Array[String] = ["contracts", "research", "final_score", "book", "race", "map"]
 ## [screen, page] of the tabs past the first one
-const TABS: Array = [["contracts", "Signed"], ["finance", "Flow"], ["finance", "Budget"], ["settings", "Save"], ["settings", "Image"], ["settings", "Sound"],
+const TABS: Array = [["contracts", "Signed"], ["finance", "Flow"], ["finance", "Budget"], ["settings", "Save"], ["settings", "Image"], ["settings", "Sound"], ["settings", "Access"],
 	["research", "Studies"]]
 ## nodes that are backdrops (they may span the whole screen, under the HUD too)
 const BACKDROPS: Array[String] = ["Scrim", "Shade", "Backdrop", "Sky", "Comet", "View"]
@@ -40,6 +42,8 @@ var main: TycoonMain
 var hud: TycoonHUD
 var _args := {}
 var _only: PackedStringArray = []
+## the text size under test (the root's content_scale_factor; 1.0 = 100 %)
+static var ui_scale := 1.0
 
 
 func _initialize() -> void:
@@ -47,6 +51,9 @@ func _initialize() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a == "--verbose":
 			_verbose = true
+		elif a.begins_with("--ui-scale="):
+			ui_scale = clampf(float(a.trim_prefix("--ui-scale=")), 0.5, 2.0)
+			print("text size %d %%" % roundi(ui_scale * 100.0))
 		elif a.begins_with("--screens="):
 			_only = a.trim_prefix("--screens=").split(",")
 		elif a.begins_with("--sizes="):
@@ -153,27 +160,48 @@ func _check_watch_map(sizes: Array[Vector2i]) -> void:
 			var blocks := {"card": lw.get_node("%Card"), "map bar": w.map.get_node("%MapBar"),
 				"hint pill": w.map.get_node("%Hint").get_parent()}
 			for n: String in blocks:
-				_inside(blocks[n], view, "%s %s" % [tag, n])
+				# the map lives in the modes' SubViewport: checked against that viewport's own view
+				var bc := blocks[n] as Control
+				var own := view
+				if bc.get_viewport() is SubViewport:
+					own = Rect2(Vector2.ZERO, bc.get_viewport().get_visible_rect().size)
+				_inside(bc, own, "%s %s" % [tag, n])
 			var names := blocks.keys()
 			for i in names.size():
 				for j in range(i + 1, names.size()):
-					var a := (blocks[names[i]] as Control).get_global_rect().grow(-2.0)
-					var b := (blocks[names[j]] as Control).get_global_rect().grow(-2.0)
+					var a := _on_root(blocks[names[i]] as Control).grow(-2.0)
+					var b := _on_root(blocks[names[j]] as Control).grow(-2.0)
 					_check(not a.intersects(b), "%s: %s clear of %s (%s / %s)" % [tag, names[i], names[j], a, b])
 	w.revert_to_hangar()
 	await _wait(0.5)
 
 
-## canvas_items + expand: the smaller side keeps the base size, the other grows.
+## A control's rect in the root's logical px: a control inside a stretched SubViewport (the
+## hangar and the flight in TycoonModes) is mapped through its SubViewportContainer.
+static func _on_root(c: Control) -> Rect2:
+	var r := c.get_global_rect()
+	var vp := c.get_viewport()
+	if vp is SubViewport and vp.get_parent() is SubViewportContainer:
+		var cont := vp.get_parent() as SubViewportContainer
+		var k := cont.get_global_rect().size / vp.get_visible_rect().size
+		return Rect2(cont.get_global_rect().position + r.position * k, r.size * k)
+	return r
+
+
+## canvas_items + expand: the smaller side keeps the base size, the other grows; a text size
+## above 100 % (ui_scale) shrinks the logical size by as much.
 static func logical_size(phys: Vector2i) -> Vector2i:
-	var s := minf(phys.x / BASE.x, phys.y / BASE.y)
+	var s := minf(phys.x / BASE.x, phys.y / BASE.y) * ui_scale
 	return Vector2i(roundi(phys.x / s), roundi(phys.y / s))
 
 
+## The view becomes `sz` logical px: the content scale size times the text size, divided again
+## by the root's content_scale_factor (how the game applies the text size, CwAccess).
 func _set_logical(sz: Vector2i) -> void:
 	var r := get_root()
 	r.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
-	r.content_scale_size = sz
+	r.content_scale_factor = ui_scale
+	r.content_scale_size = Vector2i((Vector2(sz) * ui_scale).round())
 
 
 func _frames(k: int) -> void:
@@ -225,6 +253,10 @@ func _prepare_state() -> void:
 	_args["design_review"] = {"project_id": waiting}
 	_args["project_review"] = {"project_id": launched}
 	_args["rocket_designer"] = {"type": "demo_sat", "target": "leo", "staff": team}
+	# the photo album with a full row of photos sent home (pictures not rendered headless)
+	for k in 5:
+		MissionPhotos.on_launch(s, {"project_id": "fit%d" % k, "code": "EOB-0%d" % k, "type": "earth_obs",
+			"target": ["leo", "lunar_orbit", "comet"][k % 3], "success": true, "outcome": "exceptional", "payload": ["camera"]})
 	# the mission flow: a briefing on the board, a lunar payload (the busiest planner), the team
 	BriefingDesk.spawn(s, "moonquakes")
 	_args["briefings"] = {"briefing_id": "moonquakes"}
@@ -353,8 +385,9 @@ func _check_hud(vp: Vector2i) -> void:
 	var top := hud.get_node("TopStrip") as Control
 	var tr := top.get_global_rect()
 	_check(tr.position.y >= 0.0 and tr.end.y <= 96.0, "%s: top bar whole at the top (%s)" % [tag, tr])
-	_check(top.get_combined_minimum_size().x <= view.size.x - 24.0,
-		"%s: top bar content fits the width (%.0f of %.0f)" % [tag, top.get_combined_minimum_size().x, view.size.x])
+	# (at a large text size the bar is drawn smaller to fit: CwUiFit scales it)
+	_check(top.get_combined_minimum_size().x * top.scale.x <= view.size.x - 24.0,
+		"%s: top bar content fits the width (%.0f of %.0f)" % [tag, top.get_combined_minimum_size().x * top.scale.x, view.size.x])
 	# (screens still playing their exit sit under the HUD for a moment: not part of it)
 	var skip: Array = [hud.get_node("%Screens")]
 	for c in hud.get_children():

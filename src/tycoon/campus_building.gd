@@ -40,6 +40,10 @@ const ROLLOUT := "res://scenes/tycoon/launch/pad_rollout.tscn"
 const DESIGNED_ROCKET := "res://scenes/tycoon/launch/designed_rocket.tscn"
 ## pads: the design of the rocket on the pad ({} = the era's rocket), set_rocket_design
 var rocket_parts: Dictionary = {}
+## pads: the payload module ids it carries (a rover rides on it) and its target
+var rocket_payload: Array = []
+var rocket_target := "leo"
+var _rocket_state: TycoonState
 var _designed_era := 0
 
 const _WALL_DIRS := {"CutPX": Vector3.RIGHT, "CutNX": Vector3.LEFT, "CutPZ": Vector3.BACK, "CutNZ": Vector3.FORWARD}
@@ -102,15 +106,21 @@ func set_rocket_progress(p: float) -> void:
 
 ## The designed rocket the pad shows (E2, RocketDesigner parts; {} = the era's own rocket):
 ## a DesignedRocket (scenes/tycoon/launch/designed_rocket.tscn) takes the place of the era
-## model under Era<n>/Level1/Rocket, so the rollout carries it too (LaunchPads.pad_rocket).
-func set_rocket_design(parts: Dictionary) -> void:
+## model under Era<n>/Level1/Rocket, so the rollout carries it too (LaunchPads.pad_launch).
+## `payload` (module ids) puts the mission's rover on it and `state` finds a hangar design's own
+## vessel, so the pad shows the very rocket the launch and the flight show (LaunchVessels).
+func set_rocket_design(parts: Dictionary, payload: Array = [], target := "leo", state: TycoonState = null) -> void:
 	if kind != "pad":
 		return
 	var same := rocket_parts.is_empty() == parts.is_empty() \
-		and (parts.is_empty() or RocketDesigner.same_parts(rocket_parts, parts))
+		and (parts.is_empty() or RocketDesigner.same_parts(rocket_parts, parts)) \
+		and payload == rocket_payload and target == rocket_target
 	if same and _designed_era == era:
 		return
 	rocket_parts = parts.duplicate()
+	rocket_payload = payload.duplicate()
+	rocket_target = target
+	_rocket_state = state
 	_apply_design()
 
 
@@ -131,7 +141,7 @@ func _apply_design() -> void:
 				d.name = "Designed"
 				r.add_child(d)
 			d.visible = true
-			d.build(rocket_parts)
+			d.build(rocket_parts, rocket_payload, rocket_target, _rocket_state)
 		elif d:
 			d.visible = false
 

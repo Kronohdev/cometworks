@@ -5,9 +5,10 @@ extends RefCounted
 ## (DesignedRocket builds its look from this same PackedScene, the way FlightModel does). There
 ## is no other model of a designed rocket: scene_for() is the single source.
 ##   scene_for(parts, target, payload, state)
-##       the project's hangar vessel (a rocket built in the hangar: HangarRocket), else
-##       for_design(): a vessel built from the RocketDesigner design with the hangar's own
-##       attach API (ExampleVessels' helpers), cached per design and payload.
+##       the project's hangar vessel (a rocket built in the hangar: HangarRocket) with the
+##       mission's rover put on it (with_rover), else for_design(): a vessel built from the
+##       RocketDesigner design with the hangar's own attach API (ExampleVessels' helpers),
+##       cached per design and payload.
 ## for_design() maps every slot of the design onto hangar parts:
 ##   main stage "model" 1 (Kestrel)   small kerolox stack, a cluster of Kestrels on a plate
 ##   2..3 (Falcão, Harpia)            large kerolox stack (Condor's), Falcão cluster
@@ -54,9 +55,33 @@ static func scene_for(parts: Dictionary, target := "leo", payload: Array = [], s
 		var core := RocketDesigner.component(String(parts.get("core", "")))
 		if core.has("tree"):
 			ps = HangarRocket.scene_of(core["tree"])
-	if ps == null:
-		ps = for_design(parts, target, payload)
-	return ps
+	if ps != null:
+		return with_rover(ps, payload)
+	return for_design(parts, target, payload)
+
+
+## A hangar vessel with the mission's rover riding on it (the same look as for_design's: under
+## its fairing, else on top), cached per vessel tree and rover; `ps` itself when the payload has
+## no rover. The rover is plain meshes: HangarRocket.tree() and the flight's numbers skip it.
+static func with_rover(ps: PackedScene, payload: Array) -> PackedScene:
+	var rover := RoverDesign.from_payload(payload) if not payload.is_empty() else {}
+	if ps == null or rover.is_empty():
+		return ps
+	var key := "hg|%d|%s" % [hash(JSON.stringify(HangarRocket.tree(ps))), RoverDesign.payload_code(rover)]
+	if _cache.has(key):
+		return _cache[key]
+	var v := Vessel.new()
+	v.load_scene(ps)
+	var out := ps
+	if v.root:
+		# off the tree the parts have no models yet: their real sizes place the rover
+		for p in v.all_parts():
+			p.ensure_size()
+		_carry_rover(v, rover)
+		out = v.to_packed_scene()
+	v.free()
+	_cache[key] = out
+	return out
 
 
 static func for_design(parts: Dictionary, _target := "leo", payload: Array = []) -> PackedScene:
@@ -205,23 +230,43 @@ static func _try_stack(v: Vessel, t: PartInstance, node: String, id: String) -> 
 
 
 # ------------------------------------------------------------ the carried rover
-## The rover's voxel look on the vessel: under the fairing on the avionics (the fairing's room),
-## else on the payload adapter. Plain meshes owned by the root, so they pack with the vessel.
+## The rover's voxel look on the vessel: inside its fairing (on the part the fairing stands on,
+## at that attach node; the topmost fairing when there are several), else on the topmost part
+## with a free top node (the payload adapter of a design without a fairing). Plain meshes owned
+## by the root, so they pack with the vessel.
 static func _carry_rover(v: Vessel, rover: Dictionary) -> void:
-	var on: PartInstance = v.root
 	var fairing: PartInstance = null
-	for c in v.root.part_children():
-		if PartDB.is_fairing(c.data):
-			fairing = c
-		elif c.parent_node_name == "top":
-			on = c
+	var fairing_y := -INF
+	var top: PartInstance = null
+	var top_y := -INF
+	for p in v.all_parts():
+		var y := (DesignedRocket._xf_to(p, v) * p.aabb).end.y
+		if PartDB.is_fairing(p.data):
+			if y > fairing_y:
+				fairing_y = y
+				fairing = p
+		elif p.has_node_point("top") and not "top" in p.occupied_nodes() and y > top_y:
+			top_y = y
+			top = p
+	var on: PartInstance = top if top else v.root
+	var at := "top"
+	if fairing:
+		on = fairing.part_parent()
+		at = fairing.parent_node_name
+		if on == null:  # the fairing is the root: the rover stands on its base, inside it
+			on = fairing
+			at = "bottom"
 	var holder := rover_look(rover)
 	if holder == null:
 		return
 	var box := DesignedRocket.local_bounds(holder)
-	var room := float(PartDB.size_classes.get(on.node_size("top") if fairing == null else fairing.node_size("bottom"), 1.25))
-	if fairing == null and on != v.root:
-		room = maxf(room, float(PartDB.size_classes.get(on.node_size("bottom"), 1.25)))
+	var room := 1.25
+	if fairing:
+		room = float(PartDB.size_classes.get(fairing.node_size("bottom"), 1.25))
+	else:
+		room = float(PartDB.size_classes.get(on.node_size("top"), 1.25))
+		if on != v.root:
+			room = maxf(room, float(PartDB.size_classes.get(on.node_size("bottom"), 1.25)))
 	var w := maxf(maxf(box.size.x, box.size.z), 0.01)
 	var k := room * PAYLOAD_FIT / w
 	if fairing:
@@ -229,7 +274,7 @@ static func _carry_rover(v: Vessel, rover: Dictionary) -> void:
 	k = minf(k, 1.0)
 	holder.scale = Vector3.ONE * k
 	var c0 := box.get_center()
-	holder.position = on.node_local("top") - Vector3(c0.x, box.position.y, c0.z) * k
+	holder.position = on.node_local(at) - Vector3(c0.x, box.position.y, c0.z) * k
 	on.add_child(holder)
 	holder.owner = v.root
 	for n in holder.find_children("*", "", true, false):

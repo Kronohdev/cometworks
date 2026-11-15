@@ -41,7 +41,7 @@ TY_TRK_PH_WAIT,Waiting for the departure burn · %s,Esperando a queima de partid
 TY_TRK_PH_BURN,Departure burn!,Queima de partida!
 TY_TRK_PH_TRANSFER,On the way · %s,A caminho · %s
 TY_TRK_PH_LOST,Lost,Perdido
-TY_TRK_WARP_HINT,", and . speed time up · M map · Esc pause",", e . aceleram o tempo · M mapa · Esc pausa"
+TY_TRK_WARP_HINT,"V or , and . change the speed · M map · Esc pause","V ou , e . mudam a velocidade · M mapa · Esc pausa"
 TY_TRK_RES_ORBIT,In orbit!,Em órbita!
 TY_TRK_RES_ORBIT_TEXT,"%s is in orbit: apogee %s, perigee %s.","%s está em órbita: apogeu %s, perigeu %s."
 TY_TRK_RES_PARTIAL,Off the planned orbit,Fora da órbita planejada

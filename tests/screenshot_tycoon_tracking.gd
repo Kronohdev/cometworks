@@ -13,7 +13,7 @@ extends SceneTree
 ##   tracking_09_watch_fail    a watched failed launch breaking up
 ##   tracking_10_watch_lost    its result card (Lançamento perdido)
 ##   tracking_11_review        the review with "Acompanhar o lançamento"
-##   tracking_12_watch_wait    a lunar launch in its parking orbit, waiting for the departure burn
+##   tracking_12_watch_wait    a live lunar launch in its parking orbit, waiting for the departure burn
 ##   tracking_13_watch_transfer  after the burn: on the way to the Moon (result card)
 ##   tracking_14_watch_transfer_map  the flight's map: the transfer meeting the Moon
 ## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_tycoon_tracking.gd -- <out_dir> [en|pt]
@@ -91,7 +91,7 @@ func _initialize() -> void:
 	await _frames(10)
 	var w2 := main.modes.mode_node as FlightWorld
 	var lw := main.modes.overlay as LaunchWatch
-	await _until(func() -> bool: return lw.phase == "ascent", 600)
+	await _until(func() -> bool: return lw.run.phase == "ascent", 600)
 	w2.warp = 4
 	await _until(func() -> bool: return w2.sim.crashed, 3000)
 	w2.warp = 1
@@ -102,17 +102,26 @@ func _initialize() -> void:
 	await _shot("tracking_10_watch_lost")
 	w2.revert_to_hangar()
 	await _frames(20)
-	# to the Moon: the departure burn, then the transfer on the flight's own map
-	main.modes.open_watch("LUA1")
-	await _frames(10)
+	# to the Moon: the departure burn, then the transfer on the flight's own map. Only the live
+	# launch flies the burn (CareerFlight rebases its track at orbit and plans it); the review's
+	# watch is a replay that leaves the track alone and stays in its parking orbit.
+	var lua := _live_result(s, "LUA2", "LUA-02", "orbiter", "lunar_orbit")
+	var run := main.modes.start_launch(lua)
+	var trk := SpaceTracking.find(s, "p:LUA2")
+	main.modes.launch_hold += 1   # the campus does not fly it meanwhile: this script does
+	run.advance_to(float(trk["launch_t"]) + 3600.0, 20000.0)   # up and into its parking orbit
+	var legs: Array = trk["legs"]
+	var t_dep := float(legs[1]["t0"]) if legs.size() > 1 else run.sim.t
+	run.advance_to(t_dep - 90.0, 60000.0)   # a minute and a half before the departure burn
+	main.modes.launch_hold -= 1
+	main.modes.open_launch_flight()
+	await _frames(30)
 	var w3 := main.modes.mode_node as FlightWorld
 	var lw3 := main.modes.overlay as LaunchWatch
-	await _until(func() -> bool: return lw3.phase == "ascent", 600)
-	w3.warp = 50
-	await _until(func() -> bool: return lw3.phase == "wait", 6000)
-	await _frames(30)
+	# parked: in orbit with the departure burn still ahead (the card's "TY_TRK_PH_WAIT")
 	await _shot("tracking_12_watch_wait")
-	await _until(func() -> bool: return lw3.phase == "transfer", 6000)
+	w3.warp = 10
+	await _until(func() -> bool: return lw3.run.phase == "transfer", 6000)
 	w3.warp = 1
 	await _until(func() -> bool: return lw3.get_node("%Result").visible, 900)
 	await _frames(10)
@@ -123,6 +132,16 @@ func _initialize() -> void:
 	await _frames(60)
 	await _shot("tracking_14_watch_transfer_map")
 	quit()
+
+
+## A launch lifting off now (the campus hands it to TycoonModes.start_launch at T-0).
+func _live_result(s: TycoonState, pid: String, code: String, type_id: String, target: String) -> Dictionary:
+	var e := {"id": pid, "project_id": pid, "code": code, "type": type_id, "target": target, "outcome": "full",
+		"success": true, "week": s.weeks, "grade": 7.5, "grade_project": 7.5, "bars": [6.0, 7.0, 6.5, 7.0],
+		"reviews": [], "rewards": {}, "rocket": {}, "pad": "pad", "cause_key": ""}
+	s.project_history.append(e)
+	SpaceTracking.sync(s)
+	return e
 
 
 ## A campaign a year in: our missions to every kind of place (one lunar craft on its way, one

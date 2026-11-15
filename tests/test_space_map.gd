@@ -50,9 +50,14 @@ func _initialize() -> void:
 	_check(rows == n, "the list shows every mission (%d rows)" % rows)
 	var t0 := fw.time
 	_check(absf(t0 - SpaceTracking.now(s, ov.week_fraction())) < 1.0, "the map's time is the campus calendar")
-	main.clock.dev_turbo = 40.0
-	await _frames(40)
-	main.clock.dev_turbo = 1.0
+	# within the week: the map's time moves with the week's fraction. No turbo: a few campus weeks
+	# at 40x cross a month, the rivals' front page opens the newspaper and (by design) a screen
+	# that opens closes the map, freeing this FlightWorld under the test.
+	await _until(func() -> bool: return is_instance_valid(fw) and fw.time > t0 + 1.0, 120)
+	if not is_instance_valid(fw) or main.modes.kind != "map":
+		_check(false, "the map stays open while its time flows (screen: %s)" % main.hud.current_screen())
+		_end()
+		return
 	_check(fw.time > t0, "time flows on the map with the clock (%.0f s later)" % (fw.time - t0))
 	ov.select("p:A2")
 	await _frames(3)

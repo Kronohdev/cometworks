@@ -33,6 +33,7 @@
           {"text_key": "TY_DLG_ASK_FEEL", "goto": "feel", "once": true},
           {"text_key": "TY_DLG_ASK_WORK", "goto": "work", "once": true},
           {"text_key": "TY_DLG_ASK_HINT", "goto": "hint", "once": true},
+          {"text_key": "TY_MEM_DLG_ASK", "goto": "memory", "once": true, "if": {"mem_missions_min": 1}},
           {"text_key": "TY_DLG_ASK_COMET", "goto": "comet"},
           {"text_key": "TY_DLG_BYE", "end": true, "effects": [{"say": "TY_CHAT_BYE_1"}]}
         ],
@@ -49,6 +50,8 @@
             {"text_key": "TY_DLG_HI_NEW", "if": {"status": "adapting"}, "face": "happy", "pose": "wave"},
             {"text_key": "TY_DLG_HI_FAIL", "if": {"events": "launch_failure"}, "face": "worried"},
             {"text_key": "TY_DLG_HI_OK", "if": {"events": "launch_success"}, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_MEM_DLG_HI_NERVOUS", "if": {"mem_nervous": true, "not_doing": "napping"}, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_MEM_DLG_HI_PROUD", "if": {"mem_proud": true, "not_doing": "napping"}, "face": "joy", "pose": "hop"},
             {"text_key": "TY_DLG_HI_LOW", "if": {"mood": "low"}, "face": "sad", "pose": "sigh"},
             {"text_key": "TY_DLG_HI_HAPPY", "if": {"mood": "happy"}, "face": "joy", "pose": "hop"},
             {"text_key": "TY_DLG_HI_NIGHT", "if": {"time": "night"}, "face": "content"},
@@ -56,6 +59,21 @@
             {"text_key": "TY_DLG_HI_2", "pose": "nod"},
             {"text_key": "TY_DLG_HI_3", "pose": "wave"}
           ],
+          "choices": "main"
+        },
+        "memory": {
+          "lines": [
+            {"text_key": "TY_MEM_DLG_NERVOUS", "if": {"mem_nervous": true}, "weight": 3, "face": "worried", "pose": "sigh"},
+            {"text_key": "TY_MEM_DLG_FIRST", "if": {"mem_last": "first"}, "weight": 2, "face": "joy", "pose": "cheer"},
+            {"text_key": "TY_MEM_DLG_PROUD", "if": {"mem_proud": true}, "weight": 2, "face": "joy", "pose": "spin"},
+            {"text_key": "TY_MEM_DLG_FAIL", "if": {"mem_last": "failure"}, "face": "sad"},
+            {"text_key": "TY_MEM_DLG_PARTIAL", "if": {"mem_last": "partial"}, "face": "content", "pose": "shrug"},
+            {"text_key": "TY_MEM_DLG_VETERAN", "if": {"mem_missions_min": 10}, "weight": 2, "face": "content", "pose": "nod"},
+            {"text_key": "TY_MEM_DLG_SURVIVOR", "if": {"mem_failures_min": 3}, "weight": 2, "face": "content", "pose": "laugh"},
+            {"text_key": "TY_MEM_DLG_MILESTONE", "if": {"mem_milestones": true}, "face": "happy", "pose": "point"},
+            {"text_key": "TY_MEM_DLG_REMEMBER", "face": "happy", "pose": "nod"}
+          ],
+          "effects": [{"morale": 2}],
           "choices": "main"
         },
         "again": {

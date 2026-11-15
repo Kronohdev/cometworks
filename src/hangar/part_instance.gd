@@ -89,6 +89,30 @@ static func _compute_aabb(n: Node) -> AABB:
 	return out
 
 
+static var _model_aabbs: Dictionary = {}
+
+
+## The bounds a part's model gives it (what _build() sets `aabb` to), cached per part id: the
+## real size of a part without building its model (a box part: the 1 m placeholder).
+static func model_aabb(id: String) -> AABB:
+	if not _model_aabbs.has(id):
+		var scene := PartDB.model_scene(id)
+		var box := AABB(Vector3(-0.5, 0, -0.5), Vector3.ONE)
+		if scene:
+			var m := scene.instantiate()
+			box = _compute_aabb(m)
+			m.free()
+		_model_aabbs[id] = box
+	return _model_aabbs[id]
+
+
+## Gives a part read off the tree (a packed vessel loaded with Vessel.load_scene: no model is
+## built until it enters the tree) its real size, without building the model.
+func ensure_size() -> void:
+	if _model == null and part_id != "":
+		aabb = model_aabb(part_id)
+
+
 func set_pickable(on: bool) -> void:
 	pickable = on
 	for c in part_children():

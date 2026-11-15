@@ -1,0 +1,389 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/album_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/photo.svg" id="2_photo"]
+
+[sub_resource type="StyleBoxFlat" id="print_frame"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.98, 0.97, 0.94, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.1686, 0.1647, 0.3608, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 8
+shadow_color = Color(0.1059, 0.0941, 0.2706, 0.25)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="dark_slot"]
+bg_color = Color(0.08, 0.08, 0.16, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Album" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -620.0
+offset_top = -360.0
+offset_right = 620.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Header"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_photo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "TY_PH_CAPTION"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "TY_PH_TITLE"
+
+[node name="Found" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Found"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+horizontal_alignment = 2
+text = "TY_PH_COUNT"
+
+[node name="Count" type="Label" parent="Panel/Margin/VBox/Header/Found"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+horizontal_alignment = 2
+text = "0"
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "TY_PJ_CANCEL"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Empty" type="Label" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 18
+text = "TY_PH_EMPTY"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="GridScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body"]
+custom_minimum_size = Vector2(570, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Panel/Margin/VBox/Body/GridScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="ThumbTemplate" type="Button" parent="Panel/Margin/VBox/Body/GridScroll/Grid"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(176, 142)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+toggle_mode = true
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Slot" type="Panel" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate/VBox"]
+custom_minimum_size = Vector2(160, 100)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("dark_slot")
+
+[node name="Pic" type="TextureRect" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate/VBox/Slot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Wait" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate/VBox/Slot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwOnDark"
+theme_override_font_sizes/font_size = 13
+text = "TY_PH_DEVELOPING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pin" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate/VBox/Slot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_top = 2.0
+offset_right = -4.0
+offset_bottom = 24.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.8235, 0.3608, 1)
+theme_override_colors/font_outline_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "★"
+horizontal_alignment = 2
+
+[node name="Code" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/ThumbTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "DEM-01"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="SepA" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Viewer" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Print" type="PanelContainer" parent="Panel/Margin/VBox/Body/Viewer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("print_frame")
+
+[node name="Slot" type="Panel" parent="Panel/Margin/VBox/Body/Viewer/Print"]
+custom_minimum_size = Vector2(560, 350)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("dark_slot")
+
+[node name="Big" type="TextureRect" parent="Panel/Margin/VBox/Body/Viewer/Print/Slot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Developing" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Print/Slot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwOnDark"
+theme_override_font_sizes/font_size = 18
+text = "TY_PH_DEVELOPING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subject" type="Label" parent="Panel/Margin/VBox/Body/Viewer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 22
+text = "TY_PH_SUBJ_EARTH"
+text_overrun_behavior = 3
+
+[node name="Info" type="GridContainer" parent="Panel/Margin/VBox/Body/Viewer"]
+layout_mode = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 6
+columns = 4
+
+[node name="MissionCap" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PH_MISSION"
+
+[node name="MissionValue" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+text_overrun_behavior = 3
+
+[node name="TargetCap" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PH_TARGET"
+
+[node name="TargetValue" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+text_overrun_behavior = 3
+
+[node name="WhenCap" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PH_WHEN"
+
+[node name="WhenValue" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+text_overrun_behavior = 3
+
+[node name="OutcomeCap" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_PH_OUTCOME"
+
+[node name="OutcomeValue" type="Label" parent="Panel/Margin/VBox/Body/Viewer/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+text_overrun_behavior = 3
+
+[node name="Pin" type="CheckButton" parent="Panel/Margin/VBox/Body/Viewer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "TY_PH_PIN_TIP"
+focus_mode = 0
+text = "TY_PH_PIN"
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+
+[node name="CwThumbs" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/GridScroll/Grid")
+offset = Vector2(0, 8)
+delay = 0.12
+step = 0.025
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

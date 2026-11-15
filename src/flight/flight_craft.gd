@@ -51,10 +51,14 @@ var radius := 1.0
 
 
 # ------------------------------------------------------------ building
-## The craft of a packed hangar vessel. `payload_kg` rides on the command part.
+## The craft of a packed hangar vessel. `payload_kg` rides on the command part. Its parts are
+## read off the tree, so each gets its model's real size (PartInstance.ensure_size): length,
+## frontal area and nozzle heights are the rocket's own, not 1 m placeholder boxes.
 static func from_scene(ps: PackedScene, payload := 0.0) -> FlightCraft:
 	var v := Vessel.new()
 	v.load_scene(ps)
+	for p in v.all_parts():
+		p.ensure_size()
 	var c := from_vessel(v, payload)
 	v.free()
 	return c
@@ -152,7 +156,7 @@ func _shape() -> void:
 	var area := 0.0
 	var top_id := ""
 	var top_y := -INF
-	var seen := []
+	var discs: Array[Vector3] = []  # (x, z, r) of each attached part seen from the nose
 	for i in parts.size():
 		var p: Dictionary = parts[i]
 		if not is_attached_part(i):
@@ -164,13 +168,21 @@ func _shape() -> void:
 		if float(p["top"]) > top_y:
 			top_y = float(p["top"])
 			top_id = String(p["data"].get("category", "")) + ":" + String(p["id"])
-		# side by side discs add up; stacked ones overlap (one disc per distinct radial place)
-		var key := Vector2i(roundi(float(p["x"]) * 2.0), roundi(float(p["z"]) * 2.0))
-		if not seen.has(key):
-			seen.append(key)
-			area += PI * float(p["r"]) * float(p["r"])
-		else:
-			area = maxf(area, PI * float(p["r"]) * float(p["r"]))
+		discs.append(Vector3(float(p["x"]), float(p["z"]), float(p["r"])))
+	# the frontal area: side by side discs add up (the core and its boosters); a disc inside a
+	# wider one is in its shadow (the stack's tanks under the fairing, the engines under the plate)
+	for i in discs.size():
+		var d := discs[i]
+		var hidden := false
+		for j in discs.size():
+			var o := discs[j]
+			if j == i or o.z < d.z or (o.z == d.z and j > i):
+				continue
+			if Vector2(d.x - o.x, d.y - o.y).length() + d.z <= o.z + 0.05:
+				hidden = true
+				break
+		if not hidden:
+			area += PI * d.z * d.z
 	length = maxf(hi - lo, 1.0) if lo < INF else 1.0
 	radius = rmax
 	a_front = maxf(area, 0.05)

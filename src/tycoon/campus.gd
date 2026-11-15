@@ -106,7 +106,8 @@ func sync() -> void:
 			_buildings[id] = node
 		node.set_look(era, level, constructing)
 		if node.kind == "pad":
-			node.set_rocket_design(LaunchPads.pad_rocket(state, id))  # the designed rocket (E2)
+			var pl := LaunchPads.pad_launch(state, id)  # the designed rocket (E2) and the rover it carries
+			node.set_rocket_design(pl["parts"], pl["payload"], String(pl["target"]), state)
 			node.set_rocket_progress(LaunchPads.rocket_progress(state, id))  # the next rocket rolls out
 	_sync_nav()
 	_sync_crowd()

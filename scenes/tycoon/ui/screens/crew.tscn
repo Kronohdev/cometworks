@@ -172,6 +172,24 @@ shader = ExtResource("cw_toon_solid")
 shader_parameter/albedo = Color(1, 0.8235, 0.3608, 1)
 shader_parameter/roughness = 0.8
 
+[sub_resource type="StyleBoxFlat" id="ms_chip"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 0.9922, 0.9725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0549, 0.5647, 0.4667, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 6
+anti_aliasing = true
+
 [node name="CrewScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -1247,6 +1265,73 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 13
 text = "TY_CREW_SPEC_DATA_MINER"
 clip_text = true
+
+[node name="Milestones" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Sep" type="HSeparator" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones"]
+layout_mode = 2
+
+[node name="Head" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/Head"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "TY_MEM_MILESTONES"
+
+[node name="MemSummary" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "4 missões · 3 sucessos · 1 explosão"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="MsFlow" type="HFlowContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="MsTemplate" type="PanelContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/MsFlow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "TY_MEM_MS_LUNAR_PROBE_D"
+theme_override_styles/panel = SubResource("ms_chip")
+
+[node name="HBox" type="HBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/MsFlow/MsTemplate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/MsFlow/MsTemplate/HBox"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones/MsFlow/MsTemplate/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "TY_MEM_MS_LUNAR_PROBE"
+
+[node name="MsEmpty" type="Label" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox/Milestones"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "TY_MEM_MILESTONES_EMPTY"
+autowrap_mode = 3
 
 [node name="History" type="VBoxContainer" parent="Layout/Pages/Sheet/Right/Scroll/Pad/VBox"]
 unique_name_in_owner = true

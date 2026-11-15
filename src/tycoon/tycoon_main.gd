@@ -53,9 +53,15 @@ var conference: ConferenceFlow
 @onready var chatter: CampusChatter = get_node_or_null("ChatterLayer/Chatter")
 ## "Conversar" with a Cometling (scenes/tycoon/talk/dialogue_box.tscn, CometlingDialogue)
 @onready var talk: CometlingDialogue = get_node_or_null("TalkLayer/Dialogue")
+## renders the photos missions send home, off-screen (scenes/tycoon/photos/photo_studio.tscn,
+## MissionPhotoStudio; MissionPhotos keeps the records)
+@onready var photo_studio: MissionPhotoStudio = get_node_or_null("PhotoStudio")
+## the cork board by the headquarters with the best photos (scenes/tycoon/photos/photo_mural.tscn)
+@onready var photo_mural: PhotoMural = get_node_or_null("PhotoMural")
 
 
 func _ready() -> void:
+	CwAccess.ensure_applied()   # text size, colour-blind colours, keys, graphics quality
 	state = TycoonSave.load_state(load_slot) if load_slot != "" else null
 	if state == null:
 		state = TycoonState.new_campaign(campaign_seed, _roster_staff(), difficulty)
@@ -93,6 +99,7 @@ func _ready() -> void:
 	conference = ConferenceFlow.new()
 	add_child(conference)
 	conference.bind(self)
+	_bind_photos()
 	camera.tour_source = _tour_shots
 	# no camera input under a screen or while the hangar / the flight is open
 	camera.input_gate = func() -> bool: return hud.current_screen() == "" and not (modes and modes.is_open())
@@ -112,6 +119,20 @@ func _ready() -> void:
 		hud.flash_hint(tr("TY_BUILT_HINT") % tr(String(state.building_type(state.lot_kind(lot_id)).get("name_key", "")))))
 	if cutscenes and intro_cutscene != "" and load_slot == "":
 		_play_intro.call_deferred()
+
+
+## Photos sent home: the studio renders the new ones (and any whose picture went missing), the
+## mural shows the best and the hint says when a mission's pictures are in the album.
+func _bind_photos() -> void:
+	if photo_studio:
+		photo_studio.bind(state)
+		photo_studio.photo_ready.connect(func(id: String, _path: String) -> void:
+			var ph := MissionPhotos.find(state, id)
+			if int(ph.get("week", -1)) == state.weeks:   # just arrived (not an old one re-rendered)
+				hud.flash_hint(tr("TY_PH_ARRIVED") % String(ph.get("code", "")), 4.0)
+			hud.refresh())
+	if photo_mural:
+		photo_mural.bind(state, photo_studio)
 
 
 func _play_intro() -> void:
@@ -163,20 +184,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	if conference and (conference.is_open() or conference.just_closed()):
 		return  # the fair has its own keys (ConferenceFair)
 	if event is InputEventKey and event.pressed and not event.echo:
+		# the main keys are rebindable actions (CwKeys, the options' Accessibility page)
+		if CwKeys.pressed(event, &"cw_pause"):
+			clock.toggle_pause()
+			return
+		for sp in 3:
+			if CwKeys.pressed(event, StringName("cw_speed_%d" % (sp + 1))):
+				clock.set_speed(sp + 1)
+				return
+		if CwKeys.pressed(event, &"cw_map"):
+			if hud.is_locked("%SolarMap"):
+				hud.locked_hint()   # the map key is not there yet in this career
+			else:
+				open_space_map()
+			return
 		match (event as InputEventKey).keycode:
-			KEY_SPACE:
-				clock.toggle_pause()
-			KEY_1:
-				clock.set_speed(1)
-			KEY_2:
-				clock.set_speed(2)
-			KEY_3:
-				clock.set_speed(3)
-			KEY_M:
-				if hud.is_locked("%SolarMap"):
-					hud.locked_hint()   # the map key is not there yet in this career
-				else:
-					open_space_map()
 			KEY_ESCAPE:
 				# Esc steps back one layer: the open screen's page (a Cometling's sheet back
 				# to the roster), the screen, the lot panel, the followed Cometling or the

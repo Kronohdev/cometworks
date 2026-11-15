@@ -14,7 +14,10 @@ extends RefCounted
 ##     the composed sentences live in the run's vars and a fair line's text_key is the bare
 ##     placeholder ("{conf_status}"), which TranslationServer leaves as it is and the run fills
 ## State: TycoonState.conference = {"last_year", "attended": [years], "skipped": [years],
-## "heard": [rival ids], "talked": [Lenda ids]} (the last two for the conference under way).
+## "heard": [rival ids], "talked": [Lenda ids]} (the last two for the conference under way), plus
+## what ConferenceTriennium keeps ("rep_marks", "tip", "awards", "trophies").
+## The player's own three years (the rivals' and the Lendas' reactions, the host's tip, the
+## award) are ConferenceTriennium's; tree_for / vars_for add their choices and lines.
 
 const DATA_PATH := "res://data/tycoon/conference.json"
 const ROLE_HOST := "host"
@@ -96,6 +99,7 @@ static func answer(s: TycoonState, go: bool) -> void:
 	var list: Array = st["attended" if go else "skipped"]
 	if not s.year() in list:
 		list.append(s.year())
+	ConferenceTriennium.mark(s)   # the triennium's reputation, before the visit's reward
 	if go:
 		var rw: Dictionary = cfg("reward", {})
 		s.reputation = clampf(s.reputation + float(rw.get("reputation", 0.0)), 0.0, 100.0)
@@ -347,6 +351,9 @@ static func vars_for(s: TycoonState, id: String, role: String, rival := "") -> D
 			v["conf_status"] = _t("TY_CONF_L_WRAP", {"text": rp["status"]})
 			v["conf_recent"] = rp["recent"]
 			v["conf_comet"] = rp["comet"]
+			var you := ConferenceTriennium.reaction_parts(s, id, role, rival)
+			v["conf_you"] = you[0]
+			v["conf_you_rep"] = you[1]
 		ROLE_HOST:
 			for r: Dictionary in s.rivals:
 				var rid := String(r["id"])
@@ -356,6 +363,10 @@ static func vars_for(s: TycoonState, id: String, role: String, rival := "") -> D
 				v["g_%s_status" % rid] = _t("TY_CONF_HOST_WRAP", {"rival": name, "text": gp["status"]})
 				v["g_%s_recent" % rid] = gp["recent"]
 				v["g_%s_comet" % rid] = gp["comet"]
+			var tip := ConferenceTriennium.tip_pick(s)
+			if not tip.is_empty():
+				v["tip_rival"] = String(tip["rival"])
+				v["g_tip"] = ConferenceTriennium.tip_line(s, String(tip["rival"]), String(tip["briefing"]))
 		_:
 			if not s.rivals.is_empty():
 				var i := posmod(hash(id) + s.year(), s.rivals.size())
@@ -364,6 +375,10 @@ static func vars_for(s: TycoonState, id: String, role: String, rival := "") -> D
 				var extra := String(gp["recent"]) if posmod(hash(id), 2) == 0 else String(gp["comet"])
 				v["conf_gossip"] = _t("TY_CONF_GUEST_WRAP", {"rival": TranslationServer.translate(s.race.agency_name(rid)),
 					"text": String(gp["status"]) + " " + extra})
+			var you := ConferenceTriennium.reaction_parts(s, id, role)
+			if not you.is_empty():
+				v["conf_you"] = you[0]
+				v["conf_you_rep"] = you[1]
 	return v
 
 
@@ -390,6 +405,13 @@ static func tree_for(id: String, role: String, s: TycoonState = null) -> Diction
 	match role:
 		ROLE_RIVAL:
 			add.append({"text_key": "TY_CONF_ASK_NEWS", "goto": "conf_news"})
+			add.append({"text_key": "TY_CONF_ASK_US", "goto": "conf_you"})
+			nodes["conf_you"] = {"lines": [{"text_key": "{conf_you}", "face": "content", "pose": "shrug"}],
+				"choices": [{"text_key": "TY_CONF_ASK_REP", "goto": "conf_you_rep"},
+					{"text_key": "TY_CONF_ASK_ELSE", "goto": "conf_menu"}]}
+			nodes["conf_you_rep"] = {"lines": [{"text_key": "{conf_you_rep}", "face": "happy", "pose": "nod"}],
+				"choices": [{"text_key": "TY_CONF_ASK_NEWS", "goto": "conf_news"},
+					{"text_key": "TY_CONF_ASK_ELSE", "goto": "conf_menu"}]}
 			nodes["conf_news"] = {"lines": [{"text_key": "{conf_status}", "face": "content", "pose": "point"}],
 				"choices": [{"text_key": "TY_CONF_ASK_RECENT", "goto": "conf_recent"},
 					{"text_key": "TY_CONF_ASK_COMET", "goto": "conf_comet"},
@@ -410,6 +432,12 @@ static func tree_for(id: String, role: String, s: TycoonState = null) -> Diction
 					"pose": ["wave", "point", "laugh"][i]})
 			hello["lines"] = hl
 			var rivals: Array = s.rivals if s else []
+			# Keplerino's tip: one rival's next goal, a race briefing the agency can take now
+			var tip := ConferenceTriennium.tip_pick(s) if s else {}
+			var tip_choice := {"text_key": "TY_CONF_ASK_TIP_RACE", "goto": "g_tip", "once": true}
+			if not tip.is_empty():
+				nodes["g_tip"] = {"lines": [{"text_key": "{g_tip}", "face": "surprised", "pose": "point"}],
+					"choices": [{"text_key": "TY_CONF_ASK_OTHERS", "goto": "conf_menu"}]}
 			for r: Dictionary in rivals:
 				var rid := String(r["id"])
 				add.append({"text_key": "{q_%s}" % rid, "goto": "g_" + rid})
@@ -421,6 +449,9 @@ static func tree_for(id: String, role: String, s: TycoonState = null) -> Diction
 						{"text_key": "TY_CONF_ASK_OTHERS", "goto": "conf_menu"}]}
 				nodes["g_%s_3" % rid] = {"lines": [{"text_key": "{g_%s_comet}" % rid, "face": "happy", "pose": "nod"}],
 					"choices": [{"text_key": "TY_CONF_ASK_OTHERS", "goto": "conf_menu"}]}
+				if not tip.is_empty() and String(tip["rival"]) == rid:
+					for nid in ["g_" + rid, "g_%s_2" % rid, "g_%s_3" % rid]:
+						(nodes[nid]["choices"] as Array).push_front(tip_choice.duplicate())
 			add.append({"text_key": "TY_CONF_ASK_TIP", "goto": "conf_tip", "if": {"has_hint": true}, "once": true})
 			nodes["conf_tip"] = {"lines": [{"text_key": "TY_CONF_HOST_TIP", "face": "content", "pose": "point"}],
 				"effects": [{"hint": true}], "choices": menu_id}
@@ -436,6 +467,12 @@ static func tree_for(id: String, role: String, s: TycoonState = null) -> Diction
 			add.append({"text_key": "TY_CONF_ASK_GOSSIP", "goto": "conf_gossip"})
 			nodes["conf_gossip"] = {"lines": [{"text_key": "{conf_gossip}", "face": "happy", "pose": "talk"}],
 				"choices": menu_id}
+			if ConferenceTriennium.voice(id, role) != "":   # a mentor Lenda with a word on the agency's three years
+				add.append({"text_key": "TY_CONF_ASK_US", "goto": "conf_you"})
+				nodes["conf_you"] = {"lines": [{"text_key": "{conf_you}", "face": "content", "pose": "nod"}],
+					"choices": [{"text_key": "TY_CONF_ASK_REP", "goto": "conf_you_rep"}]}
+				nodes["conf_you_rep"] = {"lines": [{"text_key": "{conf_you_rep}", "face": "happy", "pose": "nod"}],
+					"choices": menu_id}
 	var at := menu.size()
 	for i in menu.size():
 		if bool((menu[i] as Dictionary).get("end", false)):

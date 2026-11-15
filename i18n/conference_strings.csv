@@ -94,3 +94,75 @@ TY_CONF_AGO_MONTH,a month ago,há um mês
 TY_CONF_AGO_MONTHS,{n} months ago,há {n} meses
 TY_CONF_AGO_YEAR,a year ago,há um ano
 TY_CONF_AGO_YEARS,{n} years ago,há {n} anos
+TY_CONF_ASK_US,And what do they say about us?,E o que dizem da gente?
+TY_CONF_ASK_TIP_RACE,Psst... what are they up to next?,Psiu... o que eles aprontam agora?
+TY_CONF_HOST_TIP_RACE,"Between us: {rival} is going all out for “{next}”. But a client of mine wants it done first, and by someone else! I'll slip “{mission}” onto your mission board. It'll be there for {weeks} weeks. Run!","Cá entre nós: {rival} está com tudo para “{next}”. Mas um cliente meu quer isso feito antes, e por outra agência! Vou deixar “{mission}” no seu quadro de missões. Fica lá por {weeks} semanas. Corre!"
+TY_CONF_TIP_CLIENT,Fair tip · get ahead of: {rival},Dica da feira · passe à frente: {rival}
+TY_CONF_NEWS_TIP,"A tip from the fair: the briefing “%s” is on the board, before %s gets there","Dica da feira: o briefing “%s” está no quadro, antes que %s chegue lá"
+TY_CONF_PROMPT_AWARD,Agency of the Triennium ceremony,Cerimônia da Agência do Triênio
+TY_CONF_AWARD_SIGN,AGENCY OF THE TRIENNIUM,AGÊNCIA DO TRIÊNIO
+TY_CONF_AWARD_OPEN,"Ladies, gentlemen and Cometlings! Time for the big award of year {year}: the Agency of the Triennium! I counted the milestones, the firsts and the reputation. Twice. In an ellipse.","Senhoras, senhores e Cometinhos! Chegou a hora do grande prêmio do ano {year}: a Agência do Triênio! Contei os marcos, os primeiros lugares e a reputação. Duas vezes. Em elipse."
+TY_CONF_AWARD_DRUMROLL,Drumroll...,Rufem os tambores...
+TY_CONF_AWARD_WIN,And the trophy goes to... {agency}! Come on up!,E o troféu vai para... {agency}! Pode subir!
+TY_CONF_AWARD_WIN_YOU,"And the trophy goes to... {agency}! Yes, you! Up on the stage, boss!","E o troféu vai para... {agency}! Isso, vocês! Sobe no palco, chefe!"
+TY_CONF_AWARD_NOBODY,And the trophy goes to... nobody! Three quiet years for everyone. It stays polished for the next conference.,E o troféu vai para... ninguém! Três anos quietinhos para todo mundo. Ele fica lustrado para a próxima conferência.
+TY_CONF_AWARD_WHY,"{n} milestones in three years, {firsts} of them firsts. The sky took notice!","{n} marcos em três anos, {firsts} deles em primeiro lugar. O céu reparou!"
+TY_CONF_AWARD_WHY_NOFIRST,"{n} milestones in three years. No first, but steady as a good orbit!","{n} marcos em três anos. Nenhum primeiro lugar, mas firme como uma boa órbita!"
+TY_CONF_AWARD_WHY_REP,"No milestone this time, but {rep} reputation points earned with hard work. Everybody's talking!","Nenhum marco desta vez, mas {rep} pontos de reputação ganhos no capricho. Todo mundo está comentando!"
+TY_CONF_AWARD_PRIZE,"The trophy goes home with you, plus +{prize_rep} reputation and +{prize_hype} hype. Put it somewhere everyone can see!","O troféu vai para casa com vocês, mais +{prize_rep} de reputação e +{prize_hype} de hype. Coloquem num lugar bem visível!"
+TY_CONF_AWARD_CLAP,Applaud!,Aplaudir!
+TY_CONF_AWARD_THANKS,"Thank you, thank you!","Obrigado, obrigado!"
+TY_CONF_AWARD_BYE,Back to the fair,Voltar para a feira
+TY_CONF_AWARD_FLASH_YOU,Agency of the Triennium! +{rep} reputation · +{hype} hype · a trophy for the campus,Agência do Triênio! +{rep} de reputação · +{hype} de hype · um troféu para o campus
+TY_CONF_AWARD_FLASH,{agency} is the Agency of the Triennium. Next time it's yours!,{agency} é a Agência do Triênio. Da próxima vez é sua!
+TY_CONF_NEWS_AWARD,%s is the Agency of the Triennium of year %d,%s é a Agência do Triênio do ano %d
+TY_CONF_TROPHIES,Agency of the Triennium trophies: {years},Troféus de Agência do Triênio: {years}
+TY_CONF_YOU_GAGARINHO_FIRST_STOLE,"You took “{stole}” right from under my nose! What good envy. I had my finger on the button, I swear!","Vocês levaram “{stole}” bem debaixo do meu nariz! Que inveja boa. Eu já estava com o dedo no botão, juro!"
+TY_CONF_YOU_GAGARINHO_FIRST_ONE,"“{first}”, first of all! Bravo, {agency}! I'm sending flowers. Lots of them.","“{first}”, antes de todo mundo! Bravo, {agency}! Vou mandar flores. Muitas."
+TY_CONF_YOU_GAGARINHO_FIRST_MANY,"{n} firsts in three years, the latest “{first}”! You press buttons almost as fast as I do.","{n} primeiros lugares em três anos, o último foi “{first}”! Vocês apertam botões quase tão rápido quanto eu."
+TY_CONF_YOU_GAGARINHO_LATER,"{n} milestones since the last fair, the latest “{last}”. Second place is still the podium, eh!","{n} marcos desde a última feira, o mais recente “{last}”. Segundo lugar ainda é pódio, hein!"
+TY_CONF_YOU_GAGARINHO_NONE,"No new milestone at your place, eh? Courage! Press the button!","Nenhum marco novo por aí, hein? Coragem! Aperta o botão!"
+TY_CONF_YOU_GAGARINHO_FAIL_ONE,And {code} came down in pieces... I know that feeling. Flowers on the way. Check the parachute next time!,E o {code} caiu em pedacinhos... Conheço essa sensação. Flores a caminho. Confere o paraquedas da próxima vez!
+TY_CONF_YOU_GAGARINHO_FAIL_MANY,"{fails} rockets lost! Ha, welcome to the club. Our club has a lot of members.","{fails} foguetes perdidos! Rá, bem-vindos ao clube. O nosso clube tem muitos sócios."
+TY_CONF_YOU_GAGARINHO_CLEAN,{launches} launches and not one lost? Too careful! Where's the fun?,{launches} lançamentos e nenhum perdido? Cuidadosos demais! Cadê a emoção?
+TY_CONF_YOU_GAGARINHO_QUIET,Not a single launch in three years? The pad must be growing grass!,Nenhum lançamento em três anos? A plataforma deve estar criando grama!
+TY_CONF_YOU_GAGARINHO_REP_UP,And people like you more: +{rep} reputation. Almost my smile!,E o pessoal gosta mais de vocês: +{rep} de reputação. Quase o meu sorriso!
+TY_CONF_YOU_GAGARINHO_REP_DOWN,"The crowd cooled off a bit, -{rep} reputation. Smile more! It works for me.","A torcida esfriou um pouco, -{rep} de reputação. Sorriam mais! Comigo funciona."
+TY_CONF_YOU_GAGARINHO_REP_FLAT,Your name in the papers is the same as ever. A big launch fixes that!,O nome de vocês no jornal está igualzinho. Um lançamento grande resolve isso!
+TY_CONF_YOU_CIFRINHA_FIRST_STOLE,“{stole}” was in our budget! You got there first. I've noted the loss. With a smile. A small one.,“{stole}” estava no nosso orçamento! Vocês chegaram antes. Anotei o prejuízo. Com um sorriso. Pequeno.
+TY_CONF_YOU_CIFRINHA_FIRST_ONE,"“{first}”, first place. Congratulations, sincerely. Our shareholders asked how you did it. Consultation?","“{first}”, em primeiro lugar. Parabéns, sinceramente. Nossos acionistas perguntaram como vocês fizeram. Consultoria?"
+TY_CONF_YOU_CIFRINHA_FIRST_MANY,"{n} firsts in three years, the latest “{first}”. That's a return on investment I respect.","{n} primeiros lugares em três anos, o último “{first}”. Isso é retorno sobre investimento que eu respeito."
+TY_CONF_YOU_CIFRINHA_LATER,"{n} milestones since the last fair, the latest “{last}”. Arriving second is cheaper, I'll grant you.","{n} marcos desde a última feira, o mais recente “{last}”. Chegar em segundo sai mais barato, admito."
+TY_CONF_YOU_CIFRINHA_NONE,"No new milestone? Assets standing still lose value, you know. A free tip.","Nenhum marco novo? Ativo parado perde valor, viu? Dica de graça."
+TY_CONF_YOU_CIFRINHA_FAIL_ONE,And {code}... How much did that cost? Don't tell me. I'd only cry into my spreadsheet.,E o {code}... Quanto custou aquilo? Não me conta. Eu ia chorar na planilha.
+TY_CONF_YOU_CIFRINHA_FAIL_MANY,"{fails} rockets lost! My calculator fainted. Insurance, my dears. Insurance.","{fails} foguetes perdidos! Minha calculadora desmaiou. Seguro, meus queridos. Seguro."
+TY_CONF_YOU_CIFRINHA_CLEAN,{launches} launches and nothing lost. Efficient! I hate how much I like it.,{launches} lançamentos e nada perdido. Eficiente! Odeio o quanto eu gosto disso.
+TY_CONF_YOU_CIFRINHA_QUIET,No launch in three years: a very cheap triennium. Too cheap.,Nenhum lançamento em três anos: um triênio baratíssimo. Barato demais.
+TY_CONF_YOU_CIFRINHA_REP_UP,Your reputation went up {rep} points. Brand value! I'd buy shares.,A reputação de vocês subiu {rep} pontos. Valor de marca! Eu compraria ações.
+TY_CONF_YOU_CIFRINHA_REP_DOWN,"Reputation down {rep} points. The market is sensitive. So am I, a little.","Reputação caiu {rep} pontos. O mercado é sensível. Eu também, um pouquinho."
+TY_CONF_YOU_CIFRINHA_REP_FLAT,"Reputation: stable. Stable is good. Boring, but good.","Reputação: estável. Estável é bom. Sem graça, mas bom."
+TY_CONF_YOU_HERSCHELINHA_FIRST_STOLE,You reached “{stole}” before us. I checked three times. It's true. Well done. Truly.,Vocês chegaram em “{stole}” antes de nós. Conferi três vezes. É verdade. Muito bem. De verdade.
+TY_CONF_YOU_HERSCHELINHA_FIRST_ONE,"“{first}”, first in the whole tail. I wrote it in my notebook. Twice.","“{first}”, primeiro em toda a cauda. Anotei no meu caderno. Duas vezes."
+TY_CONF_YOU_HERSCHELINHA_FIRST_MANY,"{n} firsts in three years, the latest “{first}”. A remarkable observation. I'd like to see your checklists.","{n} primeiros lugares em três anos, o último “{first}”. Uma observação notável. Gostaria de ver as listas de verificação de vocês."
+TY_CONF_YOU_HERSCHELINHA_LATER,"{n} milestones since the last fair, the latest “{last}”. Slow and steady, like us. I approve.","{n} marcos desde a última feira, o mais recente “{last}”. Devagar e sempre, como nós. Aprovo."
+TY_CONF_YOU_HERSCHELINHA_NONE,No new milestone. That's fine: measuring takes time. Then measuring again.,Nenhum marco novo. Tudo bem: medir leva tempo. Depois medir de novo.
+TY_CONF_YOU_HERSCHELINHA_FAIL_ONE,"I'm sorry about {code}. Did you measure twice? Next time, measure three times. It helps.","Sinto muito pelo {code}. Mediram duas vezes? Da próxima vez, meçam três. Ajuda."
+TY_CONF_YOU_HERSCHELINHA_FAIL_MANY,{fails} rockets lost... I won't tease. I'll lend you my checklist. It has forty pages.,{fails} foguetes perdidos... Não vou provocar. Empresto a minha lista de verificação. Tem quarenta páginas.
+TY_CONF_YOU_HERSCHELINHA_CLEAN,{launches} launches without a single loss. That's what care looks like. Lovely.,{launches} lançamentos sem nenhuma perda. É assim que o cuidado se parece. Lindo.
+TY_CONF_YOU_HERSCHELINHA_QUIET,No launch at all? Careful is good. But the sky won't wait forever.,Nenhum lançamento? Cautela é bom. Mas o céu não espera para sempre.
+TY_CONF_YOU_HERSCHELINHA_REP_UP,"Your reputation rose {rep} points. Deserved, by my measurements.","A reputação de vocês subiu {rep} pontos. Merecido, pelas minhas medições."
+TY_CONF_YOU_HERSCHELINHA_REP_DOWN,Your reputation fell {rep} points. It comes back with careful work. It always does.,A reputação de vocês caiu {rep} pontos. Ela volta com trabalho cuidadoso. Sempre volta.
+TY_CONF_YOU_HERSCHELINHA_REP_FLAT,Your reputation hasn't moved. A stable star. Those are underrated.,A reputação de vocês não mexeu. Uma estrela estável. Elas são subestimadas.
+TY_CONF_YOU_LENDA_FIRST_STOLE,And everyone's talking about “{stole}”: you got there before a rival who wanted it badly!,E todo mundo comenta “{stole}”: vocês chegaram antes de um rival que queria muito!
+TY_CONF_YOU_LENDA_FIRST_ONE,The whole fair is talking about “{first}”: {agency} got there first! I'm proud of you.,A feira inteira fala de “{first}”: a {agency} chegou primeiro! Tenho orgulho de vocês.
+TY_CONF_YOU_LENDA_FIRST_MANY,"{n} firsts in three years, the latest “{first}”! The rivals are taking notes on you.","{n} primeiros lugares em três anos, o último “{first}”! Os rivais estão tomando notas sobre vocês."
+TY_CONF_YOU_LENDA_LATER,"{n} milestones since the last fair, the latest “{last}”. Not first, but every step counts.","{n} marcos desde a última feira, o mais recente “{last}”. Não em primeiro, mas todo passo conta."
+TY_CONF_YOU_LENDA_NONE,No new milestone yet. Patience: the big ones take time.,Nenhum marco novo ainda. Paciência: os grandes levam tempo.
+TY_CONF_YOU_LENDA_FAIL_ONE,"I heard about {code}. It hurts, I know. Every failure teaches something to whoever wants to learn.","Fiquei sabendo do {code}. Dói, eu sei. Toda falha ensina alguma coisa a quem quer aprender."
+TY_CONF_YOU_LENDA_FAIL_MANY,{fails} rockets lost... Chin up. The history of the sky is full of rockets that came down before the ones that went up.,{fails} foguetes perdidos... Cabeça erguida. A história do céu está cheia de foguetes que caíram antes dos que subiram.
+TY_CONF_YOU_LENDA_CLEAN,{launches} launches and none lost. Your team is careful!,{launches} lançamentos e nenhum perdido. A equipe de vocês é caprichosa!
+TY_CONF_YOU_LENDA_QUIET,Not one launch since the last fair? The pad misses the noise.,Nenhum lançamento desde a última feira? A plataforma está com saudade do barulho.
+TY_CONF_YOU_LENDA_REP_UP,And people trust you more: +{rep} reputation.,E o pessoal confia mais em vocês: +{rep} de reputação.
+TY_CONF_YOU_LENDA_REP_DOWN,Your reputation slipped {rep} points. It comes back. Good missions bring it back.,A reputação de vocês escorregou {rep} pontos. Ela volta. Missões boas trazem de volta.
+TY_CONF_YOU_LENDA_REP_FLAT,Your reputation is where it was. Time for something bold?,A reputação de vocês está onde estava. Hora de algo ousado?
+TY_CONF_ASK_REP,And our reputation?,E a nossa reputação?

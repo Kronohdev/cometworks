@@ -533,6 +533,9 @@ static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dicti
 	var bars := p.bar_scores(state, history)
 	var expected := MissionProject.expected_points(state, p.type_id, history)
 	var chance := success_chance(state, p)
+	# how far the concept matured (CmlChecklist, before the launch is paid): a modest bonus below
+	var cml := int(CmlChecklist.evaluate(state, p, p.review_fixes, false)["level"])
+	var cml_bonus := CmlChecklist.bonus(cml)
 	var novelty := is_novel(state, p.type_id, p.target_id)
 	var rocket := rocket_info(state, p)
 	var fam := RocketFamilies.find(state, String(rocket["family"]))
@@ -596,9 +599,11 @@ static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dicti
 	if p.contract_id != "":
 		state.complete_contract(p.contract_id, avg, success)
 	var rep := clampf(avg - float(rw.get("reputation_pivot", 5.0)), -float(rw.get("reputation_cap", 5.0)),
-		float(rw.get("reputation_cap", 5.0)))
+		float(rw.get("reputation_cap", 5.0))) + float(cml_bonus["reputation"])
 	state.reputation = clampf(state.reputation + rep, 0.0, 100.0)
 	var hype := avg * avg / float(rw.get("hype_div", 5.0))
+	if success:
+		hype += float(cml_bonus["hype"])
 	if report.get("great", false) and success:
 		hype += float((BriefingDesk.disc().get("great", {}) as Dictionary).get("hype", 6.0))
 	# hype lives on 0..100 like the race keeps it: donations (400 cr per point a month) stay bounded
@@ -642,7 +647,7 @@ static func launch(state: TycoonState, p: MissionProject, flight := {}) -> Dicti
 		"fit": {"fit": report["fit"], "mult": report["mult"], "great": report["great"], "instrument": report["instrument"],
 			"power": report["power"], "data": report["data"], "team": report["team"], "objective": report["objective"],
 			"match": report["match"]},
-		"feedback": feedback, "learned": learned, "briefing": brief, "piloted": piloted,
+		"feedback": feedback, "learned": learned, "briefing": brief, "piloted": piloted, "cml": cml,
 		"flight": (flight.get("flight", {}) as Dictionary).duplicate() if piloted else {},
 		"rewards": {"cash": state.cash - cash0, "reputation": rep, "hype": hype, "research": research, "xp": xp,
 			"dev_cost": p.cost_spent, "launch_cost": launch_cost, "refund": refund}}

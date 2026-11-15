@@ -76,3 +76,30 @@ MENU_DEMO_FAIR_TIP,"A new agency in fair mode: one week per second, the whole ra
 MENU_DEMO_ERA_TIP,"An agency that played up to here: buildings, crew, research and milestones of the eras before.","Uma agência que jogou até aqui: prédios, equipe, pesquisa e marcos das eras anteriores."
 MENU_DEMO_EMPTY,No demonstration campaigns in this build.,Nenhuma campanha de demonstração nesta versão.
 MENU_LOADING_DEMO,Opening the demonstration,Abrindo a demonstração
+MENU_OPT_PAGE_ACCESS,Access,Acesso
+MENU_OPT_QUALITY,Graphics,Gráficos
+MENU_OPT_QUALITY_LOW,Low,Baixo
+MENU_OPT_QUALITY_MEDIUM,Medium,Médio
+MENU_OPT_QUALITY_HIGH,High,Alto
+MENU_OPT_TEXT_SIZE,Text size,Tamanho do texto
+MENU_OPT_COLORBLIND,Colour-blind,Daltonismo
+MENU_OPT_KEYS,Keys,Teclas
+MENU_OPT_KEYS_RESET,Restore keys,Restaurar teclas
+MENU_OPT_KEYS_HINT,Click a key to change it.,Clique numa tecla para trocá-la.
+MENU_OPT_KEYS_LISTEN,Press the new key (Esc cancels).,Aperte a nova tecla (Esc cancela).
+MENU_OPT_KEYS_PRESS,…,…
+KEYS_PAUSE,Pause,Pausar
+KEYS_SPEED_1,Speed 1,Velocidade 1
+KEYS_SPEED_2,Speed 2,Velocidade 2
+KEYS_SPEED_3,Speed 3,Velocidade 3
+KEYS_MAP,Solar map,Mapa solar
+KEYS_CAM_FRAME,Frame selection,Enquadrar
+KEYS_CAM_HOME,Reset view,Vista inicial
+KEYS_CAM_FORWARD,Camera forward,Câmera frente
+KEYS_CAM_BACK,Camera back,Câmera trás
+KEYS_CAM_LEFT,Camera left,Câmera esquerda
+KEYS_CAM_RIGHT,Camera right,Câmera direita
+KEYS_CAM_TURN_LEFT,Turn left,Girar à esquerda
+KEYS_CAM_TURN_RIGHT,Turn right,Girar à direita
+KEYS_CAM_ZOOM_IN,Zoom in,Aproximar
+KEYS_CAM_ZOOM_OUT,Zoom out,Afastar

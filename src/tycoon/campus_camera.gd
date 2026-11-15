@@ -658,15 +658,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		var k := event as InputEventKey
 		if k.ctrl_pressed or k.alt_pressed or k.meta_pressed:
 			return
-		match k.keycode:
-			KEY_Q:
-				_rotate(-rotate_step_deg)
-			KEY_E:
-				_rotate(rotate_step_deg)
-			KEY_F:
-				frame_selection()
-			KEY_HOME:
-				reset_view()
+		# rebindable actions (CwKeys)
+		if CwKeys.pressed(k, &"cw_cam_turn_left"):
+			_rotate(-rotate_step_deg)
+		elif CwKeys.pressed(k, &"cw_cam_turn_right"):
+			_rotate(rotate_step_deg)
+		elif CwKeys.pressed(k, &"cw_cam_frame"):
+			frame_selection()
+		elif CwKeys.pressed(k, &"cw_cam_home"):
+			reset_view()
 
 
 ## True when the mouse is over a Control that stops the mouse (a HUD panel).
@@ -882,17 +882,18 @@ func _update_keys(dt: float) -> void:
 	var zoom_keys := 0.0
 	var allowed := input_allowed()
 	if allowed:
-		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		# rebindable actions (CwKeys; the arrows and the keypad always work too)
+		if CwKeys.held(&"cw_cam_left"):
 			want.x -= 1
-		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		if CwKeys.held(&"cw_cam_right"):
 			want.x += 1
-		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		if CwKeys.held(&"cw_cam_forward"):
 			want.y -= 1
-		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+		if CwKeys.held(&"cw_cam_back"):
 			want.y += 1
-		if Input.is_key_pressed(KEY_EQUAL) or Input.is_key_pressed(KEY_KP_ADD):
+		if CwKeys.held(&"cw_cam_zoom_in"):
 			zoom_keys -= 1.0
-		if Input.is_key_pressed(KEY_MINUS) or Input.is_key_pressed(KEY_KP_SUBTRACT):
+		if CwKeys.held(&"cw_cam_zoom_out"):
 			zoom_keys += 1.0
 		if Input.is_key_pressed(KEY_CTRL) or Input.is_key_pressed(KEY_ALT):
 			want = Vector2.ZERO

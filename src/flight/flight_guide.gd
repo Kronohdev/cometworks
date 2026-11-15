@@ -117,8 +117,10 @@ func _ascent(sim: FlightSim, dt: float) -> void:
 		c.throttle = 0.0
 		phase = "coast"
 		return
-	elif alt > 110000.0 and float(el["ap_alt"]) > target_alt * 0.95 and float(el["pe_alt"]) > -sim.sys.radius[sim.body] * 0.5:
-		# high and fast enough: coast up to the apoapsis and round the orbit off there
+	elif alt > 110000.0 and vz > 20.0 and float(el["ap_alt"]) > target_alt * 0.95 and float(el["pe_alt"]) > -sim.sys.radius[sim.body] * 0.5 and _circ_fits(sim):
+		# high and fast enough: coast up to the apoapsis and round the orbit off there (only while
+		# still climbing, and when the engines can round it off around the apoapsis: else a short
+		# orbit falls back before the burn is done, keep burning)
 		c.throttle = 0.0
 		phase = "coast"
 		_plan_circularize(sim)
@@ -180,6 +182,20 @@ func _auto_stage(sim: FlightSim, dt: float) -> void:
 		sim.stage()
 		_cooldown = 1.5
 		_no_thrust = 0.0
+
+
+## Can the burning engines give the circularization at the apoapsis within the time left to it
+## (the burn is flown half before, half after the apoapsis)?
+func _circ_fits(sim: FlightSim) -> bool:
+	var tta := sim.time_to_apoapsis()
+	if tta == INF or float(sim.elements()["e"]) >= 1.0:
+		return false
+	var s := FlightOrbit.propagate(sim.pos(), sim.vel(), tta, sim.mu())
+	var r := Vector3(s[0], s[1], s[2])
+	var v := Vector3(s[3], s[4], s[5])
+	var dv := sqrt(sim.mu() / r.length()) - v.length()
+	var a_max := float(sim.craft.burn_engines()["thrust"]) / sim.craft.mass()
+	return dv <= 0.0 or (a_max > 0.0 and dv / a_max < 2.0 * tta)
 
 
 ## A burn at the apoapsis that lifts the periapsis out of the air (the end of the ascent).

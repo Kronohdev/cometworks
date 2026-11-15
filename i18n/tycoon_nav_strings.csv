@@ -39,6 +39,7 @@ TY_SET_TAB_GAME,Game,Jogo
 TY_SET_TAB_SAVE,Save,Salvar
 TY_SET_TAB_IMAGE,Picture,Imagem
 TY_SET_TAB_SOUND,Sound,Som
+TY_SET_TAB_ACCESS,Access,Acesso
 TY_SCORE_DETAILS,Score breakdown,Pontuação detalhada
 TY_SCORE_SEE_DETAILS,See the breakdown,Ver a pontuação detalhada
 TY_BOOK_SHELF,Agency book,Livro da agência

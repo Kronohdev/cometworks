@@ -49,6 +49,8 @@ var _zzz := 0.0
 var _blocked := 0.0
 var _replanned := false
 var _side := 1.0
+## the yaw it turns to (smoothly) at the spot it reached; NAN = none
+var _face_yaw := NAN
 var _rng := RandomNumberGenerator.new()
 var _roles := ["ground", "pilot", "engineer", "scientist"]
 var _leader_key := ""
@@ -209,6 +211,8 @@ func step(delta: float) -> void:
 		return
 	if _path.is_empty():
 		creature.call("set_move_velocity", Vector3.ZERO)
+		if not is_nan(_face_yaw):
+			rotation.y = lerp_angle(rotation.y, _face_yaw, 1.0 - exp(-delta * 7.0))
 		_timer -= delta
 		if _timer <= 0.0:
 			_pick()
@@ -288,10 +292,14 @@ func _can_stand(np: Vector2, p: Vector2, others: Array[Vector2], nav: CampusNav)
 
 
 func _move(np: Vector2, dir: Vector2, delta: float) -> void:
-	walked += np.distance_to(Vector2(position.x, position.z))
+	var from := Vector2(position.x, position.z)
+	walked += np.distance_to(from)
 	position = Vector3(np.x, position.y, np.y)
+	_face_yaw = NAN
 	rotation.y = lerp_angle(rotation.y, atan2(dir.x, dir.y), 1.0 - exp(-delta * 10.0))
-	creature.call("set_move_velocity", Vector3(dir.x, 0, dir.y) * speed)
+	# the ground speed it really moved at (the last bit of a leg is shorter): the feet match it
+	var moved := (np - from) / maxf(delta, 0.0001)
+	creature.call("set_move_velocity", Vector3(moved.x, 0, moved.y))
 
 
 func _pick() -> void:
@@ -337,7 +345,7 @@ func _stop() -> void:
 func _arrive() -> void:
 	arrivals += 1
 	creature.call("set_move_velocity", Vector3.ZERO)
-	rotation.y = float(_target.get("yaw", rotation.y))
+	_face_yaw = float(_target.get("yaw", rotation.y))   # turns to it over a few frames
 	creature.call("play", String(_target.get("action", "idle")))
 	if _rng.randf() < 0.35:
 		var em := ["wrench", "star", "note", "rocket", "heart", "exclaim"]

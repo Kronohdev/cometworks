@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
 [ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_appear.gd" id="cwm_appear"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_cue_swatch.gd" id="cue_swatch"]
 
 [sub_resource type="SystemFont" id="serif"]
 font_names = PackedStringArray("Georgia", "Times New Roman", "Noto Serif", "DejaVu Serif")
@@ -449,6 +450,7 @@ layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 color = Color(1, 0.3608, 0.4235, 1)
+script = ExtResource("cue_swatch")
 
 [node name="Name" type="Label" parent="Paper/Content/VBox/Body/Right/Board/BoardRowTemplate"]
 layout_mode = 2

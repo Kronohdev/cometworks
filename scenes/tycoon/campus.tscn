@@ -125,7 +125,7 @@ blend_mode = 1
 shading_mode = 0
 cull_mode = 2
 albedo_texture = SubResource("tail_tex")
-fog_enabled = false
+disable_fog = true
 
 [sub_resource type="QuadMesh" id="tail_quad"]
 size = Vector2(150, 8)

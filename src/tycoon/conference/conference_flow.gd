@@ -167,6 +167,8 @@ func leave() -> void:
 	var st := ConferenceBook.store(main.state)
 	var talked := (st["talked"] as Array).size()
 	var heard := (st["heard"] as Array).size()
+	if not ConferenceTriennium.awarded(main.state):
+		ConferenceTriennium.award(main.state)   # the stage was skipped: the award is still given
 	fair.close()
 	if main.chatter:
 		main.chatter.clear()

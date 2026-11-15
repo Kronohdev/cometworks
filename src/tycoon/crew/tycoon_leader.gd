@@ -229,7 +229,7 @@ static func update(s: TycoonState, leader: Dictionary) -> void:
 ## The race board colour of the player's agency.
 static func agency_color(s: TycoonState, fallback: Color) -> Color:
 	var c := String(s.leader.get("agency_color", ""))
-	return Color(c) if Color.html_is_valid(c) else fallback
+	return CwPalette.agency("player", Color(c) if Color.html_is_valid(c) else fallback)
 
 
 ## The CometlingLooks variant closest to a body colour (for screens that only know variants).

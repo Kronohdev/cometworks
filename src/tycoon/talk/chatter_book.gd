@@ -25,6 +25,8 @@ extends RefCounted
 ##   race_place  the player's place in the race (1 = in front; RaceDirector.standings)
 ##   milestones  the race milestones the player has taken (Array of ids: "first_satellite"...)
 ##   missions_done  missions the agency has finished (flown and judged)
+##   mem_missions · mem_successes · mem_failures · mem_last · mem_proud · mem_nervous ·
+##   mem_milestones  what this Cometling remembers of its own missions (CrewMemory.context)
 ##   dialogue only: has_hint (bool), talked_week (bool: the weekly morale nudge was used),
 ##   flags (Array of what this speaker remembers, set by the "flag" effect), where ("campus" |
 ##   "briefing" | "race": where the talk was opened), rival_vs (a rival leader's talk only:
@@ -132,6 +134,7 @@ static func context(s: TycoonState, m: Dictionary, activity := {}, world := {}) 
 		"events": world.get("events", []),
 		"time": String(world.get("time", "golden")),
 	}
+	ctx.merge(CrewMemory.context(s, m), true)   # the missions they remember
 	if s != null:
 		ctx["era"] = s.era()
 		ctx["year"] = s.year()
@@ -248,9 +251,12 @@ static func text(key: String, vars := {}) -> String:
 ## The placeholders every line may use: {name}, {profession}, {project}, {agency}, {leader},
 ## {left} (time until the comet), {race_place}, {my_count} (milestones the player took),
 ## {next_goal} (the player's next milestone), plus {legend_real}, {legend_fact}, {legend_way}
-## for a Lenda ({rival}, {rival_count} in a rival leader's talk: DialogueRun.for_legend).
+## for a Lenda ({rival}, {rival_count} in a rival leader's talk: DialogueRun.for_legend), and
+## the speaker's own missions: {mission}, {mission_ok}, {mission_fail}, {mission_kind},
+## {milestone}, {missions_n} (CrewMemory.vars).
 static func vars_for(s: TycoonState, m: Dictionary) -> Dictionary:
 	var v := {"name": String(m.get("name", TranslationServer.translate("TY_CAM_COMETLING")))}
+	v.merge(CrewMemory.vars(s, m))
 	if s == null:
 		return v
 	var prof_key := String(s.profession(String(m.get("profession", ""))).get("name_key", ""))

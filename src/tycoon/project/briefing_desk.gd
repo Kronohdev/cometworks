@@ -239,6 +239,9 @@ static func make_offer(state: TycoonState, b: Dictionary, r: RandomNumberGenerat
 static func client_text(o: Dictionary) -> String:
 	var b := briefing(String(o.get("id", "")))
 	var kind := String(b.get("kind", "science"))
+	if String(o.get("tip", "")) != "":   # a tip heard at the Conferência dos Cometinhos (ConferenceTriennium)
+		return TranslationServer.translate("TY_CONF_TIP_CLIENT").format(
+			{"rival": TranslationServer.translate(String(o.get("tip_name", o["tip"])))})
 	if kind == "dream":
 		return TranslationServer.translate("TY_BF_CL_DREAM") % String(o.get("client", ""))
 	var key := String(b.get("client", (data().get("clients", {}) as Dictionary).get(kind, "")))

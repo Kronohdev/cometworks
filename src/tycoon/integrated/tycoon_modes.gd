@@ -93,6 +93,18 @@ func _ready() -> void:
 	card.visible = false
 	%Use.pressed.connect(accept_vessel)
 	%Back.pressed.connect(close_mode)
+	port.size_changed.connect(_fit_port_ui)
+
+
+## Text sizes above 100 % (CwAccess) shrink the window's logical view, and %Port follows its
+## container: the hangar's and the flight's own UI, drawn for 1600x900 and up, keep laying out
+## at the port's size times the text size and are drawn scaled into it (they stay at 100 %).
+func _fit_port_ui() -> void:
+	var f := get_tree().root.content_scale_factor if is_inside_tree() else 1.0
+	var want := Vector2i((Vector2(port.size) * f).round()) if f > 1.0 else Vector2i.ZERO
+	if port.size_2d_override != want:
+		port.size_2d_override = want
+		port.size_2d_override_stretch = want != Vector2i.ZERO
 
 
 func bind(m: TycoonMain) -> void:
@@ -185,9 +197,10 @@ func open_project_flight(project_id: String, on_done: Callable, on_cancel := Cal
 	var p := ProjectDesk.find(s, project_id)
 	if p == null:
 		return false
-	var ps := HangarRocket.scene_for(s, p.rocket.get("parts", {}))
-	if ps == null:
+	if HangarRocket.scene_for(s, p.rocket.get("parts", {})) == null:
 		return false
+	# the hangar rocket with the mission's rover riding on it, as the pad and the launch show it
+	var ps := LaunchVessels.scene_for(p.rocket.get("parts", {}), p.target_id, Array(p.payload), s)
 	var d := HangarRocket.definition_of(s, p.rocket.get("parts", {}))
 	var mission := HangarRocket.mission_for(s, p.type_id, p.target_id, 0.0, p.code)
 	mission["goal"] = HangarRocket.goal_text(mission)

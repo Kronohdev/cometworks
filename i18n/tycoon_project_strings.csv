@@ -548,3 +548,35 @@ TY_STEP_LAUNCH,Launch,Lançamento
 TY_STEP_ROCKET_TIP,"The rocket: pick one in the designer or build it in the hangar (Montar no hangar)","O foguete: escolha no projetista ou monte no hangar (Montar no hangar)"
 TY_STEP_LAUNCH_TIP,"A rocket built in the hangar waits on the pad: pilot the launch or let the team fly it","Um foguete montado no hangar espera na plataforma: pilote o lançamento ou deixe a equipe voar"
 TY_PJ_ERR_LIFE_SUPPORT,Crewed flights beyond low orbit need the Life support research.,Voos tripulados além da órbita baixa precisam da pesquisa Suporte de vida.
+TY_CML_CAPTION,Concept maturity,Maturidade do conceito
+TY_CML_LEVEL,CML %d · %s,CML %d · %s
+TY_CML_TIP,CML %d · %s,CML %d · %s
+TY_CML_L0,Just a sketch,Só um rabisco
+TY_CML_L1,Cocktail-napkin idea,Ideia de guardanapo
+TY_CML_L2,Initial feasibility,Viabilidade inicial
+TY_CML_L3,Trade space explored,Espaço de trocas explorado
+TY_CML_L4,Preferred design point,Ponto de projeto preferido
+TY_CML_L5,Concept baseline,Linha de base do conceito
+TY_CML_L6,Initial design,Projeto inicial
+TY_CML_BONUS,"Launch bonus: +%s hype on a success, +%s reputation","Bônus no lançamento: +%s de hype se der certo, +%s de reputação"
+TY_CML_BONUS_NEXT,Reach CML %d for a small launch bonus,Chegue ao CML %d para ganhar um bônus no lançamento
+TY_CML_I_OBJECTIVE,Mission objective defined,Objetivo da missão definido
+TY_CML_H_OBJECTIVE,Answer a briefing or pick a target that suits the type,Responda a um briefing ou escolha um alvo que combine
+TY_CML_I_REACHES,Rocket reaches the target,Foguete chega ao alvo
+TY_CML_H_REACHES,"Change the rocket: it lacks Δv, lift or fairing room","Troque o foguete: falta Δv, empuxo ou espaço na coifa"
+TY_CML_I_TEAM,Team covers the mission's areas,Equipe cobre as áreas da missão
+TY_CML_H_TEAM,Staff the professions the mission leans on,Chame as profissões que a missão pede
+TY_CML_I_INSTRUMENTS,Instruments suit the target,Instrumentos casam com o alvo
+TY_CML_H_INSTRUMENTS,Pack instruments that make sense there; the journal helps,Leve instrumentos que façam sentido lá; o diário ajuda
+TY_CML_I_POWER,Power survives the environment,Energia aguenta o ambiente
+TY_CML_H_POWER,"More panels, night batteries or a heater for the cold","Mais painéis, baterias para a noite ou aquecedor"
+TY_CML_I_MASS,"Mass within the rocket's capacity, with margin","Massa dentro da capacidade, com margem"
+TY_CML_H_MASS,A rocket with headroom keeps Δv and lift green,Um foguete com folga deixa Δv e carga no verde
+TY_CML_I_COMMS,Comms: a fitting antenna,Comunicação: antena adequada
+TY_CML_H_COMMS,A longer-reach antenna brings all the data down,Uma antena de mais alcance desce todos os dados
+TY_CML_I_BUDGET,Budget fits,Orçamento cabe
+TY_CML_H_BUDGET,"Fewer costly fixes, or more cash for the launch","Menos correções caras, ou caixa para o lançamento"
+TY_CML_I_SCHEDULE,Schedule fits,Prazo cabe
+TY_CML_H_SCHEDULE,The chosen fixes run past the deadline,As correções escolhidas estouram o prazo
+TY_CML_I_RISKS,Risks known and handled,Riscos conhecidos e tratados
+TY_CML_H_RISKS,Fix the red risks that have a fix,Corrija os riscos vermelhos que têm correção

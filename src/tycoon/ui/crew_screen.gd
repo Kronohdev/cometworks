@@ -6,7 +6,8 @@ extends Control
 ##           doing), filtered by profession / available / napping and sorted by level, name or
 ##           mood; a card opens the Cometling's sheet
 ##   Sheet   one Cometling (or a candidate): big live 3D portrait, level and XP, traits, mood,
-##           salary, specialisations, the missions they flew; fire / specialise / hire here
+##           salary, specialisations, their milestones (CrewMemory), the missions they flew;
+##           fire / specialise / hire here
 ##   Hire    the hiring market (3 candidates a month, hidden traits as "?") as cards; a card
 ##           opens the candidate's sheet
 ## The team summary (head count, payroll, average mood) is a strip in the header. Everything
@@ -378,6 +379,8 @@ func _show_member(m: Dictionary) -> void:
 		else tr("TY_CREW_HIRED_VALUE") % [hw / state.weeks_per_year() + 1, hw % state.weeks_per_year() + 1]
 	%SpecSection.visible = true
 	_fill_specs(m)
+	%Milestones.visible = true
+	_fill_milestones(m)
 	%History.visible = true
 	_fill_history(m)
 	%FireButton.visible = not TycoonLeader.is_leader(m)
@@ -414,6 +417,7 @@ func _show_candidate(c: Dictionary) -> void:
 	%Cap3.text = tr("TY_CREW_STAFF")
 	%Val3.text = "%d / %d" % [state.staff.size(), TycoonCrew.staff_limit(state)]
 	%SpecSection.visible = false
+	%Milestones.visible = false
 	%History.visible = false
 	%FireButton.visible = false
 	%HireButton.visible = true
@@ -519,6 +523,31 @@ func _fill_specs(m: Dictionary) -> void:
 				b.pressed.connect(func() -> void: _on_spec(String(b.get_meta("spec"))))
 
 
+## The Cometling's milestones (CrewMemory) as chips, in the order earned, with their totals; the
+## tooltip tells what it was for and on which mission.
+func _fill_milestones(m: Dictionary) -> void:
+	var ms := CrewMemory.milestones_of(m)
+	var chips := TycoonHUD._copies(%MsTemplate, ms.size())
+	%MsEmpty.visible = ms.is_empty()
+	%MemSummary.visible = CrewMemory.count(m, "missions") > 0
+	%MemSummary.text = tr("TY_MEM_SUMMARY") % [CrewMemory.count(m, "missions"), CrewMemory.count(m, "successes"),
+		CrewMemory.count(m, "failures")]
+	for i in ms.size():
+		var r := ms[i]
+		var chip := chips[i] as PanelContainer
+		var col: Color = r["color"]
+		var sb := chip.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+		sb.border_color = col
+		chip.add_theme_stylebox_override("panel", sb)
+		var icon := chip.get_node("HBox/Icon") as TextureRect
+		icon.texture = load(String(r["icon"])) as Texture2D
+		icon.self_modulate = col
+		(chip.get_node("HBox/Name") as Label).text = tr(String(r["name_key"]))
+		var w := int(r.get("w", 0))
+		chip.tooltip_text = tr("TY_MEM_MS_TIP") % [tr(String(r["desc_key"])), String(r.get("code", "")),
+			w / state.weeks_per_year() + 1]
+
+
 ## The missions the Cometling worked on (launched projects with them on the team), newest first.
 func _fill_history(m: Dictionary) -> void:
 	var id := String(m["id"])
@@ -539,8 +568,12 @@ func _fill_history(m: Dictionary) -> void:
 		(lines[i].get_node("What") as Label).text = "%s · %s" % [ty, tg]
 		var ok := bool(h.get("success", false))
 		var res := lines[i].get_node("Result") as Label
-		res.text = (tr("TY_CREW_HIST_OK") if ok else tr("TY_CREW_HIST_FAIL")) + " · %.1f" % float(h.get("grade", 0.0))
-		res.add_theme_color_override("font_color", CwPalette.ink(CwPalette.SUCCESS if ok else CwPalette.DANGER))
+		# how it went, as the crew remembers it: a first for the agency, a success, a partial, a failure
+		var o := CrewMemory.outcome_of(h)
+		var word: String = {"first": "TY_MEM_HIST_FIRST", "partial": "TY_MEM_HIST_PARTIAL"}.get(o, "TY_CREW_HIST_OK" if ok else "TY_CREW_HIST_FAIL")
+		var col := {"first": CwPalette.IGNITION, "partial": CwPalette.WARNING}.get(o, CwPalette.SUCCESS if ok else CwPalette.DANGER) as Color
+		res.text = tr(String(word)) + " · %.1f" % float(h.get("grade", 0.0))
+		res.add_theme_color_override("font_color", CwPalette.ink(col))
 
 
 # ------------------------------------------------------------ actions

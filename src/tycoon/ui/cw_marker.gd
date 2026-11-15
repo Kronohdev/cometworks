@@ -33,6 +33,10 @@ extends Control
 		queue_redraw()
 
 
+func _ready() -> void:
+	add_to_group(CwAccess.CUE_GROUP)   # redrawn when the colour-blind mode changes
+
+
 func _draw() -> void:
 	var c := size * 0.5
 	var r := radius if radius > 0.0 else minf(size.x, size.y) * 0.5 - 1.0
@@ -43,6 +47,8 @@ func _draw() -> void:
 			c + Vector2(0, r * 1.25), c + Vector2(-k, k), c + Vector2(-r * 1.25, 0), c + Vector2(-k, -k)])
 	if fill.a > 0.0:
 		draw_colored_polygon(pts, fill)
+		# colour-blind mode: the agency's shape cue inside (CwPalette.cue_of)
+		CwPalette.draw_cue(self, CwPalette.cue_of(fill), c, r * 0.62, fill)
 	var closed := pts.duplicate()
 	closed.append(pts[0])
 	draw_polyline(closed, outline, 1.0, true)

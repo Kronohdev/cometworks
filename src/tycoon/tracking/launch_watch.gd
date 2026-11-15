@@ -12,6 +12,11 @@ extends Control
 ## The result card names the outcome when it happens (lost with its cause, orbit, a partial
 ## orbit, the transfer leaving, a hop splashing down, arrival), with "Ver no mapa" (the Solar
 ## System map on this mission) and the way back. Camera, map (M) and warp (, and .) stay free.
+## The speed key (%Speed, or V) steps the flight's warp through SPEEDS; the physics always steps
+## FlightSim.DT, so the flight ends the same at any speed. "Simular até o fim" (%Skip) flies the
+## rest at once (FlightLog.finish) and opens the comic recap told by Vovô Edmundo (FlightComic);
+## the log is recorded all along (FlightLog.observe each frame), so the result card's "Relatório
+## do voo" opens the same comic for a flight that was watched.
 
 ## seconds in orbit before the result card (a target in Earth orbit)
 @export var orbit_hold := 4.0
@@ -22,6 +27,13 @@ extends Control
 const CARD_GAP := 12.0
 const PHASE_COLORS := {"lost": CwPalette.DANGER, "orbit": CwPalette.AURORA_TEAL, "transfer": CwPalette.COMET_ICE,
 	"arrived": CwPalette.AURORA_VIOLET}
+## the speed key's steps (warp levels of FlightWorld; 100 is its physics cap)
+const SPEEDS: Array[int] = [1, 2, 4, 10, 100]
+const COMIC := "res://scenes/tycoon/ui/screens/flight_comic.tscn"
+## wall-clock ms of flight simulation per frame while skipping
+const SKIP_BUDGET_MS := 70.0
+## no-break space: glues a key cap to its label in the hint (key_caps)
+const NBSP := "\u00a0"
 
 var modes: TycoonModes
 var world: FlightWorld
@@ -41,6 +53,14 @@ var _apogee := 0.0
 var back_to_map := false
 ## the card's own bottom (the scene's), over the 3D view
 var _card_bottom := 0.0
+## what the flight went through, written down as it flies (the comic's source)
+var flog: FlightLog = null
+## the flight was simulated to its end at once (no result card of its own then)
+var skipped := false
+## the comic on show (FlightComic), or null
+var comic: Control = null
+## "Simular até o fim" is flying the rest (a few frames: SKIP_BUDGET_MS of flight each)
+var _skipping := false
 
 
 func _ready() -> void:
@@ -48,6 +68,9 @@ func _ready() -> void:
 	%ResBack.pressed.connect(go_back)
 	%Keep.pressed.connect(func() -> void: %Result.visible = false)
 	%SeeMap.pressed.connect(see_map)
+	%Speed.pressed.connect(cycle_speed)
+	%Skip.pressed.connect(skip_to_end)
+	%Report.pressed.connect(open_comic)
 	%Result.visible = false
 	_card_bottom = (%Card as Control).offset_bottom
 
@@ -66,6 +89,7 @@ func bind(m: TycoonModes, w: FlightWorld, args: Dictionary) -> void:
 	world.flight_event.connect(_on_event)
 	if mode == "follow" or (run and run.sim.in_orbit):
 		_shown["orbit"] = true
+	flog = FlightLog.new(run) if run else null
 	_fill_static()
 
 
@@ -87,19 +111,25 @@ func _fill_static() -> void:
 ## The hint in BBCode with its keys drawn as key caps: a bare key is easy to miss, above all
 ## the warp's "," and "." (they read as punctuation). In each " · " part, a lone punctuation
 ## mark is a key, and so is a short first word starting in capitals (M, Esc, F2, C).
+## A part with a key cap is one unit when the line wraps: its spaces (and the cap's padding)
+## are no-break spaces, so a cap never ends a line away from the word it labels; the line
+## breaks only after a " · " (or inside a part with no key, plain prose).
 static func key_caps(text: String) -> String:
 	var parts := text.replace("[", "[lb]").split(" · ")
 	for i in parts.size():
 		var words := parts[i].split(" ")
+		var has_cap := false
 		for j in words.size():
 			var w := words[j]
 			var mark := w.length() == 1 and w in ",.;/-=+"
 			var word_key := j == 0 and w.length() <= 3 and w != "" and w[0] != w[0].to_lower()
 			if mark or word_key:
-				words[j] = "[bgcolor=#%s][color=#%s] %s [/color][/bgcolor]" % [CwPalette.LILAC_LIGHT.to_html(false),
-					CwPalette.INK.to_html(false), w]
-		parts[i] = " ".join(words)
-	return "[b]%s[/b]" % " · ".join(parts)   # bold like the other dim lines (CwDim)
+				has_cap = true
+				words[j] = "[bgcolor=#%s][color=#%s]%s%s%s[/color][/bgcolor]" % [CwPalette.LILAC_LIGHT.to_html(false),
+					CwPalette.INK.to_html(false), NBSP, w, NBSP]
+		parts[i] = (NBSP if has_cap else " ").join(words)
+	# the dot sticks to the part before it; the break opportunity is the space after it
+	return "[b]%s[/b]" % (NBSP + "· ").join(parts)   # bold like the other dim lines (CwDim)
 
 
 ## The card's place: its own over the 3D view; on the map (M) right above the map's
@@ -137,10 +167,113 @@ func see_map() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if comic and is_instance_valid(comic):
+		return   # the comic has the keys
 	if %Result.visible and event is InputEventKey and event.pressed and not event.echo \
 			and (event as InputEventKey).keycode == KEY_ESCAPE:
 		%Result.visible = false
 		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo and (event as InputEventKey).keycode == KEY_V \
+			and world and not world.paused:
+		cycle_speed()
+		get_viewport().set_input_as_handled()
+
+
+# ------------------------------------------------------------ speed, skip, the comic
+## The next speed (1x 2x 4x 10x 100x, then 1x again): the flight's warp. A warp picked with , / .
+## outside the steps goes back to 1x.
+func cycle_speed() -> void:
+	if world == null:
+		return
+	var i := SPEEDS.find(world.warp)
+	world.warp = SPEEDS[(i + 1) % SPEEDS.size()] if i >= 0 else 1
+	_refresh_speed()
+
+
+func _refresh_speed() -> void:
+	var w := world.current_warp() if world else 1
+	var txt := "%d×" % w
+	if (%Speed as Button).text != txt:
+		(%Speed as Button).text = txt
+	var done := flog != null and flog.done()
+	var skip_txt := tr("TY_TRK_REPORT") if done or skipped else tr("TY_TRK_SKIP")
+	if (%Skip as Button).text != skip_txt:
+		(%Skip as Button).text = skip_txt
+
+
+## "Simular até o fim": the rest of the flight at once (the same run, the same steps), then the
+## comic of what happened. Once the flight is over the key opens the comic again.
+func skip_to_end() -> void:
+	if run == null or flog == null or (comic and is_instance_valid(comic)):
+		return
+	if skipped or flog.done():
+		open_comic()
+		return
+	_skipping = true
+	(%Skip as Button).disabled = true
+	world.warp = 1
+
+
+## One frame of the skip: as much flight as SKIP_BUDGET_MS of the frame allows (the physics is
+## the same fixed step as watching), the view kept on the flight's time; done: the comic.
+func _skip_frame() -> void:
+	var ok := flog.finish(SKIP_BUDGET_MS)
+	world.time = run.sim.t
+	(%Skip as Button).text = "%s T+%s" % [tr("TY_TRK_SKIPPING"), FlightHUD.fmt_time(maxf(run.sim.met(), 0.0))]
+	if not ok:
+		return
+	_skipping = false
+	skipped = true
+	for e: Dictionary in flog.events:
+		if String(e["kind"]) == "crash":
+			_lost_met = float(e["met"])
+	_result_at = -1.0
+	%Result.visible = false
+	# the view catches up at once: its time is the flight's, the events of the way are the comic's
+	world.time = run.sim.t
+	world.warp = 1
+	run.take_pending()
+	run.take_dropped()
+	(%Skip as Button).disabled = false
+	open_comic()
+
+
+## The comic recap of this flight so far (the whole of it after a skip).
+func open_comic() -> void:
+	if flog == null or (comic and is_instance_valid(comic)):
+		return
+	flog.observe()
+	var s := modes.main.state if modes and modes.main else null
+	FlightComic.save_log(entry, flog)
+	var c := (load(COMIC) as PackedScene).instantiate() as FlightComic
+	add_child(c)
+	comic = c
+	%Result.visible = false
+	c.show_flight(s, entry, flog.events, flog.outcome(), {"embedded": true,
+		"see_map": not String(track.get("id", "")).is_empty() and modes != null,
+		"target": target, "code": String(track.get("code", entry.get("code", ""))), "outcome": outcome})
+	c.closed.connect(_on_comic_closed)
+
+
+func _on_comic_closed(what: String) -> void:
+	comic = null
+	if what == "map":
+		see_map()
+	elif skipped:
+		show_result(_final_kind())
+	elif _result_kind != "" and _result_at < 0.0:
+		show_result(_result_kind)   # opened from the result card: back to it
+
+
+## The result card's kind for a flight that has ended (after a skip).
+func _final_kind() -> String:
+	if run == null or run.sim.crashed:
+		return "lost"
+	if target == "suborbital":
+		return "suborbital"
+	if target.begins_with("lunar") or target == "comet":
+		return "arrived"
+	return "partial" if outcome == "partial" else "orbit"
 
 
 func _process(delta: float) -> void:
@@ -148,6 +281,15 @@ func _process(delta: float) -> void:
 		return
 	_place_card()
 	_t += delta
+	if flog:
+		flog.observe()
+	if _skipping:
+		_skip_frame()
+	else:
+		_refresh_speed()
+	if skipped or _skipping:
+		_refresh_phase()
+		return
 	if run and target == "suborbital" and run.sim.launched and run.sim.vertical_speed() < 0.0 and not _shown.has("top") \
 			and run.sim.altitude() > 50000.0:
 		_shown["top"] = true
@@ -254,6 +396,9 @@ func show_result(kind: String) -> void:
 		"transfer":
 			%ResTitle.text = tr("TY_TRK_RES_TRANSFER")
 			%ResText.text = tr("TY_TRK_RES_TRANSFER_TEXT") % [code, _target_name()]
+		"arrived":
+			%ResTitle.text = tr("TY_TRK_RES_ARRIVED")
+			%ResText.text = tr("TY_TRK_RES_ARRIVED_TEXT") % [code, _target_name()]
 		"suborbital":
 			%ResTitle.text = tr("TY_TRK_RES_SUBORBITAL")
 			%ResText.text = tr("TY_TRK_RES_SUBORBITAL_TEXT") % [code, FlightHUD.fmt_dist(maxf(_apogee,

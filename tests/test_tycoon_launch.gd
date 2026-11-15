@@ -215,7 +215,8 @@ func _shot_rigs(s: TycoonState) -> void:
 	var crew_scale := seq.cam_rig.scale.x
 	seq.anim.seek(1.0, true)
 	await _frames(1)
-	_check(seq._rig_size > 1.5 and absf(crew_scale - 1.0) < 0.01 and seq.cam_rig.scale.x > 1.5,
+	# a real vessel is slim: the rig grows with the square root of its height (vessel_rig_power)
+	_check(seq._rig_size > 1.2 and absf(crew_scale - 1.0) < 0.01 and seq.cam_rig.scale.x > 1.2,
 		"era 5: the establishing shot grows with the rocket (%.2f), the crew shot does not (%.2f)" % [seq.cam_rig.scale.x, crew_scale])
 	var smoke := seq.get_node("Stage/Rocket/Engine/TrailSmoke") as GPUParticles3D
 	var authored := (load("res://scenes/tycoon/launch/launch_sequence.tscn") as PackedScene).instantiate() as LaunchSequence

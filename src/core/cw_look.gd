@@ -96,6 +96,8 @@ static func apply_antialiasing() -> void:
 	if tree == null or tree.root == null:
 		return
 	var mode := antialiasing()
+	if GraphicsQuality.max_aa() != "":
+		mode = GraphicsQuality.max_aa()   # the "Baixo" graphics level turns the AA off
 	tree.root.msaa_3d = aa_msaa(mode) as Viewport.MSAA
 	tree.root.screen_space_aa = aa_screen_space(mode) as Viewport.ScreenSpaceAA
 

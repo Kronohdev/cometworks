@@ -63,7 +63,8 @@ var agency_name := "Cometworks"
 ## leader creator; old saves read as "normal"
 var difficulty := TycoonDifficulty.NORMAL
 ## staff: [{"id", "name", "profession", "level" 1..6, "xp", "skill" 0..1, "curiosity" 0..1,
-## "courage" 0..1, "morale" 0..100, "variant", "assigned" (project id or "")}], see normalize_staff()
+## "courage" 0..1, "morale" 0..100, "variant", "assigned" (project id or ""), "memory" (the
+## missions they remember and their milestones, CrewMemory; missing = none)}], see normalize_staff()
 var staff: Array[Dictionary] = []
 ## rivals: [{"id", "name_key", "color", "capacity", "milestones"}]
 var rivals: Array[Dictionary] = []
@@ -135,6 +136,9 @@ var rovers: Dictionary = {}
 ## the Conferência dos Cometinhos (ConferenceBook, src/tycoon/conference/): the last invitation
 ## answered, the conferences attended and skipped
 var conference: Dictionary = {}
+## the photos missions sent home, oldest first (MissionPhotos, src/tycoon/photos/): records with
+## the shot, the mission and the PNG under user:// (rendered by MissionPhotoStudio); old saves: []
+var photos: Array[Dictionary] = []
 
 
 static func load_json(path: String) -> Dictionary:
@@ -183,6 +187,8 @@ static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = [], p_di
 	s.race = RaceDirector.new(s)
 	SpaceTracking.attach(s)
 	RoverMissions.attach(s)  # rover missions end with their surface objectives
+	CrewMemory.attach(s)  # the team remembers every launch (staff "memory")
+	MissionPhotos.attach(s)  # missions with a camera send photos home (photos)
 	return s
 
 
@@ -416,7 +422,7 @@ func race_board() -> Array[Dictionary]:
 	var out: Array[Dictionary] = [{"name": agency_name, "color": TycoonLeader.agency_color(self, CwPalette.IGNITION),
 		"progress": float(milestones) / milestones_total(), "player": true}]
 	for r in rivals:
-		out.append({"name_key": r["name_key"], "color": Color(String(r["color"])),
+		out.append({"name_key": r["name_key"], "color": CwPalette.agency(String(r.get("id", "")), Color(String(r["color"]))),
 			"progress": float(r["milestones"]) / milestones_total(), "player": false})
 	return out
 
@@ -432,7 +438,7 @@ func to_dict() -> Dictionary:
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
 		"rockets": rockets, "story": story, "discovery": discovery, "tracking": tracking,
-		"tutorials": tutorials, "signs": signs, "rovers": rovers, "conference": conference}
+		"tutorials": tutorials, "signs": signs, "rovers": rovers, "conference": conference, "photos": photos}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -484,6 +490,9 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	s.conference = d.get("conference", {})
 	if s.conference.has("last_year"):   # JSON numbers come back as floats
 		s.conference["last_year"] = int(s.conference["last_year"])
+	s.photos = MissionPhotos.restore(d.get("photos", []))  # old saves: no photos yet
 	SpaceTracking.attach(s)
 	RoverMissions.attach(s)  # rover missions end with their surface objectives
+	CrewMemory.attach(s)  # the team remembers every launch (staff "memory")
+	MissionPhotos.attach(s)  # missions with a camera send photos home (photos)
 	return s

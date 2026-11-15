@@ -104,7 +104,7 @@ func rebuild_parts(parts: Array[PartInstance]) -> void:
 		var parent := p.part_parent()
 		if parent == null or not (p.own_node_name in ["top", "bottom"]) or not (p.parent_node_name in ["top", "bottom"]):
 			continue
-		var key := str(p.get_path())
+		var key := p.get_instance_id()  # not get_path(): a part may be off the tree (a breakup piece)
 		seen[key] = true
 		var made: Array = []
 		if PartDB.is_engine(p.data):

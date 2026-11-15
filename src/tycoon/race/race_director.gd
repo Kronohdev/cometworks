@@ -114,10 +114,11 @@ func agency_name(id: String) -> String:
 	return String(rival(id).get("name_key", id))
 
 
+## An agency's colour (its colour-blind friendly one when that mode is on, CwPalette.agency).
 func agency_color(id: String) -> Color:
 	if id == PLAYER:
-		return CwPalette.IGNITION
-	return Color(String(rival(id).get("color", "#8c9ab5")))
+		return CwPalette.agency("player", CwPalette.IGNITION)
+	return CwPalette.agency(id, Color(String(rival(id).get("color", "#8c9ab5"))))
 
 
 func claims_of(id: String) -> Array[Dictionary]:

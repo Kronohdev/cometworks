@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="4_star"]
 [ext_resource type="Shader" path="res://ui/cometworks/visor_mask.gdshader" id="5_mask"]
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_portrait_studio.tscn" id="6_studio"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_cue_swatch.gd" id="cue_swatch"]
 
 [sub_resource type="ShaderMaterial" id="visor_mat"]
 shader = ExtResource("5_mask")
@@ -243,6 +244,7 @@ layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 color = Color(0.2471, 0.8784, 0.7725, 1)
+script = ExtResource("cue_swatch")
 
 [node name="Kind" type="Label" parent="Panel/Margin/VBox/Body/ListCol/Scroll/List/CardTemplate/Box/VBox/Top"]
 layout_mode = 2
@@ -323,6 +325,7 @@ layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 color = Color(0.2471, 0.8784, 0.7725, 1)
+script = ExtResource("cue_swatch")
 
 [node name="KindText" type="Label" parent="Panel/Margin/VBox/Body/DetailScroll/Detail/KindRow/KindChip/HBox"]
 unique_name_in_owner = true

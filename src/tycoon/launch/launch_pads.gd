@@ -65,6 +65,13 @@ static func launched(s: TycoonState, lot: String, parts := {}) -> void:
 ## development that will leave from this pad, the furthest along first; else the one that last
 ## left it; {} for none yet (the pad shows the era's rocket).
 static func pad_rocket(s: TycoonState, lot: String) -> Dictionary:
+	return pad_launch(s, lot)["parts"]
+
+
+## What stands on a pad, for its look: {"parts": pad_rocket's design, "payload": the module ids
+## it carries (a rover rides on the rocket), "target": where it goes}. The rocket that last left
+## a pad stands there without a payload ([] / "leo").
+static func pad_launch(s: TycoonState, lot: String) -> Dictionary:
 	var best: MissionProject = null
 	for p: MissionProject in s.mission_projects:
 		if p.rocket.is_empty():
@@ -74,9 +81,10 @@ static func pad_rocket(s: TycoonState, lot: String) -> Dictionary:
 		if best == null or p.progress() > best.progress():
 			best = p
 	if best:
-		return RocketDesigner.normalize(best.rocket.get("parts", {}))
+		return {"parts": RocketDesigner.normalize(best.rocket.get("parts", {})), "payload": Array(best.payload),
+			"target": best.target_id}
 	var last: Dictionary = s.building(lot).get("last_rocket", {})
-	return last.duplicate()
+	return {"parts": last.duplicate(), "payload": [], "target": "leo"}
 
 
 ## One week of rollout on every pad.

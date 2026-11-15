@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "_doc": "Photos sent home by missions (MissionPhotos, src/tycoon/photos/mission_photos.gd). A mission whose payload carries one of 'cameras' and that launches with outcome partial / full / exceptional sends 'count'[outcome] photos. The shots come from 'by_type' (when the type has an entry and the target is in its 'targets', or it has no 'targets') else 'by_target', cycling from the number of photos already taken of that target. Each shot names a set and a pose in scenes/tycoon/photos/photo_studio.tscn (Stage/Sets/<set>, its Poses/<pose> marker looking at the pose's Look child) and the subject text key. 'filters' maps a camera module to the look of its pictures (ir: false colours). Pictures are rendered off-screen (MissionPhotoStudio) at 'size' into 'dir'. The campus mural shows up to 'mural_max' photos: the pinned ones first, then the best by outcome. Texts: i18n/photo_strings.csv.",
+  "size": [480, 300],
+  "dir": "user://mission_photos",
+  "cameras": ["camera", "ir_camera"],
+  "filters": {"camera": "", "ir_camera": "ir"},
+  "count": {"fail": 0, "partial": 1, "full": 2, "exceptional": 3},
+  "outcome_rank": {"partial": 1, "full": 2, "exceptional": 3},
+  "mural_max": 3,
+  "by_target": {
+    "suborbital": ["earth_limb"],
+    "leo": ["earth_orbit", "earth_limb", "earth_full"],
+    "sso": ["earth_orbit", "earth_limb", "earth_full"],
+    "geo": ["earth_full", "earth_moon", "earth_orbit"],
+    "lunar_flyby": ["moon_far_side", "earth_moon", "earthrise"],
+    "lunar_orbit": ["moon_orbit", "earthrise", "moon_far_side"],
+    "lunar_surface": ["moon_surface", "earthrise", "moon_orbit"],
+    "lunar_pole": ["moon_surface", "moon_orbit", "earthrise"],
+    "comet": ["comet", "comet_close", "comet_tails"]
+  },
+  "by_type": {
+    "rover": {"targets": ["lunar_surface", "lunar_pole"], "shots": ["rover_view", "moon_surface", "earthrise"]},
+    "telescope": {"shots": ["planet_saturn", "planet_jupiter", "planet_mars"]}
+  },
+  "shots": {
+    "earth_limb":    {"set": "Earth",   "pose": "Limb",     "fov": 50, "subject_key": "TY_PH_SUBJ_EARTH_LIMB"},
+    "earth_orbit":   {"set": "Earth",   "pose": "Orbit",    "fov": 42, "subject_key": "TY_PH_SUBJ_EARTH"},
+    "earth_full":    {"set": "Earth",   "pose": "Full",     "fov": 36, "subject_key": "TY_PH_SUBJ_EARTH_FULL"},
+    "earth_moon":    {"set": "Earth",   "pose": "WithMoon", "fov": 40, "subject_key": "TY_PH_SUBJ_EARTH_MOON"},
+    "moon_far_side": {"set": "Moon",    "pose": "FarSide",  "fov": 36, "subject_key": "TY_PH_SUBJ_MOON_FAR"},
+    "moon_orbit":    {"set": "Moon",    "pose": "Orbit",    "fov": 46, "subject_key": "TY_PH_SUBJ_MOON_ORBIT"},
+    "earthrise":     {"set": "Moon",    "pose": "Earthrise","fov": 40, "subject_key": "TY_PH_SUBJ_EARTHRISE"},
+    "moon_surface":  {"set": "Surface", "pose": "Lander",   "fov": 55, "subject_key": "TY_PH_SUBJ_MOON_SURFACE"},
+    "rover_view":    {"set": "Surface", "pose": "Rover",    "fov": 62, "subject_key": "TY_PH_SUBJ_ROVER"},
+    "comet":         {"set": "Comet",   "pose": "Wide",     "fov": 40, "subject_key": "TY_PH_SUBJ_COMET"},
+    "comet_close":   {"set": "Comet",   "pose": "Close",    "fov": 45, "subject_key": "TY_PH_SUBJ_COMET_CLOSE"},
+    "comet_tails":   {"set": "Comet",   "pose": "Tails",    "fov": 50, "subject_key": "TY_PH_SUBJ_COMET_TAILS"},
+    "planet_saturn": {"set": "Saturn",  "pose": "Scope",    "fov": 30, "subject_key": "TY_PH_SUBJ_SATURN"},
+    "planet_jupiter":{"set": "Jupiter", "pose": "Scope",    "fov": 30, "subject_key": "TY_PH_SUBJ_JUPITER"},
+    "planet_mars":   {"set": "Mars",    "pose": "Scope",    "fov": 26, "subject_key": "TY_PH_SUBJ_MARS"}
+  }
+}

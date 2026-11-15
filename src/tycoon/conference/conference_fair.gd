@@ -16,6 +16,12 @@ extends Node3D
 ##     the gate) shows a prompt: E (or Enter / the pad's A) talks, through the campus dialogue
 ##     box (CometlingDialogue.open_run with ConferenceBook.make_run), or leaves
 ##   - Esc (or the pad's Start) opens the pause card: keep strolling or "Sair da feira"
+##   - the stage (the Ceremony node: podium, host spot, trophy, confetti) holds the "Agência do
+##     triênio" award (ConferenceTriennium.award): walking up to it (Ceremony/Approach) and E
+##     plays the ceremony: the host steps onto the stage and announces it in the dialogue box,
+##     the winner's leader (the player's own when it wins) stands on the podium, confetti falls
+##   - Keplerino's tip (ConferenceTriennium.grant_tip): hearing it puts the rival's next goal on
+##     the mission board
 ## The mouse is captured while walking and given back for a conversation or the card.
 ## The look: the ground is shaders/conference_ground.gdshader (paving, walkways and the
 ## exhibit's rosette on the plaza, grass and a worn fringe round it); the lamps, stage, food
@@ -64,7 +70,7 @@ var chatter: CampusChatter
 var npcs: Array[Dictionary] = []
 ## the Lenda-to-Lenda exchanges standing here: [{"a": Node3D, "b": Node3D, "a_key", "b_key", "said"}]
 var duo_nodes: Array[Dictionary] = []
-## what the prompt points at: {"npc": entry} | {"exit": true} | {}
+## what the prompt points at: {"npc": entry} | {"exit": true} | {"stage": true} | {}
 var focus: Dictionary = {}
 var run: DialogueRun
 var run_npc: Dictionary = {}
@@ -75,6 +81,9 @@ var _greeted := {}
 var _talk_distance := 3.4
 var _pair_distance := 9.0
 var _flash_t := 0.0
+## the award ceremony under way: {"rec", "host", "winner" (stand-in nodes), "hidden" [nodes],
+## "confetti" (fired)}; {} when none
+var ceremony: Dictionary = {}
 
 @onready var player: ConferencePlayer = $Player
 @onready var camera: Camera3D = $Camera
@@ -115,6 +124,8 @@ func open(s: TycoonState, p_talk: CometlingDialogue, p_chatter: CampusChatter) -
 	%Leave.text = tr("TY_CONF_LEAVE")
 	%MenuTitle.text = tr("TY_CONF_MENU_TITLE")
 	refresh_count()
+	%AwardSign.text = tr("TY_CONF_AWARD_SIGN")
+	_dress_trophy()
 	flash(tr("TY_CONF_WELCOME"), 5.0)
 	if talk:
 		talk.closed.connect(_on_talk_closed)
@@ -551,6 +562,7 @@ func _process(delta: float) -> void:
 	if state == null:
 		return
 	_update_focus()
+	_ceremony_tick()
 	_run_pairs(delta)
 	_greet()
 	if _flash_t > 0.0:
@@ -577,12 +589,16 @@ func _update_focus() -> void:
 			var ex := ($Markers/Exit as Node3D).global_position
 			if Vector2(ex.x - me.x, ex.z - me.z).length() < exit_distance:
 				f = {"exit": true}
+		if f.is_empty() and ceremony.is_empty() and near_stage():
+			f = {"stage": true}
 	focus = f
 	%Prompt.visible = not f.is_empty()
 	if f.has("npc"):
 		%PromptText.text = tr("TY_CONF_PROMPT_TALK").format({"name": TycoonLegends.name_text(String(f["npc"]["id"]))})
 	elif f.has("exit"):
 		%PromptText.text = tr("TY_CONF_PROMPT_EXIT")
+	elif f.has("stage"):
+		%PromptText.text = tr("TY_CONF_PROMPT_AWARD")
 
 
 ## The Lendas who stand together trade their exchange once when the player walks up.
@@ -660,6 +676,8 @@ func interact() -> bool:
 	if focus.has("exit"):
 		leave_requested.emit()
 		return true
+	if focus.has("stage"):
+		return start_ceremony()
 	if focus.has("npc"):
 		return talk_to(focus["npc"])
 	return false
@@ -686,13 +704,140 @@ func talk_to(e: Dictionary) -> bool:
 
 
 func _on_talk_closed(_who: Node3D) -> void:
+	if not ceremony.is_empty():
+		_end_ceremony()
 	if run and not run_npc.is_empty():
 		if String(run_npc["role"]) == ConferenceBook.ROLE_RIVAL and "{conf_status}" in run._seen_lines:
 			ConferenceBook.heard(state, String(run_npc["rival"]))
+		if String(run_npc["role"]) == ConferenceBook.ROLE_HOST and "{g_tip}" in run._seen_lines:
+			var o := ConferenceTriennium.grant_tip(state, String(run.vars.get("tip_rival", "")))
+			if not o.is_empty():
+				flash(tr("TY_CONF_NEWS_TIP") % [tr(BriefingDesk.title_key(String(o["id"]))),
+					tr(state.race.agency_name(String(o["tip"])))], 5.0)
 	run = null
 	run_npc = {}
 	refresh_count()
 	set_walking(not %Menu.visible)
+
+
+# ------------------------------------------------------------ the award
+## Is the player at the foot of the stage?
+func near_stage() -> bool:
+	var a := ($Ceremony/Approach as Node3D).global_position
+	var me := player.global_position
+	return Vector2(a.x - me.x, a.z - me.z).length() < float((ConferenceBook.cfg("award", {}) as Dictionary).get("distance", 3.2))
+
+
+## The trophy on the stage stays there until the player wins it.
+func _dress_trophy() -> void:
+	var won := state.year() in ConferenceTriennium.trophies(state)
+	($Ceremony/Trophy as Node3D).visible = not won
+
+
+## A stand-in Cometling for Lenda `id` (or the player's leader when `id` is "") at a marker of
+## the stage, facing the plaza.
+func _stand_in(id: String, marker: Node3D) -> Node3D:
+	var holder := Node3D.new()
+	holder.name = "Stage_" + (id if id != "" else "leader")
+	$Ceremony.add_child(holder)
+	holder.transform = marker.transform
+	var c: Cometling = TycoonLegends.instance(id) if id != "" else null
+	var own := c != null
+	if c == null:
+		c = CREATURE.instantiate() as Cometling
+	c.name = "Creature"
+	c.listen_to_events = false
+	holder.add_child(c)
+	c.scale = Vector3.ONE * creature_scale
+	if id == "":
+		var m := TycoonLeader.member(state)
+		if not m.is_empty():
+			c = TycoonLeader.dress(c, m)
+	elif not own:
+		TycoonLeader.apply_look(c, TycoonLegends.look(id))
+	if id != "":
+		holder.set_meta("talk_name", TycoonLegends.key(id, "NAME"))
+		holder.set_meta("talk_id", id)
+	return holder
+
+
+## The "Agência do triênio": decides it (once per conference, ConferenceTriennium.award), puts
+## the host and the winner's leader on the stage and plays the announcement in the dialogue box.
+## False without the box or while one is under way.
+func start_ceremony() -> bool:
+	if talk == null or not ceremony.is_empty():
+		return false
+	var rec := ConferenceTriennium.award(state)
+	var host_id := String(ConferenceBook.cfg("host", "keplerino"))
+	var hidden: Array[Node3D] = []
+	var host_look: Dictionary = TycoonLegends.look(host_id)
+	var winner := String(rec["winner"])
+	for e in npcs:
+		var role := String(e["role"])
+		if role == ConferenceBook.ROLE_HOST or (role == ConferenceBook.ROLE_RIVAL and String(e["rival"]) == winner):
+			(e["node"] as Node3D).visible = false
+			hidden.append(e["node"])
+			if role == ConferenceBook.ROLE_HOST:
+				host_look = e["look"]
+	var host := _stand_in(host_id, $Ceremony/HostSpot)
+	var win: Node3D = null
+	if winner == RaceDirector.PLAYER:
+		win = _stand_in("", $Ceremony/Podium)
+	elif winner != "":
+		win = _stand_in(TycoonLegends.rival_leader_id(winner), $Ceremony/Podium)
+	# the player at the foot of the stage, looking up at it
+	var at := to_local(($Ceremony/Approach as Node3D).global_position)
+	var to := to_local(($Ceremony/Podium as Node3D).global_position) - at
+	player.place(Vector3(at.x, 0.0, at.z), atan2(to.x, to.z))
+	ceremony = {"rec": rec, "host": host, "winner": win, "hidden": hidden, "confetti": false}
+	var world: Dictionary = chatter.world() if chatter else {}
+	var r := ConferenceTriennium.ceremony_run(state, rec, world)
+	if not talk.open_run(r, host, host_look):
+		_end_ceremony()
+		return false
+	run = r
+	run_npc = {}
+	set_walking(false)
+	%Prompt.visible = false
+	return true
+
+
+## Confetti and a cheer when the winner is named (the run reaches its "aw_win" node).
+func _ceremony_tick() -> void:
+	if ceremony.is_empty() or bool(ceremony["confetti"]) or run == null or run.node_id != "aw_win":
+		return
+	ceremony["confetti"] = true
+	if String(ceremony["rec"]["winner"]) == "":
+		return
+	var cf := %Confetti as GPUParticles3D
+	cf.restart()
+	cf.emitting = true
+	CwSfx.play(&"ui_open")
+	var w: Node3D = ceremony["winner"]
+	if is_instance_valid(w):
+		var c := ChatterBook.find_creature(w)
+		if c:
+			c.play_sequence(["cheer", "jump", "clap"])
+
+
+## The ceremony is over: the stand-ins leave, the host and the leader go back to their places.
+func _end_ceremony() -> void:
+	var rec: Dictionary = ceremony.get("rec", {})
+	for k in ["host", "winner"]:
+		var n: Variant = ceremony.get(k)
+		if n is Node3D and is_instance_valid(n):
+			(n as Node3D).queue_free()
+	for n: Node3D in ceremony.get("hidden", []):
+		if is_instance_valid(n):
+			n.visible = true
+	ceremony = {}
+	_dress_trophy()
+	var winner := String(rec.get("winner", ""))
+	if winner == RaceDirector.PLAYER:
+		var rw: Dictionary = (ConferenceBook.cfg("award", {}) as Dictionary).get("reward", {})
+		flash(tr("TY_CONF_AWARD_FLASH_YOU").format({"rep": int(rw.get("reputation", 0)), "hype": int(rw.get("hype", 0))}), 5.0)
+	elif winner != "":
+		flash(tr("TY_CONF_AWARD_FLASH").format({"agency": tr(state.race.agency_name(winner))}), 4.0)
 
 
 # ------------------------------------------------------------ HUD

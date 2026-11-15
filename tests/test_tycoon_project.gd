@@ -171,7 +171,8 @@ func _test_sounding_project() -> void:
 		_check(s.research_points >= float(h["science"]) * 0.5 - 1e-4 and s.research_points > 0.0,
 			"research points += science * 0.5 (%.1f)" % s.research_points)
 	_check(ProjectDesk.compat_known(s, "sounding", "suborbital"), "compat discovered after flying it")
-	_check(absf(s.reputation - race[1] - (20.0 + clampf(float(h["review_avg"]) - 5.0, -5.0, 5.0))) < 1e-4, "reputation += avg - 5")
+	_check(absf(s.reputation - race[1] - (20.0 + clampf(float(h["review_avg"]) - 5.0, -5.0, 5.0)
+		+ float(CmlChecklist.bonus(int(h.get("cml", 0)))["reputation"]))) < 1e-4, "reputation += avg - 5 + the CML bonus (CML %d)" % int(h.get("cml", 0)))
 
 
 # ------------------------------------------------------------ sliders change the grade predictably

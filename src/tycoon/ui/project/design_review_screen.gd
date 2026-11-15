@@ -6,7 +6,10 @@ extends CwScreen
 ## its chance to end the flight, a coloured severity, and Accept / Fix (+weeks, cr). Footer:
 ## scrub (two clicks), change rocket (the rocket designer), decide later, and Launch (or Fix,
 ## then launch). A design that does not reach blocks the launch.
-## The look is all in the scene; risk rows are copies of its hidden RiskTemplate.
+## Above the risks, the concept's maturity (CmlChecklist, NASA CML 1..6): the level, its launch
+## bonus and every item auto-checked, each unchecked one with a short hint; it follows the fixes.
+## The look is all in the scene; risk rows are copies of its hidden RiskTemplate, checklist items
+## rows of its hidden CmlLevelTemplate (one per level, items copied from its ItemTemplate).
 
 const SEV_COLORS := {"low": CwPalette.AURORA_TEAL, "mid": CwPalette.WARNING, "high": CwPalette.DANGER}
 
@@ -97,6 +100,7 @@ func refresh() -> void:
 		terms.append("%d%%" % roundi(float(o["crew"]) * 100.0))
 	%Equation.text = "%s = %d%%" % [" × ".join(terms), roundi(total * 100.0)]
 	_fill_advisor(list)
+	_fill_cml()
 	# the rocket: its family, heritage and cost per flight
 	var fam := RocketFamilies.find(state, String(info["family"]))
 	var fl := RocketFamilies.flights(fam)
@@ -159,6 +163,58 @@ func _fill_risks(list: Array) -> void:
 			else tr("TY_RK_FIX_WEEKS") % int(rk["fix_weeks"])]
 		fix.tooltip_text = tr(String(rk["fix_key"]))
 		(row.get_node("HBox/Choice/FixName") as Label).text = tr(String(rk["fix_key"]))
+
+
+## The CML checklist: the level and its bar, the launch bonus (or the level that brings one) and
+## one row per level with its items, checked in teal, unchecked amber and dim with their hint.
+func _fill_cml() -> void:
+	var c := CmlChecklist.evaluate(state, project, fixes)
+	var level := int(c["level"])
+	var top := CmlChecklist.max_level()
+	var name_key := CmlChecklist.level_name_key(level) if level > 0 else "TY_CML_L0"
+	%CmlLevel.text = tr("TY_CML_LEVEL") % [level, tr(name_key)]
+	%CmlLevel.add_theme_color_override("font_color", CwPalette.ink(CwPalette.AURORA_TEAL) if level >= top else CwPalette.TEXT)
+	(%CmlBar as CwSegmentBar).value = float(level) / maxf(top, 1)
+	var b := CmlChecklist.bonus(level)
+	if float(b["hype"]) > 0.0 or float(b["reputation"]) > 0.0:
+		%CmlBonus.text = tr("TY_CML_BONUS") % [_num(float(b["hype"])), _num(float(b["reputation"]))]
+	else:
+		%CmlBonus.text = tr("TY_CML_BONUS_NEXT") % int((CmlChecklist.data().get("bonus", {}) as Dictionary).get("from_level", 4))
+	var lvs: Array = c["levels"]
+	var items: Array = c["items"]
+	var rows := copies(%CmlLevelTemplate, lvs.size())
+	for li in lvs.size():
+		var lv: Dictionary = lvs[li]
+		var n := int(lv["level"])
+		var row := rows[li]
+		var num := row.get_node("Num") as Label
+		num.text = "CML %d" % n
+		num.add_theme_color_override("font_color", CwPalette.ink(CwPalette.AURORA_TEAL) if n <= level else CwPalette.TEXT_DIM)
+		var mine := items.filter(func(it: Dictionary) -> bool: return int(it["level"]) == n)
+		var cells := copies(row.get_node("Items/ItemTemplate"), mine.size())
+		for i in mine.size():
+			_fill_cml_item(cells[i], mine[i], tr(String(lv["name_key"])), n)
+
+
+func _fill_cml_item(cell: Control, it: Dictionary, level_name: String, n: int) -> void:
+	var ok := bool(it["ok"])
+	(cell.get_node("DotBox/Dot") as Control).self_modulate = CwPalette.AURORA_TEAL if ok else CwPalette.WARNING
+	var nl := cell.get_node("Texts/Name") as Label
+	nl.text = tr(String(it["label_key"]))
+	if ok:
+		nl.remove_theme_color_override("font_color")
+	else:
+		nl.add_theme_color_override("font_color", CwPalette.TEXT_DIM)
+	var hl := cell.get_node("Texts/Hint") as Label
+	hl.visible = not ok
+	hl.text = tr(String(it["hint_key"]))
+	cell.tooltip_text = tr("TY_CML_TIP") % [n, level_name] + ("" if ok else "\n" + hl.text)
+
+
+## 1.5 -> "1.5", 0.25 -> "0.25", 3.0 -> "3"
+static func _num(v: float) -> String:
+	var t := "%.2f" % v
+	return t.rstrip("0").trim_suffix(".")
 
 
 func _detail(rk: Dictionary) -> String:

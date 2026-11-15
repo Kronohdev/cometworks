@@ -217,7 +217,12 @@ func refresh() -> void:
 	_fill_check(chk)
 	_fill_stats()
 	_fill_footer(chk)
-	_preview.build(parts)
+	# the rocket as it will fly: the rover of the mission's payload rides on it (LaunchVessels)
+	var pl: Array = payload
+	if mode == "change":
+		var pp := ProjectDesk.find(state, project_id)
+		pl = Array(pp.payload) if pp else []
+	_preview.build(parts, pl, target_id, state)
 	_frame_preview.call_deferred()
 
 

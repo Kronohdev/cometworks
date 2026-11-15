@@ -85,22 +85,61 @@ func _ready() -> void:
 	options.closed.connect(close_options)
 	options.visible = false
 	_options_home = options.position
+	# the options grow with their page (Access lists the keys): keep them inside the view
+	options.resized.connect(func() -> void:
+		if options.visible:
+			options.position = _options_target())
+	fit_layout()
+	fit_layout.call_deferred()   # once the card has its final size
+	get_viewport().size_changed.connect(fit_layout)
 	transition.visible = false
 	if director.current:
 		_on_shot_started(director.current, director.index)
 	_intro()
 
 
+## Text sizes above 100 % (CwAccess) shrink the logical view: the logo, the Cometling peeking
+## behind the card and the menu card scale down together around the logo's corner until the
+## card ends above the footer (at 100 % nothing changes).
+func fit_layout() -> void:
+	var col: Array[Control] = [$UI/Root/Logo, peek, panel]
+	for c in col:
+		if c.has_meta(&"_menu_fit"):
+			c.position = c.get_meta(&"_menu_fit")
+			c.scale = Vector2.ONE
+			c.remove_meta(&"_menu_fit")
+	var origin := ($UI/Root/Logo as Control).position
+	var floor_y := ($UI/Root/Footer as Control).get_global_rect().position.y - CwUiFit.MARGIN
+	var need := panel.position.y + maxf(panel.size.y, panel.get_combined_minimum_size().y) - origin.y
+	var s := minf(1.0, (floor_y - origin.y) / maxf(need, 1.0))
+	if s >= 1.0:
+		return
+	for c in col:
+		c.set_meta(&"_menu_fit", c.position)
+		c.scale = Vector2(s, s)
+		c.position = origin + (c.position - origin) * s
+
+
+## Where the options panel opens: its home, scaled and lifted to stay inside the view.
+func _options_target() -> Vector2:
+	var view := CwUiFit.view_of(options)
+	var sz := options.size
+	var s := minf(1.0, minf(view.size.y / maxf(sz.y, 1.0), (view.end.x - _options_home.x) / maxf(sz.x, 1.0)))
+	options.scale = Vector2(s, s)
+	return Vector2(_options_home.x, clampf(_options_home.y, view.position.y, view.end.y - sz.y * s))
+
+
 func _intro() -> void:
 	logo_anim.play("intro")
 	logo_anim.queue("idle")
-	var home := panel.position
 	panel.modulate.a = 0.0
-	panel.position.y = home.y + PANEL_SLIDE
+	# the slide is drawn (a CwMotion channel), so the card's place stays fit_layout()'s
+	CwMotion.set_channel(panel, &"intro", Vector2(0, PANEL_SLIDE))
 	readout.modulate.a = 0.0
 	var tw := create_tween().set_parallel()
 	tw.tween_property(panel, "modulate:a", 1.0, PANEL_FADE).set_delay(0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tw.tween_property(panel, "position:y", home.y, PANEL_FADE).set_delay(0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_method(func(y: float) -> void: CwMotion.set_channel(panel, &"intro", Vector2(0, y)),
+		PANEL_SLIDE, 0.0, PANEL_FADE).set_delay(0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tw.tween_property(readout, "modulate:a", 1.0, 0.4).set_delay(0.8)
 	tw.chain().tween_callback(new_campaign.grab_focus)
 
@@ -144,10 +183,11 @@ func open_options() -> void:
 	CwSfx.play(&"ui_open")
 	options.visible = true
 	options.modulate.a = 0.0
-	options.position = _options_home + Vector2(0, PANEL_SLIDE)
+	var home := _options_target()
+	options.position = home + Vector2(0, PANEL_SLIDE)
 	var tw := create_tween().set_parallel()
 	tw.tween_property(options, "modulate:a", 1.0, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tw.tween_property(options, "position", _options_home, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(options, "position", home, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	# keep the keyboard inside the options while they are open
 	_lock_menu()
 	options.focus_first()

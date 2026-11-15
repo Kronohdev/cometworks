@@ -6,6 +6,9 @@ extends SceneTree
 ##   conf_04_talk       the rival leader's report in the dialogue box
 ##   conf_05_host       the host's kiosk
 ##   conf_06_duo        two Lendas trading their exchange in bubbles
+##   conf_07_reaction   a rival leader's take on the player's own three years
+##   conf_08_award      the "Agência do triênio" ceremony on the stage: the host announcing, the
+##                      winner's leader on the podium, confetti
 ## Run: godot --path . --resolution 1600x900 --script res://tests/screenshot_conference.gd -- <out_dir>
 
 var out_dir := "user://"
@@ -74,6 +77,39 @@ func _initialize() -> void:
 			_stand_before(fair, e["node"], 4.0)
 	await _wait(1.5)
 	await _shot("conf_05_host")
+	# a rival leader on the player's three years (a first, a lost launch)
+	s.race.claim("cometling_space", RaceDirector.PLAYER)
+	s.project_history.append({"id": "shot_boom", "code": "CW-07", "week": s.weeks - 20, "success": false})
+	var last: Dictionary = {}
+	for e in fair.npcs:
+		if String(e["role"]) == ConferenceBook.ROLE_RIVAL:
+			last = e
+	_stand_before(fair, last["node"], 2.2)
+	await _wait(0.5)
+	fair.talk_to(last)
+	await _wait(0.6)
+	for i in main.talk.shown_choices.size():
+		if String(main.talk.shown_choices[i]["text"]) == tr("TY_CONF_ASK_US"):
+			main.talk.choose(i)
+			break
+	await _wait(3.5)
+	await _shot("conf_07_reaction")
+	main.talk.close()
+	await _frames(2)
+	# the award ceremony on the stage
+	var ap := fair.get_node("Ceremony/Approach") as Node3D
+	fair.player.position = fair.to_local(ap.global_position)
+	fair.start_ceremony()
+	await _wait(0.6)
+	main.talk.choose(0)
+	await _wait(1.6)
+	fair.player.enabled = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	await _shot("conf_08_award")
+	main.talk.close()
+	await _frames(2)
+	fair.player.enabled = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if not fair.duo_nodes.is_empty():
 		var d: Dictionary = fair.duo_nodes[0]
 		var mid := ((d["a"] as Node3D).position + (d["b"] as Node3D).position) * 0.5

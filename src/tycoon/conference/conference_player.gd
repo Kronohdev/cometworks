@@ -37,6 +37,7 @@ var velocity := Vector3.ZERO
 
 func _ready() -> void:
 	creature = get_node_or_null("Creature") as Cometling
+	_tune_gait()
 
 
 func configure() -> void:
@@ -50,6 +51,16 @@ func configure() -> void:
 	shoulder = ConferenceBook.player_cfg("shoulder", shoulder)
 	pitch_min_deg = ConferenceBook.player_cfg("pitch_min", pitch_min_deg)
 	pitch_max_deg = ConferenceBook.player_cfg("pitch_max", pitch_max_deg)
+	_tune_gait()
+
+
+## The body walks at walk_speed and runs only with Shift: its walk / run blend is set from
+## these speeds (in the Cometling's own units, it stands scaled up).
+func _tune_gait() -> void:
+	if creature == null:
+		return
+	var s := maxf(creature.scale.x, 0.01)
+	creature.run_speed = Vector2(walk_speed * 1.12, maxf(run_speed * 0.9, walk_speed * 1.3)) / s
 
 
 ## Puts the body where it starts, the camera behind it looking the same way.

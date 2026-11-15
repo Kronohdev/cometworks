@@ -14,6 +14,8 @@
 
 [sub_resource type="ButtonGroup" id="bg_draw"]
 
+[sub_resource type="ButtonGroup" id="bg_quality"]
+
 [node name="CwDev" type="CanvasLayer"]
 layer = 128
 process_mode = 3
@@ -326,6 +328,36 @@ theme_type_variation = &"DevToggle"
 text = "Reduzir movimento"
 toggle_mode = true
 metadata/action = "reduce_motion"
+
+[node name="QualityLow" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Gráficos baixo"
+toggle_mode = true
+button_group = SubResource("bg_quality")
+metadata/action = "quality"
+metadata/arg = 0
+
+[node name="QualityMedium" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Médio"
+toggle_mode = true
+button_group = SubResource("bg_quality")
+metadata/action = "quality"
+metadata/arg = 1
+
+[node name="QualityHigh" type="Button" parent="Root/Panel/VBox/Body/Tabs/Geral/Page/Look/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevToggle"
+text = "Alto"
+toggle_mode = true
+button_group = SubResource("bg_quality")
+metadata/action = "quality"
+metadata/arg = 2
 
 [node name="Audio" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Geral/Page"]
 layout_mode = 2
@@ -1169,6 +1201,14 @@ theme_type_variation = &"DevKey"
 text = "Acompanhar o último lançamento"
 tooltip_text = "Abre o lançamento acompanhado do projeto lançado por último"
 metadata/action = "watch_last"
+
+[node name="FlightComic" type="Button" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page/Space/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Quadrinhos do último voo"
+tooltip_text = "O voo do projeto lançado por último contado em quadrinhos pelo Vovô Edmundo, com o relatório da missão"
+metadata/action = "flight_comic"
 
 [node name="RoverCampaign" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Projetos/Page"]
 layout_mode = 2

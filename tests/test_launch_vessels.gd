@@ -8,6 +8,8 @@ extends SceneTree
 ##   2. every rover the builder offers (the starter on each chassis, each part on it) assembles
 ##      with every part on a mount, and rides on the rocket (under a fairing and without one)
 ##   3. the launch sequence of a rover mission shows the rover on the rocket the flight flies
+##   4. a rocket built in the hangar carries the mission's rover too (scene_for, the pad, the
+##      flight), and the flight measures the real parts (FlightCraft length = the vessel's)
 ## Failures are listed by design, so a broken preset says which one.
 ## Run: godot --headless --path . --script res://tests/test_launch_vessels.gd
 
@@ -22,6 +24,7 @@ func _initialize() -> void:
 	await _test_rockets()
 	await _test_rovers()
 	await _test_sequence()
+	await _test_hangar_rover()
 	print("RESULT: %s (%d checks)" % ["PASS" if _failures == 0 else "FAIL (%d)" % _failures, _checks])
 	quit(1 if _failures else 0)
 
@@ -173,4 +176,45 @@ func _test_sequence() -> void:
 	await create_timer(0.5).timeout
 	_check(seq.designed != null and seq.designed.shown_boosters() == 0, "the boosters drop at separation")
 	seq.queue_free()
+	await process_frame
+
+
+# ------------------------------------------------------------ 4
+func _test_hangar_rover() -> void:
+	print("a hangar rocket with the mission's rover")
+	var team: Array[Dictionary] = []
+	var s := TycoonState.new_campaign(32, team)
+	var m := HangarRocket.mission_for(s, "rover", "lunar_surface")
+	var parts := HangarRocket.adopt(s, HangarRocket.from_scene(load("res://scenes/examples/garca.tscn"), m, "Garça"))
+	var payload: Array = RoverDesign.payload_ids(RoverDesign.starter("Teste"))
+	var plain := LaunchVessels.scene_for(parts, "lunar_surface", [], s)
+	var ps := LaunchVessels.scene_for(parts, "lunar_surface", payload, s)
+	_check(plain != null and ps != null and ps != plain, "the hangar vessel gets a copy with the rover")
+	_check(ps == LaunchVessels.scene_for(parts, "lunar_surface", payload, s), "cached per vessel and rover")
+	_check(TycoonModes.watch_vessel(s, parts, "lunar_surface", payload) == ps, "the career flight flies it")
+	var v := Vessel.new()
+	v.load_scene(ps)
+	_check(v.find_child(LaunchVessels.PAYLOAD_NODE, true, false) != null, "the rover rides on it")
+	v.free()
+	_check(JSON.stringify(HangarRocket.tree(ps)) == JSON.stringify(HangarRocket.tree(plain)),
+		"the rover is no part of the saved design")
+	# the flight measures real parts: its length is the shown vessel's
+	var dr := (load(DESIGNED_ROCKET) as PackedScene).instantiate() as DesignedRocket
+	get_root().add_child(dr)
+	await process_frame
+	dr.build(parts, payload, "lunar_surface", s)
+	_check(dr.carries_rover(), "the cutscene / pad look carries it")
+	var len := FlightCraft.from_scene(ps).length
+	_check(absf(len - dr.vessel_length) < 0.05, "the flight's length is the real vessel's (%.2f / %.2f m)" % [len, dr.vessel_length])
+	dr.queue_free()
+	# the pad stands the rocket of the project that leaves from it, with its payload
+	var pad := (load("res://scenes/tycoon/buildings/pad.tscn") as PackedScene).instantiate() as CampusBuilding
+	get_root().add_child(pad)
+	await process_frame
+	pad.set_look(3, 1, false)
+	pad.set_rocket_design(parts, payload, "lunar_surface", s)
+	await process_frame
+	var d := pad.get_node_or_null("Era3/Level1/Rocket/Designed") as DesignedRocket
+	_check(d != null and d.carries_rover(), "the pad's rocket carries the rover")
+	pad.queue_free()
 	await process_frame

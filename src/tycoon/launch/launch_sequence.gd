@@ -68,6 +68,9 @@ const DESIGNED_ROCKET := "res://scenes/tycoon/launch/designed_rocket.tscn"
 @export var reference_size := Vector2(1.4, 7.0)
 ## the most the shot rig grows for a big rocket (times its authored size)
 @export var max_rig_scale := 2.6
+## how the shot rig grows with the height of a real vessel (DesignedRocket): its size is
+## (height / reference_size.y) ^ this (1 = in proportion, like the era models)
+@export_range(0.2, 1.0, 0.05) var vessel_rig_power := 0.5
 @export_group("Smoke")
 ## bigger rockets make bigger clouds from more cubes, not from bigger ones: a cloud `f` times
 ## wider has cubes f^cube_exponent bigger and (f / that)^2 times as many of them
@@ -295,7 +298,10 @@ func _dress_rocket() -> void:
 	# the clouds grow with the rocket: its girth, or its height (a real vessel is slimmer than
 	# the era models the clouds were made for, a tall one still makes a big cloud)
 	_scale_fx(pow(maxf(girth, _rocket_height / reference_size.y), 0.7))
-	_rig_size = clampf(_rocket_height / reference_size.y, 1.0, max_rig_scale)
+	# the shots were framed for the era models (about 1:5); a real vessel is slim (1:15 and
+	# more), so the rig backs off less for its height or it frames empty sky around a sliver
+	var hk := _rocket_height / reference_size.y
+	_rig_size = clampf(pow(hk, vessel_rig_power) if designed else hk, 1.0, max_rig_scale)
 	cam_rig.scale = Vector3.ONE * lerpf(1.0, _rig_size, rig_zoom)
 
 

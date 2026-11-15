@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "_doc": "What the Cometlings remember of the missions they worked on (CrewMemory, src/tycoon/crew/crew_memory.gd). When a project launches, everyone on its team writes it down: {code, type, target, o (outcome: 'first' = a success on the agency's first-ever mission of that kind, 'success', 'partial', 'failure'), w (week)}. 'cap' keeps only the newest missions per Cometling (the counts and the milestones stay whole). 'proud_weeks': a success this recent makes them proud (chatter / dialogue condition mem_proud). milestones: earned once each, in order, the first time their 'if' holds after a mission. 'if' uses the chatter condition language (ChatterBook.matches) on the Cometling's totals (missions, successes, failures, partials, firsts, exceptional) plus the mission just flown (type, target, outcome: fail | partial | full | exceptional, success, first). 'icon': a ui/cometworks/icons/<icon>.svg name; 'color' a CwPalette constant name.",
+  "cap": 12,
+  "proud_weeks": 26,
+  "milestones": [
+    {"id": "first_mission", "name_key": "TY_MEM_MS_FIRST_MISSION", "desc_key": "TY_MEM_MS_FIRST_MISSION_D", "icon": "rocket", "color": "AURORA_TEAL",
+     "if": {"missions_min": 1}},
+    {"id": "first_success", "name_key": "TY_MEM_MS_FIRST_SUCCESS", "desc_key": "TY_MEM_MS_FIRST_SUCCESS_D", "icon": "check", "color": "SUCCESS",
+     "if": {"success": true}},
+    {"id": "pioneer", "name_key": "TY_MEM_MS_PIONEER", "desc_key": "TY_MEM_MS_PIONEER_D", "icon": "twinkle", "color": "IGNITION",
+     "if": {"first": true}},
+    {"id": "first_orbit", "name_key": "TY_MEM_MS_FIRST_ORBIT", "desc_key": "TY_MEM_MS_FIRST_ORBIT_D", "icon": "planet", "color": "AURORA_TEAL",
+     "if": {"success": true, "target": ["leo", "sso", "geo"]}},
+    {"id": "first_lunar_probe", "name_key": "TY_MEM_MS_LUNAR_PROBE", "desc_key": "TY_MEM_MS_LUNAR_PROBE_D", "icon": "planet", "color": "AURORA_VIOLET",
+     "if": {"success": true, "target": ["lunar_flyby", "lunar_orbit", "lunar_surface", "lunar_pole"]}},
+    {"id": "crewed", "name_key": "TY_MEM_MS_CREWED", "desc_key": "TY_MEM_MS_CREWED_D", "icon": "crew", "color": "IGNITION",
+     "if": {"success": true, "type": ["crewed_flight", "crewed_landing"]}},
+    {"id": "comet", "name_key": "TY_MEM_MS_COMET", "desc_key": "TY_MEM_MS_COMET_D", "icon": "comet", "color": "COMET_ICE",
+     "if": {"success": true, "target": "comet"}},
+    {"id": "exceptional", "name_key": "TY_MEM_MS_EXCEPTIONAL", "desc_key": "TY_MEM_MS_EXCEPTIONAL_D", "icon": "star", "color": "IGNITION",
+     "if": {"outcome": "exceptional"}},
+    {"id": "survivor_1", "name_key": "TY_MEM_MS_SURVIVOR_1", "desc_key": "TY_MEM_MS_SURVIVOR_1_D", "icon": "flame", "color": "DANGER",
+     "if": {"failures_min": 1}},
+    {"id": "survivor_3", "name_key": "TY_MEM_MS_SURVIVOR_3", "desc_key": "TY_MEM_MS_SURVIVOR_3_D", "icon": "shield", "color": "DANGER",
+     "if": {"failures_min": 3}},
+    {"id": "veteran_5", "name_key": "TY_MEM_MS_VETERAN_5", "desc_key": "TY_MEM_MS_VETERAN_5_D", "icon": "heart", "color": "AURORA_TEAL",
+     "if": {"missions_min": 5}},
+    {"id": "veteran_10", "name_key": "TY_MEM_MS_VETERAN_10", "desc_key": "TY_MEM_MS_VETERAN_10_D", "icon": "hat_crown", "color": "IGNITION",
+     "if": {"missions_min": 10}}
+  ]
+}

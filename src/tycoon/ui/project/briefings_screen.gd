@@ -11,6 +11,8 @@ extends CwScreen
 
 const KIND_COLORS := {"science": CwPalette.COMET_ICE, "contract": CwPalette.IGNITION, "space_apps": CwPalette.AURORA_TEAL,
 	"dream": CwPalette.AURORA_PINK, "race": CwPalette.AURORA_VIOLET}
+## (in colour-blind mode CwPalette.kind() swaps these for CwPalette.CB_KIND, and the swatches,
+## CwCueSwatch, draw the kind's shape cue)
 
 var selected := ""
 
@@ -75,7 +77,7 @@ func refresh() -> void:
 		_wire(card, _select)
 		card.set_pressed_no_signal(String(o["id"]) == selected)
 		var kind := String(b.get("kind", "science"))
-		var col: Color = KIND_COLORS.get(kind, CwPalette.COMET_ICE)
+		var col := CwPalette.kind(kind, KIND_COLORS.get(kind, CwPalette.COMET_ICE))
 		(card.get_node("Box/VBox/Top/Swatch") as ColorRect).color = col
 		var kl := card.get_node("Box/VBox/Top/Kind") as Label
 		kl.text = tr(BriefingDesk.kind_key(kind))
@@ -96,7 +98,7 @@ func _fill_detail() -> void:
 		return
 	var b := BriefingDesk.briefing(selected)
 	var kind := String(b.get("kind", "science"))
-	var col: Color = KIND_COLORS.get(kind, CwPalette.COMET_ICE)
+	var col := CwPalette.kind(kind, KIND_COLORS.get(kind, CwPalette.COMET_ICE))
 	(%KindChip.get_node("HBox/Swatch") as ColorRect).color = col
 	%KindText.text = tr(BriefingDesk.kind_key(kind))
 	%Client.text = BriefingDesk.client_text(o)

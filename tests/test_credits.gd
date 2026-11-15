@@ -134,6 +134,9 @@ func _menu() -> void:
 	root.add_child(menu)
 	current_scene = menu
 	await _frames(30)
+	# the menu's entry animation ends by focusing Nova campanha (about 1.2 s): let it finish
+	# before checking where the keyboard is
+	await create_timer(1.6).timeout
 	var top := ["NewCampaign", "Continue", "MoreModes", "Achievements", "Options", "Credits", "Quit"]
 	var shown: Array[String] = []
 	for c in menu.main_list.get_children():

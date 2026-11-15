@@ -103,3 +103,13 @@ KEYS_CAM_TURN_LEFT,Turn left,Girar à esquerda
 KEYS_CAM_TURN_RIGHT,Turn right,Girar à direita
 KEYS_CAM_ZOOM_IN,Zoom in,Aproximar
 KEYS_CAM_ZOOM_OUT,Zoom out,Afastar
+KEYNAME_SPACE,Space,Espaço
+KEYNAME_ENTER,Enter,Enter
+KEYNAME_UP,Up,Seta para cima
+KEYNAME_DOWN,Down,Seta para baixo
+KEYNAME_LEFT,Left,Seta para a esquerda
+KEYNAME_RIGHT,Right,Seta para a direita
+KEYNAME_EQUAL,=,=
+KEYNAME_MINUS,-,-
+INTRO_PRESENTS,presents,apresenta
+INTRO_SKIP,Press any key to skip,Qualquer tecla para pular

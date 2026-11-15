@@ -1,0 +1,364 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/menu/intro.gd" id="1_intro"]
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/sky.png" id="3_sky"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/ring.png" id="4_ring"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/emblem.png" id="5_emblem"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/intro_body.png" id="6_body"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/intro_arm.png" id="7_arm"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/intro_flag.png" id="8_flag"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/intro_pole.png" id="9_pole"]
+[ext_resource type="Texture2D" path="res://ui/menu/logo_star.svg" id="10_star"]
+[ext_resource type="Shader" path="res://shaders/intro_ring_reveal.gdshader" id="11_reveal"]
+[ext_resource type="Shader" path="res://shaders/intro_shine.gdshader" id="12_shine"]
+[ext_resource type="Shader" path="res://shaders/intro_flag_wave.gdshader" id="13_wave"]
+
+[sub_resource type="Gradient" id="g_dot"]
+offsets = PackedFloat32Array(0, 0.35, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.97, 0.9, 0.55, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="t_dot"]
+gradient = SubResource("g_dot")
+width = 64
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="g_glow"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 0.99, 0.92, 1, 1, 0.82, 0.36, 0.75, 1, 0.6, 0.36, 0)
+
+[sub_resource type="GradientTexture2D" id="t_glow"]
+gradient = SubResource("g_glow")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="g_twinkle"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 0.98, 0.9, 0.9, 0.75, 0.85, 1, 0.35, 1, 0.98, 0.9, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="t_twinkle"]
+gradient = SubResource("g_twinkle")
+
+[sub_resource type="ParticleProcessMaterial" id="pm_stars"]
+emission_shape = 3
+emission_box_extents = Vector3(820, 470, 1)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.06
+scale_max = 0.32
+color_ramp = SubResource("t_twinkle")
+
+[sub_resource type="Gradient" id="g_trail"]
+offsets = PackedFloat32Array(0, 0.55, 0.85, 1)
+colors = PackedColorArray(0.49, 0.78, 1, 0, 0.44, 0.88, 0.75, 0.45, 1, 0.93, 0.7, 0.85, 1, 0.99, 0.92, 1)
+
+[sub_resource type="Curve" id="c_trail"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.6, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="g_spark"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 0.96, 0.8, 1, 0.44, 0.88, 0.75, 0.8, 0.7, 0.6, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="t_spark"]
+gradient = SubResource("g_spark")
+
+[sub_resource type="ParticleProcessMaterial" id="pm_sparks"]
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 90.0
+gravity = Vector3(0, 40, 0)
+scale_min = 0.12
+scale_max = 0.38
+color_ramp = SubResource("t_spark")
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+
+[sub_resource type="Gradient" id="g_dust"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(0.96, 0.93, 1, 0.95, 0.85, 0.8, 0.97, 0.7, 0.75, 0.7, 0.92, 0)
+
+[sub_resource type="GradientTexture1D" id="t_dust"]
+gradient = SubResource("g_dust")
+
+[sub_resource type="ParticleProcessMaterial" id="pm_dust"]
+emission_shape = 3
+emission_box_extents = Vector3(60, 6, 1)
+direction = Vector3(0, -1, 0)
+spread = 75.0
+initial_velocity_min = 60.0
+initial_velocity_max = 190.0
+gravity = Vector3(0, 160, 0)
+damping_min = 40.0
+damping_max = 80.0
+scale_min = 0.5
+scale_max = 1.3
+color_ramp = SubResource("t_dust")
+
+[sub_resource type="Gradient" id="g_burst"]
+offsets = PackedFloat32Array(0, 0.2, 0.45, 0.7, 1)
+colors = PackedColorArray(1, 0.82, 0.36, 1, 1, 0.56, 0.72, 1, 0.44, 0.88, 0.75, 1, 0.49, 0.78, 1, 0.9, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="t_burst"]
+gradient = SubResource("g_burst")
+
+[sub_resource type="ParticleProcessMaterial" id="pm_burst"]
+emission_shape = 1
+emission_sphere_radius = 40.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 260.0
+initial_velocity_max = 620.0
+gravity = Vector3(0, 320, 0)
+damping_min = 30.0
+damping_max = 60.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+scale_min = 0.14
+scale_max = 0.42
+color_ramp = SubResource("t_burst")
+hue_variation_min = -0.08
+hue_variation_max = 0.08
+
+[sub_resource type="ShaderMaterial" id="m_reveal"]
+shader = ExtResource("11_reveal")
+shader_parameter/progress = 0.0
+shader_parameter/start_angle = 1.5708
+shader_parameter/feather = 0.025
+shader_parameter/edge_color = Color(1, 0.95, 0.75, 1)
+
+[sub_resource type="ShaderMaterial" id="m_shine"]
+shader = ExtResource("12_shine")
+shader_parameter/pos = -0.6
+shader_parameter/width = 0.12
+shader_parameter/strength = 0.75
+shader_parameter/tint = Color(1, 0.96, 0.82, 1)
+
+[sub_resource type="ShaderMaterial" id="m_wave"]
+shader = ExtResource("13_wave")
+shader_parameter/reveal = 0.0
+shader_parameter/amplitude = 0.0
+shader_parameter/frequency = 7.0
+shader_parameter/speed = 5.0
+
+[sub_resource type="CanvasItemMaterial" id="m_add"]
+blend_mode = 1
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_intro")
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.047, 0.043, 0.141, 1)
+
+[node name="Stars" type="GPUParticles2D" parent="."]
+position = Vector2(800, 450)
+amount = 260
+texture = SubResource("t_dot")
+lifetime = 5.0
+preprocess = 5.0
+process_material = SubResource("pm_stars")
+
+[node name="Stage" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(800, 410)
+
+[node name="Emblem" type="Node2D" parent="Stage"]
+unique_name_in_owner = true
+
+[node name="Sky" type="Sprite2D" parent="Stage/Emblem"]
+unique_name_in_owner = true
+clip_children = 2
+scale = Vector2(0.4517, 0.4517)
+texture = ExtResource("3_sky")
+
+[node name="Crew" type="Node2D" parent="Stage/Emblem/Sky"]
+unique_name_in_owner = true
+position = Vector2(0, 357)
+
+[node name="Flag" type="Node2D" parent="Stage/Emblem/Sky/Crew"]
+unique_name_in_owner = true
+
+[node name="Pole" type="Sprite2D" parent="Stage/Emblem/Sky/Crew/Flag"]
+position = Vector2(-274.4, -132.2)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_pole")
+
+[node name="Cloth" type="Sprite2D" parent="Stage/Emblem/Sky/Crew/Flag"]
+unique_name_in_owner = true
+material = SubResource("m_wave")
+position = Vector2(-270, -262)
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("8_flag")
+centered = false
+offset = Vector2(-432, -18)
+
+[node name="ArmPivot" type="Node2D" parent="Stage/Emblem/Sky/Crew"]
+unique_name_in_owner = true
+position = Vector2(-68.8, -175.7)
+
+[node name="Arm" type="Sprite2D" parent="Stage/Emblem/Sky/Crew/ArmPivot"]
+position = Vector2(68.8, -181.3)
+texture = ExtResource("7_arm")
+
+[node name="Body" type="Sprite2D" parent="Stage/Emblem/Sky/Crew"]
+position = Vector2(0, -357)
+texture = ExtResource("6_body")
+
+[node name="HandMark" type="Marker2D" parent="Stage/Emblem/Sky/Crew"]
+unique_name_in_owner = true
+position = Vector2(-235, -258.7)
+
+[node name="LandDust" type="GPUParticles2D" parent="Stage/Emblem/Sky"]
+unique_name_in_owner = true
+position = Vector2(0, 360)
+emitting = false
+amount = 40
+texture = SubResource("t_dot")
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("pm_dust")
+
+[node name="PlantDust" type="GPUParticles2D" parent="Stage/Emblem/Sky"]
+unique_name_in_owner = true
+position = Vector2(-274, 372)
+emitting = false
+amount = 36
+texture = SubResource("t_dot")
+lifetime = 1.1
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("pm_dust")
+
+[node name="Ring" type="Sprite2D" parent="Stage/Emblem"]
+unique_name_in_owner = true
+material = SubResource("m_reveal")
+scale = Vector2(0.625, 0.625)
+texture = ExtResource("4_ring")
+
+[node name="Shine" type="Sprite2D" parent="Stage/Emblem"]
+unique_name_in_owner = true
+material = SubResource("m_shine")
+scale = Vector2(0.625, 0.625)
+texture = ExtResource("5_emblem")
+
+[node name="Trail" type="Line2D" parent="Stage"]
+unique_name_in_owner = true
+material = SubResource("m_add")
+width = 30.0
+width_curve = SubResource("c_trail")
+gradient = SubResource("g_trail")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Comet" type="Node2D" parent="Stage"]
+unique_name_in_owner = true
+
+[node name="Glow" type="Sprite2D" parent="Stage/Comet"]
+material = SubResource("m_add")
+scale = Vector2(0.75, 0.75)
+texture = SubResource("t_glow")
+
+[node name="Star" type="Sprite2D" parent="Stage/Comet"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_star")
+
+[node name="Sparks" type="GPUParticles2D" parent="Stage/Comet"]
+unique_name_in_owner = true
+material = SubResource("m_add")
+emitting = false
+amount = 90
+texture = ExtResource("10_star")
+lifetime = 0.9
+local_coords = false
+process_material = SubResource("pm_sparks")
+
+[node name="Burst" type="GPUParticles2D" parent="Stage"]
+unique_name_in_owner = true
+emitting = false
+amount = 90
+texture = ExtResource("10_star")
+lifetime = 1.8
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("pm_burst")
+
+[node name="Presents" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -150.0
+offset_right = 300.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.965, 0.902, 1)
+theme_override_colors/font_shadow_color = Color(0.12, 0.11, 0.29, 0.8)
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 48
+text = "apresenta"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skip" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -420.0
+offset_top = -52.0
+offset_right = -28.0
+offset_bottom = -22.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.85, 0.82, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Qualquer tecla para pular"
+horizontal_alignment = 2
+
+[node name="Flash" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 0.98, 0.92, 1)
+
+[node name="Fade" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.03, 0.03, 0.09, 1)

@@ -53,7 +53,6 @@ godot --headless --path . --script res://tests/<teste>.gd
 | Arquivo | Conteúdo |
 |---|---|
 | [GDD_MARGIN_Space_Mission_Design_Game.md](GDD_MARGIN_Space_Mission_Design_Game.md) | Game design e análise do desafio |
-| [docs/](docs/) | Documentação técnica, catálogo de peças e capturas |
 
 ## Créditos
 

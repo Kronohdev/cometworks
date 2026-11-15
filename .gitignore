@@ -16,3 +16,6 @@ __pycache__/
 Thumbs.db
 .vscode/
 
+
+# Team documents (kept locally, not in the repo)
+docs/

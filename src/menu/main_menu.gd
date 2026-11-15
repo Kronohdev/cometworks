@@ -9,6 +9,9 @@ extends Node
 ##   New campaign  -> the leader creator, then scenes/tycoon/tycoon_main.tscn (the opening
 ##                    cutscene plays first, src/cutscene/)
 ##   Continue      -> the newest save (TycoonSave), the same scene with TycoonMain.load_slot set
+##   More modes    -> swaps the card's rows for the other ways to play (the Modes list, a back
+##                    row first; Esc or Back returns): Fair mode, Demonstration, Rocket workshop,
+##                    Solar System and Surfaces below
 ##   Fair mode     -> the same scene with TycoonMain.fair_mode = true (set before it enters the tree)
 ##                    and the 15 s opening
 ##   Demonstration -> the Demonstração panel (MenuDemoPanel): a ready save at the start of
@@ -20,6 +23,7 @@ extends Node
 ##   Options       -> language, fullscreen, master volume (MenuSettings)
 ##   Achievements  -> the badge book of the profile (scenes/tycoon/ui/screens/achievements.tscn,
 ##                    AchievementsScreen, opened over the menu without a campaign)
+##   Credits       -> the team and the credits (scenes/menu/credits.tscn, CreditsScreen, over the menu)
 
 const TYCOON := "res://scenes/tycoon/tycoon_main.tscn"
 const HANGAR := "res://scenes/hangar.tscn"
@@ -28,6 +32,8 @@ const SOLAR := "res://scenes/solar_system/solar_system.tscn"
 const LEADER_CREATOR := "res://scenes/tycoon/ui/screens/leader_creator.tscn"
 ## the badge book, opened over the menu (Achievements)
 const ACHIEVEMENTS := "res://scenes/tycoon/ui/screens/achievements.tscn"
+## the team and the credits, opened over the menu (Credits)
+const CREDITS := "res://scenes/menu/credits.tscn"
 const PANEL_SLIDE := 8.0
 const PANEL_FADE := 0.14
 
@@ -55,6 +61,11 @@ var _demo_home := Vector2.ZERO
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %Quit
 @onready var achievements_button: Button = get_node_or_null("%Achievements")
+@onready var more_button: Button = %MoreModes
+@onready var credits_button: Button = %Credits
+@onready var back_button: Button = %Back
+@onready var main_list: Control = $UI/Root/MenuPanel/VBox
+@onready var modes_list: Control = %Modes
 @onready var options: MenuOptionsPanel = %OptionsPanel
 @onready var demo_panel: MenuDemoPanel = %DemoPanel
 @onready var peek: PeekCometling = %Peek
@@ -85,6 +96,9 @@ func _ready() -> void:
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
 	if achievements_button:
 		achievements_button.pressed.connect(open_achievements)
+	more_button.pressed.connect(open_more)
+	back_button.pressed.connect(close_more)
+	credits_button.pressed.connect(open_credits)
 	_setup_continue()
 	new_campaign.mouse_entered.connect(new_campaign.grab_focus)
 	new_campaign.focus_entered.connect(peek.peek)
@@ -92,55 +106,17 @@ func _ready() -> void:
 	options.closed.connect(close_options)
 	options.visible = false
 	_options_home = options.position
-	# the options grow with their page (Access lists the keys): keep them inside the view
-	options.resized.connect(func() -> void:
-		if options.visible:
-			options.position = _options_target())
-	fit_layout()
-	fit_layout.call_deferred()   # once the card has its final size
-	get_viewport().size_changed.connect(fit_layout)
 	transition.visible = false
 	if director.current:
 		_on_shot_started(director.current, director.index)
 	_intro()
 
 
-## Text sizes above 100 % (CwAccess) shrink the logical view: the logo, the Cometling peeking
-## behind the card and the menu card scale down together around the logo's corner until the
-## card ends above the footer (at 100 % nothing changes).
-func fit_layout() -> void:
-	var col: Array[Control] = [$UI/Root/Logo, peek, panel]
-	for c in col:
-		if c.has_meta(&"_menu_fit"):
-			c.position = c.get_meta(&"_menu_fit")
-			c.scale = Vector2.ONE
-			c.remove_meta(&"_menu_fit")
-	var origin := ($UI/Root/Logo as Control).position
-	var floor_y := ($UI/Root/Footer as Control).get_global_rect().position.y - CwUiFit.MARGIN
-	var need := panel.position.y + maxf(panel.size.y, panel.get_combined_minimum_size().y) - origin.y
-	var s := minf(1.0, (floor_y - origin.y) / maxf(need, 1.0))
-	if s >= 1.0:
-		return
-	for c in col:
-		c.set_meta(&"_menu_fit", c.position)
-		c.scale = Vector2(s, s)
-		c.position = origin + (c.position - origin) * s
-
-
-## Where the options panel opens: its home, scaled and lifted to stay inside the view.
-func _options_target() -> Vector2:
-	var view := CwUiFit.view_of(options)
-	var sz := options.size
-	var s := minf(1.0, minf(view.size.y / maxf(sz.y, 1.0), (view.end.x - _options_home.x) / maxf(sz.x, 1.0)))
-	options.scale = Vector2(s, s)
-	return Vector2(_options_home.x, clampf(_options_home.y, view.position.y, view.end.y - sz.y * s))
-
-
 func _intro() -> void:
 	logo_anim.play("intro")
 	logo_anim.queue("idle")
 	panel.modulate.a = 0.0
-	# the slide is drawn (a CwMotion channel), so the card's place stays fit_layout()'s
+	# the slide is drawn (a CwMotion channel), so the card keeps its place in the layout
 	CwMotion.set_channel(panel, &"intro", Vector2(0, PANEL_SLIDE))
 	readout.modulate.a = 0.0
 	var tw := create_tween().set_parallel()
@@ -190,7 +166,7 @@ func open_options() -> void:
 	CwSfx.play(&"ui_open")
 	options.visible = true
 	options.modulate.a = 0.0
-	var home := _options_target()
+	var home := _options_home
 	options.position = home + Vector2(0, PANEL_SLIDE)
 	var tw := create_tween().set_parallel()
 	tw.tween_property(options, "modulate:a", 1.0, PANEL_FADE).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -205,7 +181,7 @@ func _lock_menu() -> void:
 	if not _menu_focus.is_empty():
 		return
 	for b: Button in [new_campaign, continue_button, fair, demo, workshop, solar, surfaces, options_button, quit_button,
-			achievements_button]:
+			achievements_button, more_button, credits_button, back_button]:
 		if b == null:
 			continue
 		_menu_focus[b] = b.focus_mode
@@ -227,6 +203,64 @@ func _unlock_menu() -> void:
 	for b: Button in _menu_focus:
 		b.focus_mode = _menu_focus[b]
 	_menu_focus.clear()
+
+
+# ------------------------------------------------------------------ more modes
+## Swaps the card's rows for the other ways to play (they cascade in from the right).
+func open_more() -> void:
+	if modes_list.visible:
+		return
+	_swap_lists(true)
+	fair.grab_focus()
+
+
+## Back to the main rows (Back, or Esc while the list is open).
+func close_more() -> void:
+	if not modes_list.visible:
+		return
+	if demo_panel.visible:
+		close_demos()
+	_swap_lists(false)
+	more_button.grab_focus()
+
+
+func is_more_open() -> bool:
+	return modes_list.visible
+
+
+func _swap_lists(more: bool) -> void:
+	CwSfx.play(&"ui_open" if more else &"ui_close")
+	main_list.visible = not more
+	modes_list.visible = more
+	panel.reset_size.call_deferred()   # the card fits the shorter list
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not modes_list.visible or _leaving or not event.is_action_pressed("ui_cancel"):
+		return
+	var root := $UI/Root as Control
+	if options.visible or demo_panel.visible or surface_picker.visible 			or root.get_node_or_null("Achievements") or root.get_node_or_null("Credits"):
+		return
+	get_viewport().set_input_as_handled()
+	close_more()
+
+
+# ------------------------------------------------------------------ credits
+## The team and the credits over the menu (its back button or Esc closes it).
+func open_credits() -> void:
+	var root := $UI/Root as Control
+	if root.get_node_or_null("Credits"):
+		return
+	if options.visible:
+		close_options()
+	CwSfx.play(&"ui_open")
+	var scr := (load(CREDITS) as PackedScene).instantiate() as Control
+	scr.name = "Credits"
+	root.add_child(scr)
+	root.move_child(scr, transition.get_index())   # under the scene change's fade
+	scr.tree_exited.connect(func() -> void:
+		if is_inside_tree():
+			credits_button.grab_focus())
 
 
 # ------------------------------------------------------------------ achievements
@@ -346,10 +380,10 @@ func _setup_continue() -> void:
 
 # ------------------------------------------------------------------ screenshot helpers
 func debug_hover_new_campaign() -> void:
-	fair.grab_focus()
+	more_button.grab_focus()
 	await get_tree().create_timer(0.4).timeout
 	new_campaign.grab_focus()
 
 
 func debug_unhover() -> void:
-	fair.grab_focus()
+	more_button.grab_focus()

@@ -1,0 +1,651 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/menu/credits_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Texture2D" path="res://ui/brand/crew/emblem.png" id="2_emblem"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="3_back"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/star.svg" id="4_star"]
+[ext_resource type="PackedScene" path="res://scenes/npc/creature.tscn" id="5_creature"]
+[ext_resource type="PackedScene" path="res://scenes/fx/cw_outline.tscn" id="6_outline"]
+[ext_resource type="Shader" path="res://shaders/cw_toon_solid.gdshader" id="7_toon"]
+
+[sub_resource type="StyleBoxFlat" id="stage_frame"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1059, 0.0941, 0.2706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.902, 0.8275, 0.702, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="name_card"]
+content_margin_left = 12.0
+content_margin_top = 3.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 0.9765, 0.9373, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.902, 0.8275, 0.702, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="name_card_lead"]
+content_margin_left = 16.0
+content_margin_top = 7.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+bg_color = Color(1, 0.9451, 0.7686, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.949, 0.7216, 0.2941, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="Gradient" id="sky_grad"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.1059, 0.0941, 0.2706, 1, 0.2157, 0.1647, 0.4392, 1, 0.3765, 0.2706, 0.5961, 1)
+
+[sub_resource type="GradientTexture2D" id="sky_tex"]
+gradient = SubResource("sky_grad")
+width = 8
+height = 128
+fill_from = Vector2(0, 0)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.1059, 0.0941, 0.2706, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.68, 0.66, 0.9, 1)
+ambient_light_energy = 0.75
+tonemap_mode = 4
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.35
+glow_bloom = 0.05
+
+[sub_resource type="ShaderMaterial" id="stage_mat"]
+shader = ExtResource("7_toon")
+shader_parameter/albedo = Color(0.4706, 0.3843, 0.749, 1)
+shader_parameter/roughness = 0.9
+
+[sub_resource type="ShaderMaterial" id="stage_rim_mat"]
+shader = ExtResource("7_toon")
+shader_parameter/albedo = Color(0.6078, 0.4863, 1, 1)
+shader_parameter/roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="podium_mat"]
+shader = ExtResource("7_toon")
+shader_parameter/albedo = Color(1, 0.8235, 0.3608, 1)
+shader_parameter/roughness = 0.5
+shader_parameter/metallic = 0.2
+shader_parameter/emission = Color(1, 0.69, 0.2, 1)
+shader_parameter/emission_energy = 0.12
+
+[sub_resource type="ShaderMaterial" id="podium_top_mat"]
+shader = ExtResource("7_toon")
+shader_parameter/albedo = Color(1, 0.9765, 0.9373, 1)
+shader_parameter/roughness = 0.8
+
+[sub_resource type="ShaderMaterial" id="star_mat"]
+shader = ExtResource("7_toon")
+shader_parameter/albedo = Color(1, 0.96, 0.85, 1)
+shader_parameter/emission = Color(1, 0.93, 0.75, 1)
+shader_parameter/emission_energy = 2.0
+
+[sub_resource type="CylinderMesh" id="stage_mesh"]
+top_radius = 2.6
+bottom_radius = 2.6
+height = 0.12
+radial_segments = 20
+rings = 1
+
+[sub_resource type="CylinderMesh" id="stage_rim_mesh"]
+top_radius = 2.72
+bottom_radius = 2.72
+height = 0.08
+radial_segments = 20
+rings = 1
+
+[sub_resource type="CylinderMesh" id="podium_mesh"]
+top_radius = 0.44
+bottom_radius = 0.48
+height = 0.2
+radial_segments = 10
+rings = 1
+
+[sub_resource type="CylinderMesh" id="podium_top_mesh"]
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.03
+radial_segments = 10
+rings = 1
+
+[sub_resource type="BoxMesh" id="star_mesh"]
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="QuadMesh" id="sky_quad"]
+size = Vector2(16, 7)
+
+[sub_resource type="StandardMaterial3D" id="sky_mat"]
+shading_mode = 0
+albedo_texture = SubResource("sky_tex")
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.72)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = -56.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Emblem" type="TextureRect" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_emblem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+text = "CREDITS_CAPTION"
+
+[node name="Team" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 32
+text = "Cometlings Crew"
+auto_translate_mode = 2
+
+[node name="Lead" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 15
+text = "CREDITS_LEAD"
+
+[node name="Back" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "CREDITS_BACK_TIP"
+theme_type_variation = &"CwSecondary"
+theme_override_constants/icon_max_width = 20
+theme_override_constants/h_separation = 8
+text = "CREDITS_BACK"
+icon = ExtResource("3_back")
+expand_icon = true
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="Stage" type="PanelContainer" parent="Panel/Margin/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.75
+theme_override_styles/panel = SubResource("stage_frame")
+
+[node name="View" type="SubViewportContainer" parent="Panel/Margin/VBox/Body/Stage"]
+unique_name_in_owner = true
+layout_mode = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Panel/Margin/VBox/Body/Stage/View"]
+own_world_3d = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(900, 640)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+environment = SubResource("env")
+
+[node name="Sky" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, -3.2)
+cast_shadow = 0
+mesh = SubResource("sky_quad")
+surface_material_override/0 = SubResource("sky_mat")
+
+[node name="Stars" type="Node3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+
+[node name="S1" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(0.7071, -0.7071, 0, 0.7071, 0.7071, 0, 0, 0, 1, -2.6, 2.15, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S2" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -1.2, 2.55, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S3" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(0.7071, -0.7071, 0, 0.7071, 0.7071, 0, 0, 0, 1, 0.6, 2.25, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S4" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 2.1, 2.65, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S5" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(0.7071, -0.7071, 0, 0.7071, 0.7071, 0, 0, 0, 1, 3.0, 1.75, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S6" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 1.45, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="S7" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Stars"]
+transform = Transform3D(0.7071, -0.7071, 0, 0.7071, 0.7071, 0, 0, 0, 1, 1.5, 1.40, -3.1)
+cast_shadow = 0
+mesh = SubResource("star_mesh")
+surface_material_override/0 = SubResource("star_mat")
+
+[node name="Key" type="DirectionalLight3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(0.866, -0.25, 0.433, 0, 0.866, 0.5, -0.5, -0.433, 0.75, 0, 3, 2)
+light_color = Color(1, 0.92, 0.84, 1)
+light_energy = 1.15
+shadow_enabled = true
+directional_shadow_max_distance = 12.0
+
+[node name="Rim" type="DirectionalLight3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(-0.707, 0.183, -0.683, 0, 0.966, 0.259, 0.707, 0.183, -0.683, 0, 3, -2)
+light_color = Color(0.25, 0.88, 0.77, 1)
+light_energy = 0.9
+
+[node name="Spotlight" type="SpotLight3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 0.2588, 0.9659, 0, -0.9659, 0.2588, 0, 3.2, 1.1)
+light_color = Color(1, 0.86, 0.55, 1)
+light_energy = 3.0
+spot_range = 6.0
+spot_angle = 13.0
+spot_angle_attenuation = 0.6
+
+[node name="Floor" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, -0.4)
+mesh = SubResource("stage_mesh")
+surface_material_override/0 = SubResource("stage_mat")
+
+[node name="FloorRim" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, -0.4)
+mesh = SubResource("stage_rim_mesh")
+surface_material_override/0 = SubResource("stage_rim_mat")
+
+[node name="Podium" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.15)
+mesh = SubResource("podium_mesh")
+surface_material_override/0 = SubResource("podium_mat")
+
+[node name="PodiumTop" type="MeshInstance3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Podium"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0)
+mesh = SubResource("podium_top_mesh")
+surface_material_override/0 = SubResource("podium_top_mat")
+
+[node name="SlotCenter" type="Marker3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 0, 0.225, 0.15)
+
+[node name="SlotRight" type="Marker3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(0.9659, 0, -0.2588, 0, 1, 0, 0.2588, 0, 0.9659, 0.98, 0, -0.05)
+
+[node name="SlotBack" type="Marker3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(0.8338, 0, -0.3888, 0, 0.92, 0, 0.3888, 0, 0.8338, 1.72, 0, -0.55)
+
+[node name="SlotLeft" type="Marker3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(0.9659, 0, 0.2588, 0, 1, 0, -0.2588, 0, 0.9659, -1.08, 0, -0.05)
+
+[node name="Dev1" parent="Panel/Margin/VBox/Body/Stage/View/Viewport" instance=ExtResource("5_creature")]
+unique_name_in_owner = true
+transform = Transform3D(0.9659, 0, 0.2588, 0, 1, 0, -0.2588, 0, 0.9659, -1.08, 0, -0.05)
+personality_seed = 23
+listen_to_events = false
+cull_distance = 50.0
+
+[node name="Dev2" parent="Panel/Margin/VBox/Body/Stage/View/Viewport" instance=ExtResource("5_creature")]
+unique_name_in_owner = true
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 0, 0.225, 0.15)
+personality_seed = 11
+listen_to_events = false
+cull_distance = 50.0
+
+[node name="Dev3" parent="Panel/Margin/VBox/Body/Stage/View/Viewport" instance=ExtResource("5_creature")]
+unique_name_in_owner = true
+transform = Transform3D(0.9659, 0, -0.2588, 0, 1, 0, 0.2588, 0, 0.9659, 0.98, 0, -0.05)
+personality_seed = 37
+listen_to_events = false
+cull_distance = 50.0
+
+[node name="Dev4" parent="Panel/Margin/VBox/Body/Stage/View/Viewport" instance=ExtResource("5_creature")]
+unique_name_in_owner = true
+transform = Transform3D(0.8338, 0, -0.3888, 0, 0.92, 0, 0.3888, 0, 0.8338, 1.72, 0, -0.55)
+personality_seed = 41
+listen_to_events = false
+cull_distance = 50.0
+
+[node name="Camera3D" type="Camera3D" parent="Panel/Margin/VBox/Body/Stage/View/Viewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.9903, 0.1392, 0, -0.1392, 0.9903, 0.12, 1.42, 5.3)
+fov = 32.0
+
+[node name="CwOutline" parent="Panel/Margin/VBox/Body/Stage/View/Viewport/Camera3D" instance=ExtResource("6_outline")]
+
+[node name="Names" type="Control" parent="Panel/Margin/VBox/Body/Stage"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameTemplate" type="PanelContainer" parent="Panel/Margin/VBox/Body/Stage/Names"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 34.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("name_card")
+
+[node name="Top" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Stage/Names/NameTemplate"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 5
+
+[node name="Star" type="TextureRect" parent="Panel/Margin/VBox/Body/Stage/Names/NameTemplate/Top"]
+visible = false
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Stage/Names/NameTemplate/Top"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 17
+text = "Nome"
+horizontal_alignment = 1
+auto_translate_mode = 2
+
+[node name="Overlay" type="Control" parent="Panel/Margin/VBox/Body/Stage"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Hint" type="Label" parent="Panel/Margin/VBox/Body/Stage/Overlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_type_variation = &"CwCaps"
+theme_override_colors/font_color = Color(1, 0.9647, 0.902, 0.85)
+theme_override_font_sizes/font_size = 13
+text = "CREDITS_SWITCH_HINT"
+horizontal_alignment = 1
+
+[node name="Info" type="PanelContainer" parent="Panel/Margin/VBox/Body/Stage/Overlay"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -118.0
+offset_right = 300.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("name_card_lead")
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Prev" type="Button" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "CREDITS_PREV_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 30
+text = "‹"
+auto_translate_mode = 2
+
+[node name="Text" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox/Text"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 7
+
+[node name="Star" type="TextureRect" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox/Text/Top"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoName" type="Label" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox/Text/Top"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "Nome"
+horizontal_alignment = 1
+auto_translate_mode = 2
+
+[node name="InfoRole" type="Label" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_colors/font_color = Color(0.5216, 0.3412, 0.0549, 1)
+theme_override_font_sizes/font_size = 15
+text = "Função"
+horizontal_alignment = 1
+auto_translate_mode = 2
+
+[node name="InfoBio" type="Label" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Bio"
+horizontal_alignment = 1
+autowrap_mode = 3
+auto_translate_mode = 2
+
+[node name="Next" type="Button" parent="Panel/Margin/VBox/Body/Stage/Overlay/Info/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "CREDITS_NEXT_TIP"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+theme_override_font_sizes/font_size = 30
+text = "›"
+auto_translate_mode = 2
+
+[node name="Side" type="ScrollContainer" parent="Panel/Margin/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Side"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="SectionTemplate" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Side/List"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 14
+text = "CREDITS_SECTION_ENGINE"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate"]
+layout_mode = 2
+
+[node name="Lines" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LineTemplate" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate/Lines"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate/Lines/LineTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwHeading"
+theme_override_font_sizes/font_size = 18
+text = "Nome"
+auto_translate_mode = 2
+
+[node name="Detail" type="Label" parent="Panel/Margin/VBox/Body/Side/List/SectionTemplate/Lines/LineTemplate"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "Detalhe"
+autowrap_mode = 3
+auto_translate_mode = 2
+
+[node name="Thanks" type="Label" parent="Panel/Margin/VBox/Body/Side/List"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 14
+text = "CREDITS_THANKS"
+autowrap_mode = 3
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+
+[node name="CwSections" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/Side/List")
+offset = Vector2(0, 8)
+delay = 0.18
+step = 0.05
+seconds = 0.28
+max_delay = 0.5
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)

@@ -87,6 +87,12 @@ const _FIDGET_LEN := {"look_around": 2.6, "head_tilt": 1.8, "toe_bounce": 1.6, "
 	set(v):
 		glow_color = v
 		_apply_colors()
+## Optional personal look: hair, a streak, facial hair, iris colour, glasses, headphones
+## (CometlingStyle, src/npc/cometling_style.gd, lists the keys). Empty: the plain Cometling.
+@export var style: Dictionary = {}:
+	set(v):
+		style = v
+		_apply_style()
 @export var body_material: Material
 ## Eyes, happy eyes and mouths (flat painted light, drawn over the head voxels they sit in);
 ## falls back to body_material when empty.
@@ -402,6 +408,7 @@ func _ready() -> void:
 	_ready_done = true
 	_apply_colors()
 	_apply_role()
+	_apply_style()
 	_blink_next = _rng.randf_range(0.5, 3.0)
 	_phase = _rng.randf() * TAU
 	_t = _rng.randf() * 10.0
@@ -708,6 +715,15 @@ func _apply_role() -> void:
 		if node:
 			node.visible = acc[n] == role
 	_apply_colors()
+	CometlingStyle.headgear(self)
+
+
+## Builds the optional look of `style` (CometlingStyle) once the rig is ready.
+func _apply_style() -> void:
+	if not _ready_done or (style.is_empty() and not has_meta("styled")):
+		return   # a plain Cometling never had anything to take off
+	set_meta("styled", true)
+	CometlingStyle.apply(self, style)
 
 
 func _on_bus_event(event: String, data: Dictionary) -> void:

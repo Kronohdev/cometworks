@@ -1,0 +1,29 @@
+keys,en,pt
+MENU_MORE,More modes,Mais modos
+MENU_MORE_HINT,"Fair, workshop and more","Feira, oficina e mais"
+MENU_MORE_TIP,"Other ways to play: fair mode, the demonstration campaigns, the rocket workshop, the Solar System and the planet surfaces.","Outros jeitos de jogar: modo feira, as campanhas de demonstração, a oficina de foguetes, o Sistema Solar e as superfícies dos planetas."
+MENU_MORE_TITLE,Other ways to play,Outros jeitos de jogar
+MENU_MORE_BACK,Back,Voltar
+MENU_MORE_BACK_HINT,To the main menu,Para o menu principal
+MENU_CREDITS,Credits,Créditos
+MENU_CREDITS_HINT,Meet the crew,Conheça a equipe
+MENU_CREDITS_TIP,"The team that made Cometworks, and the tools, fonts and data it is built on.","A equipe que fez o Cometworks, e as ferramentas, fontes e dados em que ele se apoia."
+CREDITS_CAPTION,Credits,Créditos
+CREDITS_LEAD,The team behind Cometworks,A equipe por trás do Cometworks
+CREDITS_BACK,Back,Voltar
+CREDITS_BACK_TIP,Back to the menu (Esc),Voltar ao menu (Esc)
+CREDITS_SECTION_ENGINE,Engine,Motor
+CREDITS_SECTION_FONTS,Fonts,Fontes
+CREDITS_SECTION_DATA,Space data,Dados espaciais
+CREDITS_SECTION_EVENT,Made for,Feito para
+CREDITS_GODOT_DETAIL,Free and open source game engine (MIT license),Motor de jogos livre e de código aberto (licença MIT)
+CREDITS_FONT_OFL,SIL Open Font License 1.1,Licença SIL Open Font 1.1
+CREDITS_NSSDCA_DETAIL,"Planetary fact sheets: radius, rotation, axial tilt and gravity","Fichas dos planetas: raio, rotação, inclinação do eixo e gravidade"
+CREDITS_JPL_DETAIL,"Planet orbits (Standish & Williams' Keplerian elements), GM values and moon mean elements","Órbitas dos planetas (elementos keplerianos de Standish & Williams), valores de GM e elementos médios das luas"
+CREDITS_IAU_DETAIL,Spin poles of the planets (WGCCRE 2015 report),Polos de rotação dos planetas (relatório WGCCRE 2015)
+CREDITS_MEEUS_DETAIL,"The Moon's orbit (truncated ELP-2000/82, Astronomical Algorithms)","A órbita da Lua (ELP-2000/82 truncada, Astronomical Algorithms)"
+CREDITS_SPACEAPPS_DETAIL,"NASA's international hackathon, 2026 edition","O hackathon internacional da NASA, edição 2026"
+CREDITS_THANKS,"Made with care by the Cometlings Crew. Thank you for playing!","Feito com carinho pela Cometlings Crew. Obrigado por jogar!"
+CREDITS_SWITCH_HINT,‹ › change spotlight,‹ › trocar destaque
+CREDITS_PREV_TIP,Previous (← or A),Anterior (← ou A)
+CREDITS_NEXT_TIP,Next (→ or D),Próximo (→ ou D)

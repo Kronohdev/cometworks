@@ -27,6 +27,9 @@
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="sx_planet"]
 [ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_picker.tscn" id="sx_picker"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/trophy.svg" id="ach_trophy"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/comet.svg" id="more_comet"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/heart.svg" id="cred_heart"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/arrow_left.svg" id="more_back"]
 
 [sub_resource type="Gradient" id="shade_left_grad"]
 offsets = PackedFloat32Array(0, 0.42, 1)
@@ -63,6 +66,9 @@ expand_margin_left = 4.0
 expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="modes_title_pad"]
+content_margin_left = 22.0
 
 [node name="MainMenu" type="Node"]
 script = ExtResource("1_menu")
@@ -120,36 +126,36 @@ expand_mode = 1
 [node name="Logo" parent="UI/Root" instance=ExtResource("5_logo")]
 layout_mode = 0
 offset_left = 82.0
-offset_top = 70.0
+offset_top = 54.0
 offset_right = 802.0
-offset_bottom = 240.0
+offset_bottom = 224.0
 
 [node name="Peek" parent="UI/Root" instance=ExtResource("8_peek")]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 496.0
-offset_top = 222.0
+offset_top = 206.0
 offset_right = 686.0
-offset_bottom = 482.0
+offset_bottom = 466.0
 
 [node name="MenuPanel" type="PanelContainer" parent="UI/Root"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(440, 0)
 layout_mode = 0
 offset_left = 88.0
-offset_top = 250.0
+offset_top = 234.0
 offset_right = 528.0
-offset_bottom = 568.0
+offset_bottom = 552.0
 theme = ExtResource("4_menu_theme")
 theme_type_variation = &"CwMenuCard"
 
 [node name="VBox" type="VBoxContainer" parent="UI/Root/MenuPanel"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
 [node name="NewCampaign" type="Button" parent="UI/Root/MenuPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 theme_type_variation = &"CwPrimary"
 theme_override_constants/icon_max_width = 30
@@ -184,13 +190,13 @@ vertical_alignment = 1
 text_overrun_behavior = 3
 
 [node name="Gap" type="Control" parent="UI/Root/MenuPanel/VBox"]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Continue" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 tooltip_text = "MENU_CONTINUE_TIP"
 disabled = true
@@ -200,80 +206,51 @@ index_text = "02"
 hint_key = "MENU_CONTINUE_HINT"
 icon = ExtResource("11_play")
 
-[node name="Fair" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+[node name="MoreModes" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-tooltip_text = "MENU_FAIR_TIP"
-text = "MENU_FAIR"
+tooltip_text = "MENU_MORE_TIP"
+text = "MENU_MORE"
 index_text = "03"
-hint_key = ""
-icon = ExtResource("12_tent")
-
-[node name="Demo" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-tooltip_text = "MENU_DEMO_TIP"
-text = "MENU_DEMO"
-index_text = "04"
-hint_key = "MENU_DEMO_HINT"
-icon = ExtResource("16_star")
-
-[node name="Workshop" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-text = "MENU_WORKSHOP"
-index_text = "05"
-hint_key = ""
-icon = ExtResource("13_build")
-
-[node name="SolarSystem" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-tooltip_text = "SSM_MENU_TIP"
-text = "SSM_MENU"
-index_text = "06"
-hint_key = ""
-icon = ExtResource("17_planet")
-
-[node name="Surfaces" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-tooltip_text = "TY_SX_MENU_HINT"
-text = "TY_SX_PICK_BUTTON"
-index_text = "07"
-hint_key = "TY_SX_MENU_HINT"
-icon = ExtResource("sx_planet")
-
-[node name="Options" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-text = "MENU_OPTIONS"
-index_text = "08"
-hint_key = ""
-icon = ExtResource("14_settings")
+hint_key = "MENU_MORE_HINT"
+icon = ExtResource("more_comet")
 
 [node name="Achievements" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 tooltip_text = "MENU_ACHIEVEMENTS_HINT"
 text = "MENU_ACHIEVEMENTS"
-index_text = "09"
+index_text = "04"
 hint_key = "MENU_ACHIEVEMENTS_HINT"
 icon = ExtResource("ach_trophy")
 
+[node name="Options" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "MENU_OPTIONS"
+index_text = "05"
+hint_key = ""
+icon = ExtResource("14_settings")
+
+[node name="Credits" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+tooltip_text = "MENU_CREDITS_TIP"
+text = "MENU_CREDITS"
+index_text = "06"
+hint_key = "MENU_CREDITS_HINT"
+icon = ExtResource("cred_heart")
+
 [node name="Quit" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "MENU_QUIT"
-index_text = "10"
+index_text = "07"
 hint_key = ""
 icon = ExtResource("15_door")
 
@@ -287,14 +264,87 @@ text = "MENU_KEYS"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="Modes" type="VBoxContainer" parent="UI/Root/MenuPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Back" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "MENU_MORE_BACK"
+index_text = "00"
+hint_key = "MENU_MORE_BACK_HINT"
+icon = ExtResource("more_back")
+
+[node name="ModesTitle" type="Label" parent="UI/Root/MenuPanel/Modes"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_type_variation = &"CwMenuMono"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("modes_title_pad")
+text = "MENU_MORE_TITLE"
+vertical_alignment = 1
+
+[node name="Fair" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+tooltip_text = "MENU_FAIR_TIP"
+text = "MENU_FAIR"
+index_text = "01"
+hint_key = ""
+icon = ExtResource("12_tent")
+
+[node name="Demo" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+tooltip_text = "MENU_DEMO_TIP"
+text = "MENU_DEMO"
+index_text = "02"
+hint_key = "MENU_DEMO_HINT"
+icon = ExtResource("16_star")
+
+[node name="Workshop" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "MENU_WORKSHOP"
+index_text = "03"
+hint_key = ""
+icon = ExtResource("13_build")
+
+[node name="SolarSystem" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+tooltip_text = "SSM_MENU_TIP"
+text = "SSM_MENU"
+index_text = "04"
+hint_key = ""
+icon = ExtResource("17_planet")
+
+[node name="Surfaces" parent="UI/Root/MenuPanel/Modes" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+tooltip_text = "TY_SX_MENU_HINT"
+text = "TY_SX_PICK_BUTTON"
+index_text = "05"
+hint_key = "TY_SX_MENU_HINT"
+icon = ExtResource("sx_planet")
+
 [node name="OptionsPanel" parent="UI/Root" instance=ExtResource("7_options")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
 offset_left = 572.0
-offset_top = 300.0
+offset_top = 226.0
 offset_right = 992.0
-offset_bottom = 520.0
+offset_bottom = 446.0
 
 [node name="DemoPanel" parent="UI/Root" instance=ExtResource("17_demo")]
 unique_name_in_owner = true
@@ -456,6 +506,20 @@ seconds = 0.36
 max_delay = 0.6
 curve = 1
 animate_added = false
+on_visible = true
+
+[node name="CwCascadeModes" type="Node" parent="UI/Root/MenuPanel"]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Modes")
+on_ready = false
+on_visible = true
+animate_added = false
+offset = Vector2(22, 0)
+delay = 0.02
+step = 0.045
+seconds = 0.3
+max_delay = 0.4
+curve = 1
 
 [node name="CwButton" type="Node" parent="UI/Root/MenuPanel/VBox/NewCampaign"]
 script = ExtResource("cwm_btn")

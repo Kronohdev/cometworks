@@ -308,4 +308,5 @@ static func swap_body(c: Cometling, scene: String) -> Cometling:
 static func apply_look(c: Cometling, look: Dictionary, role := "") -> void:
 	c.role = role if role != "" else TycoonCrew.look_role(String(look.get("profession", "")))
 	c.set_colors(Color(String(look.get("body", "#bfe9ff"))), Color(String(look.get("spot", "#f59a36"))), c.glow_color)
+	c.style = look.get("style", {}) as Dictionary   # optional hair, facial hair... (CometlingStyle)
 	LeaderHat.wear(c, String(look.get("hat", "role")))

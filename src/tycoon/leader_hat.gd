@@ -88,3 +88,4 @@ static func wear(c: Cometling, hat_id: String) -> void:
 	var goggles := c.find_child("Goggles", true, false) as Node3D
 	if goggles:   # the scientist's goggles, unless the glasses take their place
 		goggles.visible = c.role == "scientist" and not node.hides_goggles()
+	CometlingStyle.headgear(c)   # hair under the hat

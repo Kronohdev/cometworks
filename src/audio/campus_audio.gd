@@ -6,7 +6,8 @@ extends Node
 ## (CampusDayCycle.phase through the `night` curve), the workshop's distant clanks (a
 ## CwRandomEmitter placed on the first built lot of `clank_lots`), and the game's cues:
 ## a chime when a news line arrives, a stinger when the player takes a race milestone and
-## on the finale. The beds dip while a full screen is open and a lot more during a launch.
+## on the finale, a camera shutter when a mission's photos arrive. The beds dip while a full
+## screen is open and a lot more during a launch.
 ## Levels, curves and sounds are edited in the scene; this script only drives them.
 
 ## CampusDayCycle (src/tycoon/campus_day_cycle.gd)
@@ -33,6 +34,8 @@ extends Node
 @export var finale_stinger: StringName = &"stinger_finale"
 ## screens that bring the finale stinger
 @export var finale_screens: PackedStringArray = ["finale"]
+## a mission's photo arriving home
+@export var photo_sound: StringName = &"photo_shutter"
 
 var main: TycoonMain
 var _duck := 1.0
@@ -66,6 +69,8 @@ func _bind() -> void:
 	_news_top = _news_head(st)
 	main.hud.screen_opened.connect(_on_screen.bind(true))
 	main.hud.screen_closed.connect(_on_screen.bind(false))
+	if main.photo_studio:
+		main.photo_studio.photo_ready.connect(_on_photo_ready)
 	_place_clanks()
 
 
@@ -120,6 +125,14 @@ func _on_changed() -> void:
 func _on_milestone(_milestone_id: String, by: String) -> void:
 	if by == "player":
 		CwSfx.stinger(milestone_stinger)
+
+
+## A mission's photo arrived (rendered the week it came home, not an old one re-rendered): the
+## camera's shutter, once for a batch (the library's cooldown).
+func _on_photo_ready(photo_id: String, _path: String) -> void:
+	var ph := MissionPhotos.find(main.state, photo_id)
+	if int(ph.get("week", -1)) == main.state.weeks:
+		CwSfx.play(photo_sound)
 
 
 func _place_clanks() -> void:

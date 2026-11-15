@@ -5,10 +5,16 @@
 // It brings the comet's colours as uniforms of their own (same names in both skies).
 // #define CW_SKY_COMET_STATIC before the include keeps TIME out (a sky whose radiance is
 // filtered once, like the menu's): the comet then stands still.
+// #define CW_SKY_COMET_TIME <expr> before the include animates it by <expr> instead of TIME
+// (the campus sky's cw_sky_time global: TIME would re-filter the radiance every frame).
 #ifdef CW_SKY_COMET_STATIC
 #define CW_COMET_TIME 0.0
 #else
+#ifdef CW_SKY_COMET_TIME
+#define CW_COMET_TIME CW_SKY_COMET_TIME
+#else
 #define CW_COMET_TIME TIME
+#endif
 #endif
 
 uniform vec3 comet_head_color : source_color = vec3(0.92, 0.98, 1.0);

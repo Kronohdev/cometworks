@@ -26,7 +26,7 @@ const DOCK: Array[String] = ["crew", "research", "contracts", "finance", "race",
 ## screens that may cover the HUD (full-screen views, modals over a scrim)
 const COVER: Array[String] = ["book", "map", "newspaper", "new_project", "rocket_designer", "project_phase",
 	"design_review", "project_review", "final_score", "finale", "briefings", "payload_planner", "project_team", "journal",
-	"launch_choice", "library", "sign", "emergency_loan", "bankrupt", "album", "flight_comic"]
+	"launch_choice", "library", "sign", "emergency_loan", "bankrupt", "album", "flight_comic", "achievements", "stats"]
 ## screens whose detail page is checked too (open_detail(): the first item's page)
 const DETAILS: Array[String] = ["contracts", "research", "final_score", "book", "race", "map"]
 ## [screen, page] of the tabs past the first one

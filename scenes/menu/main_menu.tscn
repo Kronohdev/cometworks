@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" path="res://scenes/menu/demo_panel.tscn" id="17_demo"]
 [ext_resource type="Texture2D" path="res://ui/cometworks/icons/planet.svg" id="sx_planet"]
 [ext_resource type="PackedScene" path="res://scenes/surface/explore/surface_picker.tscn" id="sx_picker"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/trophy.svg" id="ach_trophy"]
 
 [sub_resource type="Gradient" id="shade_left_grad"]
 offsets = PackedFloat32Array(0, 0.42, 1)
@@ -257,12 +258,22 @@ index_text = "08"
 hint_key = ""
 icon = ExtResource("14_settings")
 
+[node name="Achievements" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+tooltip_text = "MENU_ACHIEVEMENTS_HINT"
+text = "MENU_ACHIEVEMENTS"
+index_text = "09"
+hint_key = "MENU_ACHIEVEMENTS_HINT"
+icon = ExtResource("ach_trophy")
+
 [node name="Quit" parent="UI/Root/MenuPanel/VBox" instance=ExtResource("6_item")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 text = "MENU_QUIT"
-index_text = "09"
+index_text = "10"
 hint_key = ""
 icon = ExtResource("15_door")
 

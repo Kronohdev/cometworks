@@ -155,6 +155,11 @@ func _enter() -> void:
 	fair.leave_requested.connect(leave, CONNECT_DEFERRED)
 	fair.match_sky(main.campus.get_node_or_null("Lights"))
 	fair.open(main.state, main.talk, main.chatter)
+	# the fair's sound (bed, band, footsteps, chimes, the award), the campus' evening carried over
+	var snd := ConferenceAudio.new()
+	var campus_audio := main.get_node_or_null("Audio") as CampusAudio
+	snd.night = campus_audio.night_amount() if campus_audio else 0.0
+	fair.add_child(snd)
 	CwSfx.play(&"ui_open")
 
 

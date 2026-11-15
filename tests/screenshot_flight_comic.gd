@@ -2,6 +2,7 @@ extends "res://tests/screenshot_tycoon_tracking.gd"
 ## Windowed screenshots of the launch watch's speed key and "Simular até o fim", and of the comic
 ## recap told by Vovô Edmundo (FlightComic) with its report page:
 ##   comic_01_watch_speed    a live lunar landing launch in the 3D view at 4x (the speed key, the skip key)
+##   comic_01b_skipping     the watch card while "Simular até o fim" flies (milestones, Vovô Edmundo, the comet)
 ##   comic_02_page1          the comic after the skip: page 1 (liftoff, max-Q, boosters...)
 ##   comic_03_page2          page 2 (the Moon, the landing, the rover, the ending)
 ##   comic_04_report         the last page: outcome, rewards, "Por que foi assim?", the tip
@@ -46,6 +47,10 @@ func _initialize() -> void:
 	_check(w.warp == 4 and (lw.get_node("%Speed") as Button).text == "4×", "the speed key reads 4× (%s)" % (lw.get_node("%Speed") as Button).text)
 	await _shot("comic_01_watch_speed")
 	lw.skip_to_end()
+	await _frames(14)
+	if lw.comic == null:
+		_check((lw.get_node("%Wait") as Control).visible, "the skip shows its waiting state")
+		await _shot("comic_01b_skipping")
 	await _until(func() -> bool: return lw.comic != null, 4000)
 	_check(lw.comic != null and lw.skipped, "the skip ends with the comic")
 	if lw.comic == null:

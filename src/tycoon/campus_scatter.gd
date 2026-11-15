@@ -51,7 +51,102 @@ extends MultiMeshInstance3D
 ## the trunk and the low branches, not the whole crown).
 @export_range(0.1, 1.5, 0.05) var walk_footprint := 1.0
 
+## In the running game a scatter spread wider than this (m) is drawn in square chunks of this
+## size (child MultiMeshInstance3D nodes, see _build_chunks).
+const CHUNK_SIZE := 40.0
+
 var _ground_tris: TriangleMesh
+## runtime chunks and, per chunk, the indices of its instances in `multimesh` (ascending)
+var _chunks: Array[MultiMeshInstance3D] = []
+var _chunk_ids: Array[PackedInt32Array] = []
+
+
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		_build_chunks()
+
+
+## A MultiMesh is culled as one box: a scatter over the whole island (trees, terrace bushes,
+## rocks) was drawn whole into every shadow cascade, into each face of a lamp's shadow cube and
+## in every view, however little of it the camera or the light sees. The running game draws it
+## as chunks of CHUNK_SIZE m instead, each culled on its own; this node keeps the MultiMesh
+## (placed(), the walk grid, the graphics level's foliage share read and write it) but draws
+## nothing itself. Same instances, same order, same look. Scatters with a visibility range stay
+## whole (the range is measured to the node's box, so chunks would fade differently).
+func _build_chunks() -> void:
+	var mm := multimesh
+	if mm == null or mm.mesh == null or mm.transform_format != MultiMesh.TRANSFORM_3D or mm.instance_count < 2:
+		return
+	if visibility_range_end > 0.0 or visibility_range_begin > 0.0:
+		return
+	var buf := mm.buffer
+	var stride := 12 + (4 if mm.use_colors else 0) + (4 if mm.use_custom_data else 0)
+	var groups := {}   # Vector2i chunk -> Array of instance indices (ascending)
+	var lo := Vector2(INF, INF)
+	var hi := -lo
+	for i in mm.instance_count:
+		var o := i * stride
+		if o + stride > buf.size():
+			return
+		var p := Vector2(buf[o + 3], buf[o + 11])
+		lo = lo.min(p)
+		hi = hi.max(p)
+		var key := Vector2i(floori(p.x / CHUNK_SIZE), floori(p.y / CHUNK_SIZE))
+		if not groups.has(key):
+			groups[key] = []
+		(groups[key] as Array).append(i)
+	if groups.size() < 2 or (hi.x - lo.x <= CHUNK_SIZE and hi.y - lo.y <= CHUNK_SIZE):
+		return
+	for key: Vector2i in groups:
+		var ids := PackedInt32Array(groups[key] as Array)
+		var part := PackedFloat32Array()
+		part.resize(ids.size() * stride)
+		for j in ids.size():
+			var src := ids[j] * stride
+			for k in stride:
+				part[j * stride + k] = buf[src + k]
+		var cm := MultiMesh.new()
+		cm.transform_format = MultiMesh.TRANSFORM_3D
+		cm.use_colors = mm.use_colors
+		cm.use_custom_data = mm.use_custom_data
+		cm.mesh = mm.mesh
+		cm.instance_count = ids.size()
+		cm.buffer = part
+		var c := MultiMeshInstance3D.new()
+		c.name = "Chunk_%d_%d" % [key.x, key.y]
+		c.multimesh = cm
+		c.material_override = material_override
+		c.material_overlay = material_overlay
+		c.cast_shadow = cast_shadow
+		c.layers = layers
+		c.gi_mode = gi_mode
+		c.transparency = transparency
+		c.extra_cull_margin = extra_cull_margin
+		c.lod_bias = lod_bias
+		c.ignore_occlusion_culling = ignore_occlusion_culling
+		add_child(c, false, Node.INTERNAL_MODE_BACK)
+		_chunks.append(c)
+		_chunk_ids.append(ids)
+	# this node stops drawing: the chunks do it
+	layers = 0
+	cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	sync_chunks()
+
+
+## True when the instances are drawn by chunks (the running game, wide scatters).
+func is_chunked() -> bool:
+	return not _chunks.is_empty()
+
+
+## Carries the MultiMesh's visible_instance_count (the graphics level's foliage share: the
+## first N instances) over to the chunks, so they show exactly the same instances.
+func sync_chunks() -> void:
+	if _chunks.is_empty() or multimesh == null:
+		return
+	var n := multimesh.visible_instance_count
+	for i in _chunks.size():
+		var ids := _chunk_ids[i]
+		_chunks[i].multimesh.visible_instance_count = -1 if n < 0 else ids.bsearch(n)
 
 
 ## The instance transforms of the MultiMesh, read from its buffer (also works headless, where

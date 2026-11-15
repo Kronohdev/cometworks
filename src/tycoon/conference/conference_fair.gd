@@ -222,6 +222,48 @@ static func _label(parent: Node3D, text: String, at: Vector3, px: float, size: i
 	return l
 
 
+## A flat sign of shape cue `cue` (CwPalette.Cue: the shapes the colour-blind swatches draw)
+## of radius `r`, facing +z, in ink or cream (whichever reads on `under`).
+static func _cue_sign(parent: Node3D, cue: int, r: float, under: Color) -> MeshInstance3D:
+	var polys: Array[PackedVector2Array] = []
+	match cue:
+		CwPalette.Cue.CIRCLE:
+			var ring := PackedVector2Array()
+			for i in 24:
+				ring.append(Vector2.from_angle(TAU * i / 24.0) * r * 0.8)
+			polys.append(ring)
+		CwPalette.Cue.SQUARE:
+			var h := r * 0.72
+			polys.append(PackedVector2Array([Vector2(-h, -h), Vector2(h, -h), Vector2(h, h), Vector2(-h, h)]))
+		CwPalette.Cue.CROSS:
+			var t := r * 0.36
+			polys.append(PackedVector2Array([Vector2(-r, -t), Vector2(r, -t), Vector2(r, t), Vector2(-r, t)]))
+			polys.append(PackedVector2Array([Vector2(-t, -r), Vector2(t, -r), Vector2(t, r), Vector2(-t, r)]))
+		_:
+			polys.append(CwPalette.cue_points(cue, Vector2.ZERO, r))
+	var verts := PackedVector3Array()
+	for poly in polys:
+		var tris := Geometry2D.triangulate_polygon(poly)
+		for i in tris:
+			verts.append(Vector3(poly[i].x, -poly[i].y, 0.0))   # 2D y points down, 3D y up
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = verts
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.albedo_color = CwPalette.INK if under.get_luminance() > 0.45 else CwPalette.CREAM
+	var mi := MeshInstance3D.new()
+	mi.name = "Cue"
+	mi.mesh = mesh
+	mi.material_override = m
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(mi)
+	return mi
+
+
 ## The yaw that turns a node at `p` (local) to face the plaza's centre.
 static func _face_centre(p: Vector3) -> float:
 	return atan2(-p.x, -p.z)
@@ -266,8 +308,8 @@ func _build_bunting() -> void:
 	if bunting.size() < 2:
 		return
 	var colours: Array[Color] = []
-	for r in state.rivals:
-		colours.append(Color(String(r.get("color", "#8c9ab5"))))
+	for r in state.rivals:   # the race board's colours (colour-blind friendly when that mode is on)
+		colours.append(state.race.agency_color(String(r.get("id", ""))))
 	colours.append_array([CwPalette.BUTTER, CwPalette.MINT, CwPalette.PEACH, CwPalette.ICE, CwPalette.PINK, CwPalette.LILAC])
 	var flags: Array[Transform3D] = []
 	var flag_cols: Array[Color] = []
@@ -331,7 +373,7 @@ func _multi(n: String, mesh: Mesh, mat: Material, xf: Array[Transform3D], cols: 
 
 
 func _build_stand(marker: Node3D, rid: String) -> Node3D:
-	var col := Color(String(state.race.rival(rid).get("color", "#8c9ab5")))
+	var col := state.race.agency_color(rid)   # colour-blind friendly when that mode is on
 	var st := Node3D.new()
 	st.name = "Stand_" + rid
 	st.position = marker.position
@@ -375,6 +417,14 @@ func _build_stand(marker: Node3D, rid: String) -> Node3D:
 		_box(st, Vector3(0.16, 0.16, 0.16), Vector3(2.75 * sx, 6.05, -1.85), Color("#ffd25c"))
 		_box(st, Vector3(0.62, 1.7, 0.05), Vector3(3.08 * sx, 4.9, -1.85), col)
 		_box(st, Vector3(0.62, 0.22, 0.055), Vector3(3.08 * sx, 4.55, -1.85), white)
+		# colour-blind mode: the agency's shape cue on both faces of the banner, so the stands
+		# are never told apart by hue alone
+		var cue := CwPalette.cue_of(col)
+		if cue != CwPalette.Cue.NONE:
+			for face in [1.0, -1.0]:
+				var mark := _cue_sign(st, cue, 0.24, col)
+				mark.position = Vector3(3.08 * sx, 5.3, -1.85 + 0.035 * face)
+				mark.rotation.y = 0.0 if face > 0.0 else PI
 	var motto := ConferenceBook.motto(state, rid)
 	if motto != "":
 		_label(st, "“%s”" % motto, Vector3(0, 2.5, -1.54), 0.0055, 44, Color("#ffe08f"))
@@ -811,8 +861,7 @@ func _ceremony_tick() -> void:
 		return
 	var cf := %Confetti as GPUParticles3D
 	cf.restart()
-	cf.emitting = true
-	CwSfx.play(&"ui_open")
+	cf.emitting = true   # the pops and the applause: ConferenceAudio
 	var w: Node3D = ceremony["winner"]
 	if is_instance_valid(w):
 		var c := ChatterBook.find_creature(w)

@@ -147,15 +147,44 @@ value = 0.6667
 color = Color(0.0549, 0.5647, 0.4667, 1)
 segments = 6
 
-[node name="CmlBonus" type="Label" parent="Panel/Margin/VBox/Body/Left/Cml/VBox"]
+[node name="CmlToggle" type="Button" parent="Panel/Margin/VBox/Body/Left/Cml/VBox/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+toggle_mode = true
+theme_type_variation = &"CwLink"
+theme_override_font_sizes/font_size = 13
+text = "TY_CML_SHOW"
+
+[node name="Sub" type="HBoxContainer" parent="Panel/Margin/VBox/Body/Left/Cml/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="CmlBonus" type="Label" parent="Panel/Margin/VBox/Body/Left/Cml/VBox/Sub"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"CwDim"
 theme_override_font_sizes/font_size = 13
 text = "TY_CML_CAPTION"
 text_overrun_behavior = 3
 
+[node name="CmlNext" type="Label" parent="Panel/Margin/VBox/Body/Left/Cml/VBox/Sub"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+text = "TY_CML_NEXT"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
 [node name="CmlLevels" type="VBoxContainer" parent="Panel/Margin/VBox/Body/Left/Cml/VBox"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 3
 

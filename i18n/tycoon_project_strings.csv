@@ -580,3 +580,7 @@ TY_CML_I_SCHEDULE,Schedule fits,Prazo cabe
 TY_CML_H_SCHEDULE,The chosen fixes run past the deadline,As correções escolhidas estouram o prazo
 TY_CML_I_RISKS,Risks known and handled,Riscos conhecidos e tratados
 TY_CML_H_RISKS,Fix the red risks that have a fix,Corrija os riscos vermelhos que têm correção
+TY_CML_SHOW,Checklist ▾,Ver checklist ▾
+TY_CML_HIDE,Hide checklist ▴,Ocultar checklist ▴
+TY_CML_NEXT,Next: %s,Próximo: %s
+TY_CML_ALL_DONE,Every item checked,Todos os itens marcados

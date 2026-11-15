@@ -30,6 +30,9 @@ const ACTIONS := [
 ]
 ## keys that can never be bound (they belong to the whole game)
 const RESERVED: Array[int] = [KEY_ESCAPE, KEY_F1, KEY_F12]
+## nodes that show key names (hints built with hint()): their refresh_keys() is called when
+## the bindings change (rebind, reset_defaults, apply)
+const GROUP := &"cw_keys_listeners"
 
 static var _ensured := false
 
@@ -94,6 +97,7 @@ static func apply() -> void:
 	var cfg := _cfg()
 	for a: Array in ACTIONS:
 		_set_events(a[0], int(cfg.get_value(SECTION, String(a[0]), a[1])))
+	_changed()
 
 
 ## The rebindable key of an action now (its first event).
@@ -106,10 +110,38 @@ static func key_of(id: StringName) -> int:
 	return KEY_NONE
 
 
-## The key's name as the keyboard shows it ("Space", "W", "Home").
+## The key's name as the keyboard shows it ("Space", "W", "Home"), in the game's language when
+## the i18n has a KEYNAME_<NAME> for it ("Espaço").
 static func key_text(id: StringName) -> String:
 	var k := key_of(id)
-	return OS.get_keycode_string(k as Key) if k != KEY_NONE else "—"
+	if k == KEY_NONE:
+		return "—"
+	var name := OS.get_keycode_string(k as Key)
+	var tkey := "KEYNAME_" + name.to_upper().replace(" ", "_")
+	var t := String(TranslationServer.translate(tkey))
+	return name if t == tkey else t
+
+
+## Translation `key` with its {action} placeholders ({cw_pause}, {cw_cam_frame}...) filled with
+## the keys bound now, plus {cw_cam_pan}: the four pan keys together ("WASD").
+static func hint(key: String) -> String:
+	var keys := {}
+	for id: StringName in ids():
+		keys[String(id)] = key_text(id)
+	var pan: Array[String] = []
+	var short := true
+	for id: StringName in [&"cw_cam_forward", &"cw_cam_left", &"cw_cam_back", &"cw_cam_right"]:
+		pan.append(key_text(id))
+		short = short and pan[-1].length() == 1
+	keys["cw_cam_pan"] = ("" if short else " ").join(pan)
+	return String(TranslationServer.translate(key)).format(keys)
+
+
+## Tells the GROUP the bindings changed.
+static func _changed() -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree:
+		tree.call_group(GROUP, &"refresh_keys")
 
 
 static func can_bind(k: int) -> bool:
@@ -130,6 +162,7 @@ static func rebind(id: StringName, k: int) -> StringName:
 			_set_events(other, old)
 	_set_events(id, k)
 	_save()
+	_changed()
 	return swapped
 
 
@@ -142,6 +175,7 @@ static func reset_defaults() -> void:
 	if cfg.has_section(SECTION):
 		cfg.erase_section(SECTION)
 	cfg.save(PATH)
+	_changed()
 
 
 static func _save() -> void:

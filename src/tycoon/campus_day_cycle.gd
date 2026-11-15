@@ -64,7 +64,12 @@ extends Node
 ## ink of the outlines (cw_outline_color)
 @export var outline_color: Gradient
 
+## how often (ms) the running cycle writes the sky material (see _process)
+const SKY_STEP_MSEC := 200
+
 var phase := 0.0
+var _sky_msec := -SKY_STEP_MSEC
+var _sky_phase := -1.0
 var _sun: DirectionalLight3D
 var _moon: DirectionalLight3D
 var _env: Environment
@@ -130,11 +135,18 @@ func _process(_delta: float) -> void:
 			return
 		var weeks := float(st.weeks) + (clock as TycoonClock).week_fraction()
 		p = fposmod(weeks / weeks_per_cycle + phase_offset, 1.0)
-	apply(p)
+	# the sky's colours change slowly: writing them re-renders and re-filters its radiance
+	# cubemap, so they follow every SKY_STEP_MSEC (or at once after a jump of the phase)
+	var now := Time.get_ticks_msec()
+	var sky := now - _sky_msec >= SKY_STEP_MSEC or absf(p - _sky_phase) > 0.02
+	if sky:
+		_sky_msec = now
+		_sky_phase = p
+	apply(p, sky)
 
 
-## Sets every look for a cycle phase (0..1).
-func apply(p: float) -> void:
+## Sets every look for a cycle phase (0..1); `sky` = false leaves the sky material as it is.
+func apply(p: float, sky := true) -> void:
 	phase = p
 	if _sun:
 		var e := deg_to_rad(_c(sun_elevation, p, 20.0))
@@ -145,7 +157,7 @@ func apply(p: float) -> void:
 		_sun.visible = _sun.light_energy > 0.01
 		if sun_color:
 			_sun.light_color = sun_color.sample(p)
-		if _sky:
+		if _sky and sky:
 			_sky.set_shader_parameter("sun_dir", to_sun)
 	if _moon:
 		_moon.light_energy = _c(moon_energy, p, 0.38)
@@ -164,7 +176,7 @@ func apply(p: float) -> void:
 			_env.fog_light_color = fog_color.sample(p)
 		if fog_density:
 			_env.fog_density = fog_density.sample_baked(p)
-	if _sky:
+	if _sky and sky:
 		if zenith_color:
 			_sky.set_shader_parameter("zenith_color", zenith_color.sample(p))
 		if mid_color:

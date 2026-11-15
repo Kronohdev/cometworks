@@ -16,6 +16,11 @@ Folders:
   assets/audio/ambience/  day (birds) and night (crickets) beds, space hush, workshop clanks
   assets/audio/voice/     Cometling chirps and babble (happy, question, surprised, sad, ...)
   assets/audio/launch/    countdown, ignition, rumble loop, sputter, failure, crowd, result chimes
+  assets/audio/fair/      the conference fair: footsteps, talk chime, award fanfare, applause
+  assets/audio/comic/     the flight comic: page turn, panel pop, sound-effect words, end stings
+  (ui/ also has the album's shutter / develop / flip / pin, the launch watch's warp and
+   simulate loop, and the CML / crew-milestone ticks; ambience/ and music/ the fair's beds
+   and its distant band)
 
 What plays what (names, volumes, pitch variance, buses) lives in the editable sound library
 assets/audio/cw_sound_library.tres (src/audio/cw_sound_library.gd); this script only makes
@@ -1239,6 +1244,512 @@ def _fail_pad(y, sr):
         add(y, pad_note(midi(nm(nn)), sr, 0.8, 0.3, 1.2, rng, cutoff=1000) * 0.05, int(0.2 * sr))
 
 
+# ------------------------------------------------------------------------ the conference fair
+def soft_brass(f: float, sr: int, dur: float, attack=0.035, release=0.18, bright=1.0, vib=0.006) -> np.ndarray:
+    """A round, cushioned 'brass': harmonics that open up with the swell (the higher ones
+    later and softer), a touch of late vibrato. No blat, no buzz."""
+    n = int((dur + release) * sr)
+    t = secs(n, sr)
+    env = raised(n, sr, attack, release, dur)
+    v = 1.0 + vib * np.clip((t - 0.15) / 0.2, 0, 1) * np.sin(TAU * 5.5 * t)
+    ph = TAU * f * np.cumsum(v) / sr
+    x = np.zeros(n)
+    kmax = int(min(12, (sr * 0.42) / f))
+    for k in range(1, kmax + 1):
+        a = (1.0 / k ** 1.2) * (bright if k > 1 else 1.0)
+        x += a * np.sin(k * ph) * env ** (1.0 + 0.35 * (k - 1))
+    return x
+
+
+def clap(sr, rng, bright=1.0):
+    """One hand clap: three quick micro-bursts and a little room."""
+    m = int(0.06 * sr)
+    y = np.zeros(m)
+    for j, at in enumerate([0.0, 0.004, 0.009]):
+        k = int(0.012 * sr)
+        b = rng.standard_normal(k) * env_ar(k, sr, 0.0005, 0.003 if j < 2 else 0.009)
+        add(y, b * (0.6 if j < 2 else 1.0), int(at * sr))
+    return fft_filter(y, sr, lo=700, hi=2600 + 1200 * bright)
+
+
+def babble_phrase(sr, rng, f0):
+    """A few syllables of distant Cometling chatter."""
+    vs = list(VOWELS)
+    syls = []
+    for i in range(int(rng.integers(2, 7))):
+        a0 = rng.uniform(0.9, 1.25)
+        syls.append(syl(rng.uniform(0.07, 0.17), a0, a0 * rng.uniform(0.85, 1.2), vs[int(rng.integers(0, 6))],
+                        vs[int(rng.integers(0, 6))], rng.uniform(0.015, 0.05), rng.uniform(0.6, 1.0)))
+    return cometling_voice(syls, sr, f0, int(rng.integers(0, 1 << 30)), breath=0.02, vibrato=0.02)
+
+
+def _fair_crowd(L, sr, rng, dur, phrases_per_s, laugh_odds):
+    """The murmur of a happy crowd: many little phrases at many distances, a warm body of
+    room noise under them, now and then a laugh or a few claps."""
+    x = np.zeros(L)
+    u = np.arange(L) / L
+    body = fft_filter(pink(L, rng), sr, lo=180, hi=1100, circular=True)
+    x += body * (0.75 + 0.25 * np.sin(TAU * 3 * u + 1.3)) * 0.018
+    for _ in range(int(dur * phrases_per_s)):
+        dist = rng.uniform(0.15, 1.0) ** 1.5
+        p = babble_phrase(sr, rng, rng.uniform(470, 760))
+        p = fft_filter(p, sr, hi=900 + 2200 * dist)
+        add(x, p * 0.05 * (0.3 + 0.7 * dist), int(rng.uniform(0, dur) * sr), circular=True)
+        if rng.random() < laugh_odds:   # "hi-hi-hi!"
+            f0 = rng.uniform(560, 720)
+            lau = cometling_voice([syl(0.07, 1.3, 1.25, "i", "i", 0.04), syl(0.07, 1.25, 1.2, "i", "i", 0.04),
+                                   syl(0.1, 1.2, 1.05, "i", "e", 0.0)], sr, f0, int(rng.integers(0, 1 << 30)))
+            add(x, fft_filter(lau, sr, hi=2600) * 0.04 * dist, int(rng.uniform(0, dur) * sr), circular=True)
+    for _ in range(int(dur / 9)):     # a little round of claps somewhere
+        at = rng.uniform(0, dur)
+        for _k in range(int(rng.integers(5, 12))):
+            add(x, clap(sr, rng, 0.3) * 0.05, int((at + rng.uniform(0, 1.2)) * sr), circular=True)
+    return x
+
+
+def render_amb_fair_day():
+    sr = SR_LO
+    dur = 40.0
+    L = int(dur * sr)
+    rng = np.random.default_rng(7070)
+    x = _fair_crowd(L, sr, rng, dur, 5.5, 0.12)
+    # birds over the plaza, fewer than on campus (the crowd scares them a bit)
+    for make, (flo, fhi), count in [(bird_tweet, (3300, 4300), 6), (bird_warble, (2800, 3600), 3),
+                                    (bird_feebee, (3600, 4100), 2)]:
+        for _ in range(count):
+            b = make(sr, rng, rng.uniform(flo, fhi))
+            dist = rng.uniform(0.3, 0.9)
+            add(x, fft_filter(b, sr, hi=2500 + 4000 * dist) * 0.1 * dist, int(rng.uniform(0, dur) * sr), circular=True)
+    # flags and a breeze
+    wind = fft_filter(pink(L, rng), sr, lo=150, hi=800, circular=True)
+    x += wind * (0.6 + 0.4 * np.sin(TAU * 2 * np.arange(L) / L)) * 0.012
+    x = with_reverb(x, sr, 1.4, 0.25, 7071, circular=True, damp_hz=4000)
+    return x, sr, True
+
+
+def render_amb_fair_night():
+    sr = SR_LO
+    dur = 40.0
+    L = int(dur * sr)
+    rng = np.random.default_rng(7080)
+    x = _fair_crowd(L, sr, rng, dur, 4.0, 0.1)
+    # the evening's crickets at the edge of the plaza
+    for c in range(3):
+        f = rng.uniform(4200, 5100)
+        period = rng.uniform(0.6, 0.95)
+        gain = [0.05, 0.035, 0.025][c]
+        t = rng.uniform(0, period)
+        while t < dur:
+            ch = fft_filter(cricket_chirp(sr, rng, f), sr, hi=4200)
+            add(x, ch * gain * rng.uniform(0.7, 1.0), int(t * sr), circular=True)
+            t += period * rng.uniform(0.94, 1.08)
+    x = with_reverb(x, sr, 1.8, 0.3, 7081, circular=True, damp_hz=3600)
+    return x, sr, True
+
+
+def render_music_fair():
+    """'Feira dos Cometinhos': 16 bars at 104 BPM in G major, heard from across the plaza. A
+    squeeze-box oom-pah, a plucked bass, a marimba tune and a tambourine, all softened by
+    distance (low-passed, a lot of room)."""
+    sr = SR_LO
+    bpm = 104.0
+    beat = 60.0 / bpm
+    bar = 4 * beat
+    bars = 16
+    L = int(round(bars * bar * sr))
+    rng = np.random.default_rng(2112)
+    out = np.zeros((2, L))
+    prog = [("G2", ["G3", "B3", "D4"], ["G5", "B5", "D6", "B5"]), ("D2", ["F#3", "A3", "D4"], ["A5", "F#5", "D5", "F#5"]),
+            ("C2", ["E3", "G3", "C4"], ["E5", "G5", "C6", "E6"]), ("D2", ["F#3", "A3", "C4"], ["D6", "C6", "A5", "F#5"]),
+            ("G2", ["G3", "B3", "D4"], ["B5", "D6", "G6", "D6"]), ("E2", ["G3", "B3", "E4"], ["E6", "B5", "G5", "B5"]),
+            ("A2", ["A3", "C4", "E4"], ["C6", "A5", "E5", "A5"]), ("D2", ["F#3", "A3", "C4"], ["A5", "B5", "C6", "D6"])]
+    for b in range(bars):
+        bass, chord, tune = prog[b % len(prog)]
+        start = int(round(b * bar * sr))
+        fb = midi(nm(bass))
+        # oom (bass on 1 and 3, the fifth on 3) - pah (squeeze-box chord on 2 and 4)
+        add(out, pan(soft_bass(fb, sr, 0.7, decay=0.3) * 0.3, 0.0), start, circular=True)
+        add(out, pan(soft_bass(fb * 1.5, sr, 0.7, decay=0.3) * 0.22, 0.0), start + int(2 * beat * sr), circular=True)
+        for k in (1, 3):
+            for n in chord:
+                p = pad_note(midi(nm(n)), sr, beat * 0.45, 0.012, 0.08, rng, cutoff=2400, detune=(-9.0, 9.0), bright=1.1)
+                add(out, pan(p * 0.05, -0.3), start + int(k * beat * sr), circular=True)
+        # the tune: chord tones on eighths, some held, the last bar of each phrase resting
+        if b % 4 != 3 or rng.random() < 0.5:
+            for e in range(8):
+                if rng.random() < (0.35 if e % 2 else 0.12):
+                    continue
+                f = midi(nm(tune[(e // 2 + (e % 2) * int(rng.integers(0, 2))) % 4]))
+                swing = 0.05 * beat if e % 2 else 0.0
+                add(out, pan(marimba(f, sr, 0.9, bright=0.9) * 0.15 * (1.0 if e % 2 == 0 else 0.75), 0.3),
+                    start + int((e * beat / 2 + swing) * sr), circular=True)
+        # tambourine on the off-beats
+        for e in range(8):
+            if e % 2 == 0 and rng.random() < 0.7:
+                continue
+            m = int(0.09 * sr)
+            nz = fft_filter(rng.standard_normal(m), sr, lo=5000, hi=10000) * env_ar(m, sr, 0.002, 0.03)
+            jingle = sum(np.sin(TAU * f * secs(m, sr)) for f in (6100.0, 7300.0, 8200.0)) * env_ar(m, sr, 0.001, 0.04)
+            add(out, pan((nz + 0.15 * jingle) * 0.02, 0.5), start + int((e * beat / 2) * sr), circular=True)
+    # far away: the top end goes, the room comes in
+    out = fft_filter(out, sr, hi=2300, lo=90, circular=True)
+    out = with_reverb(out, sr, 2.6, 0.5, 2113, stereo=True, circular=True, damp_hz=2200)
+    return out, sr, True
+
+
+def s_fair_step(i):
+    """A Cometling's soft footstep on the plaza's paving: a padded pat and a whisper of grit."""
+    def make():
+        sr = SR
+        rng = np.random.default_rng(7100 + i)
+        n = int(0.16 * sr)
+        t = secs(n, sr)
+        pat = fft_filter(rng.standard_normal(n), sr, lo=120, hi=900 + 150 * i) * env_ar(n, sr, 0.002, 0.016)
+        pat /= np.max(np.abs(pat)) + 1e-9
+        thump = np.sin(TAU * np.cumsum(95 + 60 * np.exp(-t / 0.012) + 8 * i) / sr) * env_ar(n, sr, 0.002, 0.028)
+        grit = fft_filter(rng.standard_normal(n), sr, lo=2500, hi=6500) * env_ar(n, sr, 0.003, 0.01 + 0.004 * i)
+        grit /= np.max(np.abs(grit)) + 1e-9
+        x = pat * 0.7 + thump * 0.55 + grit * 0.12
+        return fade(x, sr, 0.001, 0.04), sr, False
+    return make
+
+
+def s_fair_talk_chime():
+    """Someone to talk to is in reach: two soft bells, up."""
+    x = np.zeros(int(0.7 * SR))
+    add(x, kalimba(midi(nm("G6")), SR, 0.6, bright=0.5, decay=0.3), 0, gain=0.8)
+    add(x, kalimba(midi(nm("D7")), SR, 0.55, bright=0.5, decay=0.28), int(0.07 * SR), gain=0.65)
+    y = with_reverb(x, SR, 0.9, 0.22, 7120)[: x.size]
+    return fade(y, SR, 0.001, 0.08), SR, False
+
+
+def s_fair_fanfare():
+    """The award: a soft brass 'ta-ta-ta-taaa' over a warm chord, a timpani roll into it and
+    bells on top. Stereo, played as a stinger."""
+    sr = SR
+    L = int(3.4 * sr)
+    out = np.zeros((2, L))
+    rng = np.random.default_rng(7130)
+    # a short soft roll into the first note
+    for k in range(12):
+        m = int(0.25 * sr)
+        tt = secs(m, sr)
+        hit = np.sin(TAU * np.cumsum(98 + 25 * np.exp(-tt / 0.03)) / sr) * env_ar(m, sr, 0.002, 0.09)
+        add(out, pan(hit * (0.04 + 0.011 * k), 0.0), int(k * 0.028 * sr))
+    t0 = 0.36
+    motif = [("G4", 0.0, 0.11), ("G4", 0.15, 0.11), ("G4", 0.3, 0.11), ("C5", 0.45, 0.42), ("E5", 0.92, 0.16),
+             ("D5", 1.1, 0.16), ("G5", 1.28, 1.1)]
+    for n, at, d in motif:
+        f = midi(nm(n))
+        for ch, (det, g) in enumerate([(0.997, 1.0), (1.003, 0.9)]):
+            add(out[ch], soft_brass(f * det, sr, d, attack=0.03, release=0.2, bright=0.9) * 0.18 * g, int((t0 + at) * sr))
+        add(out, pan(soft_brass(f / 2, sr, d, attack=0.04, release=0.2, bright=0.6) * 0.08, 0.0), int((t0 + at) * sr))
+    # the chord under the last two notes
+    for n in ["C3", "G3", "C4", "E4", "G4"]:
+        for ch, det in enumerate([(-6.0, 3.0), (-3.0, 7.0)]):
+            p = pad_note(midi(nm(n)), sr, 1.3, 0.12, 1.2, rng, cutoff=1900, detune=det)
+            add(out[ch], p * 0.04, int((t0 + 1.28) * sr))
+    m = int(1.2 * sr)
+    tt = secs(m, sr)
+    boom = np.sin(TAU * np.cumsum(65 + 40 * np.exp(-tt / 0.06)) / sr) * env_ar(m, sr, 0.004, 0.4)
+    add(out, pan(boom * 0.3, 0.0), int((t0 + 1.28) * sr))
+    for i, n in enumerate(["C7", "E7", "G7", "C7", "E7"]):
+        add(out, pan(celesta(midi(nm(n)), sr, 1.4, bright=0.5) * 0.08, float(rng.uniform(-0.8, 0.8))),
+            int((t0 + 1.35 + i * 0.09) * sr))
+    out = with_reverb(out, sr, 2.0, 0.32, 7131, stereo=True)[:, :L]
+    return fade(out, sr, 0.001, 0.5), sr, False
+
+
+def s_fair_applause():
+    """A plaza of Cometlings clapping (a swell, a long middle, a tail), a few cheers in it."""
+    sr = SR
+    dur = 4.8
+    n = int(dur * sr)
+    rng = np.random.default_rng(7140)
+    y = np.zeros(n)
+    for c in range(36):
+        rate = rng.uniform(3.6, 5.4)
+        t = rng.uniform(0.0, 0.5)
+        stop = rng.uniform(2.6, dur - 0.3)
+        g = rng.uniform(0.3, 1.0) * (0.5 if c > 24 else 1.0)
+        bright = rng.uniform(0.0, 1.0)
+        while t < stop:
+            add(y, clap(sr, rng, bright) * g * rng.uniform(0.7, 1.0), int(t * sr))
+            t += (1.0 / rate) * rng.uniform(0.9, 1.1)
+    e = raised(n, sr, 0.35, 1.6, dur - 1.6)
+    y *= e
+    syls = lambda r: [syl(r.uniform(0.3, 0.5), 1.15, r.uniform(1.4, 1.7), "e", "a", 0.0)]
+    cheer = crowd(sr, rng, 8, dur, lambda r: r.uniform(0.95, 1.15), syls, 0, 0)
+    y = y / (np.max(np.abs(y)) + 1e-9) + cheer / (np.max(np.abs(cheer)) + 1e-9) * 0.35
+    y = with_reverb(y, sr, 1.5, 0.28, 7141)[:n]
+    return fade(y, sr, 0.01, 0.5), sr, False
+
+
+# ------------------------------------------------------------------------ the flight comic
+def s_comic_page():
+    """A comic page turning: a papery swish rising and settling, a little crinkle, the flap."""
+    sr = SR
+    rng = np.random.default_rng(7200)
+    n = int(0.46 * sr)
+    u = np.linspace(0, 1, n)
+    fc = 900 + 2600 * np.sin(np.pi * np.clip(u * 1.2, 0, 1)) ** 1.2
+    sw = biquad_bp(pink(n, rng), sr, fc, 0.9)
+    sw /= np.max(np.abs(sw)) + 1e-9
+    e = np.clip(u / 0.45, 0, 1) ** 1.4 * np.clip((1 - u) / 0.45, 0, 1) ** 0.8
+    x = sw * e * 0.7
+    cr = np.zeros(n)
+    for _ in range(14):
+        m = int(rng.uniform(0.002, 0.005) * sr)
+        add(cr, rng.standard_normal(m) * np.linspace(1, 0, m) ** 2 * rng.uniform(0.3, 1.0), int(rng.uniform(0.1, 0.32) * sr))
+    x += fft_filter(cr, sr, lo=2000, hi=6500) * 0.35
+    m = int(0.08 * sr)
+    flap = fft_filter(rng.standard_normal(m), sr, lo=80, hi=500) * env_ar(m, sr, 0.003, 0.02)
+    add(x, flap / (np.max(np.abs(flap)) + 1e-9) * 0.45, int(0.33 * sr))
+    return fade(x, sr, 0.003, 0.04), sr, False
+
+
+def s_comic_pop():
+    """A panel pops in: a soft bubble 'bup' and a tiny glint."""
+    sr = SR
+    n = int(0.2 * sr)
+    t = secs(n, sr)
+    f = 380 + 700 * (1 - np.exp(-t / 0.012)) - 250 * np.clip((t - 0.03) / 0.08, 0, 1)
+    x = np.sin(TAU * np.cumsum(f) / sr) * env_ar(n, sr, 0.003, 0.04)
+    add(x, kalimba(midi(nm("C7")), sr, 0.18, bright=0.4, decay=0.06) * 0.25, int(0.012 * sr))
+    return fade(x, sr, 0.001, 0.04), sr, False
+
+
+def s_comic_vroom():
+    """VRUUUM: a cushioned engine swell, more rumble than roar."""
+    sr = SR
+    rng = np.random.default_rng(7210)
+    n = int(0.85 * sr)
+    u = np.linspace(0, 1, n)
+    t = secs(n, sr)
+    fc = 220 + 520 * np.sin(np.pi * u) ** 0.8
+    nz = biquad_bp(pink(n, rng), sr, fc, 1.1)
+    nz /= np.max(np.abs(nz)) + 1e-9
+    e = np.sin(np.pi * np.clip(u, 0, 1)) ** 0.9
+    hum = np.sin(TAU * np.cumsum(70 + 45 * u + 6 * np.sin(TAU * 11 * t)) / sr) * e
+    x = nz * e * 0.7 + hum * 0.45
+    return fade(fft_filter(x, sr, hi=2200), sr, 0.01, 0.08), sr, False
+
+
+def s_comic_clac():
+    """CLAC: two little wooden clacks (a latch letting go)."""
+    sr = SR
+    y = np.zeros(int(0.32 * sr))
+    add(y, modal_hit(sr, 820, [1, 2.4, 4.6], [0.03, 0.015, 0.008], [1, 0.45, 0.2], noise_ms=3, seed=7220,
+                     bright_hz=4500), 0)
+    add(y, modal_hit(sr, 1180, [1, 2.4, 4.6], [0.025, 0.012, 0.006], [1, 0.4, 0.2], noise_ms=2, seed=7221,
+                     bright_hz=5000) * 0.8, int(0.055 * sr))
+    return fade(with_reverb(y, sr, 0.5, 0.15, 7222)[: y.size], sr, 0.0008, 0.05), sr, False
+
+
+def s_comic_boom():
+    """KABUM, the cosy way: a puff and a pillowy thud, no bang."""
+    sr = SR
+    n = int(1.1 * sr)
+    t = secs(n, sr)
+    rng = np.random.default_rng(7230)
+    u = np.clip(t / 0.5, 0, 1)
+    puff = biquad_bp(pink(n, rng), sr, 1300 * (180 / 1300) ** u, 0.8) * env_ar(n, sr, 0.015, 0.18)
+    puff /= np.max(np.abs(puff)) + 1e-9
+    thud = np.sin(TAU * np.cumsum(55 + 80 * np.exp(-t / 0.05)) / sr) * env_ar(n, sr, 0.004, 0.22)
+    x = puff * 0.6 + thud * 0.9
+    x = with_reverb(x, sr, 1.0, 0.2, 7231)[:n]
+    return fade(x, sr, 0.002, 0.2), sr, False
+
+
+def s_comic_whoosh():
+    """ZUUUM: a bright airy glide (a burn, an orbit, a capture)."""
+    x = _whoosh(600, 2400, 0.55, 7240, 900, 1800)
+    y = np.zeros(int(0.8 * SR))
+    add(y, x, 0)
+    add(y, celesta(midi(nm("E7")), SR, 0.5, bright=0.4) * 0.12, int(0.38 * SR))
+    return fade(y, SR, 0.002, 0.08), SR, False
+
+
+def s_comic_splash():
+    """SPLASH / POUSO: a round 'bloop' and a little spray."""
+    sr = SR
+    rng = np.random.default_rng(7250)
+    n = int(0.7 * sr)
+    t = secs(n, sr)
+    f = 160 + 520 * np.exp(-t / 0.03)
+    bloop = np.sin(TAU * np.cumsum(f) / sr) * env_ar(n, sr, 0.004, 0.07)
+    spray = fft_filter(rng.standard_normal(n), sr, lo=1200, hi=5500) * env_ar(n, sr, 0.01, 0.12)
+    spray /= np.max(np.abs(spray)) + 1e-9
+    x = bloop * 0.8 + spray * 0.3
+    x = with_reverb(x, sr, 0.8, 0.2, 7251)[:n]
+    return fade(x, sr, 0.002, 0.1), sr, False
+
+
+def s_comic_end_good():
+    """The comic's last page, a good flight: a kalimba run up and a bright 'ta-da'."""
+    sr = SR
+    y = np.zeros(int(2.2 * sr))
+    for i, nn in enumerate(["G5", "B5", "D6"]):
+        add(y, kalimba(midi(nm(nn)), sr, 1.0, decay=0.5) * 0.45, int(i * 0.08 * sr))
+    for nn in ["D6", "G6"]:
+        add(y, marimba(midi(nm(nn)), sr, 1.2, bright=0.8) * 0.4, int(0.34 * sr))
+    for i, nn in enumerate(["G7", "D7", "B6", "G7"]):
+        add(y, celesta(midi(nm(nn)), sr, 1.0, bright=0.5) * 0.1, int((0.42 + i * 0.07) * sr))
+    rng = np.random.default_rng(7260)
+    for nn in ["G4", "B4", "D5"]:
+        add(y, pad_note(midi(nm(nn)), sr, 0.8, 0.15, 0.9, rng, cutoff=1700) * 0.05, int(0.34 * sr))
+    y = with_reverb(y, sr, 1.5, 0.3, 7261)[: y.size]
+    return fade(y, sr, 0.001, 0.35), sr, False
+
+
+def s_comic_end_meh():
+    """A partial flight: a gentle 'hm-hm', not sad."""
+    sr = SR
+    y = np.zeros(int(1.9 * sr))
+    for i, nn in enumerate(["G5", "E5", "A5"]):
+        add(y, marimba(midi(nm(nn)), sr, 1.2, bright=0.7) * 0.45, int(i * 0.17 * sr))
+    rng = np.random.default_rng(7270)
+    for nn in ["C4", "G4", "D5"]:
+        add(y, pad_note(midi(nm(nn)), sr, 0.8, 0.2, 0.9, rng, cutoff=1300) * 0.05, int(0.34 * sr))
+    y = with_reverb(y, sr, 1.4, 0.3, 7271)[: y.size]
+    return fade(y, sr, 0.001, 0.35), sr, False
+
+
+def s_comic_end_bad():
+    """A lost flight: a soft falling 'aww' on the marimba and a low warm pad: there, there."""
+    sr = SR
+    y = np.zeros(int(2.3 * sr))
+    for i, nn in enumerate(["E5", "D5", "B4", "C5"]):
+        add(y, marimba(midi(nm(nn)), sr, 1.3, bright=0.55) * 0.45, int(i * 0.22 * sr))
+    rng = np.random.default_rng(7280)
+    for nn in ["A3", "C4", "E4"]:
+        add(y, pad_note(midi(nm(nn)), sr, 1.0, 0.3, 1.1, rng, cutoff=950) * 0.05, int(0.3 * sr))
+    y = with_reverb(y, sr, 1.6, 0.3, 7281)[: y.size]
+    return fade(y, sr, 0.001, 0.4), sr, False
+
+
+# ------------------------------------------------------------------------ the photo album
+def s_photo_shutter():
+    """A little camera: the shutter's click-clack, then the film winding on."""
+    sr = SR
+    rng = np.random.default_rng(7300)
+    y = np.zeros(int(0.55 * sr))
+    add(y, modal_hit(sr, 3100, [1, 1.9, 3.3], [0.012, 0.007, 0.004], [1, 0.5, 0.3], noise_ms=3, seed=7301), 0)
+    add(y, modal_hit(sr, 2100, [1, 2.2, 3.7], [0.016, 0.008, 0.005], [1, 0.5, 0.25], noise_ms=4, seed=7302) * 0.85,
+        int(0.065 * sr))
+    m = int(0.2 * sr)
+    tt = secs(m, sr)
+    whirr = np.sign(np.sin(TAU * 34 * tt)) * 0.5 + 0.5
+    buzz = fft_filter(rng.standard_normal(m), sr, lo=900, hi=3500) * whirr * raised(m, sr, 0.02, 0.05, 0.15)
+    add(y, buzz / (np.max(np.abs(buzz)) + 1e-9) * 0.18, int(0.16 * sr))
+    return fade(y, sr, 0.0008, 0.05), sr, False
+
+
+def s_photo_develop():
+    """A picture comes out of the developer: a soft rising shimmer."""
+    sr = SR
+    rng = np.random.default_rng(7310)
+    y = np.zeros(int(1.2 * sr))
+    for i, nn in enumerate(["G5", "B5", "D6", "G6", "B6"]):
+        add(y, celesta(midi(nm(nn)), sr, 0.9, bright=0.45) * (0.16 - 0.015 * i), int(i * 0.055 * sr))
+    n = int(0.6 * sr)
+    air = fft_filter(rng.standard_normal(n), sr, lo=2500, hi=7000) * raised(n, sr, 0.25, 0.3, 0.3)
+    add(y, air / (np.max(np.abs(air)) + 1e-9) * 0.05, 0)
+    y = with_reverb(y, sr, 1.2, 0.28, 7311)[: y.size]
+    return fade(y, sr, 0.004, 0.2), sr, False
+
+
+def s_photo_flip():
+    """Browsing the album: a soft paper flick."""
+    sr = SR
+    rng = np.random.default_rng(7320)
+    n = int(0.12 * sr)
+    t = secs(n, sr)
+    flick = fft_filter(rng.standard_normal(n), sr, lo=1800, hi=5500) * env_ar(n, sr, 0.002, 0.014)
+    flick /= np.max(np.abs(flick)) + 1e-9
+    tap = np.sin(TAU * np.cumsum(420 + 300 * np.exp(-t / 0.008)) / sr) * env_ar(n, sr, 0.001, 0.015)
+    return fade(flick * 0.55 + tap * 0.5, sr, 0.0008, 0.03), sr, False
+
+
+def s_photo_pin():
+    """'Pendurar no mural': the pin goes into the cork (tk-thup) and a tiny happy ding."""
+    sr = SR
+    y = np.zeros(int(0.5 * sr))
+    add(y, modal_hit(sr, 2600, [1, 2.7], [0.012, 0.005], [1, 0.4], noise_ms=2, seed=7330) * 0.7, 0)
+    add(y, modal_hit(sr, 210, [1, 2.3, 3.9], [0.04, 0.02, 0.01], [1, 0.4, 0.15], noise_ms=8, seed=7331,
+                     bright_hz=1800), int(0.018 * sr))
+    add(y, kalimba(midi(nm("A6")), sr, 0.4, bright=0.5, decay=0.18) * 0.35, int(0.06 * sr))
+    return fade(with_reverb(y, sr, 0.7, 0.15, 7332)[: y.size], sr, 0.0008, 0.06), sr, False
+
+
+# ------------------------------------------------------------------------ the launch watch
+def s_warp_up():
+    """The speed key: a short rising whoosh and a tick (pitched up per speed by the game)."""
+    y = np.zeros(int(0.32 * SR))
+    add(y, _whoosh(500, 2600, 0.24, 7400, 800, 1600) * 0.6, 0)
+    add(y, kalimba(midi(nm("E6")), SR, 0.25, bright=0.5, decay=0.08) * 0.5, int(0.16 * SR))
+    return fade(y, SR, 0.002, 0.05), SR, False
+
+
+def s_warp_down():
+    """Back to 1x: a falling whoosh and a lower tick."""
+    y = np.zeros(int(0.34 * SR))
+    add(y, _whoosh(2200, 480, 0.26, 7410, 1500, 750) * 0.6, 0)
+    add(y, kalimba(midi(nm("A5")), SR, 0.25, bright=0.5, decay=0.08) * 0.5, int(0.17 * SR))
+    return fade(y, SR, 0.002, 0.05), SR, False
+
+
+def s_sim_loop():
+    """'Simular até o fim': a gentle busy loop, a small clock ticking over a soft whirr and a
+    calm two-note hum, 4 s, seamless."""
+    sr = SR_LO
+    dur = 4.0
+    L = int(dur * sr)
+    rng = np.random.default_rng(7420)
+    u = np.arange(L) / L
+    t = np.arange(L) / sr
+    x = np.zeros(L)
+    whirr = fft_filter(pink(L, rng), sr, lo=300, hi=1400, circular=True)
+    x += whirr * (0.7 + 0.3 * np.sin(TAU * 2 * u)) * 0.05
+    for f, g in [(midi(nm("G4")), 0.03), (midi(nm("D5")), 0.02)]:
+        k = round(f * dur) / dur
+        x += np.sin(TAU * k * t) * (0.6 + 0.4 * np.sin(TAU * u + g * 50)) * g
+    for i in range(24):   # tick-tock, 6 a second
+        f0 = 2300 if i % 2 == 0 else 1850
+        hit = modal_hit(sr, f0, [1, 2.3], [0.01, 0.004], [1, 0.3], noise_ms=1.5, seed=7421 + i, bright_hz=5000)
+        add(x, hit * (0.16 if i % 2 == 0 else 0.12), int(i * dur / 24 * sr), circular=True)
+    x = with_reverb(x, sr, 0.8, 0.2, 7422, circular=True, damp_hz=4000)
+    return x, sr, True
+
+
+# ------------------------------------------------------------------------ checklists and chips
+def s_check_tick():
+    """A CML item gets its check: a pencil 'tk' and a tiny bell."""
+    sr = SR
+    rng = np.random.default_rng(7500)
+    n = int(0.3 * sr)
+    t = secs(n, sr)
+    m = int(0.008 * sr)
+    tk = np.zeros(n)
+    tk[:m] = rng.standard_normal(m) * np.linspace(1, 0, m) ** 2
+    tk = fft_filter(tk, sr, lo=1500, hi=5000)
+    body = np.sin(TAU * np.cumsum(1300 - 400 * np.clip(t / 0.02, 0, 1)) / sr) * env_ar(n, sr, 0.001, 0.012)
+    x = tk / (np.max(np.abs(tk)) + 1e-9) * 0.5 + body * 0.45
+    add(x, kalimba(midi(nm("E7")), sr, 0.26, bright=0.4, decay=0.1) * 0.45, int(0.022 * sr))
+    return fade(x, sr, 0.0008, 0.04), sr, False
+
+
+def s_chip_tick():
+    """A crew milestone chip: a glassy little pop-tick."""
+    sr = SR
+    n = int(0.25 * sr)
+    t = secs(n, sr)
+    pop = np.sin(TAU * np.cumsum(1700 + 900 * (1 - np.exp(-t / 0.01))) / sr) * env_ar(n, sr, 0.001, 0.018)
+    x = pop * 0.45
+    add(x, kalimba(midi(nm("B6")), sr, 0.25, bright=0.45, decay=0.09) * 0.55, int(0.008 * sr))
+    return fade(x, sr, 0.0008, 0.04), sr, False
+
+
 SOUNDS = {
     # ui
     "ui/ui_hover": s_ui_hover,
@@ -1286,13 +1797,47 @@ SOUNDS = {
                                      lambda f, sr: marimba(f, sr, 1.6, bright=0.7), _partial_pad, 411),
     "launch/result_fail": _result(["A5", "F5", "D5", "A5"], [0.2, 0.2, 0.55, 0.0],
                                   lambda f, sr: marimba(f, sr, 1.5, bright=0.6), _fail_pad, 412),
+    # the conference fair
+    "ambience/amb_fair_day": render_amb_fair_day,
+    "ambience/amb_fair_night": render_amb_fair_night,
+    "music/music_fair": render_music_fair,
+    **{f"fair/step_{i + 1}": s_fair_step(i) for i in range(4)},
+    "fair/talk_chime": s_fair_talk_chime,
+    "fair/fanfare": s_fair_fanfare,
+    "fair/applause": s_fair_applause,
+    # the flight comic
+    "comic/page_turn": s_comic_page,
+    "comic/panel_pop": s_comic_pop,
+    "comic/word_vroom": s_comic_vroom,
+    "comic/word_clac": s_comic_clac,
+    "comic/word_boom": s_comic_boom,
+    "comic/word_whoosh": s_comic_whoosh,
+    "comic/word_splash": s_comic_splash,
+    "comic/end_good": s_comic_end_good,
+    "comic/end_meh": s_comic_end_meh,
+    "comic/end_bad": s_comic_end_bad,
+    # the photo album
+    "ui/photo_shutter": s_photo_shutter,
+    "ui/photo_develop": s_photo_develop,
+    "ui/photo_flip": s_photo_flip,
+    "ui/photo_pin": s_photo_pin,
+    # the launch watch
+    "ui/warp_up": s_warp_up,
+    "ui/warp_down": s_warp_down,
+    "ui/sim_loop": s_sim_loop,
+    # checklists and chips
+    "ui/check_tick": s_check_tick,
+    "ui/chip_tick": s_chip_tick,
 }
 
 # loudness targets: peak dBFS per family (the library sets the playback volume on top)
-PEAK_DB = {"ui": -3.0, "music": -1.5, "ambience": -3.0, "voice": -3.0, "launch": -1.5}
+PEAK_DB = {"ui": -3.0, "music": -1.5, "ambience": -3.0, "voice": -3.0, "launch": -1.5, "fair": -3.0,
+           "comic": -3.0}
 # beds are levelled by RMS instead (dB), so day and night sit at the same loudness
 RMS_DB = {"ambience/amb_day": -27.0, "ambience/amb_night": -27.0, "ambience/amb_space": -30.0,
-          "music/music_menu": -21.0, "music/music_campus": -20.0, "launch/rumble_loop": -16.0}
+          "music/music_menu": -21.0, "music/music_campus": -20.0, "launch/rumble_loop": -16.0,
+          "ambience/amb_fair_day": -27.0, "ambience/amb_fair_night": -27.0, "music/music_fair": -21.0,
+          "ui/sim_loop": -28.0}
 
 
 # ======================================================================== output
@@ -1443,10 +1988,41 @@ LIB = [
     ("launch_debris", ["launch/debris"], -9.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
     ("crowd_cheer", ["launch/crowd_cheer"], -8.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
     ("crowd_aww", ["launch/crowd_aww"], -9.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
-    ("confetti_pop", ["launch/confetti_pop"], -10.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
+    ("confetti_pop", ["launch/confetti_pop"], -10.0, 0.96, 1.06, "SFX", 0.0, 3, 1.0),
     ("result_success", ["launch/result_success"], -7.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
     ("result_partial", ["launch/result_partial"], -8.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
     ("result_fail", ["launch/result_fail"], -8.0, 1.0, 1.0, "SFX", 0.0, 1, 1.0),
+    # the conference fair
+    ("amb_fair_day", ["ambience/amb_fair_day"], -5.0, 1.0, 1.0, "Ambience", 0.0, 1, 1.0),
+    ("amb_fair_night", ["ambience/amb_fair_night"], -5.0, 1.0, 1.0, "Ambience", 0.0, 1, 1.0),
+    ("music_fair", ["music/music_fair"], -9.0, 1.0, 1.0, "Music", 0.0, 1, 1.0),
+    ("fair_step", [f"fair/step_{i + 1}" for i in range(4)], -19.0, 0.9, 1.1, "SFX", 0.08, 2, 1.0),
+    ("fair_talk_chime", ["fair/talk_chime"], -15.0, 0.98, 1.03, "UI", 0.35, 1, 1.0),
+    ("fair_fanfare", ["fair/fanfare"], -7.0, 1.0, 1.0, "Music", 1.0, 1, 1.0),
+    ("fair_applause", ["fair/applause"], -10.0, 0.97, 1.03, "SFX", 1.0, 1, 1.0),
+    # the flight comic
+    ("comic_page", ["comic/page_turn"], -12.0, 0.95, 1.06, "UI", 0.12, 1, 1.0),
+    ("comic_pop", ["comic/panel_pop"], -15.0, 0.94, 1.08, "UI", 0.05, 2, 1.0),
+    ("comic_vroom", ["comic/word_vroom"], -13.0, 0.95, 1.05, "UI", 0.1, 1, 1.0),
+    ("comic_clac", ["comic/word_clac"], -12.0, 0.95, 1.06, "UI", 0.1, 1, 1.0),
+    ("comic_boom", ["comic/word_boom"], -12.0, 0.96, 1.04, "UI", 0.1, 1, 1.0),
+    ("comic_whoosh", ["comic/word_whoosh"], -14.0, 0.96, 1.05, "UI", 0.1, 1, 1.0),
+    ("comic_splash", ["comic/word_splash"], -13.0, 0.95, 1.05, "UI", 0.1, 1, 1.0),
+    ("comic_end_good", ["comic/end_good"], -8.0, 1.0, 1.0, "Music", 0.5, 1, 1.0),
+    ("comic_end_meh", ["comic/end_meh"], -8.0, 1.0, 1.0, "Music", 0.5, 1, 1.0),
+    ("comic_end_bad", ["comic/end_bad"], -8.0, 1.0, 1.0, "Music", 0.5, 1, 1.0),
+    # the photo album
+    ("photo_shutter", ["ui/photo_shutter"], -9.0, 0.97, 1.04, "UI", 1.2, 1, 1.0),
+    ("photo_develop", ["ui/photo_develop"], -15.0, 0.98, 1.03, "UI", 0.6, 1, 1.0),
+    ("photo_flip", ["ui/photo_flip"], -13.0, 0.92, 1.1, "UI", 0.04, 2, 1.0),
+    ("photo_pin", ["ui/photo_pin"], -10.0, 0.97, 1.03, "UI", 0.15, 1, 1.0),
+    # the launch watch
+    ("warp_up", ["ui/warp_up"], -14.0, 1.0, 1.0, "UI", 0.05, 2, 1.0),
+    ("warp_down", ["ui/warp_down"], -14.0, 1.0, 1.0, "UI", 0.05, 1, 1.0),
+    ("sim_loop", ["ui/sim_loop"], -12.0, 1.0, 1.0, "UI", 0.0, 1, 1.0),
+    # checklists and chips
+    ("check_tick", ["ui/check_tick"], -11.0, 0.98, 1.03, "UI", 0.05, 3, 1.0),
+    ("chip_tick", ["ui/chip_tick"], -13.0, 1.0, 1.0, "UI", 0.03, 4, 1.0),
 ]
 
 

@@ -17,6 +17,10 @@ extends Control
 ## rest at once (FlightLog.finish) and opens the comic recap told by Vovô Edmundo (FlightComic);
 ## the log is recorded all along (FlightLog.observe each frame), so the result card's "Relatório
 ## do voo" opens the same comic for a flight that was watched.
+## While the skip flies (a few seconds), the card shows a waiting state (%Wait): the milestones
+## reached toward the objective (skip_steps, read from the log, a segment bar), a line from Vovô
+## Edmundo that changes every WAIT_LINE_S and a little comet circling a planet. It only reads the
+## run: the skip flies the same steps with or without it.
 
 ## seconds in orbit before the result card (a target in Earth orbit)
 @export var orbit_hold := 4.0
@@ -32,6 +36,9 @@ const SPEEDS: Array[int] = [1, 2, 4, 10, 100]
 const COMIC := "res://scenes/tycoon/ui/screens/flight_comic.tscn"
 ## wall-clock ms of flight simulation per frame while skipping
 const SKIP_BUDGET_MS := 70.0
+## the waiting state of the skip: Vovô Edmundo's lines (TY_TRK_WAIT_LINE_<n>), each this long
+const WAIT_LINES := 8
+const WAIT_LINE_S := 2.8
 ## no-break space: glues a key cap to its label in the hint (key_caps)
 const NBSP := "\u00a0"
 
@@ -61,6 +68,9 @@ var skipped := false
 var comic: Control = null
 ## "Simular até o fim" is flying the rest (a few frames: SKIP_BUDGET_MS of flight each)
 var _skipping := false
+## wall-clock seconds the skip has been flying (the waiting state's animation, its lines)
+var _wait_t := 0.0
+var _wait_line := -1
 
 
 func _ready() -> void:
@@ -71,7 +81,10 @@ func _ready() -> void:
 	%Speed.pressed.connect(cycle_speed)
 	%Skip.pressed.connect(skip_to_end)
 	%Report.pressed.connect(open_comic)
+	add_child(LaunchWatchAudio.new())   # the speed key's whoosh, the skip's gentle loop
 	%Result.visible = false
+	%Wait.visible = false
+	%WaitArt.draw.connect(_draw_wait_art)
 	_card_bottom = (%Card as Control).offset_bottom
 
 
@@ -179,6 +192,88 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+# ------------------------------------------------------------ the skip's waiting state
+## The milestones of a flight to `target`, in order: [[kinds that reach it], name key]. The last
+## one is the objective.
+static func skip_steps(t: String) -> Array:
+	var up := [[["liftoff"], "TY_TRK_MS_LIFTOFF"], [["space"], "TY_TRK_MS_SPACE"]]
+	if t == "suborbital":
+		return up + [[["apogee"], "TY_TRK_MS_APOGEE"], [["landed", "splashdown"], "TY_TRK_MS_RETURN"]]
+	var orbit := [[["orbit"], "TY_TRK_MS_ORBIT"]]
+	if t == "geo":
+		return up + orbit + [[["burn"], "TY_TRK_MS_BURN"], [["high_orbit"], "TY_TRK_MS_HIGH"]]
+	if t == "comet" or t.begins_with("lunar"):
+		return up + orbit + [[["burn"], "TY_TRK_MS_BURN"],
+			[["capture", "landing", "flyby", "rendezvous"], "TY_TRK_MS_ARRIVE"]]
+	return [[["liftoff"], "TY_TRK_MS_LIFTOFF"], [["maxq"], "TY_TRK_MS_MAXQ"], [["space"], "TY_TRK_MS_SPACE"]] + orbit
+
+
+## How many of `steps` a log's kinds have reached (the furthest one counts the ones before it).
+static func steps_reached(steps: Array, kinds: Array) -> int:
+	var n := 0
+	for i in steps.size():
+		for k in steps[i][0]:
+			if k in kinds:
+				n = i + 1
+	return n
+
+
+func _show_wait(on: bool) -> void:
+	%Wait.visible = on
+	%Hint.visible = not on
+	if on:
+		%WaitGoal.text = tr("TY_TRK_WAIT_GOAL") % _target_name()
+		_refresh_wait()
+
+
+## The waiting state, each frame of the skip: the milestones, Vovô Edmundo's line, the comet.
+func _refresh_wait() -> void:
+	var steps := skip_steps(target)
+	var kinds: Array = []
+	if flog:
+		kinds.assign(flog.kinds())
+	var n := steps_reached(steps, kinds)
+	%WaitStep.text = tr("TY_TRK_WAIT_STEP") % [n, steps.size(), tr(String(steps[n - 1][1]) if n > 0 else "TY_TRK_MS_PAD")]
+	var bar := %WaitBar as CwSegmentBar
+	if bar.segments != steps.size():
+		bar.segments = steps.size()
+	bar.value = float(n) / float(steps.size())
+	# a line every WAIT_LINE_S, starting from one picked by the mission code (wall clock: UI only)
+	var code := String(track.get("code", entry.get("code", "")))
+	var line := (absi(hash(code)) + int(_wait_t / WAIT_LINE_S)) % WAIT_LINES
+	if line != _wait_line:
+		_wait_line = line
+		%WaitLine.text = tr("TY_TRK_WAIT_LINE_%d" % (line + 1))
+		if not CwMotion.reduced():
+			%WaitLine.modulate.a = 0.0
+			create_tween().tween_property(%WaitLine, "modulate:a", 1.0, 0.35)
+	%WaitArt.queue_redraw()
+
+
+## A little comet circling a planet on a dashed orbit, a faint tail behind it (still when
+## motion is reduced).
+func _draw_wait_art() -> void:
+	var art := %WaitArt as Control
+	var c := art.size * 0.5
+	var r := Vector2(art.size.x * 0.42, art.size.y * 0.34)
+	for i in 16:
+		if i % 2 == 0:
+			var a0 := TAU * i / 16.0
+			var a1 := TAU * (i + 1) / 16.0
+			art.draw_line(c + r * Vector2(cos(a0), sin(a0)), c + r * Vector2(cos(a1), sin(a1)),
+				Color(CwPalette.TEXT_DIM, 0.45), 1.5, true)
+	art.draw_circle(c, art.size.y * 0.2, CwPalette.COMET_ICE)
+	art.draw_circle(c + Vector2(-2.0, -2.0), art.size.y * 0.08, Color(1, 1, 1, 0.55))
+	var ang := 0.0 if CwMotion.reduced() else _wait_t * 2.4
+	for k in range(6, 0, -1):
+		var a := ang - k * 0.16
+		var p := c + r * Vector2(cos(a), sin(a))
+		art.draw_circle(p, 4.5 * (1.0 - k / 7.0), Color(CwPalette.BUTTER, 0.75 * (1.0 - k / 7.0)))
+	var head := c + r * Vector2(cos(ang), sin(ang))
+	art.draw_circle(head, 5.0, CwPalette.BUTTER)
+	art.draw_circle(head, 5.0, CwPalette.INK, false, 1.5, true)
+
+
 # ------------------------------------------------------------ speed, skip, the comic
 ## The next speed (1x 2x 4x 10x 100x, then 1x again): the flight's warp. A warp picked with , / .
 ## outside the steps goes back to 1x.
@@ -210,8 +305,12 @@ func skip_to_end() -> void:
 		open_comic()
 		return
 	_skipping = true
+	Achievements.note(modes.main.state if modes and modes.main else null, "sim_to_end")   # "Simulou até o fim"
 	(%Skip as Button).disabled = true
 	world.warp = 1
+	_wait_t = 0.0
+	_wait_line = -1
+	_show_wait(true)
 
 
 ## One frame of the skip: as much flight as SKIP_BUDGET_MS of the frame allows (the physics is
@@ -220,9 +319,11 @@ func _skip_frame() -> void:
 	var ok := flog.finish(SKIP_BUDGET_MS)
 	world.time = run.sim.t
 	(%Skip as Button).text = "%s T+%s" % [tr("TY_TRK_SKIPPING"), FlightHUD.fmt_time(maxf(run.sim.met(), 0.0))]
+	_refresh_wait()
 	if not ok:
 		return
 	_skipping = false
+	_show_wait(false)
 	skipped = true
 	for e: Dictionary in flog.events:
 		if String(e["kind"]) == "crash":
@@ -284,6 +385,7 @@ func _process(delta: float) -> void:
 	if flog:
 		flog.observe()
 	if _skipping:
+		_wait_t += delta
 		_skip_frame()
 	else:
 		_refresh_speed()

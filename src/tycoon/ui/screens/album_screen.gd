@@ -5,7 +5,9 @@ extends CwScreen
 ## hidden ThumbTemplate; a star marks the ones pinned on the campus mural); the chosen one big on
 ## the right with its subject, mission, target, arrival date and result, and "Pin on the mural".
 ## A photo the studio has not rendered yet (MissionPhotoStudio) shows "Developing…" and fills
-## in when its picture is ready. Everything visual is in the scene.
+## in when its picture is ready (a soft develop shimmer). Everything visual is in the scene.
+## Sounds: a paper flick when browsing, a pin going into the cork on "Pendurar no mural"; the
+## camera shutter of a photo arriving is the campus soundscape's (CampusAudio).
 ## args: {"photo": id} or {"project_id": id} opens on that photo / that mission's first photo.
 
 const OUTCOME_KEYS := {"partial": "TY_PH_OUT_PARTIAL", "full": "TY_PH_OUT_FULL", "exceptional": "TY_PH_OUT_EXCEPTIONAL"}
@@ -17,7 +19,9 @@ var _studio: MissionPhotoStudio
 func _bound() -> void:
 	%Pin.toggled.connect(func(on: bool) -> void:
 		if selected != "":
-			MissionPhotos.set_pinned(state, selected, on))
+			MissionPhotos.set_pinned(state, selected, on)
+			CwSfx.play(&"photo_pin" if on else &"ui_toggle_off"))
+	%Pin.set_meta("cw_sfx_press", "")   # the pin's own sound (above), not the generic toggle
 	var main := hud.owner as TycoonMain if hud else null
 	_studio = main.photo_studio if main else null
 	if _studio and not _studio.photo_ready.is_connected(_on_photo_ready):
@@ -33,6 +37,8 @@ func _exit_tree() -> void:
 func _on_photo_ready(_id: String, _path: String) -> void:
 	if is_inside_tree():
 		refresh()
+		if is_visible_in_tree():
+			CwSfx.play(&"photo_develop")   # a picture came out of the developer while we look
 
 
 func open_with(args: Dictionary) -> void:
@@ -77,6 +83,7 @@ func refresh() -> void:
 		b.set_pressed_no_signal(ph["id"] == selected)
 		if not b.has_meta("wired"):
 			b.set_meta("wired", true)
+			b.set_meta("cw_sfx_press", "photo_flip")   # browsing: a soft paper flick
 			b.pressed.connect(func() -> void: select(String(b.get_meta("photo", ""))))
 	for ph: Dictionary in list:
 		if ph["id"] == selected:

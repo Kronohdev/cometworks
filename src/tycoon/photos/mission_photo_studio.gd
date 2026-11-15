@@ -30,6 +30,14 @@ var _done_in_batch := 0
 @onready var sets: Node3D = %Sets
 
 
+func _ready() -> void:
+	# the SubViewportContainer "View" switches its viewport to UPDATE_ALWAYS when it enters the
+	# tree: put it back, or the studio's 3D world renders every frame (~2 ms of GPU on the
+	# campus) while no photo is being taken
+	world.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	frame.render_target_update_mode = SubViewport.UPDATE_DISABLED
+
+
 ## True where pictures can be rendered (a real display and renderer, not --headless).
 static func can_render() -> bool:
 	return DisplayServer.get_name() != "headless" and not OS.has_feature("dedicated_server")

@@ -10,6 +10,11 @@ extends Node
 ##   CwSfx.music(&"music_campus")               crossfades to a music loop (&"" fades out)
 ##   CwSfx.stinger(&"stinger_milestone")        a jingle over the music (ducks it)
 ##   CwSfx.duck(&"launch", -14.0) / unduck()    holds the music lower while something plays
+##   CwSfx.loop(&"sim_loop", &"skip") / end_loop(&"skip")   a looping sound held under a key,
+##                                              faded in and out (the launch watch's skip)
+##   CwSfx.run(&"chip_tick", 4, 0.07, 0.06)     a few ticks in a row, each a little higher
+##   CwSfx.tally("cml:p3", 5, &"check_tick")    ticks once per item gained since the last call
+##                                              with that key (the first call only remembers)
 ## Cometlings chirp through here: Cometling.show_emote() calls Cometling.emote_hook, which
 ## this node sets; the chirps are rare (library odds, a per-Cometling cooldown, a few voices)
 ## and spatial. Everything is silent and harmless without an audio device (Dummy driver):
@@ -76,6 +81,10 @@ var _fade_speed := 0.4
 var _ducks := {}           # key -> dB
 var _duck_now := 0.0
 var _warned := {}
+var _tallies := {}         # tally key -> last count
+var _held := {}            # key -> {"player": AudioStreamPlayer, "name", "db", "gain", "target"}
+## seconds of a held loop's fade in / out
+var loop_fade := 0.4
 var _headless := not audible()
 
 @onready var _one_shot: AudioStreamPlayer = $Players/OneShot
@@ -141,6 +150,52 @@ static func unduck(key: StringName) -> void:
 	var s := get_instance()
 	if s:
 		s._ducks.erase(key)
+
+
+## Holds a looping library sound under `key` (fades in; a second call with the same key keeps
+## the one playing). end_loop(key) fades it out.
+static func loop(sound_name: StringName, key: StringName) -> void:
+	var s := get_instance()
+	if s:
+		s.start_loop(sound_name, key)
+
+
+static func end_loop(key: StringName) -> void:
+	var s := get_instance()
+	if s:
+		s.stop_loop(key)
+
+
+## Is a loop held under `key` (fading out counts as stopped)?
+static func looping(key: StringName) -> bool:
+	var s := get_instance()
+	return s != null and s._held.has(key) and float(s._held[key]["target"]) > 0.0
+
+
+## `count` plays of a sound, `interval` seconds apart, each `pitch_step` higher than the last
+## (the crew's milestone chips, several checks at once). The sound's own cooldown is bypassed
+## between the steps of the run.
+static func run(sound_name: StringName, count: int, interval := 0.07, pitch_step := 0.06) -> void:
+	var s := get_instance()
+	if s:
+		s.play_run(sound_name, count, interval, pitch_step)
+
+
+## A count that may go up (CML items checked, ...): when it is higher than at the last call with
+## the same key, `sound_name` plays once per new item (a run, at most `max_run`). The first
+## call for a key only remembers the count; a lower count is remembered silently. Returns how
+## many it ticked.
+static func tally(key: String, value: int, sound_name: StringName, max_run := 4) -> int:
+	var s := get_instance()
+	if s == null:
+		return 0
+	var had: Variant = s._tallies.get(key)
+	s._tallies[key] = value
+	if had == null or value <= int(had):
+		return 0
+	var n := mini(value - int(had), max_run)
+	s.play_run(sound_name, n, 0.075, 0.05)
+	return n
 
 
 ## How many times `sound_name` played since the start (tests).
@@ -315,6 +370,63 @@ static func _loops(st: AudioStream) -> bool:
 	return w != null and w.loop_mode != AudioStreamWAV.LOOP_DISABLED
 
 
+# ------------------------------------------------------------------ held loops and runs
+func start_loop(sound_name: StringName, key: StringName) -> void:
+	if not is_node_ready():
+		return
+	var e: Dictionary = _held.get(key, {})
+	if not e.is_empty() and e["name"] == sound_name:
+		e["target"] = 1.0
+		return
+	if not e.is_empty():
+		(e["player"] as AudioStreamPlayer).queue_free()
+	var s := sound(sound_name)
+	if s == null or s.streams.is_empty():
+		return
+	var p := AudioStreamPlayer.new()
+	p.name = "Loop_%s" % key
+	p.stream = s.pick(_rng)
+	p.bus = _bus(s.bus)
+	p.volume_db = -80.0
+	$Players.add_child(p)
+	_held[key] = {"player": p, "name": sound_name, "db": s.volume_db, "gain": 0.0, "target": 1.0}
+	_start(p)
+	plays[sound_name] = int(plays.get(sound_name, 0)) + 1
+	played.emit(sound_name)
+
+
+func stop_loop(key: StringName) -> void:
+	if _held.has(key):
+		_held[key]["target"] = 0.0
+
+
+func _tick_loops(delta: float) -> void:
+	for key: StringName in _held.keys():
+		var e: Dictionary = _held[key]
+		var p := e["player"] as AudioStreamPlayer
+		if not is_instance_valid(p):
+			_held.erase(key)
+			continue
+		e["gain"] = move_toward(float(e["gain"]), float(e["target"]), delta / maxf(loop_fade, 0.01))
+		if float(e["gain"]) <= 0.0 and float(e["target"]) <= 0.0:
+			p.queue_free()
+			_held.erase(key)
+			continue
+		p.volume_db = float(e["db"]) + linear_to_db(maxf(sin(float(e["gain"]) * PI * 0.5), 0.0001))
+
+
+func play_run(sound_name: StringName, count: int, interval := 0.07, pitch_step := 0.06) -> void:
+	if not is_node_ready() or count <= 0:
+		return
+	for i in count:
+		if i == 0:
+			play_sound(sound_name)
+			continue
+		get_tree().create_timer(interval * i, true, false, true).timeout.connect(func() -> void:
+			_last.erase(sound_name)   # the run is one gesture: its steps skip the cooldown
+			play_sound(sound_name, 1.0 + pitch_step * i))
+
+
 # ------------------------------------------------------------------ Cometling voices
 func _on_emote(who: Node3D, emote: String) -> void:
 	if not voices_enabled or not is_instance_valid(who) or not who.is_inside_tree() or not who.is_visible_in_tree():
@@ -397,6 +509,7 @@ func stop_stinger() -> void:
 
 
 func _process(delta: float) -> void:
+	_tick_loops(delta)
 	# ducks: the deepest one wins, the stinger adds its own; eased so nothing jumps
 	var want := 0.0
 	for k in _ducks:

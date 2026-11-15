@@ -27,6 +27,14 @@ extends Node3D
 @export_group("Pad")
 ## seconds a pad's rocket takes to glide to its new rollout place when a week passes
 @export var rollout_glide := 1.2
+## the swing arms' heights on the rocket standing on the pad (low, high), in rocket heights
+@export var arm_heights := Vector2(0.5, 0.82)
+## gap (m) between an arm's clamp and the rocket's core
+@export var arm_gap := 0.04
+## nearest and farthest the arms' tips go from the mount's axis (m, towards the tower): the arm
+## roots stay inside the tower lattice between them; the far end is where they swing back to
+## while the pad is empty or the next rocket rolls out
+@export var arm_reach := Vector2(0.25, 1.15)
 
 var era := 1
 var level := 1
@@ -38,6 +46,9 @@ var rocket_held := false
 
 const ROLLOUT := "res://scenes/tycoon/launch/pad_rollout.tscn"
 const DESIGNED_ROCKET := "res://scenes/tycoon/launch/designed_rocket.tscn"
+## pads: the arm beam's centre over the arm model's origin (pad_arm_e<era>.glb,
+## tools/build_campus_buildings.py PAD_ARM_BEAM_Y)
+const ARM_BEAM_Y := 0.55
 ## pads: the design of the rocket on the pad ({} = the era's rocket), set_rocket_design
 var rocket_parts: Dictionary = {}
 ## pads: the payload module ids it carries (a rover rides on it) and its target
@@ -144,6 +155,7 @@ func _apply_design() -> void:
 			d.build(rocket_parts, rocket_payload, rocket_target, _rocket_state)
 		elif d:
 			d.visible = false
+	_place_arms(rocket_progress >= 1.0 or level <= 0)
 
 
 ## Keeps the pad's rocket (and its rollout) off while the launch sequence flies its own.
@@ -164,7 +176,9 @@ func _show_rocket(p: float) -> void:
 		r.visible = not rocket_held
 		if _rollout:
 			_rollout.visible = false
+		_place_arms(true)
 		return
+	_place_arms(false)
 	if _rollout == null:
 		var ps := load(ROLLOUT) as PackedScene
 		if ps == null:
@@ -182,6 +196,52 @@ func _show_rocket(p: float) -> void:
 	r.visible = not rocket_held and slot != null and slot.visible
 	if slot:
 		r.transform = Transform3D(home.basis, slot.position)
+
+
+## The tower's swing arms (Era<n>/Level1/ArmLow and ArmHigh, their clamp at the model's origin
+## and the beam running back into the tower): with a rocket standing on the pad they reach its
+## core (the designed rocket's, else the era model's metadata) at `arm_heights` of its height,
+## under the tower top; otherwise they swing back to the far end of `arm_reach`.
+## While the launch sequence holds the rocket they stay where they were (it fits them to the
+## rocket it flies with fit_arms).
+func _place_arms(standing: bool) -> void:
+	if not rocket_held:
+		_fit_arms(standing, Vector2.ZERO)
+
+
+## Fits the swing arms to a rocket of core width `core_size.x` and height `core_size.y` (m)
+## standing on the mount: the launch sequence's own rocket, while it holds the pad's.
+func fit_arms(core_size: Vector2) -> void:
+	_fit_arms(true, core_size)
+
+
+func _fit_arms(standing: bool, size: Vector2) -> void:
+	var lp := get_node_or_null("Era%d/Level1" % era) as Node3D
+	var r := get_node_or_null("Era%d/Level1/Rocket" % era) as Node3D
+	if lp == null or r == null:
+		return
+	var low := lp.get_node_or_null("ArmLow") as Node3D
+	var high := lp.get_node_or_null("ArmHigh") as Node3D
+	if low == null or high == null:
+		return
+	var radius := float(r.get_meta("core_radius", 0.7))
+	var height := float(r.get_meta("height", 10.0))
+	var d := r.get_node_or_null("Designed") as DesignedRocket
+	if size.x > 0.0 and size.y > 0.0:
+		radius = size.x * 0.5
+		height = size.y
+	elif d and d.visible:
+		radius = d.core_size.x * 0.5
+		height = d.core_size.y
+	var home: Transform3D = _rocket_home.get(era, r.transform)
+	var tip := arm_reach.y
+	if standing:
+		tip = clampf(home.origin.x + radius + arm_gap, arm_reach.x, arm_reach.y)
+	var top := float(high.get_meta("tower_top", 14.0)) + home.origin.y - 1.2
+	var y_high := minf(home.origin.y + height * arm_heights.y, top - 0.8)
+	var y_low := minf(home.origin.y + height * arm_heights.x, y_high - 1.6)
+	high.position = Vector3(tip, y_high - ARM_BEAM_Y, home.origin.z)
+	low.position = Vector3(tip, y_low - ARM_BEAM_Y, home.origin.z)
 
 
 ## Walk spots in world space: [{"pos", "door", "action", "yaw"}, plus "via" for interior

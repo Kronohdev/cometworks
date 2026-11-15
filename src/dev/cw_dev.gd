@@ -897,6 +897,31 @@ func _a_milestone(_arg: Variant) -> String:
 	return "marco: %s" % tr(String(r.milestones[i].get("name_key", id)))
 
 
+## Conquistas (Achievements): "next" earns the first one not earned yet (its toast plays),
+## "all" earns every one, "reset" forgets them all (the profile and this campaign), "screen"
+## opens the badge book.
+func _a_achievements(what: Variant) -> String:
+	var s := _state()
+	match String(what):
+		"reset":
+			Achievements.reset_profile(s)
+			return "conquistas zeradas"
+		"all":
+			return "%d conquistas destravadas" % Achievements.unlock_all(s)
+		"screen":
+			var m := main()
+			if m == null:
+				return NO_CAMPAIGN
+			m.hud.open_screen("achievements")
+			return "tela: achievements"
+	for a: Dictionary in Achievements.all():
+		var id := String(a["id"])
+		if not Achievements.is_unlocked(id):
+			Achievements.unlock(s, id)
+			return "conquista: %s" % tr(String(a.get("name_key", id)))
+	return "todas as conquistas já são suas"
+
+
 ## The Conferência dos Cometinhos (ConferenceFlow): "invite" opens this year's invitation,
 ## "go" goes straight to the fair.
 func _a_conference(what: Variant) -> String:

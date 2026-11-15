@@ -7,7 +7,8 @@ shader_type sky;
 // golden dust tail fanned by fine rays.
 // Everything lives at infinity, so the comet never clips or turns into a flat card.
 // The radiance pass (AT_CUBEMAP_PASS) skips the fine detail; keep Sky.radiance_size small and
-// process_mode Real-time so the slow aurora drift stays cheap.
+// process_mode Real-time. The animation runs on the cw_sky_time global, not TIME, so the
+// radiance is only re-rendered when a uniform changes (the day cycle), not every frame.
 
 group_uniforms gradient;
 uniform vec3 zenith_color : source_color = vec3(0.020, 0.035, 0.100);
@@ -129,6 +130,11 @@ vec3 aurora_ramp(float s) {
 	return s < 0.5 ? mix(aurora_teal, aurora_violet, s * 2.0) : mix(aurora_violet, ignition, s * 2.0 - 1.0);
 }
 
+// the animation clock (stars, aurora, comet): the cw_sky_time global, advanced every frame by
+// GraphicsQuality, instead of TIME - a sky that reads TIME re-renders and re-filters its
+// radiance cubemap every frame; this one only when the day cycle changes its colours
+global uniform float cw_sky_time;
+#define CW_SKY_COMET_TIME cw_sky_time
 #include "res://shaders/include/cw_sky_comet.gdshaderinc"
 
 // height of a mountain range at azimuth az (radians)
@@ -161,7 +167,7 @@ void sky() {
 	if (detail) {
 		float vis = smoothstep(star_horizon, star_horizon + 0.3, e) * (1.0 - clamp(g * 2.0, 0.0, 1.0));
 		if (vis > 0.0) {
-			vec3 s = star_layer(d, 240.0, 0.9, 0.11, TIME) + star_layer(d, 95.0, 0.965, 0.07, TIME * 0.7) * 1.4;
+			vec3 s = star_layer(d, 240.0, 0.9, 0.11, cw_sky_time) + star_layer(d, 95.0, 0.965, 0.07, cw_sky_time * 0.7) * 1.4;
 			col += s * star_brightness * vis;
 		}
 	}
@@ -170,14 +176,14 @@ void sky() {
 		float da = az - aurora_azimuth;
 		da = mod(da + PI, TAU) - PI;
 		float band = exp(-da * da / (aurora_spread * aurora_spread));
-		float fold = sin(az * 3.0 + TIME * aurora_speed * 6.0 + 2.0 * sin(az * 1.7 - TIME * aurora_speed * 3.0));
+		float fold = sin(az * 3.0 + cw_sky_time * aurora_speed * 6.0 + 2.0 * sin(az * 1.7 - cw_sky_time * aurora_speed * 3.0));
 		float foot = aurora_low + 0.05 * fold;
 		float hgt = (e - foot) / max(aurora_high - foot, 0.01);
 		float v = smoothstep(0.0, 0.08, hgt) * exp(-max(hgt, 0.0) * 2.4) * step(0.0, hgt);
 		float rays = 1.0;
 		if (detail) {
-			rays = 0.45 + 0.55 * fbm1(az * 60.0 + TIME * aurora_speed * 20.0);
-			rays *= 0.7 + 0.3 * fbm1(az * 7.0 - TIME * aurora_speed * 9.0);
+			rays = 0.45 + 0.55 * fbm1(az * 60.0 + cw_sky_time * aurora_speed * 20.0);
+			rays *= 0.7 + 0.3 * fbm1(az * 7.0 - cw_sky_time * aurora_speed * 9.0);
 		}
 		vec3 ac = mix(aurora_teal, aurora_violet, smoothstep(0.05, 0.8, hgt));
 		col += ac * v * band * rays * aurora_strength * smoothstep(0.0, 0.15, e);

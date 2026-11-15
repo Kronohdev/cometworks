@@ -54,6 +54,11 @@ class _Watcher:
 		if n is Light3D or n is WorldEnvironment or n is MultiMeshInstance3D:
 			GraphicsQuality.adopt(n)
 
+	## The campus sky's animation clock (shaders/campus_sky.gdshader reads the cw_sky_time global
+	## instead of TIME, so its radiance cubemap is not re-rendered every frame). Wraps like TIME.
+	func on_frame() -> void:
+		RenderingServer.global_shader_parameter_set(&"cw_sky_time", fmod(Time.get_ticks_msec() / 1000.0, 3600.0))
+
 
 static func current() -> int:
 	if level < 0:
@@ -107,6 +112,7 @@ static func watch() -> void:
 		return
 	_watcher = _Watcher.new()
 	tree.node_added.connect(_watcher.on_added)
+	tree.process_frame.connect(_watcher.on_frame)
 
 
 ## Window-wide settings: the root viewport's render scale and AA, the soft shadow filters.
@@ -220,6 +226,7 @@ static func _adopt_scatter(s: CampusScatter, density: float) -> void:
 		return
 	var mm := s.multimesh
 	mm.visible_instance_count = -1 if density >= 1.0 else int(ceil(mm.instance_count * density))
+	s.sync_chunks()   # a scatter drawn in chunks (CampusScatter._build_chunks) passes it on
 
 
 static func _adopt_env(env: Environment, p: Dictionary) -> void:

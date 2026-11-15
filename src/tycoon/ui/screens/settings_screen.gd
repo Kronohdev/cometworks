@@ -8,6 +8,7 @@ extends Control
 ##   Image  window / fullscreen, graphics quality (Baixo / Médio / Alto), style, outlines, AA
 ##   Sound  the three volumes
 ##   Access text size, colour-blind friendly colours, the key list (CwAccess, CwKeys)
+## The foot also opens the Conquistas (achievements) and this campaign's Estatísticas (stats).
 ## The options rows come from the main menu's options panel (scenes/menu/options_panel.tscn
 ## with MenuSettings), instanced once per tab with the other rows hidden in the scene. Back to
 ## the menu and back to the campus stay at the foot.
@@ -45,6 +46,9 @@ func _ready() -> void:
 	%Tutorials.button_pressed = TutorialBook.enabled()
 	%Tutorials.toggled.connect(TutorialBook.set_enabled)
 	%Library.pressed.connect(open_library)
+	# the badge book and this campaign's numbers (Achievements: AchievementsScreen, StatsScreen)
+	%Achievements.pressed.connect(open_other.bind("achievements"))
+	%Stats.pressed.connect(open_other.bind("stats"))
 	%Status.text = ""
 
 
@@ -95,6 +99,14 @@ func open_library() -> void:
 	close()
 	if h:
 		h.open_screen("library")
+
+
+## Closes the menu and opens another screen in its place ("achievements", "stats").
+func open_other(screen_name: String) -> void:
+	var h := hud
+	close()
+	if h:
+		h.open_screen(screen_name)
 
 
 func refresh() -> void:

@@ -18,12 +18,16 @@ extends Node
 ##   Surfaces      -> the surface picker (SurfacePicker): free play on any planet surface, with
 ##                    the rover when the rover side exists, else the body's drone (SurfaceFreePlay)
 ##   Options       -> language, fullscreen, master volume (MenuSettings)
+##   Achievements  -> the badge book of the profile (scenes/tycoon/ui/screens/achievements.tscn,
+##                    AchievementsScreen, opened over the menu without a campaign)
 
 const TYCOON := "res://scenes/tycoon/tycoon_main.tscn"
 const HANGAR := "res://scenes/hangar.tscn"
 const SOLAR := "res://scenes/solar_system/solar_system.tscn"
 ## New campaign first makes the player's leader Cometling (LeaderCreator opens the tycoon)
 const LEADER_CREATOR := "res://scenes/tycoon/ui/screens/leader_creator.tscn"
+## the badge book, opened over the menu (Achievements)
+const ACHIEVEMENTS := "res://scenes/tycoon/ui/screens/achievements.tscn"
 const PANEL_SLIDE := 8.0
 const PANEL_FADE := 0.14
 
@@ -50,6 +54,7 @@ var _demo_home := Vector2.ZERO
 @onready var surface_picker: SurfacePicker = %SurfacePicker
 @onready var options_button: Button = %Options
 @onready var quit_button: Button = %Quit
+@onready var achievements_button: Button = get_node_or_null("%Achievements")
 @onready var options: MenuOptionsPanel = %OptionsPanel
 @onready var demo_panel: MenuDemoPanel = %DemoPanel
 @onready var peek: PeekCometling = %Peek
@@ -78,6 +83,8 @@ func _ready() -> void:
 	_demo_home = demo_panel.position
 	demo.disabled = TycoonSave.demos().is_empty()
 	quit_button.pressed.connect(func() -> void: get_tree().quit())
+	if achievements_button:
+		achievements_button.pressed.connect(open_achievements)
 	_setup_continue()
 	new_campaign.mouse_entered.connect(new_campaign.grab_focus)
 	new_campaign.focus_entered.connect(peek.peek)
@@ -197,7 +204,10 @@ func open_options() -> void:
 func _lock_menu() -> void:
 	if not _menu_focus.is_empty():
 		return
-	for b: Button in [new_campaign, continue_button, fair, demo, workshop, solar, surfaces, options_button, quit_button]:
+	for b: Button in [new_campaign, continue_button, fair, demo, workshop, solar, surfaces, options_button, quit_button,
+			achievements_button]:
+		if b == null:
+			continue
 		_menu_focus[b] = b.focus_mode
 		b.focus_mode = Control.FOCUS_NONE
 
@@ -217,6 +227,26 @@ func _unlock_menu() -> void:
 	for b: Button in _menu_focus:
 		b.focus_mode = _menu_focus[b]
 	_menu_focus.clear()
+
+
+# ------------------------------------------------------------------ achievements
+## The profile's badge book over the menu (its own × or Esc closes it).
+func open_achievements() -> void:
+	var root := $UI/Root as Control
+	if root.get_node_or_null("Achievements"):
+		return
+	if options.visible:
+		close_options()
+	if demo_panel.visible:
+		close_demos()
+	CwSfx.play(&"ui_open")
+	var scr := (load(ACHIEVEMENTS) as PackedScene).instantiate() as Control
+	scr.name = "Achievements"
+	root.add_child(scr)
+	root.move_child(scr, transition.get_index())   # under the scene change's fade
+	scr.tree_exited.connect(func() -> void:
+		if is_inside_tree() and achievements_button:
+			achievements_button.grab_focus())
 
 
 # ------------------------------------------------------------------ demonstration saves

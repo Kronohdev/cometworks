@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://scenes/tycoon/ui/cw_nav_bar.tscn" id="nav_bar"]
 [ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_stack.gd" id="page_stack"]
 [ext_resource type="Script" path="res://src/tycoon/ui/nav/cw_page_tabs.gd" id="page_tabs"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/trophy.svg" id="ach_trophy"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/finance.svg" id="ach_stats"]
 
 [node name="SettingsScreen" type="Control"]
 layout_mode = 3
@@ -479,6 +481,26 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "TY_SET_MENU"
+
+[node name="Achievements" type="Button" parent="Panel/Margin/VBox/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_ACHIEVEMENTS_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_SET_ACHIEVEMENTS"
+icon = ExtResource("ach_trophy")
+expand_icon = true
+
+[node name="Stats" type="Button" parent="Panel/Margin/VBox/Foot"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "TY_SET_STATS_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "TY_SET_STATS"
+icon = ExtResource("ach_stats")
+expand_icon = true
 
 [node name="Spacer" type="Control" parent="Panel/Margin/VBox/Foot"]
 layout_mode = 2

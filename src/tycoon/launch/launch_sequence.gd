@@ -303,6 +303,9 @@ func _dress_rocket() -> void:
 	var hk := _rocket_height / reference_size.y
 	_rig_size = clampf(pow(hk, vessel_rig_power) if designed else hk, 1.0, max_rig_scale)
 	cam_rig.scale = Vector3.ONE * lerpf(1.0, _rig_size, rig_zoom)
+	# the pad tower's swing arms reach this rocket (it stands where the pad's held one stood)
+	if _pad:
+		_pad.fit_arms(Vector2(core_w, _rocket_height))
 
 
 ## The payload modules a launch result carries (its own "payload", else its project's history

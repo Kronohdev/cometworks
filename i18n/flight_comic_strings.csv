@@ -107,3 +107,24 @@ TY_FC_CAP_END_PARTIAL_1,Half the objective. But half a mission is still a missio
 TY_FC_CAP_END_PARTIAL_2,"It got there, a bit wobbly. Let's look at what was missing, shall we?","Chegou, meio cambaleando. Vamos ver o que faltou?"
 TY_FC_CAP_END_FAIL_1,"Not this time. But I waited 76 years for a comet, I can wait for the next launch!","Não foi dessa vez. Mas eu esperei 76 anos por um cometa, posso esperar o próximo lançamento!"
 TY_FC_CAP_END_FAIL_2,"We lost {code}, but not what it taught us. Let's see why, shall we?","Perdemos o {code}, mas não o que ele ensinou. Vamos ver por quê?"
+TY_TRK_WAIT_BY,Grandpa Edmundo,Vovô Edmundo
+TY_TRK_WAIT_STEP,Stage %d of %d · %s,Etapa %d de %d · %s
+TY_TRK_WAIT_GOAL,Goal: %s,Objetivo: %s
+TY_TRK_MS_PAD,On the pad,Na plataforma
+TY_TRK_MS_LIFTOFF,Liftoff,Decolagem
+TY_TRK_MS_MAXQ,Max-Q,Max-Q
+TY_TRK_MS_SPACE,Space,Espaço
+TY_TRK_MS_ORBIT,Orbit,Órbita
+TY_TRK_MS_APOGEE,Top of the hop,Topo do salto
+TY_TRK_MS_RETURN,Back home,De volta
+TY_TRK_MS_BURN,Departure burn,Queima de partida
+TY_TRK_MS_HIGH,High orbit,Órbita alta
+TY_TRK_MS_ARRIVE,Arrival,Chegada
+TY_TRK_WAIT_LINE_1,Patience: a good rocket is never in a hurry. Just fast.,"Calma: foguete bom não tem pressa, só velocidade."
+TY_TRK_WAIT_LINE_2,In my day we did these sums on an abacus. With our tails!,No meu tempo a gente fazia essa conta no ábaco. Com a cauda!
+TY_TRK_WAIT_LINE_3,"Every physics step, one by one. Just as if you had watched it.","Cada passinho da física, um por um. Igualzinho a ver ao vivo."
+TY_TRK_WAIT_LINE_4,Let me find my glasses… there! I can see the rocket.,Deixa eu achar os óculos… pronto! Já vejo o foguete.
+TY_TRK_WAIT_LINE_5,I've gone round the Sun more times than I can count. A little wait won't scare me.,Já dei mais voltas no Sol do que sei contar. Uma esperinha não me assusta.
+TY_TRK_WAIT_LINE_6,I'm sketching the comic while it climbs.,Estou rabiscando os quadrinhos enquanto ele sobe.
+TY_TRK_WAIT_LINE_7,Hold on to your hat: here comes the exciting bit!,Segura o chapéu: lá vem a parte emocionante!
+TY_TRK_WAIT_LINE_8,The Cometlings are biting their nails. If comets had nails.,Os Cometinhos estão roendo as unhas. Se cometa tivesse unha.

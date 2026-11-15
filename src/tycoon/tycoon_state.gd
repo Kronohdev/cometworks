@@ -139,6 +139,9 @@ var conference: Dictionary = {}
 ## the photos missions sent home, oldest first (MissionPhotos, src/tycoon/photos/): records with
 ## the shot, the mission and the PNG under user:// (rendered by MissionPhotoStudio); old saves: []
 var photos: Array[Dictionary] = []
+## the Conquistas this campaign earned and its numbers for the Estatísticas page (Achievements,
+## src/tycoon/achievements/): {"unlocked": {id: week}, "flags", "samples", ...}; old saves: {}
+var achievements: Dictionary = {}
 
 
 static func load_json(path: String) -> Dictionary:
@@ -189,6 +192,7 @@ static func new_campaign(p_seed: int, roster_staff: Array[Dictionary] = [], p_di
 	RoverMissions.attach(s)  # rover missions end with their surface objectives
 	CrewMemory.attach(s)  # the team remembers every launch (staff "memory")
 	MissionPhotos.attach(s)  # missions with a camera send photos home (photos)
+	Achievements.attach(s)  # the Conquistas read the campaign (achievements)
 	return s
 
 
@@ -438,7 +442,8 @@ func to_dict() -> Dictionary:
 		"project_history": project_history, "mission_archive": mission_archive, "research": research,
 		"contract_board": contract_board, "finance": finance, "race": race.to_dict(), "leader": leader,
 		"rockets": rockets, "story": story, "discovery": discovery, "tracking": tracking,
-		"tutorials": tutorials, "signs": signs, "rovers": rovers, "conference": conference, "photos": photos}
+		"tutorials": tutorials, "signs": signs, "rovers": rovers, "conference": conference, "photos": photos,
+		"achievements": achievements}
 
 
 static func from_dict(d: Dictionary) -> TycoonState:
@@ -491,8 +496,10 @@ static func from_dict(d: Dictionary) -> TycoonState:
 	if s.conference.has("last_year"):   # JSON numbers come back as floats
 		s.conference["last_year"] = int(s.conference["last_year"])
 	s.photos = MissionPhotos.restore(d.get("photos", []))  # old saves: no photos yet
+	s.achievements = d.get("achievements", {}) if d.get("achievements") is Dictionary else {}
 	SpaceTracking.attach(s)
 	RoverMissions.attach(s)  # rover missions end with their surface objectives
 	CrewMemory.attach(s)  # the team remembers every launch (staff "memory")
 	MissionPhotos.attach(s)  # missions with a camera send photos home (photos)
+	Achievements.attach(s)  # the Conquistas read the campaign (achievements)
 	return s

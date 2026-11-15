@@ -23,6 +23,12 @@ extends SceneTree
 ##   bots=a,b       which bots (default good,average,fair,grinder,spender)
 ##   diff=a,b       difficulty levels (default normal; easy,normal,hard for all three)
 ##   verbose=1      one line per launch
+##   new=0          the systems of #08/#09 off, like the earlier passes: no Design Review step (the
+##                  launch takes the review's defaults), no Conferência dos Cometinhos. Default
+##                  new=1: the bots sit the Design Review (good fixes the red and yellow risks it can
+##                  afford, average / fair the red ones, grinder / spender none), which sets the CML
+##                  level the launch bonus reads; they go to every conference, hear every rival,
+##                  take Keplerino's tip and walk up to the "Agência do triênio" ceremony.
 ## Bankruptcy (src/tycoon/finance/bankruptcy.gd) is on: a campaign can end early. The report
 ## counts the warnings, emergency loans and bankruptcies, and how close each bot came to the line.
 
@@ -43,6 +49,8 @@ var _bots: Array[String] = ["good", "average", "fair", "grinder", "spender"]
 var _diffs: Array[String] = ["normal"]
 var _verbose := false
 var _bot := ""
+var _new := true
+var _years := 0
 
 
 func _initialize() -> void:
@@ -61,6 +69,10 @@ func _initialize() -> void:
 				_diffs.assign(kv[1].split(","))
 			"verbose":
 				_verbose = kv[1] == "1"
+			"new":
+				_new = kv[1] != "0"
+			"years":
+				_years = int(kv[1])
 	var t0 := Time.get_ticks_msec()
 	for diff in _diffs:
 		for bot in _bots:
@@ -92,7 +104,11 @@ func play(seed_value: int, bot: String, diff: String) -> Dictionary:
 	_bot = bot
 	var ctx := {"bot": bot, "rng": rng, "stops": {}, "projects": 0, "neg_weeks": 0, "min_cash": s.cash,
 		"loans": 0, "era_cash": [], "era_rows": [], "launches": [], "tech_weeks": {}, "line_ratio": 0.0, "month_ratio": 0.0,
-		"warnings": 0, "emergency_year": 0, "bankrupt_year": 0, "bankrupt_reason": ""}
+		"warnings": 0, "emergency_year": 0, "bankrupt_year": 0, "bankrupt_reason": "",
+		"src": {}, "hype_weeks": [0, 0, 0, 0, 0], "hype_sum": [0.0, 0.0, 0.0, 0.0, 0.0], "rep_sum": [0.0, 0.0, 0.0, 0.0, 0.0],
+		"hype_top": [0, 0, 0, 0, 0], "rep_top": [0, 0, 0, 0, 0], "confs": 0, "awards": 0, "tips": 0, "tips_done": 0,
+		"reviews": 0, "fixes": 0, "blocked": 0, "tip_ids": [], "cml_levels": {}}
+	s.review_gate = _new
 	s.cash_warning.connect(func(_l: int) -> void: ctx["warnings"] = int(ctx["warnings"]) + 1)
 	s.emergency_loan.connect(func(_i: Dictionary) -> void: ctx["emergency_year"] = s.year())
 	s.bankrupt.connect(func(i: Dictionary) -> void:
@@ -100,11 +116,13 @@ func play(seed_value: int, bot: String, diff: String) -> Dictionary:
 		ctx["bankrupt_reason"] = String(i.get("reason", "")))
 	var every := 4 if bot == "fair" else 1
 	var era0 := s.era()
-	while not s.is_over() and not Bankruptcy.is_bankrupt(s):
+	while not s.is_over() and not Bankruptcy.is_bankrupt(s) and (_years <= 0 or s.year() <= _years):
+		var n_hist := s.project_history.size()   # the Design Review below may launch this week
 		if s.weeks % every == 0:
 			_manage(s, ctx)
 		_sliders(s, ctx)
-		var n_hist := s.project_history.size()
+		if _new:
+			_reviews(s, ctx)
 		var issue0 := _issue(s)
 		var month0 := s._month_of(s.weeks)
 		s.advance_week()
@@ -115,12 +133,23 @@ func play(seed_value: int, bot: String, diff: String) -> Dictionary:
 			_stop(ctx, "review")
 			_stop(ctx, "launch")
 			(ctx["launches"] as Array).append(h)
+			_tally_launch(ctx, h)
 			if _verbose:
 				print("    y%02d %-14s %-13s grade %.1f q %.2f %s" % [s.year(), h["type"], h["target"], float(h["grade_project"]),
 					_total(h["pts"]) / maxf(float(h["expected"]), 0.001), h["outcome"]])
 		for i in _issue(s) - issue0:
 			_stop(ctx, "front_page")
 		s.race.pending_pages.clear()
+		if _new and ConferenceBook.due(s):
+			_conference(s, ctx)
+		var ei := clampi(s.era() - 1, 0, 4)
+		ctx["hype_weeks"][ei] = int(ctx["hype_weeks"][ei]) + 1
+		ctx["hype_sum"][ei] = float(ctx["hype_sum"][ei]) + s.hype
+		ctx["rep_sum"][ei] = float(ctx["rep_sum"][ei]) + s.reputation
+		if s.hype >= 95.0:
+			ctx["hype_top"][ei] = int(ctx["hype_top"][ei]) + 1
+		if s.reputation >= 95.0:
+			ctx["rep_top"][ei] = int(ctx["rep_top"][ei]) + 1
 		if s.cash < 0.0:
 			ctx["neg_weeks"] = int(ctx["neg_weeks"]) + 1
 		ctx["min_cash"] = minf(float(ctx["min_cash"]), s.cash)
@@ -503,6 +532,113 @@ func _briefing_payload(s: TycoonState, briefing_id: String, ty: String, tg: Stri
 	return out
 
 
+# ------------------------------------------------------------ the systems of #08 / #09
+static func _add(ctx: Dictionary, key: String, rep: float, hype: float) -> void:
+	var src: Dictionary = ctx["src"]
+	var v: Array = src.get(key, [0.0, 0.0])
+	src[key] = [float(v[0]) + rep, float(v[1]) + hype]
+
+
+## Where a launch's reputation and hype came from: the press (reviews), the CML bonus, the client.
+func _tally_launch(ctx: Dictionary, h: Dictionary) -> void:
+	var rw: Dictionary = h.get("rewards", {})
+	var cb := CmlChecklist.bonus(int(h.get("cml", 0)))
+	var cml_h := float(cb["hype"]) if bool(h["success"]) else 0.0
+	_add(ctx, "launch", float(rw.get("reputation", 0.0)) - float(cb["reputation"]), float(rw.get("hype", 0.0)) - cml_h)
+	_add(ctx, "cml", float(cb["reputation"]), cml_h)
+	var b: Dictionary = h.get("briefing", {})
+	if not b.is_empty():
+		_add(ctx, "briefing", float(b.get("rep", 0.0)), float(b.get("hype", 0.0)))
+		if String(b.get("id", "")) in (ctx["tip_ids"] as Array):
+			ctx["tips_done"] = int(ctx["tips_done"]) + 1
+	var cl: Dictionary = ctx["cml_levels"]
+	var lv := int(h.get("cml", 0))
+	cl[lv] = int(cl.get(lv, 0)) + 1
+
+
+## The Design Review: the fixes a player of this kind would buy, then the launch.
+func _reviews(s: TycoonState, ctx: Dictionary) -> void:
+	for p in ProjectDesk.waiting_review(s):
+		_stop(ctx, "review_screen")
+		var want: Array = []
+		if not String(ctx["bot"]) in ["grinder", "spender"]:
+			var sev := ["high", "mid"] if String(ctx["bot"]) == "good" else ["high"]
+			for rk in DesignReview.risks(s, p, []):
+				if String(rk["fix_key"]) != "" and not rk.get("blocking", false) and String(rk["severity"]) in sev:
+					want.append(String(rk["id"]))
+		# drop fixes (the least likely risks last in the list go first) until the money covers them
+		while not want.is_empty():
+			var plan := DesignReview.fix_plan(s, p, want)
+			if s.cash - float(plan["cost"]) >= _reserve(s) * 0.5:
+				break
+			want.pop_back()
+		if not ProjectDesk.confirm_review(s, p.id, want):
+			if not ProjectDesk.confirm_review(s, p.id, []):
+				if DesignReview.blockers(s, p).is_empty():
+					continue   # no money for the launch yet (the review waits, like the screen does)
+				ProjectDesk.launch(s, p)   # a design that does not reach: a player would change the rocket
+				ctx["blocked"] = int(ctx["blocked"]) + 1
+				continue
+			want = []
+		ctx["reviews"] = int(ctx["reviews"]) + 1
+		ctx["fixes"] = int(ctx["fixes"]) + want.size()
+
+
+## The Conferência dos Cometinhos: go, hear every rival, take the tip, walk up to the ceremony.
+func _conference(s: TycoonState, ctx: Dictionary) -> void:
+	_stop(ctx, "conference")
+	var r0 := s.reputation
+	var h0 := s.hype
+	ConferenceBook.answer(s, true)
+	_add(ctx, "conf_visit", s.reputation - r0, s.hype - h0)
+	h0 = s.hype
+	for r: Dictionary in s.rivals:
+		ConferenceBook.heard(s, String(r["id"]))
+	_add(ctx, "conf_rivals", 0.0, s.hype - h0)
+	var why: Dictionary = ctx.get("tip_why", {})
+	for r: Dictionary in s.rivals:
+		var k := _tip_reason(s, String(r["id"]))
+		why[k] = int(why.get(k, 0)) + 1
+	ctx["tip_why"] = why
+	var pick := ConferenceTriennium.tip_pick(s)
+	if not pick.is_empty() and not ConferenceTriennium.grant_tip(s, String(pick["rival"])).is_empty():
+		ctx["tips"] = int(ctx["tips"]) + 1
+		(ctx["tip_ids"] as Array).append(String(pick["briefing"]))
+	r0 = s.reputation
+	h0 = s.hype
+	var aw := ConferenceTriennium.award(s)
+	_add(ctx, "conf_award", s.reputation - r0, s.hype - h0)
+	ctx["confs"] = int(ctx["confs"]) + 1
+	if String(aw.get("winner", "")) == "player":
+		ctx["awards"] = int(ctx["awards"]) + 1
+
+
+## Why rival `rid`'s next goal does (or does not) become Keplerino's tip, for the report.
+static func _tip_reason(s: TycoonState, rid: String) -> String:
+	var race := s.race
+	var nx := int(ConferenceBook.rival_facts(s, rid)["next"])
+	if nx < 0 or nx >= race.milestones.size():
+		return "no next"
+	var ms_id := String(race.milestones[nx]["id"])
+	if race.has_claimed(ms_id, RaceDirector.PLAYER):
+		return "player has " + ms_id
+	var bid := String((ConferenceBook.cfg("tip", {}) as Dictionary).get("briefings", {}).get(ms_id, ""))
+	if bid == "":
+		return "no briefing for " + ms_id
+	var b := BriefingDesk.briefing(bid)
+	if String(b.get("kind", "")) != "race":
+		return "not race " + bid
+	if int(b.get("era", 1)) > s.era():
+		return "era " + bid
+	if BriefingDesk.is_solved(s, bid):
+		return "solved " + bid
+	if (Discovery.d(s)["taken"] as Dictionary).has(bid):
+		return "taken " + bid
+	if not BriefingDesk.eligible(s, b):
+		return "unreachable " + bid
+	return "ok " + bid
+
+
 # ------------------------------------------------------------ sliders
 func _sliders(s: TycoonState, ctx: Dictionary) -> void:
 	for p: MissionProject in s.mission_projects:
@@ -592,6 +728,51 @@ func report(bot: String, diff: String, runs: Array[Dictionary]) -> void:
 			broke.append("y%d %s" % [int(r["bankrupt_year"]), r["bankrupt_reason"]])
 	print("  bankruptcy: closest to the line (cash / X; -1 = on it) any week median %.2f worst %.2f, at month ends median %.2f worst %.2f · warned in %d of %d · emergency loans %d %s · bankrupt %d %s" % [
 		_median(ratio), _min(ratio), _median(mratio), _min(mratio), warned, runs.size(), emerg.size(), str(emerg), broke.size(), str(broke)])
+	# reputation and hype: the averages per era, the weeks pinned at the top, where they came from
+	var rh := "reputation / hype, mean over each era (median), weeks at 95+ (median):"
+	for e in 5:
+		var mr: Array[float] = []
+		var mh: Array[float] = []
+		var tr: Array[float] = []
+		var th: Array[float] = []
+		for r in runs:
+			if int(r["hype_weeks"][e]) == 0:
+				continue
+			var wk := float(r["hype_weeks"][e])
+			mr.append(float(r["rep_sum"][e]) / wk)
+			mh.append(float(r["hype_sum"][e]) / wk)
+			tr.append(float(r["rep_top"][e]))
+			th.append(float(r["hype_top"][e]))
+		rh += "  e%d %.0f/%.0f (%.0f/%.0f w)" % [e + 1, _median(mr), _median(mh), _median(tr), _median(th)]
+	print(rh)
+	var srcs := {}
+	for r in runs:
+		for k: String in r["src"]:
+			var v: Array = srcs.get(k, [0.0, 0.0])
+			srcs[k] = [float(v[0]) + float(r["src"][k][0]) / runs.size(), float(v[1]) + float(r["src"][k][1]) / runs.size()]
+	var sl := "reputation / hype gained per campaign by source (mean):"
+	for k: String in srcs:
+		sl += "  %s %+.0f/%+.0f" % [k, float(srcs[k][0]), float(srcs[k][1])]
+	print(sl)
+	var cls := {}
+	var tally := {"confs": 0, "awards": 0, "tips": 0, "tips_done": 0, "reviews": 0, "fixes": 0, "blocked": 0}
+	for r in runs:
+		for k in r["cml_levels"]:
+			cls[int(k)] = int(cls.get(int(k), 0)) + int(r["cml_levels"][k])
+		for k: String in tally:
+			tally[k] = int(tally[k]) + int(r[k])
+	var keys := cls.keys()
+	keys.sort()
+	var cl := "CML at launch (all launches):"
+	for k in keys:
+		cl += " L%d %d" % [int(k), int(cls[k])]
+	print(cl + " · reviews %d, fixes %d, blocked %d · conferences %d, awards won %d, tips %d (flown %d)" % [
+		tally["reviews"], tally["fixes"], tally["blocked"], tally["confs"], tally["awards"], tally["tips"], tally["tips_done"]])
+	var why := {}
+	for r in runs:
+		for k: String in r.get("tip_why", {}):
+			why[k] = int(why.get(k, 0)) + int(r["tip_why"][k])
+	print("tip check per rival per conference: %s" % str(why))
 	# press expectation vs points
 	print("press expectation vs the points teams made (per era, all launches):")
 	for e in range(1, 6):

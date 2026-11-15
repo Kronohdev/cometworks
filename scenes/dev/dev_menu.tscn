@@ -886,6 +886,53 @@ tooltip_text = "Vai direto para a feira da Conferência dos Cometinhos (conta co
 metadata/action = "conference"
 metadata/arg = "go"
 
+[node name="Achievements" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
+layout_mode = 2
+
+[node name="Caption" type="Label" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements"]
+layout_mode = 2
+theme_type_variation = &"DevCaption"
+text = "Conquistas"
+
+[node name="Flow" type="HFlowContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements"]
+layout_mode = 2
+
+[node name="Next" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Próxima conquista"
+tooltip_text = "Destrava a primeira conquista que ainda falta (o aviso aparece no campus)"
+metadata/action = "achievements"
+metadata/arg = "next"
+
+[node name="All" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Destravar todas"
+tooltip_text = "Destrava todas as conquistas no perfil e nesta campanha"
+metadata/action = "achievements"
+metadata/arg = "all"
+
+[node name="Reset" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Zerar conquistas"
+tooltip_text = "Esquece todas as conquistas (user://achievements.cfg e esta campanha)"
+metadata/action = "achievements"
+metadata/arg = "reset"
+
+[node name="Open" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Achievements/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Ver conquistas"
+tooltip_text = "Abre o caderno de medalhas"
+metadata/action = "achievements"
+metadata/arg = "screen"
+
 [node name="Day" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
 layout_mode = 2
 

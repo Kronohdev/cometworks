@@ -35,6 +35,8 @@ var sort_by := "level"
 var _fire_armed := ""
 var _note := ""
 var _shown_look := ""
+## the Cometling whose milestone chips last ticked in (once per selection, not per refresh)
+var _ms_ticked := ""
 
 @onready var pages: CwPageStack = %Pages
 @onready var creature: Cometling = %Creature
@@ -528,6 +530,11 @@ func _fill_specs(m: Dictionary) -> void:
 func _fill_milestones(m: Dictionary) -> void:
 	var ms := CrewMemory.milestones_of(m)
 	var chips := TycoonHUD._copies(%MsTemplate, ms.size())
+	# the chips tick in, a little higher each, when this Cometling's sheet comes up
+	if String(m["id"]) != _ms_ticked:
+		_ms_ticked = String(m["id"])
+		if not ms.is_empty() and is_visible_in_tree():
+			CwSfx.run(&"chip_tick", mini(ms.size(), 5), 0.07, 0.06)
 	%MsEmpty.visible = ms.is_empty()
 	%MemSummary.visible = CrewMemory.count(m, "missions") > 0
 	%MemSummary.text = tr("TY_MEM_SUMMARY") % [CrewMemory.count(m, "missions"), CrewMemory.count(m, "successes"),

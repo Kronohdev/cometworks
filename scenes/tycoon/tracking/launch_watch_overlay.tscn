@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/tycoon/tracking/launch_watch.gd" id="1_watch"]
 [ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="2_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="3_seg"]
 
 [node name="LaunchWatch" type="Control"]
 layout_mode = 3
@@ -50,6 +51,73 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"CwMono"
 text = "T−3"
+
+[node name="Wait" type="VBoxContainer" parent="Card/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Steps" type="HBoxContainer" parent="Card/VBox/Wait"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WaitStep" type="Label" parent="Card/VBox/Wait/Steps"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"CwMonoSmall"
+text = "TY_TRK_WAIT_STEP"
+text_overrun_behavior = 3
+
+[node name="WaitGoal" type="Label" parent="Card/VBox/Wait/Steps"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 12
+text = "TY_TRK_WAIT_GOAL"
+horizontal_alignment = 2
+
+[node name="WaitBar" type="Control" parent="Card/VBox/Wait"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("3_seg")
+value = 0.25
+color = Color(0.0549, 0.5647, 0.4667, 1)
+segments = 4
+
+[node name="Halley" type="HBoxContainer" parent="Card/VBox/Wait"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WaitArt" type="Control" parent="Card/VBox/Wait/Halley"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="Texts" type="VBoxContainer" parent="Card/VBox/Wait/Halley"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="WaitBy" type="Label" parent="Card/VBox/Wait/Halley/Texts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwCapsAccent"
+text = "TY_TRK_WAIT_BY"
+
+[node name="WaitLine" type="Label" parent="Card/VBox/Wait/Halley/Texts"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_type_variation = &"CwBody"
+theme_override_font_sizes/font_size = 13
+text = "TY_TRK_WAIT_LINE_1"
+autowrap_mode = 3
 
 [node name="Controls" type="HBoxContainer" parent="Card/VBox"]
 layout_mode = 2

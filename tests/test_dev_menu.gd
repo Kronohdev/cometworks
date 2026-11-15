@@ -157,6 +157,14 @@ func _campus() -> void:
 	var ms := s.milestones
 	_run("milestone")
 	_check(s.milestones == ms + 1, "the next milestone is claimed")
+	# Conquistas (Achievements; a test script keeps the profile in memory)
+	_run("achievements", "reset")
+	_check(Achievements.unlocked_count() == 0 and Achievements.campaign_unlocked(s).is_empty(), "achievements reset")
+	_run("achievements", "next")
+	_check(Achievements.unlocked_count() == 1, "the next achievement unlocks")
+	_run("achievements", "all")
+	_check(Achievements.unlocked_count() == Achievements.all().size(), "every achievement unlocks")
+	_run("achievements", "reset")
 	await _close_all(main)
 	_run("day", 0.45)
 	var dc := main.get_node("DayCycle") as CampusDayCycle

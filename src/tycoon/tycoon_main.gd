@@ -285,7 +285,7 @@ func _on_follow_changed(who: Node3D) -> void:
 		title += " · " + tr(prof_key)
 	elif role != "":
 		title += " · " + tr("ROLE_" + role.to_upper())
-	hud.show_camera_tag(tr("TY_CAM_FOLLOWING"), title, tr("TY_CAM_FOLLOW_HINT"), talk != null and talk.can_talk(who))
+	hud.show_camera_tag(tr("TY_CAM_FOLLOWING"), title, CwKeys.hint("TY_CAM_FOLLOW_HINT"), talk != null and talk.can_talk(who))
 
 
 ## Footprints of the lots with something on them: follow shots keep the camera out of them.

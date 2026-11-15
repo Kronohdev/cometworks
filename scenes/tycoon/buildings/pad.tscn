@@ -1,28 +1,33 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://src/tycoon/campus_building.gd" id="1_bld"]
 [ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l1.glb" id="m1"]
 [ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e1.glb" id="m2"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l2.glb" id="m3"]
-[ext_resource type="PackedScene" path="res://assets/campus/props/tank_m.glb" id="m4"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l3.glb" id="m5"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l1.glb" id="m6"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e2.glb" id="m7"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l2.glb" id="m8"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l3.glb" id="m9"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l1.glb" id="m10"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e3.glb" id="m11"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l2.glb" id="m12"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l3.glb" id="m13"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l1.glb" id="m14"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e4.glb" id="m15"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l2.glb" id="m16"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l3.glb" id="m17"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l1.glb" id="m18"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e5.glb" id="m19"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l2.glb" id="m20"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l3.glb" id="m21"]
-[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_scaffold.glb" id="m22"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_arm_e1.glb" id="m3"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l2.glb" id="m4"]
+[ext_resource type="PackedScene" path="res://assets/campus/props/tank_m.glb" id="m5"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e1_l3.glb" id="m6"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l1.glb" id="m7"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e2.glb" id="m8"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_arm_e2.glb" id="m9"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l2.glb" id="m10"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e2_l3.glb" id="m11"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l1.glb" id="m12"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e3.glb" id="m13"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_arm_e3.glb" id="m14"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l2.glb" id="m15"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e3_l3.glb" id="m16"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l1.glb" id="m17"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e4.glb" id="m18"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_arm_e4.glb" id="m19"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l2.glb" id="m20"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e4_l3.glb" id="m21"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l1.glb" id="m22"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/rocket_e5.glb" id="m23"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_arm_e5.glb" id="m24"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l2.glb" id="m25"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_e5_l3.glb" id="m26"]
+[ext_resource type="PackedScene" path="res://assets/campus/pad/pad_scaffold.glb" id="m27"]
 
 [node name="Pad" type="Node3D"]
 script = ExtResource("1_bld")
@@ -37,8 +42,18 @@ transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.00
 
 [node name="Rocket" type="Node3D" parent="Era1/Level1"]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 1.150, 0.000)
+metadata/core_radius = 0.35
+metadata/height = 7.05
 
 [node name="Model" parent="Era1/Level1/Rocket" instance=ExtResource("m2")]
+
+[node name="ArmLow" parent="Era1/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 3.550, 0.000)
+metadata/tower_top = 9.0
+
+[node name="ArmHigh" parent="Era1/Level1" instance=ExtResource("m3")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 6.350, 0.000)
+metadata/tower_top = 9.0
 
 [node name="Lights" type="Node3D" parent="Era1/Level1"]
 
@@ -62,19 +77,19 @@ shadow_enabled = true
 [node name="Level2" type="Node3D" parent="Era1"]
 visible = false
 
-[node name="Model" parent="Era1/Level2" instance=ExtResource("m3")]
+[node name="Model" parent="Era1/Level2" instance=ExtResource("m4")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
-[node name="Prop" parent="Era1/Level2" instance=ExtResource("m4")]
+[node name="Prop" parent="Era1/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, -4.000)
 
-[node name="Prop2" parent="Era1/Level2" instance=ExtResource("m4")]
+[node name="Prop2" parent="Era1/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, 0.200)
 
 [node name="Level3" type="Node3D" parent="Era1"]
 visible = false
 
-[node name="Model" parent="Era1/Level3" instance=ExtResource("m5")]
+[node name="Model" parent="Era1/Level3" instance=ExtResource("m6")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Era2" type="Node3D" parent="."]
@@ -82,13 +97,23 @@ visible = false
 
 [node name="Level1" type="Node3D" parent="Era2"]
 
-[node name="Model" parent="Era2/Level1" instance=ExtResource("m6")]
+[node name="Model" parent="Era2/Level1" instance=ExtResource("m7")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Rocket" type="Node3D" parent="Era2/Level1"]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 1.150, 0.000)
+metadata/core_radius = 0.5
+metadata/height = 10.50
 
-[node name="Model" parent="Era2/Level1/Rocket" instance=ExtResource("m7")]
+[node name="Model" parent="Era2/Level1/Rocket" instance=ExtResource("m8")]
+
+[node name="ArmLow" parent="Era2/Level1" instance=ExtResource("m9")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 4.950, 0.000)
+metadata/tower_top = 12.0
+
+[node name="ArmHigh" parent="Era2/Level1" instance=ExtResource("m9")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 8.550, 0.000)
+metadata/tower_top = 12.0
 
 [node name="Lights" type="Node3D" parent="Era2/Level1"]
 
@@ -112,19 +137,19 @@ shadow_enabled = true
 [node name="Level2" type="Node3D" parent="Era2"]
 visible = false
 
-[node name="Model" parent="Era2/Level2" instance=ExtResource("m8")]
+[node name="Model" parent="Era2/Level2" instance=ExtResource("m10")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
-[node name="Prop" parent="Era2/Level2" instance=ExtResource("m4")]
+[node name="Prop" parent="Era2/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, -4.000)
 
-[node name="Prop2" parent="Era2/Level2" instance=ExtResource("m4")]
+[node name="Prop2" parent="Era2/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, 0.200)
 
 [node name="Level3" type="Node3D" parent="Era2"]
 visible = false
 
-[node name="Model" parent="Era2/Level3" instance=ExtResource("m9")]
+[node name="Model" parent="Era2/Level3" instance=ExtResource("m11")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Era3" type="Node3D" parent="."]
@@ -132,13 +157,24 @@ visible = false
 
 [node name="Level1" type="Node3D" parent="Era3"]
 
-[node name="Model" parent="Era3/Level1" instance=ExtResource("m10")]
+[node name="Model" parent="Era3/Level1" instance=ExtResource("m12")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Rocket" type="Node3D" parent="Era3/Level1"]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 1.150, 0.000)
+metadata/core_radius = 0.7
+metadata/height = 14.10
 
-[node name="Model" parent="Era3/Level1/Rocket" instance=ExtResource("m11")]
+[node name="Model" parent="Era3/Level1/Rocket" instance=ExtResource("m13")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 0.000, 0.000, 0.000)
+
+[node name="ArmLow" parent="Era3/Level1" instance=ExtResource("m14")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 5.850, 0.000)
+metadata/tower_top = 14.0
+
+[node name="ArmHigh" parent="Era3/Level1" instance=ExtResource("m14")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 10.050, 0.000)
+metadata/tower_top = 14.0
 
 [node name="Lights" type="Node3D" parent="Era3/Level1"]
 
@@ -162,19 +198,19 @@ shadow_enabled = true
 [node name="Level2" type="Node3D" parent="Era3"]
 visible = false
 
-[node name="Model" parent="Era3/Level2" instance=ExtResource("m12")]
+[node name="Model" parent="Era3/Level2" instance=ExtResource("m15")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
-[node name="Prop" parent="Era3/Level2" instance=ExtResource("m4")]
+[node name="Prop" parent="Era3/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, -4.000)
 
-[node name="Prop2" parent="Era3/Level2" instance=ExtResource("m4")]
+[node name="Prop2" parent="Era3/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, 0.200)
 
 [node name="Level3" type="Node3D" parent="Era3"]
 visible = false
 
-[node name="Model" parent="Era3/Level3" instance=ExtResource("m13")]
+[node name="Model" parent="Era3/Level3" instance=ExtResource("m16")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Era4" type="Node3D" parent="."]
@@ -182,13 +218,23 @@ visible = false
 
 [node name="Level1" type="Node3D" parent="Era4"]
 
-[node name="Model" parent="Era4/Level1" instance=ExtResource("m14")]
+[node name="Model" parent="Era4/Level1" instance=ExtResource("m17")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Rocket" type="Node3D" parent="Era4/Level1"]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 1.150, 0.000)
+metadata/core_radius = 0.8
+metadata/height = 16.40
 
-[node name="Model" parent="Era4/Level1/Rocket" instance=ExtResource("m15")]
+[node name="Model" parent="Era4/Level1/Rocket" instance=ExtResource("m18")]
+
+[node name="ArmLow" parent="Era4/Level1" instance=ExtResource("m19")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 6.350, 0.000)
+metadata/tower_top = 15.0
+
+[node name="ArmHigh" parent="Era4/Level1" instance=ExtResource("m19")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 10.750, 0.000)
+metadata/tower_top = 15.0
 
 [node name="Lights" type="Node3D" parent="Era4/Level1"]
 
@@ -212,19 +258,19 @@ shadow_enabled = true
 [node name="Level2" type="Node3D" parent="Era4"]
 visible = false
 
-[node name="Model" parent="Era4/Level2" instance=ExtResource("m16")]
+[node name="Model" parent="Era4/Level2" instance=ExtResource("m20")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
-[node name="Prop" parent="Era4/Level2" instance=ExtResource("m4")]
+[node name="Prop" parent="Era4/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, -4.000)
 
-[node name="Prop2" parent="Era4/Level2" instance=ExtResource("m4")]
+[node name="Prop2" parent="Era4/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, 0.200)
 
 [node name="Level3" type="Node3D" parent="Era4"]
 visible = false
 
-[node name="Model" parent="Era4/Level3" instance=ExtResource("m17")]
+[node name="Model" parent="Era4/Level3" instance=ExtResource("m21")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Era5" type="Node3D" parent="."]
@@ -232,13 +278,24 @@ visible = false
 
 [node name="Level1" type="Node3D" parent="Era5"]
 
-[node name="Model" parent="Era5/Level1" instance=ExtResource("m18")]
+[node name="Model" parent="Era5/Level1" instance=ExtResource("m22")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Rocket" type="Node3D" parent="Era5/Level1"]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, 1.150, 0.000)
+metadata/core_radius = 0.9
+metadata/height = 18.70
 
-[node name="Model" parent="Era5/Level1/Rocket" instance=ExtResource("m19")]
+[node name="Model" parent="Era5/Level1/Rocket" instance=ExtResource("m23")]
+transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, 0.000, 0.000, 0.000)
+
+[node name="ArmLow" parent="Era5/Level1" instance=ExtResource("m24")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 6.750, 0.000)
+metadata/tower_top = 16.0
+
+[node name="ArmHigh" parent="Era5/Level1" instance=ExtResource("m24")]
+transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.800, 11.550, 0.000)
+metadata/tower_top = 16.0
 
 [node name="Lights" type="Node3D" parent="Era5/Level1"]
 
@@ -262,25 +319,25 @@ shadow_enabled = true
 [node name="Level2" type="Node3D" parent="Era5"]
 visible = false
 
-[node name="Model" parent="Era5/Level2" instance=ExtResource("m20")]
+[node name="Model" parent="Era5/Level2" instance=ExtResource("m25")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
-[node name="Prop" parent="Era5/Level2" instance=ExtResource("m4")]
+[node name="Prop" parent="Era5/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, -4.000)
 
-[node name="Prop2" parent="Era5/Level2" instance=ExtResource("m4")]
+[node name="Prop2" parent="Era5/Level2" instance=ExtResource("m5")]
 transform = Transform3D(0.00000, 0, 1.00000, 0, 1, 0, -1.00000, 0, 0.00000, -7.200, -0.050, 0.200)
 
 [node name="Level3" type="Node3D" parent="Era5"]
 visible = false
 
-[node name="Model" parent="Era5/Level3" instance=ExtResource("m21")]
+[node name="Model" parent="Era5/Level3" instance=ExtResource("m26")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Scaffold" type="Node3D" parent="."]
 visible = false
 
-[node name="Model" parent="Scaffold" instance=ExtResource("m22")]
+[node name="Model" parent="Scaffold" instance=ExtResource("m27")]
 transform = Transform3D(1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, 1.00000, 0.000, -0.050, 0.000)
 
 [node name="Spots" type="Node3D" parent="."]
@@ -292,9 +349,9 @@ metadata/door = Vector3(3.2, 0, 9.0)
 metadata/level = 1
 
 [node name="Tower" type="Marker3D" parent="Spots"]
-transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, -3.600, 0.000, 2.000)
+transform = Transform3D(-1.00000, 0, 0.00000, 0, 1, 0, -0.00000, 0, -1.00000, 3.600, 0.000, 2.000)
 metadata/action = "clipboard"
-metadata/door = Vector3(-3.6, 0, 9.0)
+metadata/door = Vector3(3.6, 0, 9.0)
 metadata/level = 1
 
 [node name="Bunker" type="Marker3D" parent="Spots"]

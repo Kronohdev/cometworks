@@ -451,9 +451,37 @@ def workshop(g, st, lv, cx):
         g.box(12.6, 12.9, 6.8, 7.0, 5.0, 5.3, C["red_glow"])
 
 
+# The pad's launch tower stands on the +x side of the mount: the campus camera (yaw 38 deg) looks
+# at the pads (turned 180 deg on their lots) from the lot's -x, -z side, so the tower stays
+# behind the rocket instead of hiding it, and the countdown shots (from +x, +z) see it off to
+# the rocket's side. Its two swing arms are
+# their own model (pad_arm_e<era>.glb, Era<n>/Level1/ArmLow and ArmHigh): CampusBuilding slides
+# them so their tips touch the rocket on the pad, whatever its girth and height.
+PAD_TOWER_H = {1: 9.0, 2: 12.0, 3: 14.0, 4: 15.0, 5: 16.0}
+PAD_ARM_LEN = 3.2      # arm length (m): the root stays inside the tower lattice at any reach
+PAD_ARM_BEAM_Y = 0.55  # the arm beam's centre in the arm model (CampusBuilding.ARM_BEAM_Y)
+PAD_ARM_TIP_X = 0.8    # the authored tip (the scene's default; CampusBuilding moves it)
+# the era rockets standing on the pad (rocket()): core radius and body height (m)
+PAD_ROCKET = {1: (0.35, 6.0), 2: (0.5, 9.0), 3: (0.7, 12.0), 4: (0.8, 14.0), 5: (0.9, 16.0)}
+
+
+def pad_tower_col(st):
+    return {1: C["crate"], 2: C["grey"], 3: P_("#d9502f"), 4: st["metal_dk"], 5: st["metal"]}[st["era"]]
+
+
+def pad_arm(era):
+    """one swing arm: its tip (the clamp head) at x = 0, the beam running +x into the tower"""
+    st = STYLES[era]
+    g = Grid(-0.3, PAD_ARM_LEN + 0.3, 1.0, -0.5, 0.5)
+    g.box(0.0, PAD_ARM_LEN, 0.4, 0.7, -0.2, 0.2, pad_tower_col(st))
+    g.box(0.0, 0.2, 0.0, 0.7, -0.3, 0.3, C["grey_dk"])
+    g.box(0.2, PAD_ARM_LEN, 0.2, 0.3, -0.05, 0.05, C["yellow"])
+    return g
+
+
 def pad(g, st, lv, cx):
     e = st["era"]
-    tower_col = {1: C["crate"], 2: C["grey"], 3: P_("#d9502f"), 4: st["metal_dk"], 5: st["metal"]}[e]
+    tower_col = pad_tower_col(st)
     if lv == 1:
         s, X, Y, Z = g.region(-5.5, 5.5, 0.0, 0.2, -5.5, 5.5)
         fx = np.floor(X * 10 + 1e-6).astype(np.int64)
@@ -471,20 +499,15 @@ def pad(g, st, lv, cx):
         g.put_mask(s2, np.sqrt(X2 ** 2 + Z2 ** 2) < 0.6, 0)
         for (x, z) in ((-0.9, -0.9), (0.7, -0.9), (-0.9, 0.7), (0.7, 0.7)):
             g.box(x, x + 0.2, 0.9, 1.2, z, z + 0.2, C["hazard"])
-        H = {1: 9.0, 2: 12.0, 3: 14.0, 4: 15.0, 5: 16.0}[e]
-        lattice(g, -4.3, -2.9, -0.7, 0.7, 0.2, H, tower_col)
-        g.box(-4.5, -2.7, H, H + 0.2, -0.9, 0.9, tower_col)
-        g.box(-3.7, -3.5, H + 0.2, H + 1.6, -0.1, 0.1, C["grey_dk"])
-        g.box(-3.8, -3.4, H + 1.6, H + 1.9, -0.2, 0.2, C["red_glow"])
-        for y in (H * 0.45, H * 0.75):
-            yy = round(y, 1)
-            g.box(-2.9, -0.8, yy, yy + 0.3, -0.2, 0.2, tower_col)
-            g.box(-1.0, -0.8, yy - 0.4, yy + 0.3, -0.3, 0.3, C["grey_dk"])
-            g.box(-2.9, -1.0, yy - 0.2, yy - 0.1, -0.05, 0.05, C["yellow"])
+        H = PAD_TOWER_H[e]
+        lattice(g, 2.9, 4.3, -0.7, 0.7, 0.2, H, tower_col)
+        g.box(2.7, 4.5, H, H + 0.2, -0.9, 0.9, tower_col)
+        g.box(3.5, 3.7, H + 0.2, H + 1.6, -0.1, 0.1, C["grey_dk"])
+        g.box(3.4, 3.8, H + 1.6, H + 1.9, -0.2, 0.2, C["red_glow"])
         for y in np.arange(0.6, H, 0.4):   # stair zig-zag on the tower side
-            g.box(-4.2, -3.0, round(y, 1), round(y, 1) + 0.1, 0.7, 0.9, C["grey_dk"])
+            g.box(3.0, 4.2, round(y, 1), round(y, 1) + 0.1, 0.7, 0.9, C["grey_dk"])
         if e >= 4:
-            g.box(-4.4, -2.8, H - 0.1, H, -0.8, 0.8, st["led"])
+            g.box(2.8, 4.4, H - 0.1, H, -0.8, 0.8, st["led"])
         # blockhouse with a small console room
         b = Room(5.6, 8.3, -8.3, -5.3, 2.8)
         build_room(g, st, b, doors=[("pz", 6.95, 1.6, 2.2)], roof_kind="parapet" if e <= 2 else None,
@@ -503,8 +526,9 @@ def pad(g, st, lv, cx):
     elif lv == 2:
         cx.shared(g, "tank_m", -7.2, -4.0, turn=1, y=0.0)
         cx.shared(g, "tank_m", -7.2, 0.2, turn=1, y=0.0)
-        g.box(-6.1, -4.3, 0.0, 0.3, -1.1, -0.8, C["grey_dk"])
-        g.box(-6.1, -4.3, 0.0, 0.3, -2.2, -1.9, C["orange"])
+        # fuel lines from the tanks to the mount
+        g.box(-6.1, -1.1, 0.0, 0.3, -1.1, -0.8, C["grey_dk"])
+        g.box(-6.1, -1.1, 0.0, 0.3, -2.2, -1.9, C["orange"])
         # water tower
         wx, wz = -6.4, 6.2
         for (dx, dz) in ((-0.8, -0.8), (0.6, -0.8), (-0.8, 0.6), (0.6, 0.6)):
@@ -519,16 +543,18 @@ def pad(g, st, lv, cx):
         g.box(-8.0, 4.6, 1.3, 1.4, -8.2, -8.1, st["metal_dk"])
         g.box(-8.0, 4.6, 0.6, 0.7, -8.2, -8.1, st["metal"])
     else:
-        for (mx, mz) in ((8.0, 6.8), (-6.6, -7.0), (8.0, -3.0)):
+        # lightning masts, off the lines the campus camera (from -x, -z) and the countdown shots
+        # (from +x, +z) look at the rocket along
+        for (mx, mz) in ((-3.0, 7.6), (-3.4, -7.4), (8.0, -3.0)):
             lattice(g, mx - 0.3, mx + 0.3, mz - 0.3, mz + 0.3, 0.0, 15.0, C["grey"], step=1.0)
             g.box(mx - 0.05, mx + 0.05, 15.0, 17.0, mz - 0.05, mz + 0.05, C["grey_dk"])
             g.box(mx - 0.15, mx + 0.15, 15.0, 15.3, mz - 0.15, mz + 0.15, C["red_glow"])
-        H = {1: 9.0, 2: 12.0, 3: 14.0, 4: 15.0, 5: 16.0}[e]
+        H = PAD_TOWER_H[e]
         # hammerhead crane on the tower top
-        g.box(-3.7, -3.5, H + 0.2, H + 3.0, -0.1, 0.1, tower_col)
-        g.box(-6.0, 0.6, H + 3.0, H + 3.3, -0.2, 0.2, tower_col)
-        g.box(-6.0, -5.0, H + 2.2, H + 3.0, -0.4, 0.4, C["grey_dk"])
-        g.box(0.2, 0.3, H + 1.0, H + 3.0, -0.05, 0.05, C["grey_dk"])
+        g.box(3.5, 3.7, H + 0.2, H + 3.0, -0.1, 0.1, tower_col)
+        g.box(-0.6, 6.0, H + 3.0, H + 3.3, -0.2, 0.2, tower_col)
+        g.box(5.0, 6.0, H + 2.2, H + 3.0, -0.4, 0.4, C["grey_dk"])
+        g.box(-0.3, -0.2, H + 1.0, H + 3.0, -0.05, 0.05, C["grey_dk"])
 
 
 def lab(g, st, lv, cx):
@@ -777,7 +803,7 @@ SPOTS = {
                  ("HighBay", (-10.5, -1.0), "look_up", FACE_BACK, 2, (-10.5, 4.0)),
                  ("Store", (10.5, -1.4), "carry", FACE_BACK, 3, (10.5, 3.0))],
     "pad": [("Edge", (3.2, 6.6), "look_up", FACE_BACK, 1, None),
-            ("Tower", (-3.6, 2.0), "clipboard", FACE_BACK, 1, None),
+            ("Tower", (3.6, 2.0), "clipboard", FACE_BACK, 1, None),
             ("Bunker", (6.95, -6.6), "work_scan", FACE_BACK, 1, (6.95, -5.3))],
     "lab": [("Bench", (-2.0, -3.0), "work_scan", FACE_BACK, 1, (-1.0, 3.5)),
             ("Island", (2.6, 0.7), "work_scan", FACE_BACK, 1, (-1.0, 3.5)),
@@ -882,7 +908,7 @@ def scaffold(kind):
 
 def rocket(era):
     g = Grid(-2.0, 2.0, 22.0, -2.0, 2.0)
-    r, h = {1: (0.35, 6.0), 2: (0.5, 9.0), 3: (0.7, 12.0), 4: (0.8, 14.0), 5: (0.9, 16.0)}[era]
+    r, h = PAD_ROCKET[era]
     st = STYLES[era]
     body = C["rocket"]
     band = {1: C["orange"], 2: C["red"], 3: C["orange"], 4: P_("#3fe0c5", 1.4), 5: P_("#a08cff", 1.6)}[era]
@@ -1104,6 +1130,7 @@ def build_kind(kind, eras=(1, 2, 3, 4, 5)):
     if kind == "pad":
         for era in eras:
             info["tris"] += export(rocket(era), ASSETS / "pad" / f"rocket_e{era}.glb")
+            info["tris"] += export(pad_arm(era), ASSETS / "pad" / f"pad_arm_e{era}.glb")
     return info
 
 
@@ -1141,8 +1168,19 @@ def write_scene(kind, info):
                          f"transform = {tf(0, MODEL_Y, 0)}")
             if kind == "pad" and lv == 1:
                 rr = glb(f"{RES}/pad/rocket_e{era}.glb")
-                nodes.append(f'[node name="Rocket" type="Node3D" parent="{lp}"]\ntransform = {tf(0, 1.2 + MODEL_Y, 0)}')
-                nodes.append(f'[node name="Model" parent="{lp}/Rocket" instance=ExtResource("{rr}")]')
+                r, h = PAD_ROCKET[era]
+                # core radius and full height (body + nose) for the swing arms (CampusBuilding)
+                nodes.append(f'[node name="Rocket" type="Node3D" parent="{lp}"]\ntransform = {tf(0, 1.2 + MODEL_Y, 0)}\n'
+                             f'metadata/core_radius = {r}\nmetadata/height = {h + r * 3.0:.2f}')
+                # the side boosters (eras 3 and 5) stand front and back, clear of the arms
+                nodes.append(f'[node name="Model" parent="{lp}/Rocket" instance=ExtResource("{rr}")]'
+                             + (f"\ntransform = {tf(0, 0, 0, math.pi / 2)}" if era in (3, 5) else ""))
+                ar = glb(f"{RES}/pad/pad_arm_e{era}.glb")
+                H = PAD_TOWER_H[era]
+                for (an, frac) in (("ArmLow", 0.45), ("ArmHigh", 0.75)):
+                    nodes.append(f'[node name="{an}" parent="{lp}" instance=ExtResource("{ar}")]\n'
+                                 f"transform = {tf(PAD_ARM_TIP_X, round(H * frac, 1) + 0.15 - PAD_ARM_BEAM_Y + MODEL_Y, 0)}\n"
+                                 f"metadata/tower_top = {H}")
             props = info.get("props", {}).get((era, lv), [])
             used = {}
             for (key, x, y, z, turn, name) in props:

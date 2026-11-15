@@ -9,15 +9,15 @@ shader_type spatial;
 //           creases fade out sooner with distance, so voxel shapes don't turn into hatching;
 //           round voxel shapes opt out of creases by a roughness below crease_min_roughness
 // The ink is the local colour darkened and pulled towards cw_outline_color (a deep indigo),
-// so lines read as coloured ink, not black. Lines fade with distance (fade_start..fade_end) and
-// are never drawn on the sky. Only the camera that owns the quad draws it (every other camera
+// so lines read as coloured ink, not black (done by the blending, see the end of fragment():
+// no screen texture). Lines fade with distance (fade_start..fade_end) and are never drawn on
+// the sky. Only the camera that owns the quad draws it (every other camera
 // gets a degenerate triangle), so several cameras can carry one each.
 // Global tunables (project.godot shader_globals): cw_outline_color, cw_outline_strength.
-render_mode unshaded, blend_mix, depth_draw_never, depth_test_disabled, cull_disabled, fog_disabled, shadows_disabled;
+render_mode unshaded, blend_premul_alpha, depth_draw_never, depth_test_disabled, cull_disabled, fog_disabled, shadows_disabled;
 
 uniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;
 uniform sampler2D normal_tex : hint_normal_roughness_texture, filter_nearest, repeat_disable;
-uniform sampler2D screen_tex : hint_screen_texture, filter_nearest, repeat_disable;
 
 global uniform vec4 cw_outline_color : source_color;
 global uniform float cw_outline_strength;
@@ -143,8 +143,13 @@ void fragment() {
 	if (edge <= 0.002) {
 		discard;
 	}
-	vec3 local = texture(screen_tex, uv).rgb;
-	vec3 ink = mix(cw_outline_color.rgb, local * darken, local_colour);
-	ALBEDO = ink;
-	ALPHA = clamp(edge, 0.0, 1.0);
+	// ink = mix(cw_outline_color, local * darken, local_colour), drawn over the local colour
+	// with coverage a: out = mix(local, ink, a). Premultiplied blending (out = ALBEDO +
+	// local * (1 - ALPHA)) gives exactly that without reading the screen back, so the
+	// renderer skips the full-screen copy a screen texture costs:
+	//   ALBEDO = a * (1 - local_colour) * cw_outline_color
+	//   ALPHA  = a * (1 - local_colour * darken)
+	float a = clamp(edge, 0.0, 1.0);
+	ALBEDO = cw_outline_color.rgb * (a * (1.0 - local_colour));
+	ALPHA = a * (1.0 - local_colour * darken);
 }

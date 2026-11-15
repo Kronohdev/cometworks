@@ -8,6 +8,8 @@ extends CwScreen
 ## then launch). A design that does not reach blocks the launch.
 ## Above the risks, the concept's maturity (CmlChecklist, NASA CML 1..6): the level, its launch
 ## bonus and every item auto-checked, each unchecked one with a short hint; it follows the fixes.
+## The box starts compact (level, bar, bonus and the next item to check, its hint on hover) so
+## the risk list keeps its room; its toggle opens the full list of levels (remembered per session).
 ## The look is all in the scene; risk rows are copies of its hidden RiskTemplate, checklist items
 ## rows of its hidden CmlLevelTemplate (one per level, items copied from its ItemTemplate).
 
@@ -18,6 +20,8 @@ var project: MissionProject
 ## the risks the player chose to fix
 var fixes: Array[String] = []
 var _scrub_armed := false
+## the CML checklist's full list of levels is open (kept between reviews in a session)
+static var _cml_open := false
 
 
 func _ready() -> void:
@@ -26,6 +30,19 @@ func _ready() -> void:
 	%Change.pressed.connect(_change)
 	%Scrub.pressed.connect(_scrub)
 	%Later.pressed.connect(close_screen)
+	%CmlToggle.toggled.connect(_on_cml_toggled)
+	_show_cml_levels()
+
+
+func _on_cml_toggled(on: bool) -> void:
+	_cml_open = on
+	_show_cml_levels()
+
+
+func _show_cml_levels() -> void:
+	%CmlLevels.visible = _cml_open
+	%CmlToggle.set_pressed_no_signal(_cml_open)
+	%CmlToggle.text = tr("TY_CML_HIDE") if _cml_open else tr("TY_CML_SHOW")
 
 
 ## args: {"project_id"}
@@ -182,6 +199,22 @@ func _fill_cml() -> void:
 		%CmlBonus.text = tr("TY_CML_BONUS_NEXT") % int((CmlChecklist.data().get("bonus", {}) as Dictionary).get("from_level", 4))
 	var lvs: Array = c["levels"]
 	var items: Array = c["items"]
+	# a small tick for each item a fix has just checked (CwSfx.tally: not on the first look)
+	CwSfx.tally("cml:%s" % project_id, items.filter(func(it: Dictionary) -> bool: return bool(it["ok"])).size(), &"check_tick")
+	# the next item to check (the lowest unchecked one): its name here, its hint on hover
+	var next: Dictionary = {}
+	for it: Dictionary in items:
+		if not bool(it["ok"]) and (next.is_empty() or int(it["level"]) < int(next["level"])):
+			next = it
+	var nl := %CmlNext as Label
+	if next.is_empty():
+		nl.text = tr("TY_CML_ALL_DONE")
+		nl.tooltip_text = ""
+		nl.add_theme_color_override("font_color", CwPalette.ink(CwPalette.AURORA_TEAL))
+	else:
+		nl.text = tr("TY_CML_NEXT") % tr(String(next["label_key"]))
+		nl.tooltip_text = tr(String(next["hint_key"]))
+		nl.add_theme_color_override("font_color", CwPalette.ink(CwPalette.WARNING))
 	var rows := copies(%CmlLevelTemplate, lvs.size())
 	for li in lvs.size():
 		var lv: Dictionary = lvs[li]

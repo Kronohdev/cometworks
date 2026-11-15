@@ -8,6 +8,9 @@ extends Control
 ## narrator box with Halley's portrait from %Studio and his caption bubble), then the last page
 ## (%Report): the outcome, the rewards and "Por que foi assim?" (FlightReport: the causes, one
 ## tip, the CML item it names).
+## A page holds at most PER_PAGE panels, the flight's panels spread evenly over its pages (7 read
+## 4 + 3, never 6 + 1), and the grid fits the page's count (page_columns): up to three panels in
+## one tall row, four in two by two, five or six in two rows of three; no empty slot keeps room.
 ## Panels come in one by one (a pop, CwMotion); a click (or Space / Enter) brings the next one
 ## at once, turns the page or ends; "Pular" goes straight to the last page.
 ## Two ways in:
@@ -66,6 +69,7 @@ func _ready() -> void:
 	%Studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_portraits())
 	%Report.visible = false
 	%Grid.visible = true
+	add_child(FlightComicAudio.new())   # page turns, pops, the words' sounds, the end sting
 
 
 ## The HUD screen's way in.
@@ -151,26 +155,47 @@ func page_count() -> int:
 	return maxi(ceili(panels.size() / float(PER_PAGE)), 1)
 
 
+## How many panels a page holds: the flight's panels spread evenly over its pages.
+func per_page() -> int:
+	return maxi(ceili(panels.size() / float(page_count())), 1)
+
+
+## The columns of a page of n panels: one row up to three, then two rows (2 x 2, 3 + 2, 3 x 2).
+static func page_columns(n: int) -> int:
+	if n <= 3:
+		return maxi(n, 1)
+	return 2 if n == 4 else 3
+
+
 func _show_page(p: int) -> void:
 	page = p
 	_on_report = false
 	%Grid.visible = true
 	%Report.visible = false
-	var from := p * PER_PAGE
-	var count := mini(PER_PAGE, panels.size() - from)
+	var per := per_page()
+	var from := p * per
+	var count := clampi(panels.size() - from, 0, per)
+	(%Grid as GridContainer).columns = page_columns(count)
 	var rows := TycoonHUD._copies(%PanelTemplate, PER_PAGE)
 	for i in rows.size():
-		# an empty slot keeps its place on the page (the grid keeps two rows) but never shows
+		# only the page's panels take room: the grid's rows grow to fill the page
 		var row := rows[i]
 		row.set_meta("used", i < count)
+		row.visible = i < count
 		row.modulate.a = 0.0
 		if i < count:
 			_fill_panel(row, panels[from + i], from + i)
 	_revealed = 0
 	_timer = 0.0
-	_reveal_next()
+	# the first pop once the grid has laid the page out (its pivot is the panel's new centre)
+	_first_reveal.call_deferred(p)
 	_fill_portraits()
 	_refresh_buttons()
+
+
+func _first_reveal(p: int) -> void:
+	if _revealed == 0 and not _on_report and page == p:
+		_reveal_next()
 
 
 func _fill_panel(row: Control, p: Dictionary, index: int) -> void:

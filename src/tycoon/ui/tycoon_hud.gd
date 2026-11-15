@@ -28,6 +28,8 @@ var clock: TycoonClock
 var lot_id := ""
 var _hint_default := ""
 var _hint_timer := 0.0
+## the translation key of the follow tag's hint when it names keys (CwKeys.hint), else ""
+var _tag_hint_key := ""
 ## HUD nodes hidden until a new career unlocks them (HudUnlocker, MenuUnlocks): {ref: true}
 var _locked := {}
 ## True while the camera is focused on something (following a Cometling): the race panel steps
@@ -67,8 +69,9 @@ func _ready() -> void:
 					flash_hint(tr("TY_SOON") % tr(btn.tooltip_text)))
 	%Build.toggled.connect(func(on: bool) -> void:
 		flash_hint(tr("TY_BUILD_HINT") if on else _hint_default, 6.0 if on else 0.1))
-	_hint_default = tr("TY_CAMPUS_HINT")
+	_hint_default = CwKeys.hint("TY_CAMPUS_HINT")   # names the keys bound now (CwKeys)
 	%Hint.text = _hint_default
+	add_to_group(CwKeys.GROUP)
 	# text sizes above 100 % (CwAccess) shrink the logical view: keep the blocks inside it
 	CwUiFit.watch([$TopStrip, $Rail, $Side, $Bottom, $HintBox, %LotPanel], fit_layout)
 	get_viewport().size_changed.connect(func() -> void: CwUiFit.now(fit_layout))
@@ -102,6 +105,16 @@ func _press_speed(s: int) -> void:
 	var btns: Array[Button] = [%Pause, %S1, %S2, %S3]
 	for i in btns.size():
 		btns[i].set_pressed_no_signal(i == clampi(s, 0, 3))
+
+
+## The key bindings changed (CwKeys): the campus hint and the follow tag's hint name the new keys.
+func refresh_keys() -> void:
+	var was := _hint_default
+	_hint_default = CwKeys.hint("TY_CAMPUS_HINT")
+	if %Hint.text == was:
+		%Hint.text = _hint_default
+	if _tag_hint_key != "":
+		%TagHint.text = CwKeys.hint(_tag_hint_key)
 
 
 func flash_hint(text: String, seconds := 2.5) -> void:
@@ -522,6 +535,10 @@ func show_camera_tag(caption: String, title: String, hint := "", can_talk := fal
 	%TagCaption.text = caption
 	%TagTitle.text = title
 	%TagHint.text = hint
+	_tag_hint_key = ""
+	for k in ["TY_CAM_FOLLOW_HINT"]:
+		if hint == CwKeys.hint(k):
+			_tag_hint_key = k
 	%TagHint.visible = hint != ""
 	%TagTalk.visible = can_talk
 	if not tag.visible:

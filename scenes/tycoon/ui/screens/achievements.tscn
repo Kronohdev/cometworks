@@ -1,0 +1,525 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://ui/cometworks_theme.tres" id="cw_theme"]
+[ext_resource type="Script" path="res://src/tycoon/ui/screens/achievements_screen.gd" id="1_scr"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_button_motion.gd" id="cwm_btn"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_screen_transition.gd" id="cwm_screen"]
+[ext_resource type="Script" path="res://src/tycoon/ui/motion/cw_stagger.gd" id="cwm_stagger"]
+[ext_resource type="Script" path="res://src/tycoon/ui/cw_segment_bar.gd" id="seg"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/trophy.svg" id="2_trophy"]
+[ext_resource type="Texture2D" path="res://ui/cometworks/icons/finance.svg" id="3_stats"]
+
+[sub_resource type="StyleBoxFlat" id="disc"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 16
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="ring"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 16
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="chip"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8667, 0.9686, 0.9333, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.0549, 0.5647, 0.4667, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="card"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.9765, 0.9373, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.902, 0.8275, 0.702, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="card_hover"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.9922, 0.9725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.702, 0.6118, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 8
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="card_on"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.9333, 0.9098, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.4627, 0.3216, 0.9098, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 8
+anti_aliasing = true
+
+[node name="Achievements" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("cw_theme")
+script = ExtResource("1_scr")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1059, 0.0941, 0.2706, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -360.0
+offset_right = 600.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"CwPanelTop"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Header"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_trophy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titles" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+theme_override_font_sizes/font_size = 13
+text = "ACH_CAPTION"
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox/Header/Titles"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 28
+text = "ACH_TITLE"
+
+[node name="Found" type="VBoxContainer" parent="Panel/Margin/VBox/Header"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="Caption" type="Label" parent="Panel/Margin/VBox/Header/Found"]
+layout_mode = 2
+theme_type_variation = &"CwCaps"
+horizontal_alignment = 2
+text = "ACH_COUNT_CAPTION"
+
+[node name="Count" type="Label" parent="Panel/Margin/VBox/Header/Found"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwMonoLarge"
+horizontal_alignment = 2
+text = "0 / 40"
+
+[node name="Total" type="Control" parent="Panel/Margin/VBox/Header/Found"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("seg")
+value = 0.3
+color = Color(1, 0.8235, 0.3608, 1)
+track_tint = 0.1
+pill = true
+segments = 20
+
+[node name="Stats" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "ACH_STATS_TIP"
+focus_mode = 0
+theme_type_variation = &"CwSecondary"
+text = "ACH_STATS"
+icon = ExtResource("3_stats")
+expand_icon = true
+
+[node name="Close" type="Button" parent="Panel/Margin/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "TY_PJ_CANCEL"
+focus_mode = 0
+theme_type_variation = &"CwKey"
+text = "×"
+
+[node name="Sep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="GridScroll" type="ScrollContainer" parent="Panel/Margin/VBox/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(790, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Panel/Margin/VBox/Body/GridScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 5
+
+[node name="BadgeTemplate" type="Button" parent="Panel/Margin/VBox/Body/GridScroll/Grid"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(146, 150)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("card")
+theme_override_styles/hover = SubResource("card_hover")
+theme_override_styles/pressed = SubResource("card_on")
+theme_override_styles/hover_pressed = SubResource("card_on")
+toggle_mode = true
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Medal" type="Control" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Disc" type="Panel" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox/Medal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc")
+
+[node name="Icon" type="TextureRect" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox/Medal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = -14.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_trophy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ring" type="Panel" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox/Medal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ring")
+
+[node name="Secret" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox/Medal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 30
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Here" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox/Medal"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 14.0
+offset_bottom = 16.0
+grow_horizontal = 0
+tooltip_text = "ACH_HERE_TIP"
+mouse_filter = 1
+theme_override_colors/font_color = Color(1, 0.8235, 0.3608, 1)
+theme_override_colors/font_outline_color = Color(0.1686, 0.1647, 0.3608, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "★"
+
+[node name="Name" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 14
+text = "ACH_FIRST_LAUNCH"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Bar" type="Control" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("seg")
+color = Color(0.0549, 0.5647, 0.4667, 1)
+track_tint = 0.1
+pill = true
+segments = 10
+
+[node name="Prog" type="Label" parent="Panel/Margin/VBox/Body/GridScroll/Grid/BadgeTemplate/VBox"]
+layout_mode = 2
+theme_type_variation = &"CwMonoSmall"
+text = "7 / 10"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="SepA" type="VSeparator" parent="Panel/Margin/VBox/Body"]
+layout_mode = 2
+
+[node name="Detail" type="VBoxContainer" parent="Panel/Margin/VBox/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Medal" type="Control" parent="Panel/Margin/VBox/Body/Detail"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Disc" type="Panel" parent="Panel/Margin/VBox/Body/Detail/Medal"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("disc")
+
+[node name="DIcon" type="TextureRect" parent="Panel/Margin/VBox/Body/Detail/Medal"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_trophy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ring" type="Panel" parent="Panel/Margin/VBox/Body/Detail/Medal"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("ring")
+
+[node name="DSecret" type="Label" parent="Panel/Margin/VBox/Body/Detail/Medal"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.3647, 0.3569, 0.549, 1)
+theme_override_font_sizes/font_size = 56
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DName" type="Label" parent="Panel/Margin/VBox/Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwTitle"
+theme_override_font_sizes/font_size = 24
+text = "ACH_FIRST_LAUNCH"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DDesc" type="Label" parent="Panel/Margin/VBox/Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "ACH_FIRST_LAUNCH_DESC"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DBar" type="Control" parent="Panel/Margin/VBox/Body/Detail"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("seg")
+color = Color(0.0549, 0.5647, 0.4667, 1)
+track_tint = 0.1
+pill = true
+segments = 20
+
+[node name="DState" type="Label" parent="Panel/Margin/VBox/Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CwDim"
+text = "ACH_LOCKED"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DHere" type="Label" parent="Panel/Margin/VBox/Body/Detail"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "ACH_HERE_TIP"
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.0549, 0.5647, 0.4667, 1)
+theme_override_styles/normal = SubResource("chip")
+text = "ACH_HERE"
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox/Body/Detail"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Note" type="Label" parent="Panel/Margin/VBox/Body/Detail"]
+layout_mode = 2
+theme_type_variation = &"CwDim"
+theme_override_font_sizes/font_size = 13
+text = "ACH_PROFILE_NOTE"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CwTransition" type="Node" parent="."]
+script = ExtResource("cwm_screen")
+backdrop = NodePath("../Scrim")
+panel = NodePath("../Panel")
+
+[node name="CwBadges" type="Node" parent="."]
+script = ExtResource("cwm_stagger")
+target = NodePath("../Panel/Margin/VBox/Body/GridScroll/Grid")
+offset = Vector2(0, 8)
+delay = 0.12
+step = 0.02
+seconds = 0.26
+max_delay = 0.45
+
+[node name="CwButtons" type="Node" parent="."]
+script = ExtResource("cwm_btn")
+scope = 1
+lift = Vector2(0, -1)
+hover_scale = Vector2(1.015, 1.015)
+glow = 1.08
+sweep_on_focus = true

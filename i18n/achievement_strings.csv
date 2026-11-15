@@ -1,0 +1,135 @@
+keys,en,pt
+ACH_FIRST_LAUNCH,Liftoff!,Decolou!
+ACH_FIRST_LAUNCH_DESC,Launch your agency's first mission.,Lance a primeira missão da agência.
+ACH_SUBORBITAL,A little hop,Um pulinho
+ACH_SUBORBITAL_DESC,Touch the edge of space with a sounding rocket.,Toque a borda do espaço com um foguete de sondagem.
+ACH_FIRST_ORBIT,Round and round,Dando voltas
+ACH_FIRST_ORBIT_DESC,Put your first satellite in orbit.,Coloque seu primeiro satélite em órbita.
+ACH_COMETLING_SPACE,A Cometling up there,Um Cometinha lá em cima
+ACH_COMETLING_SPACE_DESC,Fly a Cometling to space.,Leve um Cometinha ao espaço.
+ACH_MOON_PROBE,"Hello, Moon","Olá, Lua"
+ACH_MOON_PROBE_DESC,Reach the Moon with a probe.,Alcance a Lua com uma sonda.
+ACH_MOON_LANDING,Soft paws on the Moon,Patinhas na Lua
+ACH_MOON_LANDING_DESC,Land on the Moon (robots count).,Pouse na Lua (robôs valem).
+ACH_CREWED_LANDING,Footprints in the dust,Pegadas na poeira
+ACH_CREWED_LANDING_DESC,Land Cometlings on the Moon.,Pouse Cometinhas na Lua.
+ACH_LUNAR_BASE,A second home,Uma segunda casa
+ACH_LUNAR_BASE_DESC,Turn the Moon into a launch base.,Transforme a Lua em uma base de lançamento.
+ACH_MOTHER_ICE,"Hello, Mother-Ice","Olá, Mãe-Gelo"
+ACH_MOTHER_ICE_DESC,Reach the comet Mother-Ice.,Alcance o cometa Mãe-Gelo.
+ACH_LAUNCHES_10,Regular customer,Freguesa da plataforma
+ACH_LAUNCHES_10_DESC,Launch 10 missions in one campaign.,Lance 10 missões numa campanha.
+ACH_LAUNCHES_40,Busy skies,Céu movimentado
+ACH_LAUNCHES_40_DESC,Launch 40 missions in one campaign.,Lance 40 missões numa campanha.
+ACH_EXCEPTIONAL,Better than planned,Melhor que o planejado
+ACH_EXCEPTIONAL_DESC,Finish a mission with an exceptional result.,Termine uma missão com resultado excepcional.
+ACH_FIRST_FAILURE,It happens,Faz parte
+ACH_FIRST_FAILURE_DESC,Lose your first rocket. Hugs all round.,Perca seu primeiro foguete. Abraço coletivo.
+ACH_PHOENIX,Back from the ashes,Das cinzas
+ACH_PHOENIX_DESC,Succeed right after three failures in a row.,Acerte logo depois de três falhas seguidas.
+ACH_FLAWLESS_DECADE,A flawless decade,Uma década sem tropeços
+ACH_FLAWLESS_DECADE_DESC,Go 10 campaign years in a row without losing a launch.,Passe 10 anos seguidos da campanha sem perder um lançamento.
+ACH_CML6,By the book,Tudo nos conformes
+ACH_CML6_DESC,Launch a mission at CML 6.,Lance uma missão com CML 6.
+ACH_PILOTED,Hands on the stick,Mãos no manche
+ACH_PILOTED_DESC,Fly one of your launches yourself.,Pilote você mesmo um dos lançamentos.
+ACH_SIM_TO_END,Simulated to the end,Simulou até o fim
+ACH_SIM_TO_END_DESC,Let a flight simulate to the end and read Grandpa's comic.,Deixe um voo simular até o fim e leia os quadrinhos do Vovô.
+ACH_FIRSTS_5,Front of the line,Primeira da fila
+ACH_FIRSTS_5_DESC,Be first to 5 race milestones.,Seja a primeira em 5 marcos da corrida.
+ACH_FIRSTS_10,Trailblazer,Desbravadora
+ACH_FIRSTS_10_DESC,Be first to 10 race milestones.,Seja a primeira em 10 marcos da corrida.
+ACH_TIP_PAYOFF,A little bird told me,Um passarinho me contou
+ACH_TIP_PAYOFF_DESC,Beat a rival to a first after the fair host's tip.,Passe na frente de um rival num marco depois da dica do anfitrião da feira.
+ACH_CONFERENCE,Name tag on,Crachá no peito
+ACH_CONFERENCE_DESC,Go to a Cometling Conference.,Vá a uma Conferência dos Cometinhos.
+ACH_TRIENNIUM,Agency of the triennium,Agência do triênio
+ACH_TRIENNIUM_DESC,Win the Agency of the triennium award.,Ganhe o prêmio Agência do triênio.
+ACH_TRIENNIUM_3,Trophy shelf,Estante de troféus
+ACH_TRIENNIUM_3_DESC,Win the Agency of the triennium three times.,Ganhe a Agência do triênio três vezes.
+ACH_ALL_ERAS,Through every era,Por todas as eras
+ACH_ALL_ERAS_DESC,Reach the fifth era of a campaign.,Chegue à quinta era de uma campanha.
+ACH_CAMPAIGN_END,Until the next pass,Até a próxima passagem
+ACH_CAMPAIGN_END_DESC,See the comet pass at the end of a campaign.,Veja o cometa passar no fim de uma campanha.
+ACH_SURVIVED_BANKRUPTCY,Saved by a whisker,Salva por um triz
+ACH_SURVIVED_BANKRUPTCY_DESC,Pay off the emergency loan and keep the agency going.,Quite o empréstimo de emergência e siga com a agência.
+ACH_BANKRUPT,Lights out,Apagou a luz
+ACH_BANKRUPT_DESC,Go bankrupt. Starting over is part of it.,Vá à falência. Recomeçar faz parte.
+ACH_RICH,Piggy bank full,Cofrinho cheio
+ACH_RICH_DESC,Have 5 million credits in the bank.,Tenha 5 milhões de créditos em caixa.
+ACH_ROVER_DRIVE,First tracks,Primeiras trilhas
+ACH_ROVER_DRIVE_DESC,Drive a rover on another world.,Dirija um rover em outro mundo.
+ACH_ROVER_KM,Odometer spinning,Hodômetro girando
+ACH_ROVER_KM_DESC,Drive a rover 1 km on one mission.,Rode 1 km com um rover numa missão.
+ACH_PHOTOS_10,Fridge door,Porta da geladeira
+ACH_PHOTOS_10_DESC,Get 10 photos in the album.,Junte 10 fotos no álbum.
+ACH_PHOTOS_30,Photo wall,Mural de fotos
+ACH_PHOTOS_30_DESC,Get 30 photos in the album.,Junte 30 fotos no álbum.
+ACH_FIRST_LEGEND,A Legend joins,Uma Lenda chegou
+ACH_FIRST_LEGEND_DESC,Hire your first Legend.,Contrate sua primeira Lenda.
+ACH_ALL_LEGENDS,Hall of Legends,Salão das Lendas
+ACH_ALL_LEGENDS_DESC,Hire every Legend in one campaign.,Contrate todas as Lendas numa campanha.
+ACH_CREW_20,Full house,Casa cheia
+ACH_CREW_20_DESC,Have 20 Cometlings on the team.,Tenha 20 Cometinhas na equipe.
+ACH_VETERAN,Old hand,Veterana
+ACH_VETERAN_DESC,A Cometling remembers 10 missions.,Um Cometinha lembra de 10 missões.
+ACH_RESEARCH_20,Know-it-alls,Sabichões
+ACH_RESEARCH_20_DESC,Finish 20 researches.,Termine 20 pesquisas.
+ACH_HYPE_90,Everyone's talking,Todo mundo comenta
+ACH_HYPE_90_DESC,Reach 90 hype.,Chegue a 90 de hype.
+ACH_REP_90,Trusted name,Nome de confiança
+ACH_REP_90_DESC,Reach 90 reputation.,Chegue a 90 de reputação.
+ACH_TITLE,Achievements,Conquistas
+ACH_CAPTION,The agency's badge book,Caderno de medalhas da agência
+ACH_COUNT_CAPTION,Earned,Conquistadas
+ACH_SECRET_NAME,Secret,Segredo
+ACH_SECRET_DESC,A secret badge. Keep playing!,Uma medalha secreta. Continue jogando!
+ACH_HIDDEN_DESC,This one is a surprise…,Esta aqui é surpresa…
+ACH_LOCKED,Not yet,Ainda não
+ACH_UNLOCKED_ON,Earned %s,Conquistada em %s
+ACH_UNLOCKED_YEAR,%s · year %d,%s · ano %d
+ACH_HERE,This campaign,Nesta campanha
+ACH_HERE_TIP,Earned in the campaign you are playing,Conquistada na campanha que você está jogando
+ACH_STATS,Statistics,Estatísticas
+ACH_STATS_TIP,The numbers of this campaign,Os números desta campanha
+ACH_PROFILE_NOTE,Badges stay with you across campaigns.,As medalhas ficam com você de uma campanha para outra.
+ACH_TOAST_CAPTION,Achievement!,Conquista!
+ACH_TOAST_MORE,+%d more achievements,+%d conquistas
+ACH_TOAST_HINT,See it in Achievements,Veja em Conquistas
+ST_TITLE,Statistics,Estatísticas
+ST_CAPTION,The campaign's logbook,Diário de bordo da campanha
+ST_LAUNCHES,Launches,Lançamentos
+ST_SUCCESSES,Successes,Sucessos
+ST_PARTIALS,Partial,Parciais
+ST_FAILURES,Failures,Falhas
+ST_BY_ERA,Success by era,Sucesso por era
+ST_ERA_RATE,%d%% · %d of %d,%d%% · %d de %d
+ST_ERA_NONE,no launches,sem lançamentos
+ST_TRAVEL,Travelled,Percorrido
+ST_DV,Δv flown,Δv voado
+ST_ROVER,Rover driving,Rodado por rovers
+ST_MONEY,Money,Dinheiro
+ST_EARNED,Earned,Recebido
+ST_SPENT,Spent,Gasto
+ST_MONEY_SINCE,since year %d,desde o ano %d
+ST_CHART,Reputation and hype,Reputação e hype
+ST_REP,Reputation,Reputação
+ST_RACE,The race,A corrida
+ST_FIRSTS_WON,Firsts won,Primeiros ganhos
+ST_FIRSTS_LOST,Lost to rivals,Perdidos para rivais
+ST_AGENCY,The agency,A agência
+ST_HIRED,Cometlings hired,Cometinhas contratados
+ST_TEAM_NOW,On the team now,Na equipe agora
+ST_PHOTOS,Photos in the album,Fotos no álbum
+ST_CONFS,Conferences attended,Conferências visitadas
+ST_TROPHIES,Triennium trophies,Troféus do triênio
+ST_ACH,Badges this campaign,Medalhas nesta campanha
+ST_YEAR_TICK,Y%d,A%d
+ST_ACH_LINK,Achievements,Conquistas
+ST_ACH_LINK_TIP,The badge book,O caderno de medalhas
+MENU_ACHIEVEMENTS,Achievements,Conquistas
+MENU_ACHIEVEMENTS_HINT,Your badges across campaigns,Suas medalhas de todas as campanhas
+TY_SET_ACHIEVEMENTS,Achievements,Conquistas
+TY_SET_ACHIEVEMENTS_TIP,The badge book: what you earned and what is left,O caderno de medalhas: o que você ganhou e o que falta
+TY_SET_STATS,Statistics,Estatísticas
+TY_SET_STATS_TIP,The numbers of this campaign,Os números desta campanha

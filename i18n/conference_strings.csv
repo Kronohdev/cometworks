@@ -166,3 +166,43 @@ TY_CONF_YOU_LENDA_REP_UP,And people trust you more: +{rep} reputation.,E o pesso
 TY_CONF_YOU_LENDA_REP_DOWN,Your reputation slipped {rep} points. It comes back. Good missions bring it back.,A reputação de vocês escorregou {rep} pontos. Ela volta. Missões boas trazem de volta.
 TY_CONF_YOU_LENDA_REP_FLAT,Your reputation is where it was. Time for something bold?,A reputação de vocês está onde estava. Hora de algo ousado?
 TY_CONF_ASK_REP,And our reputation?,E a nossa reputação?
+TY_CONF_LAB_BANNER,MISSION DESIGN LAB,MISSION DESIGN LAB
+TY_CONF_LAB_SUB,"Scientists + engineers, one table, one mission","Cientistas + engenheiros, uma mesa, uma missão"
+TY_CONF_LAB_HOURS,Office Hours: come on in!,Office Hours: pode chegar!
+TY_CONF_PROMPT_LAB,Talk to {name} (Mission Design Lab),Conversar com {name} (Mission Design Lab)
+TY_CONF_LAB_ROLE,{role} · Design Lab,{role} · Lab de Missões
+TY_CONF_LAB_HELLO,"Hi there! Welcome to the Mission Design Lab: a lab where scientists and engineers design missions together, from the first idea to a point design. Mind the sketches, the ink is still wet!","Oi, oi! Bem-vindo ao Mission Design Lab: um laboratório onde cientistas e engenheiros projetam missões juntos, da primeira ideia até o projeto detalhado. Cuidado com os rabiscos, a tinta ainda está fresca!"
+TY_CONF_LAB_ASK_WHAT,What is this lab?,Que laboratório é esse?
+TY_CONF_LAB_WHAT,"We borrowed the idea from a real lab on Earth: the Mission Design Lab at NASA Goddard, in Maryland. There, scientists and engineers gather round one table and mature a mission concept in a few days, from CML 1 to CML 4. Ours works just the same. With more cookies.","A gente pegou a ideia emprestada de um laboratório de verdade, lá na Terra: o Mission Design Lab do Goddard, da NASA, em Maryland. Lá, cientistas e engenheiros se juntam em volta de uma mesa e amadurecem um conceito de missão em poucos dias, do CML 1 ao CML 4. O nosso funciona igualzinho. Só que com mais biscoito."
+TY_CONF_LAB_ASK_LEVELS,How does a study work?,Como funciona um estudo?
+TY_CONF_LAB_LEVELS,"Depends on how far along your idea is! We run four kinds of study, from a quick chat to the full works. Which one do you want to hear about?","Depende de quão madura está a sua ideia! A gente faz quatro tipos de estudo, de um papo rápido até o pacote completo. Qual você quer conhecer?"
+TY_CONF_LAB_ASK_OFFICE,Office Hours,Office Hours (o plantão de ideias)
+TY_CONF_LAB_ASK_CONCEPT,Concept Development,Desenvolvimento de Conceito
+TY_CONF_LAB_ASK_TRADES,Trade Studies,Estudos de trade-off
+TY_CONF_LAB_ASK_POINT,Point Design,Point Design (o projeto detalhado)
+TY_CONF_LAB_OFFICE,"Office Hours! You drop in with an idea, even one scribbled on a napkin, and we brainstorm the afternoon away. By teatime we've found the big challenges hiding in it. No idea is too small... except the ones that don't fit in the rocket.","Office Hours! Você chega com uma ideia, nem que seja rabiscada num guardanapo, e a gente passa a tarde num brainstorm. Antes do lanche, já achamos os grandes desafios escondidos nela. Nenhuma ideia é pequena demais... só as que não cabem no foguete."
+TY_CONF_LAB_CONCEPT,"Concept Development: now comes the serious question. Can this really fly? We check feasibility, poke every risk until it squeaks and tell you honestly which ones bite.","Desenvolvimento de Conceito: agora vem a pergunta séria. Isso voa mesmo? A gente confere a viabilidade, cutuca cada risco até ele dar um gritinho e conta, com toda a sinceridade, quais deles mordem."
+TY_CONF_LAB_TRADES,"Trade Studies: two orbits, three rockets, four antennas... we lay the mission architectures side by side and weigh them like fruit at the market. Lighter, cheaper, safer? One of them always wins.","Estudos de trade-off: duas órbitas, três foguetes, quatro antenas... a gente coloca as arquiteturas da missão lado a lado e pesa uma por uma, que nem fruta na feira. Mais leve, mais barata, mais segura? Sempre tem uma que ganha."
+TY_CONF_LAB_POINT,"Point Design: the full works! CAD drawings, a list of every piece of equipment and a cost estimate down to the last bolt. The concept leaves this table ready to be built.","Point Design: o pacote completo! Desenhos em CAD, a lista de cada equipamento e uma estimativa de custo até o último parafuso. O conceito sai desta mesa pronto para ser construído."
+TY_CONF_LAB_ASK_OTHER,Another kind of study,Outro tipo de estudo
+TY_CONF_LAB_ASK_WHOLE,What do you all look at?,O que vocês analisam?
+TY_CONF_LAB_WHOLE,"Everything! The orbit and trajectory, the spacecraft, comms, the ground stations, the launch vehicle and operations. Then every subsystem: power, propulsion, thermal, structures, avionics, attitude control and software. And reliability, cost and risk keep an eye on all of us.","Tudo! A órbita e a trajetória, a nave, as comunicações, as estações em solo, o foguete e as operações. Depois, cada subsistema: energia, propulsão, controle térmico, estruturas, aviônica, controle de atitude e software. E confiabilidade, custo e risco ficam de olho em todo mundo."
+TY_CONF_LAB_ASK_MINE,Could you look at our concept?,Dá uma olhada no nosso conceito?
+TY_CONF_LAB_ASK_TIP,What should we work on next?,E no que a gente mexe agora?
+TY_CONF_LAB_MORE_1,What else can we sketch for you?,O que mais a gente pode rabiscar para você?
+TY_CONF_LAB_MORE_2,"Ask away! Questions are this lab's fuel. Well, questions and tea.","Pode perguntar! Pergunta é o combustível deste laboratório. Bom, pergunta e chá."
+TY_CONF_LAB_BYE,"See you, designers!","Até mais, projetistas!"
+TY_CONF_LAB_CML_NOW,"Let me see... {code} is at CML {level}, “{name}”, right now. Not bad at all! Bring it to our Office Hours and we'll push it toward CML {next}.","Deixa eu ver... o {code} está no CML {level}, “{name}”, agora. Nada mal! Traz ele para o nosso Office Hours que a gente empurra até o CML {next}."
+TY_CONF_LAB_CML_NOW_ZERO,"Let me see... {code} is still a napkin sketch, not even CML 1 yet. That's how every mission starts! Bring it to our Office Hours.","Deixa eu ver... o {code} ainda é um rabisco de guardanapo, nem chegou ao CML 1. Toda missão começa assim! Traz ele para o nosso Office Hours."
+TY_CONF_LAB_CML_NOW_MAX,"Let me see... {code} is at CML {level}, “{name}”! Every box ticked. Honestly, you could teach a class here.","Deixa eu ver... o {code} está no CML {level}, “{name}”! Tudo marcado. Sinceramente, vocês podiam dar aula aqui."
+TY_CONF_LAB_CML_LAST,"Your last concept, {code}, reached CML {level}, “{name}”, before it flew. Bring the next one to our Office Hours and we'll aim for CML {next}!","O seu último conceito, o {code}, chegou ao CML {level}, “{name}”, antes de voar. Traz o próximo para o nosso Office Hours que a gente mira no CML {next}!"
+TY_CONF_LAB_CML_LAST_ZERO,"Your last concept, {code}, flew as a napkin sketch, below CML 1. Brave! Bring the next one to our Office Hours first.","O seu último conceito, o {code}, voou ainda como rabisco de guardanapo, abaixo do CML 1. Que coragem! Traz o próximo para o nosso Office Hours antes."
+TY_CONF_LAB_CML_LAST_MAX,"Your last concept, {code}, flew at CML {level} with every box ticked. We pinned it on the whiteboard!","O seu último conceito, o {code}, voou no CML {level} com tudo marcado. A gente pendurou ele no quadro branco!"
+TY_CONF_LAB_CML_NONE,"No concept on your table yet? Every great mission starts as a doodle. Sketch one and bring it to our Office Hours!","Nenhum conceito na mesa ainda? Toda grande missão começa como um rabisco. Desenha um e traz para o nosso Office Hours!"
+TY_CONF_LAB_TIP,"On {code}'s checklist, the next box to tick is “{item}”. Our tip: {hint}.","Na checklist do {code}, o próximo item a marcar é “{item}”. Nossa dica: {hint}."
+TY_CONF_LAB_TIP_LAST,"For the next concept, CML {next} asks for {items}. Our tip: {hint}.","No próximo conceito, o CML {next} pede {items}. Nossa dica: {hint}."
+TY_CONF_LAB_TIP_DONE,"Nothing left to tick! Now go build it, and send us a postcard from orbit.","Não sobrou nada para marcar! Agora é construir, e mandar um cartão-postal lá da órbita."
+TY_CONF_LAB_TIP_NONE,"Start with CML 1: “{item}”. Our tip: {hint}.","Comece pelo CML 1: “{item}”. Nossa dica: {hint}."
+TY_CONF_LAB_ITEM,“{item}”,“{item}”
+TY_CONF_LAB_AND,{a} and {b},{a} e {b}
+TY_CONF_LAB_FLASH,The Mission Design Lab loved your concept: +{hype} hype,O Mission Design Lab adorou o seu conceito: +{hype} de hype

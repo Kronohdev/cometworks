@@ -74,6 +74,7 @@ var _leaving := false
 
 func _ready() -> void:
 	_rng.randomize()
+	CwIcon.sharpen_all(self)   # the big stars of the head and the strength card
 	_pdata = TycoonState.load_json(TycoonState.PROFESSIONS_PATH)
 	%NameEdit.text_changed.connect(set_leader_name)
 	%NameEdit.text_submitted.connect(func(_t: String) -> void: _react("wave", "happy"))

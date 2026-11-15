@@ -205,6 +205,7 @@ func _fill_goal() -> void:
 		var goal := String(m.get("goal", ""))
 		%GoalLine.text = tr("FL_CW_GOAL_LINE") % [goal, String(m.get("target", ""))] if goal != "" else String(m.get("target", ""))
 		(%GoalIcon as TextureRect).texture = ICON_PLANET
+		CwIcon.sharpen(%GoalIcon as TextureRect)
 
 
 ## The layout is authored for 1600x900; other window sizes scale the whole HUD.

@@ -112,3 +112,12 @@ KEYNAME_EQUAL,=,=
 KEYNAME_MINUS,-,-
 INTRO_PRESENTS,presents,apresenta
 INTRO_SKIP,Press any key to skip,Qualquer tecla para pular
+MENU_OPT_DEV_CODE,Dev code,Código de dev
+MENU_OPT_DEV_PLACEHOLDER,Type the code,Digite o código
+MENU_OPT_DEV_UNLOCK,Unlock,Liberar
+MENU_OPT_DEV_WRONG,Wrong code,Código errado
+MENU_OPT_DEV_ON,Dev menu unlocked (F1),Menu de dev liberado (F1)
+LANG_SUBTITLE,Walk the Cometling over to a flag,Leve o Cometinho até uma bandeira
+LANG_HINT_MOVE,choose,escolher
+LANG_HINT_CONFIRM,or click a flag to confirm,ou clique numa bandeira para confirmar
+LANG_GO,Let's go!,Vamos lá!

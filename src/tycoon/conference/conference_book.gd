@@ -13,8 +13,12 @@ extends RefCounted
 ##     changed) with a few fair choices added (the report, the gossip, the host's rival menu);
 ##     the composed sentences live in the run's vars and a fair line's text_key is the bare
 ##     placeholder ("{conf_status}"), which TranslationServer leaves as it is and the run fills
+##   - the Mission Design Lab (design_lab; after NASA Goddard's): its team's tree and the read of
+##     the player's concept from the CML checklist (lab_run, lab_vars), a little hype once per
+##     conference for hearing it (lab_visit)
 ## State: TycoonState.conference = {"last_year", "attended": [years], "skipped": [years],
-## "heard": [rival ids], "talked": [Lenda ids]} (the last two for the conference under way), plus
+## "heard": [rival ids], "talked": [Lenda ids]} (the last two for the conference under way), "lab":
+## [years the lab's reward was given], plus
 ## what ConferenceTriennium keeps ("rep_marks", "tip", "awards", "trophies").
 ## The player's own three years (the rivals' and the Lendas' reactions, the host's tip, the
 ## award) are ConferenceTriennium's; tree_for / vars_for add their choices and lines.
@@ -23,6 +27,8 @@ const DATA_PATH := "res://data/tycoon/conference.json"
 const ROLE_HOST := "host"
 const ROLE_RIVAL := "rival"
 const ROLE_GUEST := "guest"
+## the Mission Design Lab's team (conference.json design_lab): not Lendas, not attendees
+const ROLE_LAB := "lab"
 ## the host's lines between two reports: Keplerino's gossip one-liners (dialogues.json's
 ## lenda_keplerino tree has the rest of them in its own "gossip" node)
 const HOST_MORE: Array[String] = ["TY_LT_KEPLERINO_GOSSIP_5", "TY_LT_KEPLERINO_GOSSIP_7", "TY_LT_KEPLERINO_GOSSIP_8",
@@ -47,7 +53,7 @@ static func player_cfg(key: String, default: float) -> float:
 
 # ------------------------------------------------------------ state
 static func store(s: TycoonState) -> Dictionary:
-	for k in ["attended", "skipped"]:
+	for k in ["attended", "skipped", "lab"]:
 		var years: Array = []
 		for y: Variant in (s.conference.get(k, []) if s.conference.get(k) is Array else []):
 			years.append(int(y))   # a loaded save has them as floats
@@ -481,3 +487,133 @@ static func tree_for(id: String, role: String, s: TycoonState = null) -> Diction
 	for i in add.size():
 		menu.insert(at + i, add[i])
 	return tree
+
+
+# ------------------------------------------------------------ the Mission Design Lab
+## The lab booth's data (conference.json design_lab): {"team", "reward", "tree"}.
+static func lab_cfg() -> Dictionary:
+	var d: Variant = cfg("design_lab", {})
+	return d if d is Dictionary else {}
+
+
+## The lab's Cometlings: [{"id", "name", "profession", "variant", "marker"}].
+static func lab_team() -> Array:
+	return lab_cfg().get("team", [])
+
+
+## The team member `id` as a speaker (a staff-like entry: name, profession, look variant).
+static func lab_member(id: String) -> Dictionary:
+	for m: Dictionary in lab_team():
+		if String(m.get("id", "")) == id:
+			return {"id": "lab_" + id, "name": String(m.get("name", "")), "profession": String(m.get("profession", "")),
+				"variant": int(m.get("variant", 0))}
+	return {}
+
+
+## The lab's read of the player's concept, from the Design Review's CML checklist:
+## {"kind": "now" (the newest project in development) | "last" (the last launched one) | "none",
+## "code", "level", "max", "item" (the first unchecked item: {"id", "label_key", "hint_key"},
+## "now" only), "next_items" (the items of the level above, "last" only)}.
+static func lab_review(s: TycoonState) -> Dictionary:
+	var top := CmlChecklist.max_level()
+	var p: MissionProject = null
+	for q: MissionProject in s.mission_projects:
+		if p == null or q.start_week >= p.start_week:
+			p = q
+	if p != null:
+		var c := CmlChecklist.evaluate(s, p, p.review_fixes, true)
+		var first := {}
+		for it: Dictionary in c["items"]:
+			if not it["ok"]:
+				first = it
+				break
+		return {"kind": "now", "code": p.code, "level": int(c["level"]), "max": top, "item": first}
+	for i in range(s.project_history.size() - 1, -1, -1):
+		var h: Dictionary = s.project_history[i]
+		if h.has("cml"):
+			var lv := int(h["cml"])
+			var nxt: Array = []
+			for l: Dictionary in CmlChecklist.levels():
+				if int(l.get("level", 0)) == lv + 1:
+					nxt = l.get("items", [])
+			return {"kind": "last", "code": String(h.get("code", "")), "level": lv, "max": top, "next_items": nxt}
+	return {"kind": "none", "code": "", "level": 0, "max": top}
+
+
+## The lab tree's two sentences: {"lab_cml": the level line, "lab_tip": what to work on}.
+static func lab_vars(s: TycoonState) -> Dictionary:
+	var rv := lab_review(s)
+	var lv := int(rv["level"])
+	var top := int(rv["max"])
+	var v := {"code": rv["code"], "level": lv, "next": mini(lv + 1, top),
+		"name": TranslationServer.translate(CmlChecklist.level_name_key(lv))}
+	var out := {}
+	match String(rv["kind"]):
+		"now":
+			out["lab_cml"] = _t("TY_CONF_LAB_CML_NOW" + ("_ZERO" if lv == 0 else ("_MAX" if lv >= top else "")), v)
+			var it: Dictionary = rv["item"]
+			if it.is_empty():
+				out["lab_tip"] = _t("TY_CONF_LAB_TIP_DONE", v)
+			else:
+				v["item"] = TranslationServer.translate(String(it["label_key"]))
+				v["hint"] = TranslationServer.translate(String(it["hint_key"]))
+				out["lab_tip"] = _t("TY_CONF_LAB_TIP", v)
+		"last":
+			out["lab_cml"] = _t("TY_CONF_LAB_CML_LAST" + ("_ZERO" if lv == 0 else ("_MAX" if lv >= top else "")), v)
+			var ids: Array = rv["next_items"]
+			if ids.is_empty():
+				out["lab_tip"] = _t("TY_CONF_LAB_TIP_DONE", v)
+			else:
+				var names: Array[String] = []
+				for id: Variant in ids:
+					names.append(_t("TY_CONF_LAB_ITEM", {"item": TranslationServer.translate(
+						String(CmlChecklist.item_def(String(id)).get("label_key", "")))}))
+				var items := names[0]
+				for i in range(1, names.size()):
+					items = _t("TY_CONF_LAB_AND", {"a": items, "b": names[i]})
+				v["items"] = items
+				v["hint"] = TranslationServer.translate(String(CmlChecklist.item_def(String(ids[0])).get("hint_key", "")))
+				out["lab_tip"] = _t("TY_CONF_LAB_TIP_LAST", v)
+		_:
+			out["lab_cml"] = _t("TY_CONF_LAB_CML_NONE", v)
+			var first := ""
+			for l: Dictionary in CmlChecklist.levels():
+				if not (l.get("items", []) as Array).is_empty():
+					first = String(l["items"][0])
+					break
+			var d := CmlChecklist.item_def(first)
+			v["item"] = TranslationServer.translate(String(d.get("label_key", "")))
+			v["hint"] = TranslationServer.translate(String(d.get("hint_key", "")))
+			out["lab_tip"] = _t("TY_CONF_LAB_TIP_NONE", v)
+	return out
+
+
+## A conversation with lab member `id` (design_lab.tree, copied): the member as the speaker (its
+## name and profession in the box; not staff: no morale, no Caderno tip), the CML read in vars.
+static func lab_run(s: TycoonState, id: String, world := {}) -> DialogueRun:
+	var m := lab_member(id)
+	var w := world.duplicate()
+	w["where"] = "fair"
+	var r := DialogueRun.new(s, m, "", String(m.get("id", "lab")), w)
+	r.member = {}
+	r.tree = (lab_cfg().get("tree", {}) as Dictionary).duplicate(true)
+	r.tree_id = "conference_lab"
+	r.vars.merge(lab_vars(s), true)
+	if String(r.vars.get("profession", "")) != "":
+		r.vars["profession"] = _t("TY_CONF_LAB_ROLE", {"role": r.vars["profession"]})
+	return r
+
+
+## The player heard the lab's read of their concept: `reward` once per conference. Returns the
+## hype given (0 when it was given already this conference).
+static func lab_visit(s: TycoonState) -> float:
+	var st := store(s)
+	var list: Array = st["lab"]
+	if s.year() in list:
+		return 0.0
+	list.append(s.year())
+	var hype := float((lab_cfg().get("reward", {}) as Dictionary).get("hype", 0.0))
+	if hype > 0.0:
+		s.hype = clampf(s.hype + hype, 0.0, 100.0)
+		s.changed.emit()
+	return hype

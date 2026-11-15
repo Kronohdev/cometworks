@@ -51,7 +51,10 @@ func bind(w: FlightWorld) -> void:
 	map.set_scale_mode(2, true)
 	_fill_list()
 	set_speed(speed)
-	show_info("earth")
+	show_info(sys.ids[map.focus] if map.focus >= 0 else "sun")   # the card shows what the map does
+	# a body picked on the map itself (a click, the ‹ › arrows, Tab, Solar) updates the card and
+	# the list highlight too, not only a row of the list
+	map.focus_changed.connect(_on_map_focus)
 
 
 ## Mission time of today's real date (the computer's clock).
@@ -149,6 +152,11 @@ func focus_body(id: String) -> void:
 	show_info(id)
 
 
+func _on_map_focus(f: int) -> void:
+	if f >= 0 and f < sys.ids.size() and sys.ids[f] != selected:
+		show_info(sys.ids[f])
+
+
 func show_info(id: String) -> void:
 	var i := sys.index_of(id)
 	if i < 0:
@@ -190,8 +198,20 @@ func show_info(id: String) -> void:
 	%Desc.text = tr("SS_DESC_" + up)
 	for c in %RowTemplate.get_parent().get_children():
 		if c != %RowTemplate and c is Button:
-			(c as Button).set_pressed_no_signal(String(c.get_meta("body_id", "")) == id)
+			var on := String(c.get_meta("body_id", "")) == id
+			(c as Button).set_pressed_no_signal(on)
+			if on:
+				_scroll_to(c as Control)
 	_refresh_live()
+
+
+## Keeps the highlighted row in view (a body picked on the map may be far down the list).
+func _scroll_to(row: Control) -> void:
+	var p := row.get_parent()
+	while p != null and not (p is ScrollContainer):
+		p = p.get_parent()
+	if p is ScrollContainer and row.is_visible_in_tree():
+		(p as ScrollContainer).ensure_control_visible.call_deferred(row)
 
 
 ## The card's live lines: distance from the parent (or the Sun) and from the Earth, now.

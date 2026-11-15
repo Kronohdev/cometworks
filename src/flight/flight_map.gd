@@ -48,6 +48,10 @@ const ICON_LINE := preload("res://scenes/flight/ui/map_node_line.svg")
 const ICON_BODY := preload("res://scenes/flight/ui/map_body.svg")
 const MIN_VESSEL_DIST := 0.4
 const MAX_DIST := 2.5e10
+## a dot cloud (belt, Trojans) shows fully while its ring is at least this big on screen (px)
+const CLOUD_FULL_PX := 520.0
+## the least of a dot cloud that still shows when it is small on screen
+const CLOUD_MIN_FADE := 0.05
 const HANDLE_PX := 78.0
 ## pick radius of a gizmo handle / node marker (px)
 const HANDLE_PICK := 18.0
@@ -69,6 +73,8 @@ const AU_M := 149597870700.0
 static var SOI_COLORS: Dictionary = STYLE.soi_colors
 
 signal node_selected(n: FlightManeuverNode)
+## the focus changed (set_focus: a click on a body, the ‹ › arrows, Tab, a scale button, a host)
+signal focus_changed(f: int)
 
 var world: FlightWorld
 var sys: FlightSolar
@@ -118,6 +124,7 @@ var _geo: Array[Array] = []
 var _belt_rate := 0.0
 var _cloud_t0 := 0.0
 var _dots_fade := -1.0
+var _tro_fade := -1.0
 var _atmo_mats: Array[ShaderMaterial] = []
 var _text_timer := 0.0
 var _initialized := false
@@ -276,6 +283,8 @@ func _fill_clouds() -> void:
 	_belt_rate = sqrt(gm / pow(2.7 * AU_M, 3.0))
 	# Trojans: around Jupiter's L4 / L5 points, 60 deg ahead of / behind it on its orbit
 	var tro := %Trojans as MultiMeshInstance3D
+	# its own copy of the dots material: it fades by its own size on screen (cloud_far_fade)
+	tro.material_override = (%AsteroidBelt as MultiMeshInstance3D).material_override.duplicate()
 	var nt := int(tro.get_meta("count", 700))
 	var tm := tro.multimesh
 	tm.instance_count = nt
@@ -332,13 +341,29 @@ func _place_extras() -> void:
 	belt.basis = Basis(n_e, _belt_rate * (now - _cloud_t0))
 	tro.position = sp
 	tro.basis = Basis(n_e, sys.rate[sys.index_of("jupiter")] * (now - _cloud_t0))
-	var fade := smoothstep(2.0e7, 2.0e8, _dist)
-	belt.visible = fade > 0.01
-	tro.visible = fade > 0.01
-	if absf(fade - _dots_fade) > 0.01:
-		_dots_fade = fade
-		(belt.material_override as ShaderMaterial).set_shader_parameter(&"fade", fade)
+	var near := smoothstep(2.0e7, 2.0e8, _dist)
+	# far away the cloud shrinks on screen but keeps its thousands of fixed-size dots: they pile up
+	# into a solid white disc over the inner planets. Dim it with its on-screen size instead
+	# (constant ink per pixel of the ring: alpha ~ the ring's screen area).
+	var sun_d := maxf(cam_pos.distance_to(sp), 1e-6)
+	var belt_fade := near * cloud_far_fade(2.7 * AU_M * K * focal / sun_d)
+	var tro_fade := near * cloud_far_fade(5.2 * AU_M * K * focal / sun_d)
+	belt.visible = belt_fade > 0.01
+	tro.visible = tro_fade > 0.01
+	if absf(belt_fade - _dots_fade) > 0.01 or absf(tro_fade - _tro_fade) > 0.01:
+		_dots_fade = belt_fade
+		_tro_fade = tro_fade
+		(belt.material_override as ShaderMaterial).set_shader_parameter(&"fade", belt_fade)
+		(tro.material_override as ShaderMaterial).set_shader_parameter(&"fade", tro_fade)
 	_place_comet(now)
+
+
+## How much of a dot cloud shows for its ring radius on screen (px): all of it from
+## CLOUD_FULL_PX up, then falling with the ring's area (the dots keep their pixel size), at least
+## CLOUD_MIN_FADE so the belt still reads as a faint ring at system scale.
+static func cloud_far_fade(ring_px: float) -> float:
+	var f := clampf(ring_px / CLOUD_FULL_PX, 0.0, 1.0)
+	return maxf(f * f, CLOUD_MIN_FADE) if ring_px > 4.0 else 0.0
 
 
 func _set_body_scale(i: int, sc: float) -> void:
@@ -479,30 +504,54 @@ func set_focus(f: int, keep_dist := false) -> void:
 		elif f == -1:
 			dist = clampf(dist, MIN_VESSEL_DIST, _vessel_orbit_size() * 3.0)
 	_refresh_names()
+	focus_changed.emit(f)
+
+
+## The ‹ › arrows / Tab: the next (d = 1) or previous body to focus. With a vessel: the vessel, the
+## body it orbits, then the others; without (the solar-system views): every body in order. (The
+## old `[...] if show_vessel else [...]` gave an untyped Array to an Array[int]: a script error
+## on every press, so the arrows did nothing.)
+func focus_order() -> Array[int]:
+	var order: Array[int] = []
+	if show_vessel:
+		order.append(-1)
+		order.append(world.soi)
+	for i in sys.ids.size():
+		if not order.has(i):
+			order.append(i)
+	return order
 
 
 func cycle_focus(d: int) -> void:
-	var order: Array[int] = [-1, world.soi] if show_vessel else [world.soi]
-	for i in sys.ids.size():
-		if i != world.soi:
-			order.append(i)
-	var k := order.find(focus)
+	var order := focus_order()
+	var k := order.find(frame_body() if focus == -2 else focus)
 	set_focus(order[posmod(k + d, order.size())])
 
 
-## 0 = the vessel's orbit, 1 = the system of the body it orbits, 2 = the whole solar system
+## 0 = an orbit, 1 = a system, 2 = the whole solar system. Órbita and Sistema act on what is in
+## focus: the vessel's orbit / its body's system while the vessel is (the flight), else the focused
+## body (or tracked craft) stays in focus and the view widens to its orbit / its system (a moon's:
+## its planet's). Before, they always took world.soi (the Earth outside a flight).
 func set_scale_mode(m: int, snap := false) -> void:
 	scale_mode = m
 	match m:
 		0:
-			# centred on the body the vessel orbits, its whole orbit in view
-			set_focus(world.soi, true)
-			dist = _vessel_orbit_size() * 3.2
+			if focus == -1 or (focus == world.soi and show_vessel):
+				# centred on the body the vessel orbits, its whole orbit in view
+				set_focus(world.soi, true)
+				dist = _vessel_orbit_size() * 3.2
+			else:
+				dist = _orbit_view_size()
 			pitch = 0.5
 		1:
-			var b := world.soi if world.soi != sys.moon else sys.earth
-			set_focus(b, true)
-			dist = _system_size(b)
+			if focus == -1:
+				var b := world.soi if world.soi != sys.moon else sys.earth
+				set_focus(b, true)
+				dist = _system_size(b)
+			else:
+				var fb := frame_body()
+				var root := sys.parent[fb] if sys.kinds[fb] == "moon" and sys.parent[fb] >= 0 else fb
+				dist = _system_size(root)
 			pitch = 0.62
 		2:
 			set_focus(sys.sun, true)
@@ -514,6 +563,20 @@ func set_scale_mode(m: int, snap := false) -> void:
 		_yaw = yaw
 		_anim_t = 1.0
 	_refresh_names()
+
+
+## View distance (map units) that shows the focused body's (or tracked craft's) whole orbit.
+func _orbit_view_size() -> float:
+	if focus == -2:
+		var tr_info := _tracked()
+		var b := int(tr_info.get("body", world.soi))
+		var pos: Variant = tr_info.get("pos", null)
+		var r := FlightOrbit.length(pos) if pos is PackedFloat64Array else sys.radius[b] * 3.0
+		return maxf(r * K * 4.5, sys.radius[b] * K * 3.0)
+	var f := maxi(focus, 0)
+	if sys.parent[f] < 0:
+		return sys.radius[f] * K * 8.0   # the Sun: no orbit, a close look
+	return maxf(sys.sma[f] * K * 2.6, sys.radius[f] * K * 3.0)
 
 
 func _vessel_orbit_size() -> float:

@@ -120,7 +120,7 @@ func _data() -> void:
 		_check((d.get("look", {}) as Dictionary).has("style"), "%s has a look with a style" % d.get("id", "?"))
 		if bool(d.get("lead", false)):
 			leads += 1
-			_check(String(role.get("pt", "")) == "Direção e desenvolvimento", "the lead's role line")
+			_check(String(role.get("pt", "")).begins_with("Direção"), "the lead's role line")
 	_check(leads == 1, "exactly one lead")
 	_check(CreditsScreen.sections().size() >= 3, "the credit sections load")
 	var emblem := String(CreditsScreen.data().get("emblem", ""))

@@ -71,6 +71,9 @@ signal closed
 	GraphicsQuality.Level.HIGH: %QualityHigh}
 @onready var colorblind_on: Button = %ColorblindOn
 @onready var colorblind_off: Button = %ColorblindOff
+@onready var dev_code: LineEdit = %DevCode
+@onready var dev_unlock: Button = %DevUnlock
+@onready var dev_status: Label = %DevStatus
 @onready var key_template: Control = %KeyTemplate
 @onready var keys_hint: Label = %KeysHint
 
@@ -139,6 +142,9 @@ func _ready() -> void:
 			sync())
 	colorblind_on.pressed.connect(CwAccess.set_colorblind.bind(true))
 	colorblind_off.pressed.connect(CwAccess.set_colorblind.bind(false))
+	dev_unlock.pressed.connect(_try_dev_code)
+	dev_code.text_submitted.connect(func(_t: String) -> void: _try_dev_code())
+	_show_dev()
 	%KeysReset.pressed.connect(func() -> void:
 		listening = &""
 		CwKeys.reset_defaults()
@@ -276,6 +282,25 @@ func _show_volume() -> void:
 
 ## Shows one page of the options grid: "" the general rows, "camera" the camera rows,
 ## "access" the accessibility rows (colour-blind, keys).
+## The dev code (Acesso page): the right one unlocks the dev menu (CwDev) in a release build.
+func _try_dev_code() -> void:
+	var ok := CwDevMenu.try_code(dev_code.text)
+	dev_code.text = ""
+	if ok:
+		_show_dev()
+	else:
+		dev_status.text = tr("MENU_OPT_DEV_WRONG")
+		dev_status.add_theme_color_override("font_color", CwPalette.DANGER)
+
+
+func _show_dev() -> void:
+	var on := CwDevMenu.enabled()
+	dev_code.editable = not on
+	dev_unlock.disabled = on
+	dev_status.text = tr("MENU_OPT_DEV_ON") if on else ""
+	dev_status.add_theme_color_override("font_color", CwPalette.SUCCESS)
+
+
 func show_page(page: String) -> void:
 	if not rows.is_empty():
 		for c in grid.get_children():

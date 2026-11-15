@@ -6,14 +6,43 @@
     {
       "id": "joao",
       "name": "João Lucas",
-      "role": {"en": "Role to be announced", "pt": "Função a definir"},
-      "bio": {"en": "Bio coming soon.", "pt": "Bio em breve."},
-      "signature": [{"action": "think", "seconds": 1.1, "emote": "idea"}, {"action": "nod", "emote": "check"}, {"action": "point"}],
+      "role": {
+        "en": "Game design, missions & QA",
+        "pt": "Game design, missões e QA"
+      },
+      "bio": {
+        "en": "Shaped the core concept, turned the 31 missions into deduction puzzles, balanced their scoring, wrote 4 science-based rover missions and hunted bugs in every build.",
+        "pt": "Ajudou a criar o conceito do jogo, transformou as 31 missões em quebra-cabeças de dedução, balanceou as avaliações, criou 4 missões de rover com base científica e caçou bugs em cada build."
+      },
+      "signature": [
+        {
+          "action": "think",
+          "seconds": 1.1,
+          "emote": "idea"
+        },
+        {
+          "action": "nod",
+          "emote": "check"
+        },
+        {
+          "action": "point"
+        }
+      ],
       "look": {
-        "role": "ground", "gear": false, "hat": "none", "body": "#fbe1c6", "spot": "#8fb7e8",
+        "role": "ground",
+        "gear": false,
+        "hat": "none",
+        "body": "#fbe1c6",
+        "spot": "#8fb7e8",
         "style": {
-          "hair": "medium", "hair_color": "#4b3123", "hair_part": "center",
-          "facial_hair": ["moustache", "chin_beard"], "facial_hair_color": "#4a2e1d",
+          "hair": "medium",
+          "hair_color": "#4b3123",
+          "hair_part": "center",
+          "facial_hair": [
+            "moustache",
+            "chin_beard"
+          ],
+          "facial_hair_color": "#4a2e1d",
           "glasses": "#7f889c"
         }
       }
@@ -22,14 +51,41 @@
       "id": "kaua",
       "name": "Kauã",
       "lead": true,
-      "role": {"en": "Direction and development", "pt": "Direção e desenvolvimento"},
-      "bio": {"en": "Bio coming soon.", "pt": "Bio em breve."},
-      "signature": [{"action": "point", "emote": "star"}, {"action": "clap"}, {"action": "salute", "emote": "rocket"}],
+      "role": {
+        "en": "Direction, game design & programming",
+        "pt": "Direção, game design e programação"
+      },
+      "bio": {
+        "en": "Also made the music, sound, story, 3D art and UI/UX.",
+        "pt": "Também fez as músicas, os sons, o roteiro, a arte 3D e a UI/UX."
+      },
+      "signature": [
+        {
+          "action": "point",
+          "emote": "star"
+        },
+        {
+          "action": "clap"
+        },
+        {
+          "action": "salute",
+          "emote": "rocket"
+        }
+      ],
       "look": {
-        "role": "ground", "gear": false, "hat": "none", "body": "#ffd8b4", "spot": "#f2b84b",
+        "role": "ground",
+        "gear": false,
+        "hat": "none",
+        "body": "#ffd8b4",
+        "spot": "#f2b84b",
         "style": {
-          "hair": "mullet", "hair_color": "#dda640",
-          "facial_hair": ["goatee", "moustache"], "facial_hair_color": "#b5843c",
+          "hair": "mullet",
+          "hair_color": "#dda640",
+          "facial_hair": [
+            "goatee",
+            "moustache"
+          ],
+          "facial_hair_color": "#b5843c",
           "eyes": "#4fae5c"
         }
       }
@@ -37,28 +93,80 @@
     {
       "id": "ryan",
       "name": "Ryan",
-      "role": {"en": "Role to be announced", "pt": "Função a definir"},
-      "bio": {"en": "Bio coming soon.", "pt": "Bio em breve."},
-      "signature": [{"action": "dance", "seconds": 2.6, "emote": "note"}, {"action": "hop", "emote": "note"}, {"action": "laugh"}],
+      "role": {
+        "en": "Mission design, research & testing",
+        "pt": "Design de missões, pesquisa e testes"
+      },
+      "bio": {
+        "en": "Studied the NASA papers and resources behind the project, designed missions, wrote story, helped shape the game design and playtested the builds.",
+        "pt": "Analisou os artigos e recursos da NASA usados no projeto, desenhou missões, escreveu roteiro, ajudou no game design e testou as builds."
+      },
+      "signature": [
+        {
+          "action": "dance",
+          "seconds": 2.6,
+          "emote": "note"
+        },
+        {
+          "action": "hop",
+          "emote": "note"
+        },
+        {
+          "action": "laugh"
+        }
+      ],
       "look": {
-        "role": "ground", "gear": false, "hat": "none", "body": "#f4d0aa", "spot": "#6fd1c0",
+        "role": "ground",
+        "gear": false,
+        "hat": "none",
+        "body": "#f4d0aa",
+        "spot": "#6fd1c0",
         "style": {
-          "hair": "messy", "hair_color": "#1f1b24",
-          "facial_hair": ["moustache"], "facial_hair_color": "#3b3242",
-          "headphones": "#2b2d3a", "headphones_accent": "#6fd1c0"
+          "hair": "messy",
+          "hair_color": "#1f1b24",
+          "facial_hair": [
+            "moustache"
+          ],
+          "facial_hair_color": "#3b3242",
+          "headphones": "#2b2d3a",
+          "headphones_accent": "#6fd1c0"
         }
       }
     },
     {
       "id": "helena",
       "name": "Helena",
-      "role": {"en": "Role to be announced", "pt": "Função a definir"},
-      "bio": {"en": "Bio coming soon.", "pt": "Bio em breve."},
-      "signature": [{"action": "spin", "emote": "sparkle"}, {"action": "spin"}, {"action": "celebrate", "emote": "sparkle"}],
+      "role": {
+        "en": "Mission design, research & testing",
+        "pt": "Design de missões, pesquisa e testes"
+      },
+      "bio": {
+        "en": "Studied the NASA papers and resources behind the project, designed missions, wrote story, helped shape the game design and playtested the builds.",
+        "pt": "Analisou os artigos e recursos da NASA usados no projeto, desenhou missões, escreveu roteiro, ajudou no game design e testou as builds."
+      },
+      "signature": [
+        {
+          "action": "spin",
+          "emote": "sparkle"
+        },
+        {
+          "action": "spin"
+        },
+        {
+          "action": "celebrate",
+          "emote": "sparkle"
+        }
+      ],
       "look": {
-        "role": "ground", "gear": false, "hat": "none", "body": "#f9d2bb", "spot": "#c9a4ff",
+        "role": "ground",
+        "gear": false,
+        "hat": "none",
+        "body": "#f9d2bb",
+        "spot": "#c9a4ff",
         "style": {
-          "hair": "medium", "hair_color": "#2c2120", "hair_part": "side",
+          "hair": "medium",
+          "hair_color": "#2c2120",
+          "hair_part": "side",
           "streak": "#f4dc8c"
         }
       }
@@ -68,32 +176,86 @@
     {
       "title_key": "CREDITS_SECTION_ENGINE",
       "lines": [
-        {"name": "Godot Engine 4.6", "detail_key": "CREDITS_GODOT_DETAIL", "url": "https://godotengine.org/license"}
+        {
+          "name": "Godot Engine 4.6",
+          "detail_key": "CREDITS_GODOT_DETAIL",
+          "url": "https://godotengine.org/license"
+        }
       ]
     },
     {
       "title_key": "CREDITS_SECTION_FONTS",
       "lines": [
-        {"name": "Fredoka", "by": "The Fredoka Project Authors", "detail_key": "CREDITS_FONT_OFL", "url": "https://openfontlicense.org"},
-        {"name": "Nunito", "by": "The Nunito Project Authors", "detail_key": "CREDITS_FONT_OFL", "url": "https://openfontlicense.org"},
-        {"name": "Bricolage Grotesque", "by": "The Bricolage Grotesque Project Authors", "detail_key": "CREDITS_FONT_OFL", "url": "https://openfontlicense.org"},
-        {"name": "Atkinson Hyperlegible", "by": "Braille Institute of America", "detail_key": "CREDITS_FONT_OFL", "url": "https://openfontlicense.org"},
-        {"name": "IBM Plex Mono", "by": "IBM Corp.", "detail_key": "CREDITS_FONT_OFL", "url": "https://openfontlicense.org"}
+        {
+          "name": "Fredoka",
+          "by": "The Fredoka Project Authors",
+          "detail_key": "CREDITS_FONT_OFL",
+          "url": "https://openfontlicense.org"
+        },
+        {
+          "name": "Nunito",
+          "by": "The Nunito Project Authors",
+          "detail_key": "CREDITS_FONT_OFL",
+          "url": "https://openfontlicense.org"
+        },
+        {
+          "name": "Bricolage Grotesque",
+          "by": "The Bricolage Grotesque Project Authors",
+          "detail_key": "CREDITS_FONT_OFL",
+          "url": "https://openfontlicense.org"
+        },
+        {
+          "name": "Atkinson Hyperlegible",
+          "by": "Braille Institute of America",
+          "detail_key": "CREDITS_FONT_OFL",
+          "url": "https://openfontlicense.org"
+        },
+        {
+          "name": "IBM Plex Mono",
+          "by": "IBM Corp.",
+          "detail_key": "CREDITS_FONT_OFL",
+          "url": "https://openfontlicense.org"
+        }
       ]
     },
     {
       "title_key": "CREDITS_SECTION_DATA",
       "lines": [
-        {"name": "NASA NSSDCA", "detail_key": "CREDITS_NSSDCA_DETAIL", "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/"},
-        {"name": "NASA JPL Solar System Dynamics", "detail_key": "CREDITS_JPL_DETAIL", "url": "https://ssd.jpl.nasa.gov/"},
-        {"name": "IAU WGCCRE", "detail_key": "CREDITS_IAU_DETAIL", "url": ""},
-        {"name": "Jean Meeus", "detail_key": "CREDITS_MEEUS_DETAIL", "url": ""}
+        {
+          "name": "NASA NSSDCA",
+          "detail_key": "CREDITS_NSSDCA_DETAIL",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/"
+        },
+        {
+          "name": "NASA JPL Solar System Dynamics",
+          "detail_key": "CREDITS_JPL_DETAIL",
+          "url": "https://ssd.jpl.nasa.gov/"
+        },
+        {
+          "name": "NASA Goddard Mission Design Lab",
+          "detail_key": "CREDITS_MDL_DETAIL",
+          "url": "https://mdl.gsfc.nasa.gov/"
+        },
+        {
+          "name": "IAU WGCCRE",
+          "detail_key": "CREDITS_IAU_DETAIL",
+          "url": ""
+        },
+        {
+          "name": "Jean Meeus",
+          "detail_key": "CREDITS_MEEUS_DETAIL",
+          "url": ""
+        }
       ]
     },
     {
       "title_key": "CREDITS_SECTION_EVENT",
       "lines": [
-        {"name": "NASA Space Apps Challenge 2026", "detail_key": "CREDITS_SPACEAPPS_DETAIL", "url": "https://www.spaceappschallenge.org/"}
+        {
+          "name": "NASA Space Apps Challenge 2026",
+          "detail_key": "CREDITS_SPACEAPPS_DETAIL",
+          "url": "https://www.spaceappschallenge.org/"
+        }
       ]
     }
   ]

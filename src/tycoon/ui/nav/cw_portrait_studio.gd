@@ -44,6 +44,16 @@ func portrait(m: Dictionary, glow := Color.WHITE) -> Texture2D:
 	return null
 
 
+## The studio can render and read back a photo now: a real size and a window that draws.
+func can_shoot() -> bool:
+	if size.x <= 0 or size.y <= 0:
+		return false
+	var w := get_tree().root if is_inside_tree() else null
+	if w == null or w.mode == Window.MODE_MINIMIZED or w.size.x <= 0 or w.size.y <= 0:
+		return false
+	return DisplayServer.window_can_draw()
+
+
 func _run() -> void:
 	if _busy or not is_inside_tree():
 		return
@@ -55,10 +65,19 @@ func _run() -> void:
 		creature.play("idle")
 		# two frames: the new colours land, then the photo
 		for i in 2:
+			# minimized (alt-tab out of fullscreen) nothing is drawn and frame_post_draw does not
+			# come: wait for the window to draw again instead of reading back a frame never made
+			while not can_shoot():
+				await get_tree().process_frame
+				if not is_instance_valid(self) or not is_inside_tree():
+					return
 			render_target_update_mode = SubViewport.UPDATE_ONCE
 			await RenderingServer.frame_post_draw
 			if not is_instance_valid(self) or not is_inside_tree():
 				return
+		if not can_shoot():
+			_queue.push_front(q)   # the window went away between the frames: shoot it again
+			continue
 		var img := get_texture().get_image()
 		if img and not img.is_empty():
 			var tex := ImageTexture.create_from_image(img)

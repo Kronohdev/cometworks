@@ -38,6 +38,7 @@ var state: TycoonState
 var clock: TycoonClock
 ## the selected track's id ("" = none)
 var selected := ""
+var _selecting := false
 ## "all", "mine" or "rivals"
 var filter := "all"
 
@@ -88,6 +89,7 @@ func bind(m: TycoonModes, w: FlightWorld, args: Dictionary) -> void:
 	_press_speed(clock.speed)
 	map.set_readable(true)
 	map.set_scale_mode(1, true)
+	map.focus_changed.connect(_on_map_focus)
 	var focus := String(args.get("focus", ""))
 	if focus != "" and not SpaceTracking.find(state, focus).is_empty():
 		select(focus)
@@ -157,6 +159,7 @@ func shown_tracks() -> Array[Dictionary]:
 ## Selects a track (the map focuses it and follows it); "" lets go (the map stays on its body).
 func select(id: String) -> void:
 	var trk := SpaceTracking.find(state, id) if id != "" else {}
+	_selecting = true
 	if map:
 		map.set_focus(map.frame_body(), true)
 	selected = id if not trk.is_empty() else ""
@@ -164,6 +167,17 @@ func select(id: String) -> void:
 		map.set_focus(-2, true)
 		map.dist = _frame_distance(trk)
 		map.pitch = maxf(map.pitch, 0.45)
+	_selecting = false
+	_fill_list()
+	_fill_detail()
+
+
+## The map went to a body by itself (a click on it, the ‹ › arrows, Tab, Solar): it no longer
+## follows the selected craft, so the list and the detail let go of it too.
+func _on_map_focus(f: int) -> void:
+	if _selecting or f == -2 or selected == "":
+		return
+	selected = ""
 	_fill_list()
 	_fill_detail()
 

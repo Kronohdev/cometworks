@@ -178,6 +178,7 @@ var embedded := false
 
 func _ready() -> void:
 	_load_prefs()
+	CwIcon.sharpen_all(self)   # icons drawn bigger than their 32 px (the goal card's planet)
 	_btn_lang.pressed.connect(func() -> void: language_toggled.emit())
 	%BtnUndo.pressed.connect(func() -> void: undo_pressed.emit())
 	%BtnRedo.pressed.connect(func() -> void: redo_pressed.emit())

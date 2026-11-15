@@ -108,7 +108,33 @@ static var simulate_release := false
 ## A release export (export_presets.cfg, "Windows Desktop", debug off) has no dev menu: the
 ## node stays in the tree but hidden, disabled and deaf to F1 / F12 / '.
 static func enabled() -> bool:
-	return allowed(OS.is_debug_build() and not simulate_release, bool(ProjectSettings.get_setting(SETTING, false)))
+	return allowed(OS.is_debug_build() and not simulate_release, bool(ProjectSettings.get_setting(SETTING, false))) 		or unlocked()
+
+
+## The dev code typed in Options › Acesso (only its SHA-256 lives here). Unlocking is kept in
+## user://settings.cfg [dev] unlocked, so the menu stays available in that install.
+const CODE_SHA256 := "ce3ae473dd94cd832ae7ee2e5e4cd0dd43d83cc04fe42ba46c1d0ba6de5af4f9"
+const UNLOCK_CFG := "user://settings.cfg"
+
+
+static func unlocked() -> bool:
+	var cfg := ConfigFile.new()
+	return cfg.load(UNLOCK_CFG) == OK and bool(cfg.get_value("dev", "unlocked", false))
+
+
+## Checks a typed code; the right one unlocks the dev menu now and for later runs.
+static func try_code(code: String) -> bool:
+	if code.strip_edges().to_lower().sha256_text() != CODE_SHA256:
+		return false
+	var cfg := ConfigFile.new()
+	cfg.load(UNLOCK_CFG)
+	cfg.set_value("dev", "unlocked", true)
+	cfg.save(UNLOCK_CFG)
+	var tree := Engine.get_main_loop() as SceneTree
+	var dev := tree.root.get_node_or_null("CwDev") if tree else null
+	if dev and dev.has_method("_setup") and not dev.get_meta("set_up", false):
+		dev.call("_setup")
+	return true
 
 
 static func allowed(debug_build: bool, forced_on: bool) -> bool:
@@ -136,6 +162,15 @@ func _ready() -> void:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		set_process_input(false)
 		return
+	_setup()
+
+
+## Everything the menu needs to run; from _ready, or later when the dev code unlocks it.
+func _setup() -> void:
+	set_meta("set_up", true)
+	visible = true
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	set_process_input(true)
 	_rng.randomize()
 	_logger = DevLogger.new()
 	OS.add_logger(_logger)
@@ -923,16 +958,24 @@ func _a_achievements(what: Variant) -> String:
 
 
 ## The Conferência dos Cometinhos (ConferenceFlow): "invite" opens this year's invitation,
-## "go" goes straight to the fair.
+## "go" goes straight to the fair, "lab" too, framing the Mission Design Lab's booth
+## (ConferenceFair.frame_design_lab: the leader in front of it, walking held; E still talks).
 func _a_conference(what: Variant) -> String:
 	var m := main()
 	if m == null or m.conference == null:
 		return NO_CAMPAIGN
+	if String(what) == "lab" and m.conference.is_open() and m.conference.fair:
+		m.conference.fair.frame_design_lab()
+		return "no Mission Design Lab"
 	if m.conference.is_open():
 		m.conference.leave()
 		return "de volta da feira"
-	if String(what) == "go":
+	if String(what) == "go" or String(what) == "lab":
 		m.conference.dev_open()
+		if String(what) == "lab" and m.conference.fair:
+			m.conference.fair.frame_design_lab()
+			m.conference.fair.set_walking(true)
+			return "no Mission Design Lab (ano %d)" % m.state.year()
 		return "na feira (ano %d)" % m.state.year()
 	m.hud.open_screen(ConferenceFlow.SCREEN)
 	return "convite da conferência"

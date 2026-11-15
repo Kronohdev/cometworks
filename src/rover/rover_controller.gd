@@ -38,8 +38,11 @@ const TOOL_WH := {&"photo": 0.2, &"panorama": 0.8, &"scan": 0.6, &"drill": 2.5, 
 ## tool -> seconds the rover is busy (cannot drive)
 const TOOL_BUSY := {&"photo": 0.6, &"panorama": 3.0, &"scan": 1.2, &"drill": 3.0, &"sample": 1.8, &"weather": 0.6,
 	&"drone": 4.0}
-## how far a tool reaches a point of interest (m); reach_radius of the POI counts too
-const TOOL_RANGE := {&"photo": 30.0, &"panorama": 0.0, &"scan": 14.0, &"drill": 0.0, &"sample": 0.0, &"weather": 0.0,
+## how far a tool reaches a point of interest (m, from the rover's centre to the POI's): the rover
+## must be right next to it (its nose about at the objective marker's ring). Independent of the
+## POI's reach_radius, which is only the drive-over range (reaching a rim, picking up a find):
+## adding the two let F work from 20+ m away. A POI with a smaller reach_radius caps it.
+const TOOL_RANGE := {&"photo": 4.5, &"panorama": 0.0, &"scan": 4.5, &"drill": 3.5, &"sample": 3.5, &"weather": 0.0,
 	&"drone": 160.0}
 const GROUND_CELL := 24.0
 ## height of the terrain's step slab in front of a rise of exactly one block (m)
@@ -578,19 +581,28 @@ func _check_drive_objectives() -> void:
 				_say_objective(o["id"])
 
 
+## How far (m, centre to centre) `tool` works on the point of interest `n`: TOOL_RANGE, capped
+## by the POI's own reach_radius (a small find needs the rover even closer).
+func tool_reach(n: Node, tool: StringName) -> float:
+	var r := float(TOOL_RANGE.get(tool, 0.0))
+	if n != null and n.get("reach_radius") != null:
+		r = minf(r, float(n.get("reach_radius")))
+	return r
+
+
 ## The nearest point of interest a tool reaches that accepts it (null if none).
 func nearest_for(tool: StringName) -> Node:
 	# an open objective first, then a POI this tool has not used yet, then the nearest
 	var best: Node = null
 	var best_score := INF
-	var extra := float(TOOL_RANGE.get(tool, 0.0))
 	var s := SurfaceSession.current
 	for n in interactables:
 		if not is_instance_valid(n) or not n.call("accepts", tool):
 			continue
-		var d := _pos_of(n).distance_to(position)
-		var reach := float(n.get("reach_radius")) + extra
-		if d > reach:
+		var dv := _pos_of(n) - position
+		dv.y *= 0.5  # like SurfaceInteractable.in_reach: a POI up a slope still counts
+		var d := dv.length()
+		if d > tool_reach(n, tool):
 			continue
 		var score := d
 		if s == null or s.objective_for(n, tool).is_empty():

@@ -274,6 +274,9 @@ func _test_tools() -> void:
 	var rim := _poi(&"crater_rim", Vector3(0, 10, -20))
 	var ice := _poi(&"ice", Vector3(0, 10, -24))
 	var rock := _poi(&"rock", Vector3(8, 10, -24))
+	# F / tool reach: right next to the target, not the POI's drive-over reach_radius (7 m) on top
+	_check(float(RoverController.TOOL_RANGE[&"drill"]) <= 4.0 and float(RoverController.TOOL_RANGE[&"scan"]) <= 5.0
+		and float(RoverController.TOOL_RANGE[&"photo"]) <= 5.0, "tools reach only a few metres (%s)" % [RoverController.TOOL_RANGE])
 	r.interactables.assign([rim, ice, rock])
 	_check(not bool(r.use_tool(&"weather")["ok"]), "no weather station, no weather")
 	_check(not bool(r.use_tool(&"drone")["ok"]), "the drone does not fly in the Moon's vacuum")
@@ -285,6 +288,10 @@ func _test_tools() -> void:
 	var dr := r.use_tool(&"drill")
 	_check(bool(dr["ok"]) and String(dr["objective"]) == "ice", "drilling the ice answers its objective (%s)" % [dr])
 	_run(r, 4.0, 0.0)
+	_check(r.nearest_for(&"scan") != rock, "the rock 8 m away is out of the spectrometer's reach")
+	_check(r.tool_reach(rock, &"scan") < rock.reach_radius + 0.01, "a tool never reaches farther than driving over")
+	r.position = Vector3(5, 10, -23.5)
+	_check(r.nearest_for(&"scan") == rock, "3 m from the rock, the spectrometer reaches it")
 	var sc := r.use_tool(&"scan")
 	_check(String(sc["objective"]) == "rock", "the spectrometer scans the rock in range")
 	_run(r, 2.0, 0.0)

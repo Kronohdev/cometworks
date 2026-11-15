@@ -22,6 +22,11 @@ extends Node3D
 ##     the winner's leader (the player's own when it wins) stands on the podium, confetti falls
 ##   - Keplerino's tip (ConferenceTriennium.grant_tip): hearing it puts the rival's next goal on
 ##     the mission board
+##   - the Mission Design Lab (an easter egg after NASA Goddard's; the DesignLab booth of the
+##     dressing): its team (conference.json design_lab) at the Team markers, working round the
+##     table (`lab_npcs`, not counted among the Lendas); E on any of them opens the lab's tree
+##     (ConferenceBook.lab_run); hearing the read of the player's concept gives its little reward
+##     once (ConferenceBook.lab_visit). frame_design_lab() frames the booth (trailer shots)
 ## The mouse is captured while walking and given back for a conversation or the card.
 ## The look: the ground is shaders/conference_ground.gdshader (paving, walkways and the
 ## exhibit's rosette on the plaza, grass and a worn fringe round it); the lamps, stage, food
@@ -70,6 +75,8 @@ var chatter: CampusChatter
 var npcs: Array[Dictionary] = []
 ## the Lenda-to-Lenda exchanges standing here: [{"a": Node3D, "b": Node3D, "a_key", "b_key", "said"}]
 var duo_nodes: Array[Dictionary] = []
+## the Mission Design Lab's team, entries like `npcs` (role ConferenceBook.ROLE_LAB)
+var lab_npcs: Array[Dictionary] = []
 ## what the prompt points at: {"npc": entry} | {"exit": true} | {"stage": true} | {}
 var focus: Dictionary = {}
 var run: DialogueRun
@@ -81,6 +88,8 @@ var _greeted := {}
 var _talk_distance := 3.4
 var _pair_distance := 9.0
 var _flash_t := 0.0
+var _lab_t := 2.0
+var _lab_i := 0
 ## the award ceremony under way: {"rec", "host", "winner" (stand-in nodes), "hidden" [nodes],
 ## "confetti" (fired)}; {} when none
 var ceremony: Dictionary = {}
@@ -110,6 +119,7 @@ func open(s: TycoonState, p_talk: CometlingDialogue, p_chatter: CampusChatter) -
 	_build_exhibit()
 	_build_bunting()
 	_fill_people()
+	_build_lab()
 	_dress_player()
 	player.camera = camera
 	player.collide = collide
@@ -300,6 +310,10 @@ func _build_exhibit() -> void:
 	for p in $Props.find_children("*", "Node3D", true, false):   # props with a footprint (metadata block_radius)
 		if p.has_meta("block_radius"):
 			_block_circle(to_local((p as Node3D).global_position), float(p.get_meta("block_radius")))
+		if p.has_meta("block_half"):   # a box footprint (half size and its centre, local to the prop)
+			var n := p as Node3D
+			var c := to_local(n.global_transform * (n.get_meta("block_offset", Vector3.ZERO) as Vector3))
+			_block_box(c, n.get_meta("block_half") as Vector2, (global_basis.inverse() * n.global_basis).get_euler().y)
 
 
 ## The garlands of `bunting`: little triangular flags in the rivals' colours and the palette's,
@@ -569,6 +583,66 @@ func _spawn(p: Dictionary, at: Vector3, yaw: float) -> Dictionary:
 	return e
 
 
+## The Mission Design Lab booth of the dressing (DesignLab): its signs in the language on show
+## and its team at the Team markers, round the table.
+func _build_lab() -> void:
+	var lab := design_lab()
+	if lab == null:
+		return
+	for pair in [["Banner", "TY_CONF_LAB_BANNER"], ["Sub", "TY_CONF_LAB_SUB"], ["HoursSign/Hours", "TY_CONF_LAB_HOURS"]]:
+		var l := lab.get_node_or_null(String(pair[0])) as Label3D
+		if l:
+			l.text = tr(String(pair[1]))
+	for t: Dictionary in ConferenceBook.lab_team():
+		var mk := lab.get_node_or_null(String(t.get("marker", ""))) as Node3D
+		if mk == null:
+			continue
+		var at := to_local(mk.global_position)
+		var yaw := (global_basis.inverse() * mk.global_basis).get_euler().y
+		var m := ConferenceBook.lab_member(String(t["id"]))
+		var holder := Node3D.new()
+		holder.name = "Lab_" + String(t["id"])
+		holder.position = at   # on the booth's deck
+		holder.rotation.y = yaw
+		$Npcs.add_child(holder)
+		var c := CREATURE.instantiate() as Cometling
+		c.name = "Creature"
+		c.listen_to_events = false
+		c.personality_seed = absi(hash(String(t["id"]))) % 1000
+		holder.add_child(c)
+		c.scale = Vector3.ONE * creature_scale
+		c = TycoonLeader.dress(c, m)
+		c.glow_color = TycoonCrew.profession_color(state, String(m.get("profession", "")))
+		_block_circle(holder.position, 0.6)
+		lab_npcs.append({"node": holder, "id": String(t["id"]), "role": ConferenceBook.ROLE_LAB, "rival": "", "look": m})
+
+
+## The DesignLab booth (null when the dressing has none).
+func design_lab() -> Node3D:
+	return $Props.find_child("DesignLab", true, false) as Node3D
+
+
+## Frames the Mission Design Lab for a shot: the leader `dist` m in front of the booth on its
+## axis, facing it, the camera over the shoulder (`hide_leader`: the leader out of the frame, the
+## camera where it was; `height` > 0: the camera's height over the leader). Walking stops
+## (set_walking(true) gives it back). False without the booth.
+func frame_design_lab(dist := 6.0, hide_leader := false, height := -1.0) -> bool:
+	var lab := design_lab()
+	if lab == null:
+		return false
+	set_walking(false)
+	var fwd := lab.global_basis.z
+	fwd.y = 0.0
+	fwd = fwd.normalized()
+	var at := to_local(lab.global_position + fwd * dist)
+	if height > 0.0:
+		player.camera_height = height
+	player.place(Vector3(at.x, 0.0, at.z), atan2(-fwd.x, -fwd.z))
+	if player.creature:
+		player.creature.visible = not hide_leader
+	return true
+
+
 func _dress_player() -> void:
 	var m := TycoonLeader.member(state)
 	var c := player.get_node("Creature") as Cometling
@@ -614,6 +688,7 @@ func _process(delta: float) -> void:
 	_update_focus()
 	_ceremony_tick()
 	_run_pairs(delta)
+	_lab_tick(delta)
 	_greet()
 	if _flash_t > 0.0:
 		_flash_t -= delta
@@ -627,7 +702,7 @@ func _update_focus() -> void:
 		var best := _talk_distance
 		var me := player.global_position
 		var fwd := player.forward()
-		for e in npcs:
+		for e in npcs + lab_npcs:
 			var n: Node3D = e["node"]
 			var to := n.global_position - me
 			to.y = 0.0
@@ -643,7 +718,9 @@ func _update_focus() -> void:
 			f = {"stage": true}
 	focus = f
 	%Prompt.visible = not f.is_empty()
-	if f.has("npc"):
+	if f.has("npc") and String(f["npc"]["role"]) == ConferenceBook.ROLE_LAB:
+		%PromptText.text = tr("TY_CONF_PROMPT_LAB").format({"name": String(f["npc"]["look"].get("name", ""))})
+	elif f.has("npc"):
 		%PromptText.text = tr("TY_CONF_PROMPT_TALK").format({"name": TycoonLegends.name_text(String(f["npc"]["id"]))})
 	elif f.has("exit"):
 		%PromptText.text = tr("TY_CONF_PROMPT_EXIT")
@@ -686,9 +763,30 @@ func _look(who: Node3D, at: Node3D) -> void:
 		c.look_at_point(ChatterBook.head_point(at), 0.7)
 
 
+## The lab's team at work round the table: every few seconds one of them thinks, points at the
+## sketches or laughs, looking at a colleague.
+func _lab_tick(delta: float) -> void:
+	if lab_npcs.size() < 2:
+		return
+	_lab_t -= delta
+	if _lab_t > 0.0:
+		return
+	_lab_t = 2.6 + float(_lab_i % 3) * 0.9
+	_lab_i += 1
+	var e: Dictionary = lab_npcs[_lab_i % lab_npcs.size()]
+	if not run_npc.is_empty() and run_npc["node"] == e["node"]:
+		return   # the one talking to the player
+	var other: Dictionary = lab_npcs[(_lab_i + 1) % lab_npcs.size()]
+	var c := ChatterBook.find_creature(e["node"])
+	if c == null:
+		return
+	c.look_at_point(ChatterBook.head_point(other["node"]), 0.8)
+	c.play(["think", "point", "nod", "laugh", "talk", "clap"][_lab_i % 6])
+
+
 ## A Lenda waves once when the player first comes near.
 func _greet() -> void:
-	for e in npcs:
+	for e in npcs + lab_npcs:
 		var n: Node3D = e["node"]
 		if _greeted.has(n) or n.global_position.distance_to(player.global_position) > 6.0:
 			continue
@@ -738,7 +836,12 @@ func talk_to(e: Dictionary) -> bool:
 	if talk == null:
 		return false
 	var world: Dictionary = chatter.world() if chatter else {}
-	var r := ConferenceBook.make_run(state, String(e["id"]), String(e["role"]), String(e["rival"]), world)
+	var lab := String(e["role"]) == ConferenceBook.ROLE_LAB
+	var r: DialogueRun
+	if lab:
+		r = ConferenceBook.lab_run(state, String(e["id"]), world)
+	else:
+		r = ConferenceBook.make_run(state, String(e["id"]), String(e["role"]), String(e["rival"]), world)
 	var n: Node3D = e["node"]
 	# face each other before the box turns the Lenda to the camera
 	var to := n.global_position - player.global_position
@@ -749,7 +852,8 @@ func talk_to(e: Dictionary) -> bool:
 	run_npc = e
 	set_walking(false)
 	%Prompt.visible = false
-	ConferenceBook.talked(state, String(e["id"]))
+	if not lab:
+		ConferenceBook.talked(state, String(e["id"]))
 	return true
 
 
@@ -764,6 +868,10 @@ func _on_talk_closed(_who: Node3D) -> void:
 			if not o.is_empty():
 				flash(tr("TY_CONF_NEWS_TIP") % [tr(BriefingDesk.title_key(String(o["id"]))),
 					tr(state.race.agency_name(String(o["tip"])))], 5.0)
+		if String(run_npc["role"]) == ConferenceBook.ROLE_LAB and "{lab_cml}" in run._seen_lines:
+			var hype := ConferenceBook.lab_visit(state)
+			if hype > 0.0:
+				flash(tr("TY_CONF_LAB_FLASH").format({"hype": int(round(hype))}), 4.0)
 	run = null
 	run_npc = {}
 	refresh_count()

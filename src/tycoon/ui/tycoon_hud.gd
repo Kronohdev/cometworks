@@ -139,7 +139,7 @@ func refresh() -> void:
 	CwNumberTicker.show(%HypeValue, state.hype, fmt_int)
 	var left := state.comet_weeks_left()
 	var comet_was: String = %CometValue.text
-	%CometValue.text = "T− %02da %02ds" % [left / state.weeks_per_year(), left % state.weeks_per_year()]
+	%CometValue.text = tr("TY_COMET_COUNTDOWN") % [left / state.weeks_per_year(), left % state.weeks_per_year()]
 	if %CometValue.text != comet_was:
 		CwMotion.poke(%CometValue)
 	_fill_race()

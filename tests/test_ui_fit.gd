@@ -10,6 +10,7 @@ extends SceneTree
 ##     and modals with their own scrim) may cover the HUD but still have to fit
 ##   - the race track's milestone labels do not overlap each other nor the planet / Moon art
 ##   - the launch watch on the flight's map: its card, the map bar and the hint pill apart
+##   - the language screen after the intro: inside the view, title / flags / hints apart
 ## The logical size is set with the root's content scale (aspect ignore) so this runs headless.
 ## Run: godot --headless --path . --script res://tests/test_ui_fit.gd
 ##        [-- --sizes=1600x900,1024x768 --screens=race,crew@spec --verbose]
@@ -89,6 +90,8 @@ func _initialize() -> void:
 	await _frames(2)
 	if _only.is_empty() or "menu" in _only:
 		await _check_menu(sizes)
+	if _only.is_empty() or "language" in _only:
+		await _check_language(sizes)
 	_set_logical(Vector2i(BASE))
 	print("%d checks" % _checks)
 	print("RESULT: %s" % ("PASS" if _fails == 0 else "FAIL (%d)" % _fails))
@@ -121,6 +124,44 @@ func _check_menu(sizes: Array[Vector2i]) -> void:
 				_check(not other.is_visible_in_tree() or not card.intersects(other.get_global_rect().grow(-2.0)),
 					"%s: menu card clear of %s (%s / %s)" % [tag, n, card, other.get_global_rect()])
 	menu.queue_free()
+	await _frames(2)
+
+
+## The language screen after the intro (scenes/menu/language_select.tscn) at every size: inside
+## the view (the sky is a backdrop), and the title, the two flag stations, the Cometling's stage
+## and the hints apart; the plaques' names fit their plaques.
+func _check_language(sizes: Array[Vector2i]) -> void:
+	var ls := (load("res://scenes/menu/language_select.tscn") as PackedScene).instantiate() as LanguageSelect
+	ls.open_menu_on_choice = false
+	get_root().add_child(ls)
+	await _frames(3)
+	var done := {}
+	for loc in LOCALES:
+		TranslationServer.set_locale(loc)
+		ls.call("_refresh_texts")
+		for phys: Vector2i in sizes:
+			var logical := logical_size(phys)
+			var key := "%s %dx%d" % [loc, logical.x, logical.y]
+			if done.has(key):
+				continue
+			done[key] = true
+			_set_logical(logical)
+			await _wait(0.6)
+			var tag := "%dx%d language (%s)" % [logical.x, logical.y, loc]
+			_inside(ls, Rect2(Vector2.ZERO, Vector2(logical)), tag, [ls.get_node("Sky"), ls.get_node("Fade")])
+			var blocks := {"header": ls.get_node("Header"), "hints": ls.get_node("Hints"), "PT": ls.get_node("%PT"),
+				"EN": ls.get_node("%EN")}
+			var names := blocks.keys()
+			for i in names.size():
+				for j in range(i + 1, names.size()):
+					var a := (blocks[names[i]] as Control).get_global_rect().grow(-2.0)
+					var b := (blocks[names[j]] as Control).get_global_rect().grow(-2.0)
+					_check(not a.intersects(b), "%s: %s clear of %s (%s / %s)" % [tag, names[i], names[j], a, b])
+			for st in ["%PT", "%EN"]:
+				var plaque := ls.get_node(st + "/Plaque") as Control
+				var lbl := plaque.get_node("Name") as Label
+				_check(lbl.get_minimum_size().x <= plaque.size.x, "%s: %s fits its plaque" % [tag, lbl.text])
+	ls.queue_free()
 	await _frames(2)
 
 

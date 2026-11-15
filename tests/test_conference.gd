@@ -18,7 +18,16 @@ extends SceneTree
 ##     tip (a race briefing on the board, reachable only, one per conference, expiring); the
 ##     "Agência do triênio" winner (milestones, firsts, reputation), its reward and trophy once;
 ##     in the scene, the stage ceremony (host and winner on the stage, confetti)
+##   - the Mission Design Lab: its team (an engineer, a scientist), its tree (the intro, the four
+##     study levels, the whole mission; every line fills in pt and en), the CML-aware read (no
+##     project, the last launch's level, the project in development's first unchecked item) and
+##     its reward once per conference; in the scene, the booth and team, the promenade left free,
+##     walking up to it, its talk and its reward
 ## Run: godot --headless --path . --script res://tests/test_conference.gd
+
+## a rocket that reaches low orbit (tests/test_cml_checklist.gd)
+const LAB_LEO := {"core": "core_falcao", "upper": "upper_kestrel_v", "tank": "tank_m", "boosters": "boost_srb2",
+	"fairing": "fairing_s", "avionics": "avionics_basic", "recovery": "recovery_none"}
 
 var _failures := 0
 
@@ -33,6 +42,7 @@ func _initialize() -> void:
 	_reactions()
 	_tip()
 	_award()
+	_lab()
 	await _scene()
 	print("RESULT: %s" % ("PASS" if _failures == 0 else "FAIL (%d)" % _failures))
 	quit(1 if _failures else 0)
@@ -389,6 +399,153 @@ func _award() -> void:
 	_check(ConferenceTriennium.trophies(back) == [6] and ConferenceTriennium.awarded(back), "the trophy survives save / load")
 
 
+# ------------------------------------------------------------ the Mission Design Lab
+func _lab_state() -> TycoonState:
+	var s := _campaign()
+	_at(s, 6, 22)
+	s.mission_projects.clear()
+	s.project_history.clear()
+	return s
+
+
+func _lab() -> void:
+	print("the Mission Design Lab")
+	var team := ConferenceBook.lab_team()
+	var profs: Array = []
+	for m: Dictionary in team:
+		profs.append(String(m.get("profession", "")))
+		_check(not ConferenceBook.lab_member(String(m["id"])).is_empty(), "lab member %s is a speaker" % m["id"])
+	_check(team.size() >= 2 and team.size() <= 3, "the lab has 2-3 Cometlings (%d)" % team.size())
+	_check(profs.any(func(p: String) -> bool: return p.ends_with("engineer")) and "scientist" in profs,
+		"an engineer and a scientist among them %s" % [profs])
+	var lab_ok := true
+	for p: String in profs:
+		lab_ok = lab_ok and not _campaign().profession(p).is_empty()
+	_check(lab_ok, "their professions exist")
+	# every node and choice of the lab's tree fills in both languages, every goto exists
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 9
+	for lang in ["pt_BR", "en"]:
+		TranslationServer.set_locale(lang)
+		var bad: Array[String] = []
+		for st: TycoonState in _lab_states():
+			var r := ConferenceBook.lab_run(st, String(team[0]["id"]))
+			r.rng = rng
+			var nodes: Dictionary = r.tree.get("nodes", {})
+			for nid: String in nodes:
+				if not r.goto(nid):
+					bad.append("node " + nid)
+					continue
+				for l: Dictionary in (nodes[nid] as Dictionary).get("lines", []):
+					r.line = l
+					if not _filled(r.text()):
+						bad.append("%s: %s" % [nid, r.text()])
+				for c: Dictionary in r._choice_list():
+					var ct := ChatterBook.text(String(c.get("text_key", "")), r.vars)
+					if not _filled(ct):
+						bad.append("%s choice: %s" % [nid, ct])
+					var g := String(c.get("goto", ""))
+					if g != "" and not nodes.has(g):
+						bad.append("%s: goto %s" % [nid, g])
+		_check(bad.is_empty(), "%s: every lab line and choice fills %s" % [lang, bad.slice(0, 4)])
+	TranslationServer.set_locale("en")
+	# the options: the intro, then each study level
+	var s := _lab_state()
+	var r2 := ConferenceBook.lab_run(s, String(team[1]["id"]))
+	r2.start(rng)
+	_check(r2.node_id == "hello" and r2.text().contains("scientists and engineers design missions together"),
+		"the intro says what the lab is: %s" % r2.text().left(70))
+	_check(String(r2.vars.get("name", "")) == String(team[1]["name"]) and r2.member.is_empty(),
+		"the speaker is the member, not staff (no morale)")
+	_check(_go(r2, "TY_CONF_LAB_ASK_WHAT") and r2.text().contains("Goddard"), "what is it: the real lab (NASA Goddard)")
+	r2.goto("hello")
+	var levels := {"TY_CONF_LAB_ASK_OFFICE": "office", "TY_CONF_LAB_ASK_CONCEPT": "concept",
+		"TY_CONF_LAB_ASK_TRADES": "trades", "TY_CONF_LAB_ASK_POINT": "point"}
+	var lv_ok := true
+	for k: String in levels:
+		r2.goto("hello")
+		lv_ok = lv_ok and _go(r2, "TY_CONF_LAB_ASK_LEVELS") and r2.node_id == "levels"
+		lv_ok = lv_ok and _go(r2, k) and r2.node_id == levels[k] and _filled(r2.text())
+		lv_ok = lv_ok and _go(r2, "TY_CONF_LAB_ASK_OTHER") and r2.node_id == "levels"
+	_check(lv_ok, "each study level (Office Hours, Concept Development, Trade Studies, Point Design) has its node")
+	r2.goto("hello")
+	_check(_go(r2, "TY_CONF_LAB_ASK_WHOLE") and r2.text().contains("attitude control"), "the whole mission it looks at")
+	r2.goto("hello")
+	var bye := -1
+	for c in r2.choices():
+		if bool(c["end"]):
+			bye = int(c["index"])
+	_check(bye >= 0 and not r2.choose(bye) and r2.is_over(), "goodbye ends the talk")
+	# the CML-aware lines follow the state
+	var none := ConferenceBook.lab_vars(s)
+	_check(String(none["lab_cml"]) == tr("TY_CONF_LAB_CML_NONE") and String(none["lab_tip"]).contains(tr("TY_CML_I_OBJECTIVE")),
+		"no project: sketch one, start with the objective")
+	s.project_history.append({"id": "p_old", "code": "CW-02", "week": s.weeks - 40, "success": true, "cml": 1})
+	s.project_history.append({"id": "p_last", "code": "CW-03", "week": s.weeks - 20, "success": true, "cml": 3})
+	var last := ConferenceBook.lab_vars(s)
+	print("    ", last["lab_cml"], " | ", last["lab_tip"])
+	_check(String(last["lab_cml"]).contains("CW-03") and String(last["lab_cml"]).contains("CML 3")
+		and String(last["lab_cml"]).contains("CML 4") and String(last["lab_cml"]).contains("Office Hours"),
+		"the last concept reached CML 3: bring it to our Office Hours")
+	_check(String(last["lab_tip"]).contains(tr("TY_CML_I_MASS")) and String(last["lab_tip"]).contains(tr("TY_CML_I_COMMS")),
+		"the tip names what CML 4 asks for")
+	s.project_history[1]["cml"] = 6
+	_check(String(ConferenceBook.lab_vars(s)["lab_tip"]) == tr("TY_CONF_LAB_TIP_DONE"), "every box ticked: nothing left")
+	# a project in development: its own level and its first unchecked item
+	TycoonResearch.complete(s, "orbital_rocketry")
+	TycoonResearch.complete(s, "small_sat_bus")
+	s.cash = 5.0e6
+	var ids: Array = []
+	for m: Dictionary in s.staff:
+		if ids.size() < 4:
+			ids.append(String(m["id"]))
+	var p := ProjectDesk.start_project(s, "demo_sat", "leo", ids, "", {"parts": LAB_LEO})
+	_check(p != null, "a project in development")
+	if p != null:
+		var rv := ConferenceBook.lab_review(s)
+		var ev := CmlChecklist.evaluate(s, p, p.review_fixes, true)
+		var now := ConferenceBook.lab_vars(s)
+		print("    ", now["lab_cml"], " | ", now["lab_tip"])
+		_check(String(rv["kind"]) == "now" and int(rv["level"]) == int(ev["level"]) and String(now["lab_cml"]).contains(p.code),
+			"the read is the project in development's (%s, CML %d)" % [p.code, int(ev["level"])])
+		var first := ""
+		for it: Dictionary in ev["items"]:
+			if not it["ok"] and first == "":
+				first = String(it["label_key"])
+		_check(first == "" or String(now["lab_tip"]).contains(tr(first)), "the tip names its first unchecked item (%s)" % tr(first))
+	# the reward: once per conference, kept in the save
+	var hype := s.hype
+	var given := ConferenceBook.lab_visit(s)
+	_check(given > 0.0 and is_equal_approx(s.hype, minf(hype + given, 100.0)), "hearing the read: +%s hype" % given)
+	_check(ConferenceBook.lab_visit(s) == 0.0, "only once per conference")
+	var back := TycoonSave.state_from(TycoonSave.decode(JSON.parse_string(JSON.stringify(TycoonSave.encode(s.to_dict())))))
+	_check(ConferenceBook.lab_visit(back) == 0.0, "still given after save / load")
+	_at(back, 9, 22)
+	_check(ConferenceBook.lab_visit(back) > 0.0, "again at the next conference")
+	TranslationServer.set_locale("pt_BR")
+
+
+## The lab's read in its three cases: no project, a last launch, a ticked-off one.
+func _lab_states() -> Array[TycoonState]:
+	var a := _lab_state()
+	var b := _lab_state()
+	b.project_history.append({"id": "x", "code": "CW-01", "week": 1, "success": true, "cml": 0})
+	var c := _lab_state()
+	c.project_history.append({"id": "y", "code": "CW-09", "week": 1, "success": true, "cml": 2})
+	var d := _lab_state()
+	d.project_history.append({"id": "z", "code": "CW-10", "week": 1, "success": true, "cml": 6})
+	return [a, b, c, d]
+
+
+## Picks the choice whose text is key `key`; false when it is not on show.
+func _go(r: DialogueRun, key: String) -> bool:
+	for c in r.choices():
+		if String(c["text"]) == TranslationServer.translate(key):
+			r.choose(int(c["index"]))
+			return true
+	return false
+
+
 func _frames(n: int) -> void:
 	for i in n:
 		await process_frame
@@ -436,6 +593,46 @@ func _scene() -> void:
 	_check(fair.player.position.distance_to(p0) > 0.01, "the player steps")
 	var inside := fair.collide(Vector2(0, 0), Vector2(0, -16.5))
 	_check(Vector2(0, -16.5).distance_to(inside) > 0.5, "a stand blocks the way")
+	# the Mission Design Lab: its booth and team, the promenade left free, reachable, its talk
+	var lab := fair.design_lab()
+	_check(lab != null and fair.lab_npcs.size() == ConferenceBook.lab_team().size(),
+		"the Mission Design Lab stands at the fair with its team (%d)" % fair.lab_npcs.size())
+	var blocked: Array = []
+	for x in range(-13, -3):   # the promenade behind the lab, between the stands: its centre line and outer edge
+		for k in [1.0, 1.0 + 1.25 / 14.0]:
+			var q := Vector2(float(x), -1.5 - 14.0 * k * sqrt(1.0 - pow(float(x) / (20.0 * k), 2.0)))
+			if fair.collide(q, q).distance_to(q) > 0.01:
+				blocked.append([q, fair.collide(q, q)])
+	_check(blocked.is_empty(), "the lab leaves the promenade free %s" % [blocked])
+	var lp := fair.to_local(lab.global_position)
+	var front := fair.to_local(lab.global_position + lab.global_basis.z * 6.0)
+	var walk := Vector2(front.x, front.z)
+	for i in 80:   # walk up to it
+		walk = fair.collide(walk, walk.move_toward(Vector2(lp.x, lp.z), 0.15))
+	_check(Vector2(lp.x, lp.z).distance_to(walk) > 1.0, "the lab's booth blocks the way in")
+	var to_lab := Vector2(lp.x, lp.z) - walk
+	fair.player.place(Vector3(walk.x, 0.0, walk.y), atan2(to_lab.x, to_lab.y))
+	await _frames(2)
+	_check(fair.focus.has("npc") and String(fair.focus["npc"]["role"]) == ConferenceBook.ROLE_LAB,
+		"walking up to the lab shows its prompt (%s)" % fair.get_node("%PromptText").text)
+	_check(fair.interact(), "E talks to the lab's team")
+	await _frames(2)
+	_check(main.talk.is_open() and fair.run != null and fair.run.node_id == "hello", "the lab's tree opens in the dialogue box")
+	var mine := -1
+	for i in main.talk.shown_choices.size():
+		if String(main.talk.shown_choices[i]["text"]) == tr("TY_CONF_LAB_ASK_MINE"):
+			mine = i
+	main.talk.choose(mine)
+	await _frames(2)
+	_check(fair.run.node_id == "mine" and main.talk.text_label.text == String(ConferenceBook.lab_vars(main.state)["lab_cml"]),
+		"the lab reads the agency's concept: %s" % main.talk.text_label.text.left(60))
+	var hype0 := main.state.hype
+	main.talk.close()
+	await _frames(2)
+	_check(main.state.year() in (ConferenceBook.store(main.state)["lab"] as Array) and main.state.hype >= hype0,
+		"hearing it gives the lab's reward once")
+	_check(fair.player.enabled and (ConferenceBook.store(main.state)["talked"] as Array).is_empty(),
+		"the player walks again; the lab is not counted among the Lendas")
 	# talk to a rival leader
 	var leader: Dictionary = {}
 	for e in fair.npcs:

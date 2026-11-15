@@ -163,7 +163,7 @@ func prompt_tool() -> Array:
 		if not rover.has_tool(StringName(t)):
 			continue
 		var n := rover.nearest_for(StringName(t))
-		if n == null or (t == "photo" and not n.call("in_reach", rover.position)):
+		if n == null:
 			continue
 		if session and not session.objective_for(n, StringName(t)).is_empty():
 			return [t, n]

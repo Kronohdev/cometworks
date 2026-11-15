@@ -109,3 +109,4 @@ TY_MT_BASE_MODULE,Base module,Módulo de base
 TY_MT_ISRU,Propellant plant (ISRU),Planta de propelente (ISRU)
 TY_MT_COMET,Comet mission,Missão ao cometa
 TY_NEWS_COMET_NEAR,Mother-Ice is close enough: comet missions can fly from now on.,A Mãe-Gelo chegou perto o bastante: as missões ao cometa já podem partir.
+TY_COMET_COUNTDOWN,T− %02dy %02dw,T− %02da %02ds

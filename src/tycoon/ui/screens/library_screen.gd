@@ -17,6 +17,7 @@ var _resume_speed := 1
 
 func _ready() -> void:
 	super._ready()
+	CwIcon.sharpen_all(self)   # the header's book at 40 px
 	%Toggle.button_pressed = TutorialBook.enabled()
 	%Toggle.toggled.connect(TutorialBook.set_enabled)
 	%Reset.pressed.connect(reset_lessons)

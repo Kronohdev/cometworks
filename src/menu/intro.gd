@@ -7,10 +7,13 @@ extends Control
 ##   4. the Cometling drops onto the Moon holding a Brazilian flag high, lands with a puff
 ##   5. plants the flag (dust, a shake), the flag unfurls and flutters
 ##   6. waves; a light sweeps the emblem, a burst of stars, "apresenta"
-##   7. fades to the main menu (loaded in the background meanwhile)
+##   7. fades to the language screen (scenes/menu/language_select.tscn), which goes on to the
+##      main menu; both load in the background meanwhile
 ## Any key, click or touch skips. Everything visual is in the scene; this script only times it.
 
 const MENU := "res://scenes/menu/main_menu.tscn"
+## shown after the intro on every launch; it opens the menu (LanguageSelect)
+const LANGUAGE := "res://scenes/menu/language_select.tscn"
 const LENGTH := 10.0
 ## the comet: entry curve (stage coordinates), then a lap of the ring, then away
 const ENTRY := [Vector2(980, -560), Vector2(560, -120), Vector2(300, 268), Vector2(0, 268)]
@@ -20,7 +23,7 @@ const EXIT_T := Vector2(3.6, 4.1)
 const RING_R := 268.0
 const TRAIL_POINTS := 46
 
-## Quit instead of opening the menu at the end (movie capture: --write-movie).
+## Quit instead of opening the language screen at the end (movie capture: --write-movie).
 @export var quit_at_end := false
 
 var t := 0.0
@@ -58,8 +61,9 @@ var _crew_home := Vector2.ZERO
 
 func _ready() -> void:
 	MenuSettings.apply()
-	if ResourceLoader.load_threaded_request(MENU) != OK:
-		push_warning("CrewIntro: could not start loading the menu")
+	for path in [LANGUAGE, MENU]:
+		if ResourceLoader.load_threaded_request(path) != OK:
+			push_warning("CrewIntro: could not start loading %s" % path)
 	presents.text = tr("INTRO_PRESENTS")
 	skip.text = tr("INTRO_SKIP")
 	_hand0 = %HandMark.position
@@ -261,9 +265,10 @@ func _open_menu() -> void:
 	if quit_at_end or OS.get_cmdline_user_args().has("--intro-quit"):
 		get_tree().quit()
 		return
-	var ps := ResourceLoader.load_threaded_get(MENU) as PackedScene
+	# the language screen; the menu keeps loading in the background and that screen opens it
+	var ps := ResourceLoader.load_threaded_get(LANGUAGE) as PackedScene
 	if ps == null:
-		ps = load(MENU) as PackedScene
+		ps = load(LANGUAGE) as PackedScene
 	get_tree().change_scene_to_packed(ps)
 
 

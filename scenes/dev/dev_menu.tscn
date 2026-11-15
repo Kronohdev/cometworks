@@ -886,6 +886,15 @@ tooltip_text = "Vai direto para a feira da Conferência dos Cometinhos (conta co
 metadata/action = "conference"
 metadata/arg = "go"
 
+[node name="ConferenceLab" type="Button" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page/Race/Flow"]
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"DevKey"
+text = "Mission Design Lab"
+tooltip_text = "Vai à feira da conferência e para em frente ao estande do Mission Design Lab (bom para filmar)"
+metadata/action = "conference"
+metadata/arg = "lab"
+
 [node name="Achievements" type="VBoxContainer" parent="Root/Panel/VBox/Body/Tabs/Campanha/Page"]
 layout_mode = 2
 

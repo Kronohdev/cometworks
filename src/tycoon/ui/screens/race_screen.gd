@@ -87,7 +87,7 @@ func refresh() -> void:
 		return
 	var r := state.race
 	var left := state.comet_weeks_left()
-	%CometValue.text = "T− %02da %02ds" % [left / state.weeks_per_year(), left % state.weeks_per_year()]
+	%CometValue.text = tr("TY_COMET_COUNTDOWN") % [left / state.weeks_per_year(), left % state.weeks_per_year()]
 	track.count = r.milestones.size()
 	track.reached = r.frontier()
 	track.current_era = state.era()

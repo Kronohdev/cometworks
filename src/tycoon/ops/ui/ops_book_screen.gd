@@ -35,6 +35,7 @@ func _ready() -> void:
 	%LegendsTile.pressed.connect(func() -> void: show_page("legends"))
 	%Studio.shot.connect(func(_k: String, _t: Texture2D) -> void: _fill_portraits())
 	pages.page_changed.connect(func(_p: StringName, _d: int) -> void: refresh())
+	CwIcon.sharpen_all(self)   # the hub cards draw their 32 px icons at 84 px
 
 
 func bind(s: TycoonState, c: TycoonClock, h: TycoonHUD = null) -> void:

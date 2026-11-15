@@ -119,6 +119,7 @@ func _check_scene(root: SolarSystem) -> void:
 	_ok(map.focus == sys.index_of("jupiter"), "focusing Jupiter moves the map")
 	for k in 4:
 		await process_frame
+	await _check_map_sync(root, ov, map, sys)
 	# orbit lines are the real ellipses
 	var mars := sys.index_of("mars")
 	var mi_orbit: MeshInstance3D = map._orbit_nodes[mars]
@@ -148,6 +149,71 @@ func _check_scene(root: SolarSystem) -> void:
 	_ok(ion.visible and ion.global_basis.x.normalized().dot(away) > 0.999, "near the Sun the ion tail points straight away from it")
 	_ok((cnode.get_node("DustTail") as Node3D).visible, "...and the dust tail shows too")
 	_ok(ion.global_basis.x.length() > 1.0e6, "the tail is millions of km long (%.0f km)" % ion.global_basis.x.length())
+
+
+## Selecting from either side updates both: a click on a body in 3D -> the card and the list
+## highlight; the MAPA controller's ‹ › arrows cycle the focus (label, card); Órbita / Sistema
+## act on the focused body (the Moon stays in focus), Solar on the Sun.
+func _check_map_sync(root: SolarSystem, ov: SolarSystemOverlay, map: FlightMap, sys: FlightSolar) -> void:
+	_ok(ov.selected == sys.ids[map.focus], "the card shows the focused body (%s)" % ov.selected)
+	# a left click on a body's marker on the map (no list involved)
+	var pick := -1
+	for i in sys.ids.size():
+		if i != map.focus and map._labels[i].visible and map._body_at(map._label_screen[i]) == i:
+			pick = i
+			break
+	_ok(pick >= 0, "a body to click on the map")
+	if pick >= 0:
+		var at: Vector2 = map.get_global_transform_with_canvas() * map._label_screen[pick]
+		for pressed in [true, false]:
+			var mb := InputEventMouseButton.new()
+			mb.button_index = MOUSE_BUTTON_LEFT
+			mb.pressed = pressed
+			mb.position = at
+			map.handle_input(mb)
+		await process_frame
+		var id := sys.ids[pick]
+		_ok(map.focus == pick, "a click on %s focuses it" % id)
+		_ok(ov.selected == id and (ov.get_node("%BodyName") as Label).text == ov.body_name(id),
+			"...and the card follows the 3D pick (%s / %s)" % [ov.selected, id])
+		var lit := []
+		for c in ov.get_node("%RowTemplate").get_parent().get_children():
+			if c is Button and (c as Button).button_pressed and c.visible:
+				lit.append(String(c.get_meta("body_id", "")))
+		_ok(lit == [id], "...and the list highlights only it (%s)" % [lit])
+	# the arrows
+	root.focus_body("earth")
+	await process_frame
+	var order := map.focus_order()
+	var nxt: int = order[posmod(order.find(map.focus) + 1, order.size())]
+	(map.get_node("%BtnNext") as Button).pressed.emit()
+	await process_frame
+	_ok(map.focus == nxt and map.focus != sys.earth, "› cycles to the next body (%s)" % map.focus_name())
+	_ok((map.get_node("%Focus") as Label).text == map.focus_name(), "...the controller's label follows")
+	_ok(ov.selected == sys.ids[nxt], "...and so does the card (%s)" % ov.selected)
+	(map.get_node("%BtnPrev") as Button).pressed.emit()
+	await process_frame
+	_ok(map.focus == sys.earth, "‹ goes back to the Earth")
+	# Órbita / Sistema on the Moon
+	root.focus_body("moon")
+	await process_frame
+	(map.get_node("%BtnVessel") as Button).pressed.emit()
+	await process_frame
+	var moon_a := sys.sma[sys.moon] * FlightMap.K
+	_ok(map.focus == sys.moon and map.dist > moon_a * 1.5 and map.dist < moon_a * 6.0,
+		"Órbita keeps the Moon in focus and frames its orbit (%s, %.0f)" % [map.focus_name(), map.dist])
+	(map.get_node("%BtnSystem") as Button).pressed.emit()
+	await process_frame
+	_ok(map.focus == sys.moon and map.dist >= moon_a * 1.5, "Sistema keeps the Moon (the Earth-Moon system in view)")
+	root.focus_body("mars")
+	await process_frame
+	(map.get_node("%BtnSystem") as Button).pressed.emit()
+	await process_frame
+	_ok(map.focus == sys.index_of("mars") and map.dist >= sys.sma[sys.index_of("deimos")] * FlightMap.K * 2.0,
+		"Sistema on Mars: Mars and its moons, not the Earth")
+	(map.get_node("%BtnSolar") as Button).pressed.emit()
+	await process_frame
+	_ok(map.focus == sys.sun and ov.selected == "sun", "Solar goes to the Sun (card too)")
 
 
 func _check_i18n(_root: Node) -> void:

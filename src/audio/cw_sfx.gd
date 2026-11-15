@@ -226,6 +226,7 @@ func _exit_tree() -> void:
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_rng.randomize()
+	add_child(CwBackground.new())   # the frame rate drops while the game is alt-tabbed away
 	MenuSettings.apply_audio()
 	# the templates stay in the scene (silent); the pools are their copies
 	for i in one_shot_voices:

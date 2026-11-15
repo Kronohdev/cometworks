@@ -12,6 +12,8 @@ extends Node
 signal exit_requested(result: Dictionary)
 
 const MARKER := "res://scenes/rover/objective_marker.tscn"
+## radius of the ring mesh in scenes/rover/parts/objective_marker_model.tscn (m)
+const MARKER_RING_RADIUS := 1.2
 const POLE_SUN_ELEVATION := 5.0
 
 ## the body of the sandbox session when nothing started one
@@ -133,8 +135,19 @@ func _spawn_markers() -> void:
 		var z := origin.z + dz
 		world.add_child(m)
 		m.global_position = Vector3(x, rover.ground(x, z), z)
+		fit_marker_ring(m, StringName(m.actions[0]))
 		markers.append(m)
 		existing.append(m)
+
+
+## The marker's ground ring shows where F works: the rover's nose on the ring = its centre within
+## the tool's reach (RoverController.tool_reach) of the marker.
+func fit_marker_ring(m: Node3D, tool: StringName) -> void:
+	var ring := m.get_node_or_null("Model/Ring") as Node3D
+	if ring == null or rover == null:
+		return
+	var r := maxf(rover.tool_reach(m, tool) - rover.footprint().x, 1.0)
+	ring.scale = Vector3(r / MARKER_RING_RADIUS, 1.0, r / MARKER_RING_RADIUS)
 
 
 func _process(delta: float) -> void:

@@ -8,11 +8,18 @@ extends SceneTree
 ##              walkable floor (ConferenceFair.bounds), so they need no footprint
 ##   Stage      a little stage with speakers, bulbs and a spot (front-right corner)
 ##   FoodStall  a cotton-candy cart with a striped awning and crates (front-left corner)
+##   DesignLab  the Mission Design Lab booth (an easter egg after NASA Goddard's): a deck, a navy
+##              wall with two whiteboards of mission sketches (an orbit, a trade study), the
+##              "Mission Design Lab" banner, a table covered in sketches, a blueprint, a laptop
+##              and models, a flip chart with the CML ladder, an "Office Hours" sign; Team1..3
+##              mark where ConferenceFair puts its Cometlings (conference.json design_lab). Back
+##              row, between the left and the middle stands, behind the promenade. Its Label3Ds
+##              hold i18n keys (the fair sets their text)
 ##   Planters   stone flower boxes along the rim
 ##   Nature     the campus' trees, bushes, grass tufts, flowers and rocks (CampusScatter, baked)
 ##              round the plaza, keeping off the plaza and the gate's track
 ## The stage and the stall carry metadata/block_radius, which ConferenceFair turns into
-## footprints. The bunting is strung at runtime (ConferenceFair.bunting) in the agencies'
+## footprints; the lab a box (block_half, block_offset: half size and centre, local). The bunting is strung at runtime (ConferenceFair.bunting) in the agencies'
 ## colours.
 ## Run (windowed, so the MultiMesh buffers fill):
 ##   godot --path . --script res://tools/build_conference_dressing.gd
@@ -51,6 +58,7 @@ func _initialize() -> void:
 	_lamps()
 	_stage(Vector3(21.5, 0, 16.0))
 	_food_stall(Vector3(-21.5, 0, 16.0))
+	_design_lab(Vector3(-8.0, 0, -17.6), 0.15)
 	_planters()
 	await process_frame
 	_nature()
@@ -252,6 +260,236 @@ func _food_stall(at: Vector3) -> void:
 	hay.position = Vector3(-2.3, 0, -0.3)
 	f.add_child(hay)
 	_light(f, "Glow", Vector3(0, 2.4, 1.0), 1.6, 6.0, Color(1.0, 0.8, 0.75))
+
+
+func _label(parent: Node3D, name: String, key: String, at: Vector3, px: float, size: int, c := Color.WHITE,
+		outline := Color("#2b2a5c")) -> Label3D:
+	var l := Label3D.new()
+	l.name = name
+	l.text = key
+	l.position = at
+	l.pixel_size = px
+	l.font_size = size
+	l.outline_size = maxi(size / 6, 4)
+	l.modulate = c
+	l.outline_modulate = outline
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	parent.add_child(l)
+	return l
+
+
+## A marker line on a board: a thin flat stroke from `a` to `b` (board-local x / y) at depth `z`.
+func _stroke(parent: Node3D, name: String, a: Vector2, b: Vector2, z: float, c: Color, w := 0.035) -> void:
+	var d := b - a
+	_box(parent, name, Vector3(d.length(), w, 0.012), Vector3((a.x + b.x) * 0.5, (a.y + b.y) * 0.5, z), c, 0.0,
+		Vector3(0, 0, d.angle()), false)
+
+
+## An ellipse of `n` strokes (dashed or whole) round `centre` (radii `r`), from angle `from` to `to`.
+func _ellipse(parent: Node3D, name: String, centre: Vector2, r: Vector2, z: float, c: Color, n := 22,
+		from := 0.0, to := TAU, dashed := true) -> void:
+	for i in n:
+		var t0 := lerpf(from, to, float(i) / n)
+		var t1 := lerpf(from, to, (float(i) + (0.6 if dashed else 1.0)) / n)
+		_stroke(parent, "%s%d" % [name, i], centre + Vector2(cos(t0), sin(t0)) * r, centre + Vector2(cos(t1), sin(t1)) * r,
+			z, c, 0.03)
+
+
+func _disc(parent: Node3D, name: String, r: float, at: Vector3, c: Color, glow := 0.0) -> MeshInstance3D:
+	var d := _cyl(parent, name, r, r, 0.012, at, c, glow)
+	d.rotation.x = PI / 2   # faces +z
+	(d.mesh as CylinderMesh).radial_segments = 16
+	d.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return d
+
+
+func _sphere(parent: Node3D, name: String, r: float, at: Vector3, c: Color) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	mi.name = name
+	var sm := SphereMesh.new()
+	sm.radius = r
+	sm.height = r * 2.0
+	sm.radial_segments = 12
+	sm.rings = 6
+	mi.mesh = sm
+	mi.material_override = _mat(c)
+	mi.position = at
+	parent.add_child(mi)
+	return mi
+
+
+## A sheet of paper lying on the table with a few scribbles in marker colours.
+func _sheet(parent: Node3D, name: String, at: Vector3, yaw: float, size: Vector2, paper: Color, ink: Array) -> void:
+	var sh := _node(parent, name, at, yaw)
+	_box(sh, "Paper", Vector3(size.x, 0.012, size.y), Vector3.ZERO, paper, 0.0, Vector3.ZERO, false)
+	for i in ink.size():
+		var w := size.x * (0.7 - 0.15 * (i % 3))
+		_box(sh, "Ink%d" % i, Vector3(w, 0.014, 0.022), Vector3(-size.x * 0.5 + 0.04 + w * 0.5, 0.004,
+			-size.y * 0.5 + 0.07 + i * (size.y - 0.12) / maxf(ink.size() - 1, 1)), ink[i], 0.0, Vector3.ZERO, false)
+
+
+func _design_lab(at: Vector3, yaw: float) -> void:
+	var l := _node(dress, "DesignLab", at, yaw)
+	l.set_meta("block_half", Vector2(2.95, 1.4))
+	l.set_meta("block_offset", Vector3(0, 0, -0.45))
+	var navy := Color("#24305e")
+	var mint := Color("#6fe0be")
+	var white := Color("#fffdf8")
+	var board := Color("#f6f8fc")
+	var frame := Color("#aeb8cc")
+	var blue := Color("#2f6fe0")
+	var red := Color("#e0525a")
+	var green := Color("#2fae6a")
+	var orange := Color("#ff9a5c")
+	var grey := Color("#8a93a8")
+	# the deck, a mint trim at its front edge and a blueprint rug under the table
+	_box(l, "Deck", Vector3(5.6, 0.1, 2.75), Vector3(0, 0.05, -0.45), Color("#dfe6f2"))
+	_box(l, "DeckTrim", Vector3(5.62, 0.07, 0.1), Vector3(0, 0.08, 0.9), mint)
+	_box(l, "Rug", Vector3(3.4, 0.02, 1.9), Vector3(0, 0.11, -0.4), Color("#3d6fd1"), 0.0, Vector3.ZERO, false)
+	_box(l, "RugIn", Vector3(3.2, 0.024, 1.7), Vector3(0, 0.112, -0.4), Color("#5a88e6"), 0.0, Vector3.ZERO, false)
+	# the back wall and two low side panels
+	_box(l, "Wall", Vector3(5.6, 3.0, 0.18), Vector3(0, 1.5, -1.75), navy)
+	_box(l, "WallBand", Vector3(5.62, 0.16, 0.2), Vector3(0, 0.4, -1.75), mint)
+	for sx in [-1, 1]:
+		_box(l, "Side%d" % sx, Vector3(0.14, 2.1, 1.1), Vector3(2.73 * sx, 1.05, -1.15), navy.lightened(0.12))
+		_box(l, "SideCap%d" % sx, Vector3(0.18, 0.08, 1.14), Vector3(2.73 * sx, 2.12, -1.15), mint)
+	# the whiteboards
+	var boards := {}
+	for side in [["BoardL", -1.35], ["BoardR", 1.35]]:
+		var b := _node(l, String(side[0]), Vector3(float(side[1]), 1.78, -1.64))
+		_box(b, "Frame", Vector3(2.4, 1.42, 0.05), Vector3.ZERO, frame)
+		_box(b, "Face", Vector3(2.28, 1.3, 0.05), Vector3(0, 0, 0.012), board)
+		_box(b, "Tray", Vector3(2.0, 0.05, 0.1), Vector3(0, -0.72, 0.06), frame)
+		for i in 3:   # markers on the tray
+			_box(b, "Marker%d" % i, Vector3(0.14, 0.035, 0.035), Vector3(-0.5 + i * 0.22, -0.68, 0.07), [blue, red, green][i])
+		boards[side[0]] = b
+	var z := 0.045
+	# left board: an orbit sketch (a planet, a dashed orbit, a little satellite, a transfer arc)
+	var bl: Node3D = boards["BoardL"]
+	_disc(bl, "Planet", 0.17, Vector3(-0.45, 0.02, z), blue)
+	_disc(bl, "PlanetCap", 0.07, Vector3(-0.5, 0.08, z + 0.004), Color("#9cc4ff"))
+	_ellipse(bl, "Orbit", Vector2(-0.45, 0.02), Vector2(0.42, 0.26), z, blue, 20)
+	_ellipse(bl, "Transfer", Vector2(0.05, 0.02), Vector2(0.92, 0.5), z, red, 9, -0.1, 1.45, true)
+	_box(bl, "Sat", Vector3(0.08, 0.08, 0.012), Vector3(-0.05, 0.27, z), grey, 0.0, Vector3.ZERO, false)
+	_box(bl, "SatWings", Vector3(0.26, 0.035, 0.012), Vector3(-0.05, 0.27, z + 0.002), blue, 0.0, Vector3.ZERO, false)
+	_disc(bl, "Target", 0.09, Vector3(0.62, 0.5, z), orange)
+	_stroke(bl, "Arrow1", Vector2(0.4, 0.46), Vector2(0.5, 0.52), z, red, 0.03)
+	_stroke(bl, "Arrow2", Vector2(0.46, 0.4), Vector2(0.5, 0.52), z, red, 0.03)
+	for i in 3:   # notes in the corner
+		_stroke(bl, "Note%d" % i, Vector2(0.35, -0.3 - i * 0.12), Vector2(0.95 - i * 0.12, -0.3 - i * 0.12), z, grey, 0.025)
+	# right board: a trade study (a bar chart with the winner circled) and a checklist
+	var br: Node3D = boards["BoardR"]
+	_stroke(br, "AxisY", Vector2(-0.95, -0.5), Vector2(-0.95, 0.5), z, grey, 0.025)
+	_stroke(br, "AxisX", Vector2(-0.95, -0.5), Vector2(0.05, -0.5), z, grey, 0.025)
+	var bars := [[0.45, orange], [0.8, green], [0.3, red], [0.6, blue]]
+	for i in bars.size():
+		var h := float(bars[i][0])
+		_box(br, "Bar%d" % i, Vector3(0.14, h, 0.012), Vector3(-0.78 + i * 0.22, -0.5 + h * 0.5, z), bars[i][1], 0.0,
+			Vector3.ZERO, false)
+	_ellipse(br, "Winner", Vector2(-0.56, 0.38), Vector2(0.14, 0.1), z + 0.002, red, 12, 0.0, TAU, false)
+	for i in 4:   # the checklist: boxes, ticks, lines
+		var y := 0.38 - i * 0.24
+		_ellipse(br, "Box%d" % i, Vector2(0.32, y), Vector2(0.07, 0.07), z, grey, 4, PI / 4, PI / 4 + TAU, false)
+		if i < 3:
+			_stroke(br, "TickA%d" % i, Vector2(0.28, y + 0.01), Vector2(0.32, y - 0.04), z + 0.002, green, 0.03)
+			_stroke(br, "TickB%d" % i, Vector2(0.32, y - 0.04), Vector2(0.4, y + 0.07), z + 0.002, green, 0.03)
+		_stroke(br, "Line%d" % i, Vector2(0.45, y), Vector2(0.95 - (i % 2) * 0.15, y), z, grey, 0.025)
+	# the banner on top of the wall and the line under it
+	_box(l, "BannerBack", Vector3(5.9, 1.0, 0.16), Vector3(0, 3.5, -1.75), mint)
+	_box(l, "BannerFace", Vector3(5.66, 0.8, 0.06), Vector3(0, 3.5, -1.65), Color("#1e2a5a"))
+	_label(l, "Banner", "TY_CONF_LAB_BANNER", Vector3(0, 3.5, -1.61), 0.0064, 72, Color.WHITE, Color("#101736"))
+	_label(l, "Sub", "TY_CONF_LAB_SUB", Vector3(0, 2.75, -1.65), 0.0048, 40, Color("#ffe08f"), Color("#101736"))
+	for sx in [-1, 1]:   # a little orbit badge at each end of the banner
+		_disc(l, "BadgeDot%d" % sx, 0.09, Vector3(2.58 * sx, 3.5, -1.61), Color("#ffd25c"), 0.6)
+		var badge := _node(l, "Badge%d" % sx, Vector3(2.58 * sx, 3.5, -1.61))
+		badge.rotation.z = 0.35 * sx
+		_ellipse(badge, "Ring", Vector2.ZERO, Vector2(0.2, 0.09), 0.006, white, 14, 0.0, TAU, false)
+	for i in 9:   # bulbs along the banner's lower edge
+		_box(l, "Bulb%d" % i, Vector3(0.12, 0.12, 0.12), Vector3(-2.6 + i * 0.65, 2.98, -1.55),
+			Color("#ffd25c") if i % 2 == 0 else Color("#fff6e6"), 2.6)
+	# the table covered in mission sketches
+	var t := _node(l, "Table", Vector3(0, 0.1, -0.3))
+	var top_y := 0.78
+	_box(t, "Top", Vector3(1.9, 0.07, 1.0), Vector3(0, top_y, 0), WOOD.lightened(0.2))
+	var legs := 0
+	for lx in [-0.85, 0.85]:
+		for lz in [-0.42, 0.42]:
+			_box(t, "Leg%d" % legs, Vector3(0.07, top_y, 0.07), Vector3(lx, top_y * 0.5, lz), WOOD.darkened(0.1))
+			legs += 1
+	var y0 := top_y + 0.042
+	var bp := _node(t, "Blueprint", Vector3(0.02, y0, -0.05), 0.06)
+	_box(bp, "Sheet", Vector3(0.82, 0.012, 0.56), Vector3.ZERO, Color("#3d6fd1"), 0.0, Vector3.ZERO, false)
+	_box(bp, "Body", Vector3(0.42, 0.014, 0.1), Vector3(-0.02, 0.003, 0), white, 0.0, Vector3.ZERO, false)
+	_box(bp, "BodyIn", Vector3(0.38, 0.016, 0.06), Vector3(-0.02, 0.004, 0), Color("#3d6fd1"), 0.0, Vector3.ZERO, false)
+	_box(bp, "Nose", Vector3(0.1, 0.014, 0.1), Vector3(0.24, 0.003, 0), white, 0.0, Vector3(0, PI / 4, 0), false)
+	for sz in [-1, 1]:
+		_box(bp, "Fin%d" % sz, Vector3(0.1, 0.014, 0.05), Vector3(-0.22, 0.003, 0.08 * sz), white, 0.0, Vector3.ZERO, false)
+	_box(bp, "Dim", Vector3(0.6, 0.014, 0.012), Vector3(0, 0.003, 0.2), white, 0.0, Vector3.ZERO, false)
+	_box(bp, "Title", Vector3(0.18, 0.014, 0.06), Vector3(0.28, 0.003, -0.2), white, 0.0, Vector3.ZERO, false)
+	var paper := Color("#fffaf0")
+	_sheet(t, "SheetA", Vector3(-0.62, y0 + 0.002, 0.18), 0.3, Vector2(0.36, 0.48), paper, [blue, red, grey])
+	_sheet(t, "SheetB", Vector3(0.62, y0 + 0.002, -0.22), -0.25, Vector2(0.36, 0.48), paper, [green, grey, grey, orange])
+	_sheet(t, "SheetC", Vector3(-0.55, y0 + 0.004, -0.3), -0.5, Vector2(0.3, 0.4), Color("#fff2a8"), [grey, blue])
+	_sheet(t, "SheetD", Vector3(0.45, y0 + 0.004, 0.3), 0.6, Vector2(0.3, 0.4), Color("#ffd6e6"), [red, grey])
+	# a laptop with a glowing plot, a rocket model, a ringed planet, a mug and pencils
+	var lap := _node(t, "Laptop", Vector3(-0.12, y0, 0.3), PI + 0.15)
+	_box(lap, "Base", Vector3(0.36, 0.02, 0.25), Vector3.ZERO, Color("#3a3f55"))
+	_box(lap, "Screen", Vector3(0.36, 0.24, 0.015), Vector3(0, 0.12, -0.13), Color("#3a3f55"), 0.0, Vector3(-0.25, 0, 0))
+	_box(lap, "Glow", Vector3(0.32, 0.2, 0.01), Vector3(0, 0.12, -0.12), mint, 1.2, Vector3(-0.25, 0, 0))
+	var rk := _node(t, "Rocket", Vector3(0.62, y0, 0.22))
+	_cyl(rk, "Stand", 0.08, 0.1, 0.03, Vector3(0, 0.015, 0), navy)
+	_cyl(rk, "Body", 0.045, 0.045, 0.3, Vector3(0, 0.18, 0), white)
+	_cyl(rk, "Nose", 0.0, 0.045, 0.1, Vector3(0, 0.38, 0), red)
+	_box(rk, "Fins", Vector3(0.16, 0.06, 0.02), Vector3(0, 0.06, 0), red)
+	var pl := _node(t, "Planet", Vector3(-0.72, y0, -0.28))
+	_cyl(pl, "Stand", 0.015, 0.06, 0.16, Vector3(0, 0.08, 0), navy)
+	_sphere(pl, "Ball", 0.1, Vector3(0, 0.25, 0), Color("#ffb86b"))
+	var ring := _cyl(pl, "Ring", 0.17, 0.17, 0.01, Vector3(0, 0.25, 0), Color("#b39cff"))
+	ring.rotation = Vector3(0.45, 0, 0.2)
+	_cyl(t, "Mug", 0.045, 0.04, 0.1, Vector3(0.3, y0 + 0.05, 0.02), orange)
+	for i in 3:
+		_box(t, "Pencil%d" % i, Vector3(0.16, 0.018, 0.018), Vector3(0.12 + i * 0.05, y0 + 0.012, -0.36),
+			[Color("#ffd25c"), blue, red][i], 0.0, Vector3(0, 0.4 + i * 0.5, 0), false)
+	# a flip chart with the CML ladder (CML 1 to 4, a star on top), turned to the plaza
+	var fc := _node(l, "FlipChart", Vector3(2.15, 0.1, 0.25), -0.45)
+	var fl := 0
+	for lx in [-0.32, 0.32]:
+		_box(fc, "Leg%d" % fl, Vector3(0.05, 1.7, 0.05), Vector3(lx, 0.85, 0.0), frame, 0.0, Vector3(0.08, 0, 0))
+		fl += 1
+	_box(fc, "LegBack", Vector3(0.05, 1.6, 0.05), Vector3(0, 0.8, -0.2), frame, 0.0, Vector3(-0.22, 0, 0))
+	_box(fc, "Pad", Vector3(0.82, 0.95, 0.04), Vector3(0, 1.25, 0.07), board, 0.0, Vector3(0.08, 0, 0))
+	var ladder := _node(fc, "Ladder", Vector3(0, 1.25, 0.1))
+	ladder.rotation.x = 0.08
+	var steps := [Color("#9be8d0"), mint, Color("#5fb6f0"), blue]
+	for i in 4:
+		var h := 0.12 + i * 0.13
+		_box(ladder, "Step%d" % i, Vector3(0.14, h, 0.012), Vector3(-0.27 + i * 0.18, -0.34 + h * 0.5, 0), steps[i], 0.0,
+			Vector3.ZERO, false)
+	_box(ladder, "Star", Vector3(0.1, 0.1, 0.014), Vector3(0.27, 0.32, 0), Color("#ffd25c"), 0.8, Vector3(0, 0, PI / 4), false)
+	_stroke(ladder, "Arrow", Vector2(-0.3, -0.05), Vector2(0.12, 0.3), 0.004, red, 0.025)
+	# the "Office Hours" A-frame sign out front
+	var sg := _node(l, "HoursSign", Vector3(-2.2, 0.1, 0.55), 0.35)
+	_box(sg, "Front", Vector3(0.82, 0.92, 0.04), Vector3(0, 0.48, 0.11), Color("#2f3a4f"), 0.0, Vector3(-0.2, 0, 0))
+	_box(sg, "Back", Vector3(0.82, 0.92, 0.04), Vector3(0, 0.48, -0.11), Color("#2f3a4f"), 0.0, Vector3(0.2, 0, 0))
+	_box(sg, "Trim", Vector3(0.86, 0.05, 0.05), Vector3(0, 0.93, 0.0), WOOD)
+	var hl := _label(sg, "Hours", "TY_CONF_LAB_HOURS", Vector3(0, 0.5, 0.145), 0.0032, 36, Color("#fffdf8"), Color("#2f3a4f"))
+	hl.rotation.x = -0.2
+	hl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hl.width = 220.0
+	# plants in the back corners
+	for sx in [-1, 1]:
+		_cyl(l, "Pot%d" % sx, 0.22, 0.17, 0.4, Vector3(2.3 * sx, 0.3, -1.38), Color("#e58a5a"))
+		_sphere(l, "Leaves%d" % sx, 0.34, Vector3(2.3 * sx, 0.78, -1.38), Color("#5fbf6a"))
+	# where the team stands: at the table's sides and one behind it, all turned to the table
+	for m in [["Team1", Vector3(-1.45, 0.1, -0.2), 1.05], ["Team2", Vector3(1.45, 0.1, -0.25), -1.1],
+			["Team3", Vector3(0.25, 0.1, -1.2), 0.0]]:
+		var mk := Marker3D.new()
+		mk.name = String(m[0])
+		mk.position = m[1]
+		mk.rotation.y = float(m[2])
+		l.add_child(mk)
+	_light(l, "Glow", Vector3(0, 2.5, 0.9), 1.5, 6.5, Color(0.92, 0.95, 1.0))
 
 
 func _planters() -> void:
